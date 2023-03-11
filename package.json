@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "sass": "^1.59.2",
     "vite": "^4.1.0",
     "vite-plugin-mpa": "^1.1.4"
   },
@@ -21,5 +22,9 @@
   "bugs": {
     "url": "https://github.com/RoDaMo/pds-front-end/issues"
   },
-  "homepage": "https://github.com/RoDaMo/pds-front-end#readme"
+  "homepage": "https://github.com/RoDaMo/pds-front-end#readme",
+  "dependencies": {
+    "@popperjs/core": "^2.11.6",
+    "bootstrap": "^5.2.3"
+  }
 }
