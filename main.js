@@ -1,2 +1,2 @@
-import '../scss/styles.scss'
+import '/scss/styles.scss'
 import * as bootstrap from 'bootstrap'

@@ -1,0 +1,6 @@
+{
+  "appId": "com.rodamo.app",
+  "appName": "pds-front-end",
+  "webDir": "dist",
+  "bundledWebRuntime": false
+}
