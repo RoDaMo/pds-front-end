@@ -1,1 +1,1 @@
-document.getElementsByTagName('h1').item(0).innerHTML = 'Olá mundo!'
+document.getElementsByTagName('h1')[0].innerHTML = 'Olá mundo!'
