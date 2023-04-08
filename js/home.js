@@ -1,1 +1,1 @@
-document.getElementsByTagName('h1').item(0).innerHTML = 'Olá mundo!'
+"use strict";
