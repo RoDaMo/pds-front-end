@@ -4,6 +4,7 @@
   "description": "Projeto front end da materia de PDS",
   "main": "main.js",
   "scripts": {
+    "start": "npx http-server ./dist",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
