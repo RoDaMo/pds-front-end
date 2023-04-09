@@ -3,7 +3,7 @@ import { resolve } from 'path'
 // import mpa from 'vite-plugin-mpa'
 
 export default defineConfig({
-  appType: 'mpa',
+  // appType: 'mpa',
   // plugins: [ mpa({ open: "pages" }) ],
   resolve: {
     alias: {
@@ -11,7 +11,7 @@ export default defineConfig({
     }
   },
   build: {
-    outDir: 'dist',
+    outDir: 'app',
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
