@@ -3,3 +3,28 @@
 body {
   color: #FFFFFF;
 }
+
+input[placeholder="Procurar"], input[placeholder="Search"]:focus { // testing
+  text-align: center;
+  background-color: $gray-400 !important;
+  box-shadow: none !important;
+}
+
+button.navbar-toggler,
+button.navbar-toggler:active,
+button.navbar-toggler:focus  {
+  box-shadow: none;
+}
+
+
+button.navbar-toggler:active {
+  background-color: $gray-300;
+}
+
+@include media-breakpoint-down(lg) {
+  ul {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+}
