@@ -6,7 +6,7 @@ export class header extends HTMLElement {
                 <nav class="navbar navbar-expand-lg bg-body-tertiary">
                     <div class="container-fluid justify-content-center">
                         <div class="col col-lg-4">
-                            <a class="navbar-brand m-auto p-auto" href="#"><img src="../public/Logo_Playoffs.png" class="img-fluid" width="180" alt="Logo Playoffs"></a>
+                            <a class="navbar-brand m-auto p-auto" href="#"><img src="/Logo_Playoffs.png" class="img-fluid" width="180" alt="Logo Playoffs"></a>
                         </div>
                         
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
