@@ -2,9 +2,40 @@
 
 body {
   color: #FFFFFF;
+  font-family: $font-family-sans-serif;
 }
 
-input[placeholder="Procurar"], input[placeholder="Search"]:focus { // testing
+$play-cor-fundos: #D8FFDB;
+$play-cor-efeitos: #008F8C;
+$play-cor-secundaria: #023535;
+$play-cor-texto: #001700;
+$play-cor-texto-dim: rgba(0, 23, 0, 0.8);
+
+.card-bg {
+  background: $play-cor-fundos;
+}
+
+.ft-color {
+  color: $play-cor-texto;
+}
+
+.ft-color-dim {
+  color: $play-cor-texto-dim;
+}
+
+.fvar-1 {
+  color: $play-cor-efeitos;
+}
+
+.fvar-2 {
+  color: $play-cor-secundaria;
+}
+
+.home-player {
+  
+}
+
+input[placeholder="Procurar"], input[placeholder="Search"]:focus {
   text-align: center;
   background-color: $gray-400 !important;
   box-shadow: none !important;
@@ -16,13 +47,12 @@ button.navbar-toggler:focus  {
   box-shadow: none;
 }
 
-
 button.navbar-toggler:active {
   background-color: $gray-300;
 }
 
 @include media-breakpoint-down(lg) {
-  ul {
+  ul.menu-li {
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
