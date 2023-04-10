@@ -1,15 +1,9 @@
 @import "bootstrap-config.scss";
 
 body {
-  color: #FFFFFF;
+  color: $white;
   font-family: $font-family-sans-serif;
 }
-
-$play-cor-fundos: #D8FFDB;
-$play-cor-efeitos: #008F8C;
-$play-cor-secundaria: #023535;
-$play-cor-texto: #001700;
-$play-cor-texto-dim: rgba(0, 23, 0, 0.8);
 
 .card-bg {
   background: $play-cor-fundos;
@@ -31,14 +25,23 @@ $play-cor-texto-dim: rgba(0, 23, 0, 0.8);
   color: $play-cor-secundaria;
 }
 
-.home-player {
-  
+.card-btn-color {
+  background: $play-cor-primaria;
+  color: $white;
+}
+
+.card-btn-color:hover {
+  background: $play-cor-secundaria
+}
+
+input {
+  background-color: $gray-400 !important;
+  box-shadow: none !important;
+  border-radius: $border-radius-pill;
 }
 
 input[placeholder="Procurar"], input[placeholder="Search"]:focus {
   text-align: center;
-  background-color: $gray-400 !important;
-  box-shadow: none !important;
 }
 
 button.navbar-toggler,
@@ -56,5 +59,11 @@ button.navbar-toggler:active {
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
+  }
+
+  
+
+  .home-player {
+    display: none;
   }
 }
