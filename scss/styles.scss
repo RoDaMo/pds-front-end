@@ -40,7 +40,8 @@ input {
   border-radius: $border-radius-pill;
 }
 
-input[placeholder="Procurar"], input[placeholder="Search"]:focus {
+input[placeholder="Procurar"], 
+input[placeholder="Search"]:focus {
   text-align: center;
 }
 
