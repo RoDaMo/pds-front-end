@@ -54,14 +54,43 @@ button.navbar-toggler:active {
   background-color: $gray-300;
 }
 
+.navbar {
+  button[aria-expanded="true"] {
+   span.navbar-toggler-icon {
+    display: none;
+   }
+  }
+
+  button[aria-expanded="false"] {
+   span.btn-close {
+    display: none !important;
+   }
+  }
+}
+
 @include media-breakpoint-down(lg) {
   ul.menu-li {
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
   }
-
   
+  .navbar {
+    .container {
+      position: relative;
+    }
+
+    .navbar-collapse {
+      position: absolute;
+      top: 100%;
+      background: $white;
+      height: 100vh;
+    }
+  }
+
+  .home-subtext {
+    font-size: 1rem;
+  }
 
   .home-player {
     display: none;
