@@ -1,14 +1,12 @@
-let url = "https://playoffs-api.up.railway.app/Championship"
+import { configuracaoFetch, executarFetch, limparMensagem } from "./utilidades/configFetch";
+
 let formulario = document.getElementById("formulario")
 let mensagemErro = document.getElementById("mensagem-erro")
-let classesRemoviveis = ["text-success", "text-danger"]
 
 formulario.addEventListener("submit", (e) => {
     e.preventDefault()
     
-    classesRemoviveis.forEach((classe) => {
-        mensagemErro.classList.remove(classe)
-    })
+    limparMensagem(mensagemErro)
 
     let nomeCampeonato = document.getElementById("nome-campeonato").value
     let dataInicio = document.getElementById("data-inicio").value
@@ -16,7 +14,7 @@ formulario.addEventListener("submit", (e) => {
     let esporte = document.getElementById("esportes").value
     let premiacao = document.querySelector('input[name="premiacao"]:checked').value
 
-    postCampeonato({
+    postCampeonato("championships", {
         "name": nomeCampeonato,
         "prize": premiacao,
         "initialDate": dataInicio,
@@ -25,20 +23,10 @@ formulario.addEventListener("submit", (e) => {
     })
 })
 
-async function postCampeonato(body) {
-    const res = await fetch(url, {
-        method: "POST",
-        body: JSON.stringify(body),
-        headers: {
-            "Content-type": "application/json",
-        },
-    });
-  
-    const data = await res.json();
+async function postCampeonato(endpoint, body) {
+    const config = configuracaoFetch("POST", body)
 
-    mensagemErro.textContent = data.results[0]
-    data.succeed ? mensagemErro.classList.add("text-success") : mensagemErro.classList.add("text-danger")
-    setTimeout(() => {
-        mensagemErro.textContent = ""
-    }, 3000);
+    executarFetch(endpoint, config, mensagemErro)
+
+
 }
