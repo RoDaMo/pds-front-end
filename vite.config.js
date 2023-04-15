@@ -15,7 +15,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         index: resolve(__dirname, 'index.html'),
-        home: resolve(__dirname, 'pages/home.html'),
+        cadastro: resolve(__dirname, 'pages/cadastro-campeonatos.html'),
         login: resolve(__dirname, 'pages/login.html')
       }
     }
