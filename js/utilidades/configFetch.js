@@ -19,34 +19,37 @@ export const configuracaoFetch = (method, data) => {
 }
 
 export const executarFetch = async (endpoint, config, callbackStatus, callbackServidor) => {
-    const { notificacaoErro } = import('./notificacoes');
+    const { notificacaoErro } = await import('./notificacoes')
     const res = await fetch(`${api}${endpoint}`, config)
 
     if (!res.ok) {
         if (!callbackStatus) {
-            notificacaoErro();
-            throw new Error();
-        }   
+            notificacaoErro()
+            return
+        }  
 
         callbackStatus(res)
-        throw new Error();
+        return
     }
 
     const data = await res.json()
     if (!data.succeed) {
         if (!callbackServidor) {
-            notificacaoErro();
-            throw new Error();
+            notificacaoErro()
+            return
         }
 
-        callbackServidor(data);
-        throw new Error();
-    }
+        callbackServidor(data)
+        return
+    }   
 
     return data
 }
 
 export const limparMensagem = (mensagemErro) => {
     let classesRemoviveis = ["text-success", "text-danger"]
-    classesRemoviveis.forEach(classe => mensagemErro.classList.remove(classe))
+    classesRemoviveis.forEach(classe => {
+        mensagemErro.classList.remove(classe)
+        mensagemErro.innerHTML = ''
+    })
 }

@@ -1,9 +1,10 @@
 import { configuracaoFetch, executarFetch, limparMensagem } from "./utilidades/configFetch";
+import { notificacaoSucesso } from "./utilidades/notificacoes";
 
 let formulario = document.getElementById("formulario")
 let mensagemErro = document.getElementById("mensagem-erro")
 
-formulario.addEventListener("submit", (e) => {
+formulario.addEventListener("submit", async e => {
     e.preventDefault()
     
     limparMensagem(mensagemErro)
@@ -14,24 +15,38 @@ formulario.addEventListener("submit", (e) => {
     let esporte = document.getElementById("esportes").value
     let premiacao = document.querySelector('input[name="premiacao"]:checked').value
 
-    postCampeonato("championships", {
+    const resultado = await postCampeonato("championships", {
         "name": nomeCampeonato,
         "prize": premiacao,
         "initialDate": dataInicio,
         "finalDate": dataFinal,
         "sportsId": esporte
     })
+
+    if (resultado)
+        formulario.reset()
 })
 
 async function postCampeonato(endpoint, body) {
     const config = configuracaoFetch("POST", body)
+    const callbackServidor = data => {
+        mensagemErro.classList.add("text-danger")
+        data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
+    }
 
-    const data = await executarFetch(endpoint, config)
-    if (!data) return;
+    const data = await executarFetch(endpoint, config, null, callbackServidor)
+    if (!data) return false
 
-    mensagemErro.textContent = data.results[0]
-    data.succeed ? mensagemErro.classList.add("text-success") : mensagemErro.classList.add("text-danger")
-    setTimeout(() => {
-        mensagemErro.textContent = ""
-    }, 3500);
+    // if (!data.succeed) {
+    //     mensagemErro.classList.add("text-danger")
+    //     mensagemErro.textContent = data.results[0]
+    //     return false
+    //     // nao permita que o label desapareca
+    //     // setTimeout(() => {
+    //     //     mensagemErro.textContent = ""
+    //     // }, 3500);
+    // }
+
+    notificacaoSucesso(data.results[0])
+    return true
 }
