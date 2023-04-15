@@ -26,7 +26,8 @@ formulario.addEventListener("submit", (e) => {
 async function postCampeonato(endpoint, body) {
     const config = configuracaoFetch("POST", body)
 
-    executarFetch(endpoint, config, mensagemErro)
+    const data = await executarFetch(endpoint, config)
+    if (!data) return;
 
     mensagemErro.textContent = data.results[0]
     data.succeed ? mensagemErro.classList.add("text-success") : mensagemErro.classList.add("text-danger")

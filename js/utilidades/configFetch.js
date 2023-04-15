@@ -1,5 +1,4 @@
 export const api = "https://playoffs-api.up.railway.app/"
-
 export const configuracaoFetch = (method, data) => {
     let config = {
         method: method,
@@ -19,24 +18,32 @@ export const configuracaoFetch = (method, data) => {
     return config
 }
 
-export const executarFetch = async (endpoint, config, mensagemErro) => {
-    try {
-        const res = await fetch(`${api}${endpoint}`, config);
-        if (res.status != 200) {
-            //exibir notificação erro
-            return;
-        }
+export const executarFetch = async (endpoint, config, callbackStatus, callbackServidor) => {
+    const { notificacaoErro } = import('./notificacoes');
+    const res = await fetch(`${api}${endpoint}`, config)
 
-        const data = await res.json();
-        if (!data.sucesso) {
-            //exibir notificação de erro
-            return;
-        }
+    if (!res.ok) {
+        if (!callbackStatus) {
+            notificacaoErro();
+            throw new Error();
+        }   
 
-        return data;
-    } catch {
-        //exibir notificação de erro
+        callbackStatus(res)
+        throw new Error();
     }
+
+    const data = await res.json()
+    if (!data.succeed) {
+        if (!callbackServidor) {
+            notificacaoErro();
+            throw new Error();
+        }
+
+        callbackServidor(data);
+        throw new Error();
+    }
+
+    return data
 }
 
 export const limparMensagem = (mensagemErro) => {
