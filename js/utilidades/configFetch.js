@@ -1,15 +1,12 @@
 export const api = "https://playoffs-api.up.railway.app/"
 
 export const configuracaoFetch = (method, data) => {
-    let config
+    let config = {
+        method: method,
+        headers: {}
+    };
 
-    if(method === "GET"){
-        config = {
-            method: method,
-            headers: {}
-        }
-    }
-    else{
+    if(method !== "GET"){
         config = {
             method: method,
             body: JSON.stringify(data),
@@ -25,24 +22,24 @@ export const configuracaoFetch = (method, data) => {
 export const executarFetch = async (endpoint, config, mensagemErro) => {
     try {
         const res = await fetch(`${api}${endpoint}`, config);
-  
+        if (res.status != 200) {
+            //exibir notificação erro
+            return;
+        }
+
         const data = await res.json();
+        if (!data.sucesso) {
+            //exibir notificação de erro
+            return;
+        }
 
-        console.log(data)
-
-        mensagemErro.textContent = data.results[0]
-        data.succeed ? mensagemErro.classList.add("text-success") : mensagemErro.classList.add("text-danger")
-        setTimeout(() => {
-            mensagemErro.textContent = ""
-        }, 3500);
-    } catch (error) {
-        console.log(error)
+        return data;
+    } catch {
+        //exibir notificação de erro
     }
 }
 
 export const limparMensagem = (mensagemErro) => {
     let classesRemoviveis = ["text-success", "text-danger"]
-    classesRemoviveis.forEach((classe) => {
-        mensagemErro.classList.remove(classe)
-    })
+    classesRemoviveis.forEach(classe => mensagemErro.classList.remove(classe))
 }

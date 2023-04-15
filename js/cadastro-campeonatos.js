@@ -28,5 +28,9 @@ async function postCampeonato(endpoint, body) {
 
     executarFetch(endpoint, config, mensagemErro)
 
-
+    mensagemErro.textContent = data.results[0]
+    data.succeed ? mensagemErro.classList.add("text-success") : mensagemErro.classList.add("text-danger")
+    setTimeout(() => {
+        mensagemErro.textContent = ""
+    }, 3500);
 }
