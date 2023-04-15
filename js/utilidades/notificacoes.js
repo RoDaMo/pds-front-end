@@ -14,3 +14,4 @@ const Toast = Swal.mixin({
 })
 
 export const notificacaoErro = msg => Toast.fire({ icon: 'error', title: msg ? msg : 'Houve um erro, tente novamente mais tarde...' })
+export const notificacaoSucesso = msg => Toast.fire({ icon: 'success', title: msg ? msg : 'Sucesso!' })
