@@ -15,7 +15,7 @@ export class header extends HTMLElement {
                     </button>
                        
                     <div class="collapse navbar-collapse w-100" id="navbarSupportedContent">   
-                        <form class="col col-md d-flex justify-content-center m-auto p-auto" role="search">
+                        <form class="col col-md d-flex justify-content-center m-auto p-auto" id="pesquisa" role="search">
                             <input id="barra-pesquisa" class="form-control m-lg-auto p-1 mt-5 m-sm-5 mb-sm-2 m-3 mb-2 border-0 rounded-pill h-5 pesquisar i18-placeholder" type="search" key="PesquisaPlaceholder" placeholder="Procurar" aria-label="Search">
                         </form>  
 
@@ -28,13 +28,6 @@ export class header extends HTMLElement {
                                     <option value="ptbr" ${lng === 'ptbr' ? 'selected' : ''}>Português</option>
                                     <option value="en" ${lng === 'en' ? 'selected' : ''}>English</option>
                                 </select>
-                                <!--div class="dropdown">
-                                    <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="botao-lingua">Português</button>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item lng-select" href="javascript:void(0)" id="ptbr">Português</a></li>
-                                        <li><a class="dropdown-item lng-select" href="javascript:void(0)" id="en">Inglês</a></li>
-                                    </ul>
-                                </div-->
                             </li>
                         </ul>
                     </div>

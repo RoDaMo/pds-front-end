@@ -16,7 +16,8 @@ export default defineConfig({
       input: {
         index: resolve(__dirname, 'index.html'),
         cadastro: resolve(__dirname, 'pages/cadastro-campeonatos.html'),
-        login: resolve(__dirname, 'pages/login.html')
+        login: resolve(__dirname, 'pages/login.html'),
+        listagem: resolve(__dirname, 'pages/listagem-campeonatos.html')
       }
     }
   },
