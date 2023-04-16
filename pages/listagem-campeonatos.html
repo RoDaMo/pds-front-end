@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="stylesheet" href="bootstrap/scss/functions">
+    <title>Listagem de campeonato</title>
+</head>
+<body class="col-10 offset-1">
+    <componente-header></componente-header>
+    <main class="d-flex justify-content-center mt-4">
+        <div class="card-group col-sm-3">
+          <div class="card">
+            <a href="">
+              <img src="/public/bola-de-futebol.png" class="card-img-top img-fluid" width="180" alt="Logo Playoffs">
+            </a>
+            <div class="card-body text-center">
+              <button type="button" class="btn btn-primary btn-lg">Futebol</button>
+            </div>
+          </div>
+          <div class="card">
+            <a href="">
+              <img src="/public/bola-de-volei.png" class="card-img-top img-fluid" width="180" alt="Logo Playoffs">
+            </a>
+            <div class="card-body text-center">
+              <button type="button" class="btn btn-primary btn-lg">Vôlei</button>
+            </div>
+          </div>
+        </div>
+      </main>
+
+    <table class="table mx-auto mt-4" style="height: 300px; display: table;">
+        <thead>
+          <tr>
+            <th scope="col">Nome</th>
+            <th scope="col">Prêmio</th>
+            <th scope="col">Data de inicio</th>
+            <th scope="col">Data de termino</th>
+            <th scope="col">Esporte</th>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+          
+        </tbody>
+    </table>
+
+
+    <script type="module" src="../main.js"></script>
+    <script type="module" src="../js/utilidades/header.js"></script>
+    <script type="module" src="../js/listagem-campeonatos.js"></script>
+    
+
+</body>
+</html>
