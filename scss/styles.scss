@@ -9,6 +9,10 @@ body {
   background: $play-cor-fundos;
 }
 
+.card-bg2 {
+  background: $play-cor-fundos-secundaria;
+}
+
 .ft-color {
   color: $play-cor-texto;
 }
@@ -38,6 +42,11 @@ body {
   background-color: $gray-400 !important;
   box-shadow: none !important;
   border-radius: $border-radius-pill;
+}
+
+.thead-custom {
+  background-color: $play-cor-secundaria; 
+  color: #FFF; 
 }
 
 input[placeholder="Procurar"], 

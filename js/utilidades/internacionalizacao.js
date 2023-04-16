@@ -36,7 +36,7 @@ export const inicializarInternacionalizacao = (ingles, portugues) => {
 }
 
 export const mudarLinguagem = () => {
-  document.title = i18next.t('TituloPagina')
+  document.title = i18next.exists('TituloPagina') ? i18next.t('TituloPagina') : document.title;
   for(const elemento of document.getElementsByClassName('i18')) {
     elemento.textContent = i18next.t(elemento.getAttribute('key'))
   }
