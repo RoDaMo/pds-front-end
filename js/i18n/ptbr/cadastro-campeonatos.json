@@ -1,0 +1,15 @@
+{
+  "TituloPagina": "Cadastro de Campeonatos",
+  "CadastreCampeonato": "Cadastre um campeonato",
+  "FormularioNomeCampeonato": "Nome do Campeonato",
+  "FormularioNomeCampeonatoPlaceholder": "Insira o nome do campeonato",
+  "FormularioDataInicial": "Data Inicial",
+  "FormularioDataFinal": "Data Final",
+  "FormularioEsporte": "Esporte",
+  "FormularioEsportePlaceholder": "Selecione um Esporte",
+  "FormularioPremiacao": "Há premiação?",
+  "FormularioPremiacaoSim": "Sim",
+  "FormularioPremiacaoNao": "Não",
+  "FormularioSalvar": "Salvar",
+  "FormularioCancelar": "Cancelar"
+}

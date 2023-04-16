@@ -7,30 +7,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Campeonatos</title>
 </head>
-<body class="col-10 offset-1">
+<body>
     <componente-header></componente-header>
-    <main class="d-flex justify-content-center mt-4">
-        <div class="col-8 m-5">
-            <h2 class="mb-4 text-success">Cadastre um campeonato</h2>
+    <main class="container d-flex justify-content-center mt-4">
+        <div class="col-12 col-lg-8 mt-5">
+            <h2 class="mb-4 text-success i18" key="CadastreCampeonato">Cadastre um campeonato</h2>
             <form id="formulario" method="post">
                 <div class="mb-4">
-                    <label for="nome-campeonato" class="form-label text-success">Nome do Campeonato</label>
-                    <input type="text" class="form-control" id="nome-campeonato" name="nome-campeonato" placeholder="Insira o nome do campeonato" required>
+                    <label for="nome-campeonato" class="form-label text-success i18" key="FormularioNomeCampeonato">Nome do Campeonato</label>
+                    <input type="text" class="form-control i18-placeholder" id="nome-campeonato" name="nome-campeonato" key="FormularioNomeCampeonatoPlaceholder" placeholder="Insira o nome do campeonato" required>
                 </div>
                 <div class="container p-0 m-0">
                     <div class="row">
                         <div class="col-md-4">
-                            <label for="data-inicio" class="form-label text-success">Data Inicial</label>
+                            <label for="data-inicio" class="form-label text-success i18" key="FormularioDataInicial">Data Inicial</label>
                             <input type="date" class="form-control" id="data-inicio" name="data-inicio" required>
                         </div>
                         <div class="col-md-4">
-                            <label for="data-final" class="form-label text-success">Data Final</label>
+                            <label for="data-final" class="form-label text-success i18" key="FormularioDataFinal">Data Final</label>
                             <input type="date" class="form-control" id="data-final" name="data-final" required>
                         </div>
                         <div class="col-md-4">
-                            <label for="esportes" class="form-label text-success">Esporte</label>
+                            <label for="esportes" class="form-label text-success i18" key="FormularioEsporte">Esporte</label>
                             <select name="esportes" class="form-select" id="esportes" required>
-                                <option value="" selected>Selecione um Esporte</option>
+                                <option value="" selected class="i18" key="FormularioEsportePlaceholder">Selecione um Esporte</option>
                                 <option value="1">Futebol</option>
                                 <option value="2">Vôlei</option>
                             </select>
@@ -38,22 +38,22 @@
                     </div>
                 </div>
                 <div class="mb-4 mt-4">
-                    <label class="form-label text-success">Há premiação ?</label>
+                    <label class="form-label text-success i18" key="FormularioPremiacao">Há premiação ?</label>
                     <div class="d-flex">
                         <div class="form-check m-2">
                             <input type="radio" class="form-check-input" name="premiacao" value="sim" required>
-                            <label for="premiacao" class="form-check-label text-success">Sim</label>
+                            <label for="premiacao" class="form-check-label text-success i18" key="FormularioPremiacaoSim">Sim</label>
                         </div>
                         <div class="form-check m-2">
                             <input type="radio" class="form-check-input" name="premiacao" value="não"  required>
-                            <label for="premiacao" class="form-check-label text-success">Não</label>
+                            <label for="premiacao" class="form-check-label text-success i18" key="FormularioPremiacaoNao">Não</label>
                         </div>
                     </div>
                 </div>
                 <div class="container m-0">
                     <div class="row gap-2">
-                        <button type="submit" class="col-md-3 btn btn-success rounded-pill">Salvar</button>
-                        <button class="col-md-3 btn btn-outline-success rounded-pill ">Cancelar</button>
+                        <button type="submit" class="col-md-3 btn btn-success rounded-pill i18" key="FormularioSalvar">Salvar</button>
+                        <a href="/index.html" class="col-md-3 btn btn-outline-success rounded-pill i18" key="FormularioCancelar">Cancelar</a>
                     </div>
                 </div>
                 <div class="mt-4">
