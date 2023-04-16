@@ -3,53 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="bootstrap/scss/functions">
     <title>Listagem de campeonato</title>
 </head>
-<body class="col-10 offset-1">
+<div class="container">
+  <div class="row justify-content-center">
     <componente-header></componente-header>
-    <main class="d-flex justify-content-center mt-4">
-        <div class="card-group col-sm-3">
-          <div class="card">
-            <a href="">
-              <img src="/public/bola-de-futebol.png" class="card-img-top img-fluid" width="180" alt="Logo Playoffs">
-            </a>
-            <div class="card-body text-center">
-              <button type="button" class="btn btn-primary btn-lg">Futebol</button>
+      <div class="card-bg rounded-2 mt-4">
+        
+        <main class="d-flex justify-content-center mt-4">
+         
+          <div class="container col-sm-5 col-md-4 col-lg-3 mx-auto card-bg2 rounded-4">
+
+            <div class="row">
+              <div class="col">
+                <a href="">
+                  <img src="/public/bola-de-futebol.png" class="card-img-top img-fluid" alt="Bola de futebol">
+                </a>
+                <div class="card-body text-center border-0">
+                  <button type="button" class="btn m-auto mb-4 mt-lg mt-4 card-btn-color rounded-pill fw-bold">Futebol</button>
+                </div>
+              </div>
+
+
+              <div class="col">
+                <a href="">
+                  <img src="/public/bola-de-volei.png" class="card-img-top img-fluid" alt="Bola de volei">
+                </a>
+                <div class="card-body text-center">
+                  <button type="button" class="btn m-auto mb-4 mt-lg mt-4 card-btn-color rounded-pill fw-bold">Vôlei</button>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="card">
-            <a href="">
-              <img src="/public/bola-de-volei.png" class="card-img-top img-fluid" width="180" alt="Logo Playoffs">
-            </a>
-            <div class="card-body text-center">
-              <button type="button" class="btn btn-primary btn-lg">Vôlei</button>
-            </div>
-          </div>
-        </div>
-      </main>
 
-    <table class="table mx-auto mt-4" style="height: 300px; display: table;">
-        <thead>
-          <tr>
-            <th scope="col">Nome</th>
-            <th scope="col">Prêmio</th>
-            <th scope="col">Data de inicio</th>
-            <th scope="col">Data de termino</th>
-            <th scope="col">Esporte</th>
-          </tr>
-        </thead>
-        <tbody id="tbody">
-          
-        </tbody>
-    </table>
-
-
-    <script type="module" src="../main.js"></script>
-    <script type="module" src="../js/utilidades/header.js"></script>
-    <script type="module" src="../js/listagem-campeonatos.js"></script>
+        </main>
     
-
+        <div class="table-responsive">
+          <table class="table mx-auto mt-4 card-bg2 table-hover">
+              <thead class="thead-custom">
+                <tr>
+                  <th scope="col">Nome</th>
+                  <th scope="col">Prêmio</th>
+                  <th scope="col">Data de inicio</th>
+                  <th scope="col">Data de termino</th>
+                  <th scope="col">Esporte</th>
+                </tr>
+              </thead>
+              <tbody id="tbody">
+                
+              </tbody>
+          </table>
+        </div>
+      
+      
+          <script type="module" src="../main.js"></script>
+          <script type="module" src="../js/utilidades/header.js"></script>
+          <script type="module" src="../js/listagem-campeonatos.js"></script>
+        </div>
+    </div>
+  </div>
 </body>
 </html>
