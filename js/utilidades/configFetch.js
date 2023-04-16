@@ -1,18 +1,24 @@
 export const api = "https://playoffs-api.up.railway.app/"
 export const configuracaoFetch = (method, data) => {
-    let config = {
+    const lng = localStorage.getItem('lng')
+    const config = {
         method: method,
-        headers: {}
-    };
+        headers: {
+            'Accept-Language': lng
+        }
+    }
 
     if(method !== "GET"){
-        config = {
-            method: method,
-            body: JSON.stringify(data),
-            headers: {
-                "Content-Type": "application/json",
-            },
-        };
+        config.body = JSON.stringify(data)
+        config.headers['Content-Type'] = "application/json"
+        
+        // config = {
+        //     method: method,
+        //     body: JSON.stringify(data),
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //     },
+        // };
     }
 
     return config
