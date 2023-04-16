@@ -14,7 +14,11 @@ const listagem = async (queryString) => {
         data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
     }
 
-    const data = await executarFetch(`championships?name=${queryString}`, config, null, callbackServidor)
+    const params = new URLSearchParams();
+    params.set('name', queryString);
+    const endpoint = `championships${(queryString ? '?' + params.toString() : '')}`
+
+    const data = await executarFetch(endpoint, config, null, callbackServidor)
 
     if(data.results.length === 0){
         erro.textContent = "Nenhum resultado encontrado"
