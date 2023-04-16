@@ -1,0 +1,15 @@
+{
+  "TituloPagina": "Championships Registration",
+  "CadastreCampeonato": "Register a championship",
+  "FormularioNomeCampeonato": "Championship's Name",
+  "FormularioNomeCampeonatoPlaceholder": "Enter the championship's name",
+  "FormularioDataInicial": "Initial Date",
+  "FormularioDataFinal": "Final Date",
+  "FormularioEsporte": "Sport",
+  "FormularioEsportePlaceholder": "Select a Sport",
+  "FormularioPremiacao": "Is there a prize?",
+  "FormularioPremiacaoSim": "Yes",
+  "FormularioPremiacaoNao": "No",
+  "FormularioSalvar": "Save",
+  "FormularioCancelar": "Cancel"
+}

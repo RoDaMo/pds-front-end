@@ -1,13 +1,58 @@
 @import "bootstrap-config.scss";
 
 body {
-  color: #FFFFFF;
+  color: $white;
+  font-family: $font-family-sans-serif;
 }
 
-input[placeholder="Procurar"], input[placeholder="Search"]:focus { // testing
-  text-align: center;
+.card-bg {
+  background: $play-cor-fundos;
+}
+
+.card-bg2 {
+  background: $play-cor-fundos-secundaria;
+}
+
+.ft-color {
+  color: $play-cor-texto;
+}
+
+.ft-color-dim {
+  color: $play-cor-texto-dim;
+}
+
+.fvar-1 {
+  color: $play-cor-efeitos;
+}
+
+.fvar-2 {
+  color: $play-cor-secundaria;
+}
+
+.card-btn-color {
+  background: $play-cor-primaria;
+  color: $white;
+}
+
+.card-btn-color:hover {
+  background: $play-cor-secundaria
+}
+
+.pesquisar {
   background-color: $gray-400 !important;
   box-shadow: none !important;
+  border-radius: $border-radius-pill;
+}
+
+.thead-custom {
+  background-color: $play-cor-secundaria; 
+  color: #FFF; 
+}
+
+input[placeholder="Procurar"], 
+input[placeholder="Search"],
+input[placeholder="Search"]:focus {
+  text-align: center;
 }
 
 button.navbar-toggler,
@@ -16,15 +61,49 @@ button.navbar-toggler:focus  {
   box-shadow: none;
 }
 
-
 button.navbar-toggler:active {
   background-color: $gray-300;
 }
 
+.navbar {
+  button[aria-expanded="true"] {
+   span.navbar-toggler-icon {
+    display: none;
+   }
+  }
+
+  button[aria-expanded="false"] {
+   span.btn-close {
+    display: none !important;
+   }
+  }
+}
+
 @include media-breakpoint-down(lg) {
-  ul {
+  ul.menu-li {
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
+  }
+  
+  .navbar {
+    .container {
+      position: relative;
+    }
+
+    .navbar-collapse {
+      position: absolute;
+      top: 100%;
+      background: $white;
+      height: 100vh;
+    }
+  }
+
+  .home-subtext {
+    font-size: 1rem;
+  }
+
+  .home-player {
+    display: none;
   }
 }

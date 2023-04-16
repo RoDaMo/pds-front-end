@@ -1,14 +1,16 @@
-let url = "https://playoffs-api.up.railway.app/Championship"
+import { configuracaoFetch, executarFetch, limparMensagem } from "./utilidades/configFetch"
+import { notificacaoSucesso } from "./utilidades/notificacoes"
+import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
+import portugues from './i18n/ptbr/cadastro-campeonatos.json' assert { type: 'JSON' }
+import ingles from './i18n/en/cadastro-campeonatos.json' assert { type: 'JSON' }
+
+inicializarInternacionalizacao(ingles, portugues);
 let formulario = document.getElementById("formulario")
 let mensagemErro = document.getElementById("mensagem-erro")
-let classesRemoviveis = ["text-success", "text-danger"]
 
-formulario.addEventListener("submit", (e) => {
+formulario.addEventListener("submit", async e => {
     e.preventDefault()
-    
-    classesRemoviveis.forEach((classe) => {
-        mensagemErro.classList.remove(classe)
-    })
+    limparMensagem(mensagemErro)
 
     let nomeCampeonato = document.getElementById("nome-campeonato").value
     let dataInicio = document.getElementById("data-inicio").value
@@ -16,29 +18,38 @@ formulario.addEventListener("submit", (e) => {
     let esporte = document.getElementById("esportes").value
     let premiacao = document.querySelector('input[name="premiacao"]:checked').value
 
-    postCampeonato({
+    const resultado = await postCampeonato("championships", {
         "name": nomeCampeonato,
         "prize": premiacao,
         "initialDate": dataInicio,
         "finalDate": dataFinal,
         "sportsId": esporte
     })
+
+    if (resultado)
+        formulario.reset()
 })
 
-async function postCampeonato(body) {
-    const res = await fetch(url, {
-        method: "POST",
-        body: JSON.stringify(body),
-        headers: {
-            "Content-type": "application/json",
-        },
-    });
-  
-    const data = await res.json();
+async function postCampeonato(endpoint, body) {
+    const config = configuracaoFetch("POST", body)
+    const callbackServidor = data => {
+        mensagemErro.classList.add("text-danger")
+        data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
+    }
 
-    mensagemErro.textContent = data.results[0]
-    data.succeed ? mensagemErro.classList.add("text-success") : mensagemErro.classList.add("text-danger")
-    setTimeout(() => {
-        mensagemErro.textContent = ""
-    }, 3000);
+    const data = await executarFetch(endpoint, config, null, callbackServidor)
+    if (!data) return false
+
+    // if (!data.succeed) {
+    //     mensagemErro.classList.add("text-danger")
+    //     mensagemErro.textContent = data.results[0]
+    //     return false
+    //     // nao permita que o label desapareca
+    //     // setTimeout(() => {
+    //     //     mensagemErro.textContent = ""
+    //     // }, 3500);
+    // }
+
+    notificacaoSucesso(data.results[0])
+    return true
 }
