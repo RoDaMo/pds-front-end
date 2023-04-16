@@ -11,5 +11,7 @@
   "FormularioPremiacaoSim": "Yes",
   "FormularioPremiacaoNao": "No",
   "FormularioSalvar": "Save",
-  "FormularioCancelar": "Cancel"
+  "FormularioCancelar": "Cancel",
+  "FormularioEsporteVolei": "Volleyball",
+  "FormularioEsporteFutebol": "Football"
 }
