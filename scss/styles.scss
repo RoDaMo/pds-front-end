@@ -32,10 +32,11 @@ body {
 .card-btn-color {
   background: $play-cor-primaria;
   color: $white;
+  transition: background-color $transition;
 }
 
 .card-btn-color:hover {
-  background: $play-cor-secundaria
+  background: $play-cor-secundaria;
 }
 
 .pesquisar {
@@ -47,6 +48,32 @@ body {
 .thead-custom {
   background-color: $play-cor-secundaria; 
   color: #FFF; 
+}
+
+.nav-item a,
+.nav-item #lingua {
+  transition: all $transition;
+  color: $play-cor-texto-dim !important;
+}
+
+.nav-item:hover a,
+.nav-item:hover #lingua,
+.nav-item #lingua:active,
+.nav-item #lingua:focus {
+  background-color: $play-cor-fundos-secundaria;
+}
+
+.nav-item #lingua,
+.nav-item #lingua:active,
+.nav-item #lingua:focus {
+  box-shadow: none;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.nav-item #lingua option {
+  cursor: pointer;
 }
 
 input[placeholder="Procurar"], 
@@ -61,8 +88,9 @@ button.navbar-toggler:focus  {
   box-shadow: none;
 }
 
-button.navbar-toggler:active {
-  background-color: $gray-300;
+button.navbar-toggler:active,
+button.navbar-toggler:hover {
+  background-color: $play-cor-fundos-secundaria
 }
 
 .navbar {
