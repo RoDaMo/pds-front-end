@@ -107,6 +107,10 @@ button.navbar-toggler:hover {
   }
 }
 
+div.row {
+  gap: 1rem;
+}
+
 @include media-breakpoint-down(lg) {
   ul.menu-li {
     display: flex !important;
@@ -129,9 +133,5 @@ button.navbar-toggler:hover {
 
   .home-subtext {
     font-size: 1rem;
-  }
-
-  .home-player {
-    display: none;
   }
 }
