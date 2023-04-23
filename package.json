@@ -30,6 +30,7 @@
     "@popperjs/core": "^2.11.6",
     "bootstrap": "^5.2.3",
     "i18next": "^22.4.14",
+    "rellax": "^1.12.1",
     "sweetalert2": "^11.7.3"
   },
   "type": "module"
