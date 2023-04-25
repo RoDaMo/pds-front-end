@@ -50,6 +50,10 @@ body {
   color: #FFF; 
 }
 
+.navbar {
+  height: 60px !important;
+}
+
 .nav-item a,
 .nav-item #lingua {
   transition: all $transition;
@@ -102,8 +106,7 @@ button.navbar-toggler:hover {
 }
 
 div.row {
-  row-gap: 1rem;
-  column-gap: 1rem;
+  gap: 1rem;
 }
 
 @include media-breakpoint-down(lg) {
@@ -128,5 +131,11 @@ div.row {
 
   .home-subtext {
     font-size: 1rem;
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .home-card {
+    height: calc(100vh - (60px + 1.5rem));
   }
 }

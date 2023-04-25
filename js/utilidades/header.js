@@ -16,7 +16,7 @@ export class header extends HTMLElement {
                     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
 
                         <div class="offcanvas-header container pt-2">
-                            <a class="navbar-brand p-auto" href="/"><img src="/Logo_Playoffs.png" class="img-fluid" width="180" alt="Logo Playoffs"></a>
+                            <h2 class="fw-bold text-black">Menu</h2>
                             <button type="button" class="btn-close me-1" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
 
