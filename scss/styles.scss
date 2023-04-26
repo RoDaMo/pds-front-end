@@ -5,6 +5,30 @@ body {
   font-family: $font-family-sans-serif;
 }
 
+.z-1 {
+  z-index: 1;
+}
+
+.ptx-74 {
+  padding-top: 74px !important;
+}
+
+.topx-14 {
+  top: 14px;
+}
+
+.w-60 {
+  width: 60% !important;
+}
+
+.w-90 {
+  width: 90% !important;
+}
+
+.translate-6-x {
+  transform: translateX(6%) !important;
+}
+
 .card-bg {
   background: $play-cor-fundos;
 }
@@ -52,6 +76,7 @@ body {
 
 .navbar {
   height: 60px !important;
+  transition: all $transition;
 }
 
 .nav-item a,
@@ -101,10 +126,6 @@ button.navbar-toggler:hover {
   width: 100% !important;
 }
 
-#offcanvasNavbar {
-  transition: all $transition
-}
-
 div.row {
   gap: 1rem;
 }
@@ -136,6 +157,6 @@ div.row {
 
 @include media-breakpoint-down(sm) {
   .home-card {
-    height: calc(100vh - (60px + 1.5rem));
+    height: 100vh;
   }
 }
