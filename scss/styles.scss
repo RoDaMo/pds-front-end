@@ -9,12 +9,26 @@ body {
   z-index: 1;
 }
 
-.ptx-74 {
-  padding-top: 74px !important;
+.ptx-90 {
+  padding-top: 90px !important;
+}
+
+.vh-90 {
+  height: 90vh !important;
 }
 
 .topx-14 {
   top: 14px;
+}
+
+#home-pill {
+  width: 20%;
+  background-color: $play-cor-primaria;
+}
+
+.rounded-bottom-0 {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .w-60 {
@@ -158,5 +172,6 @@ div.row {
 @include media-breakpoint-down(sm) {
   .home-card {
     height: 100vh;
+    // transition: all $transition;
   }
 }
