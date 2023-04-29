@@ -13,8 +13,8 @@ body {
   padding-top: 90px !important;
 }
 
-.vh-90 {
-  height: 90vh !important;
+.vh-91 {
+  height: 91vh !important;
 }
 
 .topx-14 {
@@ -22,13 +22,14 @@ body {
 }
 
 #home-pill {
-  width: 20%;
+  width: 15%;
+  padding: 3px !important;
   background-color: $play-cor-primaria;
 }
 
 .rounded-bottom-0 {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
 }
 
 .w-60 {
@@ -75,6 +76,7 @@ body {
 
 .card-btn-color:hover {
   background: $play-cor-secundaria;
+  color: $white;
 }
 
 .pesquisar {

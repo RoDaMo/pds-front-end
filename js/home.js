@@ -3,6 +3,8 @@
 const navbar = document.querySelector("componente-header");
 const homeCards = document.querySelectorAll(".home-card.d-flex");
 const homePill = document.querySelector("#home-pill");
+const divRows = document.querySelectorAll(".home-row");
+const scrollTrigger = document.querySelectorAll(".scroll-trigger");
 
 const mediaQueryMobile = window.matchMedia('(max-width: 767px)');
 
@@ -16,6 +18,7 @@ let navTogglerOpen;
 let count = 0;
 
 document.firstElementChild.scrollIntoView({ block: "start" });
+let triggerArr = Array.from(scrollTrigger);
 
 window.onload = () => {
     mobibarLogo = navbar.querySelector('img[alt="Logo Playoffs"]')
@@ -28,41 +31,27 @@ let rellax = new Rellax('.rellax', {
     breakpoints:[576, 768, 1201]
 }); 
 
-// Trigger / Se um elemento ta na tela
-// let observer = new IntersectionObserver(entries => {
-// 	if(entries[0].isIntersecting === true) {
-// 		document.querySelector(".test").scrollIntoView({
-//             behavior: "smooth",
-//             block: "center"
-//         });
-// 	}
-// }, {threshold: 0});
-
-// observer.observe(document.querySelector("#scroll-trigger"));
-
-// Mobile JS
-
 // Media Query Mobile
 if (mediaQueryMobile.matches) {
 
+    homeCards[0].parentElement.classList.remove("pt-2");
+    homeCards[2].parentElement.classList.remove("mt-3");
     homeCards[0].classList.remove("rounded-4");
-    homeCards[0].classList.add("vh-90", "rounded-5", "rounded-bottom-0");
+    homeCards[0].classList.add("vh-91", "rounded-5", "rounded-bottom-0");
+
+    divRows.forEach(div => {
+        div.classList.add("gap-0");
+    })
+
+    let lastScrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
     // Mobile navbar changer
     // Verificar se ta no começo da página  
     window.addEventListener("scroll", () => {
 
-        // let obsCards = new IntersectionObserver(entries => {
-        //     if(entries[0].isIntersecting === true && entries[1].isIntersecting === true) {
-        //         console.log("true");
-        //     } else {console.log("false")}
-        // }, {threshold: 0});
-        
-        // obsCards.observe(homeCards[1], homeCards[2]);
-
         if (window.scrollY === 0){
             homeCards[0].classList.remove("ptx-90");
-            homeCards[0].classList.add("vh-90");
+            homeCards[0].classList.add("vh-91");
             homeCards.forEach(card => card.classList.add("rounded-4", "rounded-5"));
             homePill.classList.remove("d-none");
             navbar.classList.remove(...mobibarClasses);
@@ -75,7 +64,7 @@ if (mediaQueryMobile.matches) {
                 card.classList.remove("rounded-4", "rounded-5");
             });
 
-            homeCards[0].classList.remove("vh-90");
+            homeCards[0].classList.remove("vh-91");
 
             homePill.classList.add("d-none");
     
@@ -98,12 +87,54 @@ if (mediaQueryMobile.matches) {
                 });
             }
         }
+
     }, {passive: "true"});
+
+    function checkVisible(el) {
+        let rect = el.getBoundingClientRect();
+        let viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
+        return !(rect.bottom < 0 || rect.top - viewHeight >= 0);
+    }
+
+    window.addEventListener("scrollend", () => {
+        let st = window.pageYOffset || document.documentElement.scrollTop;
+
+        // going downwards
+        if (st > lastScrollTop && !(checkVisible(scrollTrigger[7]))) {
+            scrollTrigger.forEach(trigger => {
+                if (checkVisible(trigger)) {
+                    if (triggerArr.indexOf(trigger) == 2 || triggerArr.indexOf(trigger) == 4 || triggerArr.indexOf(trigger) == 6) {
+                        scrollTrigger[triggerArr.indexOf(trigger)].parentElement.scrollIntoView({
+                            behavior: "smooth",
+                            block: "start"
+                        });
+
+                    }
+                }
+            });
+
+            // !!! impedir scrollend de mexer no contador quando o card estiver ocupando toda a tela
+
+        // going upwards
+        } else if (st < lastScrollTop && !(checkVisible(scrollTrigger[0]))) {
+            scrollTrigger.forEach(trigger => {
+                if (checkVisible(trigger)) {
+                    if (triggerArr.indexOf(trigger) == 1 || triggerArr.indexOf(trigger) == 3 || triggerArr.indexOf(trigger) == 5) {
+                        scrollTrigger[triggerArr.indexOf(trigger)].parentElement.scrollIntoView({
+                            behavior: "smooth",
+                            block: "start"
+                        });
+                    }
+                }
+            });
+        }
+
+        lastScrollTop = st <= 0 ? 0 : st;
+    });
     
     document.addEventListener("swiped-up", e => {
         e.preventDefault();
     
-
         if (!(count >= homeCards.length-1)) {
             homeCards[count+1].scrollIntoView({
                 behavior: "smooth",
@@ -130,6 +161,4 @@ if (mediaQueryMobile.matches) {
     });
 }
 
-// identificar os cards que estão na tela (função isonscreen() | iteração if (isonscreen(element[i], element[i+1])) { if (elem1.getBoundingclientrect().top > elem2.top   })
-// fazer verificação do tamanho efetivo dos dois
-// comparar e realizar a operação de ScrollIntoView
+// sim, ta uma bagunza :)
