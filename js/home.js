@@ -96,37 +96,42 @@ if (mediaQueryMobile.matches) {
         return !(rect.bottom < 0 || rect.top - viewHeight >= 0);
     }
 
+    function scrollDownwards() {
+        scrollTrigger.forEach(trigger => {
+            if (checkVisible(trigger)) {
+                if (triggerArr.indexOf(trigger) == 2 || triggerArr.indexOf(trigger) == 4 || triggerArr.indexOf(trigger) == 6) {
+                    scrollTrigger[triggerArr.indexOf(trigger)].parentElement.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    });
+                }
+            }
+        });
+    }
+
+    function scrollUpwards() {
+        scrollTrigger.forEach(trigger => {
+            if (checkVisible(trigger)) {
+                if (triggerArr.indexOf(trigger) == 1 || triggerArr.indexOf(trigger) == 3 || triggerArr.indexOf(trigger) == 5) {
+                    scrollTrigger[triggerArr.indexOf(trigger)].parentElement.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    });
+                }
+            }
+        });
+    }
+
     window.addEventListener("scrollend", () => {
         let st = window.pageYOffset || document.documentElement.scrollTop;
 
         // going downwards
         if (st > lastScrollTop && !(checkVisible(scrollTrigger[7]))) {
-            scrollTrigger.forEach(trigger => {
-                if (checkVisible(trigger)) {
-                    if (triggerArr.indexOf(trigger) == 2 || triggerArr.indexOf(trigger) == 4 || triggerArr.indexOf(trigger) == 6) {
-                        scrollTrigger[triggerArr.indexOf(trigger)].parentElement.scrollIntoView({
-                            behavior: "smooth",
-                            block: "start"
-                        });
-
-                    }
-                }
-            });
-
-            // !!! impedir scrollend de mexer no contador quando o card estiver ocupando toda a tela
+            scrollDownwards();
 
         // going upwards
         } else if (st < lastScrollTop && !(checkVisible(scrollTrigger[0]))) {
-            scrollTrigger.forEach(trigger => {
-                if (checkVisible(trigger)) {
-                    if (triggerArr.indexOf(trigger) == 1 || triggerArr.indexOf(trigger) == 3 || triggerArr.indexOf(trigger) == 5) {
-                        scrollTrigger[triggerArr.indexOf(trigger)].parentElement.scrollIntoView({
-                            behavior: "smooth",
-                            block: "start"
-                        });
-                    }
-                }
-            });
+            scrollUpwards();
         }
 
         lastScrollTop = st <= 0 ? 0 : st;
@@ -134,30 +139,24 @@ if (mediaQueryMobile.matches) {
     
     document.addEventListener("swiped-up", e => {
         e.preventDefault();
-    
-        if (!(count >= homeCards.length-1)) {
-            homeCards[count+1].scrollIntoView({
+
+        if ((checkVisible(scrollTrigger[0]))) {
+            scrollTrigger[2].parentElement.scrollIntoView({
                 behavior: "smooth",
                 block: "start"
             });
-        
-            count++;
-            console.log(count);
+        } else {
+            scrollDownwards();
         }
     });
     
     document.addEventListener("swiped-down", e => {
         e.preventDefault();
-    
-        if (!(count <= 0)) {
-            homeCards[count-1].scrollIntoView({
-                behavior: "smooth",
-                block: "start"
-            });
         
-            count--;
-            console.log(count);
+        if (!(checkVisible(scrollTrigger[0]))) {
+            scrollUpwards();
         }
+        
     });
 }
 
