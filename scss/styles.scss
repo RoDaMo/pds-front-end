@@ -5,6 +5,8 @@ body {
   font-family: $font-family-sans-serif;
 }
 
+// -- Classes Comuns
+
 .z-1 {
   z-index: 1;
 }
@@ -21,17 +23,6 @@ body {
   top: 14px;
 }
 
-#home-pill {
-  width: 15%;
-  padding: 3px !important;
-  background-color: $play-cor-primaria;
-}
-
-.rounded-bottom-0 {
-  border-bottom-left-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
-}
-
 .w-60 {
   width: 60% !important;
 }
@@ -40,8 +31,31 @@ body {
   width: 90% !important;
 }
 
-.translate-6-x {
-  transform: translateX(6%) !important;
+.rounded-bottom-0 {
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.translate-6 {
+  transform: translate(6%, 6%) !important;
+}
+
+.glass-effect {
+  background: rgba( 255, 255, 255, 0.25 ) !important;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37) !important;
+  backdrop-filter: blur( 4px ) !important;
+  -webkit-backdrop-filter: blur( 4px ) !important;
+  border-radius: 10px !important;
+  border: 1px solid rgba( 255, 255, 255, 0.18 ) !important;
+}
+
+// -- Outras Classes
+
+// Conteúdo Principal
+#home-pill {
+  width: 15%;
+  padding: 3px !important;
+  background-color: $play-cor-primaria;
 }
 
 .card-bg {
@@ -79,6 +93,11 @@ body {
   color: $white;
 }
 
+div.row {
+  gap: 1rem;
+}
+
+// Navbar
 .pesquisar {
   background-color: $gray-400 !important;
   box-shadow: none !important;
@@ -142,10 +161,48 @@ button.navbar-toggler:hover {
   width: 100% !important;
 }
 
-div.row {
-  gap: 1rem;
+// Page Indicator
+ul.dots-list {
+  list-style-type: none;
+  font-weight: bold;
 }
 
+.dots-wrapper {
+  position: fixed;
+  display: none;
+  left: 0;
+  bottom: 0;
+  opacity: .4;
+  z-index: 2;
+}
+
+.dots-list {
+  position: absolute;
+  left: 0;
+  bottom: 11px;
+  margin-right: 35px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: solid 2px black;
+  margin: 7px 0;
+}
+
+.dots-active {
+  background-color: black; 
+  animation: bounce .5s 1;
+  animation-direction: forwards;
+}
+
+@keyframes bounce {
+  0% {transform: translatex(5px)}
+}
+
+
+// Media Queries
 @include media-breakpoint-down(lg) {
   ul.menu-li {
     display: flex !important;
@@ -175,5 +232,9 @@ div.row {
   .home-card {
     height: 100vh;
     // transition: all $transition;
+  }
+
+  .home-btn {
+    float: right;
   }
 }
