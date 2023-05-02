@@ -2,6 +2,7 @@
 
 body {
   color: $white;
+  background-color: #121212;
   font-family: $font-family-sans-serif;
 }
 
@@ -56,6 +57,10 @@ body {
   width: 15%;
   padding: 3px !important;
   background-color: $play-cor-primaria;
+}
+
+.home-title {
+  font-size: calc(2.7rem + 1.5vw) !important;
 }
 
 .card-bg {

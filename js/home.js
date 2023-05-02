@@ -5,6 +5,7 @@ const homeCards = document.querySelectorAll(".home-card.d-flex");
 const homePill = document.querySelector("#home-pill");
 const divRows = document.querySelectorAll(".home-row");
 const scrollTrigger = document.querySelectorAll(".scroll-trigger");
+const dotsWrapper = document.querySelector(".dots-wrapper");
 const dots = document.querySelectorAll(".dot");
 
 const mediaQueryMobile = window.matchMedia('(max-width: 767px)');
@@ -190,4 +191,5 @@ if (mediaQueryMobile.matches) {
     });
 } else {
     homePill.classList.add("d-none");
+    dotsWrapper.classList.add("d-none");
 }
