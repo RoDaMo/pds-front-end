@@ -6,7 +6,7 @@ export class header extends HTMLElement {
             <header class="container">
                 <nav class="navbar navbar-expand-lg bg-body-tertiary">
                     <div class="col col-lg-4">
-                        <a class="navbar-brand m-auto" href="/"><img src="/Logo_Playoffs.png" class="img-fluid" width="180" alt="Logo Playoffs"></a>
+                        <a class="navbar-brand m-auto" href="/"><img src="/Logo_Playoffs.png" class="logo-play img-fluid" width="180" alt="Logo Playoffs"></a>
                     </div>
                     
                     <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
@@ -15,10 +15,12 @@ export class header extends HTMLElement {
 
                     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
 
-                        <div class="offcanvas-header container pt-2">
-                            <h2 class="fw-bold text-black">Menu</h2>
+                        <div class="offcanvas-header container pt-2 pb-2">
+                            <h2 class="fw-light text-black">Menu</h2>
                             <button id="close-offcanvas" type="button" class="btn-close me-1" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
+
+                        <hr class="opacity-50 border rounded-pill m-0 bg-dark">
 
                         <div class="offcanvas-body">
                             <form class="col col-md d-flex justify-content-center m-auto" id="pesquisa" role="search">

@@ -63,6 +63,26 @@ body {
   font-size: calc(2.7rem + 1.5vw) !important;
 }
 
+.feats {
+  background-color: $play-cor-secundaria;
+}
+
+.feat-home1 {
+  border-radius: 25px 10px 10px 10px;
+}
+
+.feat-home2 {
+  border-radius: 10px 25px 10px 10px;
+}
+
+.feat-home3 {
+  border-radius: 10px 10px 25px 10px;
+}
+
+.feat-home4 {
+  border-radius: 10px 10px 10px 25px;
+}
+
 .card-bg {
   background: $play-cor-fundos;
 }
@@ -241,5 +261,11 @@ ul.dots-list {
 
   .home-btn {
     float: right;
+  }
+}
+
+@media screen and (orientation: landscape) {
+  .logo-play {
+    width: 45% !important;
   }
 }
