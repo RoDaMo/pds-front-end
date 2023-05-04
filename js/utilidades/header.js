@@ -20,7 +20,7 @@ export class header extends HTMLElement {
                             <button id="close-offcanvas" type="button" class="btn-close me-1" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
 
-                        <hr class="opacity-50 border rounded-pill m-0 bg-dark">
+                        <hr class="opacity-50 border rounded-pill m-0 bg-dark d-flex d-lg-none">
 
                         <div class="offcanvas-body">
                             <form class="col col-md d-flex justify-content-center m-auto" id="pesquisa" role="search">

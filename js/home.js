@@ -9,6 +9,7 @@ const dotsWrapper = document.querySelector(".dots-wrapper");
 const dots = document.querySelectorAll(".dot");
 
 const mediaQueryMobile = window.matchMedia('(max-width: 767px)');
+const mobilePortrait = window.matchMedia("(orientation: portrait)");
 
 const mobibarClasses = ["position-fixed", "topx-14", "z-1", "start-50", "translate-middle-x", "w-60", "rounded-4", "glass-effect"];
 const mobibarLogoClasses = ["w-90", "mb-2", "translate-6"];
@@ -189,6 +190,16 @@ if (mediaQueryMobile.matches) {
         }
         
     });
+
+    // Mobile Orientation Change
+    // mobilePortrait.addEventListener("change", e => {
+    //     if(!e.matches) {
+    //         navbar.classList.remove("position-fixed")
+    //     } else {
+    //         // Landscape
+    //     }
+    // });
+
 } else {
     homePill.classList.add("d-none");
     dotsWrapper.classList.add("d-none");

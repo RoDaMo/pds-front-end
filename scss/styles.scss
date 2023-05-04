@@ -1,8 +1,11 @@
 @import "bootstrap-config.scss";
 
+$offset: 20vw;
+$move-initial: calc(-25% + $offset);
+$move-final: calc(-50% + $offset);
+
 body {
   color: $white;
-  background-color: #121212;
   font-family: $font-family-sans-serif;
 }
 
@@ -76,11 +79,15 @@ body {
 }
 
 .feat-home3 {
-  border-radius: 10px 10px 25px 10px;
+  border-radius: 10px 10px 10px 10px;
 }
 
 .feat-home4 {
-  border-radius: 10px 10px 10px 25px;
+  border-radius: 10px 10px 10px 10px;
+}
+
+.feat-home5 {
+  border-radius: 10px 10px 25px 25px;
 }
 
 .card-bg {
@@ -226,6 +233,51 @@ ul.dots-list {
   0% {transform: translatex(5px)}
 }
 
+// Infinite text scroll
+.menu {
+	user-select: none;
+	counter-reset: menu;
+  color: $white !important;
+}
+
+.marquee {
+	width: 100vw;
+	overflow: hidden;
+	pointer-events: none;
+  margin-left: -40px;
+}
+
+.marquee-inner {
+	width: fit-content;
+	transform: translate3d($move-initial, 0, 0);
+	animation: marquee 5s linear infinite;
+	animation-play-state: paused;
+	transition: opacity 0.1s;
+}
+
+.marquee .marquee-inner {
+	animation-play-state: running;
+	opacity: 1;
+	transition-duration: 0.4s;
+}
+
+.marquee span {
+	white-space: nowrap;
+	font-size: 2vw;
+	padding: 0 1vw;
+	line-height: 1.15;
+}
+
+@keyframes marquee {
+	0% {
+		transform: translate3d($move-initial, 0, 0);
+	}
+
+	100% {
+		transform: translate3d($move-final, 0, 0);
+	}
+}
+
 
 // Media Queries
 @include media-breakpoint-down(lg) {
@@ -262,10 +314,22 @@ ul.dots-list {
   .home-btn {
     float: right;
   }
-}
 
-@media screen and (orientation: landscape) {
-  .logo-play {
-    width: 45% !important;
+  .marquee span {
+    font-size: 10vw;
   }
 }
+
+// @media screen and (orientation: landscape) {
+//   .logo-play {
+//     width: 45% !important;
+//   }
+
+//   .home-card {
+//     padding-top: 0 !important;
+//   }
+
+//   componente-header {
+//     position: static !important;
+//   }
+// }
