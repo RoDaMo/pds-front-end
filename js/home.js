@@ -7,6 +7,7 @@ const divRows = document.querySelectorAll(".home-row");
 const scrollTrigger = document.querySelectorAll(".scroll-trigger");
 const dotsWrapper = document.querySelector(".dots-wrapper");
 const dots = document.querySelectorAll(".dot");
+const toTopBtn = document.getElementById("gotop");
 
 const mediaQueryMobile = window.matchMedia('(max-width: 767px)');
 const mobilePortrait = window.matchMedia("(orientation: portrait)");
@@ -26,6 +27,7 @@ let rellax = new Rellax('.rellax', {
 let triggerArr = Array.from(scrollTrigger);
 
 document.firstElementChild.scrollIntoView({ block: "start" });
+toTopBtn.style.display = "none";
 
 if (isVisible(scrollTrigger[0])) {
     dots[0].classList.add('dots-active');
@@ -150,6 +152,16 @@ if (mediaQueryMobile.matches) {
             dots[3].classList.remove('dots-active');
         }
 
+        // To top button appearing
+        if (
+            document.body.scrollTop > 200 ||
+            document.documentElement.scrollTop > 200
+        ) {
+            toTopBtn.style.display = "block";
+        } else {
+            toTopBtn.style.display = "none";
+        }
+
     }, {passive: "true"});
 
     // Scrollend Trigger
@@ -189,6 +201,13 @@ if (mediaQueryMobile.matches) {
             scrollUpwards();
         }
         
+    });
+
+    toTopBtn.addEventListener("click", () => {
+        document.documentElement.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
     });
 
     // Mobile Orientation Change

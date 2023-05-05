@@ -66,28 +66,38 @@ body {
   font-size: calc(2.7rem + 1.5vw) !important;
 }
 
+#gotop {
+  position: fixed;
+  bottom: 35px;
+  right: 25px;
+  background-color: $play-cor-efeitos;
+  opacity: .8;
+  height: 55px;
+  width: 55px;
+}
+
+img[alt="featSVG"] {
+  opacity: .6;
+}
+
 .feats {
   background-color: $play-cor-secundaria;
 }
 
 .feat-home1 {
-  border-radius: 25px 10px 10px 10px;
+  border-radius: $border-radius-2xl 15px 15px 15px;
 }
 
 .feat-home2 {
-  border-radius: 10px 25px 10px 10px;
+  border-radius: 15px $border-radius-2xl 15px 15px;
 }
 
 .feat-home3 {
-  border-radius: 10px 10px 10px 10px;
+  border-radius: 15px 15px $border-radius-2xl 15px;
 }
 
 .feat-home4 {
-  border-radius: 10px 10px 10px 10px;
-}
-
-.feat-home5 {
-  border-radius: 10px 10px 25px 25px;
+  border-radius: 15px 15px 15px $border-radius-2xl;
 }
 
 .card-bg {
@@ -172,7 +182,7 @@ div.row {
   cursor: pointer;
 }
 
-input[placeholder="Procurar"], 
+input[placeholder="Procurar"],
 input[placeholder="Search"],
 input[placeholder="Search"]:focus {
   text-align: center;
@@ -219,63 +229,18 @@ ul.dots-list {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  border: solid 2px black;
+  border: solid 2px $play-cor-secundaria;
   margin: 7px 0;
 }
 
 .dots-active {
-  background-color: black; 
+  background-color: $play-cor-secundaria; 
   animation: bounce .5s 1;
   animation-direction: forwards;
 }
 
 @keyframes bounce {
   0% {transform: translatex(5px)}
-}
-
-// Infinite text scroll
-.menu {
-	user-select: none;
-	counter-reset: menu;
-  color: $white !important;
-}
-
-.marquee {
-	width: 100vw;
-	overflow: hidden;
-	pointer-events: none;
-  margin-left: -40px;
-}
-
-.marquee-inner {
-	width: fit-content;
-	transform: translate3d($move-initial, 0, 0);
-	animation: marquee 5s linear infinite;
-	animation-play-state: paused;
-	transition: opacity 0.1s;
-}
-
-.marquee .marquee-inner {
-	animation-play-state: running;
-	opacity: 1;
-	transition-duration: 0.4s;
-}
-
-.marquee span {
-	white-space: nowrap;
-	font-size: 2vw;
-	padding: 0 1vw;
-	line-height: 1.15;
-}
-
-@keyframes marquee {
-	0% {
-		transform: translate3d($move-initial, 0, 0);
-	}
-
-	100% {
-		transform: translate3d($move-final, 0, 0);
-	}
 }
 
 
