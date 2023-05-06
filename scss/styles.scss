@@ -45,11 +45,10 @@ body {
 }
 
 .glass-effect {
-  background: rgba( 255, 255, 255, 0.25 ) !important;
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37) !important;
-  backdrop-filter: blur( 4px ) !important;
-  -webkit-backdrop-filter: blur( 4px ) !important;
-  border-radius: 10px !important;
+  backdrop-filter: blur( 4px );
+  -webkit-backdrop-filter: blur( 4px );
+  border-radius: 10px;
   border: 1px solid rgba( 255, 255, 255, 0.18 ) !important;
 }
 
@@ -81,23 +80,26 @@ img[alt="featSVG"] {
 }
 
 .feats {
-  background-color: $play-cor-secundaria;
+  // background-color: $play-cor-secundaria;
+  background: rgba( 0, 0, 0, 0.7 ) !important;
+  backdrop-filter: blur( 20px ) !important;
+  -webkit-backdrop-filter: blur( 20px ) !important;
 }
 
 .feat-home1 {
-  border-radius: $border-radius-2xl 15px 15px 15px;
+  border-radius: $border-radius-2xl 15px 15px 15px !important;
 }
 
 .feat-home2 {
-  border-radius: 15px $border-radius-2xl 15px 15px;
+  border-radius: 15px $border-radius-2xl 15px 15px !important;
 }
 
 .feat-home3 {
-  border-radius: 15px 15px $border-radius-2xl 15px;
+  border-radius: 15px 15px $border-radius-2xl 15px !important;
 }
 
 .feat-home4 {
-  border-radius: 15px 15px 15px $border-radius-2xl;
+  border-radius: 15px 15px 15px $border-radius-2xl !important;
 }
 
 .card-bg {
