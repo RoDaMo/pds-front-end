@@ -6,6 +6,7 @@ $move-final: calc(-50% + $offset);
 
 body {
   color: $white;
+  background-color: #121212;
   font-family: $font-family-sans-serif;
 }
 
@@ -61,8 +62,31 @@ body {
   background-color: $play-cor-primaria;
 }
 
-.home-title {
-  font-size: calc(2.7rem + 1.5vw) !important;
+.rotate-wrapper {
+	text-indent: 9px;
+}
+
+.rotate-wrapper span {
+	animation: rotate 10s linear infinite;
+  transition-timing-function: cubic-bezier(0.2,0.5,0.3,1);
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+  height: 38%;
+  width: 75%;
+  margin: auto;
+}
+
+.rotate-wrapper span:nth-of-type(2) {
+  animation-delay: 2.5s;
+}
+
+.rotate-wrapper span:nth-of-type(3) {
+  animation-delay: 5s;
+}
+
+.rotate-wrapper span:nth-of-type(4) {
+  animation-delay: 7.5s;
 }
 
 #gotop {
@@ -75,8 +99,28 @@ body {
   width: 55px;
 }
 
-img[alt="featSVG"] {
+#gotop i {
+  font-size: 1.6rem;
+  top: 1.6rem;
+}
+
+.feat-svg {
   opacity: .6;
+  color: #FFF;
+  font-size: 4rem;
+  top: 6rem;
+  bottom: 0;
+  right: .5rem;
+  // transform: rotate(5deg);
+}
+
+.feat-lift {
+  top: 4.5rem !important;
+}
+
+.feat-lift2 {
+  top: 2.5rem !important;
+  font-size: 4.5rem !important;
 }
 
 .feats {
@@ -243,6 +287,16 @@ ul.dots-list {
 
 @keyframes bounce {
   0% {transform: translatex(5px)}
+}
+
+@keyframes rotate {
+	0% { opacity: 0; }
+	5% { opacity: 0; transform: translateY(25px); }
+	10% { opacity: 1; transform: translateY(0px); }
+	25% { opacity: 1; transform: translateY(0px); }
+	30% { opacity: 0; transform: translateY(-25px); }
+	80% { opacity: 0; }
+	100% { opacity: 0; }
 }
 
 
