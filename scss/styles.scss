@@ -15,8 +15,8 @@ body {
   z-index: 1;
 }
 
-.mbr-40 {
-  margin-bottom: 40rem !important;
+.mbr-35 {
+  margin-bottom: 35rem !important;
 }
 
 .ptx-90 {
@@ -131,8 +131,12 @@ body {
   background: rgba( 0, 0, 0, 0.7 ) !important;
   backdrop-filter: blur( 20px ) !important;
   -webkit-backdrop-filter: blur( 20px ) !important;
-  height: 50%;
+  height: 33%;
   font-size: x-large;
+  
+  p:nth-of-type(1) {
+    font-size: xx-large !important;
+  }
 }
 
 .feat-home1 {

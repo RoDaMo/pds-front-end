@@ -246,9 +246,11 @@ if (mediaQueryMobile.matches) {
     homeBtn.closest(".row").firstElementChild.classList.add("w-auto");
     homeSubText.classList.add("text-center", "w-75");
     homeSubText.parentElement.classList.add("justify-content-center");
-    featWrapper.classList.add("mbr-40");
+    featWrapper.classList.add("mbr-35");
 
     homeCards[1].querySelector("h2").classList.add("mt-5");
+
+    feats.forEach(feat => feat.classList.add("mb-5"));
 
 
     homeSubText.innerHTML = `
