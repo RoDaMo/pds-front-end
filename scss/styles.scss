@@ -6,7 +6,6 @@ $move-final: calc(-50% + $offset);
 
 body {
   color: $white;
-  background-color: #121212;
   font-family: $font-family-sans-serif;
 }
 
@@ -14,6 +13,10 @@ body {
 
 .z-1 {
   z-index: 1;
+}
+
+.mbr-40 {
+  margin-bottom: 40rem !important;
 }
 
 .ptx-90 {
@@ -63,7 +66,8 @@ body {
 }
 
 .rotate-wrapper {
-	text-indent: 9px;
+	text-indent: 20px;
+  margin-right: 30%;
 }
 
 .rotate-wrapper span {
@@ -72,8 +76,7 @@ body {
 	opacity: 0;
 	overflow: hidden;
 	position: absolute;
-  height: 38%;
-  width: 75%;
+  height: 60%;
   margin: auto;
 }
 
@@ -107,7 +110,7 @@ body {
 .feat-svg {
   opacity: .6;
   color: #FFF;
-  font-size: 4rem;
+  font-size: 14rem;
   top: 6rem;
   bottom: 0;
   right: .5rem;
@@ -128,6 +131,8 @@ body {
   background: rgba( 0, 0, 0, 0.7 ) !important;
   backdrop-filter: blur( 20px ) !important;
   -webkit-backdrop-filter: blur( 20px ) !important;
+  height: 50%;
+  font-size: x-large;
 }
 
 .feat-home1 {
@@ -299,8 +304,13 @@ ul.dots-list {
 	100% { opacity: 0; }
 }
 
-
 // Media Queries
+@include media-breakpoint-down(xl) {
+  .rotate-wrapper {
+    margin-right: 47%;
+  }
+}
+
 @include media-breakpoint-down(lg) {
   ul.menu-li {
     display: flex !important;
@@ -338,6 +348,25 @@ ul.dots-list {
 
   .marquee span {
     font-size: 10vw;
+  }
+
+  .rotate-wrapper span {
+    height: 38%;
+    width: 75%;
+  }
+
+  .rotate-wrapper {
+    text-indent: 9px;
+    margin-right: 30%;
+  }
+
+  .feat-svg {
+    font-size: 4rem;
+  }
+
+  .feats {
+    height: auto;
+    font-size: initial;
   }
 }
 

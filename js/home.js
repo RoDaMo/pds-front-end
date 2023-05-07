@@ -3,9 +3,14 @@
 const navbar = document.querySelector("componente-header");
 const homeCards = document.querySelectorAll(".home-card.d-flex");
 const homePill = document.querySelector("#home-pill");
+const homeSubText = document.querySelector(".home-subtext");
+const homeTitle = document.querySelector(".home-title");
+const homeBtn = document.querySelector(".home-btn");
 const divRows = document.querySelectorAll(".home-row");
+const feats = document.querySelectorAll(".feats");
 const scrollTrigger = document.querySelectorAll(".scroll-trigger");
 const dotsWrapper = document.querySelector(".dots-wrapper");
+const featWrapper = document.querySelector(".feat-wrapper");
 const dots = document.querySelectorAll(".dot");
 const toTopBtn = document.getElementById("gotop");
 
@@ -77,7 +82,12 @@ if (mediaQueryMobile.matches) {
     homeCards[0].parentElement.classList.remove("pt-2");
     homeCards[2].parentElement.classList.remove("mt-3");
     homeCards[0].classList.remove("rounded-4");
-    homeCards[0].classList.add("vh-91", "rounded-5", "rounded-bottom-0");
+    homeCards[0].classList.add("vh-91", "rounded-5", "rounded-bottom-0", "card-bg");
+    homeCards[1].classList.add("card-bg");
+
+    featWrapper.classList.add("card-bg2", "glass-effect");
+    
+    feats.forEach(feat => feat.querySelector("p").classList.add("fs-5"));
 
     divRows.forEach(div => {
         div.classList.add("gap-0");
@@ -219,7 +229,35 @@ if (mediaQueryMobile.matches) {
     //     }
     // });
 
+    homeSubText.innerHTML = `
+        Se você é um apaixonado por esportes e quer organizar o seu próprio campeonato, 
+        temos uma excelente dica para você!
+
+
+        <br><br> Quer saber o que é? Arrasta pra cima! 
+    `
+
 } else {
     homePill.classList.add("d-none");
     dotsWrapper.classList.add("d-none");
+
+    homeTitle.classList.add("text-center");
+    homeBtn.closest(".row").classList.add("justify-content-center", "mt-4");
+    homeBtn.closest(".row").firstElementChild.classList.add("w-auto");
+    homeSubText.classList.add("text-center", "w-75");
+    homeSubText.parentElement.classList.add("justify-content-center");
+    featWrapper.classList.add("mbr-40");
+
+    homeCards[1].querySelector("h2").classList.add("mt-5");
+
+
+    homeSubText.innerHTML = `
+        Se você é um apaixonado por esportes e quer organizar o seu próprio campeonato, 
+        temos uma excelente dica para você!
+
+
+        <br><br> Não perca mais tempo procurando por soluções complicadas para organizar o seu campeonato.
+        <br> Com uma interface intuitiva e fácil de usar, você pode personalizar campeonatos de 
+        acordo com sua necessidade.
+    `
 }
