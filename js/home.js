@@ -14,7 +14,7 @@ const featWrapper = document.querySelector(".feat-wrapper");
 const dots = document.querySelectorAll(".dot");
 const toTopBtn = document.getElementById("gotop");
 
-const mediaQueryMobile = window.matchMedia('(max-width: 767px)');
+const mediaQueryMobile = window.matchMedia('(max-width: 575px)');
 const mobilePortrait = window.matchMedia("(orientation: portrait)");
 
 const mobibarClasses = ["position-fixed", "topx-14", "z-1", "start-50", "translate-middle-x", "w-60", "rounded-4", "glass-effect"];
@@ -88,6 +88,14 @@ if (mediaQueryMobile.matches) {
     featWrapper.classList.add("card-bg2", "glass-effect");
     
     feats.forEach(feat => feat.querySelector("p").classList.add("fs-5"));
+
+    if (window.matchMedia('(max-width: 376px)').matches) {
+        feats[3].querySelector("i").classList.remove("feat-lift");
+        feats[2].querySelector("i").classList.remove("feat-lift");
+    }
+    // feats[4].querySelector("i").classList.add("feat-lift2");
+    
+
 
     divRows.forEach(div => {
         div.classList.add("gap-0");

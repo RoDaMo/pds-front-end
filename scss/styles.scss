@@ -117,6 +117,15 @@ body {
   // transform: rotate(5deg);
 }
 
+.home-ctasvg {
+  opacity: .6;
+  color: #FFF;
+  font-size: 2rem;
+  top: 4.8rem;
+  bottom: 0;
+  right: .5rem;
+}
+
 .feat-lift {
   top: 4.5rem !important;
 }
@@ -133,10 +142,6 @@ body {
   -webkit-backdrop-filter: blur( 20px ) !important;
   height: 33%;
   font-size: x-large;
-  
-  p:nth-of-type(1) {
-    font-size: xx-large !important;
-  }
 }
 
 .feat-home1 {
@@ -309,13 +314,13 @@ ul.dots-list {
 }
 
 // Media Queries
-@include media-breakpoint-down(xl) {
+@include media-breakpoint-up(md) {
   .rotate-wrapper {
-    margin-right: 47%;
+    margin-right: 40%;
   }
 }
 
-@include media-breakpoint-down(lg) {
+@include media-breakpoint-up(md) {
   ul.menu-li {
     display: flex !important;
     justify-content: center !important;
@@ -337,6 +342,12 @@ ul.dots-list {
 
   .home-subtext {
     font-size: 1rem;
+  }
+
+  .feats {
+    p:nth-of-type(1) {
+      font-size: xx-large !important;
+    }
   }
 }
 
