@@ -14,7 +14,11 @@ const featWrapper = document.querySelector(".feat-wrapper");
 const dots = document.querySelectorAll(".dot");
 const toTopBtn = document.getElementById("gotop");
 
+const SlideGroup = document.querySelectorAll("[data-sgroup]");
+const SlideTrigger = document.querySelectorAll(".slide-trigger");
+
 const mediaQueryMobile = window.matchMedia('(max-width: 575px)');
+const mediaQueryDesktop = window.matchMedia('(max-width: 1199px)');
 const mobilePortrait = window.matchMedia("(orientation: portrait)");
 
 const mobibarClasses = ["position-fixed", "topx-14", "z-1", "start-50", "translate-middle-x", "w-60", "rounded-4", "glass-effect"];
@@ -81,9 +85,13 @@ if (mediaQueryMobile.matches) {
 
     homeCards[0].parentElement.classList.remove("pt-2");
     homeCards[2].parentElement.classList.remove("mt-3");
-    homeCards[0].classList.remove("rounded-4");
-    homeCards[0].classList.add("vh-91", "rounded-5", "rounded-bottom-0", "card-bg");
+    homeCards[2].classList.add("p-4");
+    homeCards[2].classList.remove("p-5");
+    homeCards[0].classList.remove("rounded-4", "pt-5");
+    homeCards[0].classList.add("vh-91", "rounded-5", "rounded-bottom-0", "card-bg", "p-4");
     homeCards[1].classList.add("card-bg");
+
+    document.querySelector(".bg-about-text").classList.add("glass-effect");
 
     featWrapper.classList.add("card-bg2", "glass-effect");
     
@@ -254,20 +262,42 @@ if (mediaQueryMobile.matches) {
     homeBtn.closest(".row").firstElementChild.classList.add("w-auto");
     homeSubText.classList.add("text-center", "w-75");
     homeSubText.parentElement.classList.add("justify-content-center");
-    featWrapper.classList.add("mbr-35");
 
     homeCards[1].querySelector("h2").classList.add("mt-5");
 
     feats.forEach(feat => feat.classList.add("mb-5"));
 
-
     homeSubText.innerHTML = `
-        Se você é um apaixonado por esportes e quer organizar o seu próprio campeonato, 
+        Se você ama esportes e quer organizar o seu próprio campeonato, 
         temos uma excelente dica para você!
 
 
         <br><br> Não perca mais tempo procurando por soluções complicadas para organizar o seu campeonato.
-        <br> Com uma interface intuitiva e fácil de usar, você pode personalizar campeonatos de 
-        acordo com sua necessidade.
+        <br> Com a Playoffs, você pode criar e personalizar campeonatos de acordo com sua necessidade.
     `
+
+    SlideGroup.forEach(gp => {
+        if(isVisible(gp)) {
+            gp.classList.add("already-visible");
+            console.log(gp);
+        }
+    });
+
+    document.addEventListener("scroll", () => {
+        SlideGroup.forEach(gp => {
+            if(isVisible(gp)) {
+                gp.classList.add("come-in");
+            }
+        });
+    });
 }
+
+window.addEventListener("resize", () => {
+    if(mediaQueryDesktop.matches) {
+        homeTitle.classList.add("display-2");
+        homeTitle.classList.remove("display-1");
+    } else {
+        homeTitle.classList.add("display-1");
+        homeTitle.classList.remove("display-2");
+    }
+});

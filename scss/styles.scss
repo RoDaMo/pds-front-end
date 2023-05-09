@@ -15,10 +15,6 @@ body {
   z-index: 1;
 }
 
-.mbr-35 {
-  margin-bottom: 35rem !important;
-}
-
 .ptx-90 {
   padding-top: 90px !important;
 }
@@ -29,6 +25,10 @@ body {
 
 .topx-14 {
   top: 14px;
+}
+
+.topr-2 {
+  top: 3.5rem !important;
 }
 
 .w-60 {
@@ -126,6 +126,15 @@ body {
   right: .5rem;
 }
 
+.home-grad {
+  background: rgb(216,255,219);
+  background: linear-gradient(180deg, rgba(216,255,219,1) 0%, rgba(255,255,255,1) 100%); 
+}
+
+.feat-wrapper {
+  margin-bottom: 25rem !important;
+}
+
 .feat-lift {
   top: 4.5rem !important;
 }
@@ -140,7 +149,7 @@ body {
   background: rgba( 0, 0, 0, 0.7 ) !important;
   backdrop-filter: blur( 20px ) !important;
   -webkit-backdrop-filter: blur( 20px ) !important;
-  height: 33%;
+  height: 28%;
   font-size: x-large;
 }
 
@@ -299,6 +308,23 @@ ul.dots-list {
   animation-direction: forwards;
 }
 
+// Slide in animation
+.come-in {
+  transform: translateY(150px);
+  animation: come-in 1s ease forwards;
+}
+.come-in:nth-child(odd) {
+  animation-duration: 0.8s;
+}
+.already-visible {
+  transform: translateY(0);
+  animation: none;
+}
+
+@keyframes come-in {
+  to { transform: translateY(0); }
+}
+
 @keyframes bounce {
   0% {transform: translatex(5px)}
 }
@@ -314,13 +340,13 @@ ul.dots-list {
 }
 
 // Media Queries
-@include media-breakpoint-up(md) {
+@include media-breakpoint-down(lg) {
   .rotate-wrapper {
-    margin-right: 40%;
+    margin-right: 45%;
   }
 }
 
-@include media-breakpoint-up(md) {
+@include media-breakpoint-only(md) {
   ul.menu-li {
     display: flex !important;
     justify-content: center !important;
@@ -348,6 +374,29 @@ ul.dots-list {
     p:nth-of-type(1) {
       font-size: xx-large !important;
     }
+    height: 20%;
+  }
+
+  .feat-wrapper {
+    margin-bottom: auto !important;
+  }
+  
+  .feat-lift {
+    top: 6.5rem !important;
+  }
+}
+
+@include media-breakpoint-up(xl) {
+  .feats {
+    height: 28%;
+
+    p:nth-of-type(1) {
+      font-size: xx-large !important;
+    }
+  }
+
+  .feat-lift {
+    top: 6.5rem !important
   }
 }
 
@@ -379,9 +428,17 @@ ul.dots-list {
     font-size: 4rem;
   }
 
+  .feat-wrapper {
+    margin-bottom: auto !important;
+  }
+
   .feats {
     height: auto;
     font-size: initial;
+  }
+
+  .bg-about-text {
+    background: rgba( 0, 0, 0, 0.3 ) !important;
   }
 }
 
