@@ -13,9 +13,9 @@ const dotsWrapper = document.querySelector(".dots-wrapper");
 const featWrapper = document.querySelector(".feat-wrapper");
 const dots = document.querySelectorAll(".dot");
 const toTopBtn = document.getElementById("gotop");
+const rodamoLogo = document.querySelector("img[alt='Rodamo Logo']");
 
-const SlideGroup = document.querySelectorAll("[data-sgroup]");
-const SlideTrigger = document.querySelectorAll(".slide-trigger");
+const slideElements = document.querySelectorAll('.slide-in');
 
 const mediaQueryMobile = window.matchMedia('(max-width: 575px)');
 const mediaQueryDesktop = window.matchMedia('(max-width: 1199px)');
@@ -90,6 +90,8 @@ if (mediaQueryMobile.matches) {
     homeCards[0].classList.remove("rounded-4", "pt-5");
     homeCards[0].classList.add("vh-91", "rounded-5", "rounded-bottom-0", "card-bg", "p-4");
     homeCards[1].classList.add("card-bg");
+
+    rodamoLogo.classList.add("w-25");
 
     document.querySelector(".bg-about-text").classList.add("glass-effect");
 
@@ -254,8 +256,13 @@ if (mediaQueryMobile.matches) {
     `
 
 } else {
+    rodamoLogo.classList.add("w-50");
+
     homePill.classList.add("d-none");
     dotsWrapper.classList.add("d-none");
+
+    featWrapper.classList.remove("mt-1");
+    featWrapper.classList.add("mt-5");
 
     homeTitle.classList.add("text-center");
     homeBtn.closest(".row").classList.add("justify-content-center", "mt-4");
@@ -263,7 +270,7 @@ if (mediaQueryMobile.matches) {
     homeSubText.classList.add("text-center", "w-75");
     homeSubText.parentElement.classList.add("justify-content-center");
 
-    homeCards[1].querySelector("h2").classList.add("mt-5");
+    homeCards[1].querySelector("h2").classList.add("mt-5", "mb-4");
 
     feats.forEach(feat => feat.classList.add("mb-5"));
 
@@ -275,21 +282,6 @@ if (mediaQueryMobile.matches) {
         <br><br> Não perca mais tempo procurando por soluções complicadas para organizar o seu campeonato.
         <br> Com a Playoffs, você pode criar e personalizar campeonatos de acordo com sua necessidade.
     `
-
-    SlideGroup.forEach(gp => {
-        if(isVisible(gp)) {
-            gp.classList.add("already-visible");
-            console.log(gp);
-        }
-    });
-
-    document.addEventListener("scroll", () => {
-        SlideGroup.forEach(gp => {
-            if(isVisible(gp)) {
-                gp.classList.add("come-in");
-            }
-        });
-    });
 }
 
 window.addEventListener("resize", () => {

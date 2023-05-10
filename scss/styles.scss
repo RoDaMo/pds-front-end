@@ -68,28 +68,28 @@ body {
 .rotate-wrapper {
 	text-indent: 20px;
   margin-right: 30%;
-}
 
-.rotate-wrapper span {
-	animation: rotate 10s linear infinite;
-  transition-timing-function: cubic-bezier(0.2,0.5,0.3,1);
-	opacity: 0;
-	overflow: hidden;
-	position: absolute;
-  height: 60%;
-  margin: auto;
-}
+  span {
+    animation: rotate 10s linear infinite;
+    transition-timing-function: cubic-bezier(0.2,0.5,0.3,1);
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    height: 60%;
+    margin: auto;
+  }
 
-.rotate-wrapper span:nth-of-type(2) {
-  animation-delay: 2.5s;
-}
+  span:nth-of-type(2) {
+    animation-delay: 2.5s;
+  }
 
-.rotate-wrapper span:nth-of-type(3) {
-  animation-delay: 5s;
-}
+  span:nth-of-type(3) {
+    animation-delay: 5s;
+  }
 
-.rotate-wrapper span:nth-of-type(4) {
-  animation-delay: 7.5s;
+  span:nth-of-type(4) {
+    animation-delay: 7.5s;
+  }
 }
 
 #gotop {
@@ -100,11 +100,11 @@ body {
   opacity: .8;
   height: 55px;
   width: 55px;
-}
 
-#gotop i {
-  font-size: 1.6rem;
-  top: 1.6rem;
+  i {
+    font-size: 1.6rem;
+    top: 1.6rem;
+  }
 }
 
 .feat-svg {
@@ -114,7 +114,6 @@ body {
   top: 6rem;
   bottom: 0;
   right: .5rem;
-  // transform: rotate(5deg);
 }
 
 .home-ctasvg {
@@ -145,12 +144,18 @@ body {
 }
 
 .feats {
-  // background-color: $play-cor-secundaria;
   background: rgba( 0, 0, 0, 0.7 ) !important;
-  backdrop-filter: blur( 20px ) !important;
-  -webkit-backdrop-filter: blur( 20px ) !important;
+  backdrop-filter: blur( 2px ) !important;
+  -webkit-backdrop-filter: blur( 2px ) !important;
   height: 28%;
   font-size: x-large;
+}
+
+.blur-home-p {
+  backdrop-filter: blur( 4px );
+  -webkit-backdrop-filter: blur( 4px );
+  border-radius: 15px;
+  border: 1px solid rgba( 255, 255, 255, 0.18 ) !important;
 }
 
 .feat-home1 {
@@ -225,30 +230,37 @@ div.row {
   transition: all $transition;
 }
 
-.nav-item a,
-.nav-item #lingua {
-  transition: all $transition;
-  color: $play-cor-texto-dim !important;
+.nav-item {
+  a, #lingua {
+    transition: all $transition;
+    color: $play-cor-texto-dim !important;
+  }
+
+  #lingua {
+    box-shadow: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+
+    option {
+      cursor: pointer;
+    }
+  }
+
+  #lingua:active,
+  #lingua:focus {
+    background-color: $play-cor-fundos-secundaria;
+    box-shadow: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+  }
 }
 
-.nav-item:hover a,
-.nav-item:hover #lingua,
-.nav-item #lingua:active,
-.nav-item #lingua:focus {
-  background-color: $play-cor-fundos-secundaria;
-}
-
-.nav-item #lingua,
-.nav-item #lingua:active,
-.nav-item #lingua:focus {
-  box-shadow: none;
-  border: none;
-  cursor: pointer;
-  outline: none;
-}
-
-.nav-item #lingua option {
-  cursor: pointer;
+.nav-item:hover {
+  a, #lingua {
+    background-color: $play-cor-fundos-secundaria;
+  }
 }
 
 input[placeholder="Procurar"],
@@ -309,20 +321,15 @@ ul.dots-list {
 }
 
 // Slide in animation
-.come-in {
-  transform: translateY(150px);
-  animation: come-in 1s ease forwards;
-}
-.come-in:nth-child(odd) {
-  animation-duration: 0.8s;
-}
-.already-visible {
-  transform: translateY(0);
-  animation: none;
+.slide-in {
+  opacity: 0;
+  transform: translateY(100px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
 }
 
-@keyframes come-in {
-  to { transform: translateY(0); }
+.slide-in.active {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 @keyframes bounce {
@@ -372,17 +379,31 @@ ul.dots-list {
 
   .feats {
     p:nth-of-type(1) {
-      font-size: xx-large !important;
+      font-size: x-large !important;
     }
     height: 20%;
   }
 
   .feat-wrapper {
     margin-bottom: auto !important;
+
+    p {
+      font-size: 1rem !important;
+    }
   }
   
   .feat-lift {
     top: 6.5rem !important;
+  }
+
+  .feat-svg {
+    font-size: 9rem !important;
+  }
+
+  .bg-about-text {
+    p {
+      font-size: .8rem !important;
+    }
   }
 }
 
@@ -398,6 +419,12 @@ ul.dots-list {
   .feat-lift {
     top: 6.5rem !important
   }
+
+  .bg-about-text {
+    p {
+      font-size: 1.1rem !important;
+    }
+  }
 }
 
 @include media-breakpoint-down(sm) {
@@ -410,8 +437,10 @@ ul.dots-list {
     float: right;
   }
 
-  .marquee span {
-    font-size: 10vw;
+  .marquee {
+    span {
+      font-size: 10vw;
+    }
   }
 
   .rotate-wrapper span {
@@ -438,7 +467,7 @@ ul.dots-list {
   }
 
   .bg-about-text {
-    background: rgba( 0, 0, 0, 0.3 ) !important;
+    background: rgba( 0, 0, 0, 0.1 ) !important;
   }
 }
 
