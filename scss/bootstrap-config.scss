@@ -59,3 +59,6 @@ $black: $play-cor-texto;
 
 // Utilities
 @import "~bootstrap/scss/utilities/api";
+
+//Importação do plugin de data
+@import '../node_modules/flatpickr/dist/flatpickr.min.css';
