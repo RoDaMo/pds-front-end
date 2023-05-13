@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <title>Login</title>
+</head>
+<body>
+    <main class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 mt-5">
+                <div class="mb-5 mt-5">
+                    <a class="navbar-brand m-auto p-auto" href="/"><img src="/Logo_Playoffs.png" class="img-fluid" width="300" alt="Logo Playoffs"></a>
+                </div>
+                <h4 id="texto-apresentacao" class="mb-4 text-success ">Você já tem uma conta! Continue e junte-se a nós.</h4>
+                <form id="formulario" method="post">
+                    <div class="mb-3">
+                        <label for="nome-usuario" class="form-label text-success mt-3">Nome de usuário:</label>
+                        <input type="text" class="form-control" id="nome-usuario" name="nome-usuario" placeholder="Nome de usuário..." required>
+                    </div>
+                    <label for="nome-usuario" class="form-label text-success mt-3">Senha:</label>
+                    <div class="d-flex position-relative">
+                        <input type="password" class="form-control" id="senha" name="senha" placeholder="Senha..." required autocomplete="on">
+                        <div id="olhos">
+                            <i id="olho-aberto" class="btn btn-success bi bi-eye text-light position-absolute end-0"></i>
+                            <i id="olho-fechado" class="btn btn-success bi bi-eye-slash text-light position-absolute end-0 d-none"></i>
+                        </div>
+                        </div>
+                    <div class="form-text text-success mt-3 mb-3 d-flex justify-content-end"><a href="#" class="text-decoration-none h6">Recuperar senha</a></div>
+                    <div class="container m-0">
+                        <div  class="row gap-2">
+                            <button  class="col-md-4 btn btn-success rounded-pill" type="submit">Continuar</button>
+                            <a href="/index.html" class="col-md-4 btn btn-outline-success rounded-pill">Cancelar</a>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <p id="mensagem-erro"></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    <script type="module" src="../main.js"></script>
+    <script type="module" src="../js/login.js"></script>
+</body>
+</html>
