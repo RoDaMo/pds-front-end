@@ -109,7 +109,7 @@ body {
 
 .feat-svg {
   opacity: .6;
-  color: #FFF;
+  color: $white;
   font-size: 14rem;
   top: 6rem;
   bottom: 0;
@@ -118,7 +118,7 @@ body {
 
 .home-ctasvg {
   opacity: .6;
-  color: #FFF;
+  color: $white;
   font-size: 2rem;
   top: 4.8rem;
   bottom: 0;
@@ -144,7 +144,7 @@ body {
 }
 
 .feats {
-  background: rgba( 0, 0, 0, 0.7 ) !important;
+  background: rgba( 0, 0, 0, 0.7 );
   backdrop-filter: blur( 2px ) !important;
   -webkit-backdrop-filter: blur( 2px ) !important;
   height: 28%;
@@ -201,12 +201,12 @@ body {
 .card-btn-color {
   background: $play-cor-primaria;
   color: $white;
-  transition: background-color $transition;
+  transition: all $transition;
 }
 
 .card-btn-color:hover {
-  background: $play-cor-secundaria;
-  color: $white;
+  background: $play-cor-fundos;
+  color: $black;
 }
 
 div.row {
@@ -222,18 +222,19 @@ div.row {
 
 .thead-custom {
   background-color: $play-cor-secundaria; 
-  color: #FFF; 
+  color: $white; 
 }
 
 .navbar {
   height: 60px !important;
   transition: all $transition;
+  background: transparent;
 }
 
 .nav-item {
   a, #lingua {
     transition: all $transition;
-    color: $play-cor-texto-dim !important;
+    color: $white !important;
   }
 
   #lingua {
@@ -259,13 +260,13 @@ div.row {
 
 .nav-item:hover {
   a, #lingua {
-    background-color: $play-cor-fundos-secundaria;
+    background-color: $play-cor-fundos-secundaria !important;
+    color: $play-cor-texto !important;
   }
 }
 
-input[placeholder="Procurar"],
-input[placeholder="Search"],
-input[placeholder="Search"]:focus {
+input[aria-label="Search"],
+input[aria-label="Search"]:focus {
   text-align: center;
 }
 
@@ -277,7 +278,8 @@ button.navbar-toggler:focus  {
 
 button.navbar-toggler:active,
 button.navbar-toggler:hover {
-  background-color: $play-cor-fundos-secundaria
+  background-color: $play-cor-fundos-secundaria !important;
+  color: $play-cor-texto !important;
 }
 
 .offcanvas.offcanvas-end {
@@ -350,6 +352,28 @@ ul.dots-list {
 @include media-breakpoint-down(lg) {
   .rotate-wrapper {
     margin-right: 45%;
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .feat-text {
+    color: $play-cor-secundaria
+  }
+
+  .feats {
+    background: rgba(216, 255, 219, 0.7) !important;
+  }
+
+  .first-title-bg {
+    background: $play-cor-secundaria;
+  }
+
+  .feat-svg {
+    color: $play-cor-secundaria;
+  }
+
+  .fc-first-title {
+    color: $white;
   }
 }
 

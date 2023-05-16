@@ -15,6 +15,8 @@ const dots = document.querySelectorAll(".dot");
 const toTopBtn = document.getElementById("gotop");
 const rodamoLogo = document.querySelector("img[alt='Rodamo Logo']");
 
+const firstTitleBg = document.querySelector(".first-title-bg");
+
 const slideElements = document.querySelectorAll('.slide-in');
 
 const mediaQueryMobile = window.matchMedia('(max-width: 575px)');
@@ -24,9 +26,11 @@ const mobilePortrait = window.matchMedia("(orientation: portrait)");
 const mobibarClasses = ["position-fixed", "topx-14", "z-1", "start-50", "translate-middle-x", "w-60", "rounded-4", "glass-effect"];
 const mobibarLogoClasses = ["w-90", "mb-2", "translate-6"];
 
+
 let mobibarLogo;
 let navTogglerClose;
 let navTogglerOpen;
+let menuOpen = false;
 
 // Rellax.JS
 let rellax = new Rellax('.rellax', {
@@ -123,9 +127,7 @@ if (mediaQueryMobile.matches) {
             homePill.classList.remove("d-none");
             navbar.classList.remove(...mobibarClasses);
             mobibarLogo.classList.remove(...mobibarLogoClasses);
-        } else {
-            let menuOpen = false;
-    
+        } else {   
             homeCards.forEach(card => { 
                 card.classList.add("ptx-90");
                 card.classList.remove("rounded-4", "rounded-5");
@@ -150,8 +152,8 @@ if (mediaQueryMobile.matches) {
                 if (window.scrollY != 0) {
                     navbar.classList.add(...mobibarClasses);
                     mobibarLogo.classList.add(...mobibarLogoClasses);  
-                    menuOpen = false;
                 }
+                
             });
         }
 
@@ -256,6 +258,16 @@ if (mediaQueryMobile.matches) {
     `
 
 } else {
+
+    window.onload = () => {
+        let FTBHeight = homeCards[0].parentElement.offsetHeight + navbar.offsetHeight;
+
+        firstTitleBg.style.height = `${FTBHeight + 80}px`;
+        firstTitleBg.style.marginTop = `-${navbar.offsetHeight + 40}px`
+    }
+
+    navbar.classList.add("position-relative", "z-1");
+
     rodamoLogo.classList.add("w-50");
 
     homePill.classList.add("d-none");

@@ -32,7 +32,7 @@ export class header extends HTMLElement {
                                     <a class="nav-link i18 rounded-3 px-3" href="/pages/cadastro-campeonatos.html" key="LinkCadastroCampeonato">Criar Campeonato</a>
                                 </li>
                                 <li class="nav-item">
-                                    <select class="form-select rounded-3 ps-3 py-2" id="lingua" required>
+                                    <select class="form-select rounded-3 ps-3 py-2 bg-transparent" id="lingua" required>
                                         <option value="ptbr" ${lng === 'ptbr' ? 'selected' : ''}>Português</option>
                                         <option value="en" ${lng === 'en' ? 'selected' : ''}>English</option>
                                     </select>
