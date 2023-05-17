@@ -11,6 +11,10 @@ body {
 
 // -- Classes Comuns
 
+.z-0 {
+  z-index: 0;
+}
+
 .z-1 {
   z-index: 1;
 }
@@ -234,7 +238,7 @@ div.row {
 .nav-item {
   a, #lingua {
     transition: all $transition;
-    color: $white !important;
+    color: $white;
   }
 
   #lingua {
@@ -352,6 +356,12 @@ ul.dots-list {
 @include media-breakpoint-down(lg) {
   .rotate-wrapper {
     margin-right: 45%;
+  }
+
+  .nav-item {
+    a, #lingua {
+      color: $play-cor-texto !important;
+    }
   }
 }
 
