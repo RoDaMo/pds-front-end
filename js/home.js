@@ -15,6 +15,9 @@ const dots = document.querySelectorAll(".dot")
 const toTopBtn = document.getElementById("gotop")
 const rodamoLogo = document.querySelector("img[alt='Rodamo Logo']")
 
+const homeNoise = document.querySelector(".home-noise")
+const noiseSvg = document.querySelector(".noise-svg");
+
 const firstTitleBg = document.querySelector(".first-title-bg")
 
 const slideElements = document.querySelectorAll('.slide-in')
@@ -265,6 +268,8 @@ if (mediaQueryMobile.matches) {
 
         firstTitleBg.style.height = `${FTBHeight + 140}px`
         firstTitleBg.style.marginTop = `-${navbar.offsetHeight + 40}px`
+
+        homeNoise.style.height = `${FTBHeight + 140}px`
     }
 
     navbar.classList.add("position-relative", "z-1")

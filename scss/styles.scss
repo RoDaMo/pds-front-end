@@ -69,6 +69,10 @@ body {
   background-color: $play-cor-primaria;
 }
 
+.home-noise {
+  margin: -3rem;
+}
+
 .rotate-wrapper {
 	text-indent: 20px;
   margin-right: 30%;
@@ -118,6 +122,17 @@ body {
   top: 6rem;
   bottom: 0;
   right: .5rem;
+}
+
+.noise-svg {
+  opacity: .6;
+  color: $white !important;
+  font-size: 14rem;
+  top: 6rem;
+  bottom: 0;
+  right: .5rem;
+  z-index: 1;
+  filter: blur(5px);
 }
 
 .home-ctasvg {
