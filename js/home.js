@@ -16,7 +16,7 @@ const toTopBtn = document.getElementById("gotop")
 const rodamoLogo = document.querySelector("img[alt='Rodamo Logo']")
 
 const homeNoise = document.querySelector(".home-noise")
-const noiseSvg = document.querySelector(".noise-svg");
+const noiseSvgs = document.querySelectorAll(".noise-svg");
 
 const firstTitleBg = document.querySelector(".first-title-bg")
 
@@ -270,6 +270,14 @@ if (mediaQueryMobile.matches) {
         firstTitleBg.style.marginTop = `-${navbar.offsetHeight + 40}px`
 
         homeNoise.style.height = `${FTBHeight + 140}px`
+
+        navbar.querySelector(".navbar-toggler").addEventListener("click", () => {
+            noiseSvgs.forEach(svg => svg.classList.toggle("z-1"))
+        })
+
+        navbar.querySelector("#close-offcanvas").addEventListener("click", () => {
+            noiseSvgs.forEach(svg => svg.classList.toggle("z-1"))
+        })
     }
 
     navbar.classList.add("position-relative", "z-1")
@@ -300,6 +308,8 @@ if (mediaQueryMobile.matches) {
         <br><br> Não perca mais tempo procurando por soluções complicadas para organizar o seu campeonato.
         <br> Com a Playoffs, você pode criar e personalizar campeonatos de acordo com sua necessidade.
     `
+
+    
 }
 
 window.addEventListener("resize", () => {

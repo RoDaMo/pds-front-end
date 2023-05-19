@@ -7,6 +7,7 @@ $move-final: calc(-50% + $offset);
 body {
   color: $white;
   font-family: $font-family-sans-serif;
+  margin: 0;
 }
 
 // -- Classes Comuns
@@ -125,14 +126,25 @@ body {
 }
 
 .noise-svg {
-  opacity: .6;
-  color: $white !important;
-  font-size: 14rem;
-  top: 6rem;
-  bottom: 0;
-  right: .5rem;
-  z-index: 1;
   filter: blur(5px);
+  width: 14rem;
+  opacity: .6;
+}
+
+.n-svg1 {
+  @extend .noise-svg;
+  top: 20rem;
+  bottom: 0;
+  right: 1.4rem;
+  transform: rotate(-12deg);
+}
+
+.n-svg2 {
+  @extend .noise-svg;
+  top: -2rem;
+  bottom: 0;
+  left: -4.5rem;
+  transform: rotate(12deg);
 }
 
 .home-ctasvg {
