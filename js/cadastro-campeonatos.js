@@ -3,10 +3,27 @@ import { notificacaoSucesso } from "./utilidades/notificacoes"
 import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
 import portugues from './i18n/ptbr/cadastro-campeonatos.json' assert { type: 'JSON' }
 import ingles from './i18n/en/cadastro-campeonatos.json' assert { type: 'JSON' }
+import flatpickr from "flatpickr"
+import { Portuguese } from "flatpickr/dist/l10n/pt.js"
 
 inicializarInternacionalizacao(ingles, portugues);
 let formulario = document.getElementById("formulario")
 let mensagemErro = document.getElementById("mensagem-erro")
+
+const dataInicial = document.getElementById("data-inicial")
+const dataFinal = document.getElementById("data-final")
+
+flatpickr(dataInicial, {
+    dateFormat: "Y-m-d",
+    locale: Portuguese,
+    altInput: true,
+})
+
+flatpickr(dataFinal, {
+    dateFormat: "Y-m-d",
+    locale: Portuguese,
+    altInput: true,
+})
 
 formulario.addEventListener("submit", async e => {
     e.preventDefault()
