@@ -20,18 +20,23 @@
                         <label for="nome-usuario" class="form-label text-success mt-3">Nome de usuário:</label>
                         <input type="text" class="form-control" id="nome-usuario" name="nome-usuario" placeholder="Nome de usuário..." required>
                     </div>
-                    <label for="nome-usuario" class="form-label text-success mt-3">Senha:</label>
-                    <div class="d-flex position-relative">
-                        <input type="password" class="form-control" id="senha" name="senha" placeholder="Senha..." required autocomplete="on">
-                        <div id="olhos">
-                            <i id="olho-aberto" class="btn btn-success bi bi-eye text-light position-absolute end-0"></i>
-                            <i id="olho-fechado" class="btn btn-success bi bi-eye-slash text-light position-absolute end-0 d-none"></i>
+                    <div id="senha-formulario" class="d-none">
+                        <label for="nome-usuario" class="form-label text-success mt-3">Senha:</label>
+                        <div class="d-flex position-relative">
+                            <input type="password" class="form-control" id="senha" name="senha" placeholder="Senha..." required autocomplete="on">
+                            <div id="olhos">
+                                <i id="olho-aberto" class="btn btn-success bi bi-eye text-light position-absolute end-0"></i>
+                                <i id="olho-fechado" class="btn btn-success bi bi-eye-slash text-light position-absolute end-0 d-none"></i>
+                            </div>
                         </div>
+                        <div class="form-text text-success mt-3 mb-3 d-flex justify-content-end">
+                            <a href="#" class="text-decoration-none h6">Recuperar senha</a>
                         </div>
-                    <div class="form-text text-success mt-3 mb-3 d-flex justify-content-end"><a href="#" class="text-decoration-none h6">Recuperar senha</a></div>
+                    </div>
                     <div class="container m-0">
                         <div  class="row gap-2">
-                            <button  class="col-md-4 btn btn-success rounded-pill" type="submit">Continuar</button>
+                            <button  class="d-none col-md-4 btn btn-success rounded-pill" id="entrar" type="submit">Entrar</button>
+                            <button  class="col-md-4 btn btn-success rounded-pill" id="continuar" >Continuar</button>
                             <a href="/index.html" class="col-md-4 btn btn-outline-success rounded-pill">Cancelar</a>
                         </div>
                     </div>
