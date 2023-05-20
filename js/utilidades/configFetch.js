@@ -1,5 +1,5 @@
 export const api = "https://playoffs-api.up.railway.app/"
-export const configuracaoFetch = (method, data) => {
+export const configuracaoFetch = (method, data = null) => {
     const lng = localStorage.getItem('lng')
     const config = {
         method: method,
@@ -11,14 +11,6 @@ export const configuracaoFetch = (method, data) => {
     if(method !== "GET"){
         config.body = JSON.stringify(data)
         config.headers['Content-Type'] = "application/json"
-        
-        // config = {
-        //     method: method,
-        //     body: JSON.stringify(data),
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        // };
     }
 
     return config
@@ -27,6 +19,13 @@ export const configuracaoFetch = (method, data) => {
 export const executarFetch = async (endpoint, config, callbackStatus, callbackServidor) => {
     const { notificacaoErro } = await import('./notificacoes')
     const res = await fetch(`${api}${endpoint}`, config)
+
+    if(res.status === 401){
+        const resPut = await fetch(`${api}auth`, configuracaoFetch("PUT"))
+        if(resPut.status === 401){
+            window.location.assign("/pages/login.html");
+        }
+    }
 
     if (!res.ok) {
         if (!callbackStatus) {
