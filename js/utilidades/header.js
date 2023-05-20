@@ -34,8 +34,8 @@ export class header extends HTMLElement {
                             </form>  
 
                             <ul class="menu-li col col-sm-10 col-lg navbar-nav m-auto mt-lg-0 mt-3 justify-content-end align-items-center ${classDark}">
-                                <li class="nav-item m-auto">
-                                    <a class="nav-link i18 rounded-3 px-3" href="/pages/cadastro-campeonatos.html" key="LinkCadastroCampeonato">Criar Campeonato</a>
+                                <li class="nav-item mx-4">
+                                    <a class="nav-link rounded-3 px-3" href="/pages/login.html">Acessar</a>
                                 </li>
                                 <li class="nav-item">
                                     <select class="form-select rounded-3 ps-3 py-2 bg-transparent" id="lingua" required>

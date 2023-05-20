@@ -20,14 +20,15 @@ async function postUsuarioExiste(body) {
     const res = await fetch(`https://playoffs-api.up.railway.app/auth/exists`, config)
 
     const data = await res.json()
-    console.log(data)
 
-    if(data.results){
+    if(data.results) {
         document.getElementById("continuar").classList.add("d-none")
         document.getElementById("entrar").classList.remove("d-none")
         document.getElementById("senha-formulario").classList.remove("d-none")
+        document.getElementById('texto-bem-vindo').textContent = "Você já possui uma conta, entre usando seu nome de usuário e senha."
+        nomeUsuario.parentElement.classList.replace('mb-5', 'mb-2');
     }
-    else{
+    else {
         window.location.assign("/pages/cadastro-usuarios.html");
     }
 
@@ -38,7 +39,7 @@ formulario.addEventListener("submit", async(e) => {
     e.preventDefault()
     limparMensagem(mensagemErro)
 
-    const resultado = await postToken({
+    await postToken({
         "Username": nomeUsuario.value,
         "Password": senha.value,
     })
@@ -49,7 +50,6 @@ async function postToken(body) {
     const res = await fetch(`https://playoffs-api.up.railway.app/auth`, config)
 
     const data = await res.json()
-    console.log(data)
 
     if(!data.succeed){
         mensagemErro.textContent = data.message
