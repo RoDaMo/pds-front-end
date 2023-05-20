@@ -61,13 +61,31 @@ const letraMaiuscula = (str) => /[A-Z]/.test(str);
 const letraMinuscula = (str) => /[a-z]/.test(str);
 const numero = (str) => /[0-9]/.test(str);
 const emailRegex = (str) => /\S+@\S+\.\S+/.test(str);
-const nomeUsuarioRegex = (str) => /^[A-Za-z0-9_-]*$/.test(str);
+const nomeUsuarioRegex = (str) => /^[a-zA-Z0-9_]+$/.test(str);
 const caracteres = (str) => /.{4,}/.test(str);
 const especial = (str) => /^[a-zA-Z0-9 ]*$/.test(str);
 
-botaoContinuar.addEventListener("click", () => {
-    if(!emailRegex(email.value) || email.value === ""){
-        document.getElementById("email-validacao").textContent = "Email Inválido"
+botaoContinuar.addEventListener("click", async(e) => {
+    e.preventDefault();
+    if(!nomeUsuarioRegex(nomeUsuario.value) || nomeUsuario.value === ""){
+        document.getElementById("nome-usuario-validacao").textContent = "Nome de usuário Inválido"
+    }
+    else{
+        await postUsuarioExiste({
+            "Username": nomeUsuario.value,
+        })
+    }
+})
+
+async function postUsuarioExiste(body) {
+    const config = configuracaoFetch("POST", body)
+    const res = await fetch(`https://playoffs-api.up.railway.app/auth/exists`, config)
+
+    const data = await res.json()
+    console.log(data)
+
+    if(data.results){
+        window.location.assign("/pages/login.html");
     }
     else{
         document.getElementById("parte-2").classList.remove("d-none")
@@ -75,9 +93,11 @@ botaoContinuar.addEventListener("click", () => {
         document.getElementById("bem-vindo").classList.add("d-none")
         document.getElementById("texto-apresentacao").textContent = "Você ainda não tem uma conta! Crie a sua e junte-se a nós."
         document.getElementById("formulario-2").classList.remove("d-none")
-        document.getElementById("email-validacao").textContent = ""
+        document.getElementById("nome-usuario-validacao").textContent = ""
     }
-})
+
+    return true
+}
 
 const validacoes = () => {
     let controle = true;
