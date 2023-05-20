@@ -2,6 +2,12 @@ export class header extends HTMLElement {
     constructor() {
         super();
         const lng = localStorage.getItem('lng');
+
+        let classDark = ''
+        if (document.body.getAttribute('is-home')) {
+            classDark = 'header-home'
+        }
+
         this.innerHTML = /* html */`
             <header class="container">
                 <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -27,9 +33,9 @@ export class header extends HTMLElement {
                                 <input id="barra-pesquisa" class="form-control m-lg-auto p-1 m-sm-5 mb-sm-2 m-3 mb-2 border-0 rounded-pill h-5 pesquisar i18-placeholder" type="search" key="PesquisaPlaceholder" placeholder="Procurar" aria-label="Search">
                             </form>  
 
-                            <ul class="menu-li col col-sm-10 col-lg navbar-nav m-auto mt-lg-0 mt-3 justify-content-end align-items-center">
-                                <li class="nav-item m-auto">
-                                    <a class="nav-link i18 rounded-3 px-3" href="/pages/cadastro-campeonatos.html" key="LinkCadastroCampeonato">Criar Campeonato</a>
+                            <ul class="menu-li col col-sm-10 col-lg navbar-nav m-auto mt-lg-0 mt-3 justify-content-end align-items-center ${classDark}">
+                                <li class="nav-item mx-4">
+                                    <a class="nav-link rounded-3 px-3" href="/pages/login.html">Acessar</a>
                                 </li>
                                 <li class="nav-item">
                                     <select class="form-select rounded-3 ps-3 py-2 bg-transparent" id="lingua" required>

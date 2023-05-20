@@ -265,7 +265,6 @@ div.row {
 .nav-item {
   a, #lingua {
     transition: all $transition;
-    color: $white;
   }
 
   #lingua {
@@ -545,3 +544,15 @@ ul.dots-list {
 //     position: static !important;
 //   }
 // }
+
+#lingua {
+  border: 1px solid $play-cor-primaria!important;
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='none' stroke='%23015958' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/></svg>");
+}
+
+.header-home {
+  .nav-link, #lingua {
+    color: $white;
+  }
+}
+
