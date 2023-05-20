@@ -15,6 +15,10 @@ $secondary: $play-cor-secundaria;
 $black: $play-cor-texto;
 
 $transition: .2s ease-in-out;
+.form-control, .form-select {
+  border-radius: 40px!important;
+}
+
 $border-radius-lg: 40px;
 
 /* Variaveis acima ^^^^ */
