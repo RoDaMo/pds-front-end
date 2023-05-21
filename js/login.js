@@ -40,14 +40,18 @@ formulario.addEventListener("submit", async(e) => {
     e.preventDefault()
     limparMensagem(mensagemErro)
 
-    await postToken({
+    const resultado = await postToken({
         "Username": nomeUsuario.value,
         "Password": senha.value,
     })
+
+    if (resultado)
+        formulario.reset()
 })
 
 async function postToken(body) {
     const config = configuracaoFetch("POST", body)
+
     if (!window.location.href.includes('netlify'))
         config.headers["IsLocalhost"] = true;
 

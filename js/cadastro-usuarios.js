@@ -65,6 +65,20 @@ const nomeUsuarioRegex = (str) => /^[A-Za-z0-9_-]*$/.test(str);
 const caracteres = (str) => /.{4,}/.test(str);
 const especial = (str) => /^[a-zA-Z0-9 ]*$/.test(str);
 
+botaoContinuar.addEventListener("click", () => {
+    if(!emailRegex(email.value) || email.value === ""){
+        document.getElementById("email-validacao").textContent = "Email Inválido"
+    }
+    else{
+        document.getElementById("parte-2").classList.remove("d-none")
+        document.getElementById("formulario-1").classList.add("d-none")
+        document.getElementById("bem-vindo").classList.add("d-none")
+        document.getElementById("texto-apresentacao").textContent = "Você ainda não tem uma conta! Crie a sua e junte-se a nós."
+        document.getElementById("formulario-2").classList.remove("d-none")
+        document.getElementById("email-validacao").textContent = ""
+    }
+})
+
 const validacoes = () => {
     let controle = true;
 
