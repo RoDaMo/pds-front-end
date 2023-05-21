@@ -17,6 +17,7 @@ document.getElementById("continuar").addEventListener("click", async(e) => {
 
 async function postUsuarioExiste(body) {
     const config = configuracaoFetch("POST", body)
+
     const res = await fetch(`https://playoffs-api.up.railway.app/auth/exists`, config)
 
     const data = await res.json()
@@ -47,6 +48,9 @@ formulario.addEventListener("submit", async(e) => {
 
 async function postToken(body) {
     const config = configuracaoFetch("POST", body)
+    if (!window.location.href.includes('netlify'))
+        config.headers["IsLocalhost"] = true;
+
     const res = await fetch(`https://playoffs-api.up.railway.app/auth`, config)
 
     const data = await res.json()
