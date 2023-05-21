@@ -1,11 +1,11 @@
 import { configuracaoFetch, executarFetch, limparMensagem } from "./utilidades/configFetch";
-const tbody = document.getElementById('tbody');
-const erro = document.getElementById("nenhum-resultado")
+
+const erro = document.getElementById("mensagem-erro")
 const parametroUrl = new URLSearchParams(window.location.search);
 
 const listagem = async (queryString) => {
     limparMensagem(erro)
-    tbody.innerHTML = ""
+    // tbody.innerHTML = ""
 
     const config = configuracaoFetch("GET")
 
@@ -20,22 +20,24 @@ const listagem = async (queryString) => {
 
     const data = await executarFetch(endpoint, config, null, callbackServidor)
 
+    console.log(data)
+
     if(data.results.length === 0){
         erro.textContent = "Nenhum resultado encontrado"
     }
 
-    this.innerHTML = ``
+    // this.innerHTML = ``
 
-    data.results.forEach(e => {
-        tbody.innerHTML += 
-        `<tr>
-            <td>${e.name}</td>
-            <td>${e.prize}</td>
-            <td>${e.initialDate}</td>
-            <td>${e.finalDate}</td>
-            <td>${e.sportsId === 1 ? "Futebol" : "Vôlei"}</td>
-        </tr>`;
-    });
+    // data.results.forEach(e => {
+    //     tbody.innerHTML += 
+    //     `<tr>
+    //         <td>${e.name}</td>
+    //         <td>${e.prize}</td>
+    //         <td>${e.initialDate}</td>
+    //         <td>${e.finalDate}</td>
+    //         <td>${e.sportsId === 1 ? "Futebol" : "Vôlei"}</td>
+    //     </tr>`;
+    // });
 }
 
 listagem(parametroUrl.get("name"))

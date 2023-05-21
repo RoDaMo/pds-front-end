@@ -1,42 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <title>Listagem de campeonato</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <title>Listagem de campeonato</title>
 </head>
 <body>
   <componente-header></componente-header>
   <main class="container">
 
 
+    <div class="mt-4">
+      <p id="mensagem-erro"></p>
+    </div>  
     
-    <div class="row align-items-start mt-5">
+    <div class="row align-items-start mt-5 gap-0">
       
-      <div class="col">
+      <div class="col-md-3 mb-2">
         <select class="form-select" aria-label="Default select example"  placeholder="Filtrar a partir de...">
             <option selected>Esportes</option>
-            <option value="1"> Futebol</option>
-            <option value="2">  Vôlei</option>  
+            <option value="1">Futebol</option>
+            <option value="2">Vôlei</option>  
           </select>
       </div>
 
-      <div class="col">
+      <div class="col-md-3 mb-2">
             <div class="input-group ">
               <input type="text" class="form-control" placeholder="Filtrar a partir de..." aria-label="Filtrar a partir de..." aria-describedby="basic-addon2">
                 
             </div>
       </div>
 
-      <div class="col">
+      <div class="col-md-3 mb-2">
             <div class="input-group">
               <input type="text" class="form-control" placeholder="Filtrar até..." aria-label="Filtrar até..." aria-describedby="basic-addon2">
                 
             </div>
       </div>
 
-      <div class="col">
+      <div class="col-md-3 mb-2">
         <button type="button" class="btn btn-outline-primary">Limpar filtros</button>
       </div>
       
@@ -46,26 +50,21 @@
 
 
     <div class="card card-body mt-5 border border-2 rounded-custom text-black ">
-      <div class="row align-items-start">
-        <div class="col-md-1">
-          <img src="/trofeu.png" class="rounded img-fluid" width="90" alt="Trofeu">
+      <div class="row gap-0">
+        <div class="col-md-3 d-flex justify-content-center align-items-center">
+          <img src="/trofeu.png" class="rounded img-fluid" width="50%" alt="Trofeu">
         </div>
 
-        <div class="col">
-          <h3 class="card-title">Copa do Mundo 2022</h3>
-          <div class="row">      
-            <p class="col"><img src="/icons/calendar.svg">De 20/11/2022</p>
-            <p class=" col"> <img src="/icons/calendar.svg">até 18/12/2022</p>
+        <div class="col-md-8">
+          <h3 class="card-title">Copa do Mundo 2022 - Futebol</h3>
+          <div class="row gap-0">      
+            <p class="col-md-4"><img src="/icons/calendar.svg">De 20/11/2022</p>
+            <p class=" col-md-4"> <img src="/icons/calendar.svg">Até 18/12/2022</p>
+            <p class="card-text col-md-4"><img src="/icons/map.svg">Brasil, São Paulo</p>
           </div>
         </div>
-
-        <div class="col">
-          <h3 class="card-text">Futebol</h4>
-          <p class="card-text"><img src="/icons/map.svg">Qatar, Emirados Árabes</p>
-        </div>   
-
-        <div class="col align-items-end">
-          <a href=""><img src="/icons/right.svg" width="90"></a>
+        <div class="col-md-1 d-flex justify-content-center align-items-center">
+          <a href="" class="d-none d-sm-block"><img src="/icons/right.svg" width="90"></a>
         </div>  
       </div>
     </div>
