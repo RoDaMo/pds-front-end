@@ -5,7 +5,8 @@ export const configuracaoFetch = (method, data = null) => {
         method: method,
         headers: {
             'Accept-Language': lng
-        }
+        },
+        credentials: 'include'
     }
 
     if(method !== "GET"){

@@ -26,3 +26,6 @@ dist-ssr
 # Capacitor
 android
 app
+cert.pem
+key.pem
+newkey.pem
