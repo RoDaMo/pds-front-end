@@ -13,17 +13,17 @@
     <main class="mt-5">
         <form class="container bg-secondary rounded-4 px-5 py-2" method="post" id="formulario">
             <div class="row ">
-                <div class="col-md-7 ">
+                <div class="col-md-8 ">
                     <div class="col-md-12">
                         <h1 class="mb-4 text-dark">Criar um campeonato</h1>
                         <h4 id="texto-apresentacao" class="mb-4 text-success ">Crie seu próprio campeonato para cadastrar os times competidores!</h4>
                     </div>
                     <div class="row">
-                        <div class="mb-3 col-md-7 mb-3 mt-3">
+                        <div class="mb-3 col-md-6 mb-3 mt-3">
                             <label for="nome" class="form-label text-success">Nome do campeonato:</label>
                             <input type="text" class="form-control rounded-4" id="nome" name="nome" placeholder="Nome do campeonato..." required>
                         </div>
-                        <div class="col-md-5 mb-3 mt-3">
+                        <div class="col-md-6 mb-3 mt-3">
                             <label for="esportes" class="form-label text-success">Esporte:</label>
                             <select name="esportes" class="form-select rounded-4" id="esportes" required>
                                 <option value="" selected>Selecione um Esporte</option>
@@ -42,7 +42,7 @@
                             <div class="form-text text-danger mt-2" id="data-validacao"></div>
                         </div>
                         <div class="col-md-6 mb-3 mt-3">
-                            <label for="formato" class="form-label text-success">Formato do campeonato:</label>
+                            <label for="formato" class="form-label text-success">Formato:</label>
                             <select name="formato" class="form-select rounded-4" id="formato" required>
                                 <option value="" selected>Selecione um Formato</option>
                                 <option value="1">Pontos Corridos</option>
@@ -56,9 +56,21 @@
                                 <option value="" selected>Selecione o formato antes</option>
                             </select>
                         </div>
-                        <div class="col-md-12 mb-3 mt-3">
-                            <label for="localizacao" class="form-label text-success">Localização:</label>
-                            <input type="text" class="form-control rounded-4" id="localizacao" name="localizacao" placeholder="Localizacao..." required>
+                        <div class="col-md-6 mb-3 mt-3">
+                            <label for="pais" class="form-label text-success">País:</label>
+                            <input type="text" class="form-control rounded-4" id="pais" name="pais" placeholder="País..." required>
+                        </div>
+                        <div class="col-md-6 mb-3 mt-3">
+                            <label for="estado" class="form-label text-success">Estado:</label>
+                            <input type="text" class="form-control rounded-4" id="estado" name="estado" placeholder="Estado..." required>
+                        </div>
+                        <div class="col-md-6 mb-3 mt-3">
+                            <label for="cidade" class="form-label text-success">Cidade:</label>
+                            <input type="text" class="form-control rounded-4" id="cidade" name="cidade" placeholder="Cidade..." required>
+                        </div>
+                        <div class="col-md-6 mb-3 mt-3">
+                            <label for="bairro" class="form-label text-success">Bairro:</label>
+                            <input type="text" class="form-control rounded-4" id="bairro" name="bairro" placeholder="Bairro..." required>
                         </div>
                         <div class="col-md-12 mb-3 mt-3">
                             <label for="descricao" class="form-label rounded-4 text-success">Descrição do campeonato:</label>
@@ -66,13 +78,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-5 mt-5 d-flex justify-content-center align-items-center flex-column">
-                    <img src="" class="col-4 p-1 img-fluid rounded-5 border border-success escudo" id="escudo" alt="">
+                <div class="col-md-4 mt-5 d-flex justify-content-center align-items-center flex-column">
+                    <div>
+                        <img src="#" class="p-2 img-fluid rounded-5 border border-success escudo" id="escudo" alt="">
+                    </div>
                     <div class="custom-file-upload-logo">
                         <label for="logo" class="col-md-12 mt-4 btn btn-success d-flex justify-content-center align-items-center">
                             <i class="d-flex justify-content-center align-items-center btn bi bi-upload text-light"></i>
                             <span id="custom-text">Enviar logo</span>
-                            <input id="logo" type="file" name="logo">
+                            <input id="logo" type="file" name="logo" accept=".png, .jpg, .jpeg" >
                         </label>
                     </div>
                 </div> 
@@ -81,6 +95,9 @@
                 <button id="salvar" class="col-md-2 btn btn-success rounded-pill" type="submit">Salvar</button>
                 <a href="/index.html" class="col-md-2 btn btn-outline-success rounded-pill">Cancelar</a>
             </div>  
+            <div class="mt-4">
+                <p id="mensagem-erro"></p>
+            </div>
         </form>
     </main>
     <script type="module" src="../main.js"></script>

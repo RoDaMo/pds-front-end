@@ -21,6 +21,7 @@ export const executarFetch = async (endpoint, config, callbackStatus, callbackSe
     const res = await fetch(`${api}${endpoint}`, config)
 
     if(res.status === 401){
+        console.log("auth erro")
         const resPut = await fetch(`${api}auth`, configuracaoFetch("PUT"))
         if(resPut.status === 401){
             window.location.assign("/pages/login.html");
