@@ -24,6 +24,8 @@ const listagem = async (queryString) => {
         erro.textContent = "Nenhum resultado encontrado"
     }
 
+    this.innerHTML = ``
+
     data.results.forEach(e => {
         tbody.innerHTML += 
         `<tr>
