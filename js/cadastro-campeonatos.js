@@ -99,7 +99,6 @@ formulario.addEventListener("submit", async e => {
 })
 
 async function postCampeonato(endpoint, body) {
-    console.log(body)
     const config = configuracaoFetch("POST", body)
 
     const callbackServidor = data => {
@@ -108,7 +107,6 @@ async function postCampeonato(endpoint, body) {
     }
 
     const data = await executarFetch(endpoint, config, null, callbackServidor)
-    console.log(data)
     if (!data) return false
 
     notificacaoSucesso(data.results[0])
