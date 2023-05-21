@@ -38,12 +38,12 @@
                     </div>
                 </div>
                 <div class="col-md-5 mt-3 d-flex justify-content-center align-items-center flex-column">
-                    <img src="" class="col-4 p-1 img-fluid rounded-5 border border-success escudo" id="escudo" alt="">
+                    <img src="#" class="col-4 p-1 img-fluid rounded-5 border border-success escudo" id="escudo" alt="">
                     <div class="custom-file-upload-logo">
                         <label for="logo" class="col-md-12 mt-4 btn btn-success d-flex justify-content-center align-items-center">
                             <i class="d-flex justify-content-center align-items-center btn bi bi-upload text-light"></i>
                             <span id="custom-text">Enviar logo</span>
-                            <input id="logo" type="file" name="logo">
+                            <input id="logo" type="file" name="logo" name="logo" accept=".png, .jpg, .jpeg">
                         </label>
                     </div>
 
@@ -53,20 +53,20 @@
                             <p class="text-success col-4 d-flex justify-content-center">Uniforme fora</p>
                         </div>
                         <div class="row d-flex justify-content-around gap-2">
-                            <img src="" class="col-4 img-fluid uniforme border border-success rounded-5" alt="">
-                            <img class="col-4 img-fluid uniforme border border-success rounded-5" alt="">
+                            <img id="home" src="#" class="col-4 img-fluid uniforme border border-success rounded-5" alt="">
+                            <img id="away" src="#" class="col-4 img-fluid uniforme border border-success rounded-5" alt="">
                         </div>
                         <div class="row mt-3 d-flex justify-content-around">
                             <div class="col-4 d-flex justify-content-center custom-file-upload">
                                 <label for="uniforme-casa">
                                     <i class="w-100 h-100 d-flex justify-content-center align-items-center border border-primary rounded-circle btn btn-success bi bi-upload text-light"></i>
-                                    <input id="uniforme-casa" type="file" name="uniforme-casa">
+                                    <input id="uniforme-casa" type="file" name="uniforme-casa" name="logo" accept=".png, .jpg, .jpeg">
                                 </label>
                             </div>
                             <div class="col-4 d-flex justify-content-center custom-file-upload">
                                 <label for="uniforme-fora">
                                     <i class="w-100 h-100 d-flex justify-content-center align-items-center border border-primary rounded-circle btn btn-success bi bi-upload text-light"></i>
-                                    <input id="uniforme-fora" type="file" name="uniforme-fora">
+                                    <input id="uniforme-fora" type="file" name="uniforme-fora" name="logo" accept=".png, .jpg, .jpeg">
                                 </label>
                             </div>
                         </div>
@@ -77,6 +77,9 @@
                 <button id="salvar" class="col-md-2 btn btn-success rounded-pill" type="submit">Salvar</button>
                 <a href="/index.html" class="col-md-2 btn btn-outline-success rounded-pill">Cancelar</a>
             </div>  
+            <div class="mt-4">
+                <p id="mensagem-erro"></p>
+            </div>
         </form>
     </main>
     <script type="module" src="../main.js"></script>
