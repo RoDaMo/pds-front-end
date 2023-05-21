@@ -19,39 +19,54 @@
                         <h4 id="texto-apresentacao" class="mb-4 text-success ">Crie seu próprio campeonato para cadastrar os times competidores!</h4>
                     </div>
                     <div class="row">
-                        <div class="mb-3 col-md-7">
+                        <div class="mb-3 col-md-7 mb-3 mt-3">
                             <label for="nome" class="form-label text-success">Nome do campeonato:</label>
                             <input type="text" class="form-control rounded-4" id="nome" name="nome" placeholder="Nome do campeonato..." required>
                         </div>
-                        <div class="col-md-5 mb-3">
-                            <label for="esportes" class="form-label text-success">Esporte</label>
+                        <div class="col-md-5 mb-3 mt-3">
+                            <label for="esportes" class="form-label text-success">Esporte:</label>
                             <select name="esportes" class="form-select rounded-4" id="esportes" required>
                                 <option value="" selected>Selecione um Esporte</option>
                                 <option value="1">Futebol</option>
                                 <option value="2">Vôlei</option>
                             </select>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-3 mt-3">
                             <label for="data-inicial" class="form-label text-success mt-3">Data inicial:</label>
                             <input type="text" class="form-control rounded-4" id="data-inicial" name="data-inicial" placeholder="dd/MM/yyyy" required>
                             <div class="form-text text-danger mt-2" id="data-validacao"></div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-3 mt-3">
                             <label for="data-final" class="form-label text-success mt-3">Data final:</label>
                             <input type="text" class="form-control rounded-4" id="data-final" name="data-final" placeholder="dd/MM/yyyy" required>
                             <div class="form-text text-danger mt-2" id="data-validacao"></div>
+                        </div>
+                        <div class="col-md-6 mb-3 mt-3">
+                            <label for="formato" class="form-label text-success">Formato do campeonato:</label>
+                            <select name="formato" class="form-select rounded-4" id="formato" required>
+                                <option value="" selected>Selecione um Formato</option>
+                                <option value="1">Pontos Corridos</option>
+                                <option value="2">Mata-Mata</option>
+                                <option value="2">Fase de Grupos e Mata-Mata</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3 mt-3">
+                            <label for="quantidade" class="form-label text-success">Quantidade de times:</label>
+                            <select  name="quantidade" class="form-select rounded-4" id="quantidade" required>
+                                <option value="" selected>Selecione o formato antes</option>
+                            </select>
                         </div>
                         <div class="col-md-12 mb-3 mt-3">
                             <label for="localizacao" class="form-label text-success">Localização:</label>
                             <input type="text" class="form-control rounded-4" id="localizacao" name="localizacao" placeholder="Localizacao..." required>
                         </div>
-                        <div class="col-md-12 mb-5">
+                        <div class="col-md-12 mb-3 mt-3">
                             <label for="descricao" class="form-label rounded-4 text-success">Descrição do campeonato:</label>
                             <textarea class="form-control h-100" id="descricao" placeholder="Descreva seu campeonato..." name="descricao"></textarea>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-5 mt-3 d-flex justify-content-center align-items-center flex-column">
+                <div class="col-md-5 mt-5 d-flex justify-content-center align-items-center flex-column">
                     <img src="" class="col-4 p-1 img-fluid rounded-5 border border-success escudo" id="escudo" alt="">
                     <div class="custom-file-upload-logo">
                         <label for="logo" class="col-md-12 mt-4 btn btn-success d-flex justify-content-center align-items-center">

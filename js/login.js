@@ -22,13 +22,13 @@ async function postUsuarioExiste(body) {
     const data = await res.json()
     console.log(data)
 
-    if(data.results){
+    if(data.results && data.succeed){
         document.getElementById("continuar").classList.add("d-none")
         document.getElementById("entrar").classList.remove("d-none")
         document.getElementById("senha-formulario").classList.remove("d-none")
     }
     else{
-        window.location.assign("/pages/cadastro-usuarios.html");
+        window.location.assign(`/pages/cadastro-usuarios.html?userName=${nomeUsuario.value}`);
     }
 
     return true

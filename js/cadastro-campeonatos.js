@@ -12,6 +12,33 @@ let mensagemErro = document.getElementById("mensagem-erro")
 
 const dataInicial = document.getElementById("data-inicial")
 const dataFinal = document.getElementById("data-final")
+const nomeCampeonato = document.getElementById("nome-campeonato")
+const esporte = document.getElementById("esportes")
+const formato = document.getElementById('formato')
+const quantidade = document.getElementById('quantidade')
+
+formato.addEventListener("change", () => {
+    if(formato.value === "1"){
+        quantidade.innerHTML = ""
+        for(let i = 0; i <= 16; i++){
+            if(i % 2 === 0){
+                const option = document.createElement('option')
+                option.value = i
+                option.text = i + 4
+                quantidade.appendChild(option)
+            }
+        }
+    }
+    else{
+        quantidade.innerHTML = ""
+        for(let i = 0; i <= 6; i++){
+            const option = document.createElement('option')
+            option.value = i
+            option.text = 2 ** i
+            quantidade.appendChild(option)
+        }
+    }
+})
 
 flatpickr(dataInicial, {
     dateFormat: "Y-m-d",
@@ -28,12 +55,6 @@ flatpickr(dataFinal, {
 formulario.addEventListener("submit", async e => {
     e.preventDefault()
     limparMensagem(mensagemErro)
-
-    let nomeCampeonato = document.getElementById("nome-campeonato").value
-    let dataInicio = document.getElementById("data-inicio").value
-    let dataFinal = document.getElementById("data-final").value
-    let esporte = document.getElementById("esportes").value
-    let premiacao = document.querySelector('input[name="premiacao"]:checked').value
 
     const resultado = await postCampeonato("championships", {
         "name": nomeCampeonato,
