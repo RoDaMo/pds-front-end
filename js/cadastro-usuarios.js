@@ -133,8 +133,10 @@ formulario.addEventListener("submit", async(e) => {
         "Birthday": dataAniversario.value
     })
     
-    if (resultado)
+    if (resultado){
         formulario.reset()
+        window.location.assign("/pages/login.html");
+    }
 })
 
 async function postUsuario(endpoint, body) {

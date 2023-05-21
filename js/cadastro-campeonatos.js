@@ -94,8 +94,10 @@ formulario.addEventListener("submit", async e => {
         "Neighborhood": bairro.value
     })
 
-    if (resultado)
+    if (resultado){
         formulario.reset()
+        escudo.src = "#"
+    }
 })
 
 async function postCampeonato(endpoint, body) {
