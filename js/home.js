@@ -1,3 +1,5 @@
+import '../scss/home.scss'
+
 const navbar = document.querySelector("componente-header")
 const homeCards = document.querySelectorAll(".home-card.d-flex")
 const homePill = document.querySelector("#home-pill")
@@ -17,8 +19,6 @@ const homeNoise = document.querySelector(".home-noise")
 const noiseSvgs = document.querySelectorAll(".noise-svg");
 
 const firstTitleBg = document.querySelector(".first-title-bg")
-
-const slideElements = document.querySelectorAll('.slide-in')
 
 const mediaQueryMobile = window.matchMedia('(max-width: 575px)')
 const mediaQueryTablet = window.matchMedia('(max-width: 992px)')
@@ -59,6 +59,25 @@ function isVisible(el) {
     let viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight)
     return !(rect.bottom < 0 || rect.top - viewHeight >= 0)
 }
+
+window.addEventListener("scroll", () => {
+    // To top button appearing
+    if (
+        document.body.scrollTop > 200 ||
+        document.documentElement.scrollTop > 200
+    ) {
+        toTopBtn.style.display = "block"
+    } else {
+        toTopBtn.style.display = "none"
+    }
+})
+
+toTopBtn.addEventListener("click", () => {
+    document.documentElement.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    })
+})
 
 // Media Query Mobile
 if (mediaQueryMobile.matches) {
@@ -184,16 +203,6 @@ if (mediaQueryMobile.matches) {
             dots[3].classList.remove('dots-active')
         }
 
-        // To top button appearing
-        if (
-            document.body.scrollTop > 200 ||
-            document.documentElement.scrollTop > 200
-        ) {
-            toTopBtn.style.display = "block"
-        } else {
-            toTopBtn.style.display = "none"
-        }
-
     }, {passive: "true"})
 
     // Scrollend Trigger
@@ -235,13 +244,6 @@ if (mediaQueryMobile.matches) {
         
     })
 
-    toTopBtn.addEventListener("click", () => {
-        document.documentElement.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-        })
-    })
-
     // Mobile Orientation Change
     // mobilePortrait.addEventListener("change", e => {
     //     if(!e.matches) {
@@ -264,10 +266,10 @@ if (mediaQueryMobile.matches) {
     window.onload = () => {
         let FTBHeight = homeCards[0].parentElement.offsetHeight + navbar.offsetHeight
 
-        firstTitleBg.style.height = `${FTBHeight + 140}px`
+        firstTitleBg.style.height = `${FTBHeight + 85}px`
         firstTitleBg.style.marginTop = `-${navbar.offsetHeight + 40}px`
 
-        homeNoise.style.height = `${FTBHeight + 140}px`
+        homeNoise.style.height = `${FTBHeight + 85}px`
 
         navbar.querySelector(".navbar-toggler").addEventListener("click", () => {
             noiseSvgs.forEach(svg => svg.classList.toggle("z-1"))
