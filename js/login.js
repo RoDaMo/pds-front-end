@@ -1,3 +1,4 @@
+import JustValidate, { Rules } from "just-validate"
 import { configuracaoFetch, executarFetch, limparMensagem } from "./utilidades/configFetch"
 import { visualizarSenha } from "./utilidades/visualizar-senha"
 
@@ -5,6 +6,8 @@ const nomeUsuario = document.getElementById("nome-usuario")
 const senha = document.getElementById("senha")
 const formulario = document.getElementById("formulario")
 const mensagemErro = document.getElementById("mensagem-erro")
+
+const validator = new JustValidate("#formulario")
 
 visualizarSenha()
 
@@ -63,3 +66,10 @@ async function postToken(body) {
 
     return true
 }
+
+
+
+
+
+
+
