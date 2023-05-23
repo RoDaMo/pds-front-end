@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <title>Cadastro de Usuários</title>
+</head>
+<body>
+    <main class="container mt-3">
+        <div class="row justify-content-center">
+            <div class="col-md-6 mt-5">
+                <div class="mb-5 mt-5">
+                    <a class="navbar-brand m-auto p-auto" href="/"><img src="/Logo_Playoffs.png" class="img-fluid" width="300" alt="Logo Playoffs"></a>
+                </div>
+                <h1 id="bem-vindo" class="mb-4 text-success">Bem Vindo!</h1>
+                <h4 id="texto-apresentacao" class="mb-4 text-success ">Você ainda não tem uma conta! Crie sua conta e junte-se a nós.</h4>
+                <form id="formulario" method="post">
+                    <div class="mb-3">
+                        <label for="email-usuario" class="form-label text-success">Email:</label>
+                        <input type="email" class="form-control" id="email-usuario" name="email-usuario" placeholder="Email..." required>
+                        <div class="form-text text-danger mt-2 " id="email-validacao"></div>
+                    </div>
+                    <div id="parte-2" class="mb-3">
+                        <label for="nome" class="form-label text-success">Nome:</label>
+                        <input required type="text" class="form-control" id="nome" name="nome" placeholder="Nome..." >
+                        <div class="form-text text-danger mt-2" id="nome-validacao"></div>
+                        <label for="nome-usuario" class="form-label text-success mt-3">Nome de usuário:</label>
+                        <input type="text" class="form-control" id="nome-usuario" name="nome-usuario" placeholder="Nome de usuário..." required>
+                        <div class="form-text text-danger mt-2" id="nome-usuario-validacao"></div>
+                        <div >
+                            <label for="data" class="form-label text-success mt-3">Data de nascimento:</label>
+                            <input type="text" class="form-control" id="data" name="data" placeholder="Data de nascimento..." required>
+                            <div class="form-text text-danger mt-2" id="data-validacao"></div>
+                        </div>
+                        <label for="nome-usuario" class="form-label text-success mt-3">Senha:</label>
+                        <div class="d-flex position-relative">
+                            <input type="password" class="form-control" id="senha" name="senha" placeholder="Senha..." required autocomplete="on">
+                            <div id="olhos">
+                                <i id="olho-aberto" class="btn btn-success rounded-0 rounded-end bi bi-eye text-light position-absolute end-0"></i>
+                                <i id="olho-fechado" class="btn btn-success rounded-0 rounded-end bi bi-eye-slash text-light position-absolute end-0 d-none"></i>
+                            </div>
+                        </div>
+                        <div class="form-text text-success mt-2">Sua senha deve possuir:</div>
+                        <div class="mb-4">
+                            <div class="d-flex gap-2 mt-2">
+                                <i id="icone-maiuscula" class="bi bi-x-circle-fill text-danger"></i>
+                                <small id="texto-maiuscula" class="text-danger">Letra maiúscula</small>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <i id="icone-minuscula" class="bi bi-x-circle-fill text-danger"></i>
+                                <small id="texto-minuscula" class="text-danger">Letra minúscula</small>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <i id="icone-numero" class="bi bi-x-circle-fill text-danger"></i>
+                                <small id="texto-numero" class="text-danger">Número</small>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <i id="icone-caractere" class="bi bi-x-circle-fill text-danger"></i>
+                                <small id="texto-caractere" class="text-danger">Pelo menos 4 caracteres</small>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <i id="icone-especial" class="bi bi-x-circle-fill text-danger"></i>
+                                <small id="texto-especial" class="text-danger">Nenhum acento ou caractere especial</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container m-0">
+                        <div id="formulario-2" class="row gap-2">
+                            <button id="salvar" class="col-md-4 btn btn-success rounded-pill" type="submit">Salvar</button>
+                            <a href="/index.html" class="col-md-3 btn btn-outline-success rounded-pill">Cancelar</a>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <p id="mensagem-erro"></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    <script type="module" src="../main.js"></script>
+    <script type="module" src="../js/cadastro-usuarios.js"></script>
+</body>
+</html>

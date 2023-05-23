@@ -1,8 +1,82 @@
 @import "bootstrap-config.scss";
 
+$offset: 20vw;
+$move-initial: calc(-25% + $offset);
+$move-final: calc(-50% + $offset);
+
 body {
   color: $white;
   font-family: $font-family-sans-serif;
+  margin: 0;
+}
+
+// -- Classes Comuns
+
+.z-0 {
+  z-index: 0;
+}
+
+.z-1 {
+  z-index: 1;
+}
+
+.ptx-90 {
+  padding-top: 90px !important;
+}
+
+.vh-91 {
+  height: 91vh !important;
+}
+
+.topx-14 {
+  top: 14px;
+}
+
+.topr-2 {
+  top: 3.5rem !important;
+}
+
+.w-60 {
+  width: 60% !important;
+}
+
+.w-90 {
+  width: 90% !important;
+}
+
+.rounded-bottom-0 {
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.translate-6 {
+  transform: translate(6%, 6%) !important;
+}
+
+.glass-effect {
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37) !important;
+  backdrop-filter: blur( 4px );
+  -webkit-backdrop-filter: blur( 4px );
+  border-radius: 10px;
+  border: 1px solid rgba( 255, 255, 255, 0.18 ) !important;
+}
+
+// -- Outras Classes
+
+// Conteúdo Principal
+#gotop {
+  position: fixed;
+  bottom: 35px;
+  right: 25px;
+  background-color: $play-cor-efeitos;
+  opacity: .8;
+  height: 55px;
+  width: 55px;
+
+  i {
+    font-size: 1.6rem;
+    top: 1.6rem;
+  }
 }
 
 .card-bg {
@@ -29,15 +103,18 @@ body {
   color: $play-cor-secundaria;
 }
 
-.card-btn-color {
+.main-btn-color {
   background: $play-cor-primaria;
   color: $white;
+  transition: all $transition;
 }
 
-.card-btn-color:hover {
-  background: $play-cor-secundaria
+.main-btn-color:hover {
+  background: $play-cor-fundos;
+  color: $black;
 }
 
+// Navbar
 .pesquisar {
   background-color: $gray-400 !important;
   box-shadow: none !important;
@@ -46,12 +123,50 @@ body {
 
 .thead-custom {
   background-color: $play-cor-secundaria; 
-  color: #FFF; 
+  color: $white; 
 }
 
-input[placeholder="Procurar"], 
-input[placeholder="Search"],
-input[placeholder="Search"]:focus {
+.navbar {
+  height: 60px !important;
+  transition: all $transition;
+  background: transparent;
+}
+
+.nav-item {
+  a, #lingua {
+    transition: all $transition;
+  }
+
+  #lingua {
+    box-shadow: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+
+    option {
+      cursor: pointer;
+    }
+  }
+
+  #lingua:active,
+  #lingua:focus {
+    background-color: $play-cor-fundos-secundaria;
+    box-shadow: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+  }
+}
+
+.nav-item:hover {
+  a, #lingua {
+    background-color: $play-cor-fundos-secundaria !important;
+    color: $play-cor-texto !important;
+  }
+}
+
+input[aria-label="Search"],
+input[aria-label="Search"]:focus {
   text-align: center;
 }
 
@@ -61,25 +176,26 @@ button.navbar-toggler:focus  {
   box-shadow: none;
 }
 
-button.navbar-toggler:active {
-  background-color: $gray-300;
+button.navbar-toggler:active,
+button.navbar-toggler:hover {
+  background-color: $play-cor-fundos-secundaria !important;
+  color: $play-cor-texto !important;
 }
 
-.navbar {
-  button[aria-expanded="true"] {
-   span.navbar-toggler-icon {
-    display: none;
-   }
-  }
-
-  button[aria-expanded="false"] {
-   span.btn-close {
-    display: none !important;
-   }
-  }
+.offcanvas.offcanvas-end {
+  width: 100% !important;
 }
 
+// Media Queries
 @include media-breakpoint-down(lg) {
+  .nav-item {
+    a, #lingua {
+      color: $play-cor-texto !important;
+    }
+  }
+}
+
+@include media-breakpoint-only(md) {
   ul.menu-li {
     display: flex !important;
     justify-content: center !important;
@@ -95,15 +211,13 @@ button.navbar-toggler:active {
       position: absolute;
       top: 100%;
       background: $white;
-      height: 100vh;
+      height: 400vh;
     }
   }
-
-  .home-subtext {
-    font-size: 1rem;
-  }
-
-  .home-player {
-    display: none;
-  }
 }
+
+#lingua {
+  border: 1px solid $play-cor-primaria!important;
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='none' stroke='%23015958' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/></svg>");
+}
+

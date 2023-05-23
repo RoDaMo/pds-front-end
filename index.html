@@ -6,43 +6,288 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home</title>
   </head>
-  <body>
+  <body is-home="true">
     <componente-header></componente-header>
-    <main class="container m-auto mb-4 mt-4">
-      <div class="card-bg rounded-4 row row-cols-lg-2 row-cols-1 m-auto m-lg-3 pt-4 h-auto">
-        <div class="col d-flex flex-column align-items-center">
-          <div class="row h-auto w-100">
-            <h1 class="fw-bold ft-color">
-              Crie seu campeonato com <span class="fvar-1 fst-italic">rapidez</span> e <span class="fvar-2 fst-italic">organização</span>
-            </h1>
-          </div>
+
+    <main class="position-relative">
+      <img src="/icons/sports_soccer.svg" class="noise-svg n-svg2 z-1 float-start position-absolute d-none d-md-flex" alt="bola de futebol">
+      <img src="/icons/sports_volleyball.svg" class="noise-svg n-svg1 z-1 float-end position-absolute d-none d-md-flex" alt="bola de volei"></img>
+      <div class="first-title-bg w-100 p-5 position-absolute d-none d-md-flex">
+        <div class="position-relative">
+          <svg class="home-noise position-absolute start-0 top-0" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev/svgjs" viewBox="0 0 800 800" width="98.7vw" preserveAspectRatio="none"><defs><filter id="nnnoise-filter" x="-20%" y="-20%" width="140%" height="140%" filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse" color-interpolation-filters="linearRGB">
+            <feTurbulence type="fractalNoise" baseFrequency="0.232" numOctaves="4" seed="15" stitchTiles="stitch" x="0%" y="0%" width="100%" height="100%" result="turbulence"></feTurbulence>
+            <feSpecularLighting surfaceScale="15" specularConstant="0.8" specularExponent="20" lighting-color="#015958" x="0%" y="0%" width="100%" height="100%" in="turbulence" result="specularLighting">
+              <feDistantLight azimuth="3" elevation="100"></feDistantLight>
+            </feSpecularLighting>
+            
+            </filter></defs><rect width="700" height="700" fill="#023535"></rect><rect width="700" height="700" fill="#015958" filter="url(#nnnoise-filter)"></rect>
+          </svg>
   
-          <div class="row h-auto w-100"> 
-            <h5 class="mt-3 fw-bold ft-color-dim home-subtext">
-              Se você é um apaixonado por esportes e quer organizar o seu próprio campeonato, temos uma excelente dica para você!
-
-              <br><br> Com uma interface intuitiva e fácil de usar, você pode personalizar campeonatos de acordo com sua necessidade.
-
-              <br><br> Não perca mais tempo procurando por soluções complicadas para organizar o seu campeonato. Utilize o <span class="fvar-2">PlayOffs</span> hoje e comece a planejar o seu evento esportivo de sucesso!
-            </h5>
-          </div>
-
-          <div class="row h-100 w-100"> 
-            <a href="/pages/cadastro-campeonatos.html" class="btn m-auto mb-4 mt-lg mt-4 card-btn-color rounded-pill fw-bold align-self-end col-lg-5">Criar Campeonato</a>
-            <a href="/pages/listagem-campeonatos.html" class="btn m-auto mb-4 mt-lg mt-4 card-btn-color rounded-pill fw-bold align-self-end col-lg-5">Ver Campeonatos</a>
-          </div>
-        </div>
-
-        
-  
-        <div class="col">
-          <img class="img-fluid rounded-4 home-player mt-5 position-relative end-0 float-end" src="Home_Player.png" alt="Jogador de Futebol Americano">
         </div>
       </div>
+    
+      <div class="container mt-4">
 
+        <!-- Linha 1 -->
+        <div class="home-row row pt-2">
+
+          <!-- Card 1 - Intro -->
+          <section class="col-12 home-card home-grad rounded-5 d-flex flex-column pt-5">
+        
+            <div class="scroll-trigger"></div> 
+            <div id="home-pill" class="mt-0 mb-3 rounded-pill mx-auto"></div>
+            <div class="row">
+              <h1 class="home-title fw-bold ft-color fc-first-title display-1 position-relative"> Organize seus campeonatos <br> com 
+                <div class="rotate-wrapper fvar-1 fst-italic d-inline">
+                  <span>rapidez</span>
+                  <span>facilidade</span>
+                  <span>segurança</span>
+                  <span>perfeição</span>
+                </div> 
+              </h1>
+            </div>
+    
+            <div class="row h-100 z-1"> 
+              <p class="mt-5 fw-normal opacity-75 ft-color fc-first-title home-subtext align-text-bottom lh-sm"></p>
+            </div>
+
+            <div class="row h-100 z-0"> 
+              <div class="align-self-end">
+                <a href="/pages/login.html">
+                  <button class="home-btn btn m-auto mb-4 mt-md mt-4 main-btn-color rounded-pill fw-bold">Junte-se a nós</button>
+                </a>
+              </div>
+            </div>
+
+            <div class="scroll-trigger"></div> 
+          </section>          
+        </div>
+
+        <!-- Linha 2 -->
+        <div class="home-row row mt-3">
+
+          <!-- Card 2 - Features -->
+          <section class="col-12 home-card rounded-4 d-flex flex-column p-4">
+            <div class="scroll-trigger"></div> 
+            <h2 class="text-black fw-semibold text-center lh-1">Aqui, você tem tudo isso <br> <span class="fw-lighter fs-6">e um pouco mais</span></h2>
+            <div class="row feat-wrapper p-1 rounded-5 gap-2 mt-1 h-auto">
+
+              <!-- Velocidade -->
+              <div class="feat-home1 col-6 p-3 p-md-4 feats position-relative overflow-hidden glass-effect pb-5 lh-sm rellax" 
+                data-rellax-speed="0" data-rellax-tablet-speed="3" data-rellax-desktop-speed="3"
+              >
+                <p class="feat-text">Velocidade</p>
+                <p class="fw-light fst-italic text-break feat-text">Mais rápido que um foguete</p>
+                <i class="feat-svg bi bi-lightning-charge float-end position-absolute"></i>
+              </div>
+              <p class="col d-none d-md-flex text-black fs-4 align-items-center blur-home-p text-break p-5 mb-5 rellax" 
+                data-rellax-speed="0" data-rellax-tablet-speed="3" data-rellax-desktop-speed="3"
+              >
+                Para proporcionar uma experiência de usuário mais fluida, o site foi otimizado para tornar seu uso mais eficiente 
+              </p>
+
+              <!-- Usabilidade -->
+              <p class="col-6 d-none d-md-flex text-black fs-4 align-items-center blur-home-p text-break p-5 mb-5 rellax" 
+                data-rellax-speed="0" data-rellax-tablet-speed="2" data-rellax-desktop-speed="2"
+              >
+                Projetado com uma interface intuitiva e fácil de usar, nosso site garante que seus visitantes possam navegar pelo seu conteúdo sem dificuldades
+              </p>
+              <div class="feat-home2 col p-3 p-md-4 feats position-relative overflow-hidden glass-effect lh-sm rellax" 
+                data-rellax-speed="0" data-rellax-tablet-speed="2" data-rellax-desktop-speed="2"
+              >
+                <p class="feat-text">Usabilidade</p>
+                <p class="fw-light fst-italic text-break feat-text">É mais fácil que aprender algo novo</p>
+                <i class="feat-svg bi bi-hand-index-thumb float-end position-absolute"></i>
+              </div>
+
+              <!-- Controle -->
+              <div class="feat-home4 col-6 p-3 p-md-4 feats position-relative overflow-hidden glass-effect pb-5 lh-sm rellax" 
+                data-rellax-speed="0" data-rellax-tablet-speed="1" data-rellax-desktop-speed="1"
+              >
+                <p class="feat-text">Controle</p>
+                <p class="fw-light fst-italic text-break feat-text">Você é quem manda</p>
+                <i class="feat-svg feat-lift bi bi-sliders2 float-end position-absolute"></i>
+              </div>
+              <p class="col d-none d-md-flex text-black fs-4 align-items-center blur-home-p text-break p-5 mb-5 rellax" 
+                data-rellax-speed="0" data-rellax-tablet-speed="1" data-rellax-desktop-speed="1"
+              >
+                Desenvolvido visando a liberdade e controle do usuário dentro do sistema, fizemos com que fosse possível a configuração de diversos parâmetros na criação e gestão de novos campeonatos  
+              </p>
+
+              <!-- Diversidade -->
+              <p class="col-6 d-none d-md-flex text-black fs-4 align-items-center blur-home-p text-break p-5 mb-5 rellax" 
+                data-rellax-speed="0" data-rellax-tablet-speed="0" data-rellax-desktop-speed="0"
+              >
+                Nosso site oferece uma ampla variedade de conteúdo, abrangendo diversas funcionalidades de criação de campeonatos em um único sistema
+              </p>
+              <div class="feat-home3 col p-3 p-md-4 feats position-relative overflow-hidden glass-effect lh-sm rellax" 
+              data-rellax-speed="0" data-rellax-tablet-speed="0" data-rellax-desktop-speed="0"
+              >
+                <p class="feat-text">Diversidade</p>
+                <p class="fw-light fst-italic text-break feat-text">Tudo em um só lugar</p>
+                <i class="feat-svg feat-lift bi bi-signpost-split float-end position-absolute"></i>
+              </div>
+            </div>
+
+            <!-- (mobile only) Qualidade -->
+            <div class="row card-bg2 p-1 rounded-5 gap-2 mt-2 glass-effect d-md-none">
+              <div class="feat-home5 col-12 p-4 feats position-relative overflow-hidden rounded-5 glass-effect lh-sm">
+                <p>Qualidade</p>
+                <p class="fw-light fst-italic text-break">Melhor do que você imagina</p>
+                <i class="feat-svg feat-lift2 bi bi-stars float-end position-absolute"></i>
+              </div>
+            </div>
+
+            <div class="row h-100"> 
+              <div class="align-self-end"></div>
+            </div>
+
+            <div class="scroll-trigger"></div> 
+          </section>
+
+          <!-- Card 3 - Sobre -->
+          <section class="col-12 home-card card-bg rounded-5 d-flex flex-column p-4">
+            <div class="scroll-trigger"></div>
+            <div class="row position-relative">
+              <div class="col-12 col-md-2 d-flex justify-content-center m-auto mb-3 mt-4">
+                <img class="m-auto me-1" src="/rodamoLogo.png" alt="Rodamo Logo">
+                <h4 class="display-2 text-black fw-light text-center lh-1 d-flex d-md-none ms-0 me-auto align-items-center">Sobre Nós</h4>
+              </div> 
       
+              <div class="col bg-about-text rounded-5 d-flex flex-column p-4"> 
+                <p class="mt-3 fw-normal text-black about-text">
+                  Somos uma equipe de estudantes do curso de informática do Instituto Federal que decidiu unir forças para criar um projeto inovador. <br><br> 
+                  Estamos sempre em busca de novos desafios e buscamos utilizar nossa expertise em tecnologia para ajudar ao máximo o nosso público-alvo. <br><br>
+                  Nossa equipe possui uma vasta experiência em desenvolvimento web e mobile, bem como em outras áreas da tecnologia, como banco de dados e segurança da informação. 
+                </p>
+              </div>
+            </div>
+
+            <div class="row h-100"> 
+              <div class="align-self-end"></div>
+            </div>
+            <div class="scroll-trigger"></div> 
+          </section>
+
+          <!-- Card 4 (mobile only) - Footer -->
+          <section class="col-12 col-md home-card card-bg rounded-4 d-flex flex-column p-4 d-md-none">
+            <div class="scroll-trigger"></div> 
+            <div class="row">
+              <h2 class="text-black fw-semibold text-center lh-1 display-5">Pronto, agora que você conhece o <span class="fvar-2">Playoffs</span></h2>
+            </div>
+
+            <div class="row mt-4 gap-0">
+              <p class="fw-light fs-6 text-black text-center lh-1 mb-1">Que tal criar sua própria conta?</p>
+              <button type="button" class="btn footer-cta1 rounded-5 col p-3 p-md-4 feats position-relative overflow-hidden glass-effect pb-5 lh-sm">
+                <a href="/pages/cadastro-usuarios.html" class="text-decoration-none">
+                  <p class="mb-1 text-light text-start">Criar Nova Conta</p>
+                  <p class="fw-light fst-italic text-break text-light text-start">Cadastrar-se</p>
+                  <i class="home-ctasvg bi bi-chevron-right float-end position-absolute"></i>
+                </a>
+              </button>
+            </div>
+
+            <div class="row mb-auto mt-4 gap-0">
+              <p class="fw-light fs-6 text-black text-center lh-1 mb-1">Veja outros campeonatos!</p>
+              <button type="button" class="btn footer-cta1 rounded-5 col p-3 p-md-4 feats position-relative overflow-hidden glass-effect pb-5 lh-sm">
+                <a href="/pages/listagem-campeonatos.html" class="text-decoration-none">
+                  <p class="mb-1 text-light text-start">Listagem de Campeonatos</p>
+                  <p class="fw-light fst-italic text-break text-light text-start">Visualização</p>
+                  <i class="home-ctasvg bi bi-chevron-right float-end position-absolute"></i>
+                </a>
+              </button>
+            </div>
+
+            <div class="row mb-2 justify-content-center">
+              <ul class="list-group list-group-horizontal list-group-flush justify-content-center p-0">
+                <li class="list-group-item border-0 opacity-75 bg-transparent"><a href="https://github.com/RoDaMo"><i class="bi bi-github fs-1"></i></a></li>
+              </ul>
+
+              
+            </div>
+
+            <hr class="opacity-50 border rounded-pill m-0 bg-dark d-flex">
+
+            <div class="row mb-auto mt-2 justify-content-center">
+              <div class="col-auto">
+                <ul class="list-group list-group-horizontal list-group-flush">
+                  <li class="list-group-item border-0 opacity-75 me-5 bg-transparent"><a href="#">Política</a></li>
+                  <li class="list-group-item border-0 opacity-75 bg-transparent"><a href="#">Termos</a></li>
+                </ul>
+                <ul class="list-group list-group-horizontal list-group-flush">
+                  <li class="list-group-item border-0 opacity-75 me-5 bg-transparent"><a href="#">Sobre</a></li>
+                  <li class="list-group-item border-0 opacity-75 bg-transparent"><a href="#">Cookies</a></li>
+                </ul>
+              </div>
+            </div>
+            
+
+            <div class="row">
+              <div class="col">
+                <p class="text-black text-center opacity-50">@ 2023 RoDaMo</p>
+              </div>
+            </div>
+
+            <div class="scroll-trigger"></div> 
+          </section>
+
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-5 d-none d-md-flex flex-column">
+          <section class="row">
+            <div class="me-auto col-auto my-auto">
+              <a class="navbar-brand" href="/">
+                <img src="/Logo_Playoffs.png" class="logo-play img-fluid ms-2" width="180" alt="Logo Playoffs">
+              </a>
+            </div>
+            
+            <div class="col-auto">
+              <ul class="list-group list-group-horizontal list-group-flush">
+                <li class="list-group-item border-0 opacity-75"><a href="#">Política</a></li>
+                <li class="list-group-item border-0 opacity-75"><a href="#">Termos</a></li>
+              </ul>
+              <ul class="list-group list-group-horizontal list-group-flush">
+                <li class="list-group-item border-0 opacity-75"><a href="#">Sobre</a></li>
+                <li class="list-group-item border-0 opacity-75"><a href="#">Cookies</a></li>
+              </ul>
+            </div>
+          </section>
+
+          <hr class="opacity-50 border rounded-pill m-0 bg-dark d-flex">
+          
+          <section class="row">
+            <p class="col-auto ms-2 my-auto me-auto text-black opacity-50">@ 2023 RoDaMo</p>
+            <ul class="col-auto me-2 float-right align-self-end list-group list-group-horizontal list-group-flush">
+              <li class="list-group-item border-0 opacity-75"><a href="https://github.com/RoDaMo"><i class="bi bi-github fs-5"></i></a></li>
+            </ul>
+          </section>
+        </footer>
+
+        <!-- (mobile only) Page Indicator -->
+        <div class="dots-wrapper d-flex align-items-center">
+          <ul class="dots-list">
+            <li class="dot"></li>
+            <li class="dot"></li>
+            <li class="dot"></li>
+            <li class="dot"></li>
+          </ul> 
+        </div>
+
+        <!-- Button go to top -->
+        <button type="button" id="gotop" class="btn rounded-4">
+          <i class="bi bi-caret-up m-auto translate-middle position-absolute"></i>
+        </button>
+        
+      </div>
     </main>
+    <!-- <div id="app"></div> -->
+    <!-- <a href="/pages/home.html" class="btn btn-primary">Clique aqui para acessar home</a>
+    <a href="/pages/login.html" class="btn btn-secondary">Clique aqui para acessar login</a> -->
+    <script type="module" src="js/home.js"></script>
     <script type="module" src="/main.js"></script>
     <script type="module" src="js/utilidades/header.js"></script>
+    <script src="js/utilidades/swiped-events.min.js"></script>
+    <script src="node_modules/rellax/rellax.min.js"></script>
   </body>
 </html>

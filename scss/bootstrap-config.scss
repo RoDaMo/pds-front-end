@@ -13,6 +13,17 @@ $play-cor-texto-dim: rgba(0, 23, 0, 0.8);
 $primary: $play-cor-primaria;
 $secondary: $play-cor-secundaria;
 $black: $play-cor-texto;
+
+$transition: .2s ease-in-out;
+.form-control, .form-select {
+  border-radius: 40px!important;
+}
+
+$border-radius-lg: 40px;
+$border-radius-sm: 40px;
+$border-radius: 40px;
+
+
 /* Variaveis acima ^^^^ */
 
 @import "~bootstrap/scss/variables";
@@ -59,3 +70,6 @@ $black: $play-cor-texto;
 
 // Utilities
 @import "~bootstrap/scss/utilities/api";
+
+//Importação do plugin de data
+@import '../node_modules/flatpickr/dist/flatpickr.min.css';
