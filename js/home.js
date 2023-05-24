@@ -1,4 +1,6 @@
 import '../scss/home.scss'
+import Rellax from 'rellax'
+import 'swiped-events'
 
 const navbar = document.querySelector("componente-header")
 const homeCards = document.querySelectorAll(".home-card.d-flex")
@@ -35,7 +37,7 @@ let navTogglerOpen
 let menuOpen = false
 
 // Rellax.JS
-let rellax = new Rellax('.rellax', {
+new Rellax('.rellax', {
     breakpoints:[576, 768, 1201]
 }) 
 
