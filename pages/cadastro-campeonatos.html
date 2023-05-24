@@ -15,21 +15,21 @@
             <form id="formulario" method="post">
                 <div class="mb-4">
                     <label for="nome-campeonato" class="form-label text-success i18" key="FormularioNomeCampeonato">Nome do Campeonato</label>
-                    <input type="text" class="form-control i18-placeholder" id="nome-campeonato" name="nome-campeonato" key="FormularioNomeCampeonatoPlaceholder" placeholder="Insira o nome do campeonato" required>
+                    <input type="text" class="form-control i18-placeholder" id="nome-campeonato" name="nome-campeonato" key="FormularioNomeCampeonatoPlaceholder" placeholder="Insira o nome do campeonato">
                 </div>
                 <div class="container p-0 m-0">
                     <div class="row">
                         <div class="col-md-4">
                             <label for="data-inicio" class="form-label text-success i18" key="FormularioDataInicial">Data Inicial</label>
-                            <input type="date" class="form-control" id="data-inicio" name="data-inicio" required>
+                            <input type="date" class="form-control" id="data-inicio" name="data-inicio">
                         </div>
                         <div class="col-md-4">
                             <label for="data-final" class="form-label text-success i18" key="FormularioDataFinal">Data Final</label>
-                            <input type="date" class="form-control" id="data-final" name="data-final" required>
+                            <input type="date" class="form-control" id="data-final" name="data-final">
                         </div>
                         <div class="col-md-4">
                             <label for="esportes" class="form-label text-success i18" key="FormularioEsporte">Esporte</label>
-                            <select name="esportes" class="form-select" id="esportes" required>
+                            <select name="esportes" class="form-select" id="esportes">
                                 <option value="" selected class="i18" key="FormularioEsportePlaceholder">Selecione um Esporte</option>
                                 <option value="1" class="i18" key="FormularioEsporteFutebol">Futebol</option>
                                 <option value="2" class="i18" key="FormularioEsporteVolei">Vôlei</option>
@@ -39,16 +39,19 @@
                 </div>
                 <div class="mb-4 mt-4">
                     <label class="form-label text-success i18" key="FormularioPremiacao">Há premiação ?</label>
-                    <div class="d-flex">
-                        <div class="form-check m-2">
-                            <input type="radio" class="form-check-input" name="premiacao" value="sim" required>
-                            <label for="premiacao" class="form-check-label text-success i18" key="FormularioPremiacaoSim">Sim</label>
-                        </div>
-                        <div class="form-check m-2">
-                            <input type="radio" class="form-check-input" name="premiacao" value="não"  required>
-                            <label for="premiacao" class="form-check-label text-success i18" key="FormularioPremiacaoNao">Não</label>
+                    <div id="grupo-premiacao">
+                        <div class="d-flex">
+                            <div class="form-check m-2">
+                                <input type="radio" class="form-check-input" name="premiacao" value="sim">
+                                <label for="premiacao" class="form-check-label text-success i18" key="FormularioPremiacaoSim">Sim</label>
+                            </div>
+                            <div class="form-check m-2">
+                                <input type="radio" class="form-check-input" name="premiacao" value="não">
+                                <label for="premiacao" class="form-check-label text-success i18" key="FormularioPremiacaoNao">Não</label>
+                            </div>
                         </div>
                     </div>
+                    
                 </div>
                 <div class="container m-0">
                     <div class="row gap-2">

@@ -19,12 +19,14 @@
                 <form id="formulario" method="post">
                     <div class="mb-5">
                         <label for="nome-usuario" class="form-label text-success mt-3">Nome de usuário:</label>
-                        <input type="text" class="form-control" id="nome-usuario" name="nome-usuario" placeholder="Nome de usuário..." required>
+                        <input type="text" class="form-control" id="nome-usuario" name="nome-usuario" placeholder="Nome de usuário...">
                     </div>
                     <div id="senha-formulario" class="d-none">
                         <label for="nome-usuario" class="form-label text-success mt-3">Senha:</label>
                         <div class="d-flex position-relative">
-                            <input type="password" class="form-control" id="senha" name="senha" placeholder="Senha..." required autocomplete="on">
+                            <div class="input-wrapper w-100">
+                                <input type="password" class="form-control" id="senha" name="senha" placeholder="Senha..." autocomplete="on">
+                            </div>
                             <div id="olhos">
                                 <i id="olho-aberto" class="btn btn-success rounded-0 rounded-end bi bi-eye text-light position-absolute end-0"></i>
                                 <i id="olho-fechado" class="btn btn-success rounded-0 rounded-end bi bi-eye-slash text-light position-absolute end-0 d-none"></i>

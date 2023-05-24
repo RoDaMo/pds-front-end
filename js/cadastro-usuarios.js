@@ -5,8 +5,6 @@ import { Portuguese } from "flatpickr/dist/l10n/pt.js"
 import { visualizarSenha } from "./utilidades/visualizar-senha"
 import JustValidate from "just-validate"
 
-const validator = new JustValidate("#formulario")
-
 const formulario = document.getElementById("formulario")
 const mensagemErro = document.getElementById("mensagem-erro")
 const botaoContinuar = document.getElementById("continuar")
@@ -16,6 +14,8 @@ const nome = document.getElementById("nome")
 const email = document.getElementById("email-usuario")
 const senha = document.getElementById("senha")
 const dataAniversario = document.getElementById("data")
+
+const validator = new JustValidate(formulario)
 
 const iconeMaiuscula = document.getElementById("icone-maiuscula")
 const textoMaiuscula = document.getElementById("texto-maiuscula")
@@ -72,7 +72,7 @@ validator
     .addField(email, [
         {
             rule: 'required',
-            errorMessage: 'Campo obrigatório.'
+            errorMessage: 'O email é obrigatório.'
         },
         {
             rule: 'email',
@@ -82,13 +82,13 @@ validator
     .addField(nome, [
         {
             rule: 'required',
-            errorMessage: 'Campo obrigatório.'
+            errorMessage: 'O nome é obrigatório.'
         },
     ])
     .addField(nomeUsuario, [
         {
             rule: 'required',
-            errorMessage: 'Campo obrigatório.'
+            errorMessage: 'O nome de usuário é obrigatório.'
         },
         {
             rule: 'minLength',
@@ -109,7 +109,7 @@ validator
     .addField(dataAniversario, [
         {
             rule: 'required',
-            errorMessage: 'Campo obrigatório. É necessário possuir pelo menos 13 anos de idade para se cadastrar.'
+            errorMessage: 'A data é obrigatória. É necessário possuir pelo menos 13 anos de idade para se cadastrar.'
         },
     ])
     .onSuccess(async(e) => {
@@ -129,6 +129,22 @@ validator
         if (resultado)
             formulario.reset()
     })
+
+async function postUsuario(endpoint, body) {
+    const config = configuracaoFetch("POST", body)
+
+    const callbackServidor = data => {
+        mensagemErro.classList.add("text-danger")
+        data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
+    }
+
+    const data = await executarFetch(endpoint, config, null, callbackServidor)
+
+    if (!data) return false
+
+    notificacaoSucesso(data.message)
+    return true
+}
 
 // const validacoes = () => {
 //     let controle = true;
@@ -193,19 +209,3 @@ validator
 //     if (resultado)
 //         formulario.reset()
 // })
-
-async function postUsuario(endpoint, body) {
-    const config = configuracaoFetch("POST", body)
-
-    const callbackServidor = data => {
-        mensagemErro.classList.add("text-danger")
-        data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
-    }
-
-    const data = await executarFetch(endpoint, config, null, callbackServidor)
-
-    if (!data) return false
-
-    notificacaoSucesso(data.message)
-    return true
-}

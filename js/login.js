@@ -9,6 +9,35 @@ const mensagemErro = document.getElementById("mensagem-erro")
 
 const validator = new JustValidate("#formulario")
 
+validator
+    .addField(nomeUsuario, [
+        {
+            rule: 'required',
+            errorMessage: 'O nome de usuário é obrigatório',
+        },
+    ])
+    .addField(senha, [
+        {
+            rule: 'required',
+            errorMessage: 'A senha é obrigatória',
+        },
+        {
+            rule: 'customRegexp',
+            value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{4,}$/,
+            errorMessage: 'A senha deve conter ao menos 4 caracteres, uma letra maiúscula, uma minúscula, um número e um caractere especial',
+        },
+    ])
+    .onSuccess(async(e) => {
+        e.preventDefault()
+        limparMensagem(mensagemErro)
+
+        await postToken({
+            "Username": nomeUsuario.value,
+            "Password": senha.value,
+        })
+    })
+
+
 visualizarSenha()
 
 document.getElementById("continuar").addEventListener("click", async(e) => {
@@ -39,15 +68,15 @@ async function postUsuarioExiste(body) {
     return true
 }
 
-formulario.addEventListener("submit", async(e) => {
-    e.preventDefault()
-    limparMensagem(mensagemErro)
+// formulario.addEventListener("submit", async(e) => {
+//     e.preventDefault()
+//     limparMensagem(mensagemErro)
 
-    await postToken({
-        "Username": nomeUsuario.value,
-        "Password": senha.value,
-    })
-})
+//     await postToken({
+//         "Username": nomeUsuario.value,
+//         "Password": senha.value,
+//     })
+// })
 
 async function postToken(body) {
     const config = configuracaoFetch("POST", body)
