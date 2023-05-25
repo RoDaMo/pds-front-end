@@ -1,36 +1,39 @@
 import { configuracaoFetch, executarFetch, limparMensagem } from "./utilidades/configFetch"
 import { visualizarSenha } from "./utilidades/visualizar-senha"
+import {redirecionamento} from './utilidades/redirecionamento'
 
 const nomeUsuario = document.getElementById("nome-usuario")
 const senha = document.getElementById("senha")
 const formulario = document.getElementById("formulario")
 const mensagemErro = document.getElementById("mensagem-erro")
+const lembrar = document.getElementById('lembrar')
 
 visualizarSenha()
 
+redirecionamento(nomeUsuario)
+
 document.getElementById("continuar").addEventListener("click", async(e) => {
     e.preventDefault();
-    await postUsuarioExiste({
-        "Username": nomeUsuario.value,
-    })
+    nomeUsuario.value ? await postUsuarioExiste({"Username": nomeUsuario.value}) : mensagemErro.textContent = "Preencha nome de usuário"
 })
 
 async function postUsuarioExiste(body) {
+    limparMensagem(mensagemErro)
     const config = configuracaoFetch("POST", body)
-
     const res = await fetch(`https://playoffs-api.up.railway.app/auth/exists`, config)
 
     const data = await res.json()
+    console.log(data)
 
-    if(data.results) {
+    if(data.results && data.succeed){
         document.getElementById("continuar").classList.add("d-none")
         document.getElementById("entrar").classList.remove("d-none")
         document.getElementById("senha-formulario").classList.remove("d-none")
         document.getElementById('texto-bem-vindo').textContent = "Você já possui uma conta, entre usando seu nome de usuário e senha."
         nomeUsuario.parentElement.classList.replace('mb-5', 'mb-2');
     }
-    else {
-        window.location.assign("/pages/cadastro-usuarios.html");
+    else{
+        window.location.assign(`/pages/cadastro-usuarios.html?userName=${nomeUsuario.value}`);
     }
 
     return true
@@ -43,11 +46,13 @@ formulario.addEventListener("submit", async(e) => {
     await postToken({
         "Username": nomeUsuario.value,
         "Password": senha.value,
+        "RememberMe": lembrar.checked ? true : false
     })
 })
 
 async function postToken(body) {
     const config = configuracaoFetch("POST", body)
+
     if (!window.location.href.includes('netlify'))
         config.headers["IsLocalhost"] = true;
 
@@ -60,6 +65,7 @@ async function postToken(body) {
         mensagemErro.classList.add("text-danger")
         senha.value = ""
     }
-
-    return true
+    else{
+        window.location.assign(`/`)
+    }
 }

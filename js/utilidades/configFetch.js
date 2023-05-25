@@ -21,6 +21,7 @@ export const executarFetch = async (endpoint, config, callbackStatus, callbackSe
     const { notificacaoErro } = await import('./notificacoes')
     const res = await fetch(`${api}${endpoint}`, config)
 
+    console.log('status: ' + res.status)
     if(res.status === 401){
         const resPut = await fetch(`${api}auth`, configuracaoFetch("PUT"))
         if(resPut.status === 401){
@@ -34,7 +35,7 @@ export const executarFetch = async (endpoint, config, callbackStatus, callbackSe
             return
         }  
 
-        callbackStatus(res)
+        callbackStatus(await res.json())
         return
     }
 

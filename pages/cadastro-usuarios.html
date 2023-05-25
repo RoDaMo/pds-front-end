@@ -8,29 +8,34 @@
     <title>Cadastro de Usuários</title>
 </head>
 <body>
-    <main class="container mt-3">
+    <main class="container mt-5">
         <div class="row justify-content-center">
-            <div class="col-md-6 mt-5">
+            <div class="col-md-6 mt-5 bg-secondary rounded-4 px-5">
                 <div class="mb-5 mt-5">
                     <a class="navbar-brand m-auto p-auto" href="/"><img src="/Logo_Playoffs.png" class="img-fluid" width="300" alt="Logo Playoffs"></a>
                 </div>
+
                 <h1 id="bem-vindo" class="mb-4 text-success">Bem Vindo!</h1>
                 <h4 id="texto-apresentacao" class="mb-4 text-success ">Você ainda não tem uma conta! Crie sua conta e junte-se a nós.</h4>
                 <form id="formulario" method="post">
-                    <div class="mb-3">
-                        <label for="email-usuario" class="form-label text-success">Email:</label>
-                        <input type="email" class="form-control" id="email-usuario" name="email-usuario" placeholder="Email..." required>
-                        <div class="form-text text-danger mt-2 " id="email-validacao"></div>
-                    </div>
                     <div id="parte-2" class="mb-3">
-                        <label for="nome" class="form-label text-success">Nome:</label>
-                        <input required type="text" class="form-control" id="nome" name="nome" placeholder="Nome..." >
-                        <div class="form-text text-danger mt-2" id="nome-validacao"></div>
-                        <label for="nome-usuario" class="form-label text-success mt-3">Nome de usuário:</label>
-                        <input type="text" class="form-control" id="nome-usuario" name="nome-usuario" placeholder="Nome de usuário..." required>
-                        <div class="form-text text-danger mt-2" id="nome-usuario-validacao"></div>
-                        <div >
-                            <label for="data" class="form-label text-success mt-3">Data de nascimento:</label>
+                        <div>
+                            <label for="nome-usuario" class="form-label text-success mt-3">Nome de usuário:</label>
+                            <input type="text" class="form-control" id="nome-usuario" name="nome-usuario" placeholder="Nome de usuário..." required>
+                            <div class="form-text text-danger mt-2" id="nome-usuario-validacao"></div>
+                        </div>
+                        <div class="mt-3">
+                            <label for="nome" class="form-label text-success">Nome:</label>
+                            <input required type="text" class="form-control" id="nome" name="nome" placeholder="Nome..." >
+                            <div class="form-text text-danger mt-2" id="nome-validacao"></div>
+                        </div>
+                        <div class="mt-3">
+                            <label for="email-usuario" class="form-label text-success">Email:</label>
+                            <input type="email" class="form-control" id="email-usuario" name="email-usuario" placeholder="Email..." required>
+                            <div class="form-text text-danger mt-2 " id="email-validacao"></div>
+                        </div>
+                        <div class="mt-3" >
+                            <label for="data" class="form-label text-success">Data de nascimento:</label>
                             <input type="text" class="form-control" id="data" name="data" placeholder="Data de nascimento..." required>
                             <div class="form-text text-danger mt-2" id="data-validacao"></div>
                         </div>
