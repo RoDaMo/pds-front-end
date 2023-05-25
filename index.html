@@ -54,7 +54,7 @@
             <div class="row h-100 z-0"> 
               <div class="align-self-end">
                 <a href="/pages/login.html">
-                  <button class="home-btn btn m-auto mb-4 mt-md mt-4 main-btn-color rounded-pill fw-bold">Junte-se a nós</button>
+                  <button class="main-btn-color home-btn btn m-auto mb-4 mt-md mt-4 rounded-pill fw-bold">Junte-se a nós</button>
                 </a>
               </div>
             </div>
@@ -67,7 +67,7 @@
         <div class="home-row row mt-3">
 
           <!-- Card 2 - Features -->
-          <section class="col-12 home-card rounded-4 d-flex flex-column p-4">
+          <section class="col-12 home-card rounded-4 d-flex flex-column padding-home-4">
             <div class="scroll-trigger"></div> 
             <h2 class="text-black fw-semibold text-center lh-1">Aqui, você tem tudo isso <br> <span class="fw-lighter fs-6">e um pouco mais</span></h2>
             <div class="row feat-wrapper p-1 rounded-5 gap-2 mt-1 h-auto">
@@ -132,8 +132,8 @@
             <!-- (mobile only) Qualidade -->
             <div class="row card-bg2 p-1 rounded-5 gap-2 mt-2 glass-effect d-md-none">
               <div class="feat-home5 col-12 p-4 feats position-relative overflow-hidden rounded-5 glass-effect lh-sm">
-                <p>Qualidade</p>
-                <p class="fw-light fst-italic text-break">Melhor do que você imagina</p>
+                <p class="feat-text">Qualidade</p>
+                <p class="fw-light fst-italic text-break feat-text">Melhor do que você imagina</p>
                 <i class="feat-svg feat-lift2 bi bi-stars float-end position-absolute"></i>
               </div>
             </div>
@@ -146,7 +146,7 @@
           </section>
 
           <!-- Card 3 - Sobre -->
-          <section class="col-12 home-card card-bg rounded-5 d-flex flex-column p-4">
+          <section class="col-12 home-card card-bg rounded-5 d-flex flex-column padding-home-4">
             <div class="scroll-trigger"></div>
             <div class="row position-relative">
               <div class="col-12 col-md-2 d-flex justify-content-center m-auto mb-3 mt-4">
@@ -170,7 +170,7 @@
           </section>
 
           <!-- Card 4 (mobile only) - Footer -->
-          <section class="col-12 col-md home-card card-bg rounded-4 d-flex flex-column p-4 d-md-none">
+          <section class="col-12 col-md home-card card-bg rounded-4 d-flex flex-column padding-home-4 d-md-none">
             <div class="scroll-trigger"></div> 
             <div class="row">
               <h2 class="text-black fw-semibold text-center lh-1 display-5">Pronto, agora que você conhece o <span class="fvar-2">Playoffs</span></h2>
@@ -178,7 +178,7 @@
 
             <div class="row mt-4 gap-0">
               <p class="fw-light fs-6 text-black text-center lh-1 mb-1">Que tal criar sua própria conta?</p>
-              <button type="button" class="btn footer-cta1 rounded-5 col p-3 p-md-4 feats position-relative overflow-hidden glass-effect pb-5 lh-sm">
+              <button type="button" class="btn footer-cta rounded-5 col p-3 p-md-4 feats position-relative overflow-hidden glass-effect pb-5 lh-sm">
                 <a href="/pages/cadastro-usuarios.html" class="text-decoration-none">
                   <p class="mb-1 text-light text-start">Criar Nova Conta</p>
                   <p class="fw-light fst-italic text-break text-light text-start">Cadastrar-se</p>
@@ -189,7 +189,7 @@
 
             <div class="row mb-auto mt-4 gap-0">
               <p class="fw-light fs-6 text-black text-center lh-1 mb-1">Veja outros campeonatos!</p>
-              <button type="button" class="btn footer-cta1 rounded-5 col p-3 p-md-4 feats position-relative overflow-hidden glass-effect pb-5 lh-sm">
+              <button type="button" class="btn footer-cta rounded-5 col p-3 p-md-4 feats position-relative overflow-hidden glass-effect pb-5 lh-sm">
                 <a href="/pages/listagem-campeonatos.html" class="text-decoration-none">
                   <p class="mb-1 text-light text-start">Listagem de Campeonatos</p>
                   <p class="fw-light fst-italic text-break text-light text-start">Visualização</p>
@@ -211,11 +211,11 @@
             <div class="row mb-auto mt-2 justify-content-center">
               <div class="col-auto">
                 <ul class="list-group list-group-horizontal list-group-flush">
-                  <li class="list-group-item border-0 opacity-75 me-5 bg-transparent"><a href="#">Política</a></li>
+                  <li class="list-group-item border-0 opacity-75 bg-transparent"><a href="#">Política</a></li>
                   <li class="list-group-item border-0 opacity-75 bg-transparent"><a href="#">Termos</a></li>
                 </ul>
                 <ul class="list-group list-group-horizontal list-group-flush">
-                  <li class="list-group-item border-0 opacity-75 me-5 bg-transparent"><a href="#">Sobre</a></li>
+                  <li class="list-group-item border-0 opacity-75 bg-transparent"><a href="#">Sobre</a></li>
                   <li class="list-group-item border-0 opacity-75 bg-transparent"><a href="#">Cookies</a></li>
                 </ul>
               </div>
@@ -284,8 +284,9 @@
     <!-- <div id="app"></div> -->
     <!-- <a href="/pages/home.html" class="btn btn-primary">Clique aqui para acessar home</a>
     <a href="/pages/login.html" class="btn btn-secondary">Clique aqui para acessar login</a> -->
-    <script type="module" src="js/home.js"></script>
+    
     <script type="module" src="/main.js"></script>
+    <script type="module" src="js/home.js"></script>
     <script type="module" src="js/utilidades/header.js"></script>
   </body>
 </html>

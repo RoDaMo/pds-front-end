@@ -103,17 +103,6 @@ body {
   color: $play-cor-secundaria;
 }
 
-.main-btn-color {
-  background: $play-cor-primaria;
-  color: $white;
-  transition: all $transition;
-}
-
-.main-btn-color:hover {
-  background: $play-cor-fundos;
-  color: $black;
-}
-
 // Navbar
 .pesquisar {
   background-color: $gray-400 !important;

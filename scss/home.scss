@@ -13,6 +13,21 @@
   background-color: $play-cor-primaria;
 }
 
+.padding-home-4 {
+  padding: 1.5rem;
+}
+
+.main-btn-color {
+  background: $play-cor-primaria !important;
+  color: $white !important;
+  transition: all $transition !important;
+}
+
+.main-btn-color:hover {
+  background: $play-cor-fundos !important;
+  color: $black !important;
+}
+
 .header-home {
   .nav-link, #lingua {
     color: $white;
@@ -92,7 +107,6 @@
 
 .home-grad {
   background: rgb(216,255,219);
-  background: linear-gradient(180deg, rgba(216,255,219,1) 0%, rgba(255,255,255,1) 100%); 
 }
 
 .feat-wrapper {
@@ -284,6 +298,15 @@ ul.dots-list {
     // transition: all $transition;
   }
 
+  .footer-cta {
+    transition: all 0.2s ease-in-out;
+  }
+
+  .footer-cta:active {
+    transform: scale(0.9);
+    filter: brightness(0.8);
+  }
+
   .home-btn {
     float: right;
   }
@@ -304,6 +327,10 @@ ul.dots-list {
 
   .feat-wrapper {
     margin-bottom: auto !important;
+  }
+
+  .feat-text {
+    color: $white !important;
   }
 
   .feats {

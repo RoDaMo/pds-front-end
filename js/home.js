@@ -112,10 +112,10 @@ if (mediaQueryMobile.matches) {
 
     homeCards[0].parentElement.classList.remove("pt-2")
     homeCards[2].parentElement.classList.remove("mt-3")
-    homeCards[2].classList.add("p-4")
+    homeCards[2].classList.add("padding-home-4")
     homeCards[2].classList.remove("p-5")
     homeCards[0].classList.remove("rounded-4", "pt-5")
-    homeCards[0].classList.add("vh-91", "rounded-5", "rounded-bottom-0", "card-bg", "p-4")
+    homeCards[0].classList.add("vh-91", "rounded-5", "rounded-bottom-0", "card-bg", "padding-home-4")
     homeCards[1].classList.add("card-bg")
 
     rodamoLogo.classList.add("w-25")
@@ -224,8 +224,7 @@ if (mediaQueryMobile.matches) {
     })
     
     // Swipe Direction Trigger
-    document.addEventListener("swiped-up", e => {
-        e.preventDefault()
+    document.addEventListener("swiped-up", function() {
 
         if ((isVisible(scrollTrigger[0]))) {
             scrollTrigger[2].parentElement.scrollIntoView({
@@ -237,8 +236,7 @@ if (mediaQueryMobile.matches) {
         }
     })
     
-    document.addEventListener("swiped-down", e => {
-        e.preventDefault()
+    document.addEventListener("swiped-down", function() {
         
         if (!(isVisible(scrollTrigger[0]))) {
             scrollUpwards()
