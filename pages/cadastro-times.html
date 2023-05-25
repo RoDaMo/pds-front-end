@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="stylesheet" href="../scss/cadastro-times.scss">
+    <title>Cadastro de Times</title>
+</head>
+<body>
+    <componente-header></componente-header>
+    <main class="mt-5">
+        <form class="container bg-secondary rounded-4 px-5 py-2" method="post" id="formulario">
+            <div class="row gap-0">
+                <div class="col-md-7">
+                    <div class="col-md-12">
+                        <h1 class="mb-4 text-dark">Criar Time</h1>
+                        <h4 id="texto-apresentacao" class="mb-4 text-success ">Crie seu time para participar ativamente em campeonatos!</h4>
+                    </div>
+                    <div class="row gap-0">
+                        <div class="mb-3 col-md-7">
+                            <label for="nome" class="form-label text-success">Nome do time:</label>
+                            <input type="text" class="form-control rounded-4" id="nome" name="nome" placeholder="Nome do time..." required>
+                        </div>
+                        <div class="col-md-5 mb-3">
+                            <label for="esportes" class="form-label text-success">Esporte</label>
+                            <select name="esportes" class="form-select rounded-4" id="esportes" required>
+                                <option value="" selected>Selecione um Esporte</option>
+                                <option value="1">Futebol</option>
+                                <option value="2">Vôlei</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12 mb-5">
+                            <label for="descricao" class="form-label text-success">Descrição do time:</label>
+                            <textarea required class="form-control " id="descricao" placeholder="Descreva seu time..." name="descricao"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5 mt-3 d-flex justify-content-center align-items-center flex-column">
+                    <img src="#" class="col-4 p-1 img-fluid rounded-5 border border-success escudo" id="escudo" alt="">
+                    <div class="custom-file-upload-logo">
+                        <label for="logo" class="col-md-12 mt-4 btn btn-success d-flex justify-content-center align-items-center">
+                            <i class="d-flex justify-content-center align-items-center btn bi bi-upload text-light"></i>
+                            <span id="custom-text">Enviar logo</span>
+                            <input id="logo" type="file" name="logo" name="logo" accept=".png, .jpg, .jpeg">
+                        </label>
+                    </div>
+
+                    <div class="col-md-12 mt-5">
+                        <div class="row d-flex justify-content-around">
+                            <p class="text-success col-4 d-flex justify-content-center">Uniforme casa</p>
+                            <p class="text-success col-4 d-flex justify-content-center">Uniforme fora</p>
+                        </div>
+                        <div class="row d-flex justify-content-around gap-2">
+                            <img id="home" src="#" class="col-4 img-fluid uniforme border border-success rounded-5" alt="">
+                            <img id="away" src="#" class="col-4 img-fluid uniforme border border-success rounded-5" alt="">
+                        </div>
+                        <div class="row mt-3 d-flex justify-content-around">
+                            <div class="col-4 d-flex justify-content-center custom-file-upload">
+                                <label for="uniforme-casa">
+                                    <i class="w-100 h-100 d-flex justify-content-center align-items-center border border-primary rounded-circle btn btn-success bi bi-upload text-light"></i>
+                                    <input id="uniforme-casa" type="file" name="uniforme-casa" name="logo" accept=".png, .jpg, .jpeg">
+                                </label>
+                            </div>
+                            <div class="col-4 d-flex justify-content-center custom-file-upload">
+                                <label for="uniforme-fora">
+                                    <i class="w-100 h-100 d-flex justify-content-center align-items-center border border-primary rounded-circle btn btn-success bi bi-upload text-light"></i>
+                                    <input id="uniforme-fora" type="file" name="uniforme-fora" name="logo" accept=".png, .jpg, .jpeg">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <div class="col-12 mt-5 mb-5 gap-2">
+                <button id="salvar" class="col-md-2 btn btn-success rounded-pill" type="submit">Salvar</button>
+                <a href="/index.html" class="col-md-2 btn btn-outline-success rounded-pill">Cancelar</a>
+            </div>  
+            <div class="mt-4">
+                <p class="text-danger" id="mensagem-erro"></p>
+            </div>
+        </form>
+    </main>
+    <script type="module" src="../main.js"></script>
+    <script type="module" src="../js/utilidades/header.js"></script>
+    <script type="module" src="../js/cadastro-times.js"></script>
+</body>
+</html>
