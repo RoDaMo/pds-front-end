@@ -39,7 +39,7 @@ validator
     .addRequiredGroup('#grupo-premiacao', 'Selecione ao menos uma opção')
     .onSuccess(async(e) => {
         e.preventDefault()
-        limparMensagem(mensagemErro)
+        // limparMensagem(mensagemErro)
 
         let nomeCampeonato = document.getElementById("nome-campeonato").value
         let dataInicio = document.getElementById("data-inicio").value

@@ -116,7 +116,7 @@ validator
         e.preventDefault()
         limparMensagem(mensagemErro)
 
-        // if(!validacoes()) return
+        if(!validacoes()) return
 
         const resultado = await postUsuario("auth/register", {
             "Name": nome.value,
@@ -144,6 +144,16 @@ async function postUsuario(endpoint, body) {
 
     notificacaoSucesso(data.message)
     return true
+}
+
+const validacoes = () => {
+    let controle = true;
+    
+    if(!letraMaiuscula(senha.value) || !letraMinuscula(senha.value) || !numero(senha.value) || !especial(senha.value) || !caracteres(senha.value)){
+        controle = false;
+    }
+
+    return controle;
 }
 
 // const validacoes = () => {

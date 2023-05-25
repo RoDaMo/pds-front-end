@@ -15,6 +15,21 @@ validator
             rule: 'required',
             errorMessage: 'O nome de usuário é obrigatório',
         },
+        {
+            rule: 'minLength',
+            value: 4,
+            errorMessage: 'Nome de usuário deve possuir no mínimo 4 caracteres.',
+        },
+        {
+            rule: 'maxLength',
+            value: 20,
+            errorMessage: 'Nome de usuário deve possuir no máximo 20 caracteres.',
+        },
+        {
+            rule: 'customRegexp',
+            value: /^[A-Za-z0-9_-]*$/,
+            errorMessage: 'Nome de usuário inválido, não pode conter espaço nem caractere especial.',
+        },
     ])
     .addField(senha, [
         {
@@ -23,8 +38,8 @@ validator
         },
         {
             rule: 'customRegexp',
-            value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{4,}$/,
-            errorMessage: 'A senha deve conter ao menos 4 caracteres, uma letra maiúscula, uma minúscula, um número e um caractere especial',
+            value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{4,}$/,
+            errorMessage: 'A senha deve conter ao menos 4 caracteres, uma letra maiúscula, uma minúscula e um número. Sem caracteres especiais.',
         },
     ])
     .onSuccess(async(e) => {
