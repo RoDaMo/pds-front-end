@@ -3,6 +3,7 @@ import { notificacaoSucesso } from "./utilidades/notificacoes"
 import flatpickr from "flatpickr"
 import { Portuguese } from "flatpickr/dist/l10n/pt.js"
 import { visualizarSenha } from "./utilidades/visualizar-senha"
+import {redirecionamento} from './utilidades/redirecionamento'
 
 const formulario = document.getElementById("formulario")
 const mensagemErro = document.getElementById("mensagem-erro")
@@ -24,14 +25,7 @@ const textoCaractere = document.getElementById("texto-caractere")
 const iconeEspecial = document.getElementById("icone-especial")
 const textoEspecial = document.getElementById("texto-especial")
 
-const redirecionamento = () => {
-    const urlParams = new URLSearchParams(window.location.search).get('userName')
-    if(urlParams){
-        nomeUsuario.value = urlParams
-    }
-}
-
-redirecionamento()
+redirecionamento(nomeUsuario)
 
 flatpickr(dataAniversario, {
     dateFormat: "Y-m-d",
@@ -134,8 +128,7 @@ formulario.addEventListener("submit", async(e) => {
     })
     
     if (resultado){
-        formulario.reset()
-        window.location.assign("/pages/login.html");
+        window.location.assign(`/pages/login.html?userName=${nomeUsuario.value}`);
     }
 })
 

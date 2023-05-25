@@ -28,13 +28,17 @@ formulario.addEventListener("submit", async(e) => {
         "emblem": emblema.value,
         "uniformHome": uniformeHome.value,
         "uniformWay": uniformeAway.value,
-        "sportsId": esporte.value,
+        "sportsId": parseInt(esporte.value),
         "name": nome.value,
-        "cpf": "12345678903"
+        "cpf": "47239015211"
     })
     
-    if (resultado)
+    if (resultado){
         formulario.reset()
+        escudo.src = "#"
+        home.src = "#"
+        away.src = "#"
+    }
 })
 
 async function postTime(endpoint, body) {
@@ -47,7 +51,7 @@ async function postTime(endpoint, body) {
         data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
     }
 
-    const data = await executarFetch(endpoint, config, null, callbackServidor)
+    const data = await executarFetch(endpoint, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
 
     console.log(data)
 

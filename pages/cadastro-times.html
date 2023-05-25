@@ -11,14 +11,14 @@
 <body>
     <componente-header></componente-header>
     <main class="mt-5">
-        <form class="container" method="post" id="formulario">
-            <div class="row">
+        <form class="container bg-secondary rounded-4 px-5 py-2" method="post" id="formulario">
+            <div class="row gap-0">
                 <div class="col-md-7">
                     <div class="col-md-12">
                         <h1 class="mb-4 text-dark">Criar Time</h1>
                         <h4 id="texto-apresentacao" class="mb-4 text-success ">Crie seu time para participar ativamente em campeonatos!</h4>
                     </div>
-                    <div class="row">
+                    <div class="row gap-0">
                         <div class="mb-3 col-md-7">
                             <label for="nome" class="form-label text-success">Nome do time:</label>
                             <input type="text" class="form-control rounded-4" id="nome" name="nome" placeholder="Nome do time..." required>
@@ -33,7 +33,7 @@
                         </div>
                         <div class="col-md-12 mb-5">
                             <label for="descricao" class="form-label text-success">Descrição do time:</label>
-                            <textarea class="form-control h-100" id="descricao" placeholder="Descreva seu time..." name="descricao"></textarea>
+                            <textarea required class="form-control " id="descricao" placeholder="Descreva seu time..." name="descricao"></textarea>
                         </div>
                     </div>
                 </div>
@@ -78,7 +78,7 @@
                 <a href="/index.html" class="col-md-2 btn btn-outline-success rounded-pill">Cancelar</a>
             </div>  
             <div class="mt-4">
-                <p id="mensagem-erro"></p>
+                <p class="text-danger" id="mensagem-erro"></p>
             </div>
         </form>
     </main>

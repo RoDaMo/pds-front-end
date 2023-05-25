@@ -1,5 +1,6 @@
 import { configuracaoFetch, executarFetch, limparMensagem } from "./utilidades/configFetch"
 import { visualizarSenha } from "./utilidades/visualizar-senha"
+import {redirecionamento} from './utilidades/redirecionamento'
 
 const nomeUsuario = document.getElementById("nome-usuario")
 const senha = document.getElementById("senha")
@@ -9,14 +10,15 @@ const lembrar = document.getElementById('lembrar')
 
 visualizarSenha()
 
+redirecionamento(nomeUsuario)
+
 document.getElementById("continuar").addEventListener("click", async(e) => {
     e.preventDefault();
-    await postUsuarioExiste({
-        "Username": nomeUsuario.value,
-    })
+    nomeUsuario.value ? await postUsuarioExiste({"Username": nomeUsuario.value}) : mensagemErro.textContent = "Preencha nome de usuário"
 })
 
 async function postUsuarioExiste(body) {
+    limparMensagem(mensagemErro)
     const config = configuracaoFetch("POST", body)
     const res = await fetch(`https://playoffs-api.up.railway.app/auth/exists`, config)
 
@@ -41,10 +43,10 @@ formulario.addEventListener("submit", async(e) => {
     e.preventDefault()
     limparMensagem(mensagemErro)
 
-    const resultado = await postToken({
+    await postToken({
         "Username": nomeUsuario.value,
         "Password": senha.value,
-        "lembrar": lembrar.checked ? true : false
+        "RememberMe": lembrar.checked ? true : false
     })
 })
 
@@ -63,6 +65,7 @@ async function postToken(body) {
         mensagemErro.classList.add("text-danger")
         senha.value = ""
     }
-
-    return true
+    else{
+        window.location.assign(`/`)
+    }
 }

@@ -35,7 +35,7 @@ export const executarFetch = async (endpoint, config, callbackStatus, callbackSe
             return
         }  
 
-        callbackStatus(res)
+        callbackStatus(await res.json())
         return
     }
 
