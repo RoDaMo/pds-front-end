@@ -140,7 +140,7 @@ async function postUsuario(endpoint, body) {
         data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
     }
 
-    const data = await executarFetch(endpoint, config, null, callbackServidor)
+    const data = await executarFetch(endpoint, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
 
     if (!data) return false
 

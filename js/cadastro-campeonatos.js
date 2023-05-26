@@ -9,7 +9,7 @@ import {exibidorImagem} from '../js/utilidades/previewImagem'
 
 inicializarInternacionalizacao(ingles, portugues);
 let formulario = document.getElementById("formulario")
-let mensagemErro = document.getElementById("mensagem-erro")
+const mensagemErro = document.getElementById("mensagem-erro")
 const escudo = document.getElementById('escudo')
 
 const pais = document.getElementById('pais')
@@ -101,6 +101,7 @@ formulario.addEventListener("submit", async e => {
 })
 
 async function postCampeonato(endpoint, body) {
+    console.log(body)
     const config = configuracaoFetch("POST", body)
 
     const callbackServidor = data => {
@@ -108,7 +109,7 @@ async function postCampeonato(endpoint, body) {
         data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
     }
 
-    const data = await executarFetch(endpoint, config, null, callbackServidor)
+    const data = await executarFetch(endpoint, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
     if (!data) return false
 
     notificacaoSucesso(data.results[0])

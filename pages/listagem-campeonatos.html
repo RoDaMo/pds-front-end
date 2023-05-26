@@ -13,14 +13,14 @@
 
 
     <div class="mt-4">
-      <p id="mensagem-erro"></p>
+      <p class="text-dark" id="mensagem-erro"></p>
     </div>  
     
     <div class="row align-items-start mt-5 gap-0">
       
       <div class="col-md-2 mb-2">
-        <select class="form-select" aria-label="Default select example"  placeholder="Filtrar a partir de...">
-            <option selected>Esportes</option>
+        <select id="esportes" class="form-select" aria-label="Default select example"  placeholder="Filtrar a partir de...">
+            <option value="" selected>Esportes</option>
             <option value="1">Futebol</option>
             <option value="2">Vôlei</option>  
           </select>
@@ -28,20 +28,20 @@
 
       <div class="col-md-2 mb-2">
             <div class="input-group ">
-              <input type="text" class="form-control" placeholder="Filtrar a partir de..." aria-label="Filtrar a partir de..." aria-describedby="basic-addon2">
+              <input id="data-inicio" type="text" class="form-control" placeholder="Filtrar a partir de..." aria-label="Filtrar a partir de..." aria-describedby="basic-addon2">
                 
             </div>
       </div>
 
       <div class="col-md-2 mb-2">
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="Filtrar até..." aria-label="Filtrar até..." aria-describedby="basic-addon2">
+              <input id="data-fim" type="text" class="form-control" placeholder="Filtrar até..." aria-label="Filtrar até..." aria-describedby="basic-addon2">
                 
             </div>
       </div>
 
       <div class="col-md-4 mb-2">
-        <button type="button" class="btn btn-outline-primary">Limpar filtros</button>
+        <button id="limpar" type="button" class="btn btn-outline-primary">Limpar filtros</button>
       </div>
       
     </div>
@@ -49,27 +49,14 @@
   
 
 
-    <div class="card card-body mt-5 border border-2 rounded-custom text-black ">
-      <div class="row gap-0">
-        <div class="col-md-3 d-flex justify-content-center align-items-center">
-          <img src="/trofeu.png" class="rounded img-fluid" width="50%" alt="Trofeu">
-        </div>
+    <div id="conteudo">
 
-        <div class="col-md-8">
-          <h3 class="card-title">Copa do Mundo 2022 - Futebol</h3>
-          <div class="row gap-0">      
-            <p class="col-md-4"><img src="/icons/calendar.svg">De 20/11/2022</p>
-            <p class=" col-md-4"> <img src="/icons/calendar.svg">Até 18/12/2022</p>
-            <p class="card-text col-md-4"><img src="/icons/map.svg">Brasil, São Paulo</p>
-          </div>
-        </div>
-        <div class="col-md-1 d-flex justify-content-center align-items-center">
-          <a href="" class="d-none d-sm-block"><img src="/icons/right.svg" width="90"></a>
-        </div>  
-      </div>
     </div>
-
     
+    <div class="mt-4 mb-4">
+      <button id="anterior" class="btn btn-success">anterior</button>
+      <button id="proximo" class="btn btn-success">proximo</button>
+    </div>
   </main>
 
 
