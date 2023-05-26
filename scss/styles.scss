@@ -4,6 +4,10 @@ $offset: 20vw;
 $move-initial: calc(-25% + $offset);
 $move-final: calc(-50% + $offset);
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   color: $white;
   font-family: $font-family-sans-serif;
@@ -72,10 +76,20 @@ body {
   opacity: .8;
   height: 55px;
   width: 55px;
+  transition: all 0.1s ease-in-out;
 
   i {
     font-size: 1.6rem;
     top: 1.6rem;
+    color: $play-cor-secundaria;
+  }
+}
+
+#gotop {
+  &:hover {
+    background-color: $play-cor-fundos;
+    opacity: 1;
+    border: 1px solid $play-cor-secundaria;
   }
 }
 

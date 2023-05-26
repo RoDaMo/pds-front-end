@@ -138,10 +138,10 @@ if (mediaQueryMobile.matches) {
         div.classList.add("gap-0")
     })
 
-    let lastScrollTop = window.pageYOffset || document.documentElement.scrollTop
+    let lastScrollTop = window.pageYOffset
 
     // Mobile navbar changer
-    window.addEventListener("scroll", () => {
+    document.addEventListener("scroll", () => {
 
         if (window.scrollY === 0){
             homeCards[0].classList.remove("ptx-90")
@@ -208,8 +208,8 @@ if (mediaQueryMobile.matches) {
     }, {passive: "true"})
 
     // Scrollend Trigger
-    window.addEventListener("scrollend", () => {
-        let st = window.pageYOffset || document.documentElement.scrollTop
+    document.addEventListener("scrollend", () => {
+        let st = window.pageYOffset
 
         // going downwards
         if (st > lastScrollTop && !(isVisible(scrollTrigger[7]))) {
@@ -226,7 +226,7 @@ if (mediaQueryMobile.matches) {
     // Swipe Direction Trigger
     document.addEventListener("swiped-up", function() {
 
-        if ((isVisible(scrollTrigger[0]))) {
+        if (isVisible(scrollTrigger[0])) {
             scrollTrigger[2].parentElement.scrollIntoView({
                 behavior: "smooth",
                 block: "start"
