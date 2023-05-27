@@ -23,9 +23,11 @@
   transition: all $transition !important;
 }
 
-.main-btn-color:hover {
-  background: $play-cor-fundos !important;
-  color: $black !important;
+.main-btn-color {
+  &:hover {
+    background: $play-cor-fundos !important;
+    color: $black !important;
+  }
 }
 
 .header-home {
@@ -50,18 +52,18 @@
     position: absolute;
     height: 60%;
     margin: auto;
-  }
 
-  span:nth-of-type(2) {
-    animation-delay: 2.5s;
-  }
+    &:nth-of-type(2) {
+      animation-delay: 2.5s;
+    }
 
-  span:nth-of-type(3) {
-    animation-delay: 5s;
-  }
+    &:nth-of-type(3) {
+      animation-delay: 5s;
+    }
 
-  span:nth-of-type(4) {
-    animation-delay: 7.5s;
+    &:nth-of-type(4) {
+      animation-delay: 7.5s;
+    }
   }
 }
 
@@ -243,8 +245,10 @@ ul.dots-list {
   }
 
   .feats {
-    p:nth-of-type(1) {
-      font-size: x-large !important;
+    p {
+      &:nth-of-type(1) {
+        font-size: x-large !important;
+      }
     }
     height: 20%;
   }
@@ -276,8 +280,10 @@ ul.dots-list {
   .feats {
     height: 28%;
 
-    p:nth-of-type(1) {
-      font-size: xx-large !important;
+    p {
+      &:nth-of-type(1) {
+        font-size: xx-large !important;
+      }
     }
   }
 
@@ -303,17 +309,21 @@ ul.dots-list {
   }
 
   .footer-cta:active {
-    transform: scale(0.9);
-    filter: brightness(0.8);
+    &:active {
+      transform: scale(0.9);
+      filter: brightness(0.8);
+    }
   }
 
   .home-btn {
     float: right;
   }
 
-  .rotate-wrapper span {
-    height: 38%;
-    width: 75%;
+  .rotate-wrapper {
+    span {
+      height: 38%;
+      width: 75%;
+    }
   }
 
   .rotate-wrapper {

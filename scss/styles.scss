@@ -149,40 +149,46 @@ body {
     option {
       cursor: pointer;
     }
-  }
 
-  #lingua:active,
-  #lingua:focus {
-    background-color: $play-cor-fundos-secundaria;
-    box-shadow: none;
-    border: none;
-    cursor: pointer;
-    outline: none;
+    &:active, &:focus {
+      background-color: $play-cor-fundos-secundaria !important;
+      color: $play-cor-texto !important;
+      box-shadow: none;
+      border: none;
+      cursor: pointer;
+      outline: none;
+    }
   }
 }
 
-.nav-item:hover {
-  a, #lingua {
+.nav-item {
+  &:hover, &:active, &:focus {
+    a, #lingua {
+      background-color: $play-cor-fundos-secundaria !important;
+      color: $play-cor-texto !important;
+    }
+  }
+}
+
+input[aria-label="Search"] {
+  &:focus, & {
+    text-align: center;
+  }
+}
+
+button.navbar-toggler {
+  &, &:active, &:focus {
     background-color: $play-cor-fundos-secundaria !important;
     color: $play-cor-texto !important;
   }
+  
 }
 
-input[aria-label="Search"],
-input[aria-label="Search"]:focus {
-  text-align: center;
-}
-
-button.navbar-toggler,
-button.navbar-toggler:active,
-button.navbar-toggler:focus  {
-  box-shadow: none;
-}
-
-button.navbar-toggler:active,
-button.navbar-toggler:hover {
-  background-color: $play-cor-fundos-secundaria !important;
-  color: $play-cor-texto !important;
+button.navbar-toggler {
+  &:active, &:hover {
+    background-color: $play-cor-fundos-secundaria !important;
+    color: $play-cor-texto !important;
+  }
 }
 
 .offcanvas.offcanvas-end {
