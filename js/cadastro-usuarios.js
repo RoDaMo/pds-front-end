@@ -3,10 +3,10 @@ import { notificacaoSucesso } from "./utilidades/notificacoes"
 import flatpickr from "flatpickr"
 import { Portuguese } from "flatpickr/dist/l10n/pt.js"
 import { visualizarSenha } from "./utilidades/visualizar-senha"
+import {redirecionamento} from './utilidades/redirecionamento'
 
 const formulario = document.getElementById("formulario")
 const mensagemErro = document.getElementById("mensagem-erro")
-const botaoContinuar = document.getElementById("continuar")
 
 const nomeUsuario = document.getElementById("nome-usuario")
 const nome = document.getElementById("nome")
@@ -24,6 +24,8 @@ const iconeCaractere = document.getElementById("icone-caractere")
 const textoCaractere = document.getElementById("texto-caractere")
 const iconeEspecial = document.getElementById("icone-especial")
 const textoEspecial = document.getElementById("texto-especial")
+
+redirecionamento(nomeUsuario)
 
 flatpickr(dataAniversario, {
     dateFormat: "Y-m-d",
@@ -61,7 +63,7 @@ const letraMaiuscula = (str) => /[A-Z]/.test(str);
 const letraMinuscula = (str) => /[a-z]/.test(str);
 const numero = (str) => /[0-9]/.test(str);
 const emailRegex = (str) => /\S+@\S+\.\S+/.test(str);
-const nomeUsuarioRegex = (str) => /^[A-Za-z0-9_-]*$/.test(str);
+const nomeUsuarioRegex = (str) => /^[a-zA-Z0-9_]+$/.test(str);
 const caracteres = (str) => /.{4,}/.test(str);
 const especial = (str) => /^[a-zA-Z0-9 ]*$/.test(str);
 
@@ -125,8 +127,9 @@ formulario.addEventListener("submit", async(e) => {
         "Birthday": dataAniversario.value
     })
     
-    if (resultado)
-        formulario.reset()
+    if (resultado){
+        window.location.assign(`/pages/login.html?userName=${nomeUsuario.value}`);
+    }
 })
 
 async function postUsuario(endpoint, body) {
@@ -137,7 +140,7 @@ async function postUsuario(endpoint, body) {
         data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
     }
 
-    const data = await executarFetch(endpoint, config, null, callbackServidor)
+    const data = await executarFetch(endpoint, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
 
     if (!data) return false
 

@@ -1,41 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <title>Listagem de campeonato</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <title>Listagem de campeonato</title>
 </head>
 <body>
   <componente-header></componente-header>
   <main class="container">
-    <!-- <div class="d-flex justify-content-center mt-4">
-        <div class="card-group col-sm-3">
-          <div class="card">
-            <img src="/bola-de-futebol.png" class="card-img-top img-fluid" width="180" alt="Logo Playoffs">
-          </div>
-          <div class="card">
-            <img src="/bola-de-volei.png" class="card-img-top img-fluid" width="180" alt="Logo Playoffs">
-          </div>
-        </div>
-    </div> -->
+
+
+    <div class="mt-4">
+      <p class="text-dark" id="mensagem-erro"></p>
+    </div>  
+    
+    <div class="row align-items-start mt-5 gap-0">
+      
+      <div class="col-md-2 mb-2">
+        <select id="esportes" class="form-select" aria-label="Default select example"  placeholder="Filtrar a partir de...">
+            <option value="" selected>Esportes</option>
+            <option value="1">Futebol</option>
+            <option value="2">Vôlei</option>  
+          </select>
+      </div>
+
+      <div class="col-md-2 mb-2">
+            <div class="input-group ">
+              <input id="data-inicio" type="text" class="form-control" placeholder="Filtrar a partir de..." aria-label="Filtrar a partir de..." aria-describedby="basic-addon2">
+                
+            </div>
+      </div>
+
+      <div class="col-md-2 mb-2">
+            <div class="input-group">
+              <input id="data-fim" type="text" class="form-control" placeholder="Filtrar até..." aria-label="Filtrar até..." aria-describedby="basic-addon2">
+                
+            </div>
+      </div>
+
+      <div class="col-md-4 mb-2">
+        <button id="limpar" type="button" class="btn btn-outline-primary">Limpar filtros</button>
+      </div>
+      
+    </div>
+
   
-    <p class="text-dark" id="nenhum-resultado"></p>
-  
-    <table class="table mx-auto mt-4">
-        <thead>
-          <tr>
-            <th scope="col">Nome</th>
-            <th scope="col">Prêmio</th>
-            <th scope="col">Data de inicio</th>
-            <th scope="col">Data de termino</th>
-            <th scope="col">Esporte</th>
-          </tr>
-        </thead>
-        <tbody id="tbody">
-            
-        </tbody>
-    </table>
+
+
+    <div id="conteudo">
+
+    </div>
+    
+    <div class="mt-4 mb-4 d-flex justify-content-center gap-4">
+      <button id="anterior" class="btn btn-success"><i class="bi bi-caret-left"></i></button>
+      <button id="proximo" class="btn btn-success"><i class="bi bi-caret-right"></i></button>
+    </div>
   </main>
 
 
