@@ -9,8 +9,8 @@ const erro = document.getElementById("mensagem-erro")
 const conteudo = document.getElementById('conteudo')
 const config = configuracaoFetch("GET")
 const parametroUrl = new URLSearchParams(window.location.search);
-const limpar = document.getElementById("limpar")
 const params = new URLSearchParams();
+const limpar = document.getElementById("limpar")
 const proximo = document.getElementById("proximo")
 const anterior = document.getElementById("anterior")
 
@@ -85,29 +85,12 @@ const listagem = async () => {
 }
 
 proximo.addEventListener('click', async() => {
-    const lng = localStorage.getItem('lng')
-    const pitId = document.getElementById('pitId') 
-    const sort = document.getElementById('sort')
-
-    const configPaginacao = configuracaoFetch("GET")
-
-    configPaginacao.headers = {
-        'Accept-Language': lng,
-        'pitId': pitId.textContent,
-        'sort': sort.textContent.split(",")
-    }
-
-    usarObjeto()
-
-    const endpoint = `championships${params.toString() ? '?' + params.toString() : ''}`
-
-    const data = await executarFetch(endpoint, configPaginacao, null, callbackServidor)
+    const data = await configProximo()
 
     if(data.results.length !== 0) {
         exibirDados(data)
     }
 })
-
 
 anterior.addEventListener("click", async() => {
     exibirDados(elementoAnterior(paginasAnteriores, paginasAnteriores[paginasAnteriores.length-1]))
@@ -133,7 +116,27 @@ const elementoAnterior = (vetor, elemento) => {
     return vetor[indice - 1];
 }
 
-const ultimoArray = (array, element) => (array[array.length - 1] === element) ? true : false
+const configProximo = async () => {
+    const configPaginacao = configuracaoFetch("GET")
+
+    configPaginacao.headers = {
+        'Accept-Language': localStorage.getItem('lng'),
+        'pitId': document.getElementById('pitId').textContent,
+        'sort': document.getElementById('sort').textContent.split(",")
+    }
+
+    usarObjeto()
+
+    const endpoint = `championships${params.toString() ? '?' + params.toString() : ''}`
+
+    return await executarFetch(endpoint, configPaginacao, null, callbackServidor)
+}
+
+const reqBotaoProximo = async() => {
+    const data = await configProximo()
+
+    proximo.disabled = (data.results.length === 0)
+}
 
 const exibirDados = (data) => {
     conteudo.innerHTML = ``
@@ -142,23 +145,19 @@ const exibirDados = (data) => {
         erro.textContent = "Nenhum resultado encontrado"
     }
 
-    let contador = -1
     data.results.forEach(e => {
-        contador++
         conteudo.innerHTML += 
         `
             <div class="card card-body mt-5 border border-2 rounded-custom text-black ">
                 <div class="row gap-0">
-                    <div class="col-md-3 d-flex justify-content-center align-items-center">
-                        <img src="${e.logo}" id="logo" class="rounded img-fluid" width="50%" alt="Trofeu">
+                    <div class="col-md-2 d-flex justify-content-center align-items-center">
+                        <img src="${e.logo}" id="logo" class="rounded img-fluid" alt="Trofeu">
                     </div>
 
-                    <div class="col-md-8">
-                        <h3 id="nome" class="card-title">${e.name}</h3>
+                    <div class="col-md-9 d-flex flex-column justify-content-center ">
+                        <h3 id="nome" class="card-title text-success">${e.name}</h3>
                         <div class="row gap-0">      
-                            <p id="data-inicio" class="col-md-4"><img src="/icons/calendar.svg">De ${e.initialDate}</p>
-                            <p id="data-final" class=" col-md-4"> <img src="/icons/calendar.svg">Até ${e.finalDate}</p>
-                            <p id="local" class="card-text col-md-4"><img src="/icons/map.svg">${e.nation}, ${e.city}</p>
+                            <p class="col-md-12 text-success"><i class="bi bi-calendar-event-fill m-1 text-success"></i>De ${new Date(e.initialDate).toLocaleDateString('pt-BR')} até ${new Date(e.finalDate).toLocaleDateString('pt-BR')} - <i class="bi bi-geo-alt-fill m-1 text-success"></i> ${e.nation}, ${e.city}</p>
                         </div>
                     </div>
 
@@ -166,11 +165,11 @@ const exibirDados = (data) => {
                         <a href="" class="d-none d-sm-block"><img src="/icons/right.svg" width="90"></a>
                     </div> 
                     ${
-                        ultimoArray(data.results, e) ?
+                        (data.results[data.results.length - 1] === e) ?
                         `
                             <p id="pitId" class="d-none">${e.pitId}</p>
                             <p id="sort" class="d-none">${e.sort}</p>
-                            <p class="d-none">${contador !== 14 ? proximo.disabled = true : proximo.disabled = false }</p>
+
                         ` :
                         ""
                     }
@@ -179,6 +178,8 @@ const exibirDados = (data) => {
         `;
     });
     paginasAnteriores.push(data)
+    anterior.disabled = data === paginasAnteriores[0];
+    reqBotaoProximo()
 }
 
 listagem();
