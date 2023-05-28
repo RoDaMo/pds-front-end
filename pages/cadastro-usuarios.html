@@ -8,35 +8,46 @@
     <title>Cadastro de Usuários</title>
 </head>
 <body>
-    <main class="container mt-3">
+    <main class="container mb-5">
         <div class="row justify-content-center">
-            <div class="col-md-6 mt-5">
+            <div class="col-md-6 mt-5 bg-verde-limao rounded-4 px-5">
                 <div class="mb-5 mt-5">
                     <a class="navbar-brand m-auto p-auto" href="/"><img src="/Logo_Playoffs.png" class="img-fluid" width="300" alt="Logo Playoffs"></a>
                 </div>
+
                 <h1 id="bem-vindo" class="mb-4 text-success">Bem Vindo!</h1>
                 <h4 id="texto-apresentacao" class="mb-4 text-success ">Você ainda não tem uma conta! Crie sua conta e junte-se a nós.</h4>
+
+                <div id="div-reposta" class="d-none">
+                    <h4 id="texto-resposta" class="mb-4 text-success">Email de confirmação de conta</h4>
+                    <p class="text-success mb-1">Verifique o seu email e confirme a sua conta para poder acessá-la.</p>
+                    <p class="text-success mb-4">Caso não tenha recebido o email, clique no botão abaixo para reenviar a solicitação:</p>
+                    <button id="reenviar-email" class="mb-4 col-md-4 btn btn-success rounded-pill">Reenviar email</button>
+                </div>
+
                 <form id="formulario" method="post">
-                    <div class="mb-3">
-                        <label for="email-usuario" class="form-label text-success">Email:</label>
-                        <input type="email" class="form-control" id="email-usuario" name="email-usuario" placeholder="Email..." required>
-                        <div class="form-text text-danger mt-2 " id="email-validacao"></div>
-                    </div>
                     <div id="parte-2" class="mb-3">
-                        <label for="nome" class="form-label text-success">Nome:</label>
-                        <input required type="text" class="form-control" id="nome" name="nome" placeholder="Nome..." >
-                        <div class="form-text text-danger mt-2" id="nome-validacao"></div>
-                        <label for="nome-usuario" class="form-label text-success mt-3">Nome de usuário:</label>
-                        <input type="text" class="form-control" id="nome-usuario" name="nome-usuario" placeholder="Nome de usuário..." required>
-                        <div class="form-text text-danger mt-2" id="nome-usuario-validacao"></div>
-                        <div >
-                            <label for="data" class="form-label text-success mt-3">Data de nascimento:</label>
-                            <input type="text" class="form-control" id="data" name="data" placeholder="Data de nascimento..." required>
-                            <div class="form-text text-danger mt-2" id="data-validacao"></div>
+                        <div>
+                            <label for="nome-usuario" class="form-label text-success mt-3">Nome de usuário:</label>
+                            <input type="text" class="form-control" id="nome-usuario" name="nome-usuario" placeholder="Nome de usuário...">
+                        </div>
+                        <div class="mt-3">
+                            <label for="nome" class="form-label text-success">Nome:</label>
+                            <input required type="text" class="form-control" id="nome" name="nome" placeholder="Nome..." >
+                        </div>
+                        <div class="mt-3">
+                            <label for="email-usuario" class="form-label text-success">Email:</label>
+                            <input type="email" class="form-control" id="email-usuario" name="email-usuario" placeholder="Email...">
+                        </div>
+                        <div class="mt-3" >
+                            <label for="data" class="form-label text-success">Data de nascimento:</label>
+                            <input type="text" class="form-control" id="data" name="data" placeholder="Data de nascimento...">
                         </div>
                         <label for="nome-usuario" class="form-label text-success mt-3">Senha:</label>
                         <div class="d-flex position-relative">
-                            <input type="password" class="form-control" id="senha" name="senha" placeholder="Senha..." required autocomplete="on">
+                            <div class="input-wrapper w-100">
+                                <input type="password" class="form-control" id="senha" name="senha" placeholder="Senha..." autocomplete="on">
+                            </div>
                             <div id="olhos">
                                 <i id="olho-aberto" class="btn btn-success rounded-0 rounded-end bi bi-eye text-light position-absolute end-0"></i>
                                 <i id="olho-fechado" class="btn btn-success rounded-0 rounded-end bi bi-eye-slash text-light position-absolute end-0 d-none"></i>
@@ -72,7 +83,7 @@
                             <a href="/index.html" class="col-md-3 btn btn-outline-success rounded-pill">Cancelar</a>
                         </div>
                     </div>
-                    <div class="mt-4">
+                    <div class="mt-4 text-danger">
                         <p id="mensagem-erro"></p>
                     </div>
                 </form>
