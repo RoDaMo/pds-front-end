@@ -7,7 +7,7 @@ import ingles from './i18n/en/cadastro-campeonatos.json' assert { type: 'JSON' }
 import JustValidate from "just-validate"
 import flatpickr from "flatpickr"
 import { Portuguese } from "flatpickr/dist/l10n/pt.js"
-// import {exibidorImagem} from '../js/utilidades/previewImagem'
+import {exibidorImagem} from '../js/utilidades/previewImagem'
 
 
 inicializarInternacionalizacao(ingles, portugues);
@@ -28,7 +28,7 @@ const formato = document.getElementById('formato')
 const quantidade = document.getElementById('quantidade')
 const imagem = document.getElementById('logo')
 
-// exibidorImagem(imagem, escudo)
+exibidorImagem(imagem, escudo)
 
 const optionDefault = () => {
     const optionDefault = document.createElement('option')
