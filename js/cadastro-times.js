@@ -47,12 +47,12 @@ validator
             rule: 'files',
             value: {
                 files: {
-                    extensions: ['jpeg', 'jpg', 'png'],
+                    extensions: ['jpeg', 'jpg', 'png', 'webp', 'gif', 'bmp', 'tiff'],
                     maxSize: 5000000,
-                    types: ['image/jpeg', 'image/jpg', 'image/png'],
+                    types: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/bmp', 'image/tiff'],
                 },
             },
-            errorMessage: 'Imagem em jpeg/jpg/png - máx. 5mb',
+            errorMessage: 'Tamanho máximo da imagem: 5mb',
         }
     ])
     .addField(uniformeHome, [
@@ -64,12 +64,12 @@ validator
             rule: 'files',
             value: {
                 files: {
-                    extensions: ['jpeg', 'jpg', 'png'],
+                    extensions: ['jpeg', 'jpg', 'png', 'webp', 'gif', 'bmp', 'tiff'],
                     maxSize: 5000000,
-                    types: ['image/jpeg', 'image/jpg', 'image/png'],
+                    types: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/bmp', 'image/tiff'],
                 },
             },
-            errorMessage: 'Imagem em jpeg/jpg/png - máx. 5mb',
+            errorMessage: 'Tamanho máximo da imagem: 5mb',
         }
 
     ])
@@ -82,12 +82,12 @@ validator
             rule: 'files',
             value: {
                 files: {
-                    extensions: ['jpeg', 'jpg', 'png'],
+                    extensions: ['jpeg', 'jpg', 'png', 'webp', 'gif', 'bmp', 'tiff'],
                     maxSize: 5000000,
-                    types: ['image/jpeg', 'image/jpg', 'image/png'],
+                    types: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/bmp', 'image/tiff'],
                 },
             },
-            errorMessage: 'Imagem em jpeg/jpg/png - máx. 5mb',
+            errorMessage: 'Tamanho máximo da imagem: 5mb',
         }
     ])
     .addField(descricao, [
