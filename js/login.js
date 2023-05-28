@@ -106,3 +106,4 @@ async function postToken(body) {
     } else {
         window.location.assign(`/`)
     }
+}
