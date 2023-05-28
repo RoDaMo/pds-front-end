@@ -58,7 +58,6 @@ validator
         })
     })
 
-
 visualizarSenha()
 
 redirecionamento(nomeUsuario)
@@ -107,4 +106,3 @@ async function postToken(body) {
     } else {
         window.location.assign(`/`)
     }
-}

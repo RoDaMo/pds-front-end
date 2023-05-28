@@ -3,7 +3,6 @@ import { notificacaoSucesso } from "./utilidades/notificacoes"
 import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
 import portugues from './i18n/ptbr/cadastro-campeonatos.json' assert { type: 'JSON' }
 import ingles from './i18n/en/cadastro-campeonatos.json' assert { type: 'JSON' }
-
 import JustValidate from "just-validate"
 import flatpickr from "flatpickr"
 import { Portuguese } from "flatpickr/dist/l10n/pt.js"
@@ -76,6 +75,31 @@ flatpickr(dataFinal, {
     dateFormat: "Y-m-d",
     locale: Portuguese,
     altInput: true,
+})
+
+formulario.addEventListener("submit", async e => {
+    e.preventDefault()
+    limparMensagem(mensagemErro)
+
+    const resultado = await postCampeonato("championships", {
+        "name": nomeCampeonato.value,
+        "initialDate": dataInicial.value,
+        "finalDate": dataFinal.value,
+        "sportsId": parseInt(esporte.value),
+        "teamQuantity": parseInt(quantidade.value),
+        "logo": imagem.value,
+        "description": descricao.value,
+        "Format": parseInt(formato.value),
+        "Nation": pais.value,
+        "State": estado.value,
+        "City": cidade.value,
+        "Neighborhood": bairro.value
+    })
+
+    if (resultado){
+        formulario.reset()
+        escudo.src = "#"
+    }
 })
 
 const validator = new JustValidate(formulario, {

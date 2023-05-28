@@ -6,7 +6,6 @@ import { visualizarSenha } from "./utilidades/visualizar-senha"
 import JustValidate from "just-validate"
 import {redirecionamento} from './utilidades/redirecionamento'
 
-
 const formulario = document.getElementById("formulario")
 const mensagemErro = document.getElementById("mensagem-erro")
 
@@ -143,7 +142,6 @@ validator
             window.location.assign(`/pages/login.html?userName=${nomeUsuario.value}`);
         }
     })
-
 
 async function postUsuario(endpoint, body) {
     const config = configuracaoFetch("POST", body)

@@ -114,6 +114,11 @@ body {
   color: $black;
 }
 
+
+.rounded-custom {
+  border-radius: 10px !important;
+  border-color:$play-cor-efeitos !important;
+}
 // Navbar
 .pesquisar {
   background-color: $gray-400 !important;
