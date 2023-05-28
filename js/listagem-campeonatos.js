@@ -9,12 +9,12 @@ const erro = document.getElementById("mensagem-erro")
 const conteudo = document.getElementById('conteudo')
 const config = configuracaoFetch("GET")
 const parametroUrl = new URLSearchParams(window.location.search);
-const params = new URLSearchParams();
 const limpar = document.getElementById("limpar")
 const proximo = document.getElementById("proximo")
 const anterior = document.getElementById("anterior")
 
 let paginasAnteriores = []
+let params = new URLSearchParams();
 
 const callbackServidor = data => {
     erro.classList.add("text-danger")
@@ -53,6 +53,7 @@ flatpickr(filtroFim, {
 filtroEsporte.addEventListener("change", async() => {
     paginasAnteriores = []
     filtros.sport = filtroEsporte.value ? filtroEsporte.value : null;
+    if(filtroEsporte.value === "") params = new URLSearchParams();
     listagem();
 })
 
@@ -78,6 +79,7 @@ const listagem = async () => {
     usarObjeto()
 
     const endpoint = `championships${params.toString() ? '?' + params.toString() : ''}`
+    console.log(endpoint)
 
     const data = await executarFetch(endpoint, config, null, callbackServidor)
 
@@ -150,14 +152,16 @@ const exibirDados = (data) => {
         `
             <div class="card card-body mt-5 border border-2 rounded-custom text-black ">
                 <div class="row gap-0">
-                    <div class="col-md-2 d-flex justify-content-center align-items-center">
-                        <img src="${e.logo}" id="logo" class="rounded img-fluid" alt="Trofeu">
+                    <div class="col-md-2  d-flex justify-content-center ">
+                        <div >
+                            <img src="${e.logo}" style="max-height: 10rem; max-width: 10rem;" id="logo" class="rounded img-fluid"  alt="Trofeu">
+                        </div>
                     </div>
 
-                    <div class="col-md-9 d-flex flex-column justify-content-center ">
+                    <div class="col-md-9 d-flex flex-column justify-content-center  ">
                         <h3 id="nome" class="card-title text-success">${e.name}</h3>
                         <div class="row gap-0">      
-                            <p class="col-md-12 text-success"><i class="bi bi-calendar-event-fill m-1 text-success"></i>De ${new Date(e.initialDate).toLocaleDateString('pt-BR')} até ${new Date(e.finalDate).toLocaleDateString('pt-BR')} - <i class="bi bi-geo-alt-fill m-1 text-success"></i> ${e.nation}, ${e.city}</p>
+                            <p class="col-md-12 text-success"><i class="bi bi-calendar-event-fill m-1 text-success"></i>De ${new Date(e.initialDate).toLocaleDateString('pt-BR')} até ${new Date(e.finalDate).toLocaleDateString('pt-BR')} -<i class="bi bi-geo-alt-fill m-1 text-success"></i> ${e.nation}, ${e.city}</p>
                         </div>
                     </div>
 

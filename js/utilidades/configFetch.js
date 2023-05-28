@@ -1,5 +1,5 @@
 export const api = "https://playoffs-api.up.railway.app/"
-export const configuracaoFetch = (method, data = null) => {
+export const configuracaoFetch = (method, data = null, uploadArquivo = false) => {
     const lng = localStorage.getItem('lng')
     const config = {
         method: method,
@@ -10,8 +10,12 @@ export const configuracaoFetch = (method, data = null) => {
     }
 
     if(method !== "GET"){
-        config.body = JSON.stringify(data)
-        config.headers['Content-Type'] = "application/json"
+        config.body = data
+
+        if (!uploadArquivo) {
+            config.body = JSON.stringify(data)
+            config.headers['Content-Type'] =  "application/json"
+        }
     }
 
     return config
@@ -24,34 +28,34 @@ export const executarFetch = async (endpoint, config, callbackStatus, callbackSe
     console.log('status: ' + res.status)
     if(res.status === 401){
         const resPut = await fetch(`${api}auth`, configuracaoFetch("PUT"))
+        console.log('statusPut: ' + resPut.status)
         if(resPut.status === 401){
             window.location.assign("/pages/login.html");
         }
     }
 
     if (!res.ok) {
-        if (!callbackStatus) {
-            notificacaoErro()
-            return
-        }  
-
-        const data = await res.json()
-        callbackStatus(data)
-        return
+        const text = await res.text(); 
+        try {
+            const data = JSON.parse(text);
+            callbackStatus(data);
+        } catch (err) {
+            notificacaoErro();
+        }
+        return;
     }
 
-    const data = await res.json()
-    if (!data.succeed) {
-        if (!callbackServidor) {
-            notificacaoErro()
-            return
-        }
-
-        callbackServidor(data)
-        return
-    }   
-
-    return data
+    const texto = await res.text(); 
+    try {
+        const data = JSON.parse(texto)
+        if (!data.succeed) {
+            callbackServidor(data);
+            return;
+        }   
+        return data;
+    } catch (err) {
+        notificacaoErro();
+    }
 }
 
 export const limparMensagem = (mensagemErro) => {

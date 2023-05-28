@@ -89,14 +89,15 @@
                             <input id="logo" type="file" name="logo" accept=".png, .jpg, .jpeg" >
                         </label>
                     </div>
+                    <input type="hidden" name="logo" id="emblema">
                 </div> 
             </div>
             <div class="col-12 mt-5 mb-5 gap-2">
-                <button id="salvar" class="col-md-2 btn btn-success rounded-pill" type="submit">Salvar</button>
+                <button id="salvar" disabled class="col-md-2 btn btn-success rounded-pill" type="submit">Salvar</button>
                 <a href="/index.html" class="col-md-2 btn btn-outline-success rounded-pill">Cancelar</a>
             </div>  
             <div class="mt-4">
-                <p id="mensagem-erro"></p>
+                <p class="text-danger" id="mensagem-erro"></p>
             </div>
         </form>
     </main>
