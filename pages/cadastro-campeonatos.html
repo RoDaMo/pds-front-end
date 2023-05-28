@@ -11,7 +11,7 @@
 <body>
     <componente-header></componente-header>
     <main class="mt-5">
-        <form class="container bg-secondary rounded-4 px-5 py-2" method="post" id="formulario">
+        <form class="container bg-verde-limao rounded-4 px-5 py-2" method="post" id="formulario">
             <div class="row gap-0">
                 <div class="col-md-8">
                     <div class="col-md-12">
@@ -72,32 +72,33 @@
                         </div>
                         <div class="col-md-12 mb-3 mt-3">
                             <label for="descricao" class="form-label text-success">Descrição do campeonato:</label>
-                            <textarea class="form-control h-100" id="descricao" placeholder="Descreva seu campeonato..." name="descricao"></textarea>
+                            <textarea class="form-control h-100 px-3 py-2" id="descricao" placeholder="Descreva seu campeonato..." name="descricao"></textarea>
                         </div>
                     </div>
                     
                 </div>
-                <div class="col-md-4 mt-5 d-flex justify-content-center align-items-center flex-column">
+                <div class="col-md-4 mt-5 d-flex align-items-center flex-column">
                     <div>
-                        <img src="#" class="p-2 img-fluid rounded-5 border border-success escudo" id="escudo" alt="">
+                        <img src="https://playoffs-api.up.railway.app/img/fefabe2b-4038-4b8c-b719-54fbbe9095a4" class="p-2 img-fluid rounded-5 border border-success escudo" id="escudo" alt="">
                     </div>
                     <div class="custom-file-upload-logo">
                         <label for="logo" class="col-md-12 mt-4 btn btn-success d-flex justify-content-center align-items-center">
                             <i class="d-flex justify-content-center align-items-center btn bi bi-upload text-light"></i>
-                            <span id="custom-text">Enviar logo</span>
+                            <span id="custom-text">Enviar</span>
                             <div class="input-wrapper w-100">
                                 <input id="logo" type="file" name="logo" accept=".png, .jpg, .jpeg">
                             </div>
                         </label>
                     </div>
+                    <input type="hidden" name="logo" id="emblema">
                 </div> 
             </div>
             <div class="col-12 mt-5 mb-5 gap-2">
-                <button id="salvar" class="col-md-2 btn btn-success rounded-pill" type="submit">Salvar</button>
+                <button id="salvar" disabled class="col-md-2 btn btn-success rounded-pill" type="submit">Salvar</button>
                 <a href="/index.html" class="col-md-2 btn btn-outline-success rounded-pill">Cancelar</a>
             </div>  
             <div class="mt-4">
-                <p id="mensagem-erro"></p>
+                <p class="text-danger" id="mensagem-erro"></p>
             </div>
         </form>
     </main>

@@ -24,7 +24,10 @@ export default defineConfig({
         cadastro: resolve(__dirname, 'pages/cadastro-campeonatos.html'),
         login: resolve(__dirname, 'pages/login.html'),
         cadastroUsuarios: resolve(__dirname, 'pages/cadastro-usuarios.html'),
-        listagem: resolve(__dirname, 'pages/listagem-campeonatos.html')
+        listagem: resolve(__dirname, 'pages/listagem-campeonatos.html'),
+        redefinirSenha: resolve(__dirname, 'pages/redefinir-senha.html'),
+        cadastroTimes: resolve(__dirname, 'pages/cadastro-times.html'),
+        confirmacaoCadastro: resolve(__dirname, 'pages/confirmacao-cadastro.html'),
       }
     }
   },

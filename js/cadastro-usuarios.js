@@ -152,7 +152,7 @@ validator
     if (resultado){
         apresentarResultado()
     }
-})
+
 
 botao.addEventListener("click", async() => {
     let endpoint = `auth/resend-confirm-email?id=${idUsuario}`

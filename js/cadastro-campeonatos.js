@@ -7,7 +7,7 @@ import JustValidate from "just-validate"
 import flatpickr from "flatpickr"
 import { Portuguese } from "flatpickr/dist/l10n/pt.js"
 import {exibidorImagem} from '../js/utilidades/previewImagem'
-
+import { uploadImagem } from './utilidades/uploadImagem'
 
 inicializarInternacionalizacao(ingles, portugues);
 let formulario = document.getElementById("formulario")
@@ -26,8 +26,7 @@ const esporte = document.getElementById("esportes")
 const formato = document.getElementById('formato')
 const quantidade = document.getElementById('quantidade')
 const imagem = document.getElementById('logo')
-
-exibidorImagem(imagem, escudo)
+const emblema = document.getElementById('emblema')
 
 const optionDefault = () => {
     const optionDefault = document.createElement('option')
@@ -87,7 +86,7 @@ formulario.addEventListener("submit", async e => {
         "finalDate": dataFinal.value,
         "sportsId": parseInt(esporte.value),
         "teamQuantity": parseInt(quantidade.value),
-        "logo": imagem.value,
+        "logo": emblema.value,
         "description": descricao.value,
         "Format": parseInt(formato.value),
         "Nation": pais.value,
@@ -100,6 +99,14 @@ formulario.addEventListener("submit", async e => {
         formulario.reset()
         escudo.src = "#"
     }
+})
+
+imagem.addEventListener("change", async() => {
+    const data = await uploadImagem(imagem, 0, mensagemErro)
+
+    emblema.value = `https://playoffs-api.up.railway.app/img/${data.results}`
+    exibidorImagem(escudo, emblema.value)
+    document.getElementById('salvar').disabled = !(data.succeed === true)
 })
 
 const validator = new JustValidate(formulario, {
