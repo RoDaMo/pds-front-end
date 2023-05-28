@@ -4,7 +4,7 @@ import flatpickr from "flatpickr"
 import { Portuguese } from "flatpickr/dist/l10n/pt.js"
 import { visualizarSenha } from "./utilidades/visualizar-senha"
 import JustValidate from "just-validate"
-// import {redirecionamento} from './utilidades/redirecionamento'
+import {redirecionamento} from './utilidades/redirecionamento'
 
 
 const formulario = document.getElementById("formulario")
@@ -31,7 +31,7 @@ const textoCaractere = document.getElementById("texto-caractere")
 const iconeEspecial = document.getElementById("icone-especial")
 const textoEspecial = document.getElementById("texto-especial")
 
-// redirecionamento(nomeUsuario)
+redirecionamento(nomeUsuario)
 
 flatpickr(dataAniversario, {
     dateFormat: "Y-m-d",
