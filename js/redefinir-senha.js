@@ -1,7 +1,8 @@
 import { configuracaoFetch, limparMensagem, executarFetch } from "./utilidades/configFetch"
 import { notificacaoErro } from "./utilidades/notificacoes"
-import { notificacaoSucesso } from "./utilidades/notificacoes"
 import { visualizarSenha } from "./utilidades/visualizar-senha"
+
+let email
 
 window.addEventListener("DOMContentLoaded", async(e) => {
     e.preventDefault()
@@ -19,6 +20,7 @@ window.addEventListener("DOMContentLoaded", async(e) => {
     } else {
         divReposta2.classList.remove("d-none")
         visualizarSenha()
+        email = data.results[0]
     }
 })
 
@@ -44,6 +46,7 @@ formulario.addEventListener("submit", async(e) => {
     if(!validacoes()) return
 
     await postToken({
+        "Email": email,
         "Password": senha.value,
     })
 })
@@ -56,7 +59,6 @@ async function postToken(body) {
     const data = await res.json()
 
     if(res.ok){
-        notificacaoSucesso(data.message)
         window.location.assign(`/pages/login.html?userName=${data.results}`)
     } else {
         data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`)
