@@ -161,11 +161,11 @@ validator
             value: {
                 files: {
                     extensions: ['jpeg', 'jpg', 'png'],
-                    maxSize: 20000,
+                    maxSize: 5000000,
                     types: ['image/jpeg', 'image/jpg', 'image/png'],
                 },
             },
-            errorMessage: 'Imagem em jpeg/jpg/png - máx. 20kb',
+            errorMessage: 'Imagem em jpeg/jpg/png - máx. 5mb',
         }
     ])
     .addField(pais, [
