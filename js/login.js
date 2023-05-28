@@ -1,3 +1,4 @@
+import JustValidate from "just-validate"
 import { configuracaoFetch, executarFetch, limparMensagem } from "./utilidades/configFetch"
 import { visualizarSenha } from "./utilidades/visualizar-senha"
 import {redirecionamento} from './utilidades/redirecionamento'
@@ -7,6 +8,55 @@ const senha = document.getElementById("senha")
 const formulario = document.getElementById("formulario")
 const mensagemErro = document.getElementById("mensagem-erro")
 const lembrar = document.getElementById('lembrar')
+
+const validator = new JustValidate(formulario, {
+    validateBeforeSubmitting: true,
+})
+
+validator
+    .addField(nomeUsuario, [
+        {
+            rule: 'required',
+            errorMessage: 'O nome de usuário é obrigatório',
+        },
+        {
+            rule: 'minLength',
+            value: 4,
+            errorMessage: 'Nome de usuário deve possuir no mínimo 4 caracteres.',
+        },
+        {
+            rule: 'maxLength',
+            value: 20,
+            errorMessage: 'Nome de usuário deve possuir no máximo 20 caracteres.',
+        },
+        {
+            rule: 'customRegexp',
+            value: /^[A-Za-z0-9_-]*$/,
+            errorMessage: 'Nome de usuário inválido, não pode conter espaço nem caractere especial.',
+        },
+    ])
+    .addField(senha, [
+        {
+            rule: 'required',
+            errorMessage: 'A senha é obrigatória',
+        },
+        {
+            rule: 'customRegexp',
+            value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{4,}$/,
+            errorMessage: 'A senha deve conter ao menos 4 caracteres, uma letra maiúscula, uma minúscula e um número. Sem caracteres especiais.',
+        },
+        
+    ])
+    .onSuccess(async(e) => {
+        e.preventDefault()
+        limparMensagem(mensagemErro)
+
+        await postToken({
+            "Username": nomeUsuario.value,
+            "Password": senha.value,
+            "RememberMe": lembrar.checked ? true : false
+        })
+    })
 
 visualizarSenha()
 
@@ -39,17 +89,6 @@ async function postUsuarioExiste(body) {
     return true
 }
 
-formulario.addEventListener("submit", async(e) => {
-    e.preventDefault()
-    limparMensagem(mensagemErro)
-
-    await postToken({
-        "Username": nomeUsuario.value,
-        "Password": senha.value,
-        "RememberMe": lembrar.checked ? true : false
-    })
-})
-
 async function postToken(body) {
     const config = configuracaoFetch("POST", body)
 
@@ -64,8 +103,7 @@ async function postToken(body) {
         mensagemErro.textContent = data.message
         mensagemErro.classList.add("text-danger")
         senha.value = ""
-    }
-    else{
+    } else {
         window.location.assign(`/`)
     }
 }

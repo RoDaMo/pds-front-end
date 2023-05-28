@@ -1,7 +1,8 @@
 import { configuracaoFetch, executarFetch, limparMensagem } from "./utilidades/configFetch"
 import { notificacaoSucesso } from "./utilidades/notificacoes"
-import {exibidorImagem} from '../js/utilidades/previewImagem'
-import {uploadImagem} from './utilidades/uploadImagem'
+import { exibidorImagem } from '../js/utilidades/previewImagem'
+import JustValidate from "just-validate"
+import { uploadImagem } from './utilidades/uploadImagem'
 
 
 const formulario = document.getElementById("formulario")
@@ -21,25 +22,104 @@ const logo = document.getElementById("logo")
 const uniformeHome = document.getElementById("uniforme-casa")
 const uniformeAway = document.getElementById("uniforme-fora")
 
-formulario.addEventListener("submit", async(e) => {
-    e.preventDefault()
-    limparMensagem(mensagemErro)
-
-    const resultado = await postTime("teams", {
-        "emblem": logo.value,
-        "uniformHome": uniformeHome.value,
-        "uniformAway": uniformeAway.value,
-        "sportsId": esporte.value,
-        "name": nome.value,
-    })
-    
-    if (resultado){
-        formulario.reset()
-        escudo.src = "#"
-        home.src = "#"
-        away.src = "#"
-    }
+const validator = new JustValidate(formulario, {
+    validateBeforeSubmitting: true,
 })
+
+exibidorImagem(emblema, escudo)
+exibidorImagem(uniformeHome, home)
+exibidorImagem(uniformeAway, away)
+
+validator
+    .addField(nome, [
+        {
+            rule: 'required',
+            errorMessage: 'O nome do time é obrigatório',
+        },
+    ])
+    .addField(esporte, [
+        {
+            rule: 'required',
+            errorMessage: 'Favor selecionar um esporte',
+        },
+    ])
+    .addField(emblema, [
+        {
+            rule: 'required',
+            errorMessage: 'Insira o emblema do time',
+        },
+        {
+            rule: 'files',
+            value: {
+                files: {
+                    extensions: ['jpeg', 'jpg', 'png', 'webp', 'gif', 'bmp', 'tiff'],
+                    maxSize: 5000000,
+                    types: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/bmp', 'image/tiff'],
+                },
+            },
+            errorMessage: 'Tamanho máximo da imagem: 5mb',
+        }
+    ])
+    .addField(uniformeHome, [
+        {
+            rule: 'required',
+            errorMessage: 'Insira o uniforme de casa',
+        },
+        {
+            rule: 'files',
+            value: {
+                files: {
+                    extensions: ['jpeg', 'jpg', 'png', 'webp', 'gif', 'bmp', 'tiff'],
+                    maxSize: 5000000,
+                    types: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/bmp', 'image/tiff'],
+                },
+            },
+            errorMessage: 'Tamanho máximo da imagem: 5mb',
+        }
+
+    ])
+    .addField(uniformeAway, [
+        {
+            rule: 'required',
+            errorMessage: 'Insira o uniforme de fora',
+        },
+        {
+            rule: 'files',
+            value: {
+                files: {
+                    extensions: ['jpeg', 'jpg', 'png', 'webp', 'gif', 'bmp', 'tiff'],
+                    maxSize: 5000000,
+                    types: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/bmp', 'image/tiff'],
+                },
+            },
+            errorMessage: 'Tamanho máximo da imagem: 5mb',
+        }
+    ])
+    .addField(descricao, [
+        {
+            rule: 'required',
+            errorMessage: 'Favor inserir uma descrição',
+        },
+    ])
+    .onSuccess(async(e) => {
+        e.preventDefault()
+        limparMensagem(mensagemErro)
+
+        const resultado = await postTime("teams", {
+            "emblem": logo.value,
+            "uniformHome": uniformeHome.value,
+            "uniformAway": uniformeAway.value,
+            "sportsId": esporte.value,
+            "name": nome.value,
+        })
+        
+        if (resultado){
+            formulario.reset()
+            escudo.src = "#"
+            home.src = "#"
+            away.src = "#"
+        }
+    })
 
 let imagensValidacao = {
     logo: false,

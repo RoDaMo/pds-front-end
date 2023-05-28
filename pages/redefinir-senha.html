@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <title>Confirmação de Cadastro</title>
+</head>
+<body>
+    <main class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 mt-5 bg-secondary rounded-4 px-5">
+                <div class="mb-5 mt-5">
+                    <a class="navbar-brand m-auto p-auto" href="/"><img src="/Logo_Playoffs.png" class="img-fluid" width="300" alt="Logo Playoffs"></a>
+                </div>
+
+                <div id="div-reposta" class="d-none">
+                    <h4 id="texto-resposta" class="mb-2 text-danger">Erro</h4>
+                    <p class="text-danger mb-0">Não foi possível confirmar seu pedido de redefinição de senha.</p>
+                    <p class="text-danger mb-5">Clique <a href="recuperar-senha.html">aqui</a> para realizar seu pedido novamente.</p>
+                </div>
+
+                <div id="div-reposta-2" class="d-none">
+                    <form id="formulario" method="post">
+                        <div id="senha-formulario" class="mb-5">
+                            <label for="senha" id="senha-label" class="form-label text-success mt-3">Nova Senha:</label>
+                            <div class="d-flex position-relative">
+                                <input type="password" class="form-control" id="senha" name="senha" placeholder="Nova Senha..." required autocomplete="on">
+                                <div id="olhos">
+                                    <i id="olho-aberto" class="btn btn-success rounded-0 rounded-end bi bi-eye text-light position-absolute end-0"></i>
+                                    <i id="olho-fechado" class="btn btn-success rounded-0 rounded-end bi bi-eye-slash text-light position-absolute end-0 d-none"></i>
+                                </div>
+                            </div>
+                            <div class="form-text text-success mt-2">Sua senha deve possuir:</div>
+                            <div class="mb-4">
+                                <div class="d-flex gap-2 mt-2">
+                                    <i id="icone-maiuscula" class="bi bi-x-circle-fill text-danger"></i>
+                                    <small id="texto-maiuscula" class="text-danger">Letra maiúscula</small>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <i id="icone-minuscula" class="bi bi-x-circle-fill text-danger"></i>
+                                    <small id="texto-minuscula" class="text-danger">Letra minúscula</small>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <i id="icone-numero" class="bi bi-x-circle-fill text-danger"></i>
+                                    <small id="texto-numero" class="text-danger">Número</small>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <i id="icone-caractere" class="bi bi-x-circle-fill text-danger"></i>
+                                    <small id="texto-caractere" class="text-danger">Pelo menos 4 caracteres</small>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <i id="icone-especial" class="bi bi-x-circle-fill text-danger"></i>
+                                    <small id="texto-especial" class="text-danger">Nenhum acento ou caractere especial</small>
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <div class="container m-0">
+                            <div  class="row gap-2">
+                                <button  class="col-md-4 btn btn-success rounded-pill" id="enviar" type="submit">Enviar</button>
+                                <a href="/index.html" class="col-md-4 btn btn-outline-success rounded-pill">Cancelar</a>
+                            </div>
+                        </div>
+                        <div class="mt-4 text-danger">
+                            <p class="mt-1" id="mensagem-erro"></p>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </main>
+    <script type="module" src="../main.js"></script>
+    <script type="module" src="../js/redefinir-senha.js"></script>
+</body>
+</html>

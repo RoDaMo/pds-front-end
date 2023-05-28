@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <title>Confirmação de Cadastro</title>
+</head>
+<body>
+    <main class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 mt-5 bg-secondary rounded-4 px-5">
+                <div class="mb-5 mt-5">
+                    <a class="navbar-brand m-auto p-auto" href="/"><img src="/Logo_Playoffs.png" class="img-fluid" width="300" alt="Logo Playoffs"></a>
+                </div>
+
+                <div id="div-reposta" class="d-none">
+                    <h4 id="texto-resposta" class="mb-2 text-danger">Erro</h4>
+                    <p class="text-danger mb-5">Não foi possível realizar a confirmação de sua conta</p>
+                </div>
+
+                <div id="div-reposta-2" class="d-none">
+                    <h4 id="texto-resposta" class="mb-2 text-danger">Erro ao realizar de confirmação de conta</h4>
+                    <p class="text-danger mb-4">Clique no botão abaixo para reenviar a solicitação:</p>
+                    <button id="reenviar-email" class="mb-5 col-md-4 btn btn-danger rounded-pill">Reenviar email</button>
+                </div>
+
+                <div id="div-reposta-3" class="d-none">
+                    <h4 id="texto-resposta" class="mb-4 text-success">Email de confirmação de conta</h4>
+                    <p class="text-success mb-1">Verifique o seu email e confirme a sua conta para poder acessá-la.</p>
+                    <p class="text-success mb-4">Caso não tenha recebido o email, clique no botão abaixo para reenviar a solicitação:</p>
+                    <button id="reenviar-email2" class="mb-4 col-md-4 btn btn-success rounded-pill">Reenviar email</button>
+                </div>
+
+            </div>
+        </div>
+    </main>
+    <script type="module" src="../main.js"></script>
+    <script type="module" src="../js/confirmacao-cadastro.js"></script>
+</body>
+</html>
