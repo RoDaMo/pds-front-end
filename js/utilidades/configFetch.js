@@ -27,10 +27,14 @@ export const executarFetch = async (endpoint, config, callbackStatus, callbackSe
 
     console.log('status: ' + res.status)
     if(res.status === 401){
+        if (!window.location.href.includes('netlify'))
+            config.headers["IsLocalhost"] = true
+
         const resPut = await fetch(`${api}auth`, configuracaoFetch("PUT"))
         console.log('statusPut: ' + resPut.status)
+        
         if(resPut.status === 401){
-            window.location.assign("/pages/login.html");
+            window.location.assign("/pages/login.html")
         }
     }
 

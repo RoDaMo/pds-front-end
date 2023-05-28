@@ -154,7 +154,7 @@ const exibirDados = (data) => {
                 <div class="row gap-0">
                     <div class="col-md-2  d-flex justify-content-center ">
                         <div >
-                            <img src="${e.logo}" style="max-height: 10rem; max-width: 10rem;" id="logo" class="rounded img-fluid"  alt="Trofeu">
+                            <img src="${e.logo}" style="max-height: 105px; max-width: 10rem;" id="logo" class="rounded img-fluid"  alt="Trofeu">
                         </div>
                     </div>
 
@@ -166,7 +166,7 @@ const exibirDados = (data) => {
                     </div>
 
                     <div class="col-md-1 d-flex justify-content-center align-items-center">
-                        <a href="" class="d-none d-sm-block"><img src="/icons/right.svg" width="90"></a>
+                        <a href="" class="d-none d-sm-block"><img src="/icons/right.svg" width="60"></a>
                     </div> 
                     ${
                         (data.results[data.results.length - 1] === e) ?
@@ -184,6 +184,7 @@ const exibirDados = (data) => {
     paginasAnteriores.push(data)
     anterior.disabled = data === paginasAnteriores[0];
     reqBotaoProximo()
+    window.scrollTo(0, 0);
 }
 
 listagem();
