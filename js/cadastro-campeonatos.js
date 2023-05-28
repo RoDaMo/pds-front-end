@@ -9,7 +9,9 @@ inicializarInternacionalizacao(ingles, portugues);
 let formulario = document.getElementById("formulario")
 let mensagemErro = document.getElementById("mensagem-erro")
 
-const validator = new JustValidate(formulario)
+const validator = new JustValidate(formulario, {
+    validateBeforeSubmitting: true,
+})
 
 validator
     .addField('#nome-campeonato', [
@@ -39,7 +41,7 @@ validator
     .addRequiredGroup('#grupo-premiacao', 'Selecione ao menos uma opção')
     .onSuccess(async(e) => {
         e.preventDefault()
-        // limparMensagem(mensagemErro)
+        limparMensagem(mensagemErro)
 
         let nomeCampeonato = document.getElementById("nome-campeonato").value
         let dataInicio = document.getElementById("data-inicio").value
@@ -82,25 +84,3 @@ async function postCampeonato(endpoint, body) {
     notificacaoSucesso(data.results[0])
     return true
 }
-
-// formulario.addEventListener("submit", async e => {
-//     e.preventDefault()
-//     limparMensagem(mensagemErro)
-
-//     let nomeCampeonato = document.getElementById("nome-campeonato").value
-//     let dataInicio = document.getElementById("data-inicio").value
-//     let dataFinal = document.getElementById("data-final").value
-//     let esporte = document.getElementById("esportes").value
-//     let premiacao = document.querySelector('input[name="premiacao"]:checked').value
-
-//     const resultado = await postCampeonato("championships", {
-//         "name": nomeCampeonato,
-//         "prize": premiacao,
-//         "initialDate": dataInicio,
-//         "finalDate": dataFinal,
-//         "sportsId": esporte
-//     })
-
-//     if (resultado)
-//         formulario.reset()
-// })

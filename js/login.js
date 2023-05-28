@@ -1,4 +1,4 @@
-import JustValidate, { Rules } from "just-validate"
+import JustValidate from "just-validate"
 import { configuracaoFetch, executarFetch, limparMensagem } from "./utilidades/configFetch"
 import { visualizarSenha } from "./utilidades/visualizar-senha"
 
@@ -7,7 +7,9 @@ const senha = document.getElementById("senha")
 const formulario = document.getElementById("formulario")
 const mensagemErro = document.getElementById("mensagem-erro")
 
-const validator = new JustValidate("#formulario")
+const validator = new JustValidate(formulario, {
+    validateBeforeSubmitting: true,
+})
 
 validator
     .addField(nomeUsuario, [
@@ -41,6 +43,7 @@ validator
             value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{4,}$/,
             errorMessage: 'A senha deve conter ao menos 4 caracteres, uma letra maiúscula, uma minúscula e um número. Sem caracteres especiais.',
         },
+        
     ])
     .onSuccess(async(e) => {
         e.preventDefault()
@@ -82,16 +85,6 @@ async function postUsuarioExiste(body) {
 
     return true
 }
-
-// formulario.addEventListener("submit", async(e) => {
-//     e.preventDefault()
-//     limparMensagem(mensagemErro)
-
-//     await postToken({
-//         "Username": nomeUsuario.value,
-//         "Password": senha.value,
-//     })
-// })
 
 async function postToken(body) {
     const config = configuracaoFetch("POST", body)

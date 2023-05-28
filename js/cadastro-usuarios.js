@@ -15,7 +15,9 @@ const email = document.getElementById("email-usuario")
 const senha = document.getElementById("senha")
 const dataAniversario = document.getElementById("data")
 
-const validator = new JustValidate(formulario)
+const validator = new JustValidate(formulario, {
+    validateBeforeSubmitting: true,
+})
 
 const iconeMaiuscula = document.getElementById("icone-maiuscula")
 const textoMaiuscula = document.getElementById("texto-maiuscula")
@@ -63,8 +65,6 @@ senha.addEventListener("keyup", () => {
 const letraMaiuscula = (str) => /[A-Z]/.test(str);
 const letraMinuscula = (str) => /[a-z]/.test(str);
 const numero = (str) => /[0-9]/.test(str);
-const emailRegex = (str) => /\S+@\S+\.\S+/.test(str);
-const nomeUsuarioRegex = (str) => /^[A-Za-z0-9_-]*$/.test(str);
 const caracteres = (str) => /.{4,}/.test(str);
 const especial = (str) => /^[a-zA-Z0-9 ]*$/.test(str);
 
@@ -112,6 +112,18 @@ validator
             errorMessage: 'A data é obrigatória. É necessário possuir pelo menos 13 anos de idade para se cadastrar.'
         },
     ])
+    .addField(senha, [
+        {
+            rule: 'required',
+            errorMessage: 'A senha é obrigatória.'
+        },
+        {
+            rule: 'customRegexp',
+            value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{4,}$/,
+            errorMessage: " ",
+        }
+    ])
+
     .onSuccess(async(e) => {
         e.preventDefault()
         limparMensagem(mensagemErro)
@@ -146,76 +158,3 @@ async function postUsuario(endpoint, body) {
     return true
 }
 
-const validacoes = () => {
-    let controle = true;
-    
-    if(!letraMaiuscula(senha.value) || !letraMinuscula(senha.value) || !numero(senha.value) || !especial(senha.value) || !caracteres(senha.value)){
-        controle = false;
-    }
-
-    return controle;
-}
-
-// const validacoes = () => {
-//     let controle = true;
-
-//     const mensagemErro = (elementoId, mensagemErro) => {
-//         document.getElementById(elementoId).textContent = mensagemErro;
-//     }
-
-//     const limparMensagemErro = (elementoId) => {
-//         document.getElementById(elementoId).textContent = "";
-//     }
-
-//     if(!emailRegex(email.value) || email.value === ""){
-//         mensagemErro("email-validacao", "Email inválido");
-//         controle = false;
-//     } else {
-//         limparMensagemErro("email-validacao");
-//     }
-
-//     if(nome.value === ""){
-//         mensagemErro("nome-validacao", "Nome inválido");
-//         controle = false;
-//     } else {
-//         limparMensagemErro("nome-validacao");
-//     }
-
-//     if(!nomeUsuarioRegex(nomeUsuario.value) || nomeUsuario.value === ""){
-//         mensagemErro("nome-usuario-validacao", "Nome de usuário inválido, não pode conter espaço nem caractere especial");
-//         controle = false;
-//     } else {
-//         limparMensagemErro("nome-usuario-validacao");
-//     }
-
-//     if(dataAniversario.value === ""){
-//         mensagemErro("data-validacao", "Data de nascimento inválida, é necessário possuir pelo menos 13 anos de idade para se cadastrar");
-//         controle = false;
-//     } else {
-//         limparMensagemErro("data-validacao");
-//     }
-
-//     if(!letraMaiuscula(senha.value) || !letraMinuscula(senha.value) || !numero(senha.value) || !especial(senha.value) || !caracteres(senha.value)){
-//         controle = false;
-//     }
-
-//     return controle;
-// }
-
-// formulario.addEventListener("submit", async(e) => {
-//     e.preventDefault()
-//     limparMensagem(mensagemErro)
-
-//     if(!validacoes()) return
-
-//     const resultado = await postUsuario("auth/register", {
-//         "Name": nome.value,
-//         "Email": email.value,
-//         "Password": senha.value,
-//         "Username": nomeUsuario.value,
-//         "Birthday": dataAniversario.value
-//     })
-    
-//     if (resultado)
-//         formulario.reset()
-// })
