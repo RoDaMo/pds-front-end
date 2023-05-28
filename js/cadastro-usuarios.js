@@ -7,6 +7,10 @@ import {redirecionamento} from './utilidades/redirecionamento'
 
 const formulario = document.getElementById("formulario")
 const mensagemErro = document.getElementById("mensagem-erro")
+const h1 = document.getElementById("bem-vindo")
+const h4 = document.getElementById("texto-apresentacao")
+const divResposta = document.getElementById("div-reposta")
+const botao = document.getElementById("reenviar-email")
 
 const nomeUsuario = document.getElementById("nome-usuario")
 const nome = document.getElementById("nome")
@@ -24,6 +28,8 @@ const iconeCaractere = document.getElementById("icone-caractere")
 const textoCaractere = document.getElementById("texto-caractere")
 const iconeEspecial = document.getElementById("icone-especial")
 const textoEspecial = document.getElementById("texto-especial")
+
+let idUsuario = null
 
 redirecionamento(nomeUsuario)
 
@@ -128,8 +134,17 @@ formulario.addEventListener("submit", async(e) => {
     })
     
     if (resultado){
-        window.location.assign(`/pages/login.html?userName=${nomeUsuario.value}`);
+        apresentarResultado()
     }
+})
+
+botao.addEventListener("click", async() => {
+    let endpoint = `auth/resend-confirm-email?id=${idUsuario}`
+    const config = configuracaoFetch("GET")
+    const data = await executarFetch(endpoint, config)
+
+    if(data)
+        notificacaoSucesso(data.message)
 })
 
 async function postUsuario(endpoint, body) {
@@ -144,6 +159,14 @@ async function postUsuario(endpoint, body) {
 
     if (!data) return false
 
+    idUsuario = data.results
     notificacaoSucesso(data.message)
     return true
+}
+
+function apresentarResultado() {
+    h1.style.display = "none"
+    h4.style.display = "none"
+    formulario.style.display = "none"
+    divResposta.classList.remove("d-none")
 }
