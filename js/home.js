@@ -1,6 +1,6 @@
+import Lenis from '@studio-freight/lenis'
 import '../scss/home.scss'
 import Rellax from 'rellax'
-import 'swiped-events'
 
 const navbar = document.querySelector("componente-header")
 const homeCards = document.querySelectorAll(".home-card.d-flex")
@@ -30,6 +30,17 @@ const mobilePortrait = window.matchMedia("(orientation: portrait)")
 const mobibarClasses = ["position-fixed", "topx-14", "z-1", "start-50", "translate-middle-x", "w-60", "rounded-4", "glass-effect"]
 const mobibarLogoClasses = ["w-90", "mb-2", "translate-6"]
 
+const lenis = new Lenis({
+    wheelMultiplier: 0.4,
+    touchMultiplier: 0.4,
+})
+
+function raf(time) {
+    lenis.raf(time)
+    requestAnimationFrame(raf)
+}
+  
+requestAnimationFrame(raf)
 
 let mobibarLogo
 let navTogglerClose
@@ -75,10 +86,7 @@ window.addEventListener("scroll", () => {
 })
 
 toTopBtn.addEventListener("click", () => {
-    document.documentElement.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-    })
+    lenis.scrollTo(0, {lock: true, duration: 2})
 })
 
 // Media Query Mobile
@@ -87,11 +95,10 @@ if (mediaQueryMobile.matches) {
     function scrollDownwards() {
         scrollTrigger.forEach(trigger => {
             if (isVisible(trigger)) {
-                if (triggerArr.indexOf(trigger) == 2 || triggerArr.indexOf(trigger) == 4 || triggerArr.indexOf(trigger) == 6) {
-                    scrollTrigger[triggerArr.indexOf(trigger)].parentElement.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start"
-                    })
+                if (trigger.classList.contains("top-trigger")) {
+                    lenis.scrollTo(trigger.parentElement, {lock: true, force: true})
+
+                    return
                 }
             }
         })
@@ -100,22 +107,44 @@ if (mediaQueryMobile.matches) {
     function scrollUpwards() {
         scrollTrigger.forEach(trigger => {
             if (isVisible(trigger)) {
-                if (triggerArr.indexOf(trigger) == 1 || triggerArr.indexOf(trigger) == 3 || triggerArr.indexOf(trigger) == 5) {
-                    scrollTrigger[triggerArr.indexOf(trigger)].parentElement.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start"
-                    })
+                if (trigger.classList.contains("bottom-trigger")) {
+                    lenis.scrollTo(trigger.parentElement, {lock: true, force: true})
+
+                    return
                 }
             }
         })
     }
+
+    let startY = 0
+    let endY = 0
+
+
+    window.addEventListener("touchstart", e => {
+        startY = e.touches[0].clientY
+    })
+
+    // Scrollend Trigger
+    window.addEventListener("touchend", e => {
+        endY = e.changedTouches[0].clientY
+
+        console.log(endY, startY);
+
+
+        if (endY > startY && !(isVisible(scrollTrigger[0]))) {
+            scrollUpwards()
+        } else if (endY < startY && !(isVisible(scrollTrigger[7]))) {
+            scrollDownwards()
+        }
+
+    })
 
     homeCards[0].parentElement.classList.remove("pt-2")
     homeCards[2].parentElement.classList.remove("mt-3")
     homeCards[2].classList.add("padding-home-4")
     homeCards[2].classList.remove("p-5")
     homeCards[0].classList.remove("rounded-4", "pt-5")
-    homeCards[0].classList.add("vh-91", "rounded-5", "rounded-bottom-0", "card-bg", "padding-home-4")
+    homeCards[0].classList.add("vh-91", "rounded-5", "rounded-bottom-0", "card-bg", "padding-home-4", "home-grad")
     homeCards[1].classList.add("card-bg")
 
     rodamoLogo.classList.add("w-25")
@@ -141,7 +170,7 @@ if (mediaQueryMobile.matches) {
     let lastScrollTop = window.pageYOffset
 
     // Mobile navbar changer
-    document.addEventListener("scroll", () => {
+    window.addEventListener("scroll", () => {
 
         if (window.scrollY === 0){
             homeCards[0].classList.remove("ptx-90")
@@ -207,43 +236,6 @@ if (mediaQueryMobile.matches) {
 
     }, {passive: "true"})
 
-    // Scrollend Trigger
-    document.addEventListener("scrollend", () => {
-        let st = window.pageYOffset
-
-        // going downwards
-        if (st > lastScrollTop && !(isVisible(scrollTrigger[7]))) {
-            scrollDownwards()
-
-        // going upwards
-        } else if (st < lastScrollTop && !(isVisible(scrollTrigger[0]))) {
-            scrollUpwards()
-        }
-
-        lastScrollTop = st <= 0 ? 0 : st
-    })
-    
-    // Swipe Direction Trigger
-    document.addEventListener("swiped-up", function() {
-
-        if (isVisible(scrollTrigger[0])) {
-            scrollTrigger[2].parentElement.scrollIntoView({
-                behavior: "smooth",
-                block: "start"
-            })
-        } else {
-            scrollDownwards()
-        }
-    })
-    
-    document.addEventListener("swiped-down", function() {
-        
-        if (!(isVisible(scrollTrigger[0]))) {
-            scrollUpwards()
-        }
-        
-    })
-
     // Mobile Orientation Change
     // mobilePortrait.addEventListener("change", e => {
     //     if(!e.matches) {
@@ -273,10 +265,14 @@ if (mediaQueryMobile.matches) {
 
         navbar.querySelector(".navbar-toggler").addEventListener("click", () => {
             noiseSvgs.forEach(svg => svg.classList.toggle("z-1"))
+            homeTitle.classList.toggle("z-1")
+            homeSubText.classList.toggle("z-1")
         })
 
         navbar.querySelector("#close-offcanvas").addEventListener("click", () => {
             noiseSvgs.forEach(svg => svg.classList.toggle("z-1"))
+            homeTitle.classList.toggle("z-1")
+            homeSubText.classList.toggle("z-1")
         })
     }
 

@@ -5,7 +5,29 @@ $move-initial: calc(-25% + $offset);
 $move-final: calc(-50% + $offset);
 
 html {
-  scroll-behavior: smooth;
+  &.lenis {
+    height: auto;
+  }
+}
+
+.lenis {
+  &.lenis-smooth {
+    scroll-behavior: auto;
+  }
+
+  &.lenis-smooth { 
+    [data-lenis-prevent] {
+      overscroll-behavior: contain;
+    }
+  }
+
+  &.lenis-stopped {
+    overflow: hidden;
+  }
+
+  &.lenis-scrolling iframe {
+    pointer-events: none;
+  } 
 }
 
 body {
@@ -22,6 +44,10 @@ body {
 
 .z-1 {
   z-index: 1;
+}
+
+.z-3 {
+  z-index: 3;
 }
 
 .ptx-90 {
@@ -90,6 +116,11 @@ body {
     background-color: $play-cor-fundos;
     opacity: 1;
     border: 1px solid $play-cor-secundaria;
+  }
+
+  &:active {
+    opacity: .8;
+    scale: 0.9;
   }
 }
 
@@ -177,18 +208,20 @@ input[aria-label="Search"] {
 }
 
 button.navbar-toggler {
-  &, &:active, &:focus {
-    background-color: $play-cor-fundos-secundaria !important;
-    color: $play-cor-texto !important;
-  }
+  background-color: transparent !important;
+  color: $play-cor-texto !important;
+  transition: all $transition;
   
-}
+  &:focus {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
 
-button.navbar-toggler {
   &:active, &:hover {
     background-color: $play-cor-fundos-secundaria !important;
-    color: $play-cor-texto !important;
   }
+  
 }
 
 .offcanvas.offcanvas-end {

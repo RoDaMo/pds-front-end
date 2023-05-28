@@ -7,8 +7,8 @@
     <title>Home</title>
   </head>
   <body is-home="true">
-    <componente-header></componente-header>
-
+    <componente-header class="z-3"></componente-header>
+    
     <main class="position-relative">
       <img src="/icons/sports_soccer.svg" class="noise-svg n-svg2 z-1 float-start position-absolute d-none d-md-flex" alt="bola de futebol">
       <img src="/icons/sports_volleyball.svg" class="noise-svg n-svg1 z-1 float-end position-absolute d-none d-md-flex" alt="bola de volei"></img>
@@ -32,12 +32,12 @@
         <div class="home-row row pt-2">
 
           <!-- Card 1 - Intro -->
-          <section class="col-12 home-card home-grad rounded-5 d-flex flex-column pt-5">
+          <section class="col-12 home-card rounded-5 d-flex flex-column pt-5 downwards-section current-section">
         
             <div class="scroll-trigger"></div> 
             <div id="home-pill" class="mt-0 mb-3 rounded-pill mx-auto"></div>
             <div class="row">
-              <h1 class="home-title fw-bold ft-color fc-first-title display-1 position-relative"> Organize seus campeonatos <br> com 
+              <h1 class="home-title z-1 fw-bold ft-color fc-first-title display-1 position-relative"> Organize seus campeonatos <br> com 
                 <div class="rotate-wrapper fvar-1 fst-italic d-inline">
                   <span>rapidez</span>
                   <span>facilidade</span>
@@ -47,8 +47,8 @@
               </h1>
             </div>
     
-            <div class="row h-100 z-0"> 
-              <p class="mt-5 fw-normal opacity-75 ft-color fc-first-title home-subtext align-text-bottom lh-sm"></p>
+            <div class="row h-100"> 
+              <p class="mt-5 fw-normal opacity-75 ft-color fc-first-title home-subtext z-1 align-text-bottom lh-sm"></p>
             </div>
 
             <div class="row h-100 z-0"> 
@@ -59,7 +59,7 @@
               </div>
             </div>
 
-            <div class="scroll-trigger"></div> 
+            <div class="scroll-trigger bottom-trigger"></div> 
           </section>          
         </div>
 
@@ -67,8 +67,8 @@
         <div class="home-row row mt-3">
 
           <!-- Card 2 - Features -->
-          <section class="col-12 home-card rounded-4 d-flex flex-column padding-home-4">
-            <div class="scroll-trigger"></div> 
+          <section class="col-12 home-card rounded-4 d-flex flex-column padding-home-4 upwards-section">
+            <div class="scroll-trigger top-trigger"></div> 
             <h2 class="text-black fw-semibold text-center lh-1">Aqui, você tem tudo isso <br> <span class="fw-lighter fs-6">e um pouco mais</span></h2>
             <div class="row feat-wrapper p-1 rounded-5 gap-2 mt-1 h-auto">
 
@@ -142,12 +142,12 @@
               <div class="align-self-end"></div>
             </div>
 
-            <div class="scroll-trigger"></div> 
+            <div class="scroll-trigger bottom-trigger"></div> 
           </section>
 
           <!-- Card 3 - Sobre -->
           <section class="col-12 home-card card-bg rounded-5 d-flex flex-column padding-home-4">
-            <div class="scroll-trigger"></div>
+            <div class="scroll-trigger top-trigger"></div>
             <div class="row position-relative">
               <div class="col-12 col-md-2 d-flex justify-content-center m-auto mb-3 mt-4">
                 <img class="m-auto me-1" src="/rodamoLogo.png" alt="Rodamo Logo">
@@ -166,12 +166,12 @@
             <div class="row h-100"> 
               <div class="align-self-end"></div>
             </div>
-            <div class="scroll-trigger"></div> 
+            <div class="scroll-trigger bottom-trigger"></div> 
           </section>
 
           <!-- Card 4 (mobile only) - Footer -->
           <section class="col-12 col-md home-card card-bg rounded-4 d-flex flex-column padding-home-4 d-md-none">
-            <div class="scroll-trigger"></div> 
+            <div class="scroll-trigger top-trigger"></div> 
             <div class="row">
               <h2 class="text-black fw-semibold text-center lh-1 display-5">Pronto, agora que você conhece o <span class="fvar-2">Playoffs</span></h2>
             </div>
@@ -228,7 +228,7 @@
               </div>
             </div>
 
-            <div class="scroll-trigger"></div> 
+            <div class="scroll-trigger bottom-trigger"></div> 
           </section>
 
         </div>
@@ -284,9 +284,8 @@
     <!-- <div id="app"></div> -->
     <!-- <a href="/pages/home.html" class="btn btn-primary">Clique aqui para acessar home</a>
     <a href="/pages/login.html" class="btn btn-secondary">Clique aqui para acessar login</a> -->
-    
-    <script type="module" src="/main.js"></script>
     <script type="module" src="js/home.js"></script>
+    <script type="module" src="/main.js"></script>
     <script type="module" src="js/utilidades/header.js"></script>
   </body>
 </html>
