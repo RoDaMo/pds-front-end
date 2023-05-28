@@ -4,10 +4,11 @@ import flatpickr from "flatpickr"
 import { Portuguese } from "flatpickr/dist/l10n/pt.js"
 import { visualizarSenha } from "./utilidades/visualizar-senha"
 import JustValidate from "just-validate"
+// import {redirecionamento} from './utilidades/redirecionamento'
+
 
 const formulario = document.getElementById("formulario")
 const mensagemErro = document.getElementById("mensagem-erro")
-const botaoContinuar = document.getElementById("continuar")
 
 const nomeUsuario = document.getElementById("nome-usuario")
 const nome = document.getElementById("nome")
@@ -29,6 +30,8 @@ const iconeCaractere = document.getElementById("icone-caractere")
 const textoCaractere = document.getElementById("texto-caractere")
 const iconeEspecial = document.getElementById("icone-especial")
 const textoEspecial = document.getElementById("texto-especial")
+
+// redirecionamento(nomeUsuario)
 
 flatpickr(dataAniversario, {
     dateFormat: "Y-m-d",
@@ -123,12 +126,10 @@ validator
             errorMessage: " ",
         }
     ])
-
     .onSuccess(async(e) => {
         e.preventDefault()
         limparMensagem(mensagemErro)
 
-        if(!validacoes()) return
 
         const resultado = await postUsuario("auth/register", {
             "Name": nome.value,
@@ -138,9 +139,11 @@ validator
             "Birthday": dataAniversario.value
         })
         
-        if (resultado)
-            formulario.reset()
+        if (resultado){
+            window.location.assign(`/pages/login.html?userName=${nomeUsuario.value}`);
+        }
     })
+
 
 async function postUsuario(endpoint, body) {
     const config = configuracaoFetch("POST", body)
@@ -150,7 +153,7 @@ async function postUsuario(endpoint, body) {
         data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
     }
 
-    const data = await executarFetch(endpoint, config, null, callbackServidor)
+    const data = await executarFetch(endpoint, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
 
     if (!data) return false
 
