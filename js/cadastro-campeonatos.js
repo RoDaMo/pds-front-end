@@ -3,9 +3,11 @@ import { notificacaoSucesso } from "./utilidades/notificacoes"
 import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
 import portugues from './i18n/ptbr/cadastro-campeonatos.json' assert { type: 'JSON' }
 import ingles from './i18n/en/cadastro-campeonatos.json' assert { type: 'JSON' }
+import JustValidate from "just-validate"
 import flatpickr from "flatpickr"
 import { Portuguese } from "flatpickr/dist/l10n/pt.js"
 import {exibidorImagem} from '../js/utilidades/previewImagem'
+
 
 inicializarInternacionalizacao(ingles, portugues);
 let formulario = document.getElementById("formulario")
@@ -99,6 +101,127 @@ formulario.addEventListener("submit", async e => {
         escudo.src = "#"
     }
 })
+
+const validator = new JustValidate(formulario, {
+    validateBeforeSubmitting: true,
+})
+
+validator
+    .addField(nomeCampeonato, [
+        {
+            rule: 'required',
+            errorMessage: 'O nome do campeonato é obrigatório',
+        },
+    ])
+    .addField(dataInicial, [
+        {
+            rule: 'required',
+            errorMessage: 'A data inicial é obrigatória',
+        },
+    ])
+    .addField(dataFinal, [
+        {
+            rule: 'required',
+            errorMessage: 'A data final é obrigatória',
+        },
+        {
+            validator: (value, context) => {
+                const dataInicial = new Date(document.getElementById("data-inicial").value)
+                const dataFinal = new Date(value)
+                return dataFinal >= dataInicial
+            },
+            errorMessage: 'A data final deve ser maior ou igual a data inicial',
+        }
+    ])
+    .addField(esporte, [
+        {
+            rule: 'required',
+            errorMessage: 'Favor selecionar um esporte',
+        },
+    ])
+    .addField(formato, [
+        {
+            rule: 'required',
+            errorMessage: 'Favor selecionar um formato',
+        },
+    ])
+    .addField(quantidade, [
+        {
+            rule: 'required',
+            errorMessage: 'Favor selecionar uma quantidade',
+        },
+    ])
+    .addField(imagem, [
+        {
+            rule: 'required',
+            errorMessage: 'Insira uma logo',
+        },
+        {
+            rule: 'files',
+            value: {
+                files: {
+                    extensions: ['jpeg', 'jpg', 'png', 'webp', 'gif', 'bmp', 'tiff'],
+                    maxSize: 5000000,
+                    types: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/bmp', 'image/tiff'],
+                },
+            },
+            errorMessage: 'Tamanho máximo da imagem: 5mb',
+        }
+    ])
+    .addField(pais, [
+        {
+            rule: 'required',
+            errorMessage: 'O país é obrigatório',
+        },
+    ])
+    .addField(estado, [
+        {
+            rule: 'required',
+            errorMessage: 'O estado é obrigatório',
+        },
+    ])
+    .addField(cidade, [
+        {
+            rule: 'required',
+            errorMessage: 'A cidade é obrigatório',
+        },
+    ])
+    .addField(bairro, [
+        {
+            rule: 'required',
+            errorMessage: 'O bairro é obrigatório',
+        },
+    ])
+    .addField(descricao, [
+        {
+            rule: 'required',
+            errorMessage: 'Favor inserir uma descrição',
+        },
+    ])
+    .onSuccess(async(e) => {
+        e.preventDefault()
+        limparMensagem(mensagemErro)
+
+        const resultado = await postCampeonato("championships", {
+            "name": nomeCampeonato.value,
+            "initialDate": dataInicial.value,
+            "finalDate": dataFinal.value,
+            "sportsId": parseInt(esporte.value),
+            "teamQuantity": parseInt(quantidade.value),
+            "logo": imagem.value,
+            "description": descricao.value,
+            "Format": parseInt(formato.value),
+            "Nation": pais.value,
+            "State": estado.value,
+            "City": cidade.value,
+            "Neighborhood": bairro.value
+        })
+
+        if (resultado) {
+            formulario.reset()
+            escudo.src = "#"
+        }
+    })
 
 async function postCampeonato(endpoint, body) {
     console.log(body)
