@@ -12,7 +12,7 @@
     <main class="container">
         <section class="position-relative bg-grad w-100 p-2 d-flex mt-3 justify-content-between rounded-5">
             <div class="row user-info position-absolute">
-                <div class="col flex-column ms-3">
+                <div class="col-5 flex-column ms-3">
                     <p class="align-text-bottom user-bio">
                         Lorem ipsum dolor, sit amet consectetur adipisicing elit. Explicabo exercitationem amet, officia deleniti fugiat doloremque ratione aspernatur alias nobis accusantium nemo. Modi suscipit non officia, enim repellendus veritatis accusamus tempore.
                     </p>
@@ -25,6 +25,11 @@
                         <p class="text-end fs-4 user-realname">Nome</p>
                         <p class="text-end fs-6 user-name">user</p>
                     </div>
+                    <div class="mx-auto me-3 d-flex justify-content-end">
+                        <button class="home-btn btn user-config-btn rounded-pill fw-semibold">
+                            <a href="#" class="text-center fs-6">Editar Perfil</a>
+                        </button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -32,31 +37,30 @@
         <section class="ms-4 sports-section">
             <div class="row">
                 <div class="col-12 col-md">
-                    <div class="position-relative w-90">
+                    <div class="position-relative w-90 ss-first-content-wrapper">
                         <div class="d-flex p-4 glass-effect ss-title align-items-center">
                             <h2 class="text-start m-4">Times</h2>
                         </div>
-                        <div class="d-flex  px-3 pt-3 ss-first-content w-auto">
-                            <!-- JS Desktop ss-slider - w-100 | JS Mobile ss-slider - vw-100 replace -->
+                        <div class="d-flex px-3 pt-3 ss-first-content w-auto">
                             <div class="ss-slider w-100 d-flex flex-row flex-md-column">
-                                <div class="d-flex w-100 rounded-5 mb-3 mt-5" data-sports-content="1">
-                                    <div class="position-relative m-3 overflow-hidden rounded-circle team-logo">
+                                <div class="d-flex w-100 rounded-5 mb-3 mt-5 mt-md-0 ss-team-content" data-sports-content="1">
+                                    <div class="position-relative m-3 overflow-hidden rounded-circle ss-team-logo">
                                         <img src="https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png" alt="user" class="img-fluid position-absolute mw-100 h-100">
                                     </div>
                                     <span>
-                                        <p class="mt-3 team-name fs-5 text-nowrap">Nome Time</p>
+                                        <p class="mt-3 ss-team-name fs-5 text-nowrap text-truncate d-block">Nome Time asdasdasdasd</p>
                                         <p class="d-none text-nowrap">Time Atual</p>
                                     </span>
                                     <span class="d-flex justify-content-end sports-icon-wrapper">
                                         <img src="../icons/sports_soccer.svg" alt="sport-icon" class="sports-icon mt-3">
                                     </span>
                                 </div>
-                                <div class="d-flex w-100 rounded-5 mb-3 mt-5" data-sports-content="2">
-                                    <div class="position-relative m-3 overflow-hidden rounded-circle team-logo">
+                                <div class="d-flex w-100 rounded-5 mb-3 mt-5 mt-md-0 ss-team-content" data-sports-content="2">
+                                    <div class="position-relative m-3 overflow-hidden rounded-circle ss-team-logo">
                                         <img src="https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png" alt="user" class="img-fluid position-absolute mw-100 h-100">
                                     </div>
                                     <span>
-                                        <p class="mt-3 team-name fs-5 text-nowrap">Nome Time</p>
+                                        <p class="mt-3 ss-team-name fs-5 text-nowrap text-truncate d-block">Nome Time</p>
                                         <p class="d-none text-nowrap">Time Atual</p>
                                     </span>
                                     <span class="d-flex justify-content-end sports-icon-wrapper">
@@ -73,7 +77,7 @@
         </section>
     </main>
     <script type="module" src="../main.js"></script>
-    <script type="module" src="js/utilidades/header.js"></script>
+    <script type="module" src="../js/utilidades/header.js"></script>
     <script type="module" src="../js/pagina-usuarios.js"></script>
 </body>
 </html>

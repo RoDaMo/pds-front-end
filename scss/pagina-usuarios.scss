@@ -1,7 +1,7 @@
 @import "bootstrap-config.scss";
 
-body {
-    background-color: #121212 !important;
+body, html {
+    overflow-x: hidden !important;
 }
 
 .bg-grad {
@@ -34,7 +34,26 @@ body {
     margin-bottom: -0.4rem;
 }
 
-.team-logo {
+.user-config-btn {
+    background: $play-cor-fundos;
+    transition: all $transition;
+
+    a {
+        text-decoration: none;
+        color: $play-cor-texto;
+    }
+
+    &:hover {
+        background: $play-cor-fundos-secundaria;
+        color: $white;
+    }
+
+    &:active {
+        background: $play-cor-fundos-secundaria;
+    }
+}
+
+.ss-team-logo {
     height: 4rem;
     min-width: 4rem;
 
@@ -43,7 +62,7 @@ body {
     }
 }
 
-.team-name {
+.ss-team-name {
     margin-bottom: -0.3rem;
 }
 
@@ -80,6 +99,23 @@ body {
     div {
         background: $play-cor-fundos-secundaria;
     }
+}
+
+.ss-first-content-wrapper:after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 10rem;
+    height: 10rem;
+    background-image: url(../icons/sports_soccer.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    top: -4.5rem;
+    right: -5.5rem;
+    transform: rotate(45deg);
+    opacity: 0.7;
+    z-index: -1;
+    filter: invert(50%);
 }
 
 @include media-breakpoint-down(sm) {
@@ -125,11 +161,11 @@ body {
             flex: 0 0 auto;
 
             &:first-child {
-                margin-left: 3rem;
+                margin-left: 1.5rem !important;
             }
 
             &:last-child {
-                margin-right: 3.4rem;
+                margin-right: 1.9rem !important;
             }
 
             box-shadow: 0px 0px 30px 1px rgba(0,0,0,0.38);
