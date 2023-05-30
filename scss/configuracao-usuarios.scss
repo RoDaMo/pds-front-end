@@ -1,1 +1,59 @@
 @import "bootstrap-config.scss";
+
+.config-menu {
+    background: $play-cor-fundos;
+}
+
+.config-menu-list {
+    button {
+        background-color: $play-cor-fundos;
+        transition: all $transition;
+
+        &.active {
+            background: $play-cor-fundos-secundaria;
+            color: $play-cor-texto;
+        }
+
+        &:hover:not(.active) {
+            background: $play-cor-fundos;
+            color: $play-cor-texto;
+            box-shadow: 5px 5px 20px 0px rgb(0 0 0 / 20%);
+        }
+
+        &:focus {
+            background: $play-cor-fundos-secundaria;
+            color: $play-cor-texto;
+        }
+    }
+}
+
+.config-options-wrapper {
+    background-color: $play-cor-fundos;
+}
+
+.config-user-info {
+    background-color: $play-cor-fundos;
+}
+
+.config-user-pic-wrapper {
+    height: 7rem;
+    width: 7rem;
+}
+
+.config-user-pic-mod-wrapper {
+    height: 9rem;
+    width: 9rem;
+}
+
+.config-user-realname {
+    color: $play-cor-texto;
+    margin-bottom: -0.4rem;
+}
+
+.ui-title {
+    top: -1.5rem;
+}
+
+.config-title {
+    top: -1.5rem;
+}
