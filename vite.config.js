@@ -28,6 +28,7 @@ export default defineConfig({
         redefinirSenha: resolve(__dirname, 'pages/redefinir-senha.html'),
         cadastroTimes: resolve(__dirname, 'pages/cadastro-times.html'),
         confirmacaoCadastro: resolve(__dirname, 'pages/confirmacao-cadastro.html'),
+        configuracaoUsuarios: resolve(__dirname, 'pages/configuracao-usuarios.html'),
       }
     }
   },
