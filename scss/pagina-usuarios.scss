@@ -16,13 +16,9 @@ body, html {
     top: 11rem;
 }
 
-.user-pic {
+.user-pic-wrapper {
     height: 8rem;
     width: 8rem;
-}
-
-.user-bio {
-    margin-top: 6rem;
 }
 
 .user-name {
@@ -71,7 +67,7 @@ body, html {
 }
 
 .sports-icon-wrapper {
-    width: 100%;
+    width: 63%;
 }
 
 .sports-icon {
@@ -92,7 +88,8 @@ body, html {
 .ss-first-content {
     border-radius: 0 0 $border-radius-2xl $border-radius-2xl !important;
     background: $play-cor-fundos;
-    height: auto;
+    max-height: 23rem;
+    overflow-y: auto;
 }
 
 .ss-slider {
@@ -131,6 +128,14 @@ body, html {
         top: 6rem;
     }
 
+    .sports-section {
+        margin-top: 27rem;
+    }
+
+    .sports-icon-wrapper {
+        width: 15%;
+    }
+
     .ss-first-content {
         flex-wrap: nowrap;
         overflow-x: auto;
@@ -151,7 +156,7 @@ body, html {
         left: 50%;
         right: 50%;
         top: 2rem;
-        margin-left: -49vw;
+        margin-left: -50vw;
 
         &::-webkit-scrollbar {
             display: none;
@@ -168,7 +173,7 @@ body, html {
                 margin-right: 1.9rem !important;
             }
 
-            box-shadow: 0px 0px 30px 1px rgba(0,0,0,0.38);
+            box-shadow: 0px 0px 20px 0px rgb(0 0 0 / 20%);
         }
     }
 }
