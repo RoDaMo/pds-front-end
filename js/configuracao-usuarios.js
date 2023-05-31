@@ -106,7 +106,7 @@ function changeConfigOptionsContext(t) {
 
                         <!-- modal -->
                         <div class="justify-touch-btn">
-                            <button class="btn btn-danger mt-3">Excluir Conta</button>
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#deleteAccount" class="btn btn-danger mt-3">Excluir Conta</button>
                         </div>
                     </div>
                 `

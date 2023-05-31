@@ -86,6 +86,41 @@
                         </form>
                     </div>
                 </section>
+
+                <div class="modal fade" id="deleteAccount" tabindex="-1" aria-labelledby="deleteAccountLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content p-3">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="exampleModalLabel">Você tem certeza?</h1>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <!-- form -->
+                        <form action="" class="row">
+                            <div class="modal-body">
+                                <p class="text-danger">
+                                    Caso você decida <span class="fw-bold"> excluir </span> sua conta, perderá permanentemente todos os dados e 
+                                    informações associados a ela. Além disso, você não terá mais acesso à plataforma e 
+                                    não poderá mais interagir com determinadas ferramentas por meio dela. 
+                                    É importante ressaltar que essa ação é <span class="fw-bold"> irreversível</span>, portanto, antes de excluí-la, 
+                                    você deve avaliar cuidadosamente se é isso que realmente deseja fazer.
+                                </p>                                
+                                <div class="col-12 mt-3">
+                                    <label for="delete-account-user-name-input" class="form-label">Nome de Usuário</label>
+                                    <input type="text" class="form-control" id="delete-account-user-name-input" placeholder="Nome de Usuário">
+                                </div>
+                                <div class="col-12 mt-3">
+                                    <label for="delete-account-check-input" class="form-label">Digite "Excluir Conta"</label>
+                                    <input type="text" class="form-control" id="delete-account-check-input" placeholder="Digite aqui...">
+                                </div>
+                               
+                            </div>
+                            <div class="modal-footer justify-content-center">
+                                <button type="submit" class="btn btn-danger">Excluir Conta Permanentemente</button>
+                            </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
             </div>
         </div>
     </main>
