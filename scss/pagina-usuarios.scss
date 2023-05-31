@@ -162,6 +162,9 @@ body, html {
             display: none;
         }
 
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+
         div {
             flex: 0 0 auto;
 
