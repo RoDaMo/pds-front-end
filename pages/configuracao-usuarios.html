@@ -10,8 +10,8 @@
 <body>
     <componente-header></componente-header>
     <main class="container">
-        <div class="row mt-5 h-100">
-            <section class="col-3 config-menu p-4 rounded-5">
+        <div class="row mt-4 h-100">
+            <section class="col-10 col-md-3 config-menu p-4 rounded-5">
                 <h5>Configurações</h5>
 
                 <!-- Config Menu -->
@@ -25,7 +25,7 @@
 
             <div class="col">
                 <!-- User Info -->
-                <section class="row config-user-info p-4 rounded-5 mx-2 h-auto mb-4 position-relative">
+                <section class="row config-user-info d-none d-md-flex p-4 rounded-5 mx-2 h-auto mb-4 position-relative">
                     <p class="position-absolute ui-title">Informações do usuário</p>
                     <div class="row">
                         <div class="col-1 position-relative p-0 overflow-hidden rounded-circle config-user-pic-wrapper">
@@ -53,17 +53,17 @@
                 </section>
 
                 <!-- Configs - Perfil -->
-                <section class="row mt-5 config-options-wrapper p-4 rounded-5 mx-2 h-auto mb-4 position-relative">
+                <section class="row mt-5 config-options-wrapper justify-mobile-pic p-4 rounded-5 mx-2 h-auto position-relative">
                     <p class="position-absolute config-title fw-semibold">Perfil</p>
                     <h5>Informações</h5>
                     <hr>
-                    <div class="row mt-3">
+                    <div class="row mt-3 justify-mobile-pic">
                         <div class="col-1 position-relative p-0 overflow-hidden rounded-circle config-user-pic-mod-wrapper">
                             <!-- $ Imagem de Pefil do Usuário  ../default-user-image.png - preview? -->
-                            <img src="https://www.rd.com/wp-content/uploads/2019/09/Cute-cat-lying-on-his-back-on-the-carpet.-Breed-British-mackerel-with-yellow-eyes-and-a-bushy-mustache.-Close-up-e1573490045672.jpg" alt="config-user-pic" class="img-fluid position-absolute w-100 h-100" id="config-user-pic-mod">
+                            <img src="https://www.rd.com/wp-content/uploads/2019/09/Cute-cat-lying-on-his-back-on-the-carpet.-Breed-British-mackerel-with-yellow-eyes-and-a-bushy-mustache.-Close-up-e1573490045672.jpg" alt="config-user-pic-mod" class="img-fluid position-absolute w-100 h-100" id="config-user-pic-mod">
                         </div>
-                        <div class="col mt-2">
-                            <div class="d-flex align-items-end h-100">
+                        <div class="col-12 col-md mt-2">
+                            <div class="d-flex justify-mobile-pic align-items-end h-100">
                                 <label for="config-user-pic-input" class="btn play-btn-primary">Alterar Foto</label>
                                 <input type="file" class="d-none" id="config-user-pic-input">
                             </div>
@@ -74,13 +74,13 @@
                         <form action="" class="row">
                             <div class="col-12 mt-3">
                                 <label for="config-user-name-input" class="form-label">Nome de Usuário</label>
-                                <input type="text" class="form-control w-50" id="config-user-name-input" placeholder="Nome de Usuário">
+                                <input type="text" class="form-control width-config-input" id="config-user-name-input" placeholder="Nome de Usuário">
                             </div>
                             <div class="col-12 mt-3">
                                 <label for="config-user-bio-input" class="form-label">Bio</label>
-                                <textarea class="form-control rounded-4 w-50" id="config-user-bio-input" rows="3" placeholder="Bio"></textarea>
+                                <textarea class="form-control rounded-4 width-config-input" id="config-user-bio-input" rows="3" placeholder="Bio"></textarea>
                             </div>
-                            <div class="col-12 mt-4">
+                            <div class="col-12 mt-4 justify-touch-btn">
                                 <button type="submit" class="btn play-btn-primary">Atualizar Perfil</button>
                             </div>
                         </form>

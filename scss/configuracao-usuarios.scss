@@ -50,6 +50,11 @@
     margin-bottom: -0.4rem;
 }
 
+.width-config-input {
+    width: 50% !important;
+}
+
+
 .play-btn-primary {
     background-color: $play-cor-primaria;
     color: $white;
@@ -76,4 +81,33 @@
 
 .config-title {
     top: -1.5rem;
+}
+
+@include media-breakpoint-down(sm) {
+    .config-menu {
+        margin-bottom: 2rem !important;
+    }
+
+    .width-config-input {
+        width: 100% !important;
+    }
+
+    .play-btn-primary {
+        margin-bottom: 1rem !important;
+    }
+
+    .justify-touch-btn {
+        justify-content: end !important;
+        display: flex !important;
+    }
+
+    .justify-mobile-pic {
+        justify-content: center !important;
+    }
+}
+
+@include media-breakpoint-only(md) {
+    .width-config-input {
+        width: 100% !important;
+    }
 }
