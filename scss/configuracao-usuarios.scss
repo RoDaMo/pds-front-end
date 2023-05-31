@@ -50,6 +50,26 @@
     margin-bottom: -0.4rem;
 }
 
+.play-btn-primary {
+    background-color: $play-cor-primaria;
+    color: $white;
+    border: none;
+    box-shadow: none;
+    transition: all $transition;
+
+    &:hover {
+        background-color: $play-cor-secundaria;
+        box-shadow: 5px 5px 20px 0px rgb(0 0 0 / 20%);
+        color: $white;
+
+    }
+
+    &:focus {
+        background-color: $play-cor-secundaria;
+        color: $white;
+    }
+}
+
 .ui-title {
     top: -1.5rem;
 }
