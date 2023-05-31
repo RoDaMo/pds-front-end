@@ -17,6 +17,8 @@ const dots = document.querySelectorAll(".dot")
 const toTopBtn = document.getElementById("gotop")
 const rodamoLogo = document.querySelector("img[alt='Rodamo Logo']")
 
+const footerCta = document.querySelectorAll(".footer-cta")
+
 const homeNoise = document.querySelector(".home-noise")
 const noiseSvgs = document.querySelectorAll(".noise-svg");
 
@@ -275,6 +277,17 @@ if (mediaQueryMobile.matches) {
             homeSubText.classList.toggle("z-1")
         })
     }
+
+    homeCards[3].classList.remove("card-bg")
+    homeCards[3].classList.add("my-5")
+
+    footerCta.forEach(cta => {
+        cta.classList.replace("feats", "feats-2")
+        cta.parentElement.classList.replace("mt-4", "mt-5")
+        cta.classList.add("h-75")
+    })
+
+    footerCta[1].parentElement.classList.remove("mb-auto")
 
     navbar.classList.add("position-relative", "z-1")
 

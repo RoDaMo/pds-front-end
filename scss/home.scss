@@ -155,6 +155,20 @@
   border-radius: 15px 15px 15px $border-radius-2xl !important;
 }
 
+.footer-cta {
+  transition: all $transition !important;
+
+  &:active {
+    transform: scale(1);
+    filter: brightness(0.8);
+  }
+
+  &:hover {
+    background: $play-cor-primaria !important;
+    color: $play-cor-texto !important;
+  }
+}
+
 div.row {
   gap: 1rem;
 }
@@ -224,6 +238,10 @@ ul.dots-list {
 
   .feats {
     background: rgba(216, 255, 219, 0.7) !important;
+  }
+
+  .feats-2 {
+    background: rgba( 0, 0, 0, 0.7 ) !important;
   }
 
   .first-title-bg {
@@ -302,17 +320,6 @@ ul.dots-list {
   .home-card {
     height: 100vh;
     // transition: all $transition;
-  }
-
-  .footer-cta {
-    transition: all 0.2s ease-in-out;
-  }
-
-  .footer-cta:active {
-    &:active {
-      transform: scale(0.9);
-      filter: brightness(0.8);
-    }
   }
 
   .home-btn {
