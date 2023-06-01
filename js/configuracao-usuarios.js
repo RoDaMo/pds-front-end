@@ -1,15 +1,50 @@
 import '../scss/configuracao-usuarios.scss'
+import JustValidate from 'just-validate'
 
 const configMenu = document.querySelector('.config-menu')
 const configMenuList = document.querySelector('.config-menu-list')
 const configTitle = document.querySelector('.config-title')
 const configOptionsWrapper = document.querySelector('.config-options-wrapper')
 
+const deleteAccountForm = document.querySelector('#delete-account-form')
+const deleteAccountUserNameInput = document.querySelector('#delete-account-user-name-input')
+const deleteAccountCheckInput = document.querySelector('#delete-account-check-input')
+
 const justifyTouchBtn = document.querySelectorAll('.justify-touch-btn')
 
 const mediaQueryMobile = window.matchMedia('(max-width: 575px)')
 const mediaQueryTablet = window.matchMedia('(max-width: 992px)')
 const mediaQueryDesktop = window.matchMedia('(max-width: 1199px)')
+
+const deleteAccountValidator = new JustValidate(deleteAccountForm, {
+    validateBeforeSubmitting: true,
+})
+
+document.addEventListener('DOMContentLoaded', () => {
+    changeConfigOptionsContext(configTitle.innerText)
+})
+
+deleteAccountValidator
+    .addField(deleteAccountUserNameInput, [
+        {
+            rule: 'required',
+            errorMessage: 'Seu nome de usuário é obrigatório.',
+        },
+    ])
+    .addField(deleteAccountCheckInput, [
+        {
+            rule: 'required',
+            errorMessage: 'Você deve confirmar a exclusão da conta.',
+        },
+        {
+            validator: (value) => value == 'Excluir Conta' ? true : false,
+            errorMessage: 'Escreva "Excluir Conta" para confirmar a exclusão da conta.',
+        },
+    ])
+    // submit
+    .onSuccess(async(e) => {
+        e.preventDefault()
+    })
 
 if (mediaQueryMobile.matches) {
     configMenu.parentElement.classList.add('justify-content-center')
@@ -26,7 +61,6 @@ configMenuList.addEventListener('click', e => {
     configTitle.innerText = target.innerText
 
     changeConfigOptionsContext(target.innerText)
-
 })
 
 function activateLi(li) {
@@ -44,13 +78,13 @@ function changeConfigOptionsContext(t) {
                 <p class="position-absolute config-title fw-semibold">Perfil</p>
                 <h5>Informações</h5>
                 <hr>
-                <div class="row mt-3">
+                <div class="row mt-3 justify-mobile-pic">
                     <div class="col-1 position-relative p-0 overflow-hidden rounded-circle config-user-pic-mod-wrapper">
                         <!-- $ Imagem de Pefil do Usuário  ../default-user-image.png - preview? -->
-                        <img src="https://www.rd.com/wp-content/uploads/2019/09/Cute-cat-lying-on-his-back-on-the-carpet.-Breed-British-mackerel-with-yellow-eyes-and-a-bushy-mustache.-Close-up-e1573490045672.jpg" alt="config-user-pic-mod" class="img-fluid position-absolute w-100 h-100" id="config-user-pic-mod">
+                        <img src="../default-user-image.png" alt="config-user-pic-mod" class="img-fluid position-absolute w-100 h-100" id="config-user-pic-mod">
                     </div>
                     <div class="col-12 col-md mt-2">
-                        <div class="d-flex align-items-end h-100">
+                        <div class="d-flex justify-mobile-pic align-items-end h-100">
                             <label for="config-user-pic-input" class="btn play-btn-primary">Alterar Foto</label>
                             <input type="file" class="d-none" id="config-user-pic-input">
                         </div>
@@ -58,7 +92,7 @@ function changeConfigOptionsContext(t) {
                 </div>
 
                 <div class="mt-4">
-                    <form action="" class="row">
+                    <form id="update-profile-form" class="row">
                         <div class="col-12 mt-3">
                             <label for="config-user-name-input" class="form-label">Nome de Usuário</label>
                             <input type="text" class="form-control width-config-input" id="config-user-name-input" placeholder="Nome de Usuário">
@@ -73,16 +107,75 @@ function changeConfigOptionsContext(t) {
                     </form>
                 </div>
             `
+
+            const updateProfileForm = document.querySelector('#update-profile-form')
+            const updateProfileUserNameInput = document.querySelector('#config-user-name-input')
+            const updateProfileBioInput = document.querySelector('#config-user-bio-input')
+            const updateProfileUserPicInput = document.querySelector('#config-user-pic-input')
+
+            const updateProfileValidator = new JustValidate(updateProfileForm, {
+                validateBeforeSubmitting: true,
+            })
+
+            updateProfileValidator
+                .addField(updateProfileUserNameInput, [
+                    {
+                        validator: (value) => {
+                            return updateProfileBioInput.value.length > 0 ? true : value.length > 0 ? true : false
+                        },
+                        errorMessage: ' ',
+                    },
+                ])
+                .addField(updateProfileBioInput, [
+                    {
+                        rule: 'maxLength',
+                        value: 150,
+                        errorMessage: 'Sua bio deve possuir no máximo 150 caracteres.',
+                    },
+                    {
+                        validator: (value) => {
+                            return updateProfileUserNameInput.value.length > 0 ? true : value.length > 0 ? true : false
+                        },
+                        errorMessage: 'Você deve preencher pelo menos um dos campos.',
+                    }
+                ])
+                .addField(updateProfileUserPicInput, [
+                    {
+                        rule: 'files',
+                        value: {
+                            files: {
+                                extensions: ['jpeg', 'jpg', 'png', 'webp', 'gif', 'bmp', 'tiff'],
+                                maxSize: 5000000,
+                                types: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/bmp', 'image/tiff'],
+                            },
+                        },
+                        errorMessage: 'Tamanho máximo da imagem: 5mb',
+                    },
+                    {
+                        validator: (value) => {
+                            return updateProfileUserNameInput.value.length > 0 || updateProfileBioInput.value.length > 0 ? true : value.length > 0 ? true : false
+                        },
+                        errorMessage: ' ',
+                    }
+                ])
+
+                // submit
+                .onSuccess(async(e) => {
+                    // campo vazio mantem valor original
+                    e.preventDefault()
+                })
+
             break
 
         case 'Conta':
+
             configOptionsWrapper.innerHTML = `
                     <p class="position-absolute config-title fw-semibold">Conta</p>
                     <h5>Informações</h5>
                     <hr>
                     
                     <div class="mt-1">
-                        <form action="" class="row">
+                        <form id="update-account-form" class="row">
                             <div class="col-12 mt-3">
                                 <label for="config-user-realname-input" class="form-label">Nome Real</label>
                                 <input type="text" class="form-control width-config-input" id="config-user-realname-input" placeholder="Nome Real">
@@ -110,6 +203,26 @@ function changeConfigOptionsContext(t) {
                         </div>
                     </div>
                 `
+
+                const updateAccountForm = document.querySelector('#update-account-form')
+                const updateAccountRealNameInput = document.querySelector('#config-user-realname-input')
+
+                const updateAccountValidator = new JustValidate(updateAccountForm, {
+                    validateBeforeSubmitting: true,
+                })
+
+                updateAccountValidator
+                    .addField(updateAccountRealNameInput, [
+                        {
+                            rule: 'required',
+                            errorMessage: 'Seu nome real é obrigatório.',
+                        },
+                    ])
+                    // submit
+                    .onSuccess(async(e) => {
+                        e.preventDefault()
+                    })
+
             break
 
         case 'Senha':
@@ -119,7 +232,7 @@ function changeConfigOptionsContext(t) {
                     <hr>
                     
                     <div class="mt-1">
-                        <form action="" class="row">
+                        <form id="change-password-form" class="row">
                             <div class="col-12 mt-3">
                                 <label for="config-user-pass-input" class="form-label">Senha Atual</label>
                                 <input type="password" class="form-control width-config-input" id="config-user-pass-input" name="config-user-pass-input" placeholder="Senha Atual" autocomplete="on">
@@ -137,6 +250,33 @@ function changeConfigOptionsContext(t) {
                         </form>
                     </div>
                 `
+
+                const changePasswordForm = document.querySelector('#change-password-form')
+                const changePasswordInput = document.querySelector('#config-user-pass-input')
+                const changeNewPasswordInput = document.querySelector('#config-user-newpass-input')
+
+                const changePasswordValidator = new JustValidate(changePasswordForm, {
+                    validateBeforeSubmitting: true,
+                })
+
+                changePasswordValidator
+                    .addField(changePasswordInput, [
+                        {
+                            rule: 'required',
+                            errorMessage: 'Sua senha atual é obrigatória.',
+                        },
+                    ])
+                    .addField(changeNewPasswordInput, [
+                        {
+                            rule: 'required',
+                            errorMessage: 'Sua nova senha é obrigatória.',
+                        },
+                        {
+                            rule: 'customRegexp',
+                            value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{4,}$/,
+                            errorMessage: "Sua senha deve conter pelo menos 4 caracteres, uma letra maiúscula, uma letra minúscula e um número.",
+                        },
+                    ])
             break
         
         // case 'Emails/Sessões':
@@ -147,3 +287,4 @@ function changeConfigOptionsContext(t) {
             break
     }
 }
+

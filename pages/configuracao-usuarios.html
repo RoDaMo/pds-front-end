@@ -30,7 +30,7 @@
                     <div class="row">
                         <div class="col-1 position-relative p-0 overflow-hidden rounded-circle config-user-pic-wrapper">
                             <!-- $ Imagem de Pefil do Usuário  ../default-user-image.png -->
-                            <img src="https://www.rd.com/wp-content/uploads/2019/09/Cute-cat-lying-on-his-back-on-the-carpet.-Breed-British-mackerel-with-yellow-eyes-and-a-bushy-mustache.-Close-up-e1573490045672.jpg" alt="config-user-pic" class="img-fluid position-absolute w-100 h-100" id="config-user-pic">
+                            <img src="../default-user-image.png" alt="config-user-pic" class="img-fluid position-absolute w-100 h-100" id="config-user-pic">
                         </div>
                         <div class="col mt-2">
 
@@ -41,50 +41,20 @@
                             <p class="fs-5 mb-0 config-user-name">user</p>
 
                             <!-- $ Email do Usuário -->
-                            <p class="fs-6 opacity-75 config-user-name">user@user.com</p>
+                            <p class="fs-6 opacity-75 config-user-email">user@user.com</p>
                         </div>
                     </div>
 
                     <div class="mt-4">
-                        <p>
+                        <p class="config-user-bio">
                             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Veritatis commodi quidem laboriosam optio cumque officiis aliquam dolores nam maxime! Quam possimus illum illo voluptas vel praesentium maiores libero quas rem!  
                         </p>
                     </div>
                 </section>
 
-                <!-- Configs - Perfil -->
+                <!-- Configs - Default(Perfil) -->
                 <section class="row mt-5 config-options-wrapper justify-mobile-pic p-4 rounded-5 mx-2 h-auto position-relative">
                     <p class="position-absolute config-title fw-semibold">Perfil</p>
-                    <h5>Informações</h5>
-                    <hr>
-                    <div class="row mt-3 justify-mobile-pic">
-                        <div class="col-1 position-relative p-0 overflow-hidden rounded-circle config-user-pic-mod-wrapper">
-                            <!-- $ Imagem de Pefil do Usuário  ../default-user-image.png - preview? -->
-                            <img src="https://www.rd.com/wp-content/uploads/2019/09/Cute-cat-lying-on-his-back-on-the-carpet.-Breed-British-mackerel-with-yellow-eyes-and-a-bushy-mustache.-Close-up-e1573490045672.jpg" alt="config-user-pic-mod" class="img-fluid position-absolute w-100 h-100" id="config-user-pic-mod">
-                        </div>
-                        <div class="col-12 col-md mt-2">
-                            <div class="d-flex justify-mobile-pic align-items-end h-100">
-                                <label for="config-user-pic-input" class="btn play-btn-primary">Alterar Foto</label>
-                                <input type="file" class="d-none" id="config-user-pic-input">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mt-4">
-                        <form action="" class="row">
-                            <div class="col-12 mt-3">
-                                <label for="config-user-name-input" class="form-label">Nome de Usuário</label>
-                                <input type="text" class="form-control width-config-input" id="config-user-name-input" placeholder="Nome de Usuário">
-                            </div>
-                            <div class="col-12 mt-3">
-                                <label for="config-user-bio-input" class="form-label">Bio</label>
-                                <textarea class="form-control rounded-4 width-config-input" id="config-user-bio-input" rows="3" placeholder="Bio"></textarea>
-                            </div>
-                            <div class="col-12 mt-4 justify-touch-btn">
-                                <button type="submit" class="btn play-btn-primary">Atualizar Perfil</button>
-                            </div>
-                        </form>
-                    </div>
                 </section>
 
                 <div class="modal fade" id="deleteAccount" tabindex="-1" aria-labelledby="deleteAccountLabel" aria-hidden="true">
@@ -95,7 +65,7 @@
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <!-- form -->
-                        <form action="" class="row">
+                        <form id="delete-account-form" class="row" method="">
                             <div class="modal-body">
                                 <p class="text-danger">
                                     Caso você decida <span class="fw-bold"> excluir </span> sua conta, perderá permanentemente todos os dados e 
