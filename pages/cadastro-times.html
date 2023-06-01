@@ -11,7 +11,7 @@
 <body>
     <componente-header></componente-header>
     <main class="mt-5">
-        <form class="container bg-secondary rounded-4 px-5 py-2" method="post" id="formulario">
+        <form class="container bg-verde-limao rounded-4 px-5 py-2" method="post" id="formulario">
             <div class="row gap-0">
                 <div class="col-md-7">
                     <div class="col-md-12">
@@ -21,11 +21,11 @@
                     <div class="row gap-0">
                         <div class="mb-3 col-md-7">
                             <label for="nome" class="form-label text-success">Nome do time:</label>
-                            <input type="text" class="form-control rounded-4" id="nome" name="nome" placeholder="Nome do time..." required>
+                            <input type="text" class="form-control rounded-4" id="nome" name="nome" placeholder="Nome do time...">
                         </div>
                         <div class="col-md-5 mb-3">
                             <label for="esportes" class="form-label text-success">Esporte</label>
-                            <select name="esportes" class="form-select rounded-4" id="esportes" required>
+                            <select name="esportes" class="form-select rounded-4" id="esportes">
                                 <option value="" selected>Selecione um Esporte</option>
                                 <option value="1">Futebol</option>
                                 <option value="2">Vôlei</option>
@@ -33,12 +33,12 @@
                         </div>
                         <div class="col-md-12 mb-5">
                             <label for="descricao" class="form-label text-success">Descrição do time:</label>
-                            <textarea required class="form-control " id="descricao" placeholder="Descreva seu time..." name="descricao"></textarea>
+                            <textarea required class="form-control px-3 py-2" id="descricao" placeholder="Descreva seu time..." name="descricao"></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-5 mt-3 d-flex justify-content-center align-items-center flex-column">
-                    <img src="#" class="col-4 p-1 img-fluid rounded-5 border border-success escudo" id="escudo" alt="">
+                    <img src="https://playoffs-api.up.railway.app/img/fefabe2b-4038-4b8c-b719-54fbbe9095a4" class="col-4 p-1 img-fluid rounded-5 border border-success escudo" id="escudo" alt="">
                     <div class="custom-file-upload-logo">
                         <label for="logo" class="col-md-12 mt-4 btn btn-success d-flex justify-content-center align-items-center">
                             <i class="d-flex justify-content-center align-items-center btn bi bi-upload text-light"></i>
@@ -53,14 +53,16 @@
                             <p class="text-success col-4 d-flex justify-content-center">Uniforme fora</p>
                         </div>
                         <div class="row d-flex justify-content-around gap-2">
-                            <img id="home" src="#" class="col-4 img-fluid uniforme border border-success rounded-5" alt="">
-                            <img id="away" src="#" class="col-4 img-fluid uniforme border border-success rounded-5" alt="">
+                            <img id="home" src="https://playoffs-api.up.railway.app/img/fefabe2b-4038-4b8c-b719-54fbbe9095a4" class="col-4 p-1 img-fluid uniforme border border-success rounded-5" alt="">
+                            <img id="away" src="https://playoffs-api.up.railway.app/img/fefabe2b-4038-4b8c-b719-54fbbe9095a4" class="col-4 p-1 img-fluid uniforme border border-success rounded-5" alt="">
                         </div>
                         <div class="row mt-3 d-flex justify-content-around">
                             <div class="col-4 d-flex justify-content-center custom-file-upload">
                                 <label for="uniforme-casa">
                                     <i class="w-100 h-100 d-flex justify-content-center align-items-center border border-primary rounded-circle btn btn-success bi bi-upload text-light"></i>
-                                    <input id="uniforme-casa" type="file" name="uniforme-casa" name="logo" accept=".png, .jpg, .jpeg">
+                                    <div class="input-wrapper">
+                                        <input id="uniforme-casa" type="file" name="uniforme-casa" name="logo" accept=".png, .jpg, .jpeg">
+                                    </div>
                                 </label>
                             </div>
                             <div class="col-4 d-flex justify-content-center custom-file-upload">
@@ -74,12 +76,15 @@
                 </div> 
             </div>
             <div class="col-12 mt-5 mb-5 gap-2">
-                <button id="salvar" class="col-md-2 btn btn-success rounded-pill" type="submit">Salvar</button>
+                <button id="salvar" class="col-md-2 btn btn-success rounded-pill" type="submit" disabled>Salvar</button>
                 <a href="/index.html" class="col-md-2 btn btn-outline-success rounded-pill">Cancelar</a>
             </div>  
             <div class="mt-4">
                 <p class="text-danger" id="mensagem-erro"></p>
             </div>
+            <input type="hidden" name="logo" id="emblema">
+            <input type="hidden" name="uniforme-casa" id="uniforme-1">
+            <input type="hidden" name="uniforme-fora" id="uniforme-2">
         </form>
     </main>
     <script type="module" src="../main.js"></script>
