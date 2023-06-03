@@ -8,7 +8,7 @@ import flatpickr from "flatpickr"
 import { Portuguese } from "flatpickr/dist/l10n/pt.js"
 import {exibidorImagem} from '../js/utilidades/previewImagem'
 import { uploadImagem } from './utilidades/uploadImagem'
-import { showLoading} from './utilidades/loader'
+import './utilidades/loader'
 
 inicializarInternacionalizacao(ingles, portugues);
 let formulario = document.getElementById("formulario")
@@ -29,6 +29,10 @@ const quantidade = document.getElementById('quantidade')
 const imagem = document.getElementById('logo')
 const emblema = document.getElementById('emblema')
 
+const validator = new JustValidate(formulario, {
+    validateBeforeSubmitting: true,
+})
+
 const optionDefault = () => {
     const optionDefault = document.createElement('option')
     optionDefault.value = 0
@@ -47,6 +51,9 @@ const resetQuantidade = () => {
     quantidade.innerHTML = ""
     optionDefault()
 }
+
+const loader = document.createElement('app-loader');
+document.body.appendChild(loader);
 
 formato.addEventListener("change", () => {
     if(formato.value === "1"){
@@ -81,6 +88,7 @@ formulario.addEventListener("submit", async e => {
     e.preventDefault()
     limparMensagem(mensagemErro)
 
+    
     const resultado = await postCampeonato("championships", {
         "name": nomeCampeonato.value,
         "initialDate": dataInicial.value,
@@ -110,9 +118,7 @@ imagem.addEventListener("change", async() => {
     document.getElementById('salvar').disabled = !(data.succeed === true)
 })
 
-const validator = new JustValidate(formulario, {
-    validateBeforeSubmitting: true,
-})
+
 
 validator
     .addField(nomeCampeonato, [
@@ -210,6 +216,8 @@ validator
         e.preventDefault()
         limparMensagem(mensagemErro)
 
+        loader.show();
+
         const resultado = await postCampeonato("championships", {
             "name": nomeCampeonato.value,
             "initialDate": dataInicial.value,
@@ -229,6 +237,8 @@ validator
             formulario.reset()
             escudo.src = "#"
         }
+
+        loader.hide();
     })
 
 async function postCampeonato(endpoint, body) {

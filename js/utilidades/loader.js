@@ -20,7 +20,7 @@ export class Loader extends HTMLElement {
   }
 
   render() {
-    const displayStyle = this.isLoading ? 'block' : 'none';
+    let displayStyle = this.isLoading ? 'block' : 'none';
     this.shadowRoot.innerHTML = `
       <style>
         :host {

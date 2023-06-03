@@ -3,6 +3,7 @@ import { notificacaoSucesso } from "./utilidades/notificacoes"
 import { exibidorImagem } from '../js/utilidades/previewImagem'
 import JustValidate from "just-validate"
 import { uploadImagem } from './utilidades/uploadImagem'
+import './utilidades/loader'
 
 
 const formulario = document.getElementById("formulario")
@@ -105,6 +106,8 @@ validator
         e.preventDefault()
         limparMensagem(mensagemErro)
 
+        loader.show();
+
         const resultado = await postTime("teams", {
             "emblem": logo.value,
             "uniformHome": uniformeHome.value,
@@ -119,6 +122,8 @@ validator
             home.src = "#"
             away.src = "#"
         }
+
+        loader.hide();
     })
 
 let imagensValidacao = {

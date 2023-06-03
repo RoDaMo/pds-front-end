@@ -137,30 +137,26 @@ validator
             errorMessage: " ",
         }
     ])
-    .onSuccess(async(e) => {
-        e.preventDefault()
-        limparMensagem(mensagemErro)
-
-        
-        loader.show();
-
+    validator.onSuccess(async (e) => {
+        e.preventDefault();
+        limparMensagem(mensagemErro);
+      
+        loader.show(); // Exibe o loader
+      
         const resultado = await postUsuario("auth/register", {
-            "Name": nome.value,
-            "Email": email.value,
-            "Password": senha.value,
-            "Username": nomeUsuario.value,
-            "Birthday": dataAniversario.value
-        })
-        
-        if (resultado){
-            window.location.assign(`/pages/login.html?userName=${nomeUsuario.value}`);
+          "Name": nome.value,
+          "Email": email.value,
+          "Password": senha.value,
+          "Username": nomeUsuario.value,
+          "Birthday": dataAniversario.value
+        });
+      
+        if (resultado) {
+          window.location.assign(`/pages/login.html?userName=${nomeUsuario.value}`);
         }
-        
-        loader.hide();
-
-        
-
-    })
+      
+        loader.hide(); // Oculta o loader
+      });
     
     if (resultado){
         apresentarResultado()
