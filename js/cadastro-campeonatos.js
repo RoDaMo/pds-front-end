@@ -8,6 +8,7 @@ import flatpickr from "flatpickr"
 import { Portuguese } from "flatpickr/dist/l10n/pt.js"
 import {exibidorImagem} from '../js/utilidades/previewImagem'
 import { uploadImagem } from './utilidades/uploadImagem'
+import { showLoading} from './utilidades/loader'
 
 inicializarInternacionalizacao(ingles, portugues);
 let formulario = document.getElementById("formulario")

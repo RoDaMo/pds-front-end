@@ -5,6 +5,9 @@ import { Portuguese } from "flatpickr/dist/l10n/pt.js"
 import { visualizarSenha } from "./utilidades/visualizar-senha"
 import JustValidate from "just-validate"
 import {redirecionamento} from './utilidades/redirecionamento'
+import './utilidades/loader'
+
+
 
 const formulario = document.getElementById("formulario")
 const mensagemErro = document.getElementById("mensagem-erro")
@@ -22,6 +25,9 @@ const dataAniversario = document.getElementById("data")
 const validator = new JustValidate(formulario, {
     validateBeforeSubmitting: true,
 })
+
+const loader = document.createElement('app-loader');
+document.body.appendChild(loader);
 
 const iconeMaiuscula = document.getElementById("icone-maiuscula")
 const textoMaiuscula = document.getElementById("texto-maiuscula")
@@ -135,6 +141,8 @@ validator
         e.preventDefault()
         limparMensagem(mensagemErro)
 
+        
+        loader.show();
 
         const resultado = await postUsuario("auth/register", {
             "Name": nome.value,
@@ -147,11 +155,18 @@ validator
         if (resultado){
             window.location.assign(`/pages/login.html?userName=${nomeUsuario.value}`);
         }
+        
+        loader.hide();
+
+        
+
     })
     
     if (resultado){
         apresentarResultado()
     }
+
+    
 
 
 botao.addEventListener("click", async() => {

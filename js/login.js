@@ -2,6 +2,8 @@ import JustValidate from "just-validate"
 import { configuracaoFetch, executarFetch, limparMensagem } from "./utilidades/configFetch"
 import { visualizarSenha } from "./utilidades/visualizar-senha"
 import {redirecionamento} from './utilidades/redirecionamento'
+import './utilidades/loader'
+
 
 const nomeUsuario = document.getElementById("nome-usuario")
 const senha = document.getElementById("senha")
@@ -83,7 +85,9 @@ async function postUsuarioExiste(body) {
         nomeUsuario.parentElement.classList.replace('mb-5', 'mb-2');
     }
     else{
+        
         window.location.assign(`/pages/cadastro-usuarios.html?userName=${nomeUsuario.value}`);
+        
     }
 
     return true
