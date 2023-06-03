@@ -1,5 +1,5 @@
 import JustValidate from "just-validate"
-import { configuracaoFetch, executarFetch, limparMensagem } from "./utilidades/configFetch"
+import { configuracaoFetch, api, limparMensagem } from "./utilidades/configFetch"
 import { visualizarSenha } from "./utilidades/visualizar-senha"
 import {redirecionamento} from './utilidades/redirecionamento'
 
@@ -70,7 +70,7 @@ document.getElementById("continuar").addEventListener("click", async(e) => {
 async function postUsuarioExiste(body) {
     limparMensagem(mensagemErro)
     const config = configuracaoFetch("POST", body)
-    const res = await fetch(`https://playoffs-api.up.railway.app/auth/exists`, config)
+    const res = await fetch(`${api}auth/exists`, config)
 
     const data = await res.json()
     console.log(data)
@@ -95,7 +95,7 @@ async function postToken(body) {
     if (!window.location.href.includes('netlify'))
         config.headers["IsLocalhost"] = true;
 
-    const res = await fetch(`https://playoffs-api.up.railway.app/auth`, config)
+    const res = await fetch(`${api}auth`, config)
 
     const data = await res.json()
 

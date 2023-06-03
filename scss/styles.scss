@@ -195,7 +195,7 @@ button.navbar-toggler:hover {
   color: $play-cor-texto !important;
 }
 
-.offcanvas.offcanvas-end {
+.offcanvas.offcanvas-end.mobile {
   width: 100% !important;
 }
 
@@ -237,4 +237,31 @@ button.navbar-toggler:hover {
 .bg-verde-limao {
   background-color: $play-cor-fundos;
   color: $play-cor-texto;
+}
+
+.foto-usuario {
+  max-width: 32px;
+  max-height: 32px;
+}
+
+#offcanvasUser {
+  color: $play-cor-texto;
+
+  .item-offcanvas-usuario:hover {
+    /* From https://css.glass */
+    background: rgba(0, 143, 140, 0.28);
+    // border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.205);
+    backdrop-filter: blur(3.3px);
+    -webkit-backdrop-filter: blur(3.3px);
+    transition: .1s background, backdrop-filter, -webkit-backdrop-filter;
+  }
+
+  .item-offcanvas-usuario {
+    transition: .1s background, backdrop-filter, -webkit-backdrop-filter;
+  }  
+}
+
+.navbar-clicavel {
+  cursor: pointer;
 }
