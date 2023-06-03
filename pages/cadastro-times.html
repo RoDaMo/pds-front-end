@@ -4,11 +4,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="module" src="../js/utilidades/loader.js"></script>
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <link rel="stylesheet" href="../scss/cadastro-times.scss">
     <title>Cadastro de Times</title>
+    
+    
 </head>
 <body>
+    <componente-loader></componente-loader>
     <componente-header></componente-header>
     <main class="mt-5">
         <form class="container bg-verde-limao rounded-4 px-5 py-2" method="post" id="formulario">
@@ -35,6 +39,7 @@
                             <label for="descricao" class="form-label text-success">Descrição do time:</label>
                             <textarea required class="form-control px-3 py-2" id="descricao" placeholder="Descreva seu time..." name="descricao"></textarea>
                         </div>
+                        
                     </div>
                 </div>
                 <div class="col-md-5 mt-3 d-flex justify-content-center align-items-center flex-column">
@@ -75,6 +80,7 @@
                     </div>
                 </div> 
             </div>
+            
             <div class="col-12 mt-5 mb-5 gap-2">
                 <button id="salvar" class="col-md-2 btn btn-success rounded-pill" type="submit" disabled>Salvar</button>
                 <a href="/index.html" class="col-md-2 btn btn-outline-success rounded-pill">Cancelar</a>
@@ -89,6 +95,10 @@
     </main>
     <script type="module" src="../main.js"></script>
     <script type="module" src="../js/utilidades/header.js"></script>
+    
     <script type="module" src="../js/cadastro-times.js"></script>
+
+
+  
 </body>
 </html>
