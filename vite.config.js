@@ -25,6 +25,7 @@ export default defineConfig({
         login: resolve(__dirname, 'pages/login.html'),
         cadastroUsuarios: resolve(__dirname, 'pages/cadastro-usuarios.html'),
         listagem: resolve(__dirname, 'pages/listagem-campeonatos.html'),
+        paginaUsuarios: resolve(__dirname, 'pages/pagina-usuarios.html'),
         redefinirSenha: resolve(__dirname, 'pages/redefinir-senha.html'),
         cadastroTimes: resolve(__dirname, 'pages/cadastro-times.html'),
         confirmacaoCadastro: resolve(__dirname, 'pages/confirmacao-cadastro.html'),
