@@ -28,7 +28,7 @@
     "@capacitor/android": "^4.7.0",
     "@capacitor/core": "^4.7.0",
     "@popperjs/core": "^2.11.6",
-    "@studio-freight/lenis": "^1.0.13",
+    "@studio-freight/lenis": "^1.0.14",
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.5",
     "flatpickr": "^4.6.13",

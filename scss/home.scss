@@ -6,6 +6,10 @@
   }
 }
 
+html, body {
+  overflow-x: hidden !important;
+}
+
 // Conteúdo Principal
 #home-pill {
   width: 15%;
@@ -260,6 +264,14 @@ ul.dots-list {
 @include media-breakpoint-only(md) {
   .home-subtext {
     font-size: 1rem;
+  }
+
+  .extra-option {
+    width: 100% !important;
+
+    &:nth-of-type(2) {
+      margin-left: 0.5rem !important;
+    }
   }
 
   .feats {

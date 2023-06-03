@@ -34,7 +34,15 @@ const mobibarLogoClasses = ["w-90", "mb-2", "translate-6"]
 
 const lenis = new Lenis({
     wheelMultiplier: 0.4,
-    touchMultiplier: 0.4,
+    smoothWheel: true,
+    touchMultiplier: 0.6,
+    smoothTouch: true,
+    syncTouch: true,
+    normalizeWheel: true,
+})
+
+lenis.on('scroll', (e) => {
+    console.log(e)
 })
 
 function raf(time) {
@@ -75,7 +83,7 @@ function isVisible(el) {
     return !(rect.bottom < 0 || rect.top - viewHeight >= 0)
 }
 
-window.addEventListener("scroll", () => {
+lenis.on("scroll", () => {
     // To top button appearing
     if (
         document.body.scrollTop > 200 ||
@@ -94,29 +102,6 @@ toTopBtn.addEventListener("click", () => {
 // Media Query Mobile
 if (mediaQueryMobile.matches) {
 
-    function scrollDownwards() {
-        scrollTrigger.forEach(trigger => {
-            if (isVisible(trigger)) {
-                if (trigger.classList.contains("top-trigger")) {
-                    lenis.scrollTo(trigger.parentElement, {lock: true, force: true})
-
-                    return
-                }
-            }
-        })
-    }
-
-    function scrollUpwards() {
-        scrollTrigger.forEach(trigger => {
-            if (isVisible(trigger)) {
-                if (trigger.classList.contains("bottom-trigger")) {
-                    lenis.scrollTo(trigger.parentElement, {lock: true, force: true})
-
-                    return
-                }
-            }
-        })
-    }
 
     let startY = 0
     let endY = 0
@@ -132,12 +117,29 @@ if (mediaQueryMobile.matches) {
 
         console.log(endY, startY);
 
-
-        if (endY > startY && !(isVisible(scrollTrigger[0]))) {
-            scrollUpwards()
-        } else if (endY < startY && !(isVisible(scrollTrigger[7]))) {
-            scrollDownwards()
-        }
+        setTimeout(() => {
+            if (endY > startY && !(isVisible(scrollTrigger[0]))) {
+                scrollTrigger.forEach(trigger => {
+                    if (isVisible(trigger)) {
+                        if (trigger.classList.contains("bottom-trigger")) {
+                            lenis.scrollTo(trigger.parentElement, {lock: true, duration: 1})
+        
+                            return
+                        }
+                    }
+                })
+            } else if (endY < startY && !(isVisible(scrollTrigger[7]))) {
+                scrollTrigger.forEach(trigger => {
+                    if (isVisible(trigger)) {
+                        if (trigger.classList.contains("top-trigger")) {
+                            lenis.scrollTo(trigger.parentElement, {lock: true, duration: 1})
+        
+                            return
+                        }
+                    }
+                })
+            }
+        }, 100);
 
     })
 
@@ -172,7 +174,7 @@ if (mediaQueryMobile.matches) {
     let lastScrollTop = window.pageYOffset
 
     // Mobile navbar changer
-    window.addEventListener("scroll", () => {
+    lenis.on("scroll", () => {
 
         if (window.scrollY === 0){
             homeCards[0].classList.remove("ptx-90")

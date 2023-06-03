@@ -5,7 +5,6 @@ import globalPt from './js/i18n/ptbr/main.json' assert { type: 'JSON' };
 import '/scss/styles.scss'
 import 'bootstrap-icons/font/bootstrap-icons.scss'
 import * as bootstrap from 'bootstrap'
-import Lenis from '@studio-freight/lenis'
 
 if (!localStorage.getItem('lng')) {
   localStorage.setItem('lng', 'ptbr')
