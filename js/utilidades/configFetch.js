@@ -1,5 +1,5 @@
-export const api = "https://playoffs-api.up.railway.app/"
-export const configuracaoFetch = (method, data = null, uploadArquivo = false) => {
+export const api = "https://localhost:7282/"
+export const configuracaoFetch = (method, data = null, uploadArquivo = false, body = true) => {
     const lng = localStorage.getItem('lng')
     const config = {
         method: method,
@@ -9,7 +9,7 @@ export const configuracaoFetch = (method, data = null, uploadArquivo = false) =>
         credentials: 'include'
     }
 
-    if(method !== "GET"){
+    if(method !== "GET" && body){
         config.body = data
 
         if (!uploadArquivo) {
@@ -21,7 +21,7 @@ export const configuracaoFetch = (method, data = null, uploadArquivo = false) =>
     return config
 }
 
-export const executarFetch = async (endpoint, config, callbackStatus, callbackServidor) => {
+export const executarFetch = async (endpoint, config, callbackStatus, callbackServidor, redirecionarLogin = true) => {
     const { notificacaoErro } = await import('./notificacoes')
     const res = await fetch(`${api}${endpoint}`, config)
 
@@ -33,9 +33,12 @@ export const executarFetch = async (endpoint, config, callbackStatus, callbackSe
         const resPut = await fetch(`${api}auth`, configuracaoFetch("PUT"))
         console.log('statusPut: ' + resPut.status)
         
-        if(resPut.status === 401){
+        if (resPut.status === 401 && redirecionarLogin){
             window.location.assign("/pages/login.html")
         }
+        
+        if (redirecionarLogin) 
+            return await executarFetch(endpoint, config, callbackStatus, callbackServidor, redirecionarLogin);
     }
 
     if (!res.ok) {
