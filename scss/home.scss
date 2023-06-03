@@ -115,10 +115,6 @@ html, body {
   background: rgb(216,255,219);
 }
 
-.feat-wrapper {
-  margin-bottom: 25rem !important;
-}
-
 .feat-lift {
   top: 4.5rem !important;
 }
@@ -280,7 +276,7 @@ ul.dots-list {
         font-size: x-large !important;
       }
     }
-    height: 20%;
+    height: 14rem;
   }
 
   .feat-wrapper {
@@ -308,7 +304,7 @@ ul.dots-list {
 
 @include media-breakpoint-up(xl) {
   .feats {
-    height: 28%;
+    height: 20rem;
 
     p {
       &:nth-of-type(1) {
@@ -369,6 +365,17 @@ ul.dots-list {
 
   .bg-about-text {
     background: rgba(255, 255, 255, 0.18) !important;
+  }
+}
+
+@media (max-height: 715px) {
+  .scale-sm {
+    transform: scale(0.85);
+    margin-top: -2.5rem !important;
+  }
+
+  .scale-sm-title {
+    transform: scale(0.85);
   }
 }
 

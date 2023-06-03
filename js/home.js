@@ -102,7 +102,6 @@ toTopBtn.addEventListener("click", () => {
 // Media Query Mobile
 if (mediaQueryMobile.matches) {
 
-
     let startY = 0
     let endY = 0
 
