@@ -128,10 +128,11 @@ export class header extends HTMLElement {
                             Configurações do usuário
                         </a>
                         ${this.possuiCampeonato(user.championshipId)}
+                        ${!user.teamManagementId ? `
                         <a href="/pages/cadastro-times.html" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
                             <i class="bi bi-people fs-4"></i>
                             Criar um time
-                        </a>
+                        </a>` : ``}
                         <a href="javascript:void(0)" id="deslogar-usuario" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
                             <i class="bi bi-box-arrow-right fs-4"></i>
                             Sair da conta
@@ -150,7 +151,6 @@ export class header extends HTMLElement {
     }
 
     possuiCampeonato(campeonatoId) {
-        console.log(campeonatoId)
         if (campeonatoId) {
             // TODO: remover essa limitação e adicionar pagina para listar campeonatos do usuário
             return /* html */`

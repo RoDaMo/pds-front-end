@@ -354,7 +354,7 @@ const init = async () => {
 			}
 
 			const valor = inputPesquisa.value,
-						response = await executarFetch(`teams?query=${valor}`, configFetch),
+						response = await executarFetch(`teams?query=${valor}&sport=${campeonato.sportsId}`, configFetch),
 						times = response.results
 
 			datalistPesquisa.innerHTML = ''
@@ -387,6 +387,46 @@ const init = async () => {
 		})
 	}
 
+	const inicializarPaginaExclusao = async () => {
+		const formDeletarCampeonato = document.getElementById('delete-championship-form'),
+					deleteAccountValidator = new JustValidate(formDeletarCampeonato, { validateBeforeSubmitting: true }),
+					usernameInput = document.getElementById('delete-user-name-input'),
+					deleteCampeonato = document.getElementById('delete-championship-check-input'),
+					username = document.getElementById('offcanvasUserName')
+
+		deleteAccountValidator
+			.addField(usernameInput, [
+					{
+							rule: 'required',
+							errorMessage: 'Seu nome de usuário é obrigatório.',
+					},
+					{
+							validator: (value) => username.textContent == value,
+							errorMessage: 'Nome de usuário incorreto'
+					}
+			])
+			.addField(deleteCampeonato, [
+					{
+							rule: 'required',
+							errorMessage: 'Você deve confirmar a exclusão do campeonato.',
+					},
+					{
+							validator: (value) => value == 'Excluir Campeonato' ? true : false,
+							errorMessage: 'Escreva "Excluir Campeonato" para confirmar a exclusão do campeonato.',
+					},
+			])
+			// submit
+			.onSuccess(async(e) => {
+					e.preventDefault()
+					const configFetch = configuracaoFetch('DELETE'),
+								response = await executarFetch(`championships/${championshipId}`, configFetch)
+					
+					if (response.succeed) {
+						window.location.assign('/index.html');
+					}
+			})
+	}
+
 	//#region coisas chatas
 
 	const configMenu = document.querySelector('.config-menu'),
@@ -404,7 +444,7 @@ const init = async () => {
 	};
 
 	const dados = await executarFetch(`championships/${championshipId}`, configuracaoFetch('GET')),
-		campeonato = dados.results
+				campeonato = dados.results
 
 	if (mediaQueryMobile.matches) {
 		configMenu.parentElement.classList.add('justify-content-center')
@@ -421,9 +461,10 @@ const init = async () => {
 		changeConfigOptionsContext(target.getAttribute('menu'))
 	})
 
-	changeConfigOptionsContext(1)
+	changeConfigOptionsContext(0)
 	inicializarCampos()
 	inicializarPaginaTimes()
+	inicializarPaginaExclusao()
 	//#endregion
 }
 
