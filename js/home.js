@@ -1,6 +1,12 @@
 import '../scss/home.scss'
 import Rellax from 'rellax'
 import 'swiped-events'
+import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
+import portugues from './i18n/ptbr/home.json' assert { type: 'JSON' }
+import ingles from './i18n/en/home.json' assert { type: 'JSON' }
+import i18next from 'i18next'
+
+inicializarInternacionalizacao(ingles, portugues);
 
 const navbar = document.querySelector("componente-header")
 const homeCards = document.querySelectorAll(".home-card.d-flex")
@@ -255,13 +261,13 @@ if (mediaQueryMobile.matches) {
     //     }
     // })
 
-    homeSubText.innerHTML = `
-        Se você é um apaixonado por esportes e quer organizar o seu próprio campeonato, 
-        temos uma excelente dica para você!
+    // homeSubText.innerHTML = `
+    //     Se você é um apaixonado por esportes e quer organizar o seu próprio campeonato, 
+    //     temos uma excelente dica para você!
 
 
-        <br><br> Quer saber o que é? Arrasta pra cima! 
-    `
+    //     <br><br> Quer saber o que é? Arrasta pra cima! 
+    // `
 
 } else {
 
@@ -302,14 +308,14 @@ if (mediaQueryMobile.matches) {
 
     feats.forEach(feat => feat.classList.add("mb-5"))
 
-    homeSubText.innerHTML = `
-        Se você ama esportes e quer organizar o seu próprio campeonato, 
-        temos uma excelente dica para você!
+    // homeSubText.innerHTML = `
+    //     Se você ama esportes e quer organizar o seu próprio campeonato, 
+    //     temos uma excelente dica para você!
 
 
-        <br><br> Não perca mais tempo procurando por soluções complicadas para organizar o seu campeonato.
-        <br> Com a Playoffs, você pode criar e personalizar campeonatos de acordo com sua necessidade.
-    `
+    //     <br><br> Não perca mais tempo procurando por soluções complicadas para organizar o seu campeonato.
+    //     <br> Com a Playoffs, você pode criar e personalizar campeonatos de acordo com sua necessidade.
+    // `
 
     
 }
