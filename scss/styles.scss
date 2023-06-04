@@ -4,6 +4,32 @@ $offset: 20vw;
 $move-initial: calc(-25% + $offset);
 $move-final: calc(-50% + $offset);
 
+html {
+  &.lenis {
+    height: auto;
+  }
+}
+
+.lenis {
+  &.lenis-smooth {
+    scroll-behavior: auto;
+  }
+
+  &.lenis-smooth { 
+    [data-lenis-prevent] {
+      overscroll-behavior: contain;
+    }
+  }
+
+  &.lenis-stopped {
+    overflow: hidden;
+  }
+
+  &.lenis-scrolling iframe {
+    pointer-events: none;
+  } 
+}
+
 body {
   color: $white;
   font-family: $font-family-sans-serif;
@@ -18,6 +44,10 @@ body {
 
 .z-1 {
   z-index: 1;
+}
+
+.z-3 {
+  z-index: 3;
 }
 
 .ptx-90 {
@@ -35,6 +65,10 @@ body {
 .topr-2 {
   top: 3.5rem !important;
 }
+
+.mbr-8 {
+  margin-bottom: 8rem !important;
+}	
 
 .w-60 {
   width: 60% !important;
@@ -80,10 +114,25 @@ body {
   opacity: .8;
   height: 55px;
   width: 55px;
+  transition: all 0.1s ease-in-out;
 
   i {
     font-size: 1.6rem;
     top: 1.6rem;
+    color: $play-cor-secundaria;
+  }
+}
+
+#gotop {
+  &:hover {
+    background-color: $play-cor-fundos;
+    opacity: 1;
+    border: 1px solid $play-cor-secundaria;
+  }
+
+  &:active {
+    opacity: .8;
+    scale: 0.9;
   }
 }
 
@@ -127,6 +176,7 @@ body {
   border-radius: 10px !important;
   border-color:$play-cor-efeitos !important;
 }
+
 // Navbar
 .pesquisar {
   background-color: $gray-400 !important;
@@ -159,40 +209,48 @@ body {
     option {
       cursor: pointer;
     }
-  }
 
-  #lingua:active,
-  #lingua:focus {
-    background-color: $play-cor-fundos-secundaria;
-    box-shadow: none;
-    border: none;
-    cursor: pointer;
-    outline: none;
-  }
-}
-
-.nav-item:hover {
-  a, #lingua {
-    background-color: $play-cor-fundos-secundaria !important;
-    color: $play-cor-texto !important;
+    &:active, &:focus {
+      background-color: $play-cor-fundos-secundaria !important;
+      color: $play-cor-texto !important;
+      box-shadow: none;
+      border: none;
+      cursor: pointer;
+      outline: none;
+    }
   }
 }
 
-input[aria-label="Search"],
-input[aria-label="Search"]:focus {
-  text-align: center;
+.nav-item {
+  &:hover, &:active, &:focus {
+    a, #lingua {
+      background-color: $play-cor-fundos-secundaria !important;
+      color: $play-cor-texto !important;
+    }
+  }
 }
 
-button.navbar-toggler,
-button.navbar-toggler:active,
-button.navbar-toggler:focus  {
-  box-shadow: none;
+input[aria-label="Search"] {
+  &:focus, & {
+    text-align: center;
+  }
 }
 
-button.navbar-toggler:active,
-button.navbar-toggler:hover {
-  background-color: $play-cor-fundos-secundaria !important;
+button.navbar-toggler {
+  background-color: transparent !important;
   color: $play-cor-texto !important;
+  transition: all $transition;
+  
+  &:focus {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  &:active, &:hover {
+    background-color: $play-cor-fundos-secundaria !important;
+  }
+  
 }
 
 .offcanvas.offcanvas-end.mobile {
