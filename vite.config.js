@@ -30,6 +30,8 @@ export default defineConfig({
         cadastroTimes: resolve(__dirname, 'pages/cadastro-times.html'),
         confirmacaoCadastro: resolve(__dirname, 'pages/confirmacao-cadastro.html'),
         configuracaoUsuarios: resolve(__dirname, 'pages/configuracao-usuarios.html'),
+        configuracaoCampeonato: resolve(__dirname, 'pages/configuracao-campeonato.html'),
+        recuperarSenha: resolve(__dirname, 'pages/recuperar-senha.html')
       }
     }
   },

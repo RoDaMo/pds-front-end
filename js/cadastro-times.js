@@ -3,6 +3,108 @@ import { notificacaoSucesso } from "./utilidades/notificacoes"
 import { exibidorImagem } from '../js/utilidades/previewImagem'
 import JustValidate from "just-validate"
 import { uploadImagem } from './utilidades/uploadImagem'
+import './utilidades/loader'
+import * as bootstrap from 'bootstrap'
+
+let cpfObrigatorio = false
+let cadastrouCpf = false
+let confirmouCpf = true
+let meuModal
+
+window.addEventListener("DOMContentLoaded", async(e) => {
+    e.preventDefault()
+   
+    let endpoint = `auth/cpf`
+    const config = configuracaoFetch("GET")
+    const data = await executarFetch(endpoint, config)
+
+    console.log("oi")
+    console.log(data)
+
+    if(data === undefined)
+        confirmouCpf = false
+    if(!data.results) {
+        cpfObrigatorio = true
+        const modal = document.getElementById('JanelaModal')
+        meuModal =  new bootstrap.Modal(modal)
+        meuModal.show();
+    }
+})
+
+const mensagemErro2 = document.getElementById("mensagem-erro2")
+const formularioCpf = document.getElementById("formCpf")
+const cpf =  document.getElementById("cpf")
+const validator2 = new JustValidate(formularioCpf, {
+    validateBeforeSubmitting: true,
+})
+
+validator2
+    .addField(cpf, [
+        {
+            rule: 'required',
+            errorMessage: 'Favor inserir CPF',
+        },
+        {
+            rule: 'minLength',
+            value: 11,
+            errorMessage: 'Nome de usuário deve possuir 11 caracteres.',
+        },
+        {
+            rule: 'maxLength',
+            value: 11,
+            errorMessage: 'Nome de usuário deve possuir 11 caracteres.',
+        },
+        {
+            validator: (value, context) => {
+                var numberCpf = new Array(11)
+                for (var i = 0; i < 11; i++)
+                    numberCpf[i] = parseInt(value[i])
+
+                var sum = 0
+                for (var i = 0; i < 9; i++)
+                    sum += numberCpf[i] * (10 - i)
+
+                var firstVerifierDigit = (sum * 10) % 11
+                firstVerifierDigit = firstVerifierDigit === 10 ? 0 : firstVerifierDigit
+
+                sum = 0
+                var arrayNova = numberCpf.slice()
+                arrayNova[9] = firstVerifierDigit
+                for (var i = 0; i < 10; i++)
+                    sum += arrayNova[i] * (11 - i)
+
+                var secondVerifierDigit = (sum * 10) % 11;
+                secondVerifierDigit = secondVerifierDigit === 10 ? 0 : secondVerifierDigit
+
+                if (firstVerifierDigit !== numberCpf[9] || secondVerifierDigit !== numberCpf[10])
+                    return false
+                
+                return true
+            },
+            errorMessage: 'CPF inválido',
+        }
+    ])
+    .onSuccess(async(e) => {
+        e.preventDefault()
+        limparMensagem(mensagemErro)
+
+        loader.show();
+
+        const resultado = await postCpf("auth/cpf", 
+            cpf.value
+        )
+
+        if (resultado) {
+            formularioCpf.reset()
+            cadastrouCpf = true
+            meuModal.hide()
+        }
+
+        loader.hide();
+    })
+
+const loader = document.createElement('app-loader');
+document.body.appendChild(loader);
 
 
 const formulario = document.getElementById("formulario")
@@ -105,6 +207,8 @@ validator
         e.preventDefault()
         limparMensagem(mensagemErro)
 
+        loader.show();
+
         const resultado = await postTime("teams", {
             "emblem": logo.value,
             "uniformHome": uniformeHome.value,
@@ -119,6 +223,8 @@ validator
             home.src = "#"
             away.src = "#"
         }
+
+        loader.hide();
     })
 
 let imagensValidacao = {
@@ -164,6 +270,15 @@ uniformeAway.addEventListener("change", async() => {
 
 
 async function postTime(endpoint, body) {
+    if(cpfObrigatorio && !cadastrouCpf) {
+        meuModal.show()
+        return
+    }
+    if(!confirmouCpf) {
+        location.reload()
+        return
+    }
+
     console.log(body)
 
     const config = configuracaoFetch("POST", body)
@@ -180,5 +295,20 @@ async function postTime(endpoint, body) {
     if (!data) return false
 
     notificacaoSucesso(data.message)
+    return true
+}
+
+async function postCpf(endpoint, body) {
+    const config = configuracaoFetch("POST", body)
+
+    const callbackServidor = data => {
+        mensagemErro2.classList.add("text-danger")
+        data.results.forEach(element => mensagemErro2.innerHTML += `${element}<br>`);
+    }
+
+    const data = await executarFetch(endpoint, config, (res) => mensagemErro2.textContent = res.results, callbackServidor)
+    if (!data) return false
+
+    notificacaoSucesso(data.results[0])
     return true
 }
