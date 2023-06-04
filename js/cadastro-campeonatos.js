@@ -1,4 +1,4 @@
-import { configuracaoFetch, executarFetch, limparMensagem } from "./utilidades/configFetch"
+import { configuracaoFetch, executarFetch, limparMensagem, api } from "./utilidades/configFetch"
 import { notificacaoSucesso } from "./utilidades/notificacoes"
 import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
 import portugues from './i18n/ptbr/cadastro-campeonatos.json' assert { type: 'JSON' }
@@ -185,8 +185,7 @@ flatpickr(dataFinal, {
 
 imagem.addEventListener("change", async() => {
     const data = await uploadImagem(imagem, 0, mensagemErro)
-    
-    emblema.value = `https://playoffs-api.up.railway.app/img/${data.results}`
+    emblema.value = `${api}img/${data.results}`
     exibidorImagem(escudo, emblema.value)
     document.getElementById('salvar').disabled = !(data.succeed === true)
 })

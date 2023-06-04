@@ -293,8 +293,8 @@ button.navbar-toggler {
 }
 
 .bg-verde-limao {
-  background-color: $play-cor-fundos;
-  color: $play-cor-texto;
+  background-color: $play-cor-fundos !important;
+  color: $play-cor-texto !important;
 }
 
 .foto-usuario {
