@@ -1,13 +1,19 @@
 import JustValidate from "just-validate"
-import { configuracaoFetch, executarFetch, limparMensagem } from "./utilidades/configFetch"
+import { configuracaoFetch, api, limparMensagem } from "./utilidades/configFetch"
 import { visualizarSenha } from "./utilidades/visualizar-senha"
-import {redirecionamento} from './utilidades/redirecionamento'
+import { redirecionamento } from './utilidades/redirecionamento'
+import './utilidades/loader'
 
 const nomeUsuario = document.getElementById("nome-usuario")
 const senha = document.getElementById("senha")
 const formulario = document.getElementById("formulario")
 const mensagemErro = document.getElementById("mensagem-erro")
 const lembrar = document.getElementById('lembrar')
+
+
+const loader = document.createElement('app-loader');
+document.body.appendChild(loader);
+
 
 const validator = new JustValidate(formulario, {
     validateBeforeSubmitting: true,
@@ -51,11 +57,14 @@ validator
         e.preventDefault()
         limparMensagem(mensagemErro)
 
+        loader.show();
+
         await postToken({
             "Username": nomeUsuario.value,
             "Password": senha.value,
             "RememberMe": lembrar.checked ? true : false
         })
+        loader.hide();
     })
 
 visualizarSenha()
@@ -69,11 +78,12 @@ document.getElementById("continuar").addEventListener("click", async(e) => {
 
 async function postUsuarioExiste(body) {
     limparMensagem(mensagemErro)
+    loader.show()
     const config = configuracaoFetch("POST", body)
-    const res = await fetch(`https://playoffs-api.up.railway.app/auth/exists`, config)
+    const res = await fetch(`${api}auth/exists`, config)
 
     const data = await res.json()
-    console.log(data)
+    loader.hide()
 
     if(data.results && data.succeed){
         document.getElementById("continuar").classList.add("d-none")
@@ -83,7 +93,9 @@ async function postUsuarioExiste(body) {
         nomeUsuario.parentElement.classList.replace('mb-5', 'mb-2');
     }
     else{
+        
         window.location.assign(`/pages/cadastro-usuarios.html?userName=${nomeUsuario.value}`);
+        
     }
 
     return true
@@ -95,9 +107,10 @@ async function postToken(body) {
     if (!window.location.href.includes('netlify'))
         config.headers["IsLocalhost"] = true;
 
-    const res = await fetch(`https://playoffs-api.up.railway.app/auth`, config)
-
+    loader.show()
+    const res = await fetch(`${api}auth`, config)
     const data = await res.json()
+    loader.hide()
 
     if(!data.succeed){
         mensagemErro.textContent = data.message

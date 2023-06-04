@@ -4,6 +4,32 @@ $offset: 20vw;
 $move-initial: calc(-25% + $offset);
 $move-final: calc(-50% + $offset);
 
+html {
+  &.lenis {
+    height: auto;
+  }
+}
+
+.lenis {
+  &.lenis-smooth {
+    scroll-behavior: auto;
+  }
+
+  &.lenis-smooth { 
+    [data-lenis-prevent] {
+      overscroll-behavior: contain;
+    }
+  }
+
+  &.lenis-stopped {
+    overflow: hidden;
+  }
+
+  &.lenis-scrolling iframe {
+    pointer-events: none;
+  } 
+}
+
 body {
   color: $white;
   font-family: $font-family-sans-serif;
@@ -18,6 +44,10 @@ body {
 
 .z-1 {
   z-index: 1;
+}
+
+.z-3 {
+  z-index: 3;
 }
 
 .ptx-90 {
@@ -36,12 +66,24 @@ body {
   top: 3.5rem !important;
 }
 
+.mbr-8 {
+  margin-bottom: 8rem !important;
+}	
+
 .w-60 {
   width: 60% !important;
 }
 
 .w-90 {
   width: 90% !important;
+}
+
+.w-87 {
+  width: 87% !important;
+}
+
+.mt-6r {
+  margin-top: 6rem !important;
 }
 
 .rounded-bottom-0 {
@@ -54,15 +96,16 @@ body {
 }
 
 .glass-effect {
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37) !important;
+  background: rgba( 216, 255, 219, 0.2 );
   backdrop-filter: blur( 4px );
   -webkit-backdrop-filter: blur( 4px );
   border-radius: 10px;
-  border: 1px solid rgba( 255, 255, 255, 0.18 ) !important;
+  box-shadow: 0 8px 32px 0 rgb(0 0 0 / 20%);
+  border: 1px solid rgba( 255, 255, 255, 0.18 );
 }
 
 // -- Outras Classes
-
+  
 // Conteúdo Principal
 #gotop {
   position: fixed;
@@ -72,10 +115,25 @@ body {
   opacity: .8;
   height: 55px;
   width: 55px;
+  transition: all 0.1s ease-in-out;
 
   i {
     font-size: 1.6rem;
     top: 1.6rem;
+    color: $play-cor-secundaria;
+  }
+}
+
+#gotop {
+  &:hover {
+    background-color: $play-cor-fundos;
+    opacity: 1;
+    border: 1px solid $play-cor-secundaria;
+  }
+
+  &:active {
+    opacity: .8;
+    scale: 0.9;
   }
 }
 
@@ -119,6 +177,7 @@ body {
   border-radius: 10px !important;
   border-color:$play-cor-efeitos !important;
 }
+
 // Navbar
 .pesquisar {
   background-color: $gray-400 !important;
@@ -151,43 +210,51 @@ body {
     option {
       cursor: pointer;
     }
-  }
 
-  #lingua:active,
-  #lingua:focus {
-    background-color: $play-cor-fundos-secundaria;
-    box-shadow: none;
-    border: none;
-    cursor: pointer;
-    outline: none;
-  }
-}
-
-.nav-item:hover {
-  a, #lingua {
-    background-color: $play-cor-fundos-secundaria !important;
-    color: $play-cor-texto !important;
+    &:active, &:focus {
+      background-color: $play-cor-fundos-secundaria !important;
+      color: $play-cor-texto !important;
+      box-shadow: none;
+      border: none;
+      cursor: pointer;
+      outline: none;
+    }
   }
 }
 
-input[aria-label="Search"],
-input[aria-label="Search"]:focus {
-  text-align: center;
+.nav-item {
+  &:hover, &:active, &:focus {
+    a, #lingua {
+      background-color: $play-cor-fundos-secundaria !important;
+      color: $play-cor-texto !important;
+    }
+  }
 }
 
-button.navbar-toggler,
-button.navbar-toggler:active,
-button.navbar-toggler:focus  {
-  box-shadow: none;
+input[aria-label="Search"] {
+  &:focus, & {
+    text-align: center;
+  }
 }
 
-button.navbar-toggler:active,
-button.navbar-toggler:hover {
-  background-color: $play-cor-fundos-secundaria !important;
+button.navbar-toggler {
+  background-color: transparent !important;
   color: $play-cor-texto !important;
+  transition: all $transition;
+  
+  &:focus {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  &:active, &:hover {
+    background-color: $play-cor-fundos-secundaria !important;
+  }
+  
 }
 
-.offcanvas.offcanvas-end {
+.offcanvas.offcanvas-end.mobile {
   width: 100% !important;
 }
 
@@ -227,6 +294,34 @@ button.navbar-toggler:hover {
 }
 
 .bg-verde-limao {
-  background-color: $play-cor-fundos;
+  background-color: $play-cor-fundos !important;
+  color: $play-cor-texto !important;
+}
+
+.foto-usuario {
+  max-width: 32px;
+  max-height: 32px;
+  border-radius: 50%;
+}
+
+#offcanvasUser {
   color: $play-cor-texto;
+
+  .item-offcanvas-usuario:hover {
+    /* From https://css.glass */
+    background: rgba(0, 143, 140, 0.28);
+    // border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.205);
+    backdrop-filter: blur(3.3px);
+    -webkit-backdrop-filter: blur(3.3px);
+    transition: .1s background, backdrop-filter, -webkit-backdrop-filter;
+  }
+
+  .item-offcanvas-usuario {
+    transition: .1s background, backdrop-filter, -webkit-backdrop-filter;
+  }  
+}
+
+.navbar-clicavel {
+  cursor: pointer;
 }

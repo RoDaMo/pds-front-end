@@ -1,6 +1,13 @@
+import Lenis from '@studio-freight/lenis'
 import '../scss/home.scss'
 import Rellax from 'rellax'
-import 'swiped-events'
+import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
+import portugues from './i18n/ptbr/home.json' assert { type: 'JSON' }
+import ingles from './i18n/en/home.json' assert { type: 'JSON' }
+import i18next from 'i18next'
+
+inicializarInternacionalizacao(ingles, portugues);
+
 
 const navbar = document.querySelector("componente-header")
 const homeCards = document.querySelectorAll(".home-card.d-flex")
@@ -17,6 +24,8 @@ const dots = document.querySelectorAll(".dot")
 const toTopBtn = document.getElementById("gotop")
 const rodamoLogo = document.querySelector("img[alt='Rodamo Logo']")
 
+const footerCta = document.querySelectorAll(".footer-cta")
+
 const homeNoise = document.querySelector(".home-noise")
 const noiseSvgs = document.querySelectorAll(".noise-svg");
 
@@ -30,6 +39,21 @@ const mobilePortrait = window.matchMedia("(orientation: portrait)")
 const mobibarClasses = ["position-fixed", "topx-14", "z-1", "start-50", "translate-middle-x", "w-60", "rounded-4", "glass-effect"]
 const mobibarLogoClasses = ["w-90", "mb-2", "translate-6"]
 
+const lenis = new Lenis({
+    wheelMultiplier: 0.4,
+    smoothWheel: true,
+    touchMultiplier: 0.6,
+    smoothTouch: true,
+    syncTouch: true,
+    normalizeWheel: true,
+})
+
+function raf(time) {
+    lenis.raf(time)
+    requestAnimationFrame(raf)
+}
+  
+requestAnimationFrame(raf)
 
 let mobibarLogo
 let navTogglerClose
@@ -62,7 +86,7 @@ function isVisible(el) {
     return !(rect.bottom < 0 || rect.top - viewHeight >= 0)
 }
 
-window.addEventListener("scroll", () => {
+lenis.on("scroll", () => {
     // To top button appearing
     if (
         document.body.scrollTop > 200 ||
@@ -75,47 +99,58 @@ window.addEventListener("scroll", () => {
 })
 
 toTopBtn.addEventListener("click", () => {
-    document.documentElement.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-    })
+    lenis.scrollTo(0, {lock: true, duration: 2})
 })
 
 // Media Query Mobile
 if (mediaQueryMobile.matches) {
 
-    function scrollDownwards() {
-        scrollTrigger.forEach(trigger => {
-            if (isVisible(trigger)) {
-                if (triggerArr.indexOf(trigger) == 2 || triggerArr.indexOf(trigger) == 4 || triggerArr.indexOf(trigger) == 6) {
-                    scrollTrigger[triggerArr.indexOf(trigger)].parentElement.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start"
-                    })
-                }
-            }
-        })
-    }
+    let startY = 0
+    let endY = 0
 
-    function scrollUpwards() {
-        scrollTrigger.forEach(trigger => {
-            if (isVisible(trigger)) {
-                if (triggerArr.indexOf(trigger) == 1 || triggerArr.indexOf(trigger) == 3 || triggerArr.indexOf(trigger) == 5) {
-                    scrollTrigger[triggerArr.indexOf(trigger)].parentElement.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start"
-                    })
-                }
+
+    window.addEventListener("touchstart", e => {
+        startY = e.touches[0].clientY
+    })
+
+    // Scrollend Trigger
+    window.addEventListener("touchend", e => {
+        endY = e.changedTouches[0].clientY
+
+        console.log(endY, startY);
+
+        setTimeout(() => {
+            if (endY > startY && !(isVisible(scrollTrigger[0]))) {
+                scrollTrigger.forEach(trigger => {
+                    if (isVisible(trigger)) {
+                        if (trigger.classList.contains("bottom-trigger")) {
+                            lenis.scrollTo(trigger.parentElement, {lock: true, duration: 1, force: true})
+        
+                            return
+                        }
+                    }
+                })
+            } else if (endY < startY && !(isVisible(scrollTrigger[7]))) {
+                scrollTrigger.forEach(trigger => {
+                    if (isVisible(trigger)) {
+                        if (trigger.classList.contains("top-trigger")) {
+                            lenis.scrollTo(trigger.parentElement, {lock: true, duration: 1, force: true})
+        
+                            return
+                        }
+                    }
+                })
             }
-        })
-    }
+        }, 120);
+
+    })
 
     homeCards[0].parentElement.classList.remove("pt-2")
     homeCards[2].parentElement.classList.remove("mt-3")
-    homeCards[2].classList.add("p-4")
+    homeCards[2].classList.add("padding-home-4")
     homeCards[2].classList.remove("p-5")
     homeCards[0].classList.remove("rounded-4", "pt-5")
-    homeCards[0].classList.add("vh-91", "rounded-5", "rounded-bottom-0", "card-bg", "p-4")
+    homeCards[0].classList.add("vh-91", "rounded-5", "rounded-bottom-0", "card-bg", "padding-home-4", "home-grad")
     homeCards[1].classList.add("card-bg")
 
     rodamoLogo.classList.add("w-25")
@@ -138,10 +173,10 @@ if (mediaQueryMobile.matches) {
         div.classList.add("gap-0")
     })
 
-    let lastScrollTop = window.pageYOffset || document.documentElement.scrollTop
+    let lastScrollTop = window.pageYOffset
 
     // Mobile navbar changer
-    window.addEventListener("scroll", () => {
+    document.addEventListener("scroll", () => {
 
         if (window.scrollY === 0){
             homeCards[0].classList.remove("ptx-90")
@@ -166,18 +201,21 @@ if (mediaQueryMobile.matches) {
                 menuOpen = true
             })
     
-            if (!menuOpen) {
-                navbar.classList.add(...mobibarClasses)
-                mobibarLogo.classList.add(...mobibarLogoClasses)
-            }
-    
             navTogglerClose.addEventListener("click", () => {
                 if (window.scrollY != 0) {
                     navbar.classList.add(...mobibarClasses)
                     mobibarLogo.classList.add(...mobibarLogoClasses)  
+                    menuOpen = false
+                } else {
+                    menuOpen = false
                 }
                 
             })
+
+            if (!menuOpen) {
+                navbar.classList.add(...mobibarClasses)
+                mobibarLogo.classList.add(...mobibarLogoClasses)
+            }
         }
 
         // Page Indicator 
@@ -207,45 +245,6 @@ if (mediaQueryMobile.matches) {
 
     }, {passive: "true"})
 
-    // Scrollend Trigger
-    window.addEventListener("scrollend", () => {
-        let st = window.pageYOffset || document.documentElement.scrollTop
-
-        // going downwards
-        if (st > lastScrollTop && !(isVisible(scrollTrigger[7]))) {
-            scrollDownwards()
-
-        // going upwards
-        } else if (st < lastScrollTop && !(isVisible(scrollTrigger[0]))) {
-            scrollUpwards()
-        }
-
-        lastScrollTop = st <= 0 ? 0 : st
-    })
-    
-    // Swipe Direction Trigger
-    document.addEventListener("swiped-up", e => {
-        e.preventDefault()
-
-        if ((isVisible(scrollTrigger[0]))) {
-            scrollTrigger[2].parentElement.scrollIntoView({
-                behavior: "smooth",
-                block: "start"
-            })
-        } else {
-            scrollDownwards()
-        }
-    })
-    
-    document.addEventListener("swiped-down", e => {
-        e.preventDefault()
-        
-        if (!(isVisible(scrollTrigger[0]))) {
-            scrollUpwards()
-        }
-        
-    })
-
     // Mobile Orientation Change
     // mobilePortrait.addEventListener("change", e => {
     //     if(!e.matches) {
@@ -255,18 +254,18 @@ if (mediaQueryMobile.matches) {
     //     }
     // })
 
-    homeSubText.innerHTML = `
-        Se você é um apaixonado por esportes e quer organizar o seu próprio campeonato, 
-        temos uma excelente dica para você!
+    // homeSubText.innerHTML = `
+    //     Se você é um apaixonado por esportes e quer organizar o seu próprio campeonato, 
+    //     temos uma excelente dica para você!
 
 
-        <br><br> Quer saber o que é? Arrasta pra cima! 
-    `
+    //     <br><br> Quer saber o que é? Arrasta pra cima! 
+    // `
 
 } else {
 
-    window.onload = () => {
-        let FTBHeight = homeCards[0].parentElement.offsetHeight + navbar.offsetHeight
+    document.addEventListener("DOMContentLoaded", () => {
+        const FTBHeight = homeCards[0].parentElement.offsetHeight + navbar.offsetHeight
 
         firstTitleBg.style.height = `${FTBHeight + 85}px`
         firstTitleBg.style.marginTop = `-${navbar.offsetHeight + 40}px`
@@ -275,12 +274,27 @@ if (mediaQueryMobile.matches) {
 
         navbar.querySelector(".navbar-toggler").addEventListener("click", () => {
             noiseSvgs.forEach(svg => svg.classList.toggle("z-1"))
+            homeTitle.classList.toggle("z-1")
+            homeSubText.classList.toggle("z-1")
         })
 
         navbar.querySelector("#close-offcanvas").addEventListener("click", () => {
             noiseSvgs.forEach(svg => svg.classList.toggle("z-1"))
+            homeTitle.classList.toggle("z-1")
+            homeSubText.classList.toggle("z-1")
         })
-    }
+    })
+
+    homeCards[3].classList.remove("card-bg")
+    homeCards[3].classList.add("my-5")
+
+    footerCta.forEach(cta => {
+        cta.classList.replace("feats", "feats-2")
+        cta.parentElement.classList.replace("mt-4", "mt-5")
+        cta.classList.add("h-75")
+    })
+
+    footerCta[1].parentElement.classList.remove("mb-auto")
 
     navbar.classList.add("position-relative", "z-1")
 
@@ -298,18 +312,18 @@ if (mediaQueryMobile.matches) {
     homeSubText.classList.add("text-center", "w-75")
     homeSubText.parentElement.classList.add("justify-content-center")
 
-    homeCards[1].querySelector("h2").classList.add("mt-5", "mb-4")
+    homeCards[1].querySelector("h2").classList.add("mt-5", "mbr-8")
 
     feats.forEach(feat => feat.classList.add("mb-5"))
 
-    homeSubText.innerHTML = `
-        Se você ama esportes e quer organizar o seu próprio campeonato, 
-        temos uma excelente dica para você!
+    // homeSubText.innerHTML = `
+    //     Se você ama esportes e quer organizar o seu próprio campeonato, 
+    //     temos uma excelente dica para você!
 
 
-        <br><br> Não perca mais tempo procurando por soluções complicadas para organizar o seu campeonato.
-        <br> Com a Playoffs, você pode criar e personalizar campeonatos de acordo com sua necessidade.
-    `
+    //     <br><br> Não perca mais tempo procurando por soluções complicadas para organizar o seu campeonato.
+    //     <br> Com a Playoffs, você pode criar e personalizar campeonatos de acordo com sua necessidade.
+    // `
 
     
 }
