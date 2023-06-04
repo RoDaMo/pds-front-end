@@ -14,6 +14,9 @@ const mensagemErro = document.getElementById("mensagem-erro")
 const lembrar = document.getElementById('lembrar')
 
 
+const loader = document.createElement('app-loader');
+document.body.appendChild(loader);
+
 
 const validator = new JustValidate(formulario, {
     validateBeforeSubmitting: true,
