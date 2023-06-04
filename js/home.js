@@ -41,10 +41,6 @@ const lenis = new Lenis({
     normalizeWheel: true,
 })
 
-lenis.on('scroll', (e) => {
-    console.log(e)
-})
-
 function raf(time) {
     lenis.raf(time)
     requestAnimationFrame(raf)
@@ -138,7 +134,7 @@ if (mediaQueryMobile.matches) {
                     }
                 })
             }
-        }, 100);
+        }, 120);
 
     })
 
@@ -173,7 +169,7 @@ if (mediaQueryMobile.matches) {
     let lastScrollTop = window.pageYOffset
 
     // Mobile navbar changer
-    lenis.on("scroll", () => {
+    document.addEventListener("scroll", () => {
 
         if (window.scrollY === 0){
             homeCards[0].classList.remove("ptx-90")
@@ -198,18 +194,21 @@ if (mediaQueryMobile.matches) {
                 menuOpen = true
             })
     
-            if (!menuOpen) {
-                navbar.classList.add(...mobibarClasses)
-                mobibarLogo.classList.add(...mobibarLogoClasses)
-            }
-    
             navTogglerClose.addEventListener("click", () => {
                 if (window.scrollY != 0) {
                     navbar.classList.add(...mobibarClasses)
                     mobibarLogo.classList.add(...mobibarLogoClasses)  
+                    menuOpen = false
+                } else {
+                    menuOpen = false
                 }
                 
             })
+
+            if (!menuOpen) {
+                navbar.classList.add(...mobibarClasses)
+                mobibarLogo.classList.add(...mobibarLogoClasses)
+            }
         }
 
         // Page Indicator 
@@ -306,7 +305,7 @@ if (mediaQueryMobile.matches) {
     homeSubText.classList.add("text-center", "w-75")
     homeSubText.parentElement.classList.add("justify-content-center")
 
-    homeCards[1].querySelector("h2").classList.add("mt-5", "mb-4")
+    homeCards[1].querySelector("h2").classList.add("mt-5", "mbr-8")
 
     feats.forEach(feat => feat.classList.add("mb-5"))
 
