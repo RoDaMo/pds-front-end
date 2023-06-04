@@ -255,6 +255,12 @@ ul.dots-list {
   .fc-first-title {
     color: $white !important;
   }
+
+  .footer-cta {
+    &:nth-of-type(2) {
+      width: auto !important;
+    }
+  }
 }
 
 @include media-breakpoint-only(md) {

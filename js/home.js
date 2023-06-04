@@ -124,7 +124,7 @@ if (mediaQueryMobile.matches) {
                 scrollTrigger.forEach(trigger => {
                     if (isVisible(trigger)) {
                         if (trigger.classList.contains("bottom-trigger")) {
-                            lenis.scrollTo(trigger.parentElement, {lock: true, duration: 1})
+                            lenis.scrollTo(trigger.parentElement, {lock: true, duration: 1, force: true})
         
                             return
                         }
@@ -134,7 +134,7 @@ if (mediaQueryMobile.matches) {
                 scrollTrigger.forEach(trigger => {
                     if (isVisible(trigger)) {
                         if (trigger.classList.contains("top-trigger")) {
-                            lenis.scrollTo(trigger.parentElement, {lock: true, duration: 1})
+                            lenis.scrollTo(trigger.parentElement, {lock: true, duration: 1, force: true})
         
                             return
                         }
@@ -264,8 +264,8 @@ if (mediaQueryMobile.matches) {
 
 } else {
 
-    window.onload = () => {
-        let FTBHeight = homeCards[0].parentElement.offsetHeight + navbar.offsetHeight
+    document.addEventListener("DOMContentLoaded", () => {
+        const FTBHeight = homeCards[0].parentElement.offsetHeight + navbar.offsetHeight
 
         firstTitleBg.style.height = `${FTBHeight + 85}px`
         firstTitleBg.style.marginTop = `-${navbar.offsetHeight + 40}px`
@@ -283,7 +283,7 @@ if (mediaQueryMobile.matches) {
             homeTitle.classList.toggle("z-1")
             homeSubText.classList.toggle("z-1")
         })
-    }
+    })
 
     homeCards[3].classList.remove("card-bg")
     homeCards[3].classList.add("my-5")

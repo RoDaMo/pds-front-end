@@ -92,7 +92,7 @@ mensagemErro.classList.add("text-danger")
     data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
 }
 
-const data = await executarFetch(`auth/${id}`, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
+// const data = await executarFetch(`auth/${id}`, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
 
 console.log(data)
 console.log(data.results.picture)
