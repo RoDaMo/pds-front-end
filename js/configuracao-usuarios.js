@@ -1,5 +1,22 @@
 import '../scss/configuracao-usuarios.scss'
 import JustValidate from 'just-validate'
+import {exibidorImagem} from '../js/utilidades/previewImagem'
+import { uploadImagem } from './utilidades/uploadImagem'
+import { configuracaoFetch, executarFetch, limparMensagem } from "./utilidades/configFetch"
+import { notificacaoSucesso } from "./utilidades/notificacoes"
+
+const pegarDados = async() => {
+    const config = configuracaoFetch("GET")
+                
+    const callbackServidor = data => {
+        mensagemErro.classList.add("text-danger")
+        data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
+    }
+                
+    const data = await executarFetch("auth/user", config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
+    if (!data) return false             
+    return data.results
+}
 
 const configMenu = document.querySelector('.config-menu')
 const configMenuList = document.querySelector('.config-menu-list')
@@ -16,12 +33,14 @@ const mediaQueryMobile = window.matchMedia('(max-width: 575px)')
 const mediaQueryTablet = window.matchMedia('(max-width: 992px)')
 const mediaQueryDesktop = window.matchMedia('(max-width: 1199px)')
 
+const mensagemErro = document.getElementById("mensagem-erro")
+
 const deleteAccountValidator = new JustValidate(deleteAccountForm, {
     validateBeforeSubmitting: true,
 })
 
 document.addEventListener('DOMContentLoaded', () => {
-    changeConfigOptionsContext(configTitle.innerText)
+    changeConfigOptionsContext("1")
 })
 
 deleteAccountValidator
@@ -29,16 +48,6 @@ deleteAccountValidator
         {
             rule: 'required',
             errorMessage: 'Seu nome de usuário é obrigatório.',
-        },
-    ])
-    .addField(deleteAccountCheckInput, [
-        {
-            rule: 'required',
-            errorMessage: 'Você deve confirmar a exclusão da conta.',
-        },
-        {
-            validator: (value) => value == 'Excluir Conta' ? true : false,
-            errorMessage: 'Escreva "Excluir Conta" para confirmar a exclusão da conta.',
         },
     ])
     // submit
@@ -60,7 +69,7 @@ configMenuList.addEventListener('click', e => {
 
     configTitle.innerText = target.innerText
 
-    changeConfigOptionsContext(target.innerText)
+    changeConfigOptionsContext(target.getAttribute('menu'))
 })
 
 function activateLi(li) {
@@ -71,10 +80,18 @@ function activateLi(li) {
     li.classList.add('active')
 }
 
-function changeConfigOptionsContext(t) {
-    switch (t) {
-        case 'Perfil':
-            configOptionsWrapper.innerHTML = `
+async function changeConfigOptionsContext(t) {
+    const dados = await pegarDados()
+    console.log(dados)
+    document.getElementById('biografia').textContent = dados.bio
+    document.getElementById('email').textContent = dados.email
+    document.getElementById('nome-usuario').textContent = dados.userName
+    document.getElementById('nome').textContent = dados.nome
+    exibidorImagem(document.getElementById("config-user-pic"), dados.picture)
+    
+    switch(parseInt(t)) {
+        case 1:
+            configOptionsWrapper.innerHTML = /*html*/`
                 <p class="position-absolute config-title fw-semibold">Perfil</p>
                 <h5>Informações</h5>
                 <hr>
@@ -101,17 +118,60 @@ function changeConfigOptionsContext(t) {
                             <label for="config-user-bio-input" class="form-label">Bio</label>
                             <textarea class="form-control rounded-4 width-config-input" id="config-user-bio-input" rows="3" placeholder="Bio"></textarea>
                         </div>
+                        <input type="hidden" name="logo" id="emblema">
                         <div class="col-12 mt-4 justify-touch-btn">
-                            <button type="submit" class="btn play-btn-primary">Atualizar Perfil</button>
+                            <button type="submit" class="btn play-btn-primary" id='salvar'  >Atualizar Perfil</button>
                         </div>
                     </form>
                 </div>
             `
-
             const updateProfileForm = document.querySelector('#update-profile-form')
             const updateProfileUserNameInput = document.querySelector('#config-user-name-input')
             const updateProfileBioInput = document.querySelector('#config-user-bio-input')
             const updateProfileUserPicInput = document.querySelector('#config-user-pic-input')
+
+            updateProfileUserNameInput.value = dados.userName
+            updateProfileBioInput.value = dados.bio
+            exibidorImagem(document.getElementById("config-user-pic-mod"), dados.picture)
+            const emblema = document.getElementById("emblema")
+
+            updateProfileUserPicInput.addEventListener("change", async() => {
+                const data = await uploadImagem(updateProfileUserPicInput, 2, mensagemErro)
+            
+                emblema.value = `https://playoffs-api.up.railway.app/img/${data.results}`
+                exibidorImagem(document.getElementById("config-user-pic-mod"), emblema.value)
+            })
+
+            updateProfileForm.addEventListener("submit", async(e) => {
+                e.preventDefault()
+                limparMensagem(mensagemErro)
+
+                await postPerfil("userconfigurations", {
+                    "Username": updateProfileUserNameInput.value,
+                    "Bio": updateProfileBioInput.value,
+                    "Picture": emblema.value
+                })
+            })
+
+            async function postPerfil(endpoint, body) {
+                console.log(body)
+                const config = configuracaoFetch("PUT", body)
+            
+                const callbackServidor = data => {
+                    mensagemErro.classList.add("text-danger")
+                    data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
+                }
+            
+                const data = await executarFetch(endpoint, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
+                console.log(data)
+                if (!data) return false
+            
+                notificacaoSucesso(data.results[0])
+                return true
+            }
+
+            
+
 
             const updateProfileValidator = new JustValidate(updateProfileForm, {
                 validateBeforeSubmitting: true,
@@ -167,9 +227,9 @@ function changeConfigOptionsContext(t) {
 
             break
 
-        case 'Conta':
+        case 2:
 
-            configOptionsWrapper.innerHTML = `
+            configOptionsWrapper.innerHTML = /*html*/`
                     <p class="position-absolute config-title fw-semibold">Conta</p>
                     <h5>Informações</h5>
                     <hr>
@@ -204,8 +264,72 @@ function changeConfigOptionsContext(t) {
                     </div>
                 `
 
+                const excluirConta = document.getElementById('excluir-conta')
+                
+
+                document.getElementById('delete-account-user-name-input').addEventListener('keyup', async() => {
+                    limparMensagem(document.getElementById("nome-usuario"))
+                    if(!(deleteAccountUserNameInput.value === dados.userName)){
+                        document.getElementById("nome-usuario").textContent = "Nome de usuário inválido"
+                    } 
+                })
+
+                document.getElementById('delete-account-check-input').addEventListener('keyup', async() => {
+                    limparMensagem(document.getElementById("texto-excluir"))
+                    if(!(deleteAccountCheckInput.value === "Excluir Conta")){
+                        document.getElementById("texto-excluir").textContent = "Texto inválido"
+                    } 
+                })
+
+                excluirConta.addEventListener('click', async(e) => {
+                    e.preventDefault()
+                    if(document.getElementById("texto-excluir").textContent === '' && document.getElementById("nome-usuario").textContent === ''){
+                        const config = configuracaoFetch("DELETE")
+                    
+                        const callbackServidor = data => {
+                            document.getElementById("erro-excluir").classList.add("text-danger")
+                            data.results.forEach(element => document.getElementById("erro-excluir").innerHTML += `${element}<br>`);
+                        }
+                    
+                        const data = await executarFetch("auth/user", config, (res) => document.getElementById("erro-excluir").textContent = res.results[0], callbackServidor)
+                        if (!data) return false
+                        window.location.assign("/")
+                    }
+                    else{
+                        document.getElementById("erro-excluir").textContent = "Preencha corretamente os campos acima"
+                        return
+                    }
+                })
+                
                 const updateAccountForm = document.querySelector('#update-account-form')
                 const updateAccountRealNameInput = document.querySelector('#config-user-realname-input')
+
+                updateAccountRealNameInput.value = dados.name
+
+                updateAccountForm.addEventListener('submit', async(e) => {
+                    e.preventDefault()
+                    limparMensagem(mensagemErro)
+
+                    await postName("userconfigurations", {
+                        "Name": updateAccountRealNameInput.value,
+                    })
+                })
+
+                async function postName(endpoint, body) {
+                    const config = configuracaoFetch("PUT", body)
+                
+                    const callbackServidor = data => {
+                        mensagemErro.classList.add("text-danger")
+                        data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
+                    }
+                
+                    const data = await executarFetch(endpoint, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
+                    console.log(data)
+                    if (!data) return false
+                
+                    notificacaoSucesso(data.results[0])
+                    return true
+                }
 
                 const updateAccountValidator = new JustValidate(updateAccountForm, {
                     validateBeforeSubmitting: true,
@@ -225,8 +349,8 @@ function changeConfigOptionsContext(t) {
 
             break
 
-        case 'Senha':
-            configOptionsWrapper.innerHTML = `
+        case 3:
+            configOptionsWrapper.innerHTML = /*html*/`
                     <p class="position-absolute config-title fw-semibold">Senha</p>
                     <h5>Mudar Senha</h5>
                     <hr>
@@ -254,6 +378,38 @@ function changeConfigOptionsContext(t) {
                 const changePasswordForm = document.querySelector('#change-password-form')
                 const changePasswordInput = document.querySelector('#config-user-pass-input')
                 const changeNewPasswordInput = document.querySelector('#config-user-newpass-input')
+
+                const form = document.getElementById("change-password-form")
+
+                form.addEventListener('submit', async(e) => {
+                    limparMensagem(mensagemErro)
+
+                    const resultado = await postRedefinirSenha("userconfigurations/updatepassword", {
+                        "NewPassword": changeNewPasswordInput.value,
+                        "CurrentPassword": changePasswordInput.value
+                    })
+
+                    if (resultado){
+                        form.reset()
+                    }
+                })
+
+                const postRedefinirSenha = async(endpoint, body) => {
+                    console.log(body)
+                    const config = configuracaoFetch("PUT", body)
+                
+                    const callbackServidor = data => {
+                        mensagemErro.classList.add("text-danger")
+                        data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
+                    }
+                
+                    const data = await executarFetch(endpoint, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
+                    if (!data) return false
+                    console.log(data)
+                
+                    notificacaoSucesso(data.results[0])
+                    return true
+                }
 
                 const changePasswordValidator = new JustValidate(changePasswordForm, {
                     validateBeforeSubmitting: true,
