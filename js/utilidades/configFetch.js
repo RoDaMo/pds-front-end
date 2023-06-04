@@ -37,7 +37,7 @@ export const executarFetch = async (endpoint, config, callbackStatus, callbackSe
             window.location.assign("/pages/login.html")
         }
         
-        if (redirecionarLogin) 
+        if (!redirecionarLogin) 
             return await executarFetch(endpoint, config, callbackStatus, callbackServidor, redirecionarLogin);
     }
 

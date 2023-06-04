@@ -21,7 +21,8 @@ const pegarDados = async() => {
 const configMenu = document.querySelector('.config-menu')
 const configMenuList = document.querySelector('.config-menu-list')
 const configTitle = document.querySelector('.config-title')
-const configOptionsWrapper = document.querySelector('.config-options-wrapper')
+const configOptionsWrapper = document.querySelector('.config-options-wrapper'),
+      username = document.getElementById('offcanvasUserName')
 
 const deleteAccountForm = document.querySelector('#delete-account-form')
 const deleteAccountUserNameInput = document.querySelector('#delete-account-user-name-input')
@@ -49,6 +50,9 @@ deleteAccountValidator
             rule: 'required',
             errorMessage: 'Seu nome de usuário é obrigatório.',
         },
+        {
+            validator: (value) => username.textContent == value
+        }
     ])
     // submit
     .onSuccess(async(e) => {
