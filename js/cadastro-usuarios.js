@@ -145,14 +145,10 @@ validator
         })
         
         if (resultado){
-            window.location.assign(`/pages/login.html?userName=${nomeUsuario.value}`);
+            apresentarResultado()
         }
     })
     
-    if (resultado){
-        apresentarResultado()
-    }
-
 
 botao.addEventListener("click", async() => {
     let endpoint = `auth/resend-confirm-email?id=${idUsuario}`

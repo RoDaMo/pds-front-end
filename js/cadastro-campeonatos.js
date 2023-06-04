@@ -27,6 +27,7 @@ const formato = document.getElementById('formato')
 const quantidade = document.getElementById('quantidade')
 const imagem = document.getElementById('logo')
 const emblema = document.getElementById('emblema')
+const quantidadeJogadores = document.getElementById('quantidade-jogadores')
 
 const optionDefault = () => {
     const optionDefault = document.createElement('option')
@@ -92,7 +93,8 @@ formulario.addEventListener("submit", async e => {
         "Nation": pais.value,
         "State": estado.value,
         "City": cidade.value,
-        "Neighborhood": bairro.value
+        "Neighborhood": bairro.value,
+        "NumberOfPlayers": quantidadeJogadores.value
     })
 
     if (resultado){
@@ -205,6 +207,12 @@ validator
             errorMessage: 'Favor inserir uma descrição',
         },
     ])
+    .addField(quantidadeJogadores, [
+        {
+            rule: 'required',
+            errorMessage: 'Favor inserir número de jogadores por time',
+        },
+    ])
     .onSuccess(async(e) => {
         e.preventDefault()
         limparMensagem(mensagemErro)
@@ -221,7 +229,8 @@ validator
             "Nation": pais.value,
             "State": estado.value,
             "City": cidade.value,
-            "Neighborhood": bairro.value
+            "Neighborhood": bairro.value,
+            "NumberOfPlayers": quantidadeJogadores.value
         })
 
         if (resultado) {
