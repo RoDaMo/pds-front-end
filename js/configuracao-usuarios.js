@@ -4,6 +4,10 @@ import {exibidorImagem} from '../js/utilidades/previewImagem'
 import { uploadImagem } from './utilidades/uploadImagem'
 import { configuracaoFetch, executarFetch, limparMensagem } from "./utilidades/configFetch"
 import { notificacaoSucesso } from "./utilidades/notificacoes"
+import './utilidades/loader'
+
+const loader = document.createElement('app-loader');
+document.body.appendChild(loader);
 
 const pegarDados = async() => {
     const config = configuracaoFetch("GET")
@@ -12,8 +16,10 @@ const pegarDados = async() => {
         mensagemErro.classList.add("text-danger")
         data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
     }
-                
+    
+    loader.show()
     const data = await executarFetch("auth/user", config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
+    loader.hide()
     if (!data) return false             
     return data.results
 }
@@ -21,8 +27,8 @@ const pegarDados = async() => {
 const configMenu = document.querySelector('.config-menu')
 const configMenuList = document.querySelector('.config-menu-list')
 const configTitle = document.querySelector('.config-title')
-const configOptionsWrapper = document.querySelector('.config-options-wrapper'),
-      username = document.getElementById('offcanvasUserName')
+const configOptionsWrapper = document.querySelector('.config-options-wrapper')
+let username = document.getElementById('offcanvasUserName')
 
 const deleteAccountForm = document.querySelector('#delete-account-form')
 const deleteAccountUserNameInput = document.querySelector('#delete-account-user-name-input')
@@ -40,24 +46,31 @@ const deleteAccountValidator = new JustValidate(deleteAccountForm, {
     validateBeforeSubmitting: true,
 })
 
-document.addEventListener('DOMContentLoaded', () => {
+
+document.addEventListener('DOMContentLoaded', async () => {
     changeConfigOptionsContext("1")
+    await new Promise(r => setTimeout(r, 2000))
+    if (!username) {
+		await new Promise(r => setTimeout(r, 100))
+		username = document.getElementById('usernameChampionshipId').textContent
+	};
+
+    deleteAccountValidator
+        .addField(deleteAccountUserNameInput, [
+            {
+                rule: 'required',
+                errorMessage: 'Seu nome de usuário é obrigatório.',
+            },
+            {
+                validator: (value) => username.textContent == value
+            }
+        ])
+        // submit
+        .onSuccess(async(e) => {
+            e.preventDefault()
+        })
 })
 
-deleteAccountValidator
-    .addField(deleteAccountUserNameInput, [
-        {
-            rule: 'required',
-            errorMessage: 'Seu nome de usuário é obrigatório.',
-        },
-        {
-            validator: (value) => username.textContent == value
-        }
-    ])
-    // submit
-    .onSuccess(async(e) => {
-        e.preventDefault()
-    })
 
 if (mediaQueryMobile.matches) {
     configMenu.parentElement.classList.add('justify-content-center')
@@ -140,25 +153,28 @@ async function changeConfigOptionsContext(t) {
             const emblema = document.getElementById("emblema")
 
             updateProfileUserPicInput.addEventListener("change", async() => {
-                const data = await uploadImagem(updateProfileUserPicInput, 2, mensagemErro)
+                loader.show()
+                const data = await uploadImagem(updateProfileUserPicInput, 1, mensagemErro)
             
                 emblema.value = `https://playoffs-api.up.railway.app/img/${data.results}`
                 exibidorImagem(document.getElementById("config-user-pic-mod"), emblema.value)
+                loader.hide()
             })
 
             updateProfileForm.addEventListener("submit", async(e) => {
                 e.preventDefault()
                 limparMensagem(mensagemErro)
 
+                loader.show()
                 await postPerfil("userconfigurations", {
                     "Username": updateProfileUserNameInput.value,
                     "Bio": updateProfileBioInput.value,
                     "Picture": emblema.value
                 })
+                loader.hide()
             })
 
             async function postPerfil(endpoint, body) {
-                console.log(body)
                 const config = configuracaoFetch("PUT", body)
             
                 const callbackServidor = data => {
@@ -166,8 +182,9 @@ async function changeConfigOptionsContext(t) {
                     data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
                 }
             
+                loader.show()
                 const data = await executarFetch(endpoint, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
-                console.log(data)
+                loader.hide()
                 if (!data) return false
             
                 notificacaoSucesso(data.results[0])
@@ -294,7 +311,8 @@ async function changeConfigOptionsContext(t) {
                             document.getElementById("erro-excluir").classList.add("text-danger")
                             data.results.forEach(element => document.getElementById("erro-excluir").innerHTML += `${element}<br>`);
                         }
-                    
+
+                        loader.show()
                         const data = await executarFetch("auth/user", config, (res) => document.getElementById("erro-excluir").textContent = res.results[0], callbackServidor)
                         if (!data) return false
                         window.location.assign("/")
@@ -326,11 +344,12 @@ async function changeConfigOptionsContext(t) {
                         mensagemErro.classList.add("text-danger")
                         data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
                     }
-                
+                    
+                    loader.show()
                     const data = await executarFetch(endpoint, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
-                    console.log(data)
+                    loader.hide()
                     if (!data) return false
-                
+                    
                     notificacaoSucesso(data.results[0])
                     return true
                 }
@@ -407,9 +426,10 @@ async function changeConfigOptionsContext(t) {
                         data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
                     }
                 
+                    loader.show()
                     const data = await executarFetch(endpoint, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
+                    loader.hide()
                     if (!data) return false
-                    console.log(data)
                 
                     notificacaoSucesso(data.results[0])
                     return true

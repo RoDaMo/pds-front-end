@@ -9,6 +9,10 @@ import flatpickr from "flatpickr"
 import { exibidorImagem } from '../js/utilidades/previewImagem'
 import { uploadImagem } from './utilidades/uploadImagem'
 import { notificacaoErro, notificacaoSucesso } from "./utilidades/notificacoes"
+import './utilidades/loader'
+
+const loader = document.createElement('app-loader');
+document.body.appendChild(loader);
 
 const init = async () => {
 	const activateLi = (li) => {
@@ -121,7 +125,9 @@ const init = async () => {
 		})
 
 		imageFile.addEventListener("change", async () => {
+			loader.show()
 			const data = await uploadImagem(imageFile, 0, mensagemErro)
+			loader.hide()
 
 			imageInput.value = `${api}img/${data.results}`
 			exibidorImagem(image, imageInput.value)
@@ -293,9 +299,12 @@ const init = async () => {
 	}
 
 	const listarTimesVinculados = async configFetch => {
+		loader.show()
 		const timesVinculadosWrapper = document.getElementById('times-vinculados'),
 					timesVinculados = await executarFetch(`championships/teams?championshipId=${championshipId}`, configFetch)
 
+		loader.hide()
+		
 		timesVinculadosWrapper.innerHTML = ''
 
 		if (timesVinculados.results.length == 0) {
@@ -352,10 +361,12 @@ const init = async () => {
 				datalistPesquisa.innerHTML = ''
 				return;
 			}
-
+			loader.show()
 			const valor = inputPesquisa.value,
 						response = await executarFetch(`teams?query=${valor}&sport=${campeonato.sportsId}`, configFetch),
 						times = response.results
+
+			loader.hide()
 
 			datalistPesquisa.innerHTML = ''
 			for (const time of times) {
@@ -418,9 +429,12 @@ const init = async () => {
 			// submit
 			.onSuccess(async(e) => {
 					e.preventDefault()
+					loader.show()
 					const configFetch = configuracaoFetch('DELETE'),
 								response = await executarFetch(`championships/${championshipId}`, configFetch)
-					
+
+					loader.hide()
+
 					if (response.succeed) {
 						window.location.assign('/index.html');
 					}
@@ -442,9 +456,11 @@ const init = async () => {
 		await new Promise(r => setTimeout(r, 100))
 		championshipId = document.getElementById('usernameChampionshipId').textContent
 	};
-
+	loader.show()
 	const dados = await executarFetch(`championships/${championshipId}`, configuracaoFetch('GET')),
 				campeonato = dados.results
+	
+	loader.hide()
 
 	if (mediaQueryMobile.matches) {
 		configMenu.parentElement.classList.add('justify-content-center')

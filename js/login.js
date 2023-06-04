@@ -1,10 +1,8 @@
 import JustValidate from "just-validate"
 import { configuracaoFetch, api, limparMensagem } from "./utilidades/configFetch"
 import { visualizarSenha } from "./utilidades/visualizar-senha"
-import {redirecionamento} from './utilidades/redirecionamento'
+import { redirecionamento } from './utilidades/redirecionamento'
 import './utilidades/loader'
-
-
 
 const nomeUsuario = document.getElementById("nome-usuario")
 const senha = document.getElementById("senha")
@@ -80,11 +78,12 @@ document.getElementById("continuar").addEventListener("click", async(e) => {
 
 async function postUsuarioExiste(body) {
     limparMensagem(mensagemErro)
+    loader.show()
     const config = configuracaoFetch("POST", body)
     const res = await fetch(`${api}auth/exists`, config)
 
     const data = await res.json()
-    console.log(data)
+    loader.hide()
 
     if(data.results && data.succeed){
         document.getElementById("continuar").classList.add("d-none")
@@ -108,9 +107,10 @@ async function postToken(body) {
     if (!window.location.href.includes('netlify'))
         config.headers["IsLocalhost"] = true;
 
+    loader.show()
     const res = await fetch(`${api}auth`, config)
-
     const data = await res.json()
+    loader.hide()
 
     if(!data.succeed){
         mensagemErro.textContent = data.message

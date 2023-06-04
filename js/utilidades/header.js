@@ -1,4 +1,7 @@
 import { configuracaoFetch, api, executarFetch } from "./configFetch";
+import './loader'
+const loader = document.createElement('app-loader');
+document.body.appendChild(loader);
 
 export class header extends HTMLElement {
     constructor() {
@@ -66,10 +69,9 @@ export class header extends HTMLElement {
             const defaultImg = 'https://cdn-icons-png.flaticon.com/512/17/17004.png'
             const resultados = await infoUser.json()
             const user = resultados.results
-            console.log(user)
             const info = /* html */`
                 <li class="nav-item d-none d-lg-block">
-                    <img src="${user.picture ? infoUser.picture : defaultImg}" class="foto-usuario navbar-clicavel" data-bs-toggle="offcanvas" data-bs-target="#offcanvasUser" aria-controls="offcanvasUser" aria-label="Toggle navigation">
+                    <img src="${user.picture ? user.picture : defaultImg}" class="foto-usuario navbar-clicavel" data-bs-toggle="offcanvas" data-bs-target="#offcanvasUser" aria-controls="offcanvasUser" aria-label="Toggle navigation">
                 </li>
                 <li class="nav-item mx-4 d-none d-lg-block">
                     <i class="bi bi-gear text-primary fs-4 navbar-clicavel" data-bs-toggle="offcanvas" data-bs-target="#offcanvasUser" aria-controls="offcanvasUser" aria-label="Toggle navigation"></i>
@@ -102,7 +104,7 @@ export class header extends HTMLElement {
             `
             const status = document.getElementById('status-usuario')
             status.innerHTML = info
-
+            console.log(user.picture)
             const offcanvasUser = document.createElement('div')
             offcanvasUser.classList.add('offcanvas', 'offcanvas-end')
             offcanvasUser.id = 'offcanvasUser'
@@ -133,7 +135,7 @@ export class header extends HTMLElement {
                             <i class="bi bi-people fs-4"></i>
                             Criar um time
                         </a>` : ``}
-                        <a href="javascript:void(0)" id="deslogar-usuario" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
+                        <a href="javascript:void(0)" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3 deslogar-usuario">
                             <i class="bi bi-box-arrow-right fs-4"></i>
                             Sair da conta
                         </a>
@@ -143,8 +145,10 @@ export class header extends HTMLElement {
             
             document.body.appendChild(offcanvasUser)
             document.querySelectorAll('.deslogar-usuario').forEach(el => el.addEventListener('click', async () => {
+                loader.show()
                 const configLogout = configuracaoFetch('DELETE', null, false, false)
                 await executarFetch('auth', configLogout)
+                loader.hide()
                 window.location.assign('/index.html')
             }))
         }
