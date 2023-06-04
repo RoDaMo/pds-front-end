@@ -16,9 +16,9 @@
 
                 <!-- Config Menu -->
                 <ul class="list-group list-group-flush config-menu-list">
-                    <button class="list-group-item list-group-item-action my-1 border-0 mt-2 rounded-4 active"><i class="bi bi-person me-2"></i>Perfil</button>
-                    <button class="list-group-item list-group-item-action my-1 border-0 rounded-4"><i class="bi bi-gear me-2"></i>Conta</button>
-                    <button class="list-group-item list-group-item-action my-1 border-0 rounded-4"><i class="bi bi-lock me-2"></i>Senha</button>
+                    <button menu="1" class="list-group-item list-group-item-action my-1 border-0 mt-2 rounded-4 active"><i class="bi bi-person me-2"></i>Perfil</button>
+                    <button menu="2" class="list-group-item list-group-item-action my-1 border-0 rounded-4"><i class="bi bi-gear me-2"></i>Conta</button>
+                    <button menu="3" class="list-group-item list-group-item-action my-1 border-0 rounded-4"><i class="bi bi-lock me-2"></i>Senha</button>
                     <!-- <button class="list-group-item list-group-item-action my-1 border-0 mb-2 rounded-4"><i class="bi bi-envelope me-2"></i>Emails/Sessões</button> -->
                 </ul>
             </section>
@@ -26,7 +26,6 @@
             <div class="col">
                 <!-- User Info -->
                 <section class="row config-user-info d-none d-md-flex p-4 rounded-5 mx-2 h-auto mb-4 position-relative">
-                    <p class="position-absolute ui-title">Informações do usuário</p>
                     <div class="row">
                         <div class="col-1 position-relative p-0 overflow-hidden rounded-circle config-user-pic-wrapper">
                             <!-- $ Imagem de Pefil do Usuário  ../default-user-image.png -->
@@ -35,19 +34,18 @@
                         <div class="col mt-2">
 
                             <!-- $ Nome Real do Usuário -->
-                            <p class="fs-4 config-user-realname">Nome</p>
+                            <p id="nome" class="fs-4 config-user-realname"></p>
     
                             <!-- $ Nome de Usuário do Usuário :) -->
-                            <p class="fs-5 mb-0 config-user-name">user</p>
+                            <p id="nome-usuario" class="fs-5 mb-0 config-user-name"></p>
 
                             <!-- $ Email do Usuário -->
-                            <p class="fs-6 opacity-75 config-user-email">user@user.com</p>
+                            <p id="email" class="fs-6 opacity-75 config-user-email"></p>
                         </div>
                     </div>
 
                     <div class="mt-4">
-                        <p class="config-user-bio">
-                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Veritatis commodi quidem laboriosam optio cumque officiis aliquam dolores nam maxime! Quam possimus illum illo voluptas vel praesentium maiores libero quas rem!  
+                        <p id="biografia" class="config-user-bio">
                         </p>
                     </div>
                 </section>
@@ -77,21 +75,29 @@
                                 <div class="col-12 mt-3">
                                     <label for="delete-account-user-name-input" class="form-label">Nome de Usuário</label>
                                     <input type="text" class="form-control" id="delete-account-user-name-input" placeholder="Nome de Usuário">
+                                    <p id="nome-usuario" class="mt-2 text-danger">    </p>
                                 </div>
                                 <div class="col-12 mt-3">
                                     <label for="delete-account-check-input" class="form-label">Digite "Excluir Conta"</label>
                                     <input type="text" class="form-control" id="delete-account-check-input" placeholder="Digite aqui...">
+                                    <p id="texto-excluir" class="mt-2 text-danger">    </p>
                                 </div>
                                
                             </div>
                             <div class="modal-footer justify-content-center">
-                                <button type="submit" class="btn btn-danger">Excluir Conta Permanentemente</button>
+                                <button type="submit" id="excluir-conta"  class="btn btn-danger">Excluir Conta Permanentemente</button>
                             </div>
+
+                            <p class="text-danger mt-2" id="erro-excluir"></p>
+                            
                         </form>
                       </div>
                     </div>
                   </div>
             </div>
+        </div>
+        <div class="mt-4">
+            <p class="text-danger" id="mensagem-erro"></p>
         </div>
     </main>
     <script type="module" src="../main.js"></script>

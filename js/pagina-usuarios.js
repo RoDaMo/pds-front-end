@@ -1,4 +1,6 @@
 import '../scss/pagina-usuarios.scss'
+import { configuracaoFetch, executarFetch, limparMensagem } from "./utilidades/configFetch"
+import { notificacaoSucesso } from "./utilidades/notificacoes"
 
 // incluir lenis.js
 
@@ -19,6 +21,27 @@ const userName = document.querySelector('.user-name')
 const userConfigBtn = document.querySelector('.user-config-btn')
 const userCurrentTeam = document.querySelector('.user-current-team')
 const userPic = document.querySelector('#user-pic')
+
+const mensagemErro = document.getElementById("mensagem-erro")
+const parametroUrl = new URLSearchParams(window.location.search);
+const id = parametroUrl.get('id')
+console.log(id)
+
+const config = configuracaoFetch("GET")
+
+const callbackServidor = data => {
+mensagemErro.classList.add("text-danger")
+    data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
+}
+
+const data = await executarFetch(`auth/${id}`, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
+
+console.log(data)
+console.log(data.results.picture)
+document.getElementById("user-pic").src = data.results.picture
+document.getElementById("user-bio").textContent = data.results.bio
+document.getElementById("user-name").textContent = data.results.username
+document.getElementById("name").textContent = data.results.name
 
 window.onload = () => {
     if(userPic.getAttribute('src') == '') {
