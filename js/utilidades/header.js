@@ -104,7 +104,6 @@ export class header extends HTMLElement {
             `
             const status = document.getElementById('status-usuario')
             status.innerHTML = info
-            console.log(user.picture)
             const offcanvasUser = document.createElement('div')
             offcanvasUser.classList.add('offcanvas', 'offcanvas-end')
             offcanvasUser.id = 'offcanvasUser'
@@ -116,12 +115,13 @@ export class header extends HTMLElement {
                         <img src="${user.picture ? user.picture : defaultImg}" class="foto-usuario">
                         <h5 class="offcanvas-title" id="offcanvasUserName">${user.userName}</h5>
                         <p id="usernameChampionshipId" class="d-none">${user.championshipId}</p>
+                        <p id="usernameUserId" class="d-none">${user.id}</p>
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
                 <div class="offcanvas-body">
                     <div class="list-group list-group-flush">
-                        <a href="javascript:void(0)" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
+                        <a href="/pages/pagina-usuarios.html?id=${user.id}" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
                             <i class="bi bi-person fs-4"></i>
                             Página de perfil
                         </a>

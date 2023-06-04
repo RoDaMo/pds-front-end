@@ -1,6 +1,9 @@
 import '../scss/pagina-usuarios.scss'
 import { configuracaoFetch, executarFetch, limparMensagem } from "./utilidades/configFetch"
 import { notificacaoSucesso } from "./utilidades/notificacoes"
+import './utilidades/loader'
+const loader = document.createElement('app-loader');
+document.body.appendChild(loader);
 
 const mediaQueryMobile = window.matchMedia('(max-width: 575px)')
 
@@ -18,7 +21,10 @@ const userRealName = document.querySelector('.user-realname')
 const userName = document.querySelector('.user-name')
 const userConfigBtn = document.querySelector('.user-config-btn')
 const userCurrentTeam = document.querySelector('.user-current-team')
-const userPic = document.querySelector('#user-pic')
+const userPic = document.querySelector('#user-pic'),
+      botaoEditar = document.getElementById('botao-perfil-editar')
+
+let currentUserId = document.getElementById('usernameUserId')
 
 window.onload = () => {
     if(userPic.getAttribute('src') == '') {
@@ -82,23 +88,34 @@ window.onload = () => {
 
 const mensagemErro = document.getElementById("mensagem-erro")
 const parametroUrl = new URLSearchParams(window.location.search);
-const id = parametroUrl.get('id')
-console.log(id)
+const obterInfo = async () => {
+    const id = parametroUrl.get('id')
 
-const config = configuracaoFetch("GET")
-
-const callbackServidor = data => {
-mensagemErro.classList.add("text-danger")
-    data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
+    if (!currentUserId) {
+        await new Promise(r => setTimeout(r, 200))
+		currentUserId = document.getElementById('usernameUserId')
+    }
+    console.log(currentUserId && id == currentUserId.textContent, currentUserId.textContent, id)
+    if (currentUserId && id == currentUserId.textContent) {
+        botaoEditar.classList.remove('d-none')
+    }
+    
+    const config = configuracaoFetch("GET")
+    
+    const callbackServidor = data => {
+        mensagemErro.classList.add("text-danger")
+        data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
+    }
+    
+    loader.show()
+    const data = await executarFetch(`auth/${id}`, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
+    loader.hide()
+    
+    document.getElementById("user-pic").src = data.results.picture
+    document.getElementById("user-bio").textContent = data.results.bio
+    document.getElementById("user-name").textContent = data.results.username
+    document.getElementById("name").textContent = data.results.name
 }
 
-const data = await executarFetch(`auth/${id}`, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
-
-console.log(data)
-console.log(data.results.picture)
-document.getElementById("user-pic").src = data.results.picture
-document.getElementById("user-bio").textContent = data.results.bio
-document.getElementById("user-name").textContent = data.results.username
-document.getElementById("name").textContent = data.results.name
-
+obterInfo();
 
