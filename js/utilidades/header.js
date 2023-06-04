@@ -10,7 +10,7 @@ export class header extends HTMLElement {
             classDark = 'header-home'
         }
 
-        this.estaLogado()
+        this.estaLogado(lng)
 
         this.innerHTML = /* html */`
             <header class="container">
@@ -59,7 +59,7 @@ export class header extends HTMLElement {
         })
     }
     
-    async estaLogado() {
+    async estaLogado(lng) {
         const config = configuracaoFetch('GET');
         const infoUser = await fetch(`${api}auth/user`, config)
         if (infoUser.ok) {
@@ -68,12 +68,37 @@ export class header extends HTMLElement {
             const user = resultados.results
             console.log(user)
             const info = /* html */`
-                <li class="nav-item mx-4 d-none d-lg-block">
+                <li class="nav-item d-none d-lg-block">
                     <img src="${user.picture ? infoUser.picture : defaultImg}" class="foto-usuario navbar-clicavel" data-bs-toggle="offcanvas" data-bs-target="#offcanvasUser" aria-controls="offcanvasUser" aria-label="Toggle navigation">
                 </li>
-                <li class="nav-item d-none d-lg-block">
+                <li class="nav-item mx-4 d-none d-lg-block">
                     <i class="bi bi-gear text-primary fs-4 navbar-clicavel" data-bs-toggle="offcanvas" data-bs-target="#offcanvasUser" aria-controls="offcanvasUser" aria-label="Toggle navigation"></i>
                 </li>
+                <li class="nav-item">
+                    <select class="form-select rounded-3 ps-3 py-2 bg-transparent" id="lingua" required>
+                        <option value="ptbr" ${lng === 'ptbr' ? 'selected' : ''}>Português</option>
+                        <option value="en" ${lng === 'en' ? 'selected' : ''}>English</option>
+                    </select>
+                </li>
+                <div class="list-group list-group-flush d-lg-none w-100">
+                    <a href="javascript:void(0)" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
+                        <i class="bi bi-person fs-4"></i>
+                        Página de perfil
+                    </a>
+                    <a href="/pages/configuracao-usuarios.html" class="list-group-item py-4 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
+                        <i class="bi bi-person-gear fs-4"></i>
+                        Configurações do usuário
+                    </a>
+                    ${this.possuiCampeonato(user.championshipId)}
+                    <a href="/pages/cadastro-times.html" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
+                        <i class="bi bi-people fs-4"></i>
+                        Criar um time
+                    </a>
+                    <a href="javascript:void(0)" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3 deslogar-usuario">
+                        <i class="bi bi-box-arrow-right fs-4"></i>
+                        Sair da conta
+                    </a>
+                </div>
             `
             const status = document.getElementById('status-usuario')
             status.innerHTML = info
@@ -87,13 +112,14 @@ export class header extends HTMLElement {
                 <div class="offcanvas-header">
                     <div class="d-flex flex-row gap-3">
                         <img src="${user.picture ? user.picture : defaultImg}" class="foto-usuario">
-                        <h5 class="offcanvas-title" id="offcanvasUser">${user.userName}</h5>
+                        <h5 class="offcanvas-title" id="offcanvasUserName">${user.userName}</h5>
+                        <p id="usernameChampionshipId" class="d-none">${user.championshipId}</p>
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
                 <div class="offcanvas-body">
                     <div class="list-group list-group-flush">
-                        <a href="javascript:void(0)" class="list-group-item py-4 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
+                        <a href="javascript:void(0)" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
                             <i class="bi bi-person fs-4"></i>
                             Página de perfil
                         </a>
@@ -101,15 +127,12 @@ export class header extends HTMLElement {
                             <i class="bi bi-person-gear fs-4"></i>
                             Configurações do usuário
                         </a>
-                        <a href="/pages/cadastro-campeonatos.html" class="list-group-item py-4 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
-                            <i class="bi bi-calendar-plus-fill fs-4"></i>
-                            Cadastrar campeonato
-                        </a>
-                        <a href="/pages/cadastro-times.html" class="list-group-item py-4 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
+                        ${this.possuiCampeonato(user.championshipId)}
+                        <a href="/pages/cadastro-times.html" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
                             <i class="bi bi-people fs-4"></i>
                             Criar um time
                         </a>
-                        <a href="javascript:void(0)" id="deslogar-usuario" class="list-group-item py-4 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
+                        <a href="javascript:void(0)" id="deslogar-usuario" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
                             <i class="bi bi-box-arrow-right fs-4"></i>
                             Sair da conta
                         </a>
@@ -118,12 +141,31 @@ export class header extends HTMLElement {
             `
             
             document.body.appendChild(offcanvasUser)
-            document.getElementById('deslogar-usuario').addEventListener('click', async () => {
+            document.querySelectorAll('.deslogar-usuario').forEach(el => el.addEventListener('click', async () => {
                 const configLogout = configuracaoFetch('DELETE', null, false, false)
                 await executarFetch('auth', configLogout)
                 window.location.assign('/index.html')
-            })
+            }))
         }
+    }
+
+    possuiCampeonato(campeonatoId) {
+        console.log(campeonatoId)
+        if (campeonatoId) {
+            // TODO: remover essa limitação e adicionar pagina para listar campeonatos do usuário
+            return /* html */`
+            <a href="/pages/configuracao-campeonato.html" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
+                <i class="bi bi-calendar-plus-fill fs-4"></i>
+                Configurar campeonato
+            </a>
+            `
+        }
+        
+        return /*html */ `
+        <a href="/pages/cadastro-campeonatos.html" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
+            <i class="bi bi-calendar-plus-fill fs-4"></i>
+            Cadastrar campeonato
+        </a>`
     }
 }
 window.customElements.define('componente-header', header);

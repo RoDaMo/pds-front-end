@@ -2,27 +2,7 @@
 
 /* Variaveis abaixo VVVV */
 
-$play-cor-fundos: #D8FFDB;
-$play-cor-fundos-secundaria: #CEF2D1;
-$play-cor-efeitos: #008F8C;
-$play-cor-primaria: #015958;
-$play-cor-secundaria: #023535;
-$play-cor-texto: #001700;
-$play-cor-texto-dim: rgba(0, 23, 0, 0.8);
-
-$primary: $play-cor-primaria;
-$secondary: $play-cor-secundaria;
-$black: $play-cor-texto;
-
-$transition: .2s ease-in-out;
-.form-control, .form-select {
-  border-radius: 40px!important;
-}
-
-$border-radius-lg: 40px;
-$border-radius-sm: 40px;
-$border-radius: 40px;
-
+@import 'variables.scss';
 
 /* Variaveis acima ^^^^ */
 
