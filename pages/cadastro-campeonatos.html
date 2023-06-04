@@ -72,13 +72,16 @@
                             <label for="bairro" class="form-label text-success">Bairro:</label>
                             <input type="text" class="form-control rounded-4" id="bairro" name="bairro" placeholder="Bairro...">
                         </div>
+
                         <div class="col-md-12 mb-3 mt-3">
                             <label for="descricao" class="form-label text-success">Descrição do campeonato:</label>
                             <textarea class="form-control h-100 px-3 py-2" id="descricao" placeholder="Descreva seu campeonato..." name="descricao"></textarea>
                         </div>
+                        
                     </div>
-                    
+                        
                 </div>
+
                 <div class="col-md-4 mt-5 d-flex align-items-center flex-column">
                     <div>
                         <img src="https://playoffs-api.up.railway.app/img/fefabe2b-4038-4b8c-b719-54fbbe9095a4" class="p-2 img-fluid rounded-5 border border-success escudo" id="escudo" alt="">
@@ -95,6 +98,37 @@
                     <input type="hidden" name="logo" id="emblema">
                 </div> 
             </div>
+
+           
+            <button type="button" class="mt-5 col-md-2 btn btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#JanelaModal">CPF</button>
+
+            <div id="JanelaModal" class="modal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        
+                        <div class="modal-header">
+                            <h5 class="modal-title">Modal CPF</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div id="cpf-form" method="">
+                            <div class="modal-body">
+                                <label for="pais" class="form-label text-success">CPF:</label>
+                                <input type="text" class="form-control rounded-4" id="CPF" name="CPF" placeholder="CPF...">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                <button type="button" class="btn btn-primary">Salvar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>                    
+            </div>
+
+
+
+
+              
             <div class="col-12 mt-5 mb-5 gap-2">
                 <button id="salvar" disabled class="col-md-2 btn btn-success rounded-pill" type="submit">Salvar</button>
                 <a href="/index.html" class="col-md-2 btn btn-outline-success rounded-pill">Cancelar</a>

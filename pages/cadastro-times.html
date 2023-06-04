@@ -81,6 +81,31 @@
                     </div>
                 </div> 
             </div>
+
+            <button type="button" class="col-md-2 btn btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#JanelaModal">CPF</button>
+
+            <div id="JanelaModal" class="modal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        
+                        <div class="modal-header">
+                            <h5 class="modal-title">Modal CPF</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div id="cpf-form" method="">
+                            <div class="modal-body">
+                                <label for="pais" class="form-label text-success">CPF:</label>
+                                <input type="text" class="form-control rounded-4" id="CPF" name="CPF" placeholder="CPF...">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                <button type="button" class="btn btn-primary">Salvar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>                    
+            </div>
             
             <div class="col-12 mt-5 mb-5 gap-2">
                 <button id="salvar" class="col-md-2 btn btn-success rounded-pill" type="submit" disabled>Salvar</button>
