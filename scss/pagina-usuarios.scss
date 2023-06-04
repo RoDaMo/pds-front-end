@@ -1,0 +1,243 @@
+@import "bootstrap-config.scss";
+
+body, html {
+    overflow-x: hidden !important;
+}
+
+.bg-grad {
+    background: rgb(216,255,219);
+    background: linear-gradient(180deg, rgba(216,255,219,1) 0%, rgba(255,255,255,0) 100%);
+    height: 15rem;
+
+    border-radius: $border-radius-2xl $border-radius-2xl 0 0 !important;
+}
+
+.user-info {
+    top: 11rem;
+}
+
+.user-pic-wrapper {
+    height: 8rem;
+    width: 8rem;
+}
+
+.user-name {
+    color: $play-cor-secundaria;
+}
+
+.user-realname {
+    color: $play-cor-texto;
+    margin-bottom: -0.4rem;
+}
+
+.user-config-btn {
+    background: $play-cor-fundos;
+    transition: all $transition;
+
+    a {
+        text-decoration: none;
+        color: $play-cor-texto;
+    }
+
+    &:hover {
+        background: $play-cor-fundos-secundaria;
+        color: $white;
+    }
+
+    &:active {
+        background: $play-cor-fundos-secundaria;
+    }
+}
+
+.ss-team-logo {
+    height: 4rem;
+    min-width: 4rem;
+
+    img {
+        min-width: 100%;
+    }
+}
+
+.ss-team-name {
+    margin-bottom: -0.3rem;
+}
+
+.sports-section {
+    margin-top: 20rem;
+}
+
+.sports-icon-wrapper {
+    width: 100%;
+}
+
+.sports-icon {
+    height: 1.5rem;
+    width: 1.5rem;
+    margin-right: 0.5rem;
+}
+
+@mixin ss-test {
+    display: block;
+    position: absolute;
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: -1;
+}
+
+.ss-test-1 {
+    @include ss-test;
+
+    top: 9.5rem;
+    right: 11.5rem;
+
+    opacity: 1.7;
+
+    width: 9rem;
+    height: 9rem;
+
+    background-image: url(../icons/sports_basketball.svg);
+
+    filter: invert(70%);
+    
+    transform: rotate(132deg);
+}
+
+.ss-test-2 {
+    @include ss-test;
+
+    top: -10.5rem;
+    right: 0.5rem;
+
+    opacity: 0.5;
+
+    width: 9rem;
+    height: 9rem;
+
+    background-image: url(../icons/sports_volleyball.svg);
+
+    filter: invert(70%);
+    
+    transform: rotate(173deg);
+}
+
+.ss-title {
+    border-radius: $border-radius-2xl $border-radius-2xl 0 0 !important;
+    height: 4rem;
+
+    h2 {
+        color: $play-cor-texto
+    }
+}
+
+.ss-first-content {
+    border-radius: 0 0 $border-radius-2xl $border-radius-2xl !important;
+    background: $play-cor-fundos;
+    max-height: 23rem;
+    overflow-y: auto;
+}
+
+.ss-slider {
+    div {
+        background: $play-cor-fundos-secundaria;
+    }
+}
+
+.ss-first-content-wrapper:after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 10rem;
+    height: 10rem;
+    background-image: url(../icons/sports_soccer.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    top: -4.5rem;
+    right: -5.5rem;
+    transform: rotate(45deg);
+    opacity: 0.7;
+    z-index: -1;
+    filter: invert(50%);
+}
+
+@include media-breakpoint-only(md) {
+    .ss-test-1 {
+        top: -30.5rem;
+        right: 7.5rem;
+    }
+
+    .ss-test-2 {
+        top: -5.5rem;
+        right: 37.5rem;
+    }
+}
+
+@include media-breakpoint-down(sm) {
+    .bg-grad {
+        height: 10rem;
+    }
+
+    .user-bio {
+        font-size: 0.7rem;
+    }
+
+    .user-info {
+        top: 6rem;
+    }
+
+    .sports-section {
+        margin-top: 27rem;
+    }
+
+    .sports-icon-wrapper {
+        width: 15%;
+    }
+
+    .ss-test-2 {
+        top: -4.5rem;
+        right: 16.5rem;
+    }
+
+    .ss-first-content {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        height: 8rem;
+
+        div {
+            flex: 0 0 auto;
+        }
+    }
+
+    .ss-slider {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+
+        width: 100vw;
+        position: absolute;
+        left: 50%;
+        right: 50%;
+        top: 2rem;
+        margin-left: -50vw;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+
+        div {
+            flex: 0 0 auto;
+
+            &:first-child {
+                margin-left: 1.5rem !important;
+            }
+
+            &:last-child {
+                margin-right: 1.9rem !important;
+            }
+
+            box-shadow: 0px 0px 20px 0px rgb(0 0 0 / 20%);
+        }
+    }
+}

@@ -78,6 +78,14 @@ body {
   width: 90% !important;
 }
 
+.w-87 {
+  width: 87% !important;
+}
+
+.mt-6r {
+  margin-top: 6rem !important;
+}
+
 .rounded-bottom-0 {
   border-bottom-left-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
@@ -88,11 +96,11 @@ body {
 }
 
 .glass-effect {
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37) !important;
+  background: rgba( 216, 255, 219, 0.2 );
   backdrop-filter: blur( 4px );
   -webkit-backdrop-filter: blur( 4px );
   border-radius: 10px;
-  border: 1px solid rgba( 255, 255, 255, 0.18 ) !important;
+  border: 1px solid rgba( 255, 255, 255, 0.18 );
 }
 
 // -- Outras Classes
@@ -150,6 +158,23 @@ body {
 
 .fvar-2 {
   color: $play-cor-secundaria;
+}
+
+.main-btn-color {
+  background: $play-cor-primaria;
+  color: $white;
+  transition: all $transition;
+}
+
+.main-btn-color:hover {
+  background: $play-cor-fundos;
+  color: $black;
+}
+
+
+.rounded-custom {
+  border-radius: 10px !important;
+  border-color:$play-cor-efeitos !important;
 }
 
 // Navbar
@@ -228,7 +253,7 @@ button.navbar-toggler {
   
 }
 
-.offcanvas.offcanvas-end {
+.offcanvas.offcanvas-end.mobile {
   width: 100% !important;
 }
 
@@ -267,3 +292,34 @@ button.navbar-toggler {
   background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='none' stroke='%23015958' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/></svg>");
 }
 
+.bg-verde-limao {
+  background-color: $play-cor-fundos;
+  color: $play-cor-texto;
+}
+
+.foto-usuario {
+  max-width: 32px;
+  max-height: 32px;
+}
+
+#offcanvasUser {
+  color: $play-cor-texto;
+
+  .item-offcanvas-usuario:hover {
+    /* From https://css.glass */
+    background: rgba(0, 143, 140, 0.28);
+    // border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.205);
+    backdrop-filter: blur(3.3px);
+    -webkit-backdrop-filter: blur(3.3px);
+    transition: .1s background, backdrop-filter, -webkit-backdrop-filter;
+  }
+
+  .item-offcanvas-usuario {
+    transition: .1s background, backdrop-filter, -webkit-backdrop-filter;
+  }  
+}
+
+.navbar-clicavel {
+  cursor: pointer;
+}

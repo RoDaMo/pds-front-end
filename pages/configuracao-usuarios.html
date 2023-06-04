@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <title>Configuração de Usuário</title>
+</head>
+<body requires-auth="true">
+    <componente-header></componente-header>
+    <main class="container">
+        <div class="row mt-4 h-100">
+            <section class="col-10 col-md-3 config-menu p-4 rounded-5">
+                <h5>Configurações</h5>
+
+                <!-- Config Menu -->
+                <ul class="list-group list-group-flush config-menu-list">
+                    <button class="list-group-item list-group-item-action my-1 border-0 mt-2 rounded-4 active"><i class="bi bi-person me-2"></i>Perfil</button>
+                    <button class="list-group-item list-group-item-action my-1 border-0 rounded-4"><i class="bi bi-gear me-2"></i>Conta</button>
+                    <button class="list-group-item list-group-item-action my-1 border-0 rounded-4"><i class="bi bi-lock me-2"></i>Senha</button>
+                    <!-- <button class="list-group-item list-group-item-action my-1 border-0 mb-2 rounded-4"><i class="bi bi-envelope me-2"></i>Emails/Sessões</button> -->
+                </ul>
+            </section>
+
+            <div class="col">
+                <!-- User Info -->
+                <section class="row config-user-info d-none d-md-flex p-4 rounded-5 mx-2 h-auto mb-4 position-relative">
+                    <p class="position-absolute ui-title">Informações do usuário</p>
+                    <div class="row">
+                        <div class="col-1 position-relative p-0 overflow-hidden rounded-circle config-user-pic-wrapper">
+                            <!-- $ Imagem de Pefil do Usuário  ../default-user-image.png -->
+                            <img src="../default-user-image.png" alt="config-user-pic" class="img-fluid position-absolute w-100 h-100" id="config-user-pic">
+                        </div>
+                        <div class="col mt-2">
+
+                            <!-- $ Nome Real do Usuário -->
+                            <p class="fs-4 config-user-realname">Nome</p>
+    
+                            <!-- $ Nome de Usuário do Usuário :) -->
+                            <p class="fs-5 mb-0 config-user-name">user</p>
+
+                            <!-- $ Email do Usuário -->
+                            <p class="fs-6 opacity-75 config-user-email">user@user.com</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <p class="config-user-bio">
+                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Veritatis commodi quidem laboriosam optio cumque officiis aliquam dolores nam maxime! Quam possimus illum illo voluptas vel praesentium maiores libero quas rem!  
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Configs - Default(Perfil) -->
+                <section class="row mt-5 config-options-wrapper justify-mobile-pic p-4 rounded-5 mx-2 h-auto position-relative">
+                    <p class="position-absolute config-title fw-semibold">Perfil</p>
+                </section>
+
+                <div class="modal fade" id="deleteAccount" tabindex="-1" aria-labelledby="deleteAccountLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content p-3">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="exampleModalLabel">Você tem certeza?</h1>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <!-- form -->
+                        <form id="delete-account-form" class="row" method="">
+                            <div class="modal-body">
+                                <p class="text-danger">
+                                    Caso você decida <span class="fw-bold"> excluir </span> sua conta, perderá permanentemente todos os dados e 
+                                    informações associados a ela. Além disso, você não terá mais acesso à plataforma e 
+                                    não poderá mais interagir com determinadas ferramentas por meio dela. 
+                                    É importante ressaltar que essa ação é <span class="fw-bold"> irreversível</span>, portanto, antes de excluí-la, 
+                                    você deve avaliar cuidadosamente se é isso que realmente deseja fazer.
+                                </p>                                
+                                <div class="col-12 mt-3">
+                                    <label for="delete-account-user-name-input" class="form-label">Nome de Usuário</label>
+                                    <input type="text" class="form-control" id="delete-account-user-name-input" placeholder="Nome de Usuário">
+                                </div>
+                                <div class="col-12 mt-3">
+                                    <label for="delete-account-check-input" class="form-label">Digite "Excluir Conta"</label>
+                                    <input type="text" class="form-control" id="delete-account-check-input" placeholder="Digite aqui...">
+                                </div>
+                               
+                            </div>
+                            <div class="modal-footer justify-content-center">
+                                <button type="submit" class="btn btn-danger">Excluir Conta Permanentemente</button>
+                            </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </main>
+    <script type="module" src="../main.js"></script>
+    <script type="module" src="../js/utilidades/header.js"></script>
+    <script type="module" src="../js/configuracao-usuarios.js"></script>
+</body>
+</html>

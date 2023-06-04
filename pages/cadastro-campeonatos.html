@@ -5,62 +5,102 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../scss/cadastro-campeonatos.scss">
     <title>Cadastro de Campeonatos</title>
 </head>
-<body>
+<body requires-auth="true">
     <componente-header></componente-header>
-    <main class="container d-flex justify-content-center mt-4">
-        <div class="col-12 col-lg-8 mt-5">
-            <h2 class="mb-4 text-success i18" key="CadastreCampeonato">Cadastre um campeonato</h2>
-            <form id="formulario" method="post">
-                <div class="mb-4">
-                    <label for="nome-campeonato" class="form-label text-success i18" key="FormularioNomeCampeonato">Nome do Campeonato</label>
-                    <input type="text" class="form-control i18-placeholder" id="nome-campeonato" name="nome-campeonato" key="FormularioNomeCampeonatoPlaceholder" placeholder="Insira o nome do campeonato" required>
-                </div>
-                <div class="container p-0 m-0">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label for="data-inicio" class="form-label text-success i18" key="FormularioDataInicial">Data Inicial</label>
-                            <input type="date" class="form-control" id="data-inicio" name="data-inicio" required>
+    <main class="mt-5">
+        <form class="container bg-verde-limao rounded-4 px-5 py-2" method="post" id="formulario">
+            <div class="row gap-0">
+                <div class="col-md-8">
+                    <div class="col-md-12">
+                        <h1 class="mb-4 text-dark">Criar um campeonato</h1>
+                        <h4 id="texto-apresentacao" class="mb-4 text-success ">Crie seu próprio campeonato para cadastrar os times competidores!</h4>
+                    </div>
+                    <div class="row gap-0">
+                        <div class="mb-3 col-md-6 mb-3 mt-3">
+                            <label for="nome" class="form-label text-success">Nome do campeonato:</label>
+                            <input type="text" class="form-control rounded-4" id="nome" name="nome" placeholder="Nome do campeonato...">
                         </div>
-                        <div class="col-md-4">
-                            <label for="data-final" class="form-label text-success i18" key="FormularioDataFinal">Data Final</label>
-                            <input type="date" class="form-control" id="data-final" name="data-final" required>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="esportes" class="form-label text-success i18" key="FormularioEsporte">Esporte</label>
-                            <select name="esportes" class="form-select" id="esportes" required>
-                                <option value="" selected class="i18" key="FormularioEsportePlaceholder">Selecione um Esporte</option>
-                                <option value="1" class="i18" key="FormularioEsporteFutebol">Futebol</option>
-                                <option value="2" class="i18" key="FormularioEsporteVolei">Vôlei</option>
+                        <div class="col-md-6 mb-3 mt-3">
+                            <label for="esportes" class="form-label text-success">Esporte:</label>
+                            <select name="esportes" class="form-select rounded-4" id="esportes">
+                                <option value="" selected>Selecione um Esporte</option>
+                                <option value="1">Futebol</option>
+                                <option value="2">Vôlei</option>
                             </select>
                         </div>
-                    </div>
-                </div>
-                <div class="mb-4 mt-4">
-                    <label class="form-label text-success i18" key="FormularioPremiacao">Há premiação ?</label>
-                    <div class="d-flex">
-                        <div class="form-check m-2">
-                            <input type="radio" class="form-check-input" name="premiacao" value="sim" required>
-                            <label for="premiacao" class="form-check-label text-success i18" key="FormularioPremiacaoSim">Sim</label>
+                        <div class="col-md-6 mb-3 mt-3">
+                            <label for="data-inicial" class="form-label text-success mt-3">Data inicial:</label>
+                            <input type="text" class="form-control rounded-4" id="data-inicial" name="data-inicial" placeholder="dd/MM/yyyy">
                         </div>
-                        <div class="form-check m-2">
-                            <input type="radio" class="form-check-input" name="premiacao" value="não"  required>
-                            <label for="premiacao" class="form-check-label text-success i18" key="FormularioPremiacaoNao">Não</label>
+                        <div class="col-md-6 mb-3 mt-3">
+                            <label for="data-final" class="form-label text-success mt-3">Data final:</label>
+                            <input type="text" class="form-control rounded-4" id="data-final" name="data-final" placeholder="dd/MM/yyyy">
+                        </div>
+                        <div class="col-md-6 mb-3 mt-3">
+                            <label for="formato" class="form-label text-success">Formato:</label>
+                            <select name="formato" class="form-select rounded-4" id="formato">
+                                <option value="" selected>Selecione um Formato</option>
+                                <option value="1">Pontos Corridos</option>
+                                <option value="2">Mata-Mata</option>
+                                <option value="2">Fase de Grupos e Mata-Mata</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3 mt-3">
+                            <label for="quantidade" class="form-label text-success">Quantidade de times:</label>
+                            <select  name="quantidade" class="form-select rounded-4" id="quantidade">
+                                <option value="" selected>Selecione o formato antes</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3 mt-3">
+                            <label for="pais" class="form-label text-success">País:</label>
+                            <input type="text" class="form-control rounded-4" id="pais" name="pais" placeholder="País...">
+                        </div>
+                        <div class="col-md-6 mb-3 mt-3">
+                            <label for="estado" class="form-label text-success">Estado:</label>
+                            <input type="text" class="form-control rounded-4" id="estado" name="estado" placeholder="Estado...">
+                        </div>
+                        <div class="col-md-6 mb-3 mt-3">
+                            <label for="cidade" class="form-label text-success">Cidade:</label>
+                            <input type="text" class="form-control rounded-4" id="cidade" name="cidade" placeholder="Cidade...">
+                        </div>
+                        <div class="col-md-6 mb-3 mt-3">
+                            <label for="bairro" class="form-label text-success">Bairro:</label>
+                            <input type="text" class="form-control rounded-4" id="bairro" name="bairro" placeholder="Bairro...">
+                        </div>
+                        <div class="col-md-12 mb-3 mt-3">
+                            <label for="descricao" class="form-label text-success">Descrição do campeonato:</label>
+                            <textarea class="form-control h-100 px-3 py-2" id="descricao" placeholder="Descreva seu campeonato..." name="descricao"></textarea>
                         </div>
                     </div>
+                    
                 </div>
-                <div class="container m-0">
-                    <div class="row gap-2">
-                        <button type="submit" class="col-md-3 btn btn-success rounded-pill i18" key="FormularioSalvar">Salvar</button>
-                        <a href="/index.html" class="col-md-3 btn btn-outline-success rounded-pill i18" key="FormularioCancelar">Cancelar</a>
+                <div class="col-md-4 mt-5 d-flex align-items-center flex-column">
+                    <div>
+                        <img src="https://playoffs-api.up.railway.app/img/fefabe2b-4038-4b8c-b719-54fbbe9095a4" class="p-2 img-fluid rounded-5 border border-success escudo" id="escudo" alt="">
                     </div>
-                </div>
-                <div class="mt-4">
-                    <p id="mensagem-erro"></p>
-                </div>
-            </form>
-        </div>
+                    <div class="custom-file-upload-logo">
+                        <label for="logo" class="col-md-12 mt-4 btn btn-success d-flex justify-content-center align-items-center">
+                            <i class="d-flex justify-content-center align-items-center btn bi bi-upload text-light"></i>
+                            <span id="custom-text">Enviar</span>
+                            <div class="input-wrapper w-100">
+                                <input id="logo" type="file" name="logo" accept=".png, .jpg, .jpeg">
+                            </div>
+                        </label>
+                    </div>
+                    <input type="hidden" name="logo" id="emblema">
+                </div> 
+            </div>
+            <div class="col-12 mt-5 mb-5 gap-2">
+                <button id="salvar" disabled class="col-md-2 btn btn-success rounded-pill" type="submit">Salvar</button>
+                <a href="/index.html" class="col-md-2 btn btn-outline-success rounded-pill">Cancelar</a>
+            </div>  
+            <div class="mt-4">
+                <p class="text-danger" id="mensagem-erro"></p>
+            </div>
+        </form>
     </main>
     <script type="module" src="../main.js"></script>
     <script type="module" src="../js/utilidades/header.js"></script>
