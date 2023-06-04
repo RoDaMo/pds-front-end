@@ -2,12 +2,20 @@ import JustValidate from "just-validate"
 import { configuracaoFetch, api, limparMensagem } from "./utilidades/configFetch"
 import { visualizarSenha } from "./utilidades/visualizar-senha"
 import {redirecionamento} from './utilidades/redirecionamento'
+import './utilidades/loader'
+
+
 
 const nomeUsuario = document.getElementById("nome-usuario")
 const senha = document.getElementById("senha")
 const formulario = document.getElementById("formulario")
 const mensagemErro = document.getElementById("mensagem-erro")
 const lembrar = document.getElementById('lembrar')
+
+
+const loader = document.createElement('app-loader');
+document.body.appendChild(loader);
+
 
 const validator = new JustValidate(formulario, {
     validateBeforeSubmitting: true,
@@ -51,11 +59,14 @@ validator
         e.preventDefault()
         limparMensagem(mensagemErro)
 
+        loader.show();
+
         await postToken({
             "Username": nomeUsuario.value,
             "Password": senha.value,
             "RememberMe": lembrar.checked ? true : false
         })
+        loader.hide();
     })
 
 visualizarSenha()
@@ -83,7 +94,9 @@ async function postUsuarioExiste(body) {
         nomeUsuario.parentElement.classList.replace('mb-5', 'mb-2');
     }
     else{
+        
         window.location.assign(`/pages/cadastro-usuarios.html?userName=${nomeUsuario.value}`);
+        
     }
 
     return true

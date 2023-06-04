@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+  
   <head>
     <meta charset="UTF-8" />
+    <script type="module" src="./js/utilidades/preloader.js"></script>
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home</title>
+    
   </head>
   <body is-home="true">
+    <componente-preloader></componente-preloader>
     <componente-header></componente-header>
 
     <main class="position-relative">
@@ -287,5 +291,7 @@
     <script type="module" src="js/home.js"></script>
     <script type="module" src="/main.js"></script>
     <script type="module" src="js/utilidades/header.js"></script>
+
+    
   </body>
 </html>
