@@ -165,7 +165,7 @@ const exibirDados = (data) => {
                         </div>
                     </div>
 
-                    <div class="col-md-1 d-flex justify-content-center align-items-center">
+                    <div class="col-md-1 d-flex justify-content-center align-items-center d-none">
                         <a href="" class="d-none d-sm-block"><img src="/icons/right.svg" width="60"></a>
                     </div> 
                     ${

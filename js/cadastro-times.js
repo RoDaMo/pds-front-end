@@ -1,4 +1,4 @@
-import { configuracaoFetch, executarFetch, limparMensagem } from "./utilidades/configFetch"
+import { configuracaoFetch, executarFetch, limparMensagem, api } from "./utilidades/configFetch"
 import { notificacaoSucesso } from "./utilidades/notificacoes"
 import { exibidorImagem } from '../js/utilidades/previewImagem'
 import JustValidate from "just-validate"
@@ -210,9 +210,9 @@ validator
         loader.show();
 
         const resultado = await postTime("teams", {
-            "emblem": logo.value,
-            "uniformHome": uniformeHome.value,
-            "uniformAway": uniformeAway.value,
+            "emblem": emblema.value,
+            "uniformHome": uniforme1.value,
+            "uniformAway": uniforme2.value,
             "sportsId": esporte.value,
             "name": nome.value,
         })
@@ -222,6 +222,7 @@ validator
             escudo.src = "#"
             home.src = "#"
             away.src = "#"
+            window.location.assign('/')
         }
 
         loader.hide();
@@ -238,7 +239,7 @@ const ativarBotao = () => (imagensValidacao.logo && imagensValidacao.uCasa && im
 logo.addEventListener("change", async() => {
     const data = await uploadImagem(logo, 4, mensagemErro)
 
-    emblema.value = `https://playoffs-api.up.railway.app/img/${data.results}`
+    emblema.value = `${api}img/${data.results}`
     exibidorImagem(escudo, emblema.value)
     
     imagensValidacao.logo = data.succeed === true
@@ -249,7 +250,7 @@ logo.addEventListener("change", async() => {
 uniformeHome.addEventListener("change", async() => {
     const data = await uploadImagem(uniformeHome, 3, mensagemErro)
 
-    uniforme1.value = `https://playoffs-api.up.railway.app/img/${data.results}`
+    uniforme1.value = `${api}img/${data.results}`
     exibidorImagem(home, uniforme1.value)
     
     imagensValidacao.uCasa = data.succeed === true
@@ -260,7 +261,7 @@ uniformeHome.addEventListener("change", async() => {
 uniformeAway.addEventListener("change", async() => {
     const data = await uploadImagem(uniformeAway, 3, mensagemErro)
 
-    uniforme2.value = `https://playoffs-api.up.railway.app/img/${data.results}`
+    uniforme2.value = `${api}img/${data.results}`
     exibidorImagem(away, uniforme2.value)
 
     imagensValidacao.uFora = data.succeed === true

@@ -20,7 +20,8 @@ const pegarDados = async() => {
     loader.show()
     const data = await executarFetch("auth/user", config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
     loader.hide()
-    if (!data) return false             
+    if (!data) return false   
+    data.results.picture = !data.result?.picture ? '../default-user-image.png' : data.result.picture
     return data.results
 }
 

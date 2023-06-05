@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "@capacitor/cli": "^4.7.0",
+    "@capacitor/cli": "^5.0.4",
     "sass": "^1.59.2",
     "vite": "^4.1.0"
   },
@@ -25,8 +25,8 @@
   },
   "homepage": "https://github.com/RoDaMo/pds-front-end#readme",
   "dependencies": {
-    "@capacitor/android": "^4.7.0",
-    "@capacitor/core": "^4.7.0",
+    "@capacitor/android": "^5.0.4",
+    "@capacitor/core": "^5.0.4",
     "@popperjs/core": "^2.11.6",
     "@studio-freight/lenis": "^1.0.14",
     "bootstrap": "^5.2.3",

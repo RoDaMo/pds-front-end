@@ -26,7 +26,7 @@ export const executarFetch = async (endpoint, config, callbackStatus, callbackSe
     const res = await fetch(`${api}${endpoint}`, config)
 
     if(res.status === 401){
-        if (!window.location.href.includes('netlify'))
+        if (!window.location.href.includes('playoffs'))
             config.headers["IsLocalhost"] = true
 
         const resPut = await fetch(`${api}auth`, configuracaoFetch("PUT"))

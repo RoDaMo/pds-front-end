@@ -111,7 +111,7 @@ const obterInfo = async () => {
     const data = await executarFetch(`auth/${id}`, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
     loader.hide()
     
-    document.getElementById("user-pic").src = data.results.picture
+    document.getElementById("user-pic").src = !data.results.picture ? '../default-user-image.png' : data.results.picture
     document.getElementById("user-bio").textContent = data.results.bio
     document.getElementById("user-name").textContent = data.results.username
     document.getElementById("name").textContent = data.results.name
