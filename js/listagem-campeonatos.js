@@ -1,6 +1,12 @@
 import { configuracaoFetch, executarFetch, limparMensagem } from "./utilidades/configFetch";
 import flatpickr from "flatpickr"
 import { Portuguese } from "flatpickr/dist/l10n/pt.js"
+import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
+import portugues from './i18n/ptbr/listagem-campeonatos.json' assert { type: 'JSON' }
+import ingles from './i18n/en/listagem-campeonatos.json' assert { type: 'JSON' }
+import i18next from "i18next";
+
+inicializarInternacionalizacao(ingles, portugues);
 
 const filtroEsporte = document.getElementById('esportes')
 const filtroInicio = document.getElementById('data-inicio')
@@ -27,6 +33,7 @@ let filtros = {
     start: null,
     finish: null,
 }
+
 
 flatpickr(filtroInicio, {
     dateFormat: "Y-m-d",
@@ -144,7 +151,7 @@ const exibirDados = (data) => {
     conteudo.innerHTML = ``
 
     if(data.results.length === 0){
-        erro.textContent = "Nenhum resultado encontrado"
+        erro.innerHTML += `<span class="i18" key="Erro" id="mensagem-erro2">${i18next.t("Erro")}</span>`
     }
 
     data.results.forEach(e => {
@@ -161,7 +168,7 @@ const exibirDados = (data) => {
                     <div class="col-md-9 d-flex flex-column justify-content-center  ">
                         <h3 id="nome" class="card-title text-success">${e.name}</h3>
                         <div class="row gap-0">      
-                            <p class="col-md-12 text-success"><i class="bi bi-calendar-event-fill m-1 text-success"></i>De ${new Date(e.initialDate).toLocaleDateString('pt-BR')} até ${new Date(e.finalDate).toLocaleDateString('pt-BR')} -<i class="bi bi-geo-alt-fill m-1 text-success"></i> ${e.nation}, ${e.city}</p>
+                            <p class="col-md-12 text-success"><i class="bi bi-calendar-event-fill m-1 text-success"></i> <span class="i18" key="De">${i18next.t("De")}</span> ${new Date(e.initialDate).toLocaleDateString('pt-BR')}  <span class="i18" key="Ate">${i18next.t("Ate")}</span> ${new Date(e.finalDate).toLocaleDateString('pt-BR')} -<i class="bi bi-geo-alt-fill m-1 text-success"></i> ${e.nation}, ${e.city}</p>
                         </div>
                     </div>
 

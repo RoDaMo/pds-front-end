@@ -11,8 +11,10 @@
   },
   "devDependencies": {
     "@capacitor/cli": "^5.0.4",
+    "@fullhuman/postcss-purgecss": "^5.0.0",
     "sass": "^1.59.2",
-    "vite": "^4.1.0"
+    "vite": "^4.1.0",
+    "vite-plugin-html-purgecss": "^0.1.1"
   },
   "repository": {
     "type": "git",

@@ -1,4 +1,11 @@
 {
-  "PesquisaPlaceholder": "Search",
-  "LinkCadastroCampeonato": "Create a championship"
+  "PesquisaPlaceholder": "Search for championships",
+  "LinkCadastroCampeonato": "Create a championship",
+  "Acessar": "Login",
+  "Perfil": "Profile page",
+  "Configuracoes": "User settings",
+  "Campeonato": "Register championship",
+  "ConfigurarCampeonato": "Configure championship",
+  "Time": "Create team",
+  "Sair": "Sign out"
 }

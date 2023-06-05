@@ -1,7 +1,9 @@
 import { configuracaoFetch, api, executarFetch } from "./configFetch";
 import './loader'
+import i18next from "i18next"
 const loader = document.createElement('app-loader');
 document.body.appendChild(loader);
+
 
 export class header extends HTMLElement {
     constructor() {
@@ -41,7 +43,7 @@ export class header extends HTMLElement {
                             </form>  
                             <ul class="menu-li col col-sm-10 col-lg navbar-nav m-auto mt-lg-0 mt-3 justify-content-end align-items-center ${classDark}" id="status-usuario">
                                 <li class="nav-item mx-4">
-                                    <a class="nav-link rounded-3 px-3" href="/pages/login.html">Acessar</a>
+                                    <a class="nav-link rounded-3 px-3 i18" href="/pages/login.html" key="Acessar">Acessar</a>
                                 </li>
                                 <li class="nav-item">
                                     <select class="form-select rounded-3 ps-3 py-2 bg-transparent" id="lingua" required>
@@ -123,11 +125,11 @@ export class header extends HTMLElement {
                     <div class="list-group list-group-flush">
                         <a href="/pages/pagina-usuarios.html?id=${user.id}" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
                             <i class="bi bi-person fs-4"></i>
-                            Página de perfil
+                            <span class="i18" key="Perfil">${i18next.t("Perfil")}</span>
                         </a>
                         <a href="/pages/configuracao-usuarios.html" class="list-group-item py-4 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
                             <i class="bi bi-person-gear fs-4"></i>
-                            Configurações do usuário
+                            <span class="i18" key="Configuracoes">${i18next.t("Configuracoes")}</span>
                         </a>
                         ${this.possuiCampeonato(user.championshipId)}
                         ${!user.teamManagementId ? `
@@ -137,11 +139,16 @@ export class header extends HTMLElement {
                         </a>` : ``}
                         <a href="javascript:void(0)" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3 deslogar-usuario">
                             <i class="bi bi-box-arrow-right fs-4"></i>
-                            Sair da conta
+                            <span class="i18" key="Sair">${i18next.t("Sair")}</span>
                         </a>
                     </div>
                 </div>
             `
+            this.querySelector('#lingua').addEventListener('change', event => {
+                const selectedIndex = event.target.selectedIndex;
+                localStorage.setItem('lng', event.target.children[selectedIndex].value);
+                document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
+            })
             
             document.body.appendChild(offcanvasUser)
             document.querySelectorAll('.deslogar-usuario').forEach(el => el.addEventListener('click', async () => {

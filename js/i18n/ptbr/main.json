@@ -1,4 +1,11 @@
 {
   "PesquisaPlaceholder": "Pesquisar por campeonatos",
-  "LinkCadastroCampeonato": "Criar Campeonato"
+  "LinkCadastroCampeonato": "Criar Campeonato",
+  "Acessar": "Acessar",
+  "Perfil": "Página de perfil",
+  "Configuracoes": "Configurações de usuário",
+  "Campeonato": "Cadastrar campeonato",
+  "ConfigurarCampeonato": "Configurar campeonato",
+  "Time": "Criar time",
+  "Sair": "Sair da conta"
 }

@@ -1,0 +1,26 @@
+{
+    "TituloPagina": "Team registrations",
+    "CriarTime": "Create Team",
+    "CriarTimeMensagem": "Create your team to actively participate in championships!",
+    "NomeTime": "Team name:",
+    "NomeTimePlaceholder": "Team name...",
+    "FormularioEsporte": "Sport",
+    "FormularioEsportePlaceholder": "Select a Sport",
+    "FormularioEsporteVolei": "Volleyball",
+    "FormularioEsporteFutebol": "Football",
+    "DescricaoCampeonato": "Championship team:",
+    "DescricaoCampeonatoPlaceholder":"Describe your team...",
+    "Enviarlogo": "Send logo",
+    "UniformeCasa": "Home uniform",
+    "UniformeFora": "Away uniform",
+    "Salvar": "Save",
+    "Cancelar": "Cancel",
+    "NomeTimeObrigatorio": "Team name is required",
+    "EsporteObrigatorio": "Please select a sport",
+    "EmblemaTimeObrigatorio": "Enter the team badge",
+    "TamanhoMaximo": "Maximum image size: 5mb",
+    "UniformeCasaObrigatorio": "Enter home uniform",
+    "UniformeForaObrigatorio": "Insert the uniform from outside",
+    "DescricaoObrigatoria": "Please enter a description"
+
+}

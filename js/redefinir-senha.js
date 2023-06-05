@@ -1,6 +1,18 @@
 import { configuracaoFetch, limparMensagem, executarFetch } from "./utilidades/configFetch"
 import { notificacaoErro } from "./utilidades/notificacoes"
 import { visualizarSenha } from "./utilidades/visualizar-senha"
+import portugues from './i18n/ptbr/redefinir-senha.json' assert { type: 'JSON' }
+import ingles from './i18n/en/redefinir-senha.json' assert { type: 'JSON' }
+import i18next from "i18next";
+import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
+
+inicializarInternacionalizacao(ingles, portugues);
+
+document.querySelector('#lingua').addEventListener('change', event => {
+    const selectedIndex = event.target.selectedIndex;
+    localStorage.setItem('lng', event.target.children[selectedIndex].value);
+    document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
+})
 
 let email
 
