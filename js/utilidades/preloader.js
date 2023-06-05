@@ -47,7 +47,7 @@ export class preLoader extends HTMLElement {
     </style>
         <div class="preloader d-flex align-items-center justify-content-center">
           <div class="spinner-border text-primary" role="status">
-            <span class="sr-only">Carregando...</span>
+            <span class="sr-only"></span>
           </div>
         </div>
       `;
