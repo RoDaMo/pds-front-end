@@ -123,8 +123,8 @@ const configProximo = async () => {
 
     configPaginacao.headers = {
         'Accept-Language': localStorage.getItem('lng'),
-        'pitId': document.getElementById('pitId').textContent,
-        'sort': document.getElementById('sort').textContent.split(",")
+        'pitId': document.getElementById('pitId') ? document.getElementById('pitId').textContent : null,
+        'sort': document.getElementById('sort') ? document.getElementById('sort').textContent.split(",") : null
     }
 
     usarObjeto()
@@ -137,7 +137,7 @@ const configProximo = async () => {
 const reqBotaoProximo = async() => {
     const data = await configProximo()
 
-    proximo.disabled = (data.results.length === 0)
+    proximo.disabled = (data !== undefined) ? (data.results.length === 0) : true
 }
 
 const exibirDados = (data) => {
@@ -165,7 +165,7 @@ const exibirDados = (data) => {
                         </div>
                     </div>
 
-                    <div class="col-md-1 d-flex justify-content-center align-items-center">
+                    <div class="col-md-1 d-flex justify-content-center align-items-center d-none">
                         <a href="" class="d-none d-sm-block"><img src="/icons/right.svg" width="60"></a>
                     </div> 
                     ${

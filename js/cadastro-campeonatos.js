@@ -184,9 +184,11 @@ flatpickr(dataFinal, {
 
 
 imagem.addEventListener("change", async() => {
+    loader.show()
     const data = await uploadImagem(imagem, 0, mensagemErro)
     emblema.value = `${api}img/${data.results}`
     exibidorImagem(escudo, emblema.value)
+    loader.hide()
     document.getElementById('salvar').disabled = !(data.succeed === true)
 })
 
@@ -301,7 +303,7 @@ validator
             "finalDate": dataFinal.value,
             "sportsId": parseInt(esporte.value),
             "teamQuantity": parseInt(quantidade.value),
-            "logo": imagem.value,
+            "logo": emblema.value,
             "description": descricao.value,
             "Format": parseInt(formato.value),
             "Nation": pais.value,
@@ -315,8 +317,9 @@ validator
             formulario.reset()
             escudo.src = "#"
         }
-
         loader.hide();
+        
+        window.location.assign('/pages/configuracao-campeonato.html')
     })
 
 async function postCampeonato(endpoint, body) {

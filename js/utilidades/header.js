@@ -151,6 +151,12 @@ export class header extends HTMLElement {
                 loader.hide()
                 window.location.assign('/index.html')
             }))
+
+            this.querySelector('#lingua').addEventListener('change', event => {
+                const selectedIndex = event.target.selectedIndex;
+                localStorage.setItem('lng', event.target.children[selectedIndex].value);
+                document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
+            })
         }
     }
 

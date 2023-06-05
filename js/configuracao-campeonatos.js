@@ -361,12 +361,12 @@ const init = async () => {
 				datalistPesquisa.innerHTML = ''
 				return;
 			}
-			loader.show()
+			// loader.show()
 			const valor = inputPesquisa.value,
 						response = await executarFetch(`teams?query=${valor}&sport=${campeonato.sportsId}`, configFetch),
 						times = response.results
 
-			loader.hide()
+			// loader.hide()
 
 			datalistPesquisa.innerHTML = ''
 			for (const time of times) {
@@ -453,7 +453,7 @@ const init = async () => {
 	let championshipId = document.getElementById('usernameChampionshipId')?.textContent
 
 	if (!championshipId) {
-		await new Promise(r => setTimeout(r, 100))
+		await new Promise(r => setTimeout(r, 300))
 		championshipId = document.getElementById('usernameChampionshipId').textContent
 	};
 	loader.show()
