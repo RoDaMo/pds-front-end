@@ -1,5 +1,17 @@
 import { notificacaoErro, notificacaoSucesso } from "./utilidades/notificacoes"
 import { configuracaoFetch, executarFetch, limparMensagem } from "./utilidades/configFetch"
+import portugues from './i18n/ptbr/recuperar-senha.json' assert { type: 'JSON' }
+import ingles from './i18n/en/recuperar-senha.json' assert { type: 'JSON' }
+import i18next from "i18next";
+import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
+
+inicializarInternacionalizacao(ingles, portugues);
+
+document.querySelector('#lingua').addEventListener('change', event => {
+    const selectedIndex = event.target.selectedIndex;
+    localStorage.setItem('lng', event.target.children[selectedIndex].value);
+    document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
+})
 
 
 const formulario = document.getElementById("formulario")
@@ -58,7 +70,7 @@ const validacoes = () => {
     let controle = true;
 
     const mensagemErro = (elementoId, mensagemErro) => {
-        document.getElementById(elementoId).textContent = mensagemErro;
+        document.getElementById(elementoId).innerHTML = mensagemErro;
     }
 
     const limparMensagemErro = (elementoId) => {
@@ -66,7 +78,7 @@ const validacoes = () => {
     }
 
     if(!emailRegex(email.value) || email.value === ""){
-        mensagemErro("email-validacao", "Email inválido");
+        mensagemErro("email-validacao", `<span class="i18" key="EmailInvalido">${i18next.t("EmailInvalido")}</span>`);
         controle = false;
     } else {
         limparMensagemErro("email-validacao");
