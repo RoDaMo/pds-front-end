@@ -2,9 +2,17 @@ import { defineConfig } from 'vite'
 import { resolve } from 'path'
 import fs from 'fs'
 // import mpa from 'vite-plugin-mpa'
+import htmlPurge from 'vite-plugin-html-purgecss'
+import purgeCSSPlugin from '@fullhuman/postcss-purgecss'
 const isDev = process.env.NODE_ENV === 'development'
 
 export default defineConfig({
+  plugins: [
+    htmlPurge,
+    purgeCSSPlugin({
+      content: ['./**/*.html']
+    })
+  ],
   server: {
     https: isDev ? {
       key: fs.readFileSync('./newkey.pem'),
