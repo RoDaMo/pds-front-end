@@ -1,6 +1,18 @@
 import '../scss/pagina-usuarios.scss'
 import { configuracaoFetch, executarFetch, limparMensagem } from "./utilidades/configFetch"
 import { notificacaoSucesso } from "./utilidades/notificacoes"
+import portugues from './i18n/ptbr/pagina-usuarios.json' assert { type: 'JSON' }
+import ingles from './i18n/en/pagina-usuarios.json' assert { type: 'JSON' }
+import i18next from "i18next";
+import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
+
+inicializarInternacionalizacao(ingles, portugues);
+
+document.querySelector('#lingua').addEventListener('change', event => {
+    const selectedIndex = event.target.selectedIndex;
+    localStorage.setItem('lng', event.target.children[selectedIndex].value);
+    document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
+})
 
 // incluir lenis.js
 
@@ -49,7 +61,7 @@ window.onload = () => {
     }
 
     if (userBio.innerText == '') {
-        userBio.innerText = 'Sem descrição'
+        userBio.innerHTML = `<span class="i18" key="SemDescricao">${i18next.t("SemDescricao")}</span>`
     }
 
     if (userRealName.innerText == '') {
@@ -67,7 +79,7 @@ if (mediaQueryMobile.matches) {
             ssFirstContent.classList.add('justify-content-center', 'align-items-center')
             ssFirstContent.innerHTML = `
                 <div>
-                    <p>Nenhum time por aqui...</p>
+                <span class="i18" key="NenhumTime">${i18next.t("NenhumTime")}</span>
                 </div>
             `
 
