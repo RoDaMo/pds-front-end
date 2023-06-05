@@ -1,0 +1,11 @@
+{
+    "TituloPagina": "Confirmação de Cadastro",
+    "Erro": "Erro",
+    "NaoConfirmou": "Não foi possível realizar a confirmação de sua conta",
+    "ErroConfirmacao": "Erro ao realizar de confirmação de conta",
+    "CliqueReenviar": "Clique no botão abaixo para reenviar a solicitação",
+    "ReenviarEmail": "Reenviar email",
+    "EmailConfirmação": "Email de confirmação de conta",
+    "VerifiqueEmail": "Verifique o seu email e confirme a sua conta para poder acessá-la.",
+    "CasoNao": "Caso não tenha recebido o email, clique no botão abaixo para reenviar a solicitação:"
+}

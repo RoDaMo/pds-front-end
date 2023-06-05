@@ -1,0 +1,21 @@
+{
+    "TituloPagina": "Login",
+    "BemVindo": "Bem vindo!",
+    "TextoBemVindo": "Junte-se a nós em uma nova era de organização de esportes",
+    "NomeUsuario": "Nome de usuário:",
+    "NomeUsuarioPlaceholder": "Nome de usuário...",
+    "Senha": "Senha:",
+    "SenhaPlaceholder": "Senha...",
+    "Continuar": "Continuar",
+    "RecuperarSenha": "Recuperar senha",
+    "Lembrar": "Lembrar de mim",
+    "Entrar": "Entrar",
+    "NomeObrigatorio": "O nome de usuário é obrigatório",
+    "NomeMaximo": "Nome de usuário deve possuir no mínimo 4 caracteres.",
+    "NomeMinimo": "Nome de usuário deve possuir no máximo 20 caracteres.",
+    "NomeInvalido": "Nome de usuário inválido, não pode conter espaço nem caractere especial.",
+    "SenhaObrigatoria": "A senha é obrigatória",
+    "SenhaInvalida": "A senha deve conter ao menos 4 caracteres, uma letra maiúscula, uma minúscula e um número. Sem caracteres especiais.",
+    "PreenchaNome": "Preencha nome de usuário",
+    "PossuiConta": "Você já possui uma conta, entre usando seu nome de usuário e senha."
+}

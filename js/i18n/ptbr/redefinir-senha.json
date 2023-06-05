@@ -1,0 +1,19 @@
+{
+    "TituloPagina": "Redefinir senha",
+    "Erro": "Erro",
+    "NaoConfirmou": "Não foi possível confirmar seu pedido de redefinição de senha.",
+    "Clique": "Clique",
+    "Aqui": "aqui",
+    "PedidoNovamente": "para realizar seu pedido novamente.",
+    "NovaSenha": "Nova Senha:",
+    "NovaSenhaPlaceholder": "Nova Senha...",
+    "SenhaMensagem": "Sua senha deve possuir:",
+    "LetraMaiuscula": "Letra maiúscula",
+    "LetraMinuscula": "Letra minúscula",
+    "Numero": "Número",
+    "Minimo": "Pelo menos 4 caracteres",
+    "Invalida": "Nenhum acento ou caractere especial",
+    "Enviar": "Enviar",
+    "Cancelar": "Cancelar"
+
+}
