@@ -6,28 +6,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="module" src="../js/utilidades/preloader.js"></script>
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <title>Login</title>
+    <title>Recuperar senha</title>
 </head>
 <body>
     <componente-preloader></componente-preloader>
     <main class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6 mt-5 bg-verde-limao rounded-4 px-5">
-                <div class="mb-5 mt-5">
-                    <a class="navbar-brand m-auto p-auto" href="/"><img src="/Logo_Playoffs.png" class="img-fluid" width="300" alt="Logo Playoffs"></a>
+                <div class="mb-5 mt-5 row">
+                    <a class="navbar-brand m-auto p-auto col-9" href="/"><img src="/Logo_Playoffs.png" class="img-fluid" width="300" alt="Logo Playoffs"></a>
+                    <select class="form-select rounded-3 ps-3 py-2 bg-transparent col" id="lingua" required>
+                        <option value="ptbr">Português</option>
+                        <option value="en">English</option>
+                    </select>
                 </div>
                 
                 <div id="div-reposta" class="d-none">
-                    <h4 id="texto-resposta" class="mb-4 text-success">Email de redefinição de senha</h4>
-                    <p class="text-success mb-1">Verifique o seu email e confirme sua solicitação.</p>
-                    <p class="text-success mb-4">Caso não tenha recebido o email, clique no botão abaixo para reenviar a solicitação:</p>
-                    <button id="reenviar-email" class="mb-4 col-md-4 btn btn-success rounded-pill">Reenviar email</button>
+                    <h4 id="texto-resposta" class="mb-4 text-success i18" key="EmailRedefinicao">Email de redefinição de senha</h4>
+                    <p class="text-success mb-1 i18" key="VerifiqueEmail">Verifique o seu email e confirme sua solicitação.</p>
+                    <p class="text-success mb-4 i18" key="CasoNao">Caso não tenha recebido o email, clique no botão abaixo para reenviar a solicitação:</p>
+                    <button id="reenviar-email" class="mb-4 col-md-4 btn btn-success rounded-pill i18" key="ReenviarEmail">Reenviar email</button>
                 </div>
 
                 <form id="formulario" method="post">
                     <div class="mb-5">
-                        <h3>Redefinir senha</h3>
-                        <p>Para redefinir sua senha, será enviado um link para o email que você inserir abaixo.</p>
+                        <h3 class="i18" key="RedefinirSenha">Redefinir senha</h3>
+                        <p class="i18" key="ParaRedefinir">Para redefinir sua senha, será enviado um link para o email que você inserir abaixo.</p>
                         <label for="email" id="email-label" class="form-label text-success mt-3">Email:</label>
                         <input type="text" class="form-control" id="email" name="email" placeholder="Email..." required>
                         <div class="form-text text-danger mt-2 " id="email-validacao"></div>
@@ -35,8 +39,8 @@
 
                     <div class="container m-0">
                         <div  class="row gap-2">
-                            <button  class="col-md-4 btn btn-success rounded-pill" id="enviar" type="submit">Enviar</button>
-                            <a href="/index.html" class="col-md-4 btn btn-outline-success rounded-pill">Cancelar</a>
+                            <button  class="col-md-4 btn btn-success rounded-pill i18" key="Enviar" id="enviar" type="submit">Enviar</button>
+                            <a href="/index.html" class="col-md-4 btn btn-outline-success rounded-pill i18" key="Cancelar">Cancelar</a>
                         </div>
                     </div>
                         

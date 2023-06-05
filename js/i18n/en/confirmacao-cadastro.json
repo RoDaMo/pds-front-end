@@ -1,0 +1,11 @@
+{
+    "TituloPagina": "Confirmation of Registration",
+    "Erro": "Error",
+    "NaoConfirmou": "Unable to confirm your account",
+    "ErroConfirmacao": "Error when confirming your account",
+    "CliqueReenviar": "Click the button below to resend the request:",
+    "ReenviarEmail": "Resend email",
+    "EmailConfirmacao": "Account confirmation email",
+    "VerifiqueEmail": "Check your email and confirm your account in order to access it.",
+    "CasoNao": "If you have not received the email, click the button below to resend the request:"
+}

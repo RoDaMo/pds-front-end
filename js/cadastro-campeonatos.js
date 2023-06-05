@@ -8,6 +8,7 @@ import flatpickr from "flatpickr"
 import { Portuguese } from "flatpickr/dist/l10n/pt.js"
 import {exibidorImagem} from '../js/utilidades/previewImagem'
 import { uploadImagem } from './utilidades/uploadImagem'
+import i18next from "i18next";
 import './utilidades/loader'
 import * as bootstrap from 'bootstrap'
 
@@ -108,6 +109,14 @@ validator2
 
 
 inicializarInternacionalizacao(ingles, portugues);
+
+document.querySelector('#lingua').addEventListener('change', event => {
+    const selectedIndex = event.target.selectedIndex;
+    localStorage.setItem('lng', event.target.children[selectedIndex].value);
+    document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
+})
+
+
 let formulario = document.getElementById("formulario")
 const mensagemErro = document.getElementById("mensagem-erro")
 const escudo = document.getElementById('escudo')
@@ -134,7 +143,7 @@ const validator = new JustValidate(formulario, {
 const optionDefault = () => {
     const optionDefault = document.createElement('option')
     optionDefault.value = 0
-    optionDefault.text = 'Selecione uma opção'
+    optionDefault.innerHTML = `<span class="i18" key="SelecioneOpcao">${i18next.t("SelecioneOpcao")}</span>`,
     quantidade.appendChild(optionDefault)
 }
 
@@ -197,19 +206,19 @@ validator
     .addField(nomeCampeonato, [
         {
             rule: 'required',
-            errorMessage: 'O nome do campeonato é obrigatório',
+            errorMessage: `<span class="i18" key="NomeCampeonatObrigatorio">${i18next.t("NomeCampeonatObrigatorio")}</span>`,
         },
     ])
     .addField(dataInicial, [
         {
             rule: 'required',
-            errorMessage: 'A data inicial é obrigatória',
+            errorMessage: `<span class="i18" key="DataInicialObrigatoria">${i18next.t("DataInicialObrigatoria")}</span>`,
         },
     ])
     .addField(dataFinal, [
         {
             rule: 'required',
-            errorMessage: 'A data final é obrigatória',
+            errorMessage: `<span class="i18" key="DataFinalObrigatoria">${i18next.t("DataFinalObrigatoria")}</span>`,
         },
         {
             validator: (value, context) => {
@@ -217,31 +226,31 @@ validator
                 const dataFinal = new Date(value)
                 return dataFinal >= dataInicial
             },
-            errorMessage: 'A data final deve ser maior ou igual a data inicial',
+            errorMessage: `<span class="i18" key="DataFinalMaiorIgual">${i18next.t("DataFinalMaiorIgual")}</span>`
         }
     ])
     .addField(esporte, [
         {
             rule: 'required',
-            errorMessage: 'Favor selecionar um esporte',
+            errorMessage: `<span class="i18" key="EsporteObrigatorio">${i18next.t("EsporteObrigatorio")}</span>`,
         },
     ])
     .addField(formato, [
         {
             rule: 'required',
-            errorMessage: 'Favor selecionar um formato',
+            errorMessage: `<span class="i18" key="FormatoObrigatorio">${i18next.t("FormatoObrigatorio")}</span>`,
         },
     ])
     .addField(quantidade, [
         {
             rule: 'required',
-            errorMessage: 'Favor selecionar uma quantidade',
+            errorMessage: `<span class="i18" key="QuantidadeObrigatoria">${i18next.t("QuantidadeObrigatoria")}</span>`,
         },
     ])
     .addField(imagem, [
         {
             rule: 'required',
-            errorMessage: 'Insira uma logo',
+            errorMessage: `<span class="i18" key="LogoObrigatoria">${i18next.t("LogoObrigatoria")}</span>`,
         },
         {
             rule: 'files',
@@ -252,37 +261,37 @@ validator
                     types: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/bmp', 'image/tiff'],
                 },
             },
-            errorMessage: 'Tamanho máximo da imagem: 5mb',
+            errorMessage: `<span class="i18" key="ImagemTamanho">${i18next.t("ImagemTamanho")}</span>`,
         }
     ])
     .addField(pais, [
         {
             rule: 'required',
-            errorMessage: 'O país é obrigatório',
+            errorMessage: `<span class="i18" key="PaisObrigatorio">${i18next.t("PaisObrigatorio")}</span>`,
         },
     ])
     .addField(estado, [
         {
             rule: 'required',
-            errorMessage: 'O estado é obrigatório',
+            errorMessage: `<span class="i18" key="EstadoObrigatorio">${i18next.t("EstadoObrigatorio")}</span>`,
         },
     ])
     .addField(cidade, [
         {
             rule: 'required',
-            errorMessage: 'A cidade é obrigatório',
+            errorMessage: `<span class="i18" key="CidadeObrigatoria">${i18next.t("CidadeObrigatoria")}</span>`,
         },
     ])
     .addField(bairro, [
         {
             rule: 'required',
-            errorMessage: 'O bairro é obrigatório',
+            errorMessage: `<span class="i18" key="BairroObrigaorio">${i18next.t("BairroObrigaorio")}</span>`,
         },
     ])
     .addField(descricao, [
         {
             rule: 'required',
-            errorMessage: 'Favor inserir uma descrição',
+            errorMessage: `<span class="i18" key="DescricaoObrigatoria">${i18next.t("DescricaoObrigatoria")}</span>`,
         },
     ])
     .addField(quantidadeJogadores, [

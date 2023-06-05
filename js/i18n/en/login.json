@@ -1,0 +1,22 @@
+{
+    "TituloPagina": "Login",
+    "BemVindo": "Welcome!",
+    "TextoBemVindo": "Join us in a new era of sports organization",
+    "NomeUsuario": "Username:",
+    "NomeUsuarioPlaceholder": "Username...",
+    "Senha": "Password:",
+    "SenhaPlaceholder": "Password...",
+    "Continuar": "Continue",
+    "RecuperarSenha": "Recover password",
+    "Lembrar": "Remember me",
+    "Entrar": "Enter",
+    "Cancelar": "Cancel",
+    "NomeObrigatorio": "Username is required",
+    "NomeMinimo": "Username must be at least 4 characters long.",
+    "NomeMaximo": "Username must be a maximum of 20 characters.",
+    "NomeInvalido": "Invalid username, cannot contain spaces or special characters.",
+    "SenhaObrigatoria": "Password is required",
+    "SenhaInvalida": "The password must contain at least 4 characters, one uppercase letter, a lower case one, and a number. No special characters.",
+    "PreenchaNome": "Fill in username",
+    "PossuiConta": "You already have an account, sign in using your username and password."
+}

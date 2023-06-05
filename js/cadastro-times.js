@@ -3,8 +3,20 @@ import { notificacaoSucesso } from "./utilidades/notificacoes"
 import { exibidorImagem } from '../js/utilidades/previewImagem'
 import JustValidate from "just-validate"
 import { uploadImagem } from './utilidades/uploadImagem'
+import portugues from './i18n/ptbr/cadastro-times.json' assert { type: 'JSON' }
+import ingles from './i18n/en/cadastro-times.json' assert { type: 'JSON' }
+import i18next from "i18next";
+import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
 import './utilidades/loader'
 import * as bootstrap from 'bootstrap'
+
+inicializarInternacionalizacao(ingles, portugues);
+
+document.querySelector('#lingua').addEventListener('change', event => {
+    const selectedIndex = event.target.selectedIndex;
+    localStorage.setItem('lng', event.target.children[selectedIndex].value);
+    document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
+})
 
 let cpfObrigatorio = false
 let cadastrouCpf = false
@@ -136,19 +148,19 @@ validator
     .addField(nome, [
         {
             rule: 'required',
-            errorMessage: 'O nome do time é obrigatório',
+            errorMessage: `<span class="i18" key="NomeTimeObrigatorio">${i18next.t("NomeTimeObrigatorio")}</span>`,
         },
     ])
     .addField(esporte, [
         {
             rule: 'required',
-            errorMessage: 'Favor selecionar um esporte',
+            errorMessage: `<span class="i18" key="EsporteObrigatorio">${i18next.t("EsporteObrigatorio")}</span>`,
         },
     ])
     .addField(emblema, [
         {
             rule: 'required',
-            errorMessage: 'Insira o emblema do time',
+            errorMessage: `<span class="i18" key="EmblemaTimeObrigatorio">${i18next.t("EmblemaTimeObrigatorio")}</span>`,
         },
         {
             rule: 'files',
@@ -159,13 +171,13 @@ validator
                     types: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/bmp', 'image/tiff'],
                 },
             },
-            errorMessage: 'Tamanho máximo da imagem: 5mb',
+            errorMessage: `<span class="i18" key="TamanhoMaximo">${i18next.t("TamanhoMaximo")}</span>`,
         }
     ])
     .addField(uniformeHome, [
         {
             rule: 'required',
-            errorMessage: 'Insira o uniforme de casa',
+            errorMessage: `<span class="i18" key="UniformeCasaObrigatorio">${i18next.t("UniformeCasaObrigatorio")}</span>`,
         },
         {
             rule: 'files',
@@ -176,14 +188,14 @@ validator
                     types: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/bmp', 'image/tiff'],
                 },
             },
-            errorMessage: 'Tamanho máximo da imagem: 5mb',
+            errorMessage: `<span class="i18" key="TamanhoMaximo">${i18next.t("TamanhoMaximo")}</span>`,
         }
 
     ])
     .addField(uniformeAway, [
         {
             rule: 'required',
-            errorMessage: 'Insira o uniforme de fora',
+            errorMessage: `<span class="i18" key="UniformeForaObrigatorio">${i18next.t("UniformeForaObrigatorio")}</span>`,
         },
         {
             rule: 'files',
@@ -194,13 +206,13 @@ validator
                     types: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/bmp', 'image/tiff'],
                 },
             },
-            errorMessage: 'Tamanho máximo da imagem: 5mb',
+            errorMessage: `<span class="i18" key="TamanhoMaximo">${i18next.t("TamanhoMaximo")}</span>`,
         }
     ])
     .addField(descricao, [
         {
             rule: 'required',
-            errorMessage: 'Favor inserir uma descrição',
+            errorMessage: `<span class="i18" key="DescricaoObrigatoria">${i18next.t("DescricaoObrigatoria")}</span>`,
         },
     ])
     .onSuccess(async(e) => {

@@ -3,6 +3,12 @@ import { configuracaoFetch, api, limparMensagem } from "./utilidades/configFetch
 import { visualizarSenha } from "./utilidades/visualizar-senha"
 import { redirecionamento } from './utilidades/redirecionamento'
 import './utilidades/loader'
+import portugues from './i18n/ptbr/login.json' assert { type: 'JSON' }
+import ingles from './i18n/en/login.json' assert { type: 'JSON' }
+import i18next from "i18next";
+import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
+
+inicializarInternacionalizacao(ingles, portugues);
 
 const nomeUsuario = document.getElementById("nome-usuario")
 const senha = document.getElementById("senha")
@@ -23,33 +29,33 @@ validator
     .addField(nomeUsuario, [
         {
             rule: 'required',
-            errorMessage: 'O nome de usuário é obrigatório',
+            errorMessage: `<span class="i18" key="NomeObrigatorio">${i18next.t("NomeObrigatorio")}</span>`,
         },
         {
             rule: 'minLength',
             value: 4,
-            errorMessage: 'Nome de usuário deve possuir no mínimo 4 caracteres.',
+            errorMessage: `<span class="i18" key="NomeMinimo">${i18next.t("NomeMinimo")}</span>`,
         },
         {
             rule: 'maxLength',
             value: 20,
-            errorMessage: 'Nome de usuário deve possuir no máximo 20 caracteres.',
+            errorMessage: `<span class="i18" key="NomeMaximo">${i18next.t("NomeMaximo")}</span>`,
         },
         {
             rule: 'customRegexp',
             value: /^[A-Za-z0-9_-]*$/,
-            errorMessage: 'Nome de usuário inválido, não pode conter espaço nem caractere especial.',
+            errorMessage: `<span class="i18" key="NomeInvalido">${i18next.t("NomeInvalido")}</span>`,
         },
     ])
     .addField(senha, [
         {
             rule: 'required',
-            errorMessage: 'A senha é obrigatória',
+            errorMessage: `<span class="i18" key="SenhaObrigatoria">${i18next.t("SenhaObrigatoria")}</span>`,
         },
         {
             rule: 'customRegexp',
             value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{4,}$/,
-            errorMessage: 'A senha deve conter ao menos 4 caracteres, uma letra maiúscula, uma minúscula e um número. Sem caracteres especiais.',
+            errorMessage: `<span class="i18" key="SenhaInvalida">${i18next.t("SenhaInvalida")}</span>`,
         },
         
     ])
@@ -73,7 +79,7 @@ redirecionamento(nomeUsuario)
 
 document.getElementById("continuar").addEventListener("click", async(e) => {
     e.preventDefault();
-    nomeUsuario.value ? await postUsuarioExiste({"Username": nomeUsuario.value}) : mensagemErro.textContent = "Preencha nome de usuário"
+    nomeUsuario.value ? await postUsuarioExiste({"Username": nomeUsuario.value}) : mensagemErro.innerHTML = `<span class="i18" key="NomeObrigatorio">${i18next.t("NomeObrigatorio")}</span>`
 })
 
 async function postUsuarioExiste(body) {
@@ -89,7 +95,7 @@ async function postUsuarioExiste(body) {
         document.getElementById("continuar").classList.add("d-none")
         document.getElementById("entrar").classList.remove("d-none")
         document.getElementById("senha-formulario").classList.remove("d-none")
-        document.getElementById('texto-bem-vindo').textContent = "Você já possui uma conta, entre usando seu nome de usuário e senha."
+        document.getElementById('texto-bem-vindo').innerHTML = `<span class="i18" key="PossuiConta">${i18next.t("PossuiConta")}</span>`
         nomeUsuario.parentElement.classList.replace('mb-5', 'mb-2');
     }
     else{
@@ -120,3 +126,9 @@ async function postToken(body) {
         window.location.assign(`/`)
     }
 }
+
+document.querySelector('#lingua').addEventListener('change', event => {
+    const selectedIndex = event.target.selectedIndex;
+    localStorage.setItem('lng', event.target.children[selectedIndex].value);
+    document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
+})

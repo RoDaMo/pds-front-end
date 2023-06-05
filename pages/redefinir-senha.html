@@ -6,63 +6,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="module" src="../js/utilidades/preloader.js"></script>
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <title>Confirmação de Cadastro</title>
+    <title>Redefinir senha</title>
 </head>
 <body>
     <componente-preloader></componente-preloader>
     <main class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6 mt-5 bg-verde-limao rounded-4 px-5">
-                <div class="mb-5 mt-5">
-                    <a class="navbar-brand m-auto p-auto" href="/"><img src="/Logo_Playoffs.png" class="img-fluid" width="300" alt="Logo Playoffs"></a>
+                <div class="mb-5 mt-5 row">
+                    <a class="navbar-brand m-auto p-auto col-9" href="/"><img src="/Logo_Playoffs.png" class="img-fluid" width="300" alt="Logo Playoffs"></a>
+                    <select class="form-select rounded-3 ps-3 py-2 bg-transparent col" id="lingua" required>
+                        <option value="ptbr">Português</option>
+                        <option value="en">English</option>
+                    </select>
                 </div>
 
                 <div id="div-reposta" class="d-none">
-                    <h4 id="texto-resposta" class="mb-2 text-danger">Erro</h4>
-                    <p class="text-danger mb-0">Não foi possível confirmar seu pedido de redefinição de senha.</p>
-                    <p class="text-danger mb-5">Clique <a href="recuperar-senha.html">aqui</a> para realizar seu pedido novamente.</p>
+                    <h4 id="texto-resposta" class="mb-2 text-danger i18" key="Erro">Erro</h4>
+                    <p class="text-danger mb-0 i18" key="NaoConfirmou">Não foi possível confirmar seu pedido de redefinição de senha.</p>
+                    <p class="text-danger mb-5"> <span class="i18" key="Clique">Clique</span><a class="i18" key="Aqui" href="recuperar-senha.html">aqui</a> <span class="i18" key="PedidoNovamente">para realizar seu pedido novamente.</span></p>
                 </div>
 
                 <div id="div-reposta-2" class="d-none">
                     <form id="formulario" method="post">
                         <div id="senha-formulario" class="mb-5">
-                            <label for="senha" id="senha-label" class="form-label text-success mt-3">Nova Senha:</label>
+                            <label for="senha" id="senha-label" class="form-label text-success mt-3 i18" key="NovaSenha">Nova Senha:</label>
                             <div class="d-flex position-relative">
-                                <input type="password" class="form-control" id="senha" name="senha" placeholder="Nova Senha..." required autocomplete="on">
+                                <input type="password" class="form-control i18-placeholder" key="NovaSenhaPlaceholder" id="senha" name="senha" placeholder="Nova Senha..." required autocomplete="on">
                                 <div id="olhos">
                                     <i id="olho-aberto" class="btn btn-success rounded-0 rounded-end bi bi-eye text-light position-absolute end-0"></i>
                                     <i id="olho-fechado" class="btn btn-success rounded-0 rounded-end bi bi-eye-slash text-light position-absolute end-0 d-none"></i>
                                 </div>
                             </div>
-                            <div class="form-text text-success mt-2">Sua senha deve possuir:</div>
+                            <div class="form-text text-success mt-2 i18" key="SenhaMensagem">Sua senha deve possuir:</div>
                             <div class="mb-4">
                                 <div class="d-flex gap-2 mt-2">
                                     <i id="icone-maiuscula" class="bi bi-x-circle-fill text-danger"></i>
-                                    <small id="texto-maiuscula" class="text-danger">Letra maiúscula</small>
+                                    <small id="texto-maiuscula" class="text-danger i18" key="LetraMaiuscula">Letra maiúscula</small>
                                 </div>
                                 <div class="d-flex gap-2">
                                     <i id="icone-minuscula" class="bi bi-x-circle-fill text-danger"></i>
-                                    <small id="texto-minuscula" class="text-danger">Letra minúscula</small>
+                                    <small id="texto-minuscula" class="text-danger i18" key="LetraMinuscula">Letra minúscula</small>
                                 </div>
                                 <div class="d-flex gap-2">
                                     <i id="icone-numero" class="bi bi-x-circle-fill text-danger"></i>
-                                    <small id="texto-numero" class="text-danger">Número</small>
+                                    <small id="texto-numero" class="text-danger i18" key="Numero">Número</small>
                                 </div>
                                 <div class="d-flex gap-2">
                                     <i id="icone-caractere" class="bi bi-x-circle-fill text-danger"></i>
-                                    <small id="texto-caractere" class="text-danger">Pelo menos 4 caracteres</small>
+                                    <small id="texto-caractere" class="text-danger i18" key="Minimo">Pelo menos 4 caracteres</small>
                                 </div>
                                 <div class="d-flex gap-2">
                                     <i id="icone-especial" class="bi bi-x-circle-fill text-danger"></i>
-                                    <small id="texto-especial" class="text-danger">Nenhum acento ou caractere especial</small>
+                                    <small id="texto-especial" class="text-danger i18" key="Invalida">Nenhum acento ou caractere especial</small>
                                 </div>
                             </div>
                         </div>
                     
                         <div class="container m-0">
                             <div  class="row gap-2">
-                                <button  class="col-md-4 btn btn-success rounded-pill" id="enviar" type="submit">Enviar</button>
-                                <a href="/index.html" class="col-md-4 btn btn-outline-success rounded-pill">Cancelar</a>
+                                <button  class="col-md-4 btn btn-success rounded-pill i18" key="Enviar" id="enviar" type="submit">Enviar</button>
+                                <a href="/index.html" class="col-md-4 btn btn-outline-success rounded-pill i18" key="Cancelar">Cancelar</a>
                             </div>
                         </div>
                         <div class="mt-4 text-danger">
