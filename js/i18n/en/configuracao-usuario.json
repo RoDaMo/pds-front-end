@@ -5,9 +5,14 @@
     "Conta": "Account",
     "Senha": "Password",
     "Confirmacao": "Are you sure?",
-    "Explicacao": "If you decide to delete your account, you will permanently lose all data and information associated with it. In addition, you will no longer have access to the platform and can no longer interact with certain tools through it. It is important to note that this action is irreversible, so before deleting your account you should carefully evaluate if this is what you really want to do.",
+    "Caso": "If you decide",
+    "Excluir": "to delete",
+    "Sua": "your account, you will permanently lose all data and information associated with it. In addition, you will no longer have access to the platform and can no longer interact with certain tools through it. It is important to note that this action is ",
+    "Irreversivel": "irreversible",
+    "Explicacao": ", so before deleting your account you should carefully evaluate if this is what you really want to do.",
     "NomeUsuario": "Username",
     "Digitar": "Type 'Delete Account'",
+    "DigiteAqui": "Type here...",
     "ExcluirConta": "Delete Account",
     "NomeUsuarioObrigatorio": "Username is required",
     "Informacoes": "Informations",
@@ -17,7 +22,10 @@
     "Preencher": "You must fill in at least one of the fields.",
     "ImagemTamanho": "Maximum image size: 5mb",
     "NomeReal": "Real name",
-    "ExclusaoTexto": "By clicking the delete account button, you are initiating the process of deleting your account permanently and you will not be able to go back. Please make sure you really want to proceed before making this decision.",
+    "Ao":"By clicking the delete account button, you are initiating the process of",
+    "Processo": "deleting your account permanently",
+    "ExclusaoTexto": " and you will not be able to go back.",
+    "Certificar": "Please make sure you really want to proceed before making this decision.",
     "NomeUsuarioInvalido": "Invalid Username",
     "TextoInvalido": "Invalid Text",
     "PreenchaCorretamente": "Fill in the fields above correctly",
@@ -29,15 +37,6 @@
     "RecuperarSenha": "Retrieve password",
     "SenhaAtualObrigatoria": "Your current password is required.",
     "NovaSenhaObrigatoria": "Your new password is required.",
-    "SenhaInvalida": "Your password must contain at least 4 characters, one letter uppercase letter, a lowercase letter, and a number."
-
-
-
-
-
-
-
-
-
-
+    "SenhaInvalida": "Your password must contain at least 4 characters, one letter uppercase letter, a lowercase letter, and a number.",
+    "AtualizarConta": "Update account"
 }

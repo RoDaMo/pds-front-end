@@ -12,13 +12,13 @@
     <main class="container">
         <div class="row mt-4 h-100">
             <section class="col-10 col-md-3 config-menu p-4 rounded-5">
-                <h5>Configurações</h5>
+                <h5 class="i18" key="Configuracoes">Configurações</h5>
 
                 <!-- Config Menu -->
                 <ul class="list-group list-group-flush config-menu-list">
-                    <button menu="1" class="list-group-item list-group-item-action my-1 border-0 mt-2 rounded-4 active"><i class="bi bi-person me-2"></i>Perfil</button>
-                    <button menu="2" class="list-group-item list-group-item-action my-1 border-0 rounded-4"><i class="bi bi-gear me-2"></i>Conta</button>
-                    <button menu="3" class="list-group-item list-group-item-action my-1 border-0 rounded-4"><i class="bi bi-lock me-2"></i>Senha</button>
+                    <button menu="1" class="list-group-item list-group-item-action my-1 border-0 mt-2 rounded-4 active"><i class="bi bi-person me-2"></i> <span class="i18" key="Perfil">Perfil</span></button>
+                    <button menu="2" class="list-group-item list-group-item-action my-1 border-0 rounded-4"><i class="bi bi-gear me-2"></i> <span class="i18" key="Conta">Conta</span></button>
+                    <button menu="3" class="list-group-item list-group-item-action my-1 border-0 rounded-4"><i class="bi bi-lock me-2"></i> <span class="i18" key="Senha">Senha</span></button>
                     <!-- <button class="list-group-item list-group-item-action my-1 border-0 mb-2 rounded-4"><i class="bi bi-envelope me-2"></i>Emails/Sessões</button> -->
                 </ul>
             </section>
@@ -52,40 +52,42 @@
 
                 <!-- Configs - Default(Perfil) -->
                 <section class="row mt-5 config-options-wrapper justify-mobile-pic p-4 rounded-5 mx-2 h-auto position-relative">
-                    <p class="position-absolute config-title fw-semibold">Perfil</p>
+                    <p class="position-absolute config-title fw-semibold i18" key="Perfil">Perfil</p>
                 </section>
 
                 <div class="modal fade" id="deleteAccount" tabindex="-1" aria-labelledby="deleteAccountLabel" aria-hidden="true">
                     <div class="modal-dialog">
                       <div class="modal-content p-3">
                         <div class="modal-header">
-                          <h1 class="modal-title fs-5" id="exampleModalLabel">Você tem certeza?</h1>
+                          <h1 class="modal-title fs-5 i18" id="exampleModalLabel" key="Confirmacao">Você tem certeza?</h1>
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <!-- form -->
                         <form id="delete-account-form" class="row" method="">
                             <div class="modal-body">
                                 <p class="text-danger">
-                                    Caso você decida <span class="fw-bold"> excluir </span> sua conta, perderá permanentemente todos os dados e 
-                                    informações associados a ela. Além disso, você não terá mais acesso à plataforma e 
-                                    não poderá mais interagir com determinadas ferramentas por meio dela. 
-                                    É importante ressaltar que essa ação é <span class="fw-bold"> irreversível</span>, portanto, antes de excluí-la, 
-                                    você deve avaliar cuidadosamente se é isso que realmente deseja fazer.
+                                    <span class="i18" key="Caso">Caso você decida</span>  <span class="fw-bold i18" key="Escluir"> excluir </span> 
+                                    <span class="i18" key="Sua">sua conta, perderá permanentemente todos os dados e 
+                                        informações associados a ela. Além disso, você não terá mais acesso à plataforma e 
+                                        não poderá mais interagir com determinadas ferramentas por meio dela. 
+                                        É importante ressaltar que essa ação é
+                                    </span>  <span class="fw-bold i18" key="irreversível">irreversível</span> <span class="explicacao">, portanto, antes de excluí-la, 
+                                        você deve avaliar cuidadosamente se é isso que realmente deseja fazer.</span>
                                 </p>                                
                                 <div class="col-12 mt-3">
-                                    <label for="delete-account-user-name-input" class="form-label">Nome de Usuário</label>
-                                    <input type="text" class="form-control" id="delete-account-user-name-input" placeholder="Nome de Usuário">
-                                    <p id="nome-usuario" class="mt-2 text-danger">    </p>
+                                    <label for="delete-account-user-name-input" class="form-label i18" key="NomeUsuario">Nome de Usuário</label>
+                                    <input type="text" class="form-control i18-placeholder" key="NomeUsuario" id="delete-account-user-name-input" placeholder="Nome de Usuário">
+                                    <p id="nome-usuario" class="mt-2 text-danger"></p>
                                 </div>
                                 <div class="col-12 mt-3">
-                                    <label for="delete-account-check-input" class="form-label">Digite "Excluir Conta"</label>
-                                    <input type="text" class="form-control" id="delete-account-check-input" placeholder="Digite aqui...">
-                                    <p id="texto-excluir" class="mt-2 text-danger">    </p>
+                                    <label for="delete-account-check-input" class="form-label i18" key="Digitar">Digite "Excluir Conta"</label>
+                                    <input type="text" class="form-control i18-placeholder" key="DigiteAqui" id="delete-account-check-input" placeholder="Digite aqui...">
+                                    <p id="texto-excluir" class="mt-2 text-danger"></p>
                                 </div>
                                
                             </div>
                             <div class="modal-footer justify-content-center">
-                                <button type="submit" id="excluir-conta"  class="btn btn-danger">Excluir Conta Permanentemente</button>
+                                <button type="submit" id="excluir-conta"  class="btn btn-danger i18" key="ExcluirConta">Excluir Conta Permanentemente</button>
                             </div>
 
                             <p class="text-danger mt-2" id="erro-excluir"></p>

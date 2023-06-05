@@ -5,9 +5,14 @@
     "Conta": "Conta",
     "Senha": "Senha",
     "Confirmacao": "Você tem certeza?",
-    "Explicacao": "Caso você decida excluir sua conta, perderá permanentemente todos os dados e  informações associados a ela. Além disso, você não terá mais acesso à plataforma e  não poderá mais interagir com determinadas ferramentas por meio dela. É importante ressaltar que essa ação é irreversível, portanto, antes de excluí-la, você deve avaliar cuidadosamente se é isso que realmente deseja fazer.",
+    "Caso": "Caso você decida",
+    "Excluir": "Excluir",
+    "Sua": "sua conta, perderá permanentemente todos os dados e informações associados a ela. Além disso, você não terá mais acesso à plataforma e não poderá mais interagir com determinadas ferramentas por meio dela. É importante ressaltar que essa ação é",
+    "Irreversivel": "irreversivel",
+    "Explicacao": ", portanto, antes de excluí-la, você deve avaliar cuidadosamente se é isso que realmente deseja fazer.",
     "NomeUsuario": "Nome de Usuário",
     "Digitar": "Digite 'Excluir Conta'",
+    "DigiteAqui": "Digite aqui...",
     "ExcluirConta": "Excluir conta",
     "NomeUsuarioObrigatorio": "Seu nome de usuário é obrigatório.",
     "Informacoes": "Informações",
@@ -17,7 +22,10 @@
     "Preencher": "Você deve preencher pelo menos um dos campos.",
     "ImagemTamanho": "Tamanho máximo da imagem: 5mb",
     "NomeReal": "Nome real",
-    "ExclusaoTexto": "Ao clicar no botão de excluir conta, você estará dando início ao processo de exclusão permanente da sua conta e não será possível voltar atrás. Certifique-se de que realmente deseja prosseguir antes de tomar essa decisão.",
+    "Ao":"Ao clicar no botão de excluir conta, você estará dando início ao processo de",
+    "Processo": "exclusão permanente da sua conta",
+    "ExclusaoTexto": " e não será possível voltar atrás. ",
+    "Certificar": "Certifique-se de que realmente deseja prosseguir antes de tomar essa decisão.",
     "NomeUsuarioInvalido": "Nome de usuário inválido",
     "TextoInvalido": "Texto inválido",
     "PreenchaCorretamente": "Preencha corretamente os campos acima",
@@ -29,6 +37,7 @@
     "RecuperarSenha": "Recuperar senha",
     "SenhaAtualObrigatoria": "Sua senha atual é obrigatória.",
     "NovaSenhaObrigatoria": "Sua nova senha é obrigatória",
-    "SenhaInvalida": "Sua senha deve conter pelo menos 4 caracteres, uma letra maiúscula, uma letra minúscula e um número."
+    "SenhaInvalida": "Sua senha deve conter pelo menos 4 caracteres, uma letra maiúscula, uma letra minúscula e um número.",
+    "AtualizarConta": "Atualizar conta"
 
 }
