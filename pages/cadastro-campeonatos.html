@@ -3,12 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script type="module" src="../js/utilidades/preloader.js"></script>
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../scss/cadastro-campeonatos.scss">
     <title>Cadastro de Campeonatos</title>
 </head>
+
 <body requires-auth="true">
+    <componente-preloader></componente-preloader>
+
     <componente-header></componente-header>
     <main class="mt-5">
         <form class="container bg-verde-limao rounded-4 px-5 py-2" method="post" id="formulario">
@@ -70,13 +74,19 @@
                             <label for="bairro" class="form-label text-success i18" key="Bairro">Bairro:</label>
                             <input type="text" class="form-control rounded-4 i18-placeholder" key="BairroPlaceholder" id="bairro" name="bairro" placeholder="Bairro...">
                         </div>
+                        <div class="col-md-6 mb-3 mt-3">
+                            <label for="quantidade-jogadores" class="form-label text-success">Quantidade de Jogadores por Time:</label>
+                            <input type="number" class="form-control rounded-4" id="quantidade-jogadores" name="quantidade-jogadores" placeholder="Quantidade de jogadores...">
+                        </div>
                         <div class="col-md-12 mb-3 mt-3">
                             <label for="descricao" class="form-label text-success i18" key="DescricaoCampeonato">Descrição do campeonato:</label>
                             <textarea class="form-control h-100 px-3 py-2 i18-placeholder" key="DescricaoCampeonatoPlaceholder" id="descricao" placeholder="Descreva seu campeonato..." name="descricao"></textarea>
                         </div>
+                        
                     </div>
-                    
+                        
                 </div>
+
                 <div class="col-md-4 mt-5 d-flex align-items-center flex-column">
                     <div>
                         <img src="https://playoffs-api.up.railway.app/img/fefabe2b-4038-4b8c-b719-54fbbe9095a4" class="p-2 img-fluid rounded-5 border border-success escudo" id="escudo" alt="">
@@ -93,14 +103,45 @@
                     <input type="hidden" name="logo" id="emblema">
                 </div> 
             </div>
+   
             <div class="col-12 mt-5 mb-5 gap-2">
                 <button id="salvar" disabled class="col-md-2 btn btn-success rounded-pill i18" key="Salvar" type="submit">Salvar</button>
                 <a href="/index.html" class="col-md-2 btn btn-outline-success rounded-pill i18" key="Cancelar">Cancelar</a>
             </div>  
-            <div class="mt-4">
+            <div class="mt-4 text-danger">
                 <p class="text-danger" id="mensagem-erro"></p>
             </div>
         </form>
+
+        <div id="JanelaModal" class="modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    
+                    <div class="modal-header">
+                        <h5 class="modal-title text-success">Modal CPF</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    
+                    <div class="modal-body">
+                        <p class="text-body">Insira seu CPF para prosseguir com a criação do campeonato. Não utilize pontos ou traços.</p>
+                        <form id="formCpf" method="post">
+                            <label for="cpf" class="form-label text-success">CPF:</label>
+                            <input type="text" class="form-control rounded-4" id="cpf" name="cpf" placeholder="CPF...">
+                            <div class="mt-4">
+                                <p class="text-danger" id="mensagem-erro2"></p>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                        <button type="submit" class="btn btn-primary" form="formCpf">Salvar</button>
+                    </div>
+
+                </div>
+            </div>                    
+        </div>
     </main>
     <script type="module" src="../main.js"></script>
     <script type="module" src="../js/utilidades/header.js"></script>

@@ -5,18 +5,13 @@ import { Portuguese } from "flatpickr/dist/l10n/pt.js"
 import { visualizarSenha } from "./utilidades/visualizar-senha"
 import JustValidate from "just-validate"
 import {redirecionamento} from './utilidades/redirecionamento'
+import './utilidades/loader'
 import portugues from './i18n/ptbr/cadastro-usuario.json' assert { type: 'JSON' }
 import ingles from './i18n/en/cadastro-usuario.json' assert { type: 'JSON' }
 import i18next from "i18next";
 import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
 
 inicializarInternacionalizacao(ingles, portugues);
-
-document.querySelector('#lingua').addEventListener('change', event => {
-    const selectedIndex = event.target.selectedIndex;
-    localStorage.setItem('lng', event.target.children[selectedIndex].value);
-    document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
-})
 
 const formulario = document.getElementById("formulario")
 const mensagemErro = document.getElementById("mensagem-erro")
@@ -34,6 +29,9 @@ const dataAniversario = document.getElementById("data")
 const validator = new JustValidate(formulario, {
     validateBeforeSubmitting: true,
 })
+
+const loader = document.createElement('app-loader');
+document.body.appendChild(loader);
 
 const iconeMaiuscula = document.getElementById("icone-maiuscula")
 const textoMaiuscula = document.getElementById("texto-maiuscula")
@@ -143,11 +141,12 @@ validator
             errorMessage: " ",
         }
     ])
-    .onSuccess(async(e) => {
-        e.preventDefault()
-        limparMensagem(mensagemErro)
-
-
+    validator.onSuccess(async (e) => {
+        e.preventDefault();
+        limparMensagem(mensagemErro);
+      
+        loader.show(); // Exibe o loader
+      
         const resultado = await postUsuario("auth/register", {
             "Name": nome.value,
             "Email": email.value,
@@ -157,14 +156,11 @@ validator
         })
         
         if (resultado){
-            window.location.assign(`/pages/login.html?userName=${nomeUsuario.value}`);
+            apresentarResultado()
         }
-    })
-    
-    if (resultado){
-        apresentarResultado()
-    }
-
+      
+        loader.hide(); // Oculta o loader
+});
 
 botao.addEventListener("click", async() => {
     let endpoint = `auth/resend-confirm-email?id=${idUsuario}`

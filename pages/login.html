@@ -4,14 +4,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="module" src="../js/utilidades/preloader.js"></script>
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <title>Login</title>
+    
 </head>
 <body>
+    <app-loader></app-loader>
+    <componente-preloader></componente-preloader>
     <main class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6 mt-5 bg-verde-limao rounded-4 px-5">
-                
                 <div class="mb-5 mt-5 row">
                     <a class="navbar-brand m-auto p-auto col-9" href="/"><img src="/Logo_Playoffs.png" class="img-fluid" width="300" alt="Logo Playoffs"></a>
                     <select class="form-select rounded-3 ps-3 py-2 bg-transparent col" id="lingua" required>
@@ -65,5 +68,6 @@
     </main>
     <script type="module" src="../main.js"></script>
     <script type="module" src="../js/login.js"></script>
+    
 </body>
 </html>

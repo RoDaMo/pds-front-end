@@ -25,9 +25,8 @@ export const executarFetch = async (endpoint, config, callbackStatus, callbackSe
     const { notificacaoErro } = await import('./notificacoes')
     const res = await fetch(`${api}${endpoint}`, config)
 
-    console.log('status: ' + res.status)
     if(res.status === 401){
-        if (!window.location.href.includes('netlify'))
+        if (!window.location.href.includes('playoffs'))
             config.headers["IsLocalhost"] = true
 
         const resPut = await fetch(`${api}auth`, configuracaoFetch("PUT"))
@@ -37,7 +36,7 @@ export const executarFetch = async (endpoint, config, callbackStatus, callbackSe
             window.location.assign("/pages/login.html")
         }
         
-        if (redirecionarLogin) 
+        if (!redirecionarLogin) 
             return await executarFetch(endpoint, config, callbackStatus, callbackServidor, redirecionarLogin);
     }
 

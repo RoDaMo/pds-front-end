@@ -100,11 +100,12 @@ body {
   backdrop-filter: blur( 4px );
   -webkit-backdrop-filter: blur( 4px );
   border-radius: 10px;
+  box-shadow: 0 8px 32px 0 rgb(0 0 0 / 20%);
   border: 1px solid rgba( 255, 255, 255, 0.18 );
 }
 
 // -- Outras Classes
-
+  
 // Conteúdo Principal
 #gotop {
   position: fixed;
@@ -293,13 +294,14 @@ button.navbar-toggler {
 }
 
 .bg-verde-limao {
-  background-color: $play-cor-fundos;
-  color: $play-cor-texto;
+  background-color: $play-cor-fundos !important;
+  color: $play-cor-texto !important;
 }
 
 .foto-usuario {
   max-width: 32px;
   max-height: 32px;
+  border-radius: 50%;
 }
 
 #offcanvasUser {

@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="module" src="../js/utilidades/preloader.js"></script>
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <title>Página de Usuário</title>
 </head>
 <body>
+    <componente-preloader></componente-preloader>
     <componente-header></componente-header>
     <main class="container">
         <section class="position-relative bg-grad w-100 p-2 d-flex mt-3 justify-content-between rounded-5">
@@ -15,10 +17,10 @@
                 <div class="col-md-5 col-12 order-1 order-md-0 flex-column ms-3">
                     <div class="mt-6r user-current-team d-inline-flex">
                         <!-- Ícone mudar de acordo com o esporte praticado do time atual (Extra / WIP) -->
-                        <img src="../icons/sports_soccer.svg" alt="sport-icon" class="sports-icon mb-3">
+                        <!-- <img src="../icons/sports_soccer.svg" alt="sport-icon" class="sports-icon mb-3"> -->
 
                         <!-- $ Nome do Time Atual -->
-                        <p class="current-team-name">Team Name</p>
+                        <!-- <p class="current-team-name">Team Name</p> -->
                     </div>
 
                     <!-- $ Bio do Usuário -->
@@ -41,7 +43,7 @@
                         <p id="user-name" class="text-end opacity-50 fs-6 user-name"></p>
                     </div>
                     <div class="mx-auto me-3 d-flex justify-content-end">
-                        <button class="btn user-config-btn rounded-pill fw-semibold">
+                        <button class="btn user-config-btn rounded-pill fw-semibold d-none" id="botao-perfil-editar">
 
                             <!-- Link p/ pág. de configuração -->
                             <!-- d-none se não for a página do próprio usuário -->
@@ -52,8 +54,8 @@
             </div>
         </section>
 
-        <section class="ms-4 sports-section">
-            <div class="row">
+        <section class="ms-4 sports-section h-100">
+            <!-- <div class="row">
                 <div class="col-12 col-md-12 col-lg-9">
                     <div class="position-relative w-90 ss-first-content-wrapper">
                         <div class="d-flex p-4 glass-effect ss-title align-items-center">
@@ -90,7 +92,7 @@
                     <div class="ss-test-1 d-none d-lg-block"></div>
                     <div class="ss-test-2"></div>
                 </div>
-            </div>
+            </div> -->
         </section>
 
         <footer class="mt-5 d-none d-md-flex flex-column">

@@ -4,6 +4,7 @@ import i18next from "i18next"
 const loader = document.createElement('app-loader');
 document.body.appendChild(loader);
 
+
 export class header extends HTMLElement {
     constructor() {
         super();
@@ -86,20 +87,20 @@ export class header extends HTMLElement {
                 <div class="list-group list-group-flush d-lg-none w-100">
                     <a href="javascript:void(0)" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
                         <i class="bi bi-person fs-4"></i>
-                        <span class="i18" key="Perfil">${i18next.t("Perfil")}</span>
+                        Página de perfil
                     </a>
                     <a href="/pages/configuracao-usuarios.html" class="list-group-item py-4 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
                         <i class="bi bi-person-gear fs-4"></i>
-                        <span class="i18" key="Configuracoes">${i18next.t("Configuracoes")}</span>
+                        Configurações do usuário
                     </a>
                     ${this.possuiCampeonato(user.championshipId)}
                     <a href="/pages/cadastro-times.html" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
                         <i class="bi bi-people fs-4"></i>
-                        <span class="i18" key="Time">${i18next.t("Time")}</span>
+                        Criar um time
                     </a>
                     <a href="javascript:void(0)" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3 deslogar-usuario">
                         <i class="bi bi-box-arrow-right fs-4"></i>
-                        <span class="i18" key="Sair">${i18next.t("Sair")}</span>
+                        Sair da conta
                     </a>
                 </div>
             `
@@ -134,7 +135,7 @@ export class header extends HTMLElement {
                         ${!user.teamManagementId ? `
                         <a href="/pages/cadastro-times.html" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
                             <i class="bi bi-people fs-4"></i>
-                            <span class="i18" key="Time">${i18next.t("Time")}</span>
+                            Criar um time
                         </a>` : ``}
                         <a href="javascript:void(0)" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3 deslogar-usuario">
                             <i class="bi bi-box-arrow-right fs-4"></i>
@@ -157,6 +158,12 @@ export class header extends HTMLElement {
                 loader.hide()
                 window.location.assign('/index.html')
             }))
+
+            this.querySelector('#lingua').addEventListener('change', event => {
+                const selectedIndex = event.target.selectedIndex;
+                localStorage.setItem('lng', event.target.children[selectedIndex].value);
+                document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
+            })
         }
     }
 
@@ -166,7 +173,7 @@ export class header extends HTMLElement {
             return /* html */`
             <a href="/pages/configuracao-campeonato.html" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
                 <i class="bi bi-calendar-plus-fill fs-4"></i>
-                <span class="i18" key="ConfigurarCampeonato">${i18next.t("ConfigurarCampeonato")}</span>
+                Configurar campeonato
             </a>
             `
         }
@@ -174,7 +181,7 @@ export class header extends HTMLElement {
         return /*html */ `
         <a href="/pages/cadastro-campeonatos.html" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
             <i class="bi bi-calendar-plus-fill fs-4"></i>
-            <span class="i18" key="Campeonato">${i18next.t("Campeonato")}</span>
+            Cadastrar campeonato
         </a>`
     }
 }

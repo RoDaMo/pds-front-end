@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script type="module" src="../js/utilidades/preloader.js"></script>
+	<link rel="icon" type="image/svg+xml" href="/vite.svg" />
+	<title>Configuração de Campeonato</title>
+</head>
+
+<body requires-auth="true">
+	<app-loader></app-loader>
+	<componente-header></componente-header>
+	<main class="container">
+		<div class="row my-4 h-100">
+			<section class="col-10 col-md-3 config-menu p-4 rounded-5">
+				<h5>Configurações</h5>
+
+				<!-- Config Menu -->
+				<ul class="list-group list-group-flush config-menu-list">
+					<button class="list-group-item list-group-item-action my-1 border-0 rounded-4 active" menu="0"><i
+							class="bi bi-gear me-2"></i>Editar informações</button>
+					<button class="list-group-item list-group-item-action my-1 border-0 rounded-4" menu="1"><i
+							class="bi bi-people me-2"></i>Times</button>
+					<button class="list-group-item list-group-item-action my-1 border-0 rounded-4" menu="2"><i
+							class="bi bi-lock me-2"></i>Exclusão</button>
+					<!-- <button class="list-group-item list-group-item-action my-1 border-0 mb-2 rounded-4"><i class="bi bi-envelope me-2"></i>Emails/Sessões</button> -->
+				</ul>
+			</section>
+
+			<div class="col">
+				<!-- User Info -->
+
+				<section class="row config-options-wrapper justify-mobile-pic p-4 rounded-5 mx-2 h-auto position-relative">
+					<p class="position-absolute config-title fw-semibold">Editar informações</p>
+					<div class="d-none menu-config width-config-input" menu="0">
+						<h5>Editar informações</h5>
+						<hr>
+						<div class="row mt-3 justify-mobile-pic">
+							<div class="col-1 position-relative p-0 overflow-hidden rounded-circle config-user-pic-mod-wrapper">
+								<!-- $ Imagem de Pefil do Usuário  ../default-user-image.png - preview? -->
+								<img src="https://playoffs-api.up.railway.app/img/fefabe2b-4038-4b8c-b719-54fbbe9095a4" alt="Imagem do campeonato"
+									class="img-fluid position-absolute w-100 h-100" id="config-championship-pic-mod">
+							</div>
+							<div class="col-12 col-md mt-2">
+								<div class="d-flex justify-mobile-pic align-items-end h-100">
+									<label for="config-championship-image-input" class="btn play-btn-primary">Alterar logo</label>
+								</div>
+							</div>
+						</div>
+
+						<div class="mt-4">
+							<form id="update-profile-form" class="row">
+								<input type="file" class="d-none" id="config-championship-image-input">
+								<input type="hidden" name="logo" id="config-imagem-input-hidden">
+								<div class="col-12 mt-3">
+									<label for="config-championship-name-input" class="form-label">Nome do campeonato</label>
+									<input type="text" class="form-control" id="config-championship-name-input"
+										placeholder="Nome do campeonato">
+								</div>
+								<div class="col-12 mt-3">
+									<label for="config-championship-descricao-input" class="form-label">Descrição</label>
+									<textarea class="form-control rounded-4 py-2 px-3" id="config-championship-descricao-input" rows="3"
+										placeholder="Descrição"></textarea>
+								</div>
+								<div class="col-6 mt-3">
+									<label for="config-championship-data-inicial-input" class="form-label">Data de inicio</label>
+									<input type="text" class="form-control rounded-4" id="config-championship-data-inicial-input"
+										placeholder="Data de inicio"></input>
+								</div>
+								<div class="col-6 mt-3">
+									<label for="config-championship-data-final-input" class="form-label">Data final</label>
+									<input type="text" class="form-control rounded-4" id="config-championship-data-final-input"
+										placeholder="Data final"></input>
+								</div>
+								<div class="col-6 mt-3">
+									<label for="config-championship-nacao-input" class="form-label">Nação</label>
+									<input type="text" class="form-control rounded-4" id="config-championship-nacao-input"
+										placeholder="Nação"></input>
+								</div>
+								<div class="col-6 mt-3">
+									<label for="config-championship-estado-input" class="form-label">Estado</label>
+									<input type="text" class="form-control rounded-4" id="config-championship-estado-input"
+										placeholder="Estado"></input>
+								</div>
+								<div class="col-6 mt-3">
+									<label for="config-championship-cidade-input" class="form-label">Cidade</label>
+									<input type="text" class="form-control rounded-4" id="config-championship-cidade-input"
+										placeholder="Cidade"></input>
+								</div>
+								<div class="col-6 mt-3">
+									<label for="config-championship-bairro-input" class="form-label">Bairro</label>
+									<input type="text" class="form-control rounded-4" id="config-championship-bairro-input"
+										placeholder="Bairro"></input>
+								</div>
+								<div class="col-6 mt-3">
+									<label for="config-championship-formato-input" class="form-label">Formato</label>
+									<select class="form-select rounded-4" id="config-championship-formato-input">
+										<option value="" selected>Selecione um Formato</option>
+										<option value="1">Pontos Corridos</option>
+										<option value="2">Mata-Mata</option>
+										<option value="3">Fase de Grupos e Mata-Mata</option>
+									</select>
+								</div>
+								<div class="col-6 mt-3">
+									<label for="config-championship-numero-input" class="form-label">Número de times</label>
+									<select name="config-championship-numero-input" class="form-select rounded-4"
+										id="config-championship-numero-input">
+										<option value="" selected>Selecione o formato antes</option>
+									</select>
+								</div>
+								<div class="col-12 mt-3">
+									<label for="config-championship-esporte-input" class="form-label">Esporte</label>
+									<select class="form-select rounded-4" id="config-championship-esporte-input" disabled>
+										<option value="1">Futebol</option>
+										<option value="2">Vôlei</option>
+									</select>
+								</div>
+								<div class="col-12 mt-3">
+									<label for="config-championship-regulamento-input">Regulamento do campeonato</label>
+									<a href="javascript:void(0)" class="d-none" id="regulamento-existente">Baixar regulamento</a>
+									<input type="file" class="form-control" id="config-championship-regulamento-input">
+								</div>
+								<div class="mt-4">
+									<p class="text-danger" id="mensagem-erro"></p>
+								</div>
+								<div class="col-12 mt-4 justify-touch-btn">
+									<button type="submit" class="btn play-btn-primary">Atualizar Perfil</button>
+								</div>
+							</form>
+						</div>
+					</div>
+					<div class="d-none menu-config width-config-input" menu="1">
+						<h5>Vincular times</h5>
+						<hr>
+						<h6>Times vinculados</h6>
+						<ul class="list-group list-group-flush border-2 border-primary my-3" id="times-vinculados">
+
+						</ul>
+						<button type="button" class="btn btn-primary" id="botao-vincular-time"><i
+								class="bi bi-plus-circle px-2"></i>Vincular novo time</button>
+						<form class="form-group mt-3 d-none" id="pesquisa-time">
+							<label for="pesquisa-time-input">Pesquise o nome do time que deseja adicionar:</label>
+							<input type="search" name="query" id="pesquisa-time-input" class="form-control"
+								placeholder="Escreva o nome de um time para pesquisar...">
+							<ul class="list-group list-group-flush border-2 border-primary my-3" id="pesquisa-time-lista">
+
+							</ul>
+						</form>
+					</div>
+					<div class="d-none menu-config width-config-input" menu="2">
+						<h5 class="text-danger">Excluir Campeonato</h5>
+						<hr>
+						
+						<div class="mt-1">
+								<p class="text-danger fs-6">
+										Ao clicar no botão de excluir campeonato, você estará dando início ao processo de 
+										<span class="fw-bold"> exclusão do seu campeonato.</span><br><br>
+
+										Certifique-se de que realmente deseja prosseguir antes de tomar essa decisão.
+								</p>
+
+								<!-- modal -->
+								<div class="justify-touch-btn">
+										<button type="button" data-bs-toggle="modal" data-bs-target="#deleteChampionship" class="btn btn-danger mt-3">Excluir Campeonato</button>
+								</div>
+						</div>
+					</div>
+				</section>
+
+				<div class="modal fade" id="deleteChampionship" tabindex="-1" aria-labelledby="deleteChampionshipLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content p-3">
+							<div class="modal-header">
+								<h1 class="modal-title fs-5" id="deleteChampionshipLabel">Você tem certeza?</h1>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<!-- form -->
+							<form id="delete-championship-form" class="row" method="">
+								<div class="modal-body">
+									<p class="text-danger">
+										Caso você decida <span class="fw-bold"> excluir </span> este campeonato, ele será removido de visualização e não será possível recuperá-lo. 
+										Você deve avaliar cuidadosamente se é isso que realmente deseja fazer.
+									</p>
+									<div class="col-12 mt-3">
+										<label for="delete-account-user-name-input" class="form-label">Nome de Usuário</label>
+										<input type="text" class="form-control" id="delete-user-name-input" placeholder="Nome de Usuário">
+									</div>
+									<div class="col-12 mt-3">
+										<label for="delete-account-check-input" class="form-label">Digite "Excluir Campeonato"</label>
+										<input type="text" class="form-control" id="delete-championship-check-input" placeholder="Digite aqui...">
+									</div>
+
+								</div>
+								<div class="modal-footer justify-content-center">
+									<button type="submit" class="btn btn-danger">Excluir Campeonato</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+	<script type="module" src="../main.js"></script>
+	<script type="module" src="../js/utilidades/header.js"></script>
+	<script type="module" src="../js/configuracao-campeonatos.js"></script>
+</body>
+
+</html>

@@ -1,6 +1,13 @@
 import Lenis from '@studio-freight/lenis'
 import '../scss/home.scss'
 import Rellax from 'rellax'
+import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
+import portugues from './i18n/ptbr/home.json' assert { type: 'JSON' }
+import ingles from './i18n/en/home.json' assert { type: 'JSON' }
+import i18next from 'i18next'
+
+inicializarInternacionalizacao(ingles, portugues);
+
 
 const navbar = document.querySelector("componente-header")
 const homeCards = document.querySelectorAll(".home-card.d-flex")
@@ -117,7 +124,7 @@ if (mediaQueryMobile.matches) {
                 scrollTrigger.forEach(trigger => {
                     if (isVisible(trigger)) {
                         if (trigger.classList.contains("bottom-trigger")) {
-                            lenis.scrollTo(trigger.parentElement, {lock: true, duration: 1})
+                            lenis.scrollTo(trigger.parentElement, {lock: true, duration: 1, force: true})
         
                             return
                         }
@@ -127,7 +134,7 @@ if (mediaQueryMobile.matches) {
                 scrollTrigger.forEach(trigger => {
                     if (isVisible(trigger)) {
                         if (trigger.classList.contains("top-trigger")) {
-                            lenis.scrollTo(trigger.parentElement, {lock: true, duration: 1})
+                            lenis.scrollTo(trigger.parentElement, {lock: true, duration: 1, force: true})
         
                             return
                         }
@@ -247,18 +254,18 @@ if (mediaQueryMobile.matches) {
     //     }
     // })
 
-    homeSubText.innerHTML = `
-        Se você é um apaixonado por esportes e quer organizar o seu próprio campeonato, 
-        temos uma excelente dica para você!
+    // homeSubText.innerHTML = `
+    //     Se você é um apaixonado por esportes e quer organizar o seu próprio campeonato, 
+    //     temos uma excelente dica para você!
 
 
-        <br><br> Quer saber o que é? Arrasta pra cima! 
-    `
+    //     <br><br> Quer saber o que é? Arrasta pra cima! 
+    // `
 
 } else {
 
-    window.onload = () => {
-        let FTBHeight = homeCards[0].parentElement.offsetHeight + navbar.offsetHeight
+    document.addEventListener("DOMContentLoaded", () => {
+        const FTBHeight = homeCards[0].parentElement.offsetHeight + navbar.offsetHeight
 
         firstTitleBg.style.height = `${FTBHeight + 85}px`
         firstTitleBg.style.marginTop = `-${navbar.offsetHeight + 40}px`
@@ -276,7 +283,7 @@ if (mediaQueryMobile.matches) {
             homeTitle.classList.toggle("z-1")
             homeSubText.classList.toggle("z-1")
         })
-    }
+    })
 
     homeCards[3].classList.remove("card-bg")
     homeCards[3].classList.add("my-5")
@@ -309,14 +316,14 @@ if (mediaQueryMobile.matches) {
 
     feats.forEach(feat => feat.classList.add("mb-5"))
 
-    homeSubText.innerHTML = `
-        Se você ama esportes e quer organizar o seu próprio campeonato, 
-        temos uma excelente dica para você!
+    // homeSubText.innerHTML = `
+    //     Se você ama esportes e quer organizar o seu próprio campeonato, 
+    //     temos uma excelente dica para você!
 
 
-        <br><br> Não perca mais tempo procurando por soluções complicadas para organizar o seu campeonato.
-        <br> Com a Playoffs, você pode criar e personalizar campeonatos de acordo com sua necessidade.
-    `
+    //     <br><br> Não perca mais tempo procurando por soluções complicadas para organizar o seu campeonato.
+    //     <br> Com a Playoffs, você pode criar e personalizar campeonatos de acordo com sua necessidade.
+    // `
 
     
 }
