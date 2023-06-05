@@ -7,7 +7,6 @@ import ingles from './i18n/en/listagem-campeonatos.json' assert { type: 'JSON' }
 import i18next from "i18next";
 
 inicializarInternacionalizacao(ingles, portugues);
-console.log(i18next.t("FiltrarPlaceholder"))
 
 const filtroEsporte = document.getElementById('esportes')
 const filtroInicio = document.getElementById('data-inicio')
