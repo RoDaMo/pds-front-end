@@ -5,6 +5,18 @@ import { Portuguese } from "flatpickr/dist/l10n/pt.js"
 import { visualizarSenha } from "./utilidades/visualizar-senha"
 import JustValidate from "just-validate"
 import {redirecionamento} from './utilidades/redirecionamento'
+import portugues from './i18n/ptbr/cadastro-usuario.json' assert { type: 'JSON' }
+import ingles from './i18n/en/cadastro-usuario.json' assert { type: 'JSON' }
+import i18next from "i18next";
+import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
+
+inicializarInternacionalizacao(ingles, portugues);
+
+document.querySelector('#lingua').addEventListener('change', event => {
+    const selectedIndex = event.target.selectedIndex;
+    localStorage.setItem('lng', event.target.children[selectedIndex].value);
+    document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
+})
 
 const formulario = document.getElementById("formulario")
 const mensagemErro = document.getElementById("mensagem-erro")
@@ -80,50 +92,50 @@ validator
     .addField(email, [
         {
             rule: 'required',
-            errorMessage: 'O email é obrigatório.'
+            errorMessage: `<span class="i18" key="EmailObrigatorio">${i18next.t("EmailObrigatorio")}</span>`
         },
         {
             rule: 'email',
-            errorMessage: 'Email inválido.'
+            errorMessage: `<span class="i18" key="EmailInvalido">${i18next.t("EmailInvalido")}</span>`
         },
     ])
     .addField(nome, [
         {
             rule: 'required',
-            errorMessage: 'O nome é obrigatório.'
+            errorMessage:  `<span class="i18" key="NomeObrigatorio">${i18next.t("NomeObrigatorio")}</span>`
         },
     ])
     .addField(nomeUsuario, [
         {
             rule: 'required',
-            errorMessage: 'O nome de usuário é obrigatório.'
+            errorMessage: `<span class="i18" key="NomeUsuarioObrigatorio">${i18next.t("NomeUsuarioObrigatorio")}</span>`
         },
         {
             rule: 'minLength',
             value: 4,
-            errorMessage: 'Nome de usuário deve possuir no mínimo 4 caracteres.',
+            errorMessage:  `<span class="i18" key="NomeUsuarioMinimo">${i18next.t("NomeUsuarioMinimo")}</span>`,
         },
         {
             rule: 'maxLength',
             value: 20,
-            errorMessage: 'Nome de usuário deve possuir no máximo 20 caracteres.',
+            errorMessage: `<span class="i18" key="NomeUsuarioMaximo">${i18next.t("NomeUsuarioMaximo")}</span>`,
         },
         {
             rule: 'customRegexp',
             value: /^[A-Za-z0-9_-]*$/,
-            errorMessage: 'Nome de usuário inválido, não pode conter espaço nem caractere especial.',
+            errorMessage: `<span class="i18" key="NomeUsuarioInvalido">${i18next.t("NomeUsuarioInvalido")}</span>`,
         },
     ])
     .addField(dataAniversario, [
         {
             rule: 'required',
-            errorMessage: 'A data é obrigatória. É necessário possuir pelo menos 13 anos de idade para se cadastrar.'
+            errorMessage: `<span class="i18" key="DataNascimentoObrigatoria">${i18next.t("DataNascimentoObrigatoria")}</span>`
         },
     ])
     .addField(senha, [
         {
             rule: 'required',
-            errorMessage: 'A senha é obrigatória.'
+            errorMessage: `<span class="i18" key="SenhaObrigatoria">${i18next.t("SenhaObrigatoria")}</span>`
         },
         {
             rule: 'customRegexp',

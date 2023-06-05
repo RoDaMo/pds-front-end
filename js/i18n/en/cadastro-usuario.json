@@ -25,7 +25,7 @@
     "EmailObrigatorio": "Email is required.",
     "EmailInvalido": "Invalid Email.",
     "NomeObrigatorio": "Name is required",
-    "NomeUsuarioObrigatório": "Username is required",
+    "NomeUsuarioObrigatorio": "Username is required",
     "NomeUsuarioMinimo": "Username must be at least 4 characters long.",
     "NomeUsuarioMaximo": "Username must be a maximum of 20 characters.",
     "NomeUsuarioInvalido": "Invalid username, cannot contain spaces or special characters.",

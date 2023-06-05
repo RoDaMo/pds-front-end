@@ -11,29 +11,33 @@
     <main class="container mb-5">
         <div class="row justify-content-center">
             <div class="col-md-6 mt-5 bg-verde-limao rounded-4 px-5">
-                <div class="mb-5 mt-5">
-                    <a class="navbar-brand m-auto p-auto" href="/"><img src="/Logo_Playoffs.png" class="img-fluid" width="300" alt="Logo Playoffs"></a>
+                <div class="mb-5 mt-5 row">
+                    <a class="navbar-brand m-auto p-auto col-9" href="/"><img src="/Logo_Playoffs.png" class="img-fluid" width="300" alt="Logo Playoffs"></a>
+                    <select class="form-select rounded-3 ps-3 py-2 bg-transparent col" id="lingua" required>
+                        <option value="ptbr">Português</option>
+                        <option value="en">English</option>
+                    </select>
                 </div>
 
-                <h1 id="bem-vindo" class="mb-4 text-success">Bem Vindo!</h1>
-                <h4 id="texto-apresentacao" class="mb-4 text-success ">Você ainda não tem uma conta! Crie sua conta e junte-se a nós.</h4>
+                <h1 id="bem-vindo" class="mb-4 text-success i18" key="BemVindo">Bem Vindo!</h1>
+                <h4 id="texto-apresentacao" class="mb-4 text-success i18" key="TextoBemVindo">Você ainda não tem uma conta! Crie sua conta e junte-se a nós.</h4>
 
                 <div id="div-reposta" class="d-none">
-                    <h4 id="texto-resposta" class="mb-4 text-success">Email de confirmação de conta</h4>
-                    <p class="text-success mb-1">Verifique o seu email e confirme a sua conta para poder acessá-la.</p>
-                    <p class="text-success mb-4">Caso não tenha recebido o email, clique no botão abaixo para reenviar a solicitação:</p>
-                    <button id="reenviar-email" class="mb-4 col-md-4 btn btn-success rounded-pill">Reenviar email</button>
+                    <h4 id="texto-resposta" class="mb-4 text-success i18" key="EmailConfirmacao">Email de confirmação de conta</h4>
+                    <p class="text-success mb-1 i18" key="Verifique">Verifique o seu email e confirme a sua conta para poder acessá-la.</p>
+                    <p class="text-success mb-4 i18" key="Caso">Caso não tenha recebido o email, clique no botão abaixo para reenviar a solicitação:</p>
+                    <button id="reenviar-email" class="mb-4 col-md-4 btn btn-success rounded-pill i18" key="ReenviarEmail">Reenviar email</button>
                 </div>
 
                 <form id="formulario" method="post">
                     <div id="parte-2" class="mb-3">
                         <div>
-                            <label for="nome-usuario" class="form-label text-success mt-3">Nome de usuário:</label>
-                            <input type="text" class="form-control" id="nome-usuario" name="nome-usuario" placeholder="Nome de usuário...">
+                            <label for="nome-usuario" class="form-label text-success mt-3 i18" key="NomeUsuario">Nome de usuário:</label>
+                            <input type="text" class="form-control i18-placeholder" key="NomeUsuarioPlaceholder" id="nome-usuario" name="nome-usuario" placeholder="Nome de usuário...">
                         </div>
                         <div class="mt-3">
-                            <label for="nome" class="form-label text-success">Nome:</label>
-                            <input required type="text" class="form-control" id="nome" name="nome" placeholder="Nome..." >
+                            <label for="nome" class="form-label text-success i18" key="Nome">Nome:</label>
+                            <input required type="text" class="form-control i18-placeholder" key="NomePlaceholder" id="nome" name="nome" placeholder="Nome..." >
                         </div>
                         <div class="mt-3">
                             <label for="email-usuario" class="form-label text-success">Email:</label>
@@ -43,44 +47,44 @@
                             <label for="data" class="form-label text-success">Data de nascimento:</label>
                             <input type="text" class="form-control" id="data" name="data" placeholder="Data de nascimento...">
                         </div>
-                        <label for="nome-usuario" class="form-label text-success mt-3">Senha:</label>
+                        <label for="nome-usuario" class="form-label text-success mt-3 i18" key="Senha">Senha:</label>
                         <div class="d-flex position-relative">
                             <div class="input-wrapper w-100">
-                                <input type="password" class="form-control" id="senha" name="senha" placeholder="Senha..." autocomplete="on">
+                                <input type="password" class="form-control i18-placeholder" key="SenhaPlaceholder" id="senha" name="senha" placeholder="Senha..." autocomplete="on">
                             </div>
                             <div id="olhos">
                                 <i id="olho-aberto" class="btn btn-success rounded-0 rounded-end bi bi-eye text-light position-absolute end-0"></i>
                                 <i id="olho-fechado" class="btn btn-success rounded-0 rounded-end bi bi-eye-slash text-light position-absolute end-0 d-none"></i>
                             </div>
                         </div>
-                        <div class="form-text text-success mt-2">Sua senha deve possuir:</div>
+                        <div class="form-text text-success mt-2 i18" key="SenhaMensagem">Sua senha deve possuir:</div>
                         <div class="mb-4">
                             <div class="d-flex gap-2 mt-2">
                                 <i id="icone-maiuscula" class="bi bi-x-circle-fill text-danger"></i>
-                                <small id="texto-maiuscula" class="text-danger">Letra maiúscula</small>
+                                <small id="texto-maiuscula" class="text-danger i18" key="LetraMaiuscula">Letra maiúscula</small>
                             </div>
                             <div class="d-flex gap-2">
                                 <i id="icone-minuscula" class="bi bi-x-circle-fill text-danger"></i>
-                                <small id="texto-minuscula" class="text-danger">Letra minúscula</small>
+                                <small id="texto-minuscula" class="text-danger i18" key="LetraMinuscula">Letra minúscula</small>
                             </div>
                             <div class="d-flex gap-2">
                                 <i id="icone-numero" class="bi bi-x-circle-fill text-danger"></i>
-                                <small id="texto-numero" class="text-danger">Número</small>
+                                <small id="texto-numero" class="text-danger i18" key="Numero">Número</small>
                             </div>
                             <div class="d-flex gap-2">
                                 <i id="icone-caractere" class="bi bi-x-circle-fill text-danger"></i>
-                                <small id="texto-caractere" class="text-danger">Pelo menos 4 caracteres</small>
+                                <small id="texto-caractere" class="text-danger i18" key="Minimo">Pelo menos 4 caracteres</small>
                             </div>
                             <div class="d-flex gap-2">
                                 <i id="icone-especial" class="bi bi-x-circle-fill text-danger"></i>
-                                <small id="texto-especial" class="text-danger">Nenhum acento ou caractere especial</small>
+                                <small id="texto-especial" class="text-danger i18" key="Invalida">Nenhum acento ou caractere especial</small>
                             </div>
                         </div>
                     </div>
                     <div class="container m-0">
                         <div id="formulario-2" class="row gap-2">
-                            <button id="salvar" class="col-md-4 btn btn-success rounded-pill" type="submit">Salvar</button>
-                            <a href="/index.html" class="col-md-3 btn btn-outline-success rounded-pill">Cancelar</a>
+                            <button id="salvar" class="col-md-4 btn btn-success rounded-pill i18" key="Salvar" type="submit">Salvar</button>
+                            <a href="/index.html" class="col-md-3 btn btn-outline-success rounded-pill i18" key="Cancelar">Cancelar</a>
                         </div>
                     </div>
                     <div class="mt-4 text-danger">
