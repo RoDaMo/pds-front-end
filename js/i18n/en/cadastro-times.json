@@ -21,6 +21,14 @@
     "TamanhoMaximo": "Maximum image size: 5mb",
     "UniformeCasaObrigatorio": "Enter home uniform",
     "UniformeForaObrigatorio": "Insert the uniform from outside",
-    "DescricaoObrigatoria": "Please enter a description"
+    "DescricaoObrigatoria": "Please enter a description",
+    "TituloModal": "CPF Modal",
+    "ModalTexto": "Insert your CPF to proceed with the creation of the championship. Do not use dots or dashes.",
+    "Fechar": "Close",
+    "CpfObrigatorio": "Please insert CPF",
+    "CpfTamanho": "CPF must have 11 characters.",
+    "CpfInvalido": "invalid CPF",
+    "QuantidadeJogadores": "Quantidade de Jogadore por time"
+
 
 }

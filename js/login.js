@@ -127,8 +127,14 @@ async function postToken(body) {
     }
 }
 
-document.querySelector('#lingua').addEventListener('change', event => {
+const tradutor = document.querySelector('#lingua')
+tradutor.addEventListener('change', event => {
     const selectedIndex = event.target.selectedIndex;
     localStorage.setItem('lng', event.target.children[selectedIndex].value);
     document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
 })
+
+const opcao1 = document.getElementById("1")
+const opcao2 = document.getElementById("2")
+const lng = localStorage.getItem('lng');
+lng === 'ptbr' ? opcao1.selected = 'true' : opcao2.selected = 'true'

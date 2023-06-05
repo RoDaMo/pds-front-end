@@ -33,6 +33,7 @@
   "NomeCampeonatObrigatorio": "Championship's Name is required",
   "DataInicialObrigatoria": "Initial Date is required",
   "DataFinalObrigatoria": "Final Date is required",
+  "DataFinalMaiorIgual": "End date must be greater than or equal to start date",
   "EsporteObrigatorio": "Please select a sport",
   "FormatoObrigatorio": "Please select a format",
   "QuantidadeObrigatoria": "Please select a number",
@@ -45,5 +46,14 @@
   "DescricaoObrigatoria": "Please enter a description",
   "Enviar": "Send",
   "Salvar": "Save",
-  "Cancelar": "Cancel"
+  "Cancelar": "Cancel",
+  "TituloModal": "CPF Modal",
+  "ModalTexto": "Insert your CPF to proceed with the creation of the championship. Do not use dots or dashes.",
+  "Fechar": "Close",
+  "CpfObrigatorio": "Please insert CPF",
+  "CpfTamanho": "CPF must have 11 characters.",
+  "CpfInvalido": "invalid CPF",
+  "QuantidadeJogadores": "Number of players per team:",
+  "QuantidadeJogadoresPlaceholder": "Number of players per team...",
+  "QuantidadeJogadoresObrigatorio": "Please enter number of players per team"
 }
