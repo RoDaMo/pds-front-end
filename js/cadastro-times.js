@@ -54,17 +54,17 @@ validator2
     .addField(cpf, [
         {
             rule: 'required',
-            errorMessage: 'Favor inserir CPF',
+            errorMessage: `<span class="i18" key="CpfObrigatorio">${i18next.t("CpfObrigatorio")}</span>`,
         },
         {
             rule: 'minLength',
             value: 11,
-            errorMessage: 'Nome de usuário deve possuir 11 caracteres.',
+            errorMessage: `<span class="i18" key="CpfTamanho">${i18next.t("CpfTamanho")}</span>`,
         },
         {
             rule: 'maxLength',
             value: 11,
-            errorMessage: 'Nome de usuário deve possuir 11 caracteres.',
+            errorMessage: `<span class="i18" key="CpfTamanho">${i18next.t("CpfTamanho")}</span>`,
         },
         {
             validator: (value, context) => {
@@ -93,7 +93,7 @@ validator2
                 
                 return true
             },
-            errorMessage: 'CPF inválido',
+            errorMessage: `<span class="i18" key="CpfInvalido">${i18next.t("CpfInvalido")}</span>`,
         }
     ])
     .onSuccess(async(e) => {

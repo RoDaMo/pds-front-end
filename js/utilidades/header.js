@@ -71,6 +71,7 @@ export class header extends HTMLElement {
             const defaultImg = 'https://cdn-icons-png.flaticon.com/512/17/17004.png'
             const resultados = await infoUser.json()
             const user = resultados.results
+            console.log(user)
             const info = /* html */`
                 <li class="nav-item d-none d-lg-block">
                     <img src="${user.picture ? user.picture : defaultImg}" class="foto-usuario navbar-clicavel" data-bs-toggle="offcanvas" data-bs-target="#offcanvasUser" aria-controls="offcanvasUser" aria-label="Toggle navigation">
@@ -87,20 +88,20 @@ export class header extends HTMLElement {
                 <div class="list-group list-group-flush d-lg-none w-100">
                     <a href="javascript:void(0)" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
                         <i class="bi bi-person fs-4"></i>
-                        Página de perfil
+                        <span class="i18" key="Perfil">${i18next.t("Perfil")}</span>
                     </a>
                     <a href="/pages/configuracao-usuarios.html" class="list-group-item py-4 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
                         <i class="bi bi-person-gear fs-4"></i>
-                        Configurações do usuário
+                        <span class="i18" key="Configuracoes">${i18next.t("Configuracoes")}</span>
                     </a>
                     ${this.possuiCampeonato(user.championshipId)}
                     <a href="/pages/cadastro-times.html" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
                         <i class="bi bi-people fs-4"></i>
-                        Criar um time
+                        <span class="i18" key="Time">${i18next.t("Time")}</span>
                     </a>
                     <a href="javascript:void(0)" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3 deslogar-usuario">
                         <i class="bi bi-box-arrow-right fs-4"></i>
-                        Sair da conta
+                        <span class="i18" key="Sair">${i18next.t("Sair")}</span>
                     </a>
                 </div>
             `
@@ -135,7 +136,7 @@ export class header extends HTMLElement {
                         ${!user.teamManagementId ? `
                         <a href="/pages/cadastro-times.html" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
                             <i class="bi bi-people fs-4"></i>
-                            Criar um time
+                            <span class="i18" key="Time">${i18next.t("Time")}</span>
                         </a>` : ``}
                         <a href="javascript:void(0)" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3 deslogar-usuario">
                             <i class="bi bi-box-arrow-right fs-4"></i>
@@ -168,12 +169,13 @@ export class header extends HTMLElement {
     }
 
     possuiCampeonato(campeonatoId) {
+        console.log(campeonatoId)
         if (campeonatoId) {
             // TODO: remover essa limitação e adicionar pagina para listar campeonatos do usuário
             return /* html */`
             <a href="/pages/configuracao-campeonato.html" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
                 <i class="bi bi-calendar-plus-fill fs-4"></i>
-                Configurar campeonato
+                <span class="i18" key="ConfigurarCampeonato">${i18next.t("ConfigurarCampeonato")}</span>
             </a>
             `
         }
@@ -181,7 +183,7 @@ export class header extends HTMLElement {
         return /*html */ `
         <a href="/pages/cadastro-campeonatos.html" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
             <i class="bi bi-calendar-plus-fill fs-4"></i>
-            Cadastrar campeonato
+            <span class="i18" key="Campeonato">${i18next.t("Campeonato")}</span>
         </a>`
     }
 }
