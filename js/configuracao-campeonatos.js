@@ -45,7 +45,8 @@ const init = async () => {
 					bairro = document.getElementById('config-championship-bairro-input'),
 					linkRegulamento = document.getElementById('regulamento-existente'),
 					esporte = document.getElementById('config-championship-esporte-input'),
-					form = document.getElementById('update-profile-form')
+					form = document.getElementById('update-profile-form'),
+					quantidadeJogadores = document.getElementById('quantidade-jogadores')
 
 		const optionDefault = () => {
 				const optionDefault = document.createElement('option')
@@ -105,6 +106,7 @@ const init = async () => {
 		estado.value = campeonato.state
 		cidade.value = campeonato.city
 		bairro.value = campeonato.neighborhood
+		quantidadeJogadores.value = campeonato.numberOfPlayers
 		esporte.selectedIndex = campeonato.sportsId - 1
 
 		if (campeonato.rules) {
@@ -251,7 +253,8 @@ const init = async () => {
 					"Neighborhood": bairro.value,
 					'id': championshipId,
 					'sportsId': campeonato.sportsId,
-					'rules': linkRegulamento.href
+					'rules': linkRegulamento.href,
+					"NumberOfPlayers": parseInt(quantidadeJogadores.value)
 				})
 
 				mensagemErro.textContent = ''
@@ -260,7 +263,7 @@ const init = async () => {
 
 	const putCampeonato = async body => {
     const config = configuracaoFetch("PUT", body)
-		console.log(config)
+		console.log(body)
     const callbackServidor = data => {
         mensagemErro.classList.add("text-danger")
         data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`)
