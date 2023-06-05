@@ -43,5 +43,8 @@
   "EstadoObrigatorio": "O estado é obrigatório",
   "CidadeObrigatoria": "A cidade é obrigatória",
   "BairroObrigaorio": "O bairro é obrigatório",
-  "DescricaoObrigatoria": "Favor inserir uma descrição"
+  "DescricaoObrigatoria": "Favor inserir uma descrição",
+  "Enviar": "Enviar",
+  "Salvar": "Salvar",
+  "Cancelar": "Cancelar"
 }

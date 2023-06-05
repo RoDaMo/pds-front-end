@@ -15,64 +15,64 @@
             <div class="row gap-0">
                 <div class="col-md-8">
                     <div class="col-md-12">
-                        <h1 class="mb-4 text-dark">Criar um campeonato</h1>
-                        <h4 id="texto-apresentacao" class="mb-4 text-success ">Crie seu próprio campeonato para cadastrar os times competidores!</h4>
+                        <h1 class="mb-4 text-dark i18" key="CadastreCampeonato">Criar um campeonato</h1>
+                        <h4 id="texto-apresentacao" class="mb-4 text-success i18" key="CadastreCampeonatoMensagem">Crie seu próprio campeonato para cadastrar os times competidores!</h4>
                     </div>
                     <div class="row gap-0">
                         <div class="mb-3 col-md-6 mb-3 mt-3">
-                            <label for="nome" class="form-label text-success">Nome do campeonato:</label>
-                            <input type="text" class="form-control rounded-4" id="nome" name="nome" placeholder="Nome do campeonato...">
+                            <label for="nome" class="form-label text-success i18" key="FormularioNomeCampeonato">Nome do campeonato:</label>
+                            <input type="text" class="form-control rounded-4 i18-placeholder" key="FormularioNomeCampeonatoPlaceholder" id="nome" name="nome" placeholder="Nome do campeonato...">
                         </div>
                         <div class="col-md-6 mb-3 mt-3">
-                            <label for="esportes" class="form-label text-success">Esporte:</label>
+                            <label for="esportes" class="form-label text-success i18" key="FormularioEsporte">Esporte:</label>
                             <select name="esportes" class="form-select rounded-4" id="esportes">
-                                <option value="" selected>Selecione um Esporte</option>
-                                <option value="1">Futebol</option>
-                                <option value="2">Vôlei</option>
+                                <option value="" class="i18" key="FormularioEsportePlaceholder" selected>Selecione um Esporte</option>
+                                <option value="1" class="i18" key="FormularioEsporteFutebol">Futebol</option>
+                                <option value="2" class="i18" key="FormularioEsporteVolei">Vôlei</option>
                             </select>
                         </div>
                         <div class="col-md-6 mb-3 mt-3">
-                            <label for="data-inicial" class="form-label text-success mt-3">Data inicial:</label>
+                            <label for="data-inicial" class="form-label text-success mt-3 i18" key="FormularioDataInicial">Data inicial:</label>
                             <input type="text" class="form-control rounded-4" id="data-inicial" name="data-inicial" placeholder="dd/MM/yyyy">
                         </div>
                         <div class="col-md-6 mb-3 mt-3">
-                            <label for="data-final" class="form-label text-success mt-3">Data final:</label>
+                            <label for="data-final" class="form-label text-success mt-3 i18" key="FormularioDataFinal">Data final:</label>
                             <input type="text" class="form-control rounded-4" id="data-final" name="data-final" placeholder="dd/MM/yyyy">
                         </div>
                         <div class="col-md-6 mb-3 mt-3">
-                            <label for="formato" class="form-label text-success">Formato:</label>
+                            <label for="formato" class="form-label text-success i18" key="Formato">Formato:</label>
                             <select name="formato" class="form-select rounded-4" id="formato">
-                                <option value="" selected>Selecione um Formato</option>
-                                <option value="1">Pontos Corridos</option>
-                                <option value="2">Mata-Mata</option>
-                                <option value="2">Fase de Grupos e Mata-Mata</option>
+                                <option value="" selected class="i18" key="SelecioneFormato">Selecione um Formato</option>
+                                <option value="1" class="i18" key="PontosCorridos">Pontos Corridos</option>
+                                <option value="2" class="i18" key="MataMata">Mata-Mata</option>
+                                <option value="2" class="i18" key="GruposMataMata">Fase de Grupos e Mata-Mata</option>
                             </select>
                         </div>
                         <div class="col-md-6 mb-3 mt-3">
-                            <label for="quantidade" class="form-label text-success">Quantidade de times:</label>
+                            <label for="quantidade" class="form-label text-success i18" key="QuantidadeTimes">Quantidade de times:</label>
                             <select  name="quantidade" class="form-select rounded-4" id="quantidade">
-                                <option value="" selected>Selecione o formato antes</option>
+                                <option value="" selected class="i18" key="SelecioneFormatoAntes">Selecione o formato antes</option>
                             </select>
                         </div>
                         <div class="col-md-6 mb-3 mt-3">
-                            <label for="pais" class="form-label text-success">País:</label>
-                            <input type="text" class="form-control rounded-4" id="pais" name="pais" placeholder="País...">
+                            <label for="pais" class="form-label text-success i18" key="Pais">País:</label>
+                            <input type="text" class="form-control rounded-4 i18-placeholder" key="PaisPlaceholder" id="pais" name="pais" placeholder="País...">
                         </div>
                         <div class="col-md-6 mb-3 mt-3">
-                            <label for="estado" class="form-label text-success">Estado:</label>
-                            <input type="text" class="form-control rounded-4" id="estado" name="estado" placeholder="Estado...">
+                            <label for="estado" class="form-label text-success i18" key="Estado">Estado:</label>
+                            <input type="text" class="form-control rounded-4 i18-placeholder" key="EstadoPlaceholder" id="estado" name="estado" placeholder="Estado...">
                         </div>
                         <div class="col-md-6 mb-3 mt-3">
-                            <label for="cidade" class="form-label text-success">Cidade:</label>
-                            <input type="text" class="form-control rounded-4" id="cidade" name="cidade" placeholder="Cidade...">
+                            <label for="cidade" class="form-label text-success i18" key="Cidade">Cidade:</label>
+                            <input type="text" class="form-control rounded-4 i18-placeholder" key="CidadePlaceholder" id="cidade" name="cidade" placeholder="Cidade...">
                         </div>
                         <div class="col-md-6 mb-3 mt-3">
-                            <label for="bairro" class="form-label text-success">Bairro:</label>
-                            <input type="text" class="form-control rounded-4" id="bairro" name="bairro" placeholder="Bairro...">
+                            <label for="bairro" class="form-label text-success i18" key="Bairro">Bairro:</label>
+                            <input type="text" class="form-control rounded-4 i18-placeholder" key="BairroPlaceholder" id="bairro" name="bairro" placeholder="Bairro...">
                         </div>
                         <div class="col-md-12 mb-3 mt-3">
-                            <label for="descricao" class="form-label text-success">Descrição do campeonato:</label>
-                            <textarea class="form-control h-100 px-3 py-2" id="descricao" placeholder="Descreva seu campeonato..." name="descricao"></textarea>
+                            <label for="descricao" class="form-label text-success i18" key="DescricaoCampeonato">Descrição do campeonato:</label>
+                            <textarea class="form-control h-100 px-3 py-2 i18-placeholder" key="DescricaoCampeonatoPlaceholder" id="descricao" placeholder="Descreva seu campeonato..." name="descricao"></textarea>
                         </div>
                     </div>
                     
@@ -84,7 +84,7 @@
                     <div class="custom-file-upload-logo">
                         <label for="logo" class="col-md-12 mt-4 btn btn-success d-flex justify-content-center align-items-center">
                             <i class="d-flex justify-content-center align-items-center btn bi bi-upload text-light"></i>
-                            <span id="custom-text">Enviar</span>
+                            <span id="custom-text" class="i18" key="Enviar">Enviar</span>
                             <div class="input-wrapper w-100">
                                 <input id="logo" type="file" name="logo" accept=".png, .jpg, .jpeg">
                             </div>
@@ -94,8 +94,8 @@
                 </div> 
             </div>
             <div class="col-12 mt-5 mb-5 gap-2">
-                <button id="salvar" disabled class="col-md-2 btn btn-success rounded-pill" type="submit">Salvar</button>
-                <a href="/index.html" class="col-md-2 btn btn-outline-success rounded-pill">Cancelar</a>
+                <button id="salvar" disabled class="col-md-2 btn btn-success rounded-pill i18" key="Salvar" type="submit">Salvar</button>
+                <a href="/index.html" class="col-md-2 btn btn-outline-success rounded-pill i18" key="Cancelar">Cancelar</a>
             </div>  
             <div class="mt-4">
                 <p class="text-danger" id="mensagem-erro"></p>

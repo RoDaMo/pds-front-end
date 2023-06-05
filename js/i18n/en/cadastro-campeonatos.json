@@ -42,5 +42,8 @@
   "EstadoObrigatorio": "State is required",
   "CidadeObrigatoria": "City is required",
   "BairroObrigaorio": "Neighborhood is required",
-  "DescricaoObrigatoria": "Please enter a description"
+  "DescricaoObrigatoria": "Please enter a description",
+  "Enviar": "Send",
+  "Salvar": "Save",
+  "Cancelar": "Cancel"
 }
