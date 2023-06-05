@@ -10,6 +10,18 @@ import { exibidorImagem } from '../js/utilidades/previewImagem'
 import { uploadImagem } from './utilidades/uploadImagem'
 import { notificacaoErro, notificacaoSucesso } from "./utilidades/notificacoes"
 import './utilidades/loader'
+import portugues from './i18n/ptbr/configuracao-campeonato.json' assert { type: 'JSON' }
+import ingles from './i18n/en/configuracao-campeonato.json' assert { type: 'JSON' }
+import i18next from "i18next";
+import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
+
+inicializarInternacionalizacao(ingles, portugues);
+
+document.querySelector('#lingua').addEventListener('change', event => {
+    const selectedIndex = event.target.selectedIndex;
+    localStorage.setItem('lng', event.target.children[selectedIndex].value);
+    document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
+})
 
 const loader = document.createElement('app-loader');
 document.body.appendChild(loader);
@@ -50,7 +62,7 @@ const init = async () => {
 		const optionDefault = () => {
 				const optionDefault = document.createElement('option')
 				optionDefault.value = 0
-				optionDefault.text = 'Selecione uma opção'
+				optionDefault.innerHTML = `<span class="i18" key="SelecioneOpcao">${i18next.t("SelecioneOpcao")}</span>`
 				numero.appendChild(optionDefault)
 		}
 		
@@ -150,19 +162,19 @@ const init = async () => {
 			.addField(name, [
 				{
 					rule: 'required',
-					errorMessage: 'O nome do campeonato é obrigatório',
+					errorMessage: `<span class="i18" key="NomeCampeonatObrigatorio">${i18next.t("NomeCampeonatObrigatorio")}</span>`,
 				},
 			])
 			.addField(dataInicial, [
 				{
 					rule: 'required',
-					errorMessage: 'A data inicial é obrigatória',
+					errorMessage: `<span class="i18" key="DataInicialObrigatoria">${i18next.t("DataInicialObrigatoria")}</span>`,
 				},
 			])
 			.addField(dataFinal, [
 				{
 					rule: 'required',
-					errorMessage: 'A data final é obrigatória',
+					errorMessage: `<span class="i18" key="DataFinalObrigatoria">${i18next.t("DataFinalObrigatoria")}</span>`,
 				},
 				{
 					validator: (value, context) => {
@@ -170,25 +182,25 @@ const init = async () => {
 						const dataFinal = new Date(value)
 						return dataFinal >= dataInicial
 					},
-					errorMessage: 'A data final deve ser maior ou igual a data inicial',
+					errorMessage: `<span class="i18" key="DataFinalMaiorIgual">${i18next.t("DataFinalMaiorIgual")}</span>`,
 				}
 			])
 			.addField(formato, [
 				{
 					rule: 'required',
-					errorMessage: 'Favor selecionar um formato',
+					errorMessage:  `<span class="i18" key="FormatoObrigatorio">${i18next.t("FormatoObrigatorio")}</span>`,
 				},
 			])
 			.addField(numero, [
 				{
 					rule: 'required',
-					errorMessage: 'Favor selecionar uma quantidade',
+					errorMessage:`<span class="i18" key="QuantidadeObrigatoria">${i18next.t("QuantidadeObrigatoria")}</span>`,
 				},
 			])
 			.addField(imageFile, [
 				{
 					rule: 'required',
-					errorMessage: 'Insira uma logo',
+					errorMessage: `<span class="i18" key="LogoObrigatoria">${i18next.t("LogoObrigatoria")}</span>`,
 				},
 				{
 					rule: 'files',
@@ -199,37 +211,37 @@ const init = async () => {
 							types: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/bmp', 'image/tiff'],
 						},
 					},
-					errorMessage: 'Tamanho máximo da imagem: 5mb',
+					errorMessage:`<span class="i18" key="ImagemTamanho">${i18next.t("ImagemTamanho")}</span>`,
 				}
 			])
 			.addField(nacao, [
 				{
 					rule: 'required',
-					errorMessage: 'O país é obrigatório',
+					errorMessage: `<span class="i18" key="PaisObrigatorio">${i18next.t("PaisObrigatorio")}</span>`,
 				},
 			])
 			.addField(estado, [
 				{
 					rule: 'required',
-					errorMessage: 'O estado é obrigatório',
+					errorMessage: `<span class="i18" key="EstadoObrigatorio">${i18next.t("EstadoObrigatorio")}</span>`,
 				},
 			])
 			.addField(cidade, [
 				{
 					rule: 'required',
-					errorMessage: 'A cidade é obrigatório',
+					errorMessage: `<span class="i18" key="CidadeObrigatoria">${i18next.t("CidadeObrigatoria")}</span>`,
 				},
 			])
 			.addField(bairro, [
 				{
 					rule: 'required',
-					errorMessage: 'O bairro é obrigatório',
+					errorMessage: `<span class="i18" key="BairroObrigaorio">${i18next.t("BairroObrigaorio")}</span>`,
 				},
 			])
 			.addField(descricao, [
 				{
 					rule: 'required',
-					errorMessage: 'Favor inserir uma descrição',
+					errorMessage:  `<span class="i18" key="DescricaoObrigatoria">${i18next.t("DescricaoObrigatoria")}</span>`,
 				},
 			])
 			.onSuccess(async (e) => {
@@ -281,7 +293,7 @@ const init = async () => {
 					response = await executarFetch('teams/championship', configFetch, callbackStatus)
 
 		if (response.succeed) {
-			notificacaoSucesso('Time vinculado com sucesso!')
+			notificacaoSucesso(i18next.t("VinculadoSucesso"))
 		}
 	}
 
@@ -294,7 +306,7 @@ const init = async () => {
 					response = await executarFetch('teams/championship', configFetch, callbackStatus)
 
 		if (response.succeed) {
-			notificacaoSucesso('Time desvinculado com sucesso!')
+			notificacaoSucesso(i18next.t("DesvinculadoSucesso"))
 		}
 	}
 
@@ -308,7 +320,7 @@ const init = async () => {
 		timesVinculadosWrapper.innerHTML = ''
 
 		if (timesVinculados.results.length == 0) {
-			timesVinculadosWrapper.innerHTML = `<p>Não há times vinculados, adicione um time ao seu campeonato clicando no botão abaixo!</p>`
+			timesVinculadosWrapper.innerHTML = `<p><span class="i18" key="SemTimes">${i18next.t("SemTimes")}</span></p>`
 			return;
 		}
 
@@ -348,9 +360,9 @@ const init = async () => {
 
 		const exibirPesquisa = botaoVincular.onclick = () => {
 			pesquisaWrapper.classList.toggle('d-none')
-			botaoVincular.textContent = 'Cancelar'
+			botaoVincular.innerHTML = `<span class="i18" key="Cancelar">${i18next.t("Cancelar")}</span>`
 			botaoVincular.onclick = () => {
-				botaoVincular.textContent = 'Vincular novo time'
+				botaoVincular.innerHTML =  `<span class="i18" key="VincularNovo">${i18next.t("VincularNovo")}</span>`
 				pesquisaWrapper.classList.toggle('d-none')
 				botaoVincular.onclick = exibirPesquisa
 			}
@@ -382,7 +394,7 @@ const init = async () => {
 				const botao = document.createElement('button')
 				botao.classList.add('btn', 'btn-primary', 'adicionar-vinculo-campeonato', 'btn-sm')
 				botao.setAttribute('type', 'button')
-				botao.setAttribute('title', `Adicionar ${time.name} ao campeonato`)
+				botao.setAttribute('title', `${i18next.t("Adicionar")} ${time.name} ${i18next.t("AoCampeonato")}`)
 				botao.innerHTML = `<i class="bi bi-plus-lg"></i>`
 				botao.addEventListener('click', async () => {
 					await vincularTime(time.id)
@@ -409,21 +421,21 @@ const init = async () => {
 			.addField(usernameInput, [
 					{
 							rule: 'required',
-							errorMessage: 'Seu nome de usuário é obrigatório.',
+							errorMessage: `<span class="i18" key="NomeUsuarioObrigatorio">${i18next.t("NomeUsuarioObrigatorio")}</span>`,
 					},
 					{
 							validator: (value) => username.textContent == value,
-							errorMessage: 'Nome de usuário incorreto'
+							errorMessage: `<span class="i18" key="NomeUsuarioIncorreto">${i18next.t("NomeUsuarioIncorreto")}</span>`
 					}
 			])
 			.addField(deleteCampeonato, [
 					{
 							rule: 'required',
-							errorMessage: 'Você deve confirmar a exclusão do campeonato.',
+							errorMessage:  `<span class="i18" key="ConfirmarExclusao">${i18next.t("ConfirmarExclusao")}</span>`,
 					},
 					{
 							validator: (value) => value == 'Excluir Campeonato' ? true : false,
-							errorMessage: 'Escreva "Excluir Campeonato" para confirmar a exclusão do campeonato.',
+							errorMessage: `<span class="i18" key="Escreva">${i18next.t("Escreva")}</span>`,
 					},
 			])
 			// submit

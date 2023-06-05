@@ -21,5 +21,11 @@
     "TamanhoMaximo": "Tamanho máximo da imagem: 5mb",
     "UniformeCasaObrigatorio": "Insira o uniforme de casa",
     "UniformeForaObrigatorio": "Insira o uniforme de fora",
-    "DescricaoObrigatoria": "Favor inserir uma descrição"
+    "DescricaoObrigatoria": "Favor inserir uma descrição",
+    "TituloModal": "Modal CPF",
+    "ModalTexto": "Insira seu CPF para prosseguir com a criação do campeonato. Não utilize pontos ou traços.",
+    "Fechar": "Fechar",
+    "CpfObrigatorio": "Favor inserir CPF",
+    "CpfTamanho": "CPF deve possuir 11 caracteres.",
+    "CpfInvalido": "CPF inválido"
 }

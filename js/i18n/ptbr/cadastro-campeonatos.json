@@ -46,5 +46,15 @@
   "DescricaoObrigatoria": "Favor inserir uma descrição",
   "Enviar": "Enviar",
   "Salvar": "Salvar",
-  "Cancelar": "Cancelar"
+  "TituloModal": "Modal CPF",
+  "ModalTexto": "Insira seu CPF para prosseguir com a criação do campeonato. Não utilize pontos ou traços.",
+  "Fechar": "Fechar",
+  "CpfObrigatorio": "Favor inserir CPF",
+  "CpfTamanho": "CPF deve possuir 11 caracteres.",
+  "CpfInvalido": "CPF inválido",
+  "Cancelar": "Cancelar",
+  "QuantidadeJogadores": "Quantidade de Jogadores por time:",
+  "QuantidadeJogadoresPlaceholder": "Quantidade de Jogadores por time...",
+  "QuantidadeJogadoresObrigatorio": "Favor inserir número de jogadores por time"
+
 }

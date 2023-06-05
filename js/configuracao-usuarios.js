@@ -116,8 +116,8 @@ async function changeConfigOptionsContext(t) {
     switch(parseInt(t)) {
         case 1:
             configOptionsWrapper.innerHTML = /*html*/`
-                <p class="position-absolute config-title fw-semibold i18" key="Perfil">Perfil</p>
-                <h5 class="i18" key="Informacoes">Informações</h5>
+                <p class="position-absolute config-title fw-semibold i18" key="Perfil">${i18next.t("Perfil")}</p>
+                <h5 class="i18" key="Informacoes">${i18next.t("Informacoes")}</h5>
                 <hr>
                 <div class="row mt-3 justify-mobile-pic">
                     <div class="col-1 position-relative p-0 overflow-hidden rounded-circle config-user-pic-mod-wrapper">
@@ -126,7 +126,7 @@ async function changeConfigOptionsContext(t) {
                     </div>
                     <div class="col-12 col-md mt-2">
                         <div class="d-flex justify-mobile-pic align-items-end h-100">
-                            <label for="config-user-pic-input" class="btn play-btn-primary i18" key="AlterarFoto">Alterar Foto</label>
+                            <label for="config-user-pic-input" class="btn play-btn-primary i18" key="AlterarFoto">${i18next.t("AlterarFoto")}</label>
                             <input type="file" class="d-none" id="config-user-pic-input">
                         </div>
                     </div>
@@ -135,8 +135,8 @@ async function changeConfigOptionsContext(t) {
                 <div class="mt-4">
                     <form id="update-profile-form" class="row">
                         <div class="col-12 mt-3">
-                            <label for="config-user-name-input" class="form-label i18" key="NomeUsuario">Nome de Usuário</label>
-                            <input type="text" class="form-control width-config-input i18-placeholder" key="NomeUsuario" id="config-user-name-input" placeholder="Nome de Usuário">
+                            <label for="config-user-name-input" class="form-label i18" key="NomeUsuario">${i18next.t("NomeUsuario")}</label>
+                            <input type="text" class="form-control width-config-input i18-placeholder" key="NomeUsuario" id="config-user-name-input" placeholder="${i18next.t("NomeUsuario")}">
                         </div>
                         <div class="col-12 mt-3">
                             <label for="config-user-bio-input" class="form-label">Bio</label>
@@ -144,7 +144,7 @@ async function changeConfigOptionsContext(t) {
                         </div>
                         <input type="hidden" name="logo" id="emblema">
                         <div class="col-12 mt-4 justify-touch-btn">
-                            <button type="submit" class="btn play-btn-primary i18" key="AtualizarPerfil" id='salvar'  >Atualizar Perfil</button>
+                            <button type="submit" class="btn play-btn-primary i18" key="AtualizarPerfil" id='salvar'>${i18next.t("AtualizarPerfil")}</button>
                         </div>
                     </form>
                 </div>
@@ -258,36 +258,36 @@ async function changeConfigOptionsContext(t) {
         case 2:
 
             configOptionsWrapper.innerHTML = /*html*/`
-                    <p class="position-absolute config-title fw-semibold i18" key="Conta">Conta</p>
-                    <h5 class="i18" key="Informacoes">Informações</h5>
+                    <p class="position-absolute config-title fw-semibold i18" key="Conta">${i18next.t("Conta")}</p>
+                    <h5 class="i18" key="Informacoes">${i18next.t("Informacoes")}</h5>
                     <hr>
                     
                     <div class="mt-1">
                         <form id="update-account-form" class="row">
                             <div class="col-12 mt-3">
-                                <label for="config-user-realname-input" class="form-label i18" key="NomeReal">Nome Real</label>
-                                <input type="text" class="form-control width-config-input i18-placeholder" key="NomeReal" id="config-user-realname-input" placeholder="Nome Real">
+                                <label for="config-user-realname-input" class="form-label i18" key="NomeReal">${i18next.t("NomeReal")}</label>
+                                <input type="text" class="form-control width-config-input i18-placeholder" key="NomeReal" id="config-user-realname-input" placeholder="${i18next.t("NomeReal")}">
                             </div>
                             <div class="col-12 mt-4 justify-touch-btn">
-                                <button type="submit" class="btn play-btn-primary i18" key="AtualizarConta">Atualizar Conta</button>
+                                <button type="submit" class="btn play-btn-primary i18" key="AtualizarConta">${i18next.t("AtualizarConta")}</button>
                             </div>
                         </form>
                     </div>
 
-                    <h5 class="text-danger mt-5 i18" key="ExcluirConta">Excluir Conta</h5>
+                    <h5 class="text-danger mt-5 i18" key="ExcluirConta">${i18next.t("ExcluirConta")}</h5>
                     <hr>
                     
                     <div class="mt-1">
                         <p class="text-danger fs-6">
-                            <span class="i18" key="Ao"> Ao clicar no botão de excluir conta, você estará dando início ao processo de </span>
+                            <span class="i18" key="Ao"> ${i18next.t("Ao")} </span>
                            
-                            <span class="fw-bold i18" key="Processo"> exclusão permanente da sua conta </span> <span class="i18" key="ExclusaoTexto">e não será possível voltar atrás.</span> <br><br>
-                            <span class="i18" key="Certificar">Certifique-se de que realmente deseja prosseguir antes de tomar essa decisão.</span>
+                            <span class="fw-bold i18" key="Processo"> ${i18next.t("Processo")} </span> <span class="i18" key="ExclusaoTexto">${i18next.t("ExclusaoTexto")}</span> <br><br>
+                            <span class="i18" key="Certificar">${i18next.t("Certificar")}</span>
                         </p>
 
                         <!-- modal -->
                         <div class="justify-touch-btn">
-                            <button type="button" data-bs-toggle="modal" data-bs-target="#deleteAccount" class="btn btn-danger mt-3 i18" key="ExcluirConta">Excluir Conta</button>
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#deleteAccount" class="btn btn-danger mt-3 i18" key="ExcluirConta">${i18next.t("ExcluirConta")}</button>
                         </div>
                     </div>
                 `
@@ -381,25 +381,25 @@ async function changeConfigOptionsContext(t) {
 
         case 3:
             configOptionsWrapper.innerHTML = /*html*/`
-                    <p class="position-absolute config-title fw-semibold i18" key="Senha">Senha</p>
-                    <h5 class="i18" key="MudarSenha">Mudar Senha</h5>
+                    <p class="position-absolute config-title fw-semibold i18" key="Senha">${i18next.t("Senha")}</p>
+                    <h5 class="i18" key="MudarSenha">${i18next.t("MudarSenha")}</h5>
                     <hr>
                     
                     <div class="mt-1">
                         <form id="change-password-form" class="row">
                             <div class="col-12 mt-3">
-                                <label for="config-user-pass-input" class="form-label i18" key="SenhaAtual">Senha Atual</label>
-                                <input type="password" class="form-control width-config-input i18-placeholder" key="SenhaAtual" id="config-user-pass-input" name="config-user-pass-input" placeholder="Senha Atual" autocomplete="on">
+                                <label for="config-user-pass-input" class="form-label i18" key="SenhaAtual">${i18next.t("SenhaAtual")}</label>
+                                <input type="password" class="form-control width-config-input i18-placeholder" key="SenhaAtual" id="config-user-pass-input" name="config-user-pass-input" placeholder="${i18next.t("SenhaAtual")}" autocomplete="on">
                             </div>
                             <div class="col-12 mt-3">
-                                <label for="config-user-pass-input" class="form-label i18" key="NovaSenha">Nova Senha</label>
-                                <input type="password" class="form-control width-config-input i18-placeholder" key="NovaSenha" id="config-user-newpass-input" name="config-user-newpass-input" placeholder="Nova Senha" autocomplete="on">
+                                <label for="config-user-pass-input" class="form-label i18" key="NovaSenha">${i18next.t("NovaSenha")}</label>
+                                <input type="password" class="form-control width-config-input i18-placeholder" key="NovaSenha" id="config-user-newpass-input" name="config-user-newpass-input" placeholder="${i18next.t("NovaSenha")}" autocomplete="on">
                             </div>
                             <div class="col-md-5 col-lg-3 mt-4 justify-touch-btn">
-                                <button type="submit" class="btn play-btn-primary i18" key="AtualizarSenha">Atualizar Senha</button>
+                                <button type="submit" class="btn play-btn-primary i18" key="AtualizarSenha">${i18next.t("AtualizarSenha")}</button>
                             </div>
                             <div class="col form-text text-success mt-auto mb-0 pb-0 justify-touch-btn">
-                                <a href="recuperar-senha.html" class="fs-6 fw-semibold i18" key="RecuperarSenha">Recuperar senha</a>
+                                <a href="recuperar-senha.html" class="fs-6 fw-semibold i18" key="RecuperarSenha">${i18next.t("RecuperarSenha")}</a>
                             </div>
                         </form>
                     </div>

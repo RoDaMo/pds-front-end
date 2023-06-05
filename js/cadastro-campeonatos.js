@@ -12,6 +12,14 @@ import i18next from "i18next";
 import './utilidades/loader'
 import * as bootstrap from 'bootstrap'
 
+inicializarInternacionalizacao(ingles, portugues);
+
+document.querySelector('#lingua').addEventListener('change', event => {
+    const selectedIndex = event.target.selectedIndex;
+    localStorage.setItem('lng', event.target.children[selectedIndex].value);
+    document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
+})
+
 let cpfObrigatorio = false
 let cadastrouCpf = false
 let confirmouCpf = true
@@ -45,17 +53,17 @@ validator2
     .addField(cpf, [
         {
             rule: 'required',
-            errorMessage: 'Favor inserir CPF',
+            errorMessage:  `<span class="i18" key="CpfObrigatorio">${i18next.t("CpfObrigatorio")}</span>`,
         },
         {
             rule: 'minLength',
             value: 11,
-            errorMessage: 'Nome de usuário deve possuir 11 caracteres.',
+            errorMessage: `<span class="i18" key="CpfTamanho">${i18next.t("CpfTamanho")}</span>`,
         },
         {
             rule: 'maxLength',
             value: 11,
-            errorMessage: 'Nome de usuário deve possuir 11 caracteres.',
+            errorMessage: `<span class="i18" key="CpfTamanho">${i18next.t("CpfTamanho")}</span>`,
         },
         {
             validator: (value, context) => {
@@ -84,7 +92,7 @@ validator2
                 
                 return true
             },
-            errorMessage: 'CPF inválido',
+            errorMessage: `<span class="i18" key="CpfInvalido">${i18next.t("CpfInvalido")}</span>`,
         }
     ])
     .onSuccess(async(e) => {
@@ -106,15 +114,6 @@ validator2
         loader.hide();
     })
 
-
-
-inicializarInternacionalizacao(ingles, portugues);
-
-document.querySelector('#lingua').addEventListener('change', event => {
-    const selectedIndex = event.target.selectedIndex;
-    localStorage.setItem('lng', event.target.children[selectedIndex].value);
-    document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
-})
 
 
 let formulario = document.getElementById("formulario")
@@ -297,8 +296,8 @@ validator
     .addField(quantidadeJogadores, [
         {
             rule: 'required',
-            errorMessage: 'Favor inserir número de jogadores por time',
-        },
+            errorMessage: `<span class="i18" key="QuantidadeJogadoresObrigatorio">${i18next.t("QuantidadeJogadoresObrigatorio")}</span>`,
+        },  
     ])
     .onSuccess(async(e) => {
         e.preventDefault()
