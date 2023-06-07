@@ -58,7 +58,6 @@ requestAnimationFrame(raf)
 let mobibarLogo
 let navTogglerClose
 let navTogglerOpen
-let menuOpen = false
 
 // Rellax.JS
 new Rellax('.rellax', {
@@ -104,6 +103,8 @@ toTopBtn.addEventListener("click", () => {
 
 // Media Query Mobile
 if (mediaQueryMobile.matches) {
+
+    let menuOpen = false
 
     let startY = 0
     let endY = 0
@@ -176,47 +177,52 @@ if (mediaQueryMobile.matches) {
     let lastScrollTop = window.pageYOffset
 
     // Mobile navbar changer
-    document.addEventListener("scroll", () => {
+    lenis.on("scroll", e => {
 
-        if (window.scrollY === 0){
-            homeCards[0].classList.remove("ptx-90")
-            homeCards[0].classList.add("vh-91")
-            homeCards.forEach(card => card.classList.add("rounded-4", "rounded-5"))
-            homePill.classList.remove("d-none")
-            navbar.classList.remove(...mobibarClasses)
-            mobibarLogo.classList.remove(...mobibarLogoClasses)
-        } else {   
-            homeCards.forEach(card => { 
-                card.classList.add("ptx-90")
-                card.classList.remove("rounded-4", "rounded-5")
-            })
+        // pegar evento ja no carregamento da pagina
+        navTogglerOpen.addEventListener("click", () => {
+            navbar.classList.remove(...mobibarClasses)  
+            mobibarLogo.classList.remove(...mobibarLogoClasses)   
+            menuOpen = true
+            lenis.stop()
+        })
 
-            homeCards[0].classList.remove("vh-91")
-
-            homePill.classList.add("d-none")
-    
-            navTogglerOpen.addEventListener("click", () => {
-                navbar.classList.remove(...mobibarClasses)  
-                mobibarLogo.classList.remove(...mobibarLogoClasses)
-                menuOpen = true
-            })
-    
-            navTogglerClose.addEventListener("click", () => {
-                if (window.scrollY != 0) {
-                    navbar.classList.add(...mobibarClasses)
-                    mobibarLogo.classList.add(...mobibarLogoClasses)  
-                    menuOpen = false
-                } else {
-                    menuOpen = false
-                }
-                
-            })
-
-            if (!menuOpen) {
+        navTogglerClose.addEventListener("click", () => {
+            if (window.scrollY != 0) {
                 navbar.classList.add(...mobibarClasses)
-                mobibarLogo.classList.add(...mobibarLogoClasses)
+                mobibarLogo.classList.add(...mobibarLogoClasses)  
+
+                menuOpen = false
+            } else {
+                menuOpen = false
             }
-        }
+            lenis.start()
+        })
+
+        if (!menuOpen) {
+            navbar.classList.add(...mobibarClasses)
+            mobibarLogo.classList.add(...mobibarLogoClasses)
+
+            if (window.scrollY === 0){
+                homeCards[0].classList.remove("ptx-90")
+                homeCards[0].classList.add("vh-91")
+                homeCards.forEach(card => card.classList.add("rounded-4", "rounded-5"))
+                homePill.classList.remove("d-none")
+                navbar.classList.remove(...mobibarClasses)
+                mobibarLogo.classList.remove(...mobibarLogoClasses)
+            } else {   
+                homeCards.forEach(card => { 
+                    card.classList.add("ptx-90")
+                    card.classList.remove("rounded-4", "rounded-5")
+                })
+    
+                homeCards[0].classList.remove("vh-91")
+    
+                homePill.classList.add("d-none")
+            }
+        } 
+
+        
 
         // Page Indicator 
         if (isVisible(scrollTrigger[0])) {
@@ -243,7 +249,7 @@ if (mediaQueryMobile.matches) {
             dots[3].classList.remove('dots-active')
         }
 
-    }, {passive: "true"})
+    }, {passive: "false"})
 
     // Mobile Orientation Change
     // mobilePortrait.addEventListener("change", e => {
@@ -291,7 +297,7 @@ if (mediaQueryMobile.matches) {
     footerCta.forEach(cta => {
         cta.classList.replace("feats", "feats-2")
         cta.parentElement.classList.replace("mt-4", "mt-5")
-        cta.classList.add("h-75")
+        cta.classList.add("h-90")
     })
 
     footerCta[1].parentElement.classList.remove("mb-auto")
