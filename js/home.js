@@ -25,6 +25,7 @@ const toTopBtn = document.getElementById("gotop")
 const rodamoLogo = document.querySelector("img[alt='Rodamo Logo']")
 
 const footerCta = document.querySelectorAll(".footer-cta")
+const extraOptions = document.querySelectorAll(".extra-options")
 
 const homeNoise = document.querySelector(".home-noise")
 const noiseSvgs = document.querySelectorAll(".noise-svg");
@@ -39,7 +40,7 @@ const mobilePortrait = window.matchMedia("(orientation: portrait)")
 const mobibarClasses = ["position-fixed", "topx-14", "z-1", "start-50", "translate-middle-x", "w-60", "rounded-4", "glass-effect"]
 const mobibarLogoClasses = ["w-90", "mb-2", "translate-6"]
 
-const lenis = new Lenis({
+var lenis = new Lenis({
     wheelMultiplier: 0.4,
     smoothWheel: true,
     touchMultiplier: 0.6,
@@ -66,7 +67,6 @@ new Rellax('.rellax', {
 
 let triggerArr = Array.from(scrollTrigger)
 
-document.firstElementChild.scrollIntoView({ block: "start" })
 toTopBtn.style.display = "none"
 
 if (isVisible(scrollTrigger[0])) {
@@ -103,6 +103,7 @@ toTopBtn.addEventListener("click", () => {
 
 // Media Query Mobile
 if (mediaQueryMobile.matches) {
+    
 
     let menuOpen = false
 
@@ -154,6 +155,8 @@ if (mediaQueryMobile.matches) {
     homeCards[0].classList.add("vh-91", "rounded-5", "rounded-bottom-0", "card-bg", "padding-home-4", "home-grad")
     homeCards[1].classList.add("card-bg")
 
+    extraOptions.forEach(option => option.classList.replace("w-90", "w-100"))
+
     rodamoLogo.classList.add("w-25")
 
     document.querySelector(".bg-about-text").classList.add("glass-effect")
@@ -176,8 +179,22 @@ if (mediaQueryMobile.matches) {
 
     let lastScrollTop = window.pageYOffset
 
+    document.addEventListener("DOMContentLoaded", () => {
+        var offcanvasNavbar = document.querySelector("#offcanvasNavbar")
+
+        offcanvasNavbar.addEventListener("show.bs.offcanvas", () => {
+            menuOpen = true
+            lenis.stop()
+        })
+
+        offcanvasNavbar.addEventListener("hide.bs.offcanvas", () => {
+            menuOpen = false
+            lenis.start()
+        })
+    })
+
     // Mobile navbar changer
-    lenis.on("scroll", e => {
+    lenis.on("scroll", () => {
 
         // pegar evento ja no carregamento da pagina
         navTogglerOpen.addEventListener("click", () => {
@@ -288,6 +305,25 @@ if (mediaQueryMobile.matches) {
             noiseSvgs.forEach(svg => svg.classList.toggle("z-1"))
             homeTitle.classList.toggle("z-1")
             homeSubText.classList.toggle("z-1")
+        })
+
+
+        var offcanvasNavbar = document.querySelector("#offcanvasNavbar")
+    
+        offcanvasNavbar.addEventListener("show.bs.offcanvas", () => {
+            lenis.destroy()
+        })
+    
+        offcanvasNavbar.addEventListener("hide.bs.offcanvas", () => {
+            lenis = new Lenis({
+                wheelMultiplier: 0.4,
+                smoothWheel: true,
+                touchMultiplier: 0.6,
+                smoothTouch: true,
+                syncTouch: true,
+                normalizeWheel: true,
+            })
+            lenis.start()
         })
     })
 
