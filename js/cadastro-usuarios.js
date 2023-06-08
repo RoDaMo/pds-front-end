@@ -25,6 +25,8 @@ const nome = document.getElementById("nome")
 const email = document.getElementById("email-usuario")
 const senha = document.getElementById("senha")
 const dataAniversario = document.getElementById("data")
+const useTermsCheckbox = document.getElementById("useTermsCheckbox")
+const privacyTermsCheckbox = document.getElementById("privacyTermsCheckbox")
 
 const validator = new JustValidate(formulario, {
     validateBeforeSubmitting: true,
@@ -102,6 +104,16 @@ validator
             rule: 'required',
             errorMessage:  `<span class="i18" key="NomeObrigatorio">${i18next.t("NomeObrigatorio")}</span>`
         },
+        {
+            rule: 'minLength',
+            value: 4,
+            errorMessage: `<span class="i18" key="NomeMinimo">${i18next.t("NomeMinimo")}</span>`,
+        },
+        {
+            rule: 'maxLength',
+            value: 100,
+            errorMessage: `<span class="i18" key="NomeMaximo">${i18next.t("NomeMaximo")}</span>`,
+        },
     ])
     .addField(nomeUsuario, [
         {
@@ -140,6 +152,18 @@ validator
             value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{4,}$/,
             errorMessage: " ",
         }
+    ])
+    .addField(useTermsCheckbox, [
+        {
+            rule: 'required',
+            errorMessage: `<span class="i18" key="TermosUsoObrigatorio">${i18next.t("TermosUsoObrigatorio")}</span>`
+        },
+    ])
+    .addField(privacyTermsCheckbox, [
+        {
+            rule: 'required',
+            errorMessage: `<span class="i18" key="PoliticaPrivacidadeObrigatoria">${i18next.t("PoliticaPrivacidadeObrigatoria")}</span>`
+        },
     ])
     validator.onSuccess(async (e) => {
         e.preventDefault();

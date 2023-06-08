@@ -25,10 +25,14 @@
     "EmailObrigatorio": "O email é obrigatório.",
     "EmailInvalido": "Email inválido.",
     "NomeObrigatorio": "O nome é obrigatório.",
+    "NomeMinimo": "Nome deve possuir no mínimo 4 caracteres.",
+    "NomeMaximo": "Nome deve possuir no máximo 100 caracteres.",
     "NomeUsuarioObrigatorio": "O nome de usuário é obrigatório",
     "NomeUsuarioMinimo": "Nome de usuário deve possuir no mínimo 4 caracteres.",
     "NomeUsuarioMaximo": "Nome de usuário deve possuir no máximo 20 caracteres.",
     "NomeUsuarioInvalido": "Nome de usuário inválido, não pode conter espaço nem caractere especial.",
     "DataNascimentoObrigatoria": "A data é obrigatória. É necessário possuir pelo menos 13 anos de idade para se cadastrar.",
-    "SenhaObrigatoria": "A senha é obrigatória."
+    "SenhaObrigatoria": "A senha é obrigatória.",
+    "TermosUsoObrigatorio": "É necessário aceitar os termos de uso para se cadastrar.",
+    "PoliticaPrivacidadeObrigatoria": "É necessário aceitar a política de privacidade para se cadastrar."
 }

@@ -213,6 +213,21 @@ async function changeConfigOptionsContext(t) {
                         },
                         errorMessage: ' ',
                     },
+                    {
+                        rule: 'minLength',
+                        value: 4,
+                        errorMessage: `<span class="i18" key="NomeUsuarioMinimo">${i18next.t("NomeUsuarioMinimo")}</span>`,
+                    },
+                    {
+                        rule: 'maxLength',
+                        value: 20,
+                        errorMessage: `<span class="i18" key="NomeUsuarioMaximo">${i18next.t("NomeUsuarioMaximo")}</span>`,
+                    },
+                    {
+                        rule: 'customRegexp',
+                        value: /^[A-Za-z0-9_-]*$/,
+                        errorMessage: `<span class="i18" key="NomeUsuarioInvalidoInput">${i18next.t("NomeUsuarioInvalidoInput")}</span>`,
+                    },
                 ])
                 .addField(updateProfileBioInput, [
                     {
