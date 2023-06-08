@@ -73,8 +73,9 @@ export class header extends HTMLElement {
             const user = resultados.results
             console.log(user)
             const info = /* html */`
-                <li class="nav-item d-none d-lg-block me-4 navbar-user-img-wrapper">
-                    <img src="${user.picture ? user.picture : defaultImg}" class="foto-usuario h-100 w-100 navbar-clicavel" data-bs-toggle="offcanvas" data-bs-target="#offcanvasUser" aria-controls="offcanvasUser" aria-label="Toggle navigation">
+                <li class="nav-item d-none d-lg-inline-flex me-5 navbar-user-img-wrapper navbar-clicavel" data-bs-toggle="offcanvas" data-bs-target="#offcanvasUser" aria-controls="offcanvasUser" aria-label="Toggle navigation">
+                    <i class="bi bi-caret-left-fill mt-1"></i>
+                    <img src="${user.picture ? user.picture : defaultImg}" class="foto-usuario ms-2 h-100 w-100">
                 </li>
                 <!--
                 <li class="nav-item mx-4 d-none d-lg-block">
