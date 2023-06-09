@@ -139,7 +139,7 @@ const validator = new JustValidate(formulario, {
 const optionDefault = () => {
     const optionDefault = document.createElement('option')
     optionDefault.value = 0
-    optionDefault.innerHTML = `<span class="i18" key="SelecioneOpcao">${i18next.t("SelecioneOpcao")}</span>`,
+    optionDefault.innerHTML = `<span class="i18" key="SelecioneOpcao">${i18next.t("SelecioneOpcao")}</span>`
     quantidade.appendChild(optionDefault)
 }
 
