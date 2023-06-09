@@ -106,7 +106,7 @@ validator
         },
         {
             rule: 'minLength',
-            value: 4,
+            value: 1,
             errorMessage: `<span class="i18" key="NomeMinimo">${i18next.t("NomeMinimo")}</span>`,
         },
         {

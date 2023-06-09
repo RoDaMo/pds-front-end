@@ -25,7 +25,7 @@
     "EmailObrigatorio": "O email é obrigatório.",
     "EmailInvalido": "Email inválido.",
     "NomeObrigatorio": "O nome é obrigatório.",
-    "NomeMinimo": "Nome deve possuir no mínimo 4 caracteres.",
+    "NomeMinimo": "Nome deve possuir no mínimo 1 caractere.",
     "NomeMaximo": "Nome deve possuir no máximo 100 caracteres.",
     "NomeUsuarioObrigatorio": "O nome de usuário é obrigatório",
     "NomeUsuarioMinimo": "Nome de usuário deve possuir no mínimo 4 caracteres.",

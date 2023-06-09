@@ -127,7 +127,7 @@ async function changeConfigOptionsContext(t) {
                     <div class="col-12 col-md mt-2">
                         <div class="d-flex justify-mobile-pic align-items-end h-100">
                             <label for="config-user-pic-input" class="btn play-btn-primary i18" key="AlterarFoto">${i18next.t("AlterarFoto")}</label>
-                            <input type="file" class="d-none" id="config-user-pic-input">
+                            <input type="file" class="d-none" id="config-user-pic-input" accept=".jpeg, .jpg, .png, .webp, .gif, .bmp, .tiff">
                         </div>
                     </div>
                 </div>
@@ -231,8 +231,13 @@ async function changeConfigOptionsContext(t) {
                 ])
                 .addField(updateProfileBioInput, [
                     {
+                        rule: 'minLength',
+                        value: 10,
+                        errorMessage: `<span class="i18" key="BioMin">${i18next.t("BioMin")}</span>`,
+                    },
+                    {
                         rule: 'maxLength',
-                        value: 150,
+                        value: 100,
                         errorMessage: `<span class="i18" key="BioMax">${i18next.t("BioMax")}</span>`,
                     },
                     {
@@ -385,6 +390,16 @@ async function changeConfigOptionsContext(t) {
                         {
                             rule: 'required',
                             errorMessage: `<span class="i18" key="NomeRealObrigatorio">${i18next.t("NomeRealObrigatorio")}</span>`,
+                        },
+                        {
+                            rule: 'minLength',
+                            value: 1,
+                            errorMessage: `<span class="i18" key="NomeRealMinimo">${i18next.t("NomeRealMinimo")}</span>`,
+                        },
+                        {
+                            rule: 'maxLength',
+                            value: 100,
+                            errorMessage: `<span class="i18" key="NomeRealMaximo">${i18next.t("NomeRealMaximo")}</span>`,
                         },
                     ])
                     // submit
