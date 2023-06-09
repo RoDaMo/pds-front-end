@@ -190,7 +190,6 @@ flatpickr(dataFinal, {
     altInput: true,
 })
 
-
 imagem.addEventListener("change", async() => {
     loader.show()
     const data = await uploadImagem(imagem, 0, mensagemErro)
@@ -235,8 +234,6 @@ quantidadeJogadores.addEventListener("change", () => {
         }
     }
 })
-
-
 
 validator
     .addField(nomeCampeonato, [

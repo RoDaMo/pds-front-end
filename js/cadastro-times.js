@@ -150,6 +150,16 @@ validator
             rule: 'required',
             errorMessage: `<span class="i18" key="NomeTimeObrigatorio">${i18next.t("NomeTimeObrigatorio")}</span>`,
         },
+        {
+            rule: 'minLength',
+            value: 4,
+            errorMessage: `<span class="i18" key="NomeTimeMinimo">${i18next.t("NomeTimeMinimo")}</span>`,
+        },
+        {
+            rule: 'maxLength',
+            value: 100,
+            errorMessage: `<span class="i18" key="NomeTimeMaximo">${i18next.t("NomeTimeMaximo")}</span>`,
+        }
     ])
     .addField(esporte, [
         {
@@ -214,6 +224,16 @@ validator
             rule: 'required',
             errorMessage: `<span class="i18" key="DescricaoObrigatoria">${i18next.t("DescricaoObrigatoria")}</span>`,
         },
+        {
+            rule: 'minLength',
+            value: 10,
+            errorMessage: `<span class="i18" key="DescricaoMinimo">${i18next.t("DescricaoMinimo")}</span>`,
+        },
+        {
+            rule: 'maxLength',
+            value: 1000,
+            errorMessage: `<span class="i18" key="DescricaoMaximo">${i18next.t("DescricaoMaximo")}</span>`,
+        }
     ])
     .onSuccess(async(e) => {
         e.preventDefault()
