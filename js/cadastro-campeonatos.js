@@ -267,7 +267,6 @@ validator
                 return dataInicial >= dataAtual
             },
             errorMessage: `<span class="i18" key="DataInicialMaiorIgual">${i18next.t("DataInicialMaiorIgual")}</span>`
-
         }
     ])
     .addField(dataFinal, [
@@ -382,7 +381,6 @@ validator
             value: 40,
             errorMessage: `<span class="i18" key="BairroMaximo">${i18next.t("BairroMaximo")}</span>`,
         },
-
     ])
     .addField(descricao, [
         {
