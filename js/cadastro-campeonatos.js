@@ -1,5 +1,6 @@
 import { configuracaoFetch, executarFetch, limparMensagem, api } from "./utilidades/configFetch"
 import { notificacaoSucesso } from "./utilidades/notificacoes"
+import { notificacaoErro } from "./utilidades/notificacoes"
 import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
 import portugues from './i18n/ptbr/cadastro-campeonatos.json' assert { type: 'JSON' }
 import ingles from './i18n/en/cadastro-campeonatos.json' assert { type: 'JSON' }
@@ -20,10 +21,8 @@ document.querySelector('#lingua').addEventListener('change', event => {
     document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
 })
 
-let cpfObrigatorio = false
-let cadastrouCpf = false
-let confirmouCpf = true
 let meuModal
+let confirmou = false
 
 window.addEventListener("DOMContentLoaded", async(e) => {
     e.preventDefault()
@@ -32,13 +31,24 @@ window.addEventListener("DOMContentLoaded", async(e) => {
     const config = configuracaoFetch("GET")
     const data = await executarFetch(endpoint, config)
 
-    if(data === undefined)
-        confirmouCpf = false
+    if(data === undefined) {
+        notificacaoErro().close()
+        const modal = document.getElementById('ModalErro')
+        let modalErro =  new bootstrap.Modal(modal)
+        modalErro.show()
+        modal.addEventListener('hidden.bs.modal', () => {
+            window.location.assign(`/index.html`)
+        });
+    }
     if(!data.results) {
-        cpfObrigatorio = true
         const modal = document.getElementById('JanelaModal')
         meuModal =  new bootstrap.Modal(modal)
         meuModal.show();
+
+        modal.addEventListener('hidden.bs.modal', () => {
+            if(!confirmou)
+                window.location.assign(`/index.html`)
+        });
     }
 })
 
@@ -49,6 +59,17 @@ const validator2 = new JustValidate(formularioCpf, {
     validateBeforeSubmitting: true,
 })
 
+var cpfInput = document.getElementById('cpf');
+
+cpfInput.addEventListener('input', function(event) {
+    var v = event.target.value
+    v=v.replace(/\D/g,"")
+    v=v.replace(/(\d{3})(\d)/,"$1.$2")
+    v=v.replace(/(\d{3})(\d)/,"$1.$2")
+    v=v.replace(/(\d{3})(\d{1,2})$/,"$1-$2") 
+    event.target.value = v;
+});
+
 validator2
     .addField(cpf, [
         {
@@ -57,19 +78,21 @@ validator2
         },
         {
             rule: 'minLength',
-            value: 11,
+            value: 14,
             errorMessage: `<span class="i18" key="CpfTamanho">${i18next.t("CpfTamanho")}</span>`,
         },
         {
             rule: 'maxLength',
-            value: 11,
+            value: 14,
             errorMessage: `<span class="i18" key="CpfTamanho">${i18next.t("CpfTamanho")}</span>`,
         },
         {
             validator: (value, context) => {
                 var numberCpf = new Array(11)
+                let test = value
+                test =  test.replace(/[.-]/g, "")
                 for (var i = 0; i < 11; i++)
-                    numberCpf[i] = parseInt(value[i])
+                    numberCpf[i] = parseInt(test[i])
 
                 var sum = 0
                 for (var i = 0; i < 9; i++)
@@ -102,12 +125,12 @@ validator2
         loader.show();
 
         const resultado = await postCpf("auth/cpf", 
-            cpf.value
+            cpf.value.replace(/[.-]/g, "")
         )
 
         if (resultado) {
             formularioCpf.reset()
-            cadastrouCpf = true
+            confirmou = true
             meuModal.hide()
         }
 
@@ -331,15 +354,6 @@ validator
     })
 
 async function postCampeonato(endpoint, body) {
-    if(cpfObrigatorio && !cadastrouCpf) {
-        meuModal.show()
-        return
-    }
-    if(!confirmouCpf) {
-        location.reload()
-        return
-    }
-
     const config = configuracaoFetch("POST", body)
 
     const callbackServidor = data => {
