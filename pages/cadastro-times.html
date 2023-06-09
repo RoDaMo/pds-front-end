@@ -105,11 +105,11 @@
 
                     
                     <div class="modal-body">
-                        <p class="text-body i18" key="ModalTexto">Insira seu CPF para prosseguir com a criação do campeonato. Não utilize pontos ou traços.</p>
+                        <p class="text-body i18"  key="ModalTexto">Insira seu CPF para prosseguir com a criação do campeonato. Caso feche o modal, será redirecionado para a página inicial.</p>
                         <form id="formCpf" method="post">
                             <label for="cpf" class="form-label text-success">CPF:</label>
                             <input type="text" class="form-control rounded-4" id="cpf" name="cpf" placeholder="CPF...">
-                            <div class="mt-4 text-danger">
+                            <div class="mt-4">
                                 <p class="text-danger" id="mensagem-erro2"></p>
                             </div>
                         </form>
@@ -123,10 +123,29 @@
                 </div>
             </div>                    
         </div>
+  
+        <div class="modal fade" id="ModalErro" tabindex="-1" aria-labelledby="ModalErroLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title text-success i18" key="CpfErro" id="ModalErroLabel">Erro</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                
+                    <p class="text-body i18" key="CpfErroMensagem">
+                        Houve um problema ao verificar se está elegível para usar esse recurso. Tente novamente mais tarde...
+                    </p>
+                </div>
+                <div class="modal-footer">
+                <a class="btn btn-primary i18" key="CpfErroBotao" href="/">Ir para página inicial</a>
+                </div>
+            </div>
+            </div>
+        </div>
     </main>
     <script type="module" src="../main.js"></script>
     <script type="module" src="../js/utilidades/header.js"></script>
-    
     <script type="module" src="../js/cadastro-times.js"></script>
 
 
