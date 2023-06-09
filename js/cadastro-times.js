@@ -27,7 +27,7 @@ window.addEventListener("DOMContentLoaded", async(e) => {
    
     let endpoint = `auth/cpf`
     const config = configuracaoFetch("GET")
-    const data = undefined
+    const data = await executarFetch(endpoint, config)
 
     console.log(data)
 

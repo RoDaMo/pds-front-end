@@ -48,9 +48,11 @@ let idUsuario = null
 
 redirecionamento(nomeUsuario)
 
+const lng = localStorage.getItem('lng')
+
 flatpickr(dataAniversario, {
     dateFormat: "Y-m-d",
-    locale: Portuguese,
+    locale: lng === 'ptbr' ? Portuguese : ingles,
     altInput: true,
     maxDate: new Date(new Date().getFullYear() - 13, new Date().getMonth(), new Date().getDate())
 })
@@ -194,3 +196,27 @@ function apresentarResultado() {
     formulario.style.display = "none"
     divResposta.classList.remove("d-none")
 }
+
+const tradutor = document.querySelector('#lingua')
+tradutor.addEventListener('change', event => {
+    const selectedIndex = event.target.selectedIndex;
+    localStorage.setItem('lng', event.target.children[selectedIndex].value);
+    document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
+
+    flatpickr(dataAniversario, {
+        dateFormat: "Y-m-d",
+        locale:  event.target.children[selectedIndex].value === 'ptbr' ? Portuguese : ingles,
+        altInput: true,
+        maxDate: new Date(new Date().getFullYear() - 13, new Date().getMonth(), new Date().getDate())
+    })
+})
+
+const opcao1 = document.getElementById("1")
+const opcao2 = document.getElementById("2")
+lng === 'ptbr' ? opcao1.selected = 'true' : opcao2.selected = 'true'
+
+const inputData = document.querySelector('[tabindex]')
+inputData.placeholder = i18next.t("DataNascimentoPlaceholder")
+inputData.setAttribute('key', 'DataNascimentoPlaceholder')
+inputData.classList.add("i18-placeholder")
+console.log(inputData)
