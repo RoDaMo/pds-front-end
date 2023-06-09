@@ -6,7 +6,7 @@ import ingles from './i18n/en/cadastro-campeonatos.json' assert { type: 'JSON' }
 import JustValidate from "just-validate"
 import flatpickr from "flatpickr"
 import { Portuguese } from "flatpickr/dist/l10n/pt.js"
-import {exibidorImagem} from '../js/utilidades/previewImagem'
+import { exibidorImagem } from './utilidades/previewImagem.js'
 import { uploadImagem } from './utilidades/uploadImagem'
 import i18next from "i18next";
 import './utilidades/loader'
@@ -28,7 +28,7 @@ let meuModal
 window.addEventListener("DOMContentLoaded", async(e) => {
     e.preventDefault()
    
-    let endpoint = `auth/cpf`
+    const endpoint = `auth/cpf`
     const config = configuracaoFetch("GET")
     const data = await executarFetch(endpoint, config)
 
@@ -67,30 +67,27 @@ validator2
         },
         {
             validator: (value, context) => {
-                var numberCpf = new Array(11)
-                for (var i = 0; i < 11; i++)
+                const numberCpf = new Array(11)
+                for (let i = 0; i < 11; i++)
                     numberCpf[i] = parseInt(value[i])
 
-                var sum = 0
-                for (var i = 0; i < 9; i++)
+                let sum = 0
+                for (let i = 0; i < 9; i++)
                     sum += numberCpf[i] * (10 - i)
 
-                var firstVerifierDigit = (sum * 10) % 11
+                let firstVerifierDigit = (sum * 10) % 11
                 firstVerifierDigit = firstVerifierDigit === 10 ? 0 : firstVerifierDigit
 
                 sum = 0
-                var arrayNova = numberCpf.slice()
+                const arrayNova = numberCpf.slice()
                 arrayNova[9] = firstVerifierDigit
-                for (var i = 0; i < 10; i++)
+                for (let i = 0; i < 10; i++)
                     sum += arrayNova[i] * (11 - i)
 
-                var secondVerifierDigit = (sum * 10) % 11;
+                let secondVerifierDigit = (sum * 10) % 11;
                 secondVerifierDigit = secondVerifierDigit === 10 ? 0 : secondVerifierDigit
 
-                if (firstVerifierDigit !== numberCpf[9] || secondVerifierDigit !== numberCpf[10])
-                    return false
-                
-                return true
+                return !(firstVerifierDigit !== numberCpf[9] || secondVerifierDigit !== numberCpf[10]);
             },
             errorMessage: `<span class="i18" key="CpfInvalido">${i18next.t("CpfInvalido")}</span>`,
         }
@@ -335,22 +332,24 @@ async function postCampeonato(endpoint, body) {
         meuModal.show()
         return
     }
+
     if(!confirmouCpf) {
         location.reload()
         return
     }
-
-    const config = configuracaoFetch("POST", body)
 
     const callbackServidor = data => {
         mensagemErro.classList.add("text-danger")
         data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
     }
 
-    const data = await executarFetch(endpoint, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
+    loader.show()
+    const data = await executarFetch(endpoint, configuracaoFetch("POST", body), (res) => mensagemErro.textContent = res.results[0], callbackServidor)
+    loader.hide()
+
     if (!data) return false
 
-    notificacaoSucesso(data.results[0])
+    await notificacaoSucesso(data.results[0])
     return true
 }
 
@@ -362,9 +361,12 @@ async function postCpf(endpoint, body) {
         data.results.forEach(element => mensagemErro2.innerHTML += `${element}<br>`);
     }
 
+    loader.show()
     const data = await executarFetch(endpoint, config, (res) => mensagemErro2.textContent = res.results, callbackServidor)
+    loader.hide()
+
     if (!data) return false
 
-    notificacaoSucesso(data.results[0])
+    await notificacaoSucesso(data.results[0])
     return true
 }
