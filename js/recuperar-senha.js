@@ -1,5 +1,6 @@
 import { notificacaoErro, notificacaoSucesso } from "./utilidades/notificacoes"
 import { configuracaoFetch, executarFetch, limparMensagem } from "./utilidades/configFetch"
+import JustValidate from "just-validate"
 import portugues from './i18n/ptbr/recuperar-senha.json' assert { type: 'JSON' }
 import ingles from './i18n/en/recuperar-senha.json' assert { type: 'JSON' }
 import i18next from "i18next";
@@ -20,7 +21,6 @@ const lng = localStorage.getItem('lng');
 console.log(opcao1)
 lng === 'ptbr' ? opcao1.selected = 'true' : opcao2.selected = 'true'
 
-
 const formulario = document.getElementById("formulario")
 const email = document.getElementById("email")
 const mensagemErro = document.getElementById("mensagem-erro")
@@ -28,16 +28,29 @@ const botao = document.getElementById("reenviar-email")
 const divResposta = document.getElementById("div-reposta")
 let idUsuario = null
 
-formulario.addEventListener("submit", async(e) => {
-    e.preventDefault()
-    limparMensagem(mensagemErro)
-
-    if(!validacoes()) return
-
-    await postToken({
-        "Email": email.value,
-    })
+const validator = new JustValidate(formulario, {
+    validateBeforeSubmitting: true,
 })
+
+validator
+    .addField(email, [
+        {
+            rule: 'required',
+            errorMessage: `<span class="i18" key="EmailObrigatorio">${i18next.t("EmailObrigatorio")}</span>`
+        },
+        {
+            rule: 'email',
+            errorMessage: `<span class="i18" key="EmailInvalido">${i18next.t("EmailInvalido")}</span>`
+        }
+    ])
+    .onSuccess(async (e) => {
+        e.preventDefault()
+        limparMensagem(mensagemErro)
+
+        await postToken({
+            "Email": email.value,
+        })
+    })
 
 async function postToken(body) {
     const config = configuracaoFetch("POST", body)
@@ -70,26 +83,3 @@ botao.addEventListener("click", async() => {
     if(data)
         notificacaoSucesso(data.message)
 })
-
-const emailRegex = (str) => /\S+@\S+\.\S+/.test(str);
-
-const validacoes = () => {
-    let controle = true;
-
-    const mensagemErro = (elementoId, mensagemErro) => {
-        document.getElementById(elementoId).innerHTML = mensagemErro;
-    }
-
-    const limparMensagemErro = (elementoId) => {
-        document.getElementById(elementoId).textContent = "";
-    }
-
-    if(!emailRegex(email.value) || email.value === ""){
-        mensagemErro("email-validacao", `<span class="i18" key="EmailInvalido">${i18next.t("EmailInvalido")}</span>`);
-        controle = false;
-    } else {
-        limparMensagemErro("email-validacao");
-    }
-
-    return controle;
-}

@@ -8,6 +8,7 @@
     "NovaSenha": "New Password:",
     "NovaSenhaPlaceholder": "New Password...",
     "SenhaMensagem": "Your password must contain:",
+    "SenhaObrigatoria": "Required field",
     "LetraMaiuscula": "Uppercase letter",
     "LetraMinuscula": "Lower case",
     "Numero": "Number",

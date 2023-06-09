@@ -1,6 +1,7 @@
 import { configuracaoFetch, limparMensagem, executarFetch } from "./utilidades/configFetch"
 import { notificacaoErro } from "./utilidades/notificacoes"
 import { visualizarSenha } from "./utilidades/visualizar-senha"
+import JustValidate from "just-validate"
 import portugues from './i18n/ptbr/redefinir-senha.json' assert { type: 'JSON' }
 import ingles from './i18n/en/redefinir-senha.json' assert { type: 'JSON' }
 import i18next from "i18next";
@@ -57,17 +58,34 @@ const textoCaractere = document.getElementById("texto-caractere")
 const iconeEspecial = document.getElementById("icone-especial")
 const textoEspecial = document.getElementById("texto-especial")
 
-formulario.addEventListener("submit", async(e) => {
-    e.preventDefault()
-    limparMensagem(mensagemErro)
-
-    if(!validacoes()) return
-
-    await postToken({
-        "Email": email,
-        "Password": senha.value,
-    })
+const validator = new JustValidate(formulario, {
+    validateBeforeSubmitting: true,
 })
+
+validator
+    .addField(senha, [
+        {
+            rule: 'required',
+            errorMessage: `<span class="i18" key="SenhaObrigatoria">${i18next.t("SenhaObrigatoria")}</span>`
+        },
+        {
+            rule: 'customRegexp',
+            value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{4,}$/,
+            errorMessage: " ",
+        }
+    ])
+    validator.onSuccess(async (e) => {
+        e.preventDefault();
+        limparMensagem(mensagemErro);
+      
+        if(!validacoes()) return
+
+      
+        await postToken({
+            "Email": email,
+            "Password": senha.value,
+        })
+});
 
 async function postToken(body) {
     const config = configuracaoFetch("POST", body)
