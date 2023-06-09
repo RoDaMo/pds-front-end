@@ -24,7 +24,7 @@ export class header extends HTMLElement {
                         <a class="navbar-brand m-auto" href="/"><img src="/Logo_Playoffs.png" class="logo-play img-fluid" width="180" alt="Logo Playoffs"></a>
                     </div>
                     
-                    <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                    <button class="navbar-toggler navbar-tgg border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>  
 
@@ -73,12 +73,15 @@ export class header extends HTMLElement {
             const user = resultados.results
             console.log(user)
             const info = /* html */`
-                <li class="nav-item d-none d-lg-block">
-                    <img src="${user.picture ? user.picture : defaultImg}" class="foto-usuario navbar-clicavel" data-bs-toggle="offcanvas" data-bs-target="#offcanvasUser" aria-controls="offcanvasUser" aria-label="Toggle navigation">
+                <li class="nav-item d-none d-lg-inline-flex me-5 navbar-user-img-wrapper navbar-clicavel" data-bs-toggle="offcanvas" data-bs-target="#offcanvasUser" aria-controls="offcanvasUser" aria-label="Toggle navigation">
+                    <i class="bi bi-caret-left-fill mt-1"></i>
+                    <img src="${user.picture ? user.picture : defaultImg}" class="foto-usuario ms-2 h-100 w-100">
                 </li>
+                <!--
                 <li class="nav-item mx-4 d-none d-lg-block">
                     <i class="bi bi-gear text-primary fs-4 navbar-clicavel" data-bs-toggle="offcanvas" data-bs-target="#offcanvasUser" aria-controls="offcanvasUser" aria-label="Toggle navigation"></i>
                 </li>
+                -->
                 <li class="nav-item">
                     <select class="form-select rounded-3 ps-3 py-2 bg-transparent" id="lingua" required>
                         <option value="ptbr" ${lng === 'ptbr' ? 'selected' : ''}>Português</option>
@@ -86,7 +89,7 @@ export class header extends HTMLElement {
                     </select>
                 </li>
                 <div class="list-group list-group-flush d-lg-none w-100">
-                    <a href="javascript:void(0)" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
+                    <a href="/pages/pagina-usuarios.html?id=${user.id}" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
                         <i class="bi bi-person fs-4"></i>
                         <span class="i18" key="Perfil">${i18next.t("Perfil")}</span>
                     </a>

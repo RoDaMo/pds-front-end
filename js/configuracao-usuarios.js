@@ -111,7 +111,11 @@ async function changeConfigOptionsContext(t) {
     document.getElementById('email').textContent = dados.email
     document.getElementById('nome-usuario').textContent = dados.userName
     document.getElementById('nome').textContent = dados.nome
-    exibidorImagem(document.getElementById("config-user-pic"), dados.profileImg)
+    if (dados.profileImg) {
+        exibidorImagem(document.getElementById("config-user-pic"), dados.profileImg)
+    } else {
+        exibidorImagem(document.getElementById("config-user-pic"), dados.picture)
+    }
     
     switch(parseInt(t)) {
         case 1:
@@ -156,7 +160,12 @@ async function changeConfigOptionsContext(t) {
 
             updateProfileUserNameInput.value = dados.userName
             updateProfileBioInput.value = dados.bio
-            exibidorImagem(document.getElementById("config-user-pic-mod"), dados.profileImg)
+            if (dados.profileImg) {
+                exibidorImagem(document.getElementById("config-user-pic-mod"), dados.profileImg)
+            } else {
+                exibidorImagem(document.getElementById("config-user-pic-mod"), dados.picture)
+            }
+
             const emblema = document.getElementById("emblema")
 
             updateProfileUserPicInput.addEventListener("change", async() => {
