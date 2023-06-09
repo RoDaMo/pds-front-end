@@ -398,11 +398,27 @@ async function changeConfigOptionsContext(t) {
                         <form id="change-password-form" class="row">
                             <div class="col-12 mt-3">
                                 <label for="config-user-pass-input" class="form-label i18" key="SenhaAtual">${i18next.t("SenhaAtual")}</label>
-                                <input type="password" class="form-control width-config-input i18-placeholder" key="SenhaAtual" id="config-user-pass-input" name="config-user-pass-input" placeholder="${i18next.t("SenhaAtual")}" autocomplete="on">
+                                <div class="col-9 mt-1 d-flex position-relative">
+                                    <div class="input-wrapper w-100">
+                                        <input type="password" class="form-control i18-placeholder"   key="SenhaAtual" id="config-user-pass-input" name="config-user-pass-input" placeholder="${i18next.t("SenhaAtual")}" autocomplete="on">
+                                    </div>
+                                    <div id="olhos">
+                                        <i id="olho-aberto" class="btn btn-success rounded-0 rounded-end bi bi-eye text-light position-absolute end-0"></i>
+                                        <i id="olho-fechado" class="btn btn-success rounded-0 rounded-end bi bi-eye-slash text-light position-absolute end-0 d-none"></i>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-12 mt-3">
                                 <label for="config-user-pass-input" class="form-label i18" key="NovaSenha">${i18next.t("NovaSenha")}</label>
-                                <input type="password" class="form-control width-config-input i18-placeholder" key="NovaSenha" id="config-user-newpass-input" name="config-user-newpass-input" placeholder="${i18next.t("NovaSenha")}" autocomplete="on">
+                                <div class="col-9 mt-1 d-flex position-relative">
+                                    <div class="input-wrapper w-100">
+                                        <input type="password" class="form-control i18-placeholder"   key="NovaSenha" id="config-user-newpass-input" name="config-user-newpass-input" placeholder="${i18next.t("NovaSenha")}" autocomplete="on">
+                                    </div>
+                                    <div id="olhos-nova-senha">
+                                        <i id="olho-aberto-nova-senha" class="btn btn-success rounded-0 rounded-end bi bi-eye text-light position-absolute end-0"></i>
+                                        <i id="olho-fechado-nova-senha" class="btn btn-success rounded-0 rounded-end bi bi-eye-slash text-light position-absolute end-0 d-none"></i>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-md-5 col-lg-3 mt-4 justify-touch-btn">
                                 <button type="submit" class="btn play-btn-primary i18" key="AtualizarSenha">${i18next.t("AtualizarSenha")}</button>
@@ -414,9 +430,27 @@ async function changeConfigOptionsContext(t) {
                     </div>
                 `
 
+                const olhos = document.getElementById("olhos")
+                const olhosNovaSenha = document.getElementById("olhos-nova-senha")
+                const olhoAberto = document.getElementById("olho-aberto")
+                const olhoAbertoNovaSenha = document.getElementById("olho-aberto-nova-senha")
+                const olhoFechado = document.getElementById("olho-fechado")
+                const olhoFechadoNovaSenha = document.getElementById("olho-fechado-nova-senha")
+
+                const visualizarSenha = (olhos, olhoAberto, olhoFechado, senha) => {
+                    olhos.addEventListener('click', () => {
+                        (olhos.classList.contains("d-none")) ? senha.type = "password" : senha.type = "text"
+                        olhoAberto.classList.toggle("d-none")
+                        olhoFechado.classList.toggle("d-none")
+                    })
+                }
+
                 const changePasswordForm = document.querySelector('#change-password-form')
                 const changePasswordInput = document.querySelector('#config-user-pass-input')
                 const changeNewPasswordInput = document.querySelector('#config-user-newpass-input')
+
+                visualizarSenha(olhos, olhoAberto, olhoFechado, changePasswordInput)
+                visualizarSenha(olhosNovaSenha, olhoAbertoNovaSenha, olhoFechadoNovaSenha, changeNewPasswordInput)
 
                 const form = document.getElementById("change-password-form")
 
