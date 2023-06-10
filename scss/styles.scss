@@ -58,6 +58,10 @@ body {
   height: 91vh !important;
 }
 
+.h-90 {
+  height: 90% !important;
+}
+
 .topx-14 {
   top: 14px;
 }
@@ -75,7 +79,7 @@ body {
 }
 
 .w-90 {
-  width: 90% !important;
+  max-width: 90% !important;
 }
 
 .w-87 {
@@ -228,6 +232,11 @@ body {
   }
 }
 
+.navbar-user-img-wrapper {
+  height: 32px !important;
+  width: 32px !important;
+}
+
 .nav-item {
   &:hover, &:active, &:focus {
     a, #lingua {
@@ -330,4 +339,20 @@ button.navbar-toggler {
 
 .navbar-clicavel {
   cursor: pointer;
+}
+
+//estilização da barra de rolagem
+
+*::-webkit-scrollbar {
+  width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #fff;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color:$play-cor-primaria;
+  border-radius: 20px;
+  border: 3px solid #fff;
 }

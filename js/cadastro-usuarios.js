@@ -54,6 +54,7 @@ flatpickr(dataAniversario, {
     dateFormat: "Y-m-d",
     locale: Portuguese,
     altInput: true,
+    minDate: new Date(new Date().getFullYear() - 100, new Date().getMonth(), new Date().getDate()),
     maxDate: new Date(new Date().getFullYear() - 13, new Date().getMonth(), new Date().getDate())
 })
 

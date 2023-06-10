@@ -25,6 +25,7 @@ const toTopBtn = document.getElementById("gotop")
 const rodamoLogo = document.querySelector("img[alt='Rodamo Logo']")
 
 const footerCta = document.querySelectorAll(".footer-cta")
+const extraOptions = document.querySelectorAll(".extra-options")
 
 const homeNoise = document.querySelector(".home-noise")
 const noiseSvgs = document.querySelectorAll(".noise-svg");
@@ -39,7 +40,7 @@ const mobilePortrait = window.matchMedia("(orientation: portrait)")
 const mobibarClasses = ["position-fixed", "topx-14", "z-1", "start-50", "translate-middle-x", "w-60", "rounded-4", "glass-effect"]
 const mobibarLogoClasses = ["w-90", "mb-2", "translate-6"]
 
-const lenis = new Lenis({
+var lenis = new Lenis({
     wheelMultiplier: 0.4,
     smoothWheel: true,
     touchMultiplier: 0.6,
@@ -58,7 +59,6 @@ requestAnimationFrame(raf)
 let mobibarLogo
 let navTogglerClose
 let navTogglerOpen
-let menuOpen = false
 
 // Rellax.JS
 new Rellax('.rellax', {
@@ -67,7 +67,6 @@ new Rellax('.rellax', {
 
 let triggerArr = Array.from(scrollTrigger)
 
-document.firstElementChild.scrollIntoView({ block: "start" })
 toTopBtn.style.display = "none"
 
 if (isVisible(scrollTrigger[0])) {
@@ -104,6 +103,9 @@ toTopBtn.addEventListener("click", () => {
 
 // Media Query Mobile
 if (mediaQueryMobile.matches) {
+    
+
+    let menuOpen = false
 
     let startY = 0
     let endY = 0
@@ -153,6 +155,8 @@ if (mediaQueryMobile.matches) {
     homeCards[0].classList.add("vh-91", "rounded-5", "rounded-bottom-0", "card-bg", "padding-home-4", "home-grad")
     homeCards[1].classList.add("card-bg")
 
+    extraOptions.forEach(option => option.classList.replace("w-90", "w-100"))
+
     rodamoLogo.classList.add("w-25")
 
     document.querySelector(".bg-about-text").classList.add("glass-effect")
@@ -175,48 +179,67 @@ if (mediaQueryMobile.matches) {
 
     let lastScrollTop = window.pageYOffset
 
+    document.addEventListener("DOMContentLoaded", () => {
+        var offcanvasNavbar = document.querySelector("#offcanvasNavbar")
+
+        offcanvasNavbar.addEventListener("show.bs.offcanvas", () => {
+            menuOpen = true
+            lenis.stop()
+        })
+
+        offcanvasNavbar.addEventListener("hide.bs.offcanvas", () => {
+            menuOpen = false
+            lenis.start()
+        })
+    })
+
     // Mobile navbar changer
-    document.addEventListener("scroll", () => {
+    lenis.on("scroll", () => {
 
-        if (window.scrollY === 0){
-            homeCards[0].classList.remove("ptx-90")
-            homeCards[0].classList.add("vh-91")
-            homeCards.forEach(card => card.classList.add("rounded-4", "rounded-5"))
-            homePill.classList.remove("d-none")
-            navbar.classList.remove(...mobibarClasses)
-            mobibarLogo.classList.remove(...mobibarLogoClasses)
-        } else {   
-            homeCards.forEach(card => { 
-                card.classList.add("ptx-90")
-                card.classList.remove("rounded-4", "rounded-5")
-            })
+        // pegar evento ja no carregamento da pagina
+        navTogglerOpen.addEventListener("click", () => {
+            navbar.classList.remove(...mobibarClasses)  
+            mobibarLogo.classList.remove(...mobibarLogoClasses)   
+            menuOpen = true
+            lenis.stop()
+        })
 
-            homeCards[0].classList.remove("vh-91")
-
-            homePill.classList.add("d-none")
-    
-            navTogglerOpen.addEventListener("click", () => {
-                navbar.classList.remove(...mobibarClasses)  
-                mobibarLogo.classList.remove(...mobibarLogoClasses)
-                menuOpen = true
-            })
-    
-            navTogglerClose.addEventListener("click", () => {
-                if (window.scrollY != 0) {
-                    navbar.classList.add(...mobibarClasses)
-                    mobibarLogo.classList.add(...mobibarLogoClasses)  
-                    menuOpen = false
-                } else {
-                    menuOpen = false
-                }
-                
-            })
-
-            if (!menuOpen) {
+        navTogglerClose.addEventListener("click", () => {
+            if (window.scrollY != 0) {
                 navbar.classList.add(...mobibarClasses)
-                mobibarLogo.classList.add(...mobibarLogoClasses)
+                mobibarLogo.classList.add(...mobibarLogoClasses)  
+
+                menuOpen = false
+            } else {
+                menuOpen = false
             }
-        }
+            lenis.start()
+        })
+
+        if (!menuOpen) {
+            navbar.classList.add(...mobibarClasses)
+            mobibarLogo.classList.add(...mobibarLogoClasses)
+
+            if (window.scrollY === 0){
+                homeCards[0].classList.remove("ptx-90")
+                homeCards[0].classList.add("vh-91")
+                homeCards.forEach(card => card.classList.add("rounded-4", "rounded-5"))
+                homePill.classList.remove("d-none")
+                navbar.classList.remove(...mobibarClasses)
+                mobibarLogo.classList.remove(...mobibarLogoClasses)
+            } else {   
+                homeCards.forEach(card => { 
+                    card.classList.add("ptx-90")
+                    card.classList.remove("rounded-4", "rounded-5")
+                })
+    
+                homeCards[0].classList.remove("vh-91")
+    
+                homePill.classList.add("d-none")
+            }
+        } 
+
+        
 
         // Page Indicator 
         if (isVisible(scrollTrigger[0])) {
@@ -243,7 +266,7 @@ if (mediaQueryMobile.matches) {
             dots[3].classList.remove('dots-active')
         }
 
-    }, {passive: "true"})
+    }, {passive: "false"})
 
     // Mobile Orientation Change
     // mobilePortrait.addEventListener("change", e => {
@@ -283,6 +306,25 @@ if (mediaQueryMobile.matches) {
             homeTitle.classList.toggle("z-1")
             homeSubText.classList.toggle("z-1")
         })
+
+
+        var offcanvasNavbar = document.querySelector("#offcanvasNavbar")
+    
+        offcanvasNavbar.addEventListener("show.bs.offcanvas", () => {
+            lenis.destroy()
+        })
+    
+        offcanvasNavbar.addEventListener("hide.bs.offcanvas", () => {
+            lenis = new Lenis({
+                wheelMultiplier: 0.4,
+                smoothWheel: true,
+                touchMultiplier: 0.6,
+                smoothTouch: true,
+                syncTouch: true,
+                normalizeWheel: true,
+            })
+            lenis.start()
+        })
     })
 
     homeCards[3].classList.remove("card-bg")
@@ -291,7 +333,7 @@ if (mediaQueryMobile.matches) {
     footerCta.forEach(cta => {
         cta.classList.replace("feats", "feats-2")
         cta.parentElement.classList.replace("mt-4", "mt-5")
-        cta.classList.add("h-75")
+        cta.classList.add("h-90")
     })
 
     footerCta[1].parentElement.classList.remove("mb-auto")
