@@ -6,7 +6,7 @@ import ingles from './i18n/en/redefinir-senha.json' assert { type: 'JSON' }
 import i18next from "i18next";
 import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
 
-inicializarInternacionalizacao(ingles, portugues);
+inicializarInternacionalizacao(ingles, portugues)
 
 const tradutor = document.querySelector('#lingua')
 tradutor.addEventListener('change', event => {
@@ -28,10 +28,8 @@ window.addEventListener("DOMContentLoaded", async(e) => {
     const divReposta = document.getElementById("div-reposta")
     const divReposta2 = document.getElementById("div-reposta-2")
 
-    let queryString = window.location.search
-    let endpoint = `auth/reset-password${queryString}`
-    const config = configuracaoFetch("GET")
-    const data = await executarFetch(endpoint, config)
+    const queryString = window.location.search
+    const data = await executarFetch(`auth/reset-password${queryString}`, configuracaoFetch("GET"))
 
     if(!data) {
         divReposta.classList.remove("d-none")
@@ -62,7 +60,6 @@ formulario.addEventListener("submit", async(e) => {
     limparMensagem(mensagemErro)
 
     if(!validacoes()) return
-
     await postToken({
         "Email": email,
         "Password": senha.value,
@@ -71,8 +68,10 @@ formulario.addEventListener("submit", async(e) => {
 
 async function postToken(body) {
     const config = configuracaoFetch("POST", body)
-   
+
+    loader.show()
     const res = await fetch(`https://playoffs-api.up.railway.app/auth/reset-password`, config)
+    loader.hide()
 
     const data = await res.json()
 
@@ -81,7 +80,7 @@ async function postToken(body) {
     } else {
         data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`)
         senha.value = ""
-        notificacaoErro(data.message)
+        await notificacaoErro(data.message)
     } 
 }
 

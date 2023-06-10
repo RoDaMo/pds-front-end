@@ -11,7 +11,7 @@ if (!localStorage.getItem('lng')) {
   localStorage.setItem('lng', 'ptbr')
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   inicializarInternacionalizacao(globalEn, globalPt)
   const pesquisa = document.getElementById("pesquisa")
   const barraPesquisa = document.getElementById("barra-pesquisa")
@@ -25,7 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (document.body.getAttribute('requires-auth')) {
     const config = configuracaoFetch('GET'),
-          response = executarFetch('auth', config)
+          response = await executarFetch('auth', config)
   }
 })
-

@@ -1,6 +1,6 @@
 import '../scss/configuracao-usuarios.scss'
 import JustValidate from 'just-validate'
-import {exibidorImagem} from '../js/utilidades/previewImagem'
+import { exibidorImagem } from './utilidades/previewImagem.js'
 import { uploadImagem } from './utilidades/uploadImagem'
 import { configuracaoFetch, executarFetch, limparMensagem } from "./utilidades/configFetch"
 import { notificacaoSucesso } from "./utilidades/notificacoes"
@@ -32,10 +32,10 @@ const pegarDados = async() => {
 }
 
 const configMenu = document.querySelector('.config-menu')
-const configMenuList = document.querySelector('.config-menu-list')
+const configMenuList = document.querySelector('.config-menu-list'),
+      abaBotoes = configMenuList.children
 const configTitle = document.querySelector('.config-title')
 const configOptionsWrapper = document.querySelector('.config-options-wrapper')
-let username = document.getElementById('offcanvasUserName')
 
 const deleteAccountForm = document.querySelector('#delete-account-form')
 const deleteAccountUserNameInput = document.querySelector('#delete-account-user-name-input')
@@ -54,13 +54,9 @@ const deleteAccountValidator = new JustValidate(deleteAccountForm, {
 })
 
 
-document.addEventListener('DOMContentLoaded', async () => {
-    changeConfigOptionsContext("1")
-    await new Promise(r => setTimeout(r, 2000))
-    if (!username) {
-		await new Promise(r => setTimeout(r, 100))
-		username = document.getElementById('usernameChampionshipId').textContent
-	};
+document.addEventListener('header-carregado', async () => {
+    await changeConfigOptionsContext("1")
+    const username = document.getElementById('offcanvasUserName').textContent
 
     deleteAccountValidator
         .addField(deleteAccountUserNameInput, [
@@ -69,7 +65,18 @@ document.addEventListener('DOMContentLoaded', async () => {
                 errorMessage: `<span class="i18" key="NomeUsuarioObrigatorio">${i18next.t("NomeUsuarioObrigatorio")}</span>`,
             },
             {
-                validator: (value) => username.textContent == value
+                validator: (value) => username == value,
+                errorMessage: `<span class="i18" key="NomeUsuarioInvalido">${i18next.t("NomeUsuarioInvalido")}</span>`
+            }
+        ])
+        .addField(deleteAccountCheckInput, [
+            {
+                rule: 'required',
+                errorMessage: `<span class="i18" key="TextoInvalido">${i18next.t("TextoInvalido")}</span>`
+            },
+            {
+                validator: (value) => 'Excluir Conta' == value,
+                errorMessage: `<span class="i18" key="TextoInvalido">${i18next.t("TextoInvalido")}</span>`
             }
         ])
         // submit
@@ -84,20 +91,16 @@ if (mediaQueryMobile.matches) {
     configMenu.classList.add('mb-0')
 }
 
-configMenuList.addEventListener('click', e => {
-    let target = e.target
-
-    if (target.tagName !== 'BUTTON') return
-
-    activateLi(target)
-
-    configTitle.innerText = target.innerText
-
-    changeConfigOptionsContext(target.getAttribute('menu'))
-})
+for (const configMenuOption of abaBotoes) {
+    configMenuOption.addEventListener('click', () => {	
+        activateLi(configMenuOption)
+        configTitle.innerText = configMenuOption.innerText
+        changeConfigOptionsContext(configMenuOption.getAttribute('menu'))
+    })
+}
 
 function activateLi(li) {
-    for (let item of configMenuList.children) {
+    for (const item of configMenuList.children) {
         item.classList.remove('active')
     }
 
@@ -106,11 +109,11 @@ function activateLi(li) {
 
 async function changeConfigOptionsContext(t) {
     const dados = await pegarDados()
-    console.log(dados)
     document.getElementById('biografia').textContent = dados.bio
     document.getElementById('email').textContent = dados.email
     document.getElementById('nome-usuario').textContent = dados.userName
     document.getElementById('nome').textContent = dados.nome
+
     if (dados.profileImg) {
         exibidorImagem(document.getElementById("config-user-pic"), dados.profileImg)
     } else {
@@ -191,19 +194,17 @@ async function changeConfigOptionsContext(t) {
             })
 
             async function postPerfil(endpoint, body) {
-                const config = configuracaoFetch("PUT", body)
-            
                 const callbackServidor = data => {
                     mensagemErro.classList.add("text-danger")
                     data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
                 }
             
                 loader.show()
-                const data = await executarFetch(endpoint, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
+                const data = await executarFetch(endpoint, configuracaoFetch("PUT", body), (res) => mensagemErro.textContent = res.results[0], callbackServidor)
                 loader.hide()
                 if (!data) return false
             
-                notificacaoSucesso(data.results[0])
+                await notificacaoSucesso(data.results[0])
                 return true
             }
 
@@ -218,7 +219,7 @@ async function changeConfigOptionsContext(t) {
                 .addField(updateProfileUserNameInput, [
                     {
                         validator: (value) => {
-                            return updateProfileBioInput.value.length > 0 ? true : value.length > 0 ? true : false
+                            return updateProfileBioInput.value.length > 0 ? true : value.length > 0
                         },
                         errorMessage: ' ',
                     },
@@ -231,7 +232,7 @@ async function changeConfigOptionsContext(t) {
                     },
                     {
                         validator: (value) => {
-                            return updateProfileUserNameInput.value.length > 0 ? true : value.length > 0 ? true : false
+                            return updateProfileUserNameInput.value.length > 0 ? true : value.length > 0
                         },
                         errorMessage: `<span class="i18" key="Preencher">${i18next.t("Preencher")}</span>`,
                     }
@@ -250,12 +251,11 @@ async function changeConfigOptionsContext(t) {
                     },
                     {
                         validator: (value) => {
-                            return updateProfileUserNameInput.value.length > 0 || updateProfileBioInput.value.length > 0 ? true : value.length > 0 ? true : false
+                            return updateProfileUserNameInput.value.length > 0 || updateProfileBioInput.value.length > 0 ? true : value.length > 0
                         },
                         errorMessage: ' ',
                     }
                 ])
-
                 // submit
                 .onSuccess(async(e) => {
                     // campo vazio mantem valor original
@@ -302,25 +302,10 @@ async function changeConfigOptionsContext(t) {
                 `
 
                 const excluirConta = document.getElementById('excluir-conta')
-                
-
-                document.getElementById('delete-account-user-name-input').addEventListener('keyup', async() => {
-                    limparMensagem(document.getElementById("nome-usuario"))
-                    if(!(deleteAccountUserNameInput.value === dados.userName)){
-                        document.getElementById("nome-usuario").textContent = `<span class="i18" key="NomeUsuarioInvalido">${i18next.t("NomeUsuarioInvalido")}</span>`
-                    } 
-                })
-
-                document.getElementById('delete-account-check-input').addEventListener('keyup', async() => {
-                    limparMensagem(document.getElementById("texto-excluir"))
-                    if(!(deleteAccountCheckInput.value === "Excluir Conta")){
-                        document.getElementById("texto-excluir").textContent = `<span class="i18" key="TextoInvalido">${i18next.t("TextoInvalido")}</span>`
-                    } 
-                })
 
                 excluirConta.addEventListener('click', async(e) => {
                     e.preventDefault()
-                    if(document.getElementById("texto-excluir").textContent === '' && document.getElementById("nome-usuario").textContent === ''){
+                    if(document.getElementById("texto-excluir").textContent === '' && document.getElementById("nome-usuario-erro").textContent === ''){
                         const config = configuracaoFetch("DELETE")
                     
                         const callbackServidor = data => {
@@ -330,6 +315,7 @@ async function changeConfigOptionsContext(t) {
 
                         loader.show()
                         const data = await executarFetch("auth/user", config, (res) => document.getElementById("erro-excluir").textContent = res.results[0], callbackServidor)
+                        loader.hide()
                         if (!data) return false
                         window.location.assign("/")
                     }
@@ -354,19 +340,17 @@ async function changeConfigOptionsContext(t) {
                 })
 
                 async function postName(endpoint, body) {
-                    const config = configuracaoFetch("PUT", body)
-                
                     const callbackServidor = data => {
                         mensagemErro.classList.add("text-danger")
                         data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
                     }
                     
                     loader.show()
-                    const data = await executarFetch(endpoint, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
+                    const data = await executarFetch(endpoint, configuracaoFetch("PUT", body), (res) => mensagemErro.textContent = res.results[0], callbackServidor)
                     loader.hide()
                     if (!data) return false
                     
-                    notificacaoSucesso(data.results[0])
+                    await notificacaoSucesso(data.results[0])
                     return true
                 }
 
@@ -468,20 +452,17 @@ async function changeConfigOptionsContext(t) {
                 })
 
                 const postRedefinirSenha = async(endpoint, body) => {
-                    console.log(body)
-                    const config = configuracaoFetch("PUT", body)
-                
                     const callbackServidor = data => {
                         mensagemErro.classList.add("text-danger")
                         data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
                     }
                 
                     loader.show()
-                    const data = await executarFetch(endpoint, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
+                    const data = await executarFetch(endpoint, configuracaoFetch("PUT", body), (res) => mensagemErro.textContent = res.results[0], callbackServidor)
                     loader.hide()
                     if (!data) return false
                 
-                    notificacaoSucesso(data.results[0])
+                    await notificacaoSucesso(data.results[0])
                     return true
                 }
 
@@ -508,7 +489,7 @@ async function changeConfigOptionsContext(t) {
                         },
                     ])
             break
-        
+
         // case 'Emails/Sessões':
         //     configOptionsWrapper.innerHTML = ``
         //     break

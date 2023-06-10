@@ -399,3 +399,9 @@ ul.dots-list {
 //     position: static !important;
 //   }
 // }
+
+.nav-item {
+  .bi-caret-left-fill {
+    color: $white!important;
+  }
+}

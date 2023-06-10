@@ -1,10 +1,13 @@
 import { notificacaoErro, notificacaoSucesso } from "./utilidades/notificacoes"
-import { configuracaoFetch, executarFetch, limparMensagem } from "./utilidades/configFetch"
+import { configuracaoFetch, executarFetch, limparMensagem, api } from "./utilidades/configFetch"
 import portugues from './i18n/ptbr/recuperar-senha.json' assert { type: 'JSON' }
 import ingles from './i18n/en/recuperar-senha.json' assert { type: 'JSON' }
 import i18next from "i18next";
 import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
+import './utilidades/loader'
 
+const loader = document.createElement('app-loader');
+document.body.appendChild(loader);
 inicializarInternacionalizacao(ingles, portugues);
 
 const tradutor = document.querySelector('#lingua')
@@ -17,7 +20,6 @@ tradutor.addEventListener('change', event => {
 const opcao1 = document.getElementById("1")
 const opcao2 = document.getElementById("2")
 const lng = localStorage.getItem('lng');
-console.log(opcao1)
 lng === 'ptbr' ? opcao1.selected = 'true' : opcao2.selected = 'true'
 
 
@@ -41,19 +43,20 @@ formulario.addEventListener("submit", async(e) => {
 
 async function postToken(body) {
     const config = configuracaoFetch("POST", body)
-   
-    const res = await fetch(`https://playoffs-api.up.railway.app/auth/forgot-password`, config)
+    loader.show()
+    const res = await fetch(`${api}auth/forgot-password`, config)
+    loader.hide()
 
     const data = await res.json()
 
     if(res.ok){
         idUsuario = data.results
-        notificacaoSucesso(data.message)
+        await notificacaoSucesso(data.message)
         apresentarResultado()
     } else {
         data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`)
         email.value = ""
-        notificacaoErro(data.message)
+        await notificacaoErro(data.message)
     } 
 }
 
@@ -62,13 +65,12 @@ function apresentarResultado() {
     divResposta.classList.remove("d-none")
 }
 
-botao.addEventListener("click", async() => {
-    let endpoint = `auth/resend-forgot-password?id=${idUsuario}`
-    const config = configuracaoFetch("GET")
-    const data = await executarFetch(endpoint, config)
+botao.addEventListener("click", async () => {
+    loader.show()
+    const data = await executarFetch(`auth/resend-forgot-password?id=${idUsuario}`, configuracaoFetch("GET"))
+    loader.hide()
 
-    if(data)
-        notificacaoSucesso(data.message)
+    if(data) await notificacaoSucesso(data.message)
 })
 
 const emailRegex = (str) => /\S+@\S+\.\S+/.test(str);

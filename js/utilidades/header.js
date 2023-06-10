@@ -1,9 +1,9 @@
 import { configuracaoFetch, api, executarFetch } from "./configFetch";
 import './loader'
 import i18next from "i18next"
+
 const loader = document.createElement('app-loader');
 document.body.appendChild(loader);
-
 
 export class header extends HTMLElement {
     constructor() {
@@ -71,10 +71,9 @@ export class header extends HTMLElement {
             const defaultImg = 'https://cdn-icons-png.flaticon.com/512/17/17004.png'
             const resultados = await infoUser.json()
             const user = resultados.results
-            console.log(user)
             const info = /* html */`
                 <li class="nav-item d-none d-lg-inline-flex me-5 navbar-user-img-wrapper navbar-clicavel" data-bs-toggle="offcanvas" data-bs-target="#offcanvasUser" aria-controls="offcanvasUser" aria-label="Toggle navigation">
-                    <i class="bi bi-caret-left-fill mt-1"></i>
+                    <i class="bi bi-caret-left-fill mt-1 text-black"></i>
                     <img src="${user.picture ? user.picture : defaultImg}" class="foto-usuario ms-2 h-100 w-100">
                 </li>
                 <!--
@@ -148,11 +147,6 @@ export class header extends HTMLElement {
                     </div>
                 </div>
             `
-            this.querySelector('#lingua').addEventListener('change', event => {
-                const selectedIndex = event.target.selectedIndex;
-                localStorage.setItem('lng', event.target.children[selectedIndex].value);
-                document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
-            })
             
             document.body.appendChild(offcanvasUser)
             document.querySelectorAll('.deslogar-usuario').forEach(el => el.addEventListener('click', async () => {
@@ -168,11 +162,12 @@ export class header extends HTMLElement {
                 localStorage.setItem('lng', event.target.children[selectedIndex].value);
                 document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
             })
+
+            this.dispatchEvent(new Event('header-carregado', { bubbles: true }))
         }
     }
 
     possuiCampeonato(campeonatoId) {
-        console.log(campeonatoId)
         if (campeonatoId) {
             // TODO: remover essa limitação e adicionar pagina para listar campeonatos do usuário
             return /* html */`
@@ -190,4 +185,5 @@ export class header extends HTMLElement {
         </a>`
     }
 }
+
 window.customElements.define('componente-header', header);

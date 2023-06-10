@@ -3,9 +3,11 @@ import { notificacaoErro } from "./utilidades/notificacoes"
 import { notificacaoSucesso } from "./utilidades/notificacoes"
 import portugues from './i18n/ptbr/confirmacao-cadastro.json' assert { type: 'JSON' }
 import ingles from './i18n/en/confirmacao-cadastro.json' assert { type: 'JSON' }
-import i18next from "i18next";
 import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
+import './utilidades/loader'
 
+const loader = document.createElement('app-loader');
+document.body.appendChild(loader);
 inicializarInternacionalizacao(ingles, portugues);
 
 document.querySelector('#lingua').addEventListener('change', event => {
@@ -21,10 +23,11 @@ window.addEventListener("DOMContentLoaded", async(e) => {
     const divReposta2 = document.getElementById("div-reposta-2")
     const divReposta3 = document.getElementById("div-reposta-3")
 
-    let queryString = window.location.search
-    let endpoint = `auth/confirm-email${queryString}`
-    const config = configuracaoFetch("GET")
-    const data = await executarFetch(endpoint, config)
+    const queryString = window.location.search
+
+    loader.show()
+    const data = await executarFetch(`auth/confirm-email${queryString}`, configuracaoFetch("GET"))
+    loader.hide()
 
     if(!data) {
         divReposta.classList.remove("d-none")
@@ -33,7 +36,7 @@ window.addEventListener("DOMContentLoaded", async(e) => {
     } else {
         divReposta2.classList.remove("d-none")
         reenviarEmail(data.results[0], divReposta2, divReposta3)
-        notificacaoErro(data.results[1])
+        await notificacaoErro(data.results[1])
     }
   })
 
@@ -42,24 +45,24 @@ function reenviarEmail(idUsuario, divReposta2, divReposta3) {
     const botao2 = document.getElementById("reenviar-email2")
 
     botao.addEventListener("click", async() => {
-        let endpoint = `auth/resend-confirm-email?id=${idUsuario}`
-        const config = configuracaoFetch("GET")
-        const data = await executarFetch(endpoint, config)
-    
+        loader.show()
+        const data = await executarFetch(`auth/resend-confirm-email?id=${idUsuario}`, configuracaoFetch("GET"))
+        loader.hide()
+
         if(data) {
             divReposta2.classList.add("d-none")
             divReposta3.classList.remove("d-none")
-            notificacaoSucesso(data.message)
+            await notificacaoSucesso(data.message)
         }
     })
 
-    botao2.addEventListener("click", async() => {
-        let endpoint = `auth/resend-confirm-email?id=${idUsuario}`
-        const config = configuracaoFetch("GET")
-        const data = await executarFetch(endpoint, config)
-    
-        if(data) {
-            notificacaoSucesso(data.message)
+    botao2.addEventListener("click", async () => {
+        loader.show()
+        const data = await executarFetch(`auth/resend-confirm-email?id=${idUsuario}`, configuracaoFetch("GET"))
+        loader.hide()
+
+        if (data) {
+            await notificacaoSucesso(data.message)
         }
     })
 }

@@ -40,7 +40,7 @@ const mobilePortrait = window.matchMedia("(orientation: portrait)")
 const mobibarClasses = ["position-fixed", "topx-14", "z-1", "start-50", "translate-middle-x", "w-60", "rounded-4", "glass-effect"]
 const mobibarLogoClasses = ["w-90", "mb-2", "translate-6"]
 
-var lenis = new Lenis({
+let lenis = new Lenis({
     wheelMultiplier: 0.4,
     smoothWheel: true,
     touchMultiplier: 0.6,
@@ -124,22 +124,14 @@ if (mediaQueryMobile.matches) {
         setTimeout(() => {
             if (endY > startY && !(isVisible(scrollTrigger[0]))) {
                 scrollTrigger.forEach(trigger => {
-                    if (isVisible(trigger)) {
-                        if (trigger.classList.contains("bottom-trigger")) {
-                            lenis.scrollTo(trigger.parentElement, {lock: true, duration: 1, force: true})
-        
-                            return
-                        }
+                    if (isVisible(trigger) && trigger.classList.contains("bottom-trigger")) {
+                        lenis.scrollTo(trigger.parentElement, {lock: true, duration: 1, force: true})
                     }
                 })
             } else if (endY < startY && !(isVisible(scrollTrigger[7]))) {
                 scrollTrigger.forEach(trigger => {
-                    if (isVisible(trigger)) {
-                        if (trigger.classList.contains("top-trigger")) {
-                            lenis.scrollTo(trigger.parentElement, {lock: true, duration: 1, force: true})
-        
-                            return
-                        }
+                    if (isVisible(trigger) && trigger.classList.contains("top-trigger")) {
+                        lenis.scrollTo(trigger.parentElement, {lock: true, duration: 1, force: true})
                     }
                 })
             }
@@ -180,7 +172,7 @@ if (mediaQueryMobile.matches) {
     let lastScrollTop = window.pageYOffset
 
     document.addEventListener("DOMContentLoaded", () => {
-        var offcanvasNavbar = document.querySelector("#offcanvasNavbar")
+        const offcanvasNavbar = document.querySelector("#offcanvasNavbar")
 
         offcanvasNavbar.addEventListener("show.bs.offcanvas", () => {
             menuOpen = true

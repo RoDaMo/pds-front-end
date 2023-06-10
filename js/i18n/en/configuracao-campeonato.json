@@ -61,7 +61,7 @@
     "FormatoObrigatorio": "Please select a format",
     "QuantidadeObrigatoria": "Please select a number",
     "LogoObrigatoria": "insert a logo",
-    "ImagemTamanho": "Maximum image size: 5mb",
+    "ImagemTamanho": "Invalid file! The file can't be bigger than 5mb and be of the following types: png, jpeg, jpg, webp, gif, bmp, tiff",
     "PaisObrigatorio": "Country is required",
     "EstadoObrigatorio": "State is required",
     "CidadeObrigatoria": "City is required",
@@ -69,14 +69,14 @@
     "DescricaoObrigatoria": "Please enter a description",
     "VinculadoSucesso": "Team linked successfully!",
     "DesvinculadoSucesso": "Team unlinked successfully!",
-    "SemTimes": "There are no linked teams, add a team to your league by clicking the button below!",
+    "SemTimes": "There are no linked teams, add a team to your league by clicking the button above!",
     "Adicionar": "To add",
     "AoCampeonato": "to championship",
     "NomeUsuarioObrigatorio": "Username is required",
     "NomeUsuarioIncorreto": "Incorrect username",
     "ConfirmarExclusao": "You must confirm the exclusion from the championship",
     "Escreva": "Type 'Delete Championship' to confirm the deletion of the championship.",
-    "Cancelar": "Cancel"
-
+    "Cancelar": "Cancel",
+    "PdfInvalido": "Invalid file! The file must have less than 20mb and be a pdf file."
 
 }
