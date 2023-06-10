@@ -198,60 +198,65 @@ async function changeConfigOptionsContext(t) {
                 return true
             }
 
-            
-
-
             const updateProfileValidator = new JustValidate(updateProfileForm, {
                 validateBeforeSubmitting: true,
             })
 
-            updateProfileValidator
-                .addField(updateProfileUserNameInput, [
-                    {
-                        validator: (value) => {
-                            return updateProfileBioInput.value.length > 0 ? true : value.length > 0 ? true : false
-                        },
-                        errorMessage: ' ',
-                    },
-                ])
-                .addField(updateProfileBioInput, [
-                    {
-                        rule: 'maxLength',
-                        value: 150,
-                        errorMessage: `<span class="i18" key="BioMax">${i18next.t("BioMax")}</span>`,
-                    },
-                    {
-                        validator: (value) => {
-                            return updateProfileUserNameInput.value.length > 0 ? true : value.length > 0 ? true : false
-                        },
-                        errorMessage: `<span class="i18" key="Preencher">${i18next.t("Preencher")}</span>`,
-                    }
-                ])
-                .addField(updateProfileUserPicInput, [
-                    {
-                        rule: 'files',
-                        value: {
-                            files: {
-                                extensions: ['jpeg', 'jpg', 'png', 'webp', 'gif', 'bmp', 'tiff'],
-                                maxSize: 5000000,
-                                types: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/bmp', 'image/tiff'],
+            function case1() {
+                updateProfileValidator
+                    .addField(updateProfileUserNameInput, [
+                        {
+                            validator: (value) => {
+                                return updateProfileBioInput.value.length > 0 ? true : value.length > 0 ? true : false
                             },
+                            errorMessage: ' ',
                         },
-                        errorMessage: `<span class="i18" key="ImagemTamanho">${i18next.t("ImagemTamanho")}</span>`,
-                    },
-                    {
-                        validator: (value) => {
-                            return updateProfileUserNameInput.value.length > 0 || updateProfileBioInput.value.length > 0 ? true : value.length > 0 ? true : false
+                    ])
+                    .addField(updateProfileBioInput, [
+                        {
+                            rule: 'maxLength',
+                            value: 150,
+                            errorMessage: `<span class="i18" key="BioMax">${i18next.t("BioMax")}</span>`,
                         },
-                        errorMessage: ' ',
-                    }
-                ])
+                        {
+                            validator: (value) => {
+                                return updateProfileUserNameInput.value.length > 0 ? true : value.length > 0 ? true : false
+                            },
+                            errorMessage: `<span class="i18" key="Preencher">${i18next.t("Preencher")}</span>`,
+                        }
+                    ])
+                    .addField(updateProfileUserPicInput, [
+                        {
+                            rule: 'files',
+                            value: {
+                                files: {
+                                    extensions: ['jpeg', 'jpg', 'png', 'webp', 'gif', 'bmp', 'tiff'],
+                                    maxSize: 5000000,
+                                    types: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/bmp', 'image/tiff'],
+                                },
+                            },
+                            errorMessage: `<span class="i18" key="ImagemTamanho">${i18next.t("ImagemTamanho")}</span>`,
+                        },
+                        {
+                            validator: (value) => {
+                                return updateProfileUserNameInput.value.length > 0 || updateProfileBioInput.value.length > 0 ? true : value.length > 0 ? true : false
+                            },
+                            errorMessage: ' ',
+                        }
+                    ])
+                    // submit
+                    .onSuccess(async(e) => {
+                        // campo vazio mantem valor original
+                        e.preventDefault()
+                    })
+            }
 
-                // submit
-                .onSuccess(async(e) => {
-                    // campo vazio mantem valor original
-                    e.preventDefault()
-                })
+            case1()
+
+            
+            document.addEventListener('nova-lingua', event => {
+                case1()
+            })
 
             break
 
@@ -365,17 +370,25 @@ async function changeConfigOptionsContext(t) {
                     validateBeforeSubmitting: true,
                 })
 
-                updateAccountValidator
-                    .addField(updateAccountRealNameInput, [
-                        {
-                            rule: 'required',
-                            errorMessage: `<span class="i18" key="NomeRealObrigatorio">${i18next.t("NomeRealObrigatorio")}</span>`,
-                        },
-                    ])
-                    // submit
-                    .onSuccess(async(e) => {
-                        e.preventDefault()
-                    })
+                function case2() {
+                    updateAccountValidator
+                        .addField(updateAccountRealNameInput, [
+                            {
+                                rule: 'required',
+                                errorMessage: `<span class="i18" key="NomeRealObrigatorio">${i18next.t("NomeRealObrigatorio")}</span>`,
+                            },
+                        ])
+                        // submit
+                        .onSuccess(async(e) => {
+                            e.preventDefault()
+                        })
+                }
+
+                case2()
+
+                document.addEventListener('nova-lingua', event => {
+                    case2()
+                })
 
             break
 
@@ -446,7 +459,8 @@ async function changeConfigOptionsContext(t) {
                     validateBeforeSubmitting: true,
                 })
 
-                changePasswordValidator
+                function case3() {
+                    changePasswordValidator
                     .addField(changePasswordInput, [
                         {
                             rule: 'required',
@@ -464,6 +478,15 @@ async function changeConfigOptionsContext(t) {
                             errorMessage: `<span class="i18" key="SenhaInvalida">${i18next.t("SenhaInvalida")}</span>`,
                         },
                     ])
+                }
+
+                case3()
+                
+
+                document.addEventListener('nova-lingua', event => {
+                    case3()
+                })
+
             break
         
         // case 'Emails/Sessões':

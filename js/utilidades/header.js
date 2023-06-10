@@ -145,11 +145,11 @@ export class header extends HTMLElement {
                     </div>
                 </div>
             `
-            this.querySelector('#lingua').addEventListener('change', event => {
-                const selectedIndex = event.target.selectedIndex;
-                localStorage.setItem('lng', event.target.children[selectedIndex].value);
-                document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
-            })
+            // this.querySelector('#lingua').addEventListener('change', event => {
+            //     const selectedIndex = event.target.selectedIndex;
+            //     localStorage.setItem('lng', event.target.children[selectedIndex].value);
+            //     document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
+            // })
             
             document.body.appendChild(offcanvasUser)
             document.querySelectorAll('.deslogar-usuario').forEach(el => el.addEventListener('click', async () => {

@@ -88,7 +88,68 @@ const numero = (str) => /[0-9]/.test(str);
 const caracteres = (str) => /.{4,}/.test(str);
 const especial = (str) => /^[a-zA-Z0-9 ]*$/.test(str);
 
-validator
+criarValidacao()
+
+botao.addEventListener("click", async() => {
+    let endpoint = `auth/resend-confirm-email?id=${idUsuario}`
+    const config = configuracaoFetch("GET")
+    const data = await executarFetch(endpoint, config)
+
+    if(data)
+        notificacaoSucesso(data.message)
+})
+
+async function postUsuario(endpoint, body) {
+    const config = configuracaoFetch("POST", body)
+
+    const callbackServidor = data => {
+        mensagemErro.classList.add("text-danger")
+        data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
+    }
+
+    const data = await executarFetch(endpoint, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
+
+    if (!data) return false
+
+    idUsuario = data.results
+    notificacaoSucesso(data.message)
+    return true
+}
+
+function apresentarResultado() {
+    h1.style.display = "none"
+    h4.style.display = "none"
+    formulario.style.display = "none"
+    divResposta.classList.remove("d-none")
+}
+
+const tradutor = document.querySelector('#lingua')
+tradutor.addEventListener('change', event => {
+    const selectedIndex = event.target.selectedIndex;
+    localStorage.setItem('lng', event.target.children[selectedIndex].value);
+    document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
+
+    criarValidacao()
+
+    flatpickr(dataAniversario, {
+        dateFormat: "Y-m-d",
+        locale:  event.target.children[selectedIndex].value === 'ptbr' ? Portuguese : ingles,
+        altInput: true,
+        maxDate: new Date(new Date().getFullYear() - 13, new Date().getMonth(), new Date().getDate())
+    })
+})
+
+const opcao1 = document.getElementById("1")
+const opcao2 = document.getElementById("2")
+lng === 'ptbr' ? opcao1.selected = 'true' : opcao2.selected = 'true'
+
+const inputData = document.querySelector('[tabindex]')
+inputData.placeholder = i18next.t("DataNascimentoPlaceholder")
+inputData.setAttribute('key', 'DataNascimentoPlaceholder')
+inputData.classList.add("i18-placeholder")
+
+function criarValidacao() {
+    validator
     .addField(email, [
         {
             rule: 'required',
@@ -162,61 +223,5 @@ validator
         }
       
         loader.hide(); // Oculta o loader
-});
-
-botao.addEventListener("click", async() => {
-    let endpoint = `auth/resend-confirm-email?id=${idUsuario}`
-    const config = configuracaoFetch("GET")
-    const data = await executarFetch(endpoint, config)
-
-    if(data)
-        notificacaoSucesso(data.message)
-})
-
-async function postUsuario(endpoint, body) {
-    const config = configuracaoFetch("POST", body)
-
-    const callbackServidor = data => {
-        mensagemErro.classList.add("text-danger")
-        data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
-    }
-
-    const data = await executarFetch(endpoint, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
-
-    if (!data) return false
-
-    idUsuario = data.results
-    notificacaoSucesso(data.message)
-    return true
+    });
 }
-
-function apresentarResultado() {
-    h1.style.display = "none"
-    h4.style.display = "none"
-    formulario.style.display = "none"
-    divResposta.classList.remove("d-none")
-}
-
-const tradutor = document.querySelector('#lingua')
-tradutor.addEventListener('change', event => {
-    const selectedIndex = event.target.selectedIndex;
-    localStorage.setItem('lng', event.target.children[selectedIndex].value);
-    document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
-
-    flatpickr(dataAniversario, {
-        dateFormat: "Y-m-d",
-        locale:  event.target.children[selectedIndex].value === 'ptbr' ? Portuguese : ingles,
-        altInput: true,
-        maxDate: new Date(new Date().getFullYear() - 13, new Date().getMonth(), new Date().getDate())
-    })
-})
-
-const opcao1 = document.getElementById("1")
-const opcao2 = document.getElementById("2")
-lng === 'ptbr' ? opcao1.selected = 'true' : opcao2.selected = 'true'
-
-const inputData = document.querySelector('[tabindex]')
-inputData.placeholder = i18next.t("DataNascimentoPlaceholder")
-inputData.setAttribute('key', 'DataNascimentoPlaceholder')
-inputData.classList.add("i18-placeholder")
-console.log(inputData)

@@ -15,12 +15,6 @@ import * as bootstrap from 'bootstrap'
 
 inicializarInternacionalizacao(ingles, portugues);
 
-document.querySelector('#lingua').addEventListener('change', event => {
-    const selectedIndex = event.target.selectedIndex;
-    localStorage.setItem('lng', event.target.children[selectedIndex].value);
-    document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
-})
-
 let meuModal
 let confirmou = false
 
@@ -201,16 +195,37 @@ formato.addEventListener("change", () => {
     }
 })
 
+let lng = localStorage.getItem('lng')
+
 flatpickr(dataInicial, {
     dateFormat: "Y-m-d",
-    locale: Portuguese,
+    locale: lng === 'ptbr' ? Portuguese : ingles,
     altInput: true,
 })
 
 flatpickr(dataFinal, {
     dateFormat: "Y-m-d",
-    locale: Portuguese,
+    locale: lng === 'ptbr' ? Portuguese : ingles,
     altInput: true,
+})
+
+document.addEventListener('nova-lingua', event => {
+    let lng = localStorage.getItem('lng')
+
+    flatpickr(dataInicial, {
+        dateFormat: "Y-m-d",
+        locale: lng === 'ptbr' ? Portuguese : ingles,
+        altInput: true,
+    })
+
+    flatpickr(dataFinal, {
+        dateFormat: "Y-m-d",
+        locale: lng === 'ptbr' ? Portuguese : ingles,
+        altInput: true,
+    })
+
+    criarValidacao()
+
 })
 
 
@@ -223,135 +238,6 @@ imagem.addEventListener("change", async() => {
     document.getElementById('salvar').disabled = !(data.succeed === true)
 })
 
-
-validator
-    .addField(nomeCampeonato, [
-        {
-            rule: 'required',
-            errorMessage: `<span class="i18" key="NomeCampeonatObrigatorio">${i18next.t("NomeCampeonatObrigatorio")}</span>`,
-        },
-    ])
-    .addField(dataInicial, [
-        {
-            rule: 'required',
-            errorMessage: `<span class="i18" key="DataInicialObrigatoria">${i18next.t("DataInicialObrigatoria")}</span>`,
-        },
-    ])
-    .addField(dataFinal, [
-        {
-            rule: 'required',
-            errorMessage: `<span class="i18" key="DataFinalObrigatoria">${i18next.t("DataFinalObrigatoria")}</span>`,
-        },
-        {
-            validator: (value, context) => {
-                const dataInicial = new Date(document.getElementById("data-inicial").value)
-                const dataFinal = new Date(value)
-                return dataFinal >= dataInicial
-            },
-            errorMessage: `<span class="i18" key="DataFinalMaiorIgual">${i18next.t("DataFinalMaiorIgual")}</span>`
-        }
-    ])
-    .addField(esporte, [
-        {
-            rule: 'required',
-            errorMessage: `<span class="i18" key="EsporteObrigatorio">${i18next.t("EsporteObrigatorio")}</span>`,
-        },
-    ])
-    .addField(formato, [
-        {
-            rule: 'required',
-            errorMessage: `<span class="i18" key="FormatoObrigatorio">${i18next.t("FormatoObrigatorio")}</span>`,
-        },
-    ])
-    .addField(quantidade, [
-        {
-            rule: 'required',
-            errorMessage: `<span class="i18" key="QuantidadeObrigatoria">${i18next.t("QuantidadeObrigatoria")}</span>`,
-        },
-    ])
-    .addField(imagem, [
-        {
-            rule: 'required',
-            errorMessage: `<span class="i18" key="LogoObrigatoria">${i18next.t("LogoObrigatoria")}</span>`,
-        },
-        {
-            rule: 'files',
-            value: {
-                files: {
-                    extensions: ['jpeg', 'jpg', 'png', 'webp', 'gif', 'bmp', 'tiff'],
-                    maxSize: 5000000,
-                    types: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/bmp', 'image/tiff'],
-                },
-            },
-            errorMessage: `<span class="i18" key="ImagemTamanho">${i18next.t("ImagemTamanho")}</span>`,
-        }
-    ])
-    .addField(pais, [
-        {
-            rule: 'required',
-            errorMessage: `<span class="i18" key="PaisObrigatorio">${i18next.t("PaisObrigatorio")}</span>`,
-        },
-    ])
-    .addField(estado, [
-        {
-            rule: 'required',
-            errorMessage: `<span class="i18" key="EstadoObrigatorio">${i18next.t("EstadoObrigatorio")}</span>`,
-        },
-    ])
-    .addField(cidade, [
-        {
-            rule: 'required',
-            errorMessage: `<span class="i18" key="CidadeObrigatoria">${i18next.t("CidadeObrigatoria")}</span>`,
-        },
-    ])
-    .addField(bairro, [
-        {
-            rule: 'required',
-            errorMessage: `<span class="i18" key="BairroObrigaorio">${i18next.t("BairroObrigaorio")}</span>`,
-        },
-    ])
-    .addField(descricao, [
-        {
-            rule: 'required',
-            errorMessage: `<span class="i18" key="DescricaoObrigatoria">${i18next.t("DescricaoObrigatoria")}</span>`,
-        },
-    ])
-    .addField(quantidadeJogadores, [
-        {
-            rule: 'required',
-            errorMessage: `<span class="i18" key="QuantidadeJogadoresObrigatorio">${i18next.t("QuantidadeJogadoresObrigatorio")}</span>`,
-        },  
-    ])
-    .onSuccess(async(e) => {
-        e.preventDefault()
-        limparMensagem(mensagemErro)
-
-        loader.show();
-
-        const resultado = await postCampeonato("championships", {
-            "name": nomeCampeonato.value,
-            "initialDate": dataInicial.value,
-            "finalDate": dataFinal.value,
-            "sportsId": parseInt(esporte.value),
-            "teamQuantity": parseInt(quantidade.value),
-            "logo": emblema.value,
-            "description": descricao.value,
-            "Format": parseInt(formato.value),
-            "Nation": pais.value,
-            "State": estado.value,
-            "City": cidade.value,
-            "Neighborhood": bairro.value,
-            "NumberOfPlayers": quantidadeJogadores.value
-        })
-
-        if (resultado) {
-            formulario.reset()
-            escudo.src = "#"
-        }
-        loader.hide();
-        
-        window.location.assign('/pages/configuracao-campeonato.html')
-    })
 
 async function postCampeonato(endpoint, body) {
     const config = configuracaoFetch("POST", body)
@@ -381,4 +267,138 @@ async function postCpf(endpoint, body) {
 
     notificacaoSucesso(data.results[0])
     return true
+}
+
+criarValidacao()
+
+function criarValidacao() {
+    i18next.changeLanguage(localStorage.getItem('lng'))
+    validator
+        .addField(nomeCampeonato, [
+            {
+                rule: 'required',
+                errorMessage: `<span class="i18" key="NomeCampeonatObrigatorio">${i18next.t("NomeCampeonatObrigatorio")}</span>`,
+            },
+        ])
+        .addField(dataInicial, [
+            {
+                rule: 'required',
+                errorMessage: `<span class="i18" key="DataInicialObrigatoria">${i18next.t("DataInicialObrigatoria")}</span>`,
+            },
+        ])
+        .addField(dataFinal, [
+            {
+                rule: 'required',
+                errorMessage: `<span class="i18" key="DataFinalObrigatoria">${i18next.t("DataFinalObrigatoria")}</span>`,
+            },
+            {
+                validator: (value, context) => {
+                    const dataInicial = new Date(document.getElementById("data-inicial").value)
+                    const dataFinal = new Date(value)
+                    return dataFinal >= dataInicial
+                },
+                errorMessage: `<span class="i18" key="DataFinalMaiorIgual">${i18next.t("DataFinalMaiorIgual")}</span>`
+            }
+        ])
+        .addField(esporte, [
+            {
+                rule: 'required',
+                errorMessage: `<span class="i18" key="EsporteObrigatorio">${i18next.t("EsporteObrigatorio")}</span>`,
+            },
+        ])
+        .addField(formato, [
+            {
+                rule: 'required',
+                errorMessage: `<span class="i18" key="FormatoObrigatorio">${i18next.t("FormatoObrigatorio")}</span>`,
+            },
+        ])
+        .addField(quantidade, [
+            {
+                rule: 'required',
+                errorMessage: `<span class="i18" key="QuantidadeObrigatoria">${i18next.t("QuantidadeObrigatoria")}</span>`,
+            },
+        ])
+        .addField(imagem, [
+            {
+                rule: 'required',
+                errorMessage: `<span class="i18" key="LogoObrigatoria">${i18next.t("LogoObrigatoria")}</span>`,
+            },
+            {
+                rule: 'files',
+                value: {
+                    files: {
+                        extensions: ['jpeg', 'jpg', 'png', 'webp', 'gif', 'bmp', 'tiff'],
+                        maxSize: 5000000,
+                        types: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/bmp', 'image/tiff'],
+                    },
+                },
+                errorMessage: `<span class="i18" key="ImagemTamanho">${i18next.t("ImagemTamanho")}</span>`,
+            }
+        ])
+        .addField(pais, [
+            {
+                rule: 'required',
+                errorMessage: `<span class="i18" key="PaisObrigatorio">${i18next.t("PaisObrigatorio")}</span>`,
+            },
+        ])
+        .addField(estado, [
+            {
+                rule: 'required',
+                errorMessage: `<span class="i18" key="EstadoObrigatorio">${i18next.t("EstadoObrigatorio")}</span>`,
+            },
+        ])
+        .addField(cidade, [
+            {
+                rule: 'required',
+                errorMessage: `<span class="i18" key="CidadeObrigatoria">${i18next.t("CidadeObrigatoria")}</span>`,
+            },
+        ])
+        .addField(bairro, [
+            {
+                rule: 'required',
+                errorMessage: `<span class="i18" key="BairroObrigaorio">${i18next.t("BairroObrigaorio")}</span>`,
+            },
+        ])
+        .addField(descricao, [
+            {
+                rule: 'required',
+                errorMessage: `<span class="i18" key="DescricaoObrigatoria">${i18next.t("DescricaoObrigatoria")}</span>`,
+            },
+        ])
+        .addField(quantidadeJogadores, [
+            {
+                rule: 'required',
+                errorMessage: `<span class="i18" key="QuantidadeJogadoresObrigatorio">${i18next.t("QuantidadeJogadoresObrigatorio")}</span>`,
+            },  
+        ])
+        .onSuccess(async(e) => {
+            e.preventDefault()
+            limparMensagem(mensagemErro)
+
+            loader.show();
+
+            const resultado = await postCampeonato("championships", {
+                "name": nomeCampeonato.value,
+                "initialDate": dataInicial.value,
+                "finalDate": dataFinal.value,
+                "sportsId": parseInt(esporte.value),
+                "teamQuantity": parseInt(quantidade.value),
+                "logo": emblema.value,
+                "description": descricao.value,
+                "Format": parseInt(formato.value),
+                "Nation": pais.value,
+                "State": estado.value,
+                "City": cidade.value,
+                "Neighborhood": bairro.value,
+                "NumberOfPlayers": quantidadeJogadores.value
+            })
+
+            if (resultado) {
+                formulario.reset()
+                escudo.src = "#"
+                window.location.assign('/pages/configuracao-campeonato.html')
+            }
+            loader.hide();
+            
+        })
 }

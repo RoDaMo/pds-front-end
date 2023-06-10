@@ -20,58 +20,10 @@ const lembrar = document.getElementById('lembrar')
 const loader = document.createElement('app-loader');
 document.body.appendChild(loader);
 
-
 const validator = new JustValidate(formulario, {
     validateBeforeSubmitting: true,
 })
-
-validator
-    .addField(nomeUsuario, [
-        {
-            rule: 'required',
-            errorMessage: `<span class="i18" key="NomeObrigatorio">${i18next.t("NomeObrigatorio")}</span>`,
-        },
-        {
-            rule: 'minLength',
-            value: 4,
-            errorMessage: `<span class="i18" key="NomeMinimo">${i18next.t("NomeMinimo")}</span>`,
-        },
-        {
-            rule: 'maxLength',
-            value: 20,
-            errorMessage: `<span class="i18" key="NomeMaximo">${i18next.t("NomeMaximo")}</span>`,
-        },
-        {
-            rule: 'customRegexp',
-            value: /^[A-Za-z0-9_-]*$/,
-            errorMessage: `<span class="i18" key="NomeInvalido">${i18next.t("NomeInvalido")}</span>`,
-        },
-    ])
-    .addField(senha, [
-        {
-            rule: 'required',
-            errorMessage: `<span class="i18" key="SenhaObrigatoria">${i18next.t("SenhaObrigatoria")}</span>`,
-        },
-        {
-            rule: 'customRegexp',
-            value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{4,}$/,
-            errorMessage: `<span class="i18" key="SenhaInvalida">${i18next.t("SenhaInvalida")}</span>`,
-        },
-        
-    ])
-    .onSuccess(async(e) => {
-        e.preventDefault()
-        limparMensagem(mensagemErro)
-
-        loader.show();
-
-        await postToken({
-            "Username": nomeUsuario.value,
-            "Password": senha.value,
-            "RememberMe": lembrar.checked ? true : false
-        })
-        loader.hide();
-    })
+criarValidacao()
 
 visualizarSenha()
 
@@ -132,9 +84,60 @@ tradutor.addEventListener('change', event => {
     const selectedIndex = event.target.selectedIndex;
     localStorage.setItem('lng', event.target.children[selectedIndex].value);
     document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
+    criarValidacao()
 })
 
 const opcao1 = document.getElementById("1")
 const opcao2 = document.getElementById("2")
 const lng = localStorage.getItem('lng');
 lng === 'ptbr' ? opcao1.selected = 'true' : opcao2.selected = 'true'
+
+function criarValidacao() {
+    validator
+        .addField(nomeUsuario, [
+            {
+                rule: 'required',
+                errorMessage: `<span class="i18" key="NomeObrigatorio">${i18next.t("NomeObrigatorio")}</span>`,
+            },
+            {
+                rule: 'minLength',
+                value: 4,
+                errorMessage: `<span class="i18" key="NomeMinimo">${i18next.t("NomeMinimo")}</span>`,
+            },
+            {
+                rule: 'maxLength',
+                value: 20,
+                errorMessage: `<span class="i18" key="NomeMaximo">${i18next.t("NomeMaximo")}</span>`,
+            },
+            {
+                rule: 'customRegexp',
+                value: /^[A-Za-z0-9_-]*$/,
+                errorMessage: `<span class="i18" key="NomeInvalido">${i18next.t("NomeInvalido")}</span>`,
+            },
+        ])
+        .addField(senha, [
+            {
+                rule: 'required',
+                errorMessage: `<span class="i18" key="SenhaObrigatoria">${i18next.t("SenhaObrigatoria")}</span>`,
+            },
+            {
+                rule: 'customRegexp',
+                value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{4,}$/,
+                errorMessage: `<span class="i18" key="SenhaInvalida">${i18next.t("SenhaInvalida")}</span>`,
+            },
+            
+        ])
+        .onSuccess(async(e) => {
+            e.preventDefault()
+            limparMensagem(mensagemErro)
+    
+            loader.show();
+    
+            await postToken({
+                "Username": nomeUsuario.value,
+                "Password": senha.value,
+                "RememberMe": lembrar.checked ? true : false
+            })
+            loader.hide();
+        })
+}

@@ -17,12 +17,6 @@ import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao
 
 inicializarInternacionalizacao(ingles, portugues);
 
-document.querySelector('#lingua').addEventListener('change', event => {
-    const selectedIndex = event.target.selectedIndex;
-    localStorage.setItem('lng', event.target.children[selectedIndex].value);
-    document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
-})
-
 const loader = document.createElement('app-loader');
 document.body.appendChild(loader);
 
@@ -126,16 +120,35 @@ const init = async () => {
 			linkRegulamento.href = campeonato.rules
 		}
 
+		let lng = localStorage.getItem('lng')
+
 		flatpickr(dataInicial, {
 			dateFormat: "Y-m-d",
-			locale: Portuguese,
+			locale: lng === 'ptbr' ? Portuguese : ingles,
 			altInput: true,
 		})
 
 		flatpickr(dataFinal, {
 			dateFormat: "Y-m-d",
-			locale: Portuguese,
+			locale: lng === 'ptbr' ? Portuguese : ingles,
 			altInput: true,
+		})
+
+		document.addEventListener('nova-lingua', event => {
+			let lng = localStorage.getItem('lng')
+		
+			flatpickr(dataInicial, {
+				dateFormat: "Y-m-d",
+				locale: lng === 'ptbr' ? Portuguese : ingles,
+				altInput: true,
+			})
+	
+			flatpickr(dataFinal, {
+				dateFormat: "Y-m-d",
+				locale: lng === 'ptbr' ? Portuguese : ingles,
+				altInput: true,
+			})
+		
 		})
 
 		imageFile.addEventListener("change", async () => {
@@ -160,7 +173,8 @@ const init = async () => {
 			validateBeforeSubmitting: true,
 		})
 
-		validator
+		function validator1() {
+			validator
 			.addField(name, [
 				{
 					rule: 'required',
@@ -271,6 +285,15 @@ const init = async () => {
 
 				mensagemErro.textContent = ''
 			})
+		}
+
+		document.addEventListener('nova-lingua', event => {
+			validator1()
+		})
+
+		validator1()
+
+		
 	}
 
 	const putCampeonato = async body => {
@@ -420,40 +443,49 @@ const init = async () => {
 					deleteCampeonato = document.getElementById('delete-championship-check-input'),
 					username = document.getElementById('offcanvasUserName')
 
-		deleteAccountValidator
-			.addField(usernameInput, [
-					{
-							rule: 'required',
-							errorMessage: `<span class="i18" key="NomeUsuarioObrigatorio">${i18next.t("NomeUsuarioObrigatorio")}</span>`,
-					},
-					{
-							validator: (value) => username.textContent == value,
-							errorMessage: `<span class="i18" key="NomeUsuarioIncorreto">${i18next.t("NomeUsuarioIncorreto")}</span>`
-					}
-			])
-			.addField(deleteCampeonato, [
-					{
-							rule: 'required',
-							errorMessage:  `<span class="i18" key="ConfirmarExclusao">${i18next.t("ConfirmarExclusao")}</span>`,
-					},
-					{
-							validator: (value) => value == 'Excluir Campeonato' ? true : false,
-							errorMessage: `<span class="i18" key="Escreva">${i18next.t("Escreva")}</span>`,
-					},
-			])
-			// submit
-			.onSuccess(async(e) => {
-					e.preventDefault()
-					loader.show()
-					const configFetch = configuracaoFetch('DELETE'),
-								response = await executarFetch(`championships/${championshipId}`, configFetch)
+		function validor2() {
+			deleteAccountValidator
+				.addField(usernameInput, [
+						{
+								rule: 'required',
+								errorMessage: `<span class="i18" key="NomeUsuarioObrigatorio">${i18next.t("NomeUsuarioObrigatorio")}</span>`,
+						},
+						{
+								validator: (value) => username.textContent == value,
+								errorMessage: `<span class="i18" key="NomeUsuarioIncorreto">${i18next.t("NomeUsuarioIncorreto")}</span>`
+						}
+				])
+				.addField(deleteCampeonato, [
+						{
+								rule: 'required',
+								errorMessage:  `<span class="i18" key="ConfirmarExclusao">${i18next.t("ConfirmarExclusao")}</span>`,
+						},
+						{
+								validator: (value) => value == 'Excluir Campeonato' ? true : false,
+								errorMessage: `<span class="i18" key="Escreva">${i18next.t("Escreva")}</span>`,
+						},
+				])
+				// submit
+				.onSuccess(async(e) => {
+						e.preventDefault()
+						loader.show()
+						const configFetch = configuracaoFetch('DELETE'),
+									response = await executarFetch(`championships/${championshipId}`, configFetch)
 
-					loader.hide()
+						loader.hide()
 
-					if (response.succeed) {
-						window.location.assign('/index.html');
-					}
-			})
+						if (response.succeed) {
+							window.location.assign('/index.html');
+						}
+				})
+		}
+
+		document.addEventListener('nova-lingua', event => {
+			validor2()
+		})
+
+		validor2()
+		
 	}
 
 	//#region coisas chatas

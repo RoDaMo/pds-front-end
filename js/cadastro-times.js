@@ -13,10 +13,8 @@ import * as bootstrap from 'bootstrap'
 
 inicializarInternacionalizacao(ingles, portugues);
 
-document.querySelector('#lingua').addEventListener('change', event => {
-    const selectedIndex = event.target.selectedIndex;
-    localStorage.setItem('lng', event.target.children[selectedIndex].value);
-    document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
+document.addEventListener('nova-lingua', event => {
+    criarValidacao()
 })
 
 let meuModal
@@ -166,7 +164,84 @@ exibidorImagem(emblema, escudo)
 exibidorImagem(uniformeHome, home)
 exibidorImagem(uniformeAway, away)
 
-validator
+criarValidacao()
+
+let imagensValidacao = {
+    logo: false,
+    uCasa: false,
+    uFora: false,
+}
+
+const ativarBotao = () => (imagensValidacao.logo && imagensValidacao.uCasa && imagensValidacao.uFora) ? document.getElementById('salvar').disabled = false : document.getElementById('salvar').disabled = true
+
+logo.addEventListener("change", async() => {
+    const data = await uploadImagem(logo, 4, mensagemErro)
+
+    emblema.value = `${api}img/${data.results}`
+    exibidorImagem(escudo, emblema.value)
+    
+    imagensValidacao.logo = data.succeed === true
+    console.log(imagensValidacao)
+    ativarBotao()
+})
+
+uniformeHome.addEventListener("change", async() => {
+    const data = await uploadImagem(uniformeHome, 3, mensagemErro)
+
+    uniforme1.value = `${api}img/${data.results}`
+    exibidorImagem(home, uniforme1.value)
+    
+    imagensValidacao.uCasa = data.succeed === true
+    console.log(imagensValidacao)
+    ativarBotao()
+})
+
+uniformeAway.addEventListener("change", async() => {
+    const data = await uploadImagem(uniformeAway, 3, mensagemErro)
+
+    uniforme2.value = `${api}img/${data.results}`
+    exibidorImagem(away, uniforme2.value)
+
+    imagensValidacao.uFora = data.succeed === true
+    console.log(imagensValidacao)
+    ativarBotao()
+})
+
+
+async function postTime(endpoint, body) {
+    const config = configuracaoFetch("POST", body)
+
+    const callbackServidor = data => {
+        mensagemErro.classList.add("text-danger")
+        data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
+    }
+
+    const data = await executarFetch(endpoint, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
+
+    if (!data) return false
+
+    notificacaoSucesso(data.message)
+    return true
+}
+
+async function postCpf(endpoint, body) {
+    const config = configuracaoFetch("POST", body)
+
+    const callbackServidor = data => {
+        mensagemErro2.classList.add("text-danger")
+        data.results.forEach(element => mensagemErro2.innerHTML += `${element}<br>`);
+    }
+
+    const data = await executarFetch(endpoint, config, (res) => mensagemErro2.textContent = res.results, callbackServidor)
+    if (!data) return false
+
+    notificacaoSucesso(data.results[0])
+    return true
+}
+
+function criarValidacao() {
+    i18next.changeLanguage(localStorage.getItem('lng'))
+    validator
     .addField(nome, [
         {
             rule: 'required',
@@ -261,76 +336,4 @@ validator
 
         loader.hide();
     })
-
-let imagensValidacao = {
-    logo: false,
-    uCasa: false,
-    uFora: false,
-}
-
-const ativarBotao = () => (imagensValidacao.logo && imagensValidacao.uCasa && imagensValidacao.uFora) ? document.getElementById('salvar').disabled = false : document.getElementById('salvar').disabled = true
-
-logo.addEventListener("change", async() => {
-    const data = await uploadImagem(logo, 4, mensagemErro)
-
-    emblema.value = `${api}img/${data.results}`
-    exibidorImagem(escudo, emblema.value)
-    
-    imagensValidacao.logo = data.succeed === true
-    console.log(imagensValidacao)
-    ativarBotao()
-})
-
-uniformeHome.addEventListener("change", async() => {
-    const data = await uploadImagem(uniformeHome, 3, mensagemErro)
-
-    uniforme1.value = `${api}img/${data.results}`
-    exibidorImagem(home, uniforme1.value)
-    
-    imagensValidacao.uCasa = data.succeed === true
-    console.log(imagensValidacao)
-    ativarBotao()
-})
-
-uniformeAway.addEventListener("change", async() => {
-    const data = await uploadImagem(uniformeAway, 3, mensagemErro)
-
-    uniforme2.value = `${api}img/${data.results}`
-    exibidorImagem(away, uniforme2.value)
-
-    imagensValidacao.uFora = data.succeed === true
-    console.log(imagensValidacao)
-    ativarBotao()
-})
-
-
-async function postTime(endpoint, body) {
-    const config = configuracaoFetch("POST", body)
-
-    const callbackServidor = data => {
-        mensagemErro.classList.add("text-danger")
-        data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
-    }
-
-    const data = await executarFetch(endpoint, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
-
-    if (!data) return false
-
-    notificacaoSucesso(data.message)
-    return true
-}
-
-async function postCpf(endpoint, body) {
-    const config = configuracaoFetch("POST", body)
-
-    const callbackServidor = data => {
-        mensagemErro2.classList.add("text-danger")
-        data.results.forEach(element => mensagemErro2.innerHTML += `${element}<br>`);
-    }
-
-    const data = await executarFetch(endpoint, config, (res) => mensagemErro2.textContent = res.results, callbackServidor)
-    if (!data) return false
-
-    notificacaoSucesso(data.results[0])
-    return true
 }
