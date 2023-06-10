@@ -41,6 +41,7 @@
   "FormatoObrigatorio": "Please select a format",
   "QuantidadeObrigatoria": "Please select a number",
   "LogoObrigatoria": "insert a logo",
+  "EmblemaObrigatorio": "insert an emblem",
   "ImagemTamanho": "Maximum image size: 5mb",
   "PaisObrigatorio": "Country is required",
   "PaisMinimo": "Minimum 4 characters",

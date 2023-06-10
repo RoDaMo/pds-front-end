@@ -196,7 +196,6 @@ imagem.addEventListener("change", async() => {
     emblema.value = `${api}img/${data.results}`
     exibidorImagem(escudo, emblema.value)
     loader.hide()
-    document.getElementById('salvar').disabled = !(data.succeed === true)
 })
 
 esporte.addEventListener("change", () => {
@@ -261,6 +260,7 @@ validator
             validator: (value) => {
                 const dataInicial = new Date(value)
                 const dataAtual = new Date()
+                dataAtual.setDate(dataAtual.getDate() - 1)
                 return dataInicial >= dataAtual
             },
             errorMessage: `<span class="i18" key="DataInicialMaiorIgual">${i18next.t("DataInicialMaiorIgual")}</span>`
@@ -410,6 +410,23 @@ validator
             },
             errorMessage: `<span class="i18" key="QuantidadeJogadoresInvalido">${i18next.t("QuantidadeJogadoresInvalido")}</span>`,
         },
+    ])
+    .addField(emblema, [
+        {
+            rule: 'required',
+            errorMessage: `<span class="i18" key="EmblemaObrigatorio">${i18next.t("EmblemaObrigatorio")}</span>`,
+        },
+        {
+            rule: 'files',
+            value: {
+                files: {
+                    extensions: ['jpeg', 'jpg', 'png', 'webp', 'gif', 'bmp', 'tiff'],
+                    maxSize: 5000000,
+                    types: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/bmp', 'image/tiff'],
+                },
+            },
+            errorMessage: `<span class="i18" key="ImagemTamanho">${i18next.t("ImagemTamanho")}</span>`,
+        }
     ])
     .onSuccess(async(e) => {
         e.preventDefault()

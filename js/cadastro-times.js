@@ -184,6 +184,40 @@ validator
             errorMessage: `<span class="i18" key="TamanhoMaximo">${i18next.t("TamanhoMaximo")}</span>`,
         }
     ])
+    .addField(uniforme1, [
+        {
+            rule: 'required',
+            errorMessage: `<span class="i18" key="Uniforme1Obrigatorio">${i18next.t("Uniforme1Obrigatorio")}</span>`,
+        },
+        {
+            rule: 'files',
+            value: {
+                files: {
+                    extensions: ['jpeg', 'jpg', 'png', 'webp', 'gif', 'bmp', 'tiff'],
+                    maxSize: 5000000,
+                    types: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/bmp', 'image/tiff'],
+                },
+            },
+            errorMessage: `<span class="i18" key="TamanhoMaximo">${i18next.t("TamanhoMaximo")}</span>`,
+        }
+    ])
+    .addField(uniforme2, [
+        {
+            rule: 'required',
+            errorMessage: `<span class="i18" key="Uniforme2Obrigatorio">${i18next.t("Uniforme2Obrigatorio")}</span>`,
+        },
+        {
+            rule: 'files',
+            value: {
+                files: {
+                    extensions: ['jpeg', 'jpg', 'png', 'webp', 'gif', 'bmp', 'tiff'],
+                    maxSize: 5000000,
+                    types: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/bmp', 'image/tiff'],
+                },
+            },
+            errorMessage: `<span class="i18" key="TamanhoMaximo">${i18next.t("TamanhoMaximo")}</span>`,
+        }
+    ])
     .addField(uniformeHome, [
         {
             rule: 'required',
@@ -218,6 +252,24 @@ validator
             },
             errorMessage: `<span class="i18" key="TamanhoMaximo">${i18next.t("TamanhoMaximo")}</span>`,
         }
+    ])
+    .addField(logo, [
+        {
+            rule: 'required',
+            errorMessage: `<span class="i18" key="LogoObrigatorio">${i18next.t("LogoObrigatorio")}</span>`,
+        },
+        {
+            rule: 'files',
+            value: {
+                files: {
+                    extensions: ['jpeg', 'jpg', 'png', 'webp', 'gif', 'bmp', 'tiff'],
+                    maxSize: 5000000,
+                    types: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/bmp', 'image/tiff'],
+                },
+            },
+            errorMessage: `<span class="i18" key="TamanhoMaximo">${i18next.t("TamanhoMaximo")}</span>`,
+        }
+
     ])
     .addField(descricao, [
         {
@@ -266,7 +318,6 @@ let imagensValidacao = {
     uFora: false,
 }
 
-const ativarBotao = () => (imagensValidacao.logo && imagensValidacao.uCasa && imagensValidacao.uFora) ? document.getElementById('salvar').disabled = false : document.getElementById('salvar').disabled = true
 
 logo.addEventListener("change", async() => {
     const data = await uploadImagem(logo, 4, mensagemErro)
@@ -276,7 +327,6 @@ logo.addEventListener("change", async() => {
     
     imagensValidacao.logo = data.succeed === true
     console.log(imagensValidacao)
-    ativarBotao()
 })
 
 uniformeHome.addEventListener("change", async() => {
@@ -287,7 +337,6 @@ uniformeHome.addEventListener("change", async() => {
     
     imagensValidacao.uCasa = data.succeed === true
     console.log(imagensValidacao)
-    ativarBotao()
 })
 
 uniformeAway.addEventListener("change", async() => {
@@ -298,7 +347,6 @@ uniformeAway.addEventListener("change", async() => {
 
     imagensValidacao.uFora = data.succeed === true
     console.log(imagensValidacao)
-    ativarBotao()
 })
 
 

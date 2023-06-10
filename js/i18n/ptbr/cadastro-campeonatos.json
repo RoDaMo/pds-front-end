@@ -41,6 +41,7 @@
   "FormatoObrigatorio": "Favor selecionar um formato",
   "QuantidadeObrigatoria": "Favor selecionar uma quantidade",
   "LogoObrigatoria": "Insira uma logo",
+  "EmblemaObrigatorio": "Insira um emblema",
   "ImagemTamanho": "Tamanho máximo da imagem: 5mb",
   "PaisObrigatorio": "O país é obrigatório",
   "PaisMinimo": "País deve possuir no mínimo 4 caracteres",

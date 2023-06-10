@@ -31,5 +31,7 @@
     "Fechar": "Fechar",
     "CpfObrigatorio": "Favor inserir CPF",
     "CpfTamanho": "CPF deve possuir 11 caracteres.",
-    "CpfInvalido": "CPF inválido"
+    "CpfInvalido": "CPF inválido",
+    "Uniforme1Obrigatorio": "Insira o uniforme de casa",
+    "Uniforme2Obrigatorio": "Insira o uniforme de fora"
 }

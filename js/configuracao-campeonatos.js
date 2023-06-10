@@ -62,7 +62,7 @@ const init = async () => {
 
 		const optionDefault = () => {
 				const optionDefault = document.createElement('option')
-				optionDefault.value = 0
+				optionDefault.value = ""
 				optionDefault.innerHTML = `<span class="i18" key="SelecioneOpcao">${i18next.t("SelecioneOpcao")}</span>`
 				numero.appendChild(optionDefault)
 		}
@@ -222,6 +222,7 @@ const init = async () => {
 					validator: (value) => {
 						const dataInicial = new Date(value)
 						const dataAtual = new Date()
+						dataAtual.setDate(dataAtual.getDate() - 1)
 						return dataInicial >= dataAtual
 					},
 					errorMessage: `<span class="i18" key="DataInicialMaiorIgual">${i18next.t("DataInicialMaiorIgual")}</span>`
