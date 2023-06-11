@@ -353,30 +353,6 @@ async function changeConfigOptionsContext(t) {
 
             updateAccountRealNameInput.value = dados.name
 
-            updateAccountForm.addEventListener('submit', async (e) => {
-                e.preventDefault()
-                limparMensagem(mensagemErro)
-
-                await postName("userconfigurations", {
-                    "Name": updateAccountRealNameInput.value,
-                })
-            })
-
-            async function postName(endpoint, body) {
-                const callbackServidor = data => {
-                    mensagemErro.classList.add("text-danger")
-                    data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
-                }
-
-                loader.show()
-                const data = await executarFetch(endpoint, configuracaoFetch("PUT", body), (res) => mensagemErro.textContent = res.results[0], callbackServidor)
-                loader.hide()
-                if (!data) return false
-
-                notificacaoSucesso(data.results[0])
-                return true
-            }
-
             const updateAccountValidator = new JustValidate(updateAccountForm, {
                 validateBeforeSubmitting: true,
             })
@@ -414,7 +390,7 @@ async function changeConfigOptionsContext(t) {
                 }
 
                 loader.show()
-                const data = await executarFetch(endpoint, configuracaoFetch("PUT", body), (res) => mensagemErro.textContent = res.results[0], callbackServidor)
+                const data = await executarFetch(endpoint, configuracaoFetch("PUT", body), callbackServidor, callbackServidor)
                 loader.hide()
                 if (!data) return false
 

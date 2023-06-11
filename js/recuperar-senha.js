@@ -5,7 +5,6 @@ import portugues from './i18n/ptbr/recuperar-senha.json' assert { type: 'JSON' }
 import ingles from './i18n/en/recuperar-senha.json' assert { type: 'JSON' }
 import i18next from "i18next";
 import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
-import JustValidate from "just-validate"
 import './utilidades/loader'
 
 
