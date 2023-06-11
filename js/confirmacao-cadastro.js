@@ -10,11 +10,6 @@ const loader = document.createElement('app-loader');
 document.body.appendChild(loader);
 inicializarInternacionalizacao(ingles, portugues);
 
-document.querySelector('#lingua').addEventListener('change', event => {
-    const selectedIndex = event.target.selectedIndex;
-    localStorage.setItem('lng', event.target.children[selectedIndex].value);
-    document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
-})
 
 window.addEventListener("DOMContentLoaded", async(e) => {
     e.preventDefault()
@@ -36,7 +31,7 @@ window.addEventListener("DOMContentLoaded", async(e) => {
     } else {
         divReposta2.classList.remove("d-none")
         reenviarEmail(data.results[0], divReposta2, divReposta3)
-        await notificacaoErro(data.results[1])
+        notificacaoErro(data.results[1])
     }
   })
 
@@ -52,7 +47,7 @@ function reenviarEmail(idUsuario, divReposta2, divReposta3) {
         if(data) {
             divReposta2.classList.add("d-none")
             divReposta3.classList.remove("d-none")
-            await notificacaoSucesso(data.message)
+            notificacaoSucesso(data.message)
         }
     })
 
@@ -62,7 +57,7 @@ function reenviarEmail(idUsuario, divReposta2, divReposta3) {
         loader.hide()
 
         if (data) {
-            await notificacaoSucesso(data.message)
+            notificacaoSucesso(data.message)
         }
     })
 }

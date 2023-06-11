@@ -27,6 +27,9 @@ export const inicializarInternacionalizacao = (ingles, portugues) => {
   }
 
   mudarLinguagem()
+}
+
+export const inicializarInternacionalizacaoGlobal = () => {
   document.addEventListener('nova-lingua', () => {
     i18next.changeLanguage(localStorage.getItem('lng'))
     mudarLinguagem()

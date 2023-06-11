@@ -15,8 +15,6 @@ export class header extends HTMLElement {
             classDark = 'header-home'
         }
 
-        this.estaLogado(lng)
-
         this.innerHTML = /* html */`
             <header class="container">
                 <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -57,37 +55,67 @@ export class header extends HTMLElement {
                 </nav>
             </header>
         `
-        this.querySelector('#lingua').addEventListener('change', event => {
-            const selectedIndex = event.target.selectedIndex;
-            localStorage.setItem('lng', event.target.children[selectedIndex].value);
-            document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
-        })
+        this.estaLogado(lng)
     }
     
-    async estaLogado(lng) {
-        const config = configuracaoFetch('GET');
-        const infoUser = await fetch(`${api}auth/user`, config)
-        if (infoUser.ok) {
-            const defaultImg = 'https://cdn-icons-png.flaticon.com/512/17/17004.png'
-            const resultados = await infoUser.json()
-            const user = resultados.results
-            const info = /* html */`
-                <li class="nav-item d-none d-lg-inline-flex me-5 navbar-user-img-wrapper navbar-clicavel" data-bs-toggle="offcanvas" data-bs-target="#offcanvasUser" aria-controls="offcanvasUser" aria-label="Toggle navigation">
-                    <i class="bi bi-caret-left-fill mt-1 text-black"></i>
-                    <img src="${user.picture ? user.picture : defaultImg}" class="foto-usuario ms-2 h-100 w-100">
-                </li>
-                <!--
-                <li class="nav-item mx-4 d-none d-lg-block">
-                    <i class="bi bi-gear text-primary fs-4 navbar-clicavel" data-bs-toggle="offcanvas" data-bs-target="#offcanvasUser" aria-controls="offcanvasUser" aria-label="Toggle navigation"></i>
-                </li>
-                -->
-                <li class="nav-item">
-                    <select class="form-select rounded-3 ps-3 py-2 bg-transparent" id="lingua" required>
-                        <option value="ptbr" ${lng === 'ptbr' ? 'selected' : ''}>Português</option>
-                        <option value="en" ${lng === 'en' ? 'selected' : ''}>English</option>
-                    </select>
-                </li>
-                <div class="list-group list-group-flush d-lg-none w-100">
+    estaLogado(lng) {
+        const defaultImg = 'https://cdn-icons-png.flaticon.com/512/17/17004.png'
+        const user = JSON.parse(localStorage.getItem('user-info'))
+        const info = /* html */`
+            <li class="nav-item d-none d-lg-inline-flex me-5 navbar-user-img-wrapper navbar-clicavel" data-bs-toggle="offcanvas" data-bs-target="#offcanvasUser" aria-controls="offcanvasUser" aria-label="Toggle navigation">
+                <i class="bi bi-caret-left-fill mt-1 text-black"></i>
+                <img src="${user.picture ? user.picture : defaultImg}" class="foto-usuario ms-2 h-100 w-100">
+            </li>
+            <!--
+            <li class="nav-item mx-4 d-none d-lg-block">
+                <i class="bi bi-gear text-primary fs-4 navbar-clicavel" data-bs-toggle="offcanvas" data-bs-target="#offcanvasUser" aria-controls="offcanvasUser" aria-label="Toggle navigation"></i>
+            </li>
+            -->
+            <li class="nav-item">
+                <select class="form-select rounded-3 ps-3 py-2 bg-transparent" id="lingua" required>
+                    <option value="ptbr" ${lng === 'ptbr' ? 'selected' : ''}>Português</option>
+                    <option value="en" ${lng === 'en' ? 'selected' : ''}>English</option>
+                </select>
+            </li>
+            <div class="list-group list-group-flush d-lg-none w-100">
+                <a href="/pages/pagina-usuarios.html?id=${user.id}" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
+                    <i class="bi bi-person fs-4"></i>
+                    <span class="i18" key="Perfil">${i18next.t("Perfil")}</span>
+                </a>
+                <a href="/pages/configuracao-usuarios.html" class="list-group-item py-4 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
+                    <i class="bi bi-person-gear fs-4"></i>
+                    <span class="i18" key="Configuracoes">${i18next.t("Configuracoes")}</span>
+                </a>
+                ${this.possuiCampeonato(user.championshipId)}
+                <a href="/pages/cadastro-times.html" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
+                    <i class="bi bi-people fs-4"></i>
+                    <span class="i18" key="Time">${i18next.t("Time")}</span>
+                </a>
+                <a href="javascript:void(0)" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3 deslogar-usuario">
+                    <i class="bi bi-box-arrow-right fs-4"></i>
+                    <span class="i18" key="Sair">${i18next.t("Sair")}</span>
+                </a>
+            </div>
+        `
+        const status = document.getElementById('status-usuario')
+        status.innerHTML = info
+        const offcanvasUser = document.createElement('div')
+        offcanvasUser.classList.add('offcanvas', 'offcanvas-end')
+        offcanvasUser.id = 'offcanvasUser'
+        offcanvasUser.setAttribute('tabindex', '-1')
+        offcanvasUser.setAttribute('aria-labelledby', 'offcanvasUser')
+        offcanvasUser.innerHTML = /* html */`
+            <div class="offcanvas-header">
+                <div class="d-flex flex-row gap-3">
+                    <img src="${user.picture ? user.picture : defaultImg}" class="foto-usuario">
+                    <h5 class="offcanvas-title" id="offcanvasUserName">${user.userName}</h5>
+                    <p id="usernameChampionshipId" class="d-none">${user.championshipId}</p>
+                    <p id="usernameUserId" class="d-none">${user.id}</p>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <div class="list-group list-group-flush">
                     <a href="/pages/pagina-usuarios.html?id=${user.id}" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
                         <i class="bi bi-person fs-4"></i>
                         <span class="i18" key="Perfil">${i18next.t("Perfil")}</span>
@@ -97,74 +125,29 @@ export class header extends HTMLElement {
                         <span class="i18" key="Configuracoes">${i18next.t("Configuracoes")}</span>
                     </a>
                     ${this.possuiCampeonato(user.championshipId)}
+                    ${!user.teamManagementId ? `
                     <a href="/pages/cadastro-times.html" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
                         <i class="bi bi-people fs-4"></i>
                         <span class="i18" key="Time">${i18next.t("Time")}</span>
-                    </a>
+                    </a>` : ``}
                     <a href="javascript:void(0)" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3 deslogar-usuario">
                         <i class="bi bi-box-arrow-right fs-4"></i>
                         <span class="i18" key="Sair">${i18next.t("Sair")}</span>
                     </a>
                 </div>
-            `
-            const status = document.getElementById('status-usuario')
-            status.innerHTML = info
-            const offcanvasUser = document.createElement('div')
-            offcanvasUser.classList.add('offcanvas', 'offcanvas-end')
-            offcanvasUser.id = 'offcanvasUser'
-            offcanvasUser.setAttribute('tabindex', '-1')
-            offcanvasUser.setAttribute('aria-labelledby', 'offcanvasUser')
-            offcanvasUser.innerHTML = /* html */`
-                <div class="offcanvas-header">
-                    <div class="d-flex flex-row gap-3">
-                        <img src="${user.picture ? user.picture : defaultImg}" class="foto-usuario">
-                        <h5 class="offcanvas-title" id="offcanvasUserName">${user.userName}</h5>
-                        <p id="usernameChampionshipId" class="d-none">${user.championshipId}</p>
-                        <p id="usernameUserId" class="d-none">${user.id}</p>
-                    </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body">
-                    <div class="list-group list-group-flush">
-                        <a href="/pages/pagina-usuarios.html?id=${user.id}" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
-                            <i class="bi bi-person fs-4"></i>
-                            <span class="i18" key="Perfil">${i18next.t("Perfil")}</span>
-                        </a>
-                        <a href="/pages/configuracao-usuarios.html" class="list-group-item py-4 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
-                            <i class="bi bi-person-gear fs-4"></i>
-                            <span class="i18" key="Configuracoes">${i18next.t("Configuracoes")}</span>
-                        </a>
-                        ${this.possuiCampeonato(user.championshipId)}
-                        ${!user.teamManagementId ? `
-                        <a href="/pages/cadastro-times.html" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
-                            <i class="bi bi-people fs-4"></i>
-                            <span class="i18" key="Time">${i18next.t("Time")}</span>
-                        </a>` : ``}
-                        <a href="javascript:void(0)" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3 deslogar-usuario">
-                            <i class="bi bi-box-arrow-right fs-4"></i>
-                            <span class="i18" key="Sair">${i18next.t("Sair")}</span>
-                        </a>
-                    </div>
-                </div>
-            `
-            
-            document.body.appendChild(offcanvasUser)
-            document.querySelectorAll('.deslogar-usuario').forEach(el => el.addEventListener('click', async () => {
-                loader.show()
-                const configLogout = configuracaoFetch('DELETE', null, false, false)
-                await executarFetch('auth', configLogout)
-                loader.hide()
-                window.location.assign('/index.html')
-            }))
+            </div>
+        `
+        
+        document.body.appendChild(offcanvasUser)
+        document.querySelectorAll('.deslogar-usuario').forEach(el => el.addEventListener('click', async () => {
+            loader.show()
+            const configLogout = configuracaoFetch('DELETE', null, false, false)
+            await executarFetch('auth', configLogout)
+            loader.hide()
+            window.location.assign('/index.html')
+        }))
 
-            this.querySelector('#lingua').addEventListener('change', event => {
-                const selectedIndex = event.target.selectedIndex;
-                localStorage.setItem('lng', event.target.children[selectedIndex].value);
-                document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
-            })
-
-            this.dispatchEvent(new Event('header-carregado', { bubbles: true }))
-        }
+        this.dispatchEvent(new Event('header-carregado', { bubbles: true }))
     }
 
     possuiCampeonato(campeonatoId) {

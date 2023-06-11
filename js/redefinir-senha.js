@@ -8,13 +8,6 @@ import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao
 
 inicializarInternacionalizacao(ingles, portugues)
 
-const tradutor = document.querySelector('#lingua')
-tradutor.addEventListener('change', event => {
-    const selectedIndex = event.target.selectedIndex;
-    localStorage.setItem('lng', event.target.children[selectedIndex].value);
-    document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
-})
-
 const opcao1 = document.getElementById("1")
 const opcao2 = document.getElementById("2")
 const lng = localStorage.getItem('lng');
@@ -80,7 +73,7 @@ async function postToken(body) {
     } else {
         data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`)
         senha.value = ""
-        await notificacaoErro(data.message)
+        notificacaoErro(data.message)
     } 
 }
 

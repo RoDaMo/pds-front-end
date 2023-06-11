@@ -2,7 +2,7 @@ import '../scss/configuracao-usuarios.scss'
 import JustValidate from 'just-validate'
 import { exibidorImagem } from './utilidades/previewImagem.js'
 import { uploadImagem } from './utilidades/uploadImagem'
-import { configuracaoFetch, executarFetch, limparMensagem } from "./utilidades/configFetch"
+import { configuracaoFetch, executarFetch, limparMensagem, api } from "./utilidades/configFetch"
 import { notificacaoSucesso } from "./utilidades/notificacoes"
 import './utilidades/loader'
 import portugues from './i18n/ptbr/configuracao-usuario.json' assert { type: 'JSON' }
@@ -69,19 +69,18 @@ document.addEventListener('header-carregado', async () => {
                 errorMessage: `<span class="i18" key="NomeUsuarioInvalido">${i18next.t("NomeUsuarioInvalido")}</span>`
             }
         ])
-        .addField(deleteAccountCheckInput, [
-            {
-                rule: 'required',
-                errorMessage: `<span class="i18" key="TextoInvalido">${i18next.t("TextoInvalido")}</span>`
-            },
-            {
-                validator: (value) => 'Excluir Conta' == value,
-                errorMessage: `<span class="i18" key="TextoInvalido">${i18next.t("TextoInvalido")}</span>`
-            }
-        ])
         // submit
         .onSuccess(async(e) => {
             e.preventDefault()
+            loader.show()
+            const configFetch = configuracaoFetch('DELETE'),
+                  response = await executarFetch(`auth/user`, configFetch)
+
+            loader.hide()
+
+            if (response.succeed) {
+                window.location.assign('/index.html');
+            }
         })
 })
 
@@ -136,6 +135,7 @@ async function changeConfigOptionsContext(t) {
                             <label for="config-user-pic-input" class="btn play-btn-primary i18" key="AlterarFoto">${i18next.t("AlterarFoto")}</label>
                             <input type="file" class="d-none" id="config-user-pic-input">
                         </div>
+                        <div class="text-danger" id="erros-imagem"></div>
                     </div>
                 </div>
 
@@ -171,15 +171,6 @@ async function changeConfigOptionsContext(t) {
 
             const emblema = document.getElementById("emblema")
 
-            updateProfileUserPicInput.addEventListener("change", async() => {
-                loader.show()
-                const data = await uploadImagem(updateProfileUserPicInput, 1, mensagemErro)
-            
-                emblema.value = `https://playoffs-api.up.railway.app/img/${data.results}`
-                exibidorImagem(document.getElementById("config-user-pic-mod"), emblema.value)
-                loader.hide()
-            })
-
             updateProfileForm.addEventListener("submit", async(e) => {
                 e.preventDefault()
                 limparMensagem(mensagemErro)
@@ -200,11 +191,11 @@ async function changeConfigOptionsContext(t) {
                 }
             
                 loader.show()
-                const data = await executarFetch(endpoint, configuracaoFetch("PUT", body), (res) => mensagemErro.textContent = res.results[0], callbackServidor)
+                const data = await executarFetch(endpoint, configuracaoFetch("PUT", body), callbackServidor, callbackServidor)
                 loader.hide()
                 if (!data) return false
             
-                await notificacaoSucesso(data.results[0])
+                notificacaoSucesso(data.results[0])
                 return true
             }
 
@@ -255,11 +246,26 @@ async function changeConfigOptionsContext(t) {
                         },
                         errorMessage: ' ',
                     }
-                ])
+                ], { errorsContainer: document.getElementById('erros-imagem') })
                 // submit
                 .onSuccess(async(e) => {
                     // campo vazio mantem valor original
                     e.preventDefault()
+                })
+
+                updateProfileUserPicInput.addEventListener("change", async() => {
+                    const isValid = await updateProfileValidator.revalidateField(updateProfileUserPicInput)
+                    if (!isValid) return;
+                    
+                    loader.show()
+                    const data = await uploadImagem(updateProfileUserPicInput, 1, mensagemErro)
+                    loader.hide()
+
+                    if (Array.isArray(data.results))
+                        return;
+
+                    emblema.value = `${api}img/${data.results}`
+                    exibidorImagem(document.getElementById("erros-imagem"), emblema.value)
                 })
 
             break
@@ -300,30 +306,6 @@ async function changeConfigOptionsContext(t) {
                         </div>
                     </div>
                 `
-
-                const excluirConta = document.getElementById('excluir-conta')
-
-                excluirConta.addEventListener('click', async(e) => {
-                    e.preventDefault()
-                    if(document.getElementById("texto-excluir").textContent === '' && document.getElementById("nome-usuario-erro").textContent === ''){
-                        const config = configuracaoFetch("DELETE")
-                    
-                        const callbackServidor = data => {
-                            document.getElementById("erro-excluir").classList.add("text-danger")
-                            data.results.forEach(element => document.getElementById("erro-excluir").innerHTML += `${element}<br>`);
-                        }
-
-                        loader.show()
-                        const data = await executarFetch("auth/user", config, (res) => document.getElementById("erro-excluir").textContent = res.results[0], callbackServidor)
-                        loader.hide()
-                        if (!data) return false
-                        window.location.assign("/")
-                    }
-                    else{
-                        document.getElementById("erro-excluir").innerHTML = `<span class="i18" key="PreenchaCorretamente">${i18next.t("PreenchaCorretamente")}</span>`
-                        return
-                    }
-                })
                 
                 const updateAccountForm = document.querySelector('#update-account-form')
                 const updateAccountRealNameInput = document.querySelector('#config-user-realname-input')
@@ -350,7 +332,7 @@ async function changeConfigOptionsContext(t) {
                     loader.hide()
                     if (!data) return false
                     
-                    await notificacaoSucesso(data.results[0])
+                    notificacaoSucesso(data.results[0])
                     return true
                 }
 
@@ -462,7 +444,7 @@ async function changeConfigOptionsContext(t) {
                     loader.hide()
                     if (!data) return false
                 
-                    await notificacaoSucesso(data.results[0])
+                    notificacaoSucesso(data.results[0])
                     return true
                 }
 

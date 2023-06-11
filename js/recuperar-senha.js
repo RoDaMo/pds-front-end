@@ -10,12 +10,6 @@ const loader = document.createElement('app-loader');
 document.body.appendChild(loader);
 inicializarInternacionalizacao(ingles, portugues);
 
-const tradutor = document.querySelector('#lingua')
-tradutor.addEventListener('change', event => {
-    const selectedIndex = event.target.selectedIndex;
-    localStorage.setItem('lng', event.target.children[selectedIndex].value);
-    document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
-})
 
 const opcao1 = document.getElementById("1")
 const opcao2 = document.getElementById("2")
@@ -51,12 +45,12 @@ async function postToken(body) {
 
     if(res.ok){
         idUsuario = data.results
-        await notificacaoSucesso(data.message)
+        notificacaoSucesso(data.message)
         apresentarResultado()
     } else {
         data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`)
         email.value = ""
-        await notificacaoErro(data.message)
+        notificacaoErro(data.message)
     } 
 }
 
@@ -70,7 +64,7 @@ botao.addEventListener("click", async () => {
     const data = await executarFetch(`auth/resend-forgot-password?id=${idUsuario}`, configuracaoFetch("GET"))
     loader.hide()
 
-    if(data) await notificacaoSucesso(data.message)
+    if(data) notificacaoSucesso(data.message)
 })
 
 const emailRegex = (str) => /\S+@\S+\.\S+/.test(str);

@@ -371,3 +371,9 @@ window.addEventListener("resize", () => {
         homeTitle.classList.remove("display-2")
     }
 })
+
+if (localStorage.getItem('autenticado')) {
+    const elementosParaEsconder =  document.getElementsByClassName('esconder-botao-logado')
+    elementosParaEsconder.item(0).classList.add('invisible')
+    elementosParaEsconder.item(1).classList.add('d-none')
+}

@@ -14,12 +14,6 @@ import * as bootstrap from 'bootstrap'
 
 inicializarInternacionalizacao(ingles, portugues);
 
-document.querySelector('#lingua').addEventListener('change', event => {
-    const selectedIndex = event.target.selectedIndex;
-    localStorage.setItem('lng', event.target.children[selectedIndex].value);
-    document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
-})
-
 let cpfObrigatorio = false
 let cadastrouCpf = false
 let confirmouCpf = true
@@ -191,9 +185,13 @@ flatpickr(dataFinal, {
 imagem.addEventListener("change", async() => {
     loader.show()
     const data = await uploadImagem(imagem, 0, mensagemErro)
+    loader.hide()
+    
+    if (Array.isArray(data.results))
+        return;
+
     emblema.value = `${api}img/${data.results}`
     exibidorImagem(escudo, emblema.value)
-    loader.hide()
     document.getElementById('salvar').disabled = !(data.succeed === true)
 })
 
@@ -349,7 +347,7 @@ async function postCampeonato(endpoint, body) {
 
     if (!data) return false
 
-    await notificacaoSucesso(data.results[0])
+    notificacaoSucesso(data.results[0])
     return true
 }
 
@@ -367,6 +365,6 @@ async function postCpf(endpoint, body) {
 
     if (!data) return false
 
-    await notificacaoSucesso(data.results[0])
+    notificacaoSucesso(data.results[0])
     return true
 }

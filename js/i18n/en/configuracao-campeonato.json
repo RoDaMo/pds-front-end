@@ -77,6 +77,6 @@
     "ConfirmarExclusao": "You must confirm the exclusion from the championship",
     "Escreva": "Type 'Delete Championship' to confirm the deletion of the championship.",
     "Cancelar": "Cancel",
-    "PdfInvalido": "Invalid file! The file must have less than 20mb and be a pdf file."
-
+    "PdfInvalido": "Invalid file! The file must have less than 20mb and be a pdf file.",
+    "EspecificacoesRegulamento": "The file must be a PDF and must be smaller than 20 mb."
 }

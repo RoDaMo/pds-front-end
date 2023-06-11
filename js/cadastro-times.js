@@ -12,11 +12,6 @@ import * as bootstrap from 'bootstrap'
 
 inicializarInternacionalizacao(ingles, portugues);
 
-document.querySelector('#lingua').addEventListener('change', event => {
-    const selectedIndex = event.target.selectedIndex;
-    localStorage.setItem('lng', event.target.children[selectedIndex].value);
-    document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
-})
 
 let cpfObrigatorio = false
 let cadastrouCpf = false
@@ -247,6 +242,8 @@ const ativarBotao = () => (imagensValidacao.logo && imagensValidacao.uCasa && im
 
 logo.addEventListener("change", async() => {
     const data = await uploadImagem(logo, 4, mensagemErro)
+    if (Array.isArray(data.results))
+        return;
 
     emblema.value = `${api}img/${data.results}`
     exibidorImagem(escudo, emblema.value)
@@ -257,6 +254,8 @@ logo.addEventListener("change", async() => {
 
 uniformeHome.addEventListener("change", async() => {
     const data = await uploadImagem(uniformeHome, 3, mensagemErro)
+    if (Array.isArray(data.results))
+        return;
 
     uniforme1.value = `${api}img/${data.results}`
     exibidorImagem(home, uniforme1.value)
@@ -267,7 +266,9 @@ uniformeHome.addEventListener("change", async() => {
 
 uniformeAway.addEventListener("change", async() => {
     const data = await uploadImagem(uniformeAway, 3, mensagemErro)
-
+    if (Array.isArray(data.results))
+        return;
+        
     uniforme2.value = `${api}img/${data.results}`
     exibidorImagem(away, uniforme2.value)
 
@@ -298,7 +299,7 @@ async function postTime(endpoint, body) {
 
     if (!data) return false
 
-    await notificacaoSucesso(data.message)
+    notificacaoSucesso(data.message)
     return true
 }
 
@@ -313,6 +314,6 @@ async function postCpf(endpoint, body) {
     const data = await executarFetch(endpoint, config, (res) => mensagemErro2.textContent = res.results, callbackServidor)
     if (!data) return false
 
-    await notificacaoSucesso(data.results[0])
+    notificacaoSucesso(data.results[0])
     return true
 }

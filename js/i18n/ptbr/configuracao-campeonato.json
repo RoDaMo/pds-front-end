@@ -77,5 +77,6 @@
     "ConfirmarExclusao": "Você deve confirmar a exclusão do campeonato.",
     "Escreva": "Escreva 'Excluir Campeonato' para confirmar a exclusão do campeonato.",
     "Cancelar": "Cancelar",
-    "PdfInvalido": "Arquivo inválido! O arquivo deve conter até 20mb e ser um arquivo pdf."
+    "PdfInvalido": "Arquivo inválido! O arquivo deve conter até 20mb e ser um arquivo pdf.",
+    "EspecificacoesRegulamento": "O arquivo deve ser de tipo PDF e deve ter um tamanho menor que 20 mb."
 }

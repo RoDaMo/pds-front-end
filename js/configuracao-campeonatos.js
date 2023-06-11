@@ -15,12 +15,6 @@ import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao
 
 inicializarInternacionalizacao(ingles, portugues);
 
-document.querySelector('#lingua').addEventListener('change', event => {
-    const selectedIndex = event.target.selectedIndex;
-    localStorage.setItem('lng', event.target.children[selectedIndex].value);
-    document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
-})
-
 const loader = document.createElement('app-loader');
 document.body.appendChild(loader);
 
@@ -273,6 +267,9 @@ const init = async () => {
 			const data = await uploadImagem(imageFile, 0, mensagemErro)
 			loader.hide()
 
+			if (Array.isArray(data.results))
+			return;
+
 			imageInput.value = `${api}img/${data.results}`
 			exibidorImagem(image, imageInput.value)
 		})
@@ -284,6 +281,9 @@ const init = async () => {
 			loader.show()
 			const data = await uploadImagem(regulamento, 2, mensagemErro)
 			loader.hide()
+
+			if (Array.isArray(data.results))
+			return;
 
 			imageInput.value = `${api}img/${data.results}`
 
@@ -302,7 +302,7 @@ const init = async () => {
 		if (!data) return false
 
 		limparMensagem(mensagemErro)
-		await notificacaoSucesso(data.results[0])
+		notificacaoSucesso(data.results[0])
 	}
 
 	const vincularTime = async teamId => {
@@ -313,7 +313,7 @@ const init = async () => {
 		const configFetch = configuracaoFetch('POST', { 'teamId': teamId, 'championshipId': parseInt(championshipId)}),
 			  response = await executarFetch('teams/championship', configFetch, callbackStatus)
 
-		if (response.succeed) await notificacaoSucesso(i18next.t("VinculadoSucesso"))
+		if (response.succeed) notificacaoSucesso(i18next.t("VinculadoSucesso"))
 	}
 
 	const desvincularTime = async teamId => {
@@ -325,7 +325,7 @@ const init = async () => {
 			  response = await executarFetch('teams/championship', configFetch, callbackStatus)
 
 		if (response.succeed) {
-			await notificacaoSucesso(i18next.t("DesvinculadoSucesso"))
+			notificacaoSucesso(i18next.t("DesvinculadoSucesso"))
 		}
 	}
 
@@ -444,16 +444,6 @@ const init = async () => {
 						validator: (value) => username.textContent == value,
 						errorMessage: `<span class="i18" key="NomeUsuarioIncorreto">${i18next.t("NomeUsuarioIncorreto")}</span>`
 				}
-			])
-			.addField(deleteCampeonato, [
-				{
-						rule: 'required',
-						errorMessage:  `<span class="i18" key="ConfirmarExclusao">${i18next.t("ConfirmarExclusao")}</span>`,
-				},
-				{
-						validator: (value) => value == 'Excluir Campeonato',
-						errorMessage: `<span class="i18" key="Escreva">${i18next.t("Escreva")}</span>`,
-				},
 			])
 			// submit
 			.onSuccess(async(e) => {

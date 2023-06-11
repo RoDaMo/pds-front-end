@@ -146,8 +146,6 @@ validator
         e.preventDefault();
         limparMensagem(mensagemErro);
       
-        loader.show();
-      
         const resultado = await postUsuario("auth/register", {
             "Name": nome.value,
             "Email": email.value,
@@ -158,9 +156,7 @@ validator
         
         if (resultado){
             apresentarResultado()
-        }
-      
-        loader.hide();
+        }   
 });
 
 botao.addEventListener("click", async() => {
@@ -169,7 +165,7 @@ botao.addEventListener("click", async() => {
     loader.hide()
 
     if(data)
-        await notificacaoSucesso(data.message)
+        notificacaoSucesso(data.message)
 })
 
 async function postUsuario(endpoint, body) {
@@ -179,7 +175,7 @@ async function postUsuario(endpoint, body) {
         mensagemErro.classList.add("text-danger")
         data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
     }
-
+    
     loader.show()
     const data = await executarFetch(endpoint, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
     loader.hide()
@@ -187,7 +183,7 @@ async function postUsuario(endpoint, body) {
     if (!data) return false
 
     idUsuario = data.results
-    await notificacaoSucesso(data.message)
+    notificacaoSucesso(data.message)
     return true
 }
 
