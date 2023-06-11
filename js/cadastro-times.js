@@ -86,32 +86,29 @@ validator2
         },
         {
             validator: (value, context) => {
-                var numberCpf = new Array(11)
+                const numberCpf = new Array(11)
                 let test = value
                 test =  test.replace(/[.-]/g, "")
                 for (var i = 0; i < 11; i++)
                     numberCpf[i] = parseInt(test[i])
 
-                var sum = 0
-                for (var i = 0; i < 9; i++)
+                let sum = 0
+                for (let i = 0; i < 9; i++)
                     sum += numberCpf[i] * (10 - i)
 
-                var firstVerifierDigit = (sum * 10) % 11
+                let firstVerifierDigit = (sum * 10) % 11
                 firstVerifierDigit = firstVerifierDigit === 10 ? 0 : firstVerifierDigit
 
                 sum = 0
-                var arrayNova = numberCpf.slice()
+                const arrayNova = numberCpf.slice()
                 arrayNova[9] = firstVerifierDigit
-                for (var i = 0; i < 10; i++)
+                for (let i = 0; i < 10; i++)
                     sum += arrayNova[i] * (11 - i)
 
-                var secondVerifierDigit = (sum * 10) % 11;
+                let secondVerifierDigit = (sum * 10) % 11;
                 secondVerifierDigit = secondVerifierDigit === 10 ? 0 : secondVerifierDigit
 
-                if (firstVerifierDigit !== numberCpf[9] || secondVerifierDigit !== numberCpf[10])
-                    return false
-                
-                return true
+                return !(firstVerifierDigit !== numberCpf[9] || secondVerifierDigit !== numberCpf[10]);
             },
             errorMessage: `<span class="i18" key="CpfInvalido">${i18next.t("CpfInvalido")}</span>`,
         }

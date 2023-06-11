@@ -269,7 +269,7 @@ ul.dots-list {
     font-size: 1rem;
   }
 
-  .extra-option {
+  .extra-options {
     width: 100% !important;
 
     &:nth-of-type(2) {
@@ -399,3 +399,9 @@ ul.dots-list {
 //     position: static !important;
 //   }
 // }
+
+.nav-item {
+  .bi-caret-left-fill {
+    color: $white!important;
+  }
+}

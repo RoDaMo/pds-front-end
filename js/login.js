@@ -79,13 +79,7 @@ async function postToken(body) {
     }
 }
 
-const tradutor = document.querySelector('#lingua')
-tradutor.addEventListener('change', event => {
-    const selectedIndex = event.target.selectedIndex;
-    localStorage.setItem('lng', event.target.children[selectedIndex].value);
-    document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
-    criarValidacao()
-})
+document.addEventListener('nova-lingua', criarValidacao)
 
 const opcao1 = document.getElementById("1")
 const opcao2 = document.getElementById("2")

@@ -19,7 +19,7 @@
     "LetraMinuscula": "Letra minúscula",
     "Numero": "Número",
     "Minimo": "Pelo menos 4 caracteres",
-    "Invalida": "Nenhum acento ou caractere especial",
+    "Invalida": "Nenhum acento, espaços ou caractere especial",
     "Salvar": "Salvar",
     "Cancelar": "Cancelar",
     "EmailObrigatorio": "O email é obrigatório.",

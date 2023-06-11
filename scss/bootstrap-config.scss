@@ -1,11 +1,11 @@
 // @import "~bootstrap/scss/functions";
+// @import "~bootstrap/scss/functions";
 
 /* Variaveis abaixo VVVV */
 
 @import 'variables.scss';
 
 /* Variaveis acima ^^^^ */
-
 // @import "~bootstrap/scss/variables";
 // // @import "~bootstrap/scss/variables-dark";
 // @import "~bootstrap/scss/maps";
@@ -14,7 +14,7 @@
 
 // Layout & components
 @import "~bootstrap/scss/root";
-@import "~bootstrap/scss/reboot";
+// @import "~bootstrap/scss/reboot";
 @import "~bootstrap/scss/type";
 @import "~bootstrap/scss/images";
 @import "~bootstrap/scss/containers";
@@ -49,7 +49,7 @@
 @import "~bootstrap/scss/helpers";
 
 // Utilities
-@import "~bootstrap/scss/utilities/api";
+// @import "~bootstrap/scss/utilities/api";
 
 //Importação do plugin de data
 @import '../node_modules/flatpickr/dist/flatpickr.min.css';

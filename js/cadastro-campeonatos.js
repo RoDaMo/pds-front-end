@@ -7,7 +7,7 @@ import ingles from './i18n/en/cadastro-campeonatos.json' assert { type: 'JSON' }
 import JustValidate from "just-validate"
 import flatpickr from "flatpickr"
 import { Portuguese } from "flatpickr/dist/l10n/pt.js"
-import {exibidorImagem} from '../js/utilidades/previewImagem'
+import { exibidorImagem } from './utilidades/previewImagem.js'
 import { uploadImagem } from './utilidades/uploadImagem'
 import i18next from "i18next";
 import './utilidades/loader'
@@ -21,7 +21,7 @@ let confirmou = false
 window.addEventListener("DOMContentLoaded", async(e) => {
     e.preventDefault()
    
-    let endpoint = `auth/cpf`
+    const endpoint = `auth/cpf`
     const config = configuracaoFetch("GET")
     const data = await executarFetch(endpoint, config)
 
@@ -82,32 +82,29 @@ validator2
         },
         {
             validator: (value, context) => {
-                var numberCpf = new Array(11)
+                const numberCpf = new Array(11)
                 let test = value
                 test =  test.replace(/[.-]/g, "")
                 for (var i = 0; i < 11; i++)
                     numberCpf[i] = parseInt(test[i])
 
-                var sum = 0
-                for (var i = 0; i < 9; i++)
+                let sum = 0
+                for (let i = 0; i < 9; i++)
                     sum += numberCpf[i] * (10 - i)
 
-                var firstVerifierDigit = (sum * 10) % 11
+                let firstVerifierDigit = (sum * 10) % 11
                 firstVerifierDigit = firstVerifierDigit === 10 ? 0 : firstVerifierDigit
 
                 sum = 0
-                var arrayNova = numberCpf.slice()
+                const arrayNova = numberCpf.slice()
                 arrayNova[9] = firstVerifierDigit
-                for (var i = 0; i < 10; i++)
+                for (let i = 0; i < 10; i++)
                     sum += arrayNova[i] * (11 - i)
 
-                var secondVerifierDigit = (sum * 10) % 11;
+                let secondVerifierDigit = (sum * 10) % 11;
                 secondVerifierDigit = secondVerifierDigit === 10 ? 0 : secondVerifierDigit
 
-                if (firstVerifierDigit !== numberCpf[9] || secondVerifierDigit !== numberCpf[10])
-                    return false
-                
-                return true
+                return !(firstVerifierDigit !== numberCpf[9] || secondVerifierDigit !== numberCpf[10]);
             },
             errorMessage: `<span class="i18" key="CpfInvalido">${i18next.t("CpfInvalido")}</span>`,
         }
@@ -159,7 +156,7 @@ const validator = new JustValidate(formulario, {
 const optionDefault = () => {
     const optionDefault = document.createElement('option')
     optionDefault.value = 0
-    optionDefault.innerHTML = `<span class="i18" key="SelecioneOpcao">${i18next.t("SelecioneOpcao")}</span>`,
+    optionDefault.innerHTML = `<span class="i18" key="SelecioneOpcao">${i18next.t("SelecioneOpcao")}</span>`
     quantidade.appendChild(optionDefault)
 }
 
@@ -232,22 +229,27 @@ document.addEventListener('nova-lingua', event => {
 imagem.addEventListener("change", async() => {
     loader.show()
     const data = await uploadImagem(imagem, 0, mensagemErro)
+    loader.hide()
+    
+    if (Array.isArray(data.results))
+        return;
+
     emblema.value = `${api}img/${data.results}`
     exibidorImagem(escudo, emblema.value)
-    loader.hide()
     document.getElementById('salvar').disabled = !(data.succeed === true)
 })
 
 
 async function postCampeonato(endpoint, body) {
-    const config = configuracaoFetch("POST", body)
-
     const callbackServidor = data => {
         mensagemErro.classList.add("text-danger")
         data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
     }
 
-    const data = await executarFetch(endpoint, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
+    loader.show()
+    const data = await executarFetch(endpoint, configuracaoFetch("POST", body), callbackServidor, callbackServidor)
+    loader.hide()
+
     if (!data) return false
 
     notificacaoSucesso(data.results[0])
@@ -262,7 +264,10 @@ async function postCpf(endpoint, body) {
         data.results.forEach(element => mensagemErro2.innerHTML += `${element}<br>`);
     }
 
+    loader.show()
     const data = await executarFetch(endpoint, config, (res) => mensagemErro2.textContent = res.results, callbackServidor)
+    loader.hide()
+
     if (!data) return false
 
     notificacaoSucesso(data.results[0])

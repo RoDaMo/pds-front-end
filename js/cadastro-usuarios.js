@@ -4,7 +4,7 @@ import flatpickr from "flatpickr"
 import { Portuguese } from "flatpickr/dist/l10n/pt.js"
 import { visualizarSenha } from "./utilidades/visualizar-senha"
 import JustValidate from "just-validate"
-import {redirecionamento} from './utilidades/redirecionamento'
+import { redirecionamento } from './utilidades/redirecionamento'
 import './utilidades/loader'
 import portugues from './i18n/ptbr/cadastro-usuario.json' assert { type: 'JSON' }
 import ingles from './i18n/en/cadastro-usuario.json' assert { type: 'JSON' }
@@ -54,6 +54,7 @@ flatpickr(dataAniversario, {
     dateFormat: "Y-m-d",
     locale: lng === 'ptbr' ? Portuguese : ingles,
     altInput: true,
+    minDate: new Date(new Date().getFullYear() - 100, new Date().getMonth(), new Date().getDate()),
     maxDate: new Date(new Date().getFullYear() - 13, new Date().getMonth(), new Date().getDate())
 })
 
@@ -107,7 +108,9 @@ async function postUsuario(endpoint, body) {
         data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
     }
 
-    const data = await executarFetch(endpoint, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
+    loader.show()
+    const data = await executarFetch(endpoint, config, callbackServidor, callbackServidor)
+    loader.hide()
 
     if (!data) return false
 
@@ -208,8 +211,6 @@ function criarValidacao() {
         e.preventDefault();
         limparMensagem(mensagemErro);
       
-        loader.show(); // Exibe o loader
-      
         const resultado = await postUsuario("auth/register", {
             "Name": nome.value,
             "Email": email.value,
@@ -221,7 +222,5 @@ function criarValidacao() {
         if (resultado){
             apresentarResultado()
         }
-      
-        loader.hide(); // Oculta o loader
     });
 }
