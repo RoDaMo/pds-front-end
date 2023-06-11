@@ -71,6 +71,7 @@ document.addEventListener('nova-lingua', event => {
         onChange: (selectedDates, dateStr, instance) => {
             paginasAnteriores = []
             filtros.finish = dateStr;
+            console.log('filtroInicio')
             listagem();
         }
     })
@@ -81,6 +82,7 @@ document.addEventListener('nova-lingua', event => {
         onChange: (selectedDates, dateStr, instance) => {
             paginasAnteriores = []
             filtros.finish = dateStr;
+            console.log('filtroFim')
             listagem();
         }
     })

@@ -56,12 +56,19 @@ export class header extends HTMLElement {
             </header>
         `
 
-        document.addEventListener('autenticado', () => this.estaLogado(lng))
+        document.addEventListener('DOMContentLoaded', () => {
+            document.addEventListener('autenticado', () => {
+                if (localStorage.getItem('autenticado') == 'false')
+                    document.dispatchEvent(new Event('header-carregado', { bubbles: true }))
+                    
+                this.estaLogado(lng)
+            })
+        })
         // this.estaLogado(lng)
     }
     
     estaLogado(lng) {
-        const autenticado = localStorage.getItem('autenticado')
+        const autenticado = localStorage.getItem('autenticado') == 'true'
         if (!autenticado) return;
 
         const defaultImg = 'https://cdn-icons-png.flaticon.com/512/17/17004.png'
@@ -153,8 +160,8 @@ export class header extends HTMLElement {
             localStorage.removeItem('user-info')
             window.location.assign('/index.html')
         }))
-
-        this.dispatchEvent(new Event('header-carregado', { bubbles: true }))
+        
+        document.dispatchEvent(new Event('header-carregado', { bubbles: true }))
     }
 
     possuiCampeonato(campeonatoId) {

@@ -62,4 +62,5 @@ function reenviarEmail(idUsuario, divReposta2, divReposta3) {
     })
 }
 
+document.addEventListener('DOMContentLoaded', () => document.dispatchEvent(new Event('header-carregado', { bubbles: true })))
   

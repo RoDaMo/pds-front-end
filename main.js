@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   inicializarInternacionalizacao(globalEn, globalPt)
   inicializarInternacionalizacaoGlobal()
   document.addEventListener('header-carregado', () => {
+    console.log('hahaha')
     document.getElementById('lingua').addEventListener('change', event => {
       const selectedIndex = event.target.selectedIndex;
       localStorage.setItem('lng', event.target.children[selectedIndex].value);

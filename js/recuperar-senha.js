@@ -110,3 +110,5 @@ function criarValidacao() {
       
     })
 }
+
+document.addEventListener('DOMContentLoaded', () => document.dispatchEvent(new Event('header-carregado', { bubbles: true })))

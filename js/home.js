@@ -372,7 +372,7 @@ window.addEventListener("resize", () => {
     }
 })
 
-if (localStorage.getItem('autenticado')) {
+if (localStorage.getItem('autenticado') == 'true') {
     const elementosParaEsconder =  document.getElementsByClassName('esconder-botao-logado')
     elementosParaEsconder.item(0).classList.add('invisible')
     elementosParaEsconder.item(1).classList.add('d-none')

@@ -30,7 +30,6 @@ export const executarFetch = async (endpoint, config, callbackStatus, callbackSe
             config.headers["IsLocalhost"] = true
 
         const resPut = await fetch(`${api}auth`, configuracaoFetch("PUT"))
-        console.log('statusPut: ' + resPut.status)
         
         if (resPut.status === 401 && redirecionarLogin){
             window.location.assign("/pages/login.html")

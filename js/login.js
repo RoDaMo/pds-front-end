@@ -16,7 +16,6 @@ const formulario = document.getElementById("formulario")
 const mensagemErro = document.getElementById("mensagem-erro")
 const lembrar = document.getElementById('lembrar')
 
-
 const loader = document.createElement('app-loader');
 document.body.appendChild(loader);
 
@@ -87,6 +86,8 @@ const opcao1 = document.getElementById("1")
 const opcao2 = document.getElementById("2")
 const lng = localStorage.getItem('lng');
 lng === 'ptbr' ? opcao1.selected = 'true' : opcao2.selected = 'true'
+document.addEventListener('DOMContentLoaded', () => document.dispatchEvent(new Event('header-carregado', { bubbles: true })))
+
 
 function criarValidacao() {
     validator

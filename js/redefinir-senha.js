@@ -6,6 +6,10 @@ import portugues from './i18n/ptbr/redefinir-senha.json' assert { type: 'JSON' }
 import ingles from './i18n/en/redefinir-senha.json' assert { type: 'JSON' }
 import i18next from "i18next";
 import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
+import './utilidades/loader'
+
+const loader = document.createElement('app-loader')
+document.body.appendChild(loader)
 
 inicializarInternacionalizacao(ingles, portugues)
 
@@ -145,3 +149,5 @@ const validacoes = () => {
 
     return controle;
 }
+
+document.addEventListener('DOMContentLoaded', () => document.dispatchEvent(new Event('header-carregado', { bubbles: true })))
