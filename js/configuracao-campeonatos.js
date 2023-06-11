@@ -573,7 +573,6 @@ const init = async () => {
 		const formDeletarCampeonato = document.getElementById('delete-championship-form'),
 			deleteAccountValidator = new JustValidate(formDeletarCampeonato, { validateBeforeSubmitting: true }),
 			usernameInput = document.getElementById('delete-user-name-input'),
-			deleteCampeonato = document.getElementById('delete-championship-check-input'),
 			username = document.getElementById('offcanvasUserName')
 
 		function validor2() {
@@ -587,16 +586,6 @@ const init = async () => {
 						validator: (value) => username.textContent == value,
 						errorMessage: `<span class="i18" key="NomeUsuarioIncorreto">${i18next.t("NomeUsuarioIncorreto")}</span>`
 					}
-				])
-				.addField(deleteCampeonato, [
-					{
-						rule: 'required',
-						errorMessage: `<span class="i18" key="ConfirmarExclusao">${i18next.t("ConfirmarExclusao")}</span>`,
-					},
-					{
-						validator: (value) => value == 'Excluir Campeonato' ? true : false,
-						errorMessage: `<span class="i18" key="Escreva">${i18next.t("Escreva")}</span>`,
-					},
 				])
 				// submit
 				.onSuccess(async (e) => {
@@ -613,10 +602,7 @@ const init = async () => {
 				})
 		}
 
-		document.addEventListener('nova-lingua', event => {
-			validor2()
-		})
-
+		document.addEventListener('nova-lingua', validor2)
 		validor2()
 
 	}

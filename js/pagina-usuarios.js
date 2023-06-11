@@ -31,8 +31,6 @@ const userCurrentTeam = document.querySelector('.user-current-team')
 const userPic = document.querySelector('#user-pic'),
       botaoEditar = document.getElementById('botao-perfil-editar')
 
-let currentUserId = document.getElementById('usernameUserId')
-
 window.onload = () => {
     if (userPic.getAttribute('src') == '') {
         userPic.setAttribute('src', '../default-user-image.png')
@@ -137,12 +135,8 @@ const mensagemErro = document.getElementById("mensagem-erro")
 const parametroUrl = new URLSearchParams(window.location.search);
 const obterInfo = async () => {
     const id = parametroUrl.get('id')
+    const currentUserId = document.getElementById('usernameUserId')
 
-    if (!currentUserId) {
-        await new Promise(r => setTimeout(r, 200))
-		currentUserId = document.getElementById('usernameUserId')
-    }
-    console.log(currentUserId && id == currentUserId.textContent, currentUserId.textContent, id)
     if (currentUserId && id == currentUserId.textContent) {
         botaoEditar.classList.remove('d-none')
     }

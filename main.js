@@ -14,10 +14,12 @@ if (!localStorage.getItem('lng')) {
 document.addEventListener('DOMContentLoaded', async () => {
   inicializarInternacionalizacao(globalEn, globalPt)
   inicializarInternacionalizacaoGlobal()
-  document.getElementById('lingua').addEventListener('change', event => {
-    const selectedIndex = event.target.selectedIndex;
-    localStorage.setItem('lng', event.target.children[selectedIndex].value);
-    document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
+  document.addEventListener('header-carregado', () => {
+    document.getElementById('lingua').addEventListener('change', event => {
+      const selectedIndex = event.target.selectedIndex;
+      localStorage.setItem('lng', event.target.children[selectedIndex].value);
+      document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
+    })
   })
 
   const pesquisa = document.getElementById("pesquisa")

@@ -18,6 +18,7 @@
     "Informacoes": "Informations",
     "AlterarFoto": "Change Photo",
     "AtualizarPerfil": "Update Profile",
+    "BioMin": "Your bio must have a minimum of 10 characters.",
     "BioMax": "Your bio must have a maximum of 150 characters.",
     "Preencher": "You must fill in at least one of the fields.",
     "ImagemTamanho": "Invalid file! The file can't be bigger than 5mb and be of the following types: png, jpeg, jpg, webp, gif, bmp, tiff",

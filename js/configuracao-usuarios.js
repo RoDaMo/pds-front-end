@@ -107,7 +107,9 @@ function activateLi(li) {
 }
 
 async function changeConfigOptionsContext(t) {
+    loader.show()
     const dados = await pegarDados()
+    loader.hide()
     document.getElementById('biografia').textContent = dados.bio
     document.getElementById('email').textContent = dados.email
     document.getElementById('nome-usuario').textContent = dados.userName
@@ -160,44 +162,18 @@ async function changeConfigOptionsContext(t) {
             const updateProfileUserNameInput = document.querySelector('#config-user-name-input')
             const updateProfileBioInput = document.querySelector('#config-user-bio-input')
             const updateProfileUserPicInput = document.querySelector('#config-user-pic-input')
+            const emblema = document.getElementById("emblema")
 
             updateProfileUserNameInput.value = dados.userName
             updateProfileBioInput.value = dados.bio
+            emblema.value = dados.profileImg
+
             if (dados.profileImg) {
                 exibidorImagem(document.getElementById("config-user-pic-mod"), dados.profileImg)
             } else {
                 exibidorImagem(document.getElementById("config-user-pic-mod"), '../default-user-image.png')
             }
 
-            const emblema = document.getElementById("emblema")
-
-            updateProfileForm.addEventListener("submit", async (e) => {
-                e.preventDefault()
-                limparMensagem(mensagemErro)
-
-                loader.show()
-                await postPerfil("userconfigurations", {
-                    "Username": updateProfileUserNameInput.value,
-                    "Bio": updateProfileBioInput.value,
-                    "Picture": emblema.value
-                })
-                loader.hide()
-            })
-
-            async function postPerfil(endpoint, body) {
-                const callbackServidor = data => {
-                    mensagemErro.classList.add("text-danger")
-                    data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
-                }
-
-                loader.show()
-                const data = await executarFetch(endpoint, configuracaoFetch("PUT", body), callbackServidor, callbackServidor)
-                loader.hide()
-                if (!data) return false
-
-                notificacaoSucesso(data.results[0])
-                return true
-            }
 
             const updateProfileValidator = new JustValidate(updateProfileForm, {
                 validateBeforeSubmitting: true,
@@ -224,10 +200,8 @@ async function changeConfigOptionsContext(t) {
                 updateProfileValidator
                     .addField(updateProfileUserNameInput, [
                         {
-                            validator: (value) => {
-                                return updateProfileBioInput.value.length > 0 ? true : value.length > 0
-                            },
-                            errorMessage: ' ',
+                            rule: 'required',
+                            errorMessage: `<span class="i18" key="NomeUsuarioObrigatorio">${i18next.t('NomeUsuarioObrigatorio')}</span>`,
                         },
                         {
                             rule: 'minLength',
@@ -289,8 +263,9 @@ async function changeConfigOptionsContext(t) {
                         })
                         loader.hide()
                     })
+                
             }
-
+                
             document.addEventListener('nova-lingua', case1)
             case1()
 
@@ -306,13 +281,13 @@ async function changeConfigOptionsContext(t) {
                     return;
 
                 emblema.value = `${api}img/${data.results}`
-                exibidorImagem(document.getElementById("erros-imagem"), emblema.value)
+                exibidorImagem(document.getElementById("config-user-pic-mod"), emblema.value)
             })
+
 
             break
 
         case 2:
-
             configOptionsWrapper.innerHTML = /*html*/`
                     <p class="position-absolute config-title fw-semibold i18" key="Conta">${i18next.t("Conta")}</p>
                     <h5 class="i18" key="Informacoes">${i18next.t("Informacoes")}</h5>
@@ -320,6 +295,7 @@ async function changeConfigOptionsContext(t) {
                     
                     <div class="mt-1">
                         <form id="update-account-form" class="row">
+                            <span id="mensagem-erro-nome"></span>
                             <div class="col-12 mt-3">
                                 <label for="config-user-realname-input" class="form-label i18" key="NomeReal">${i18next.t("NomeReal")}</label>
                                 <input maxLength="100" type="text" class="form-control width-config-input i18-placeholder" key="NomeReal" id="config-user-realname-input" placeholder="${i18next.t("NomeReal")}">
@@ -350,43 +326,14 @@ async function changeConfigOptionsContext(t) {
 
             const updateAccountForm = document.querySelector('#update-account-form')
             const updateAccountRealNameInput = document.querySelector('#config-user-realname-input')
+            const mensagemErroNome = document.getElementById('mensagem-erro-nome')
 
             updateAccountRealNameInput.value = dados.name
 
-            const updateAccountValidator = new JustValidate(updateAccountForm, {
-                validateBeforeSubmitting: true,
-            })
-
-            updateAccountValidator
-                .addField(updateAccountRealNameInput, [
-                    {
-                        rule: 'required',
-                        errorMessage: `<span class="i18" key="NomeRealObrigatorio">${i18next.t("NomeRealObrigatorio")}</span>`,
-                    },
-                    {
-                        rule: 'minLength',
-                        value: 1,
-                        errorMessage: `<span class="i18" key="NomeRealMinimo">${i18next.t("NomeRealMinimo")}</span>`,
-                    },
-                    {
-                        rule: 'maxLength',
-                        value: 100,
-                        errorMessage: `<span class="i18" key="NomeRealMaximo">${i18next.t("NomeRealMaximo")}</span>`,
-                    },
-                ])
-                .onSuccess(async (e) => {
-                    e.preventDefault()
-                    limparMensagem(mensagemErro)
-
-                    await postName("userconfigurations", {
-                        "Name": updateAccountRealNameInput.value,
-                    })
-                })
-
             async function postName(endpoint, body) {
                 const callbackServidor = data => {
-                    mensagemErro.classList.add("text-danger")
-                    data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
+                    mensagemErroNome.classList.add("text-danger")
+                    data.results.forEach(element => mensagemErroNome.innerHTML += `${element}<br>`);
                 }
 
                 loader.show()
@@ -410,18 +357,30 @@ async function changeConfigOptionsContext(t) {
                             rule: 'required',
                             errorMessage: `<span class="i18" key="NomeRealObrigatorio">${i18next.t("NomeRealObrigatorio")}</span>`,
                         },
+                        {
+                            rule: 'minLength',
+                            value: 1,
+                            errorMessage: `<span class="i18" key="NomeRealMinimo">${i18next.t("NomeRealMinimo")}</span>`,
+                        },
+                        {
+                            rule: 'maxLength',
+                            value: 100,
+                            errorMessage: `<span class="i18" key="NomeRealMaximo">${i18next.t("NomeRealMaximo")}</span>`,
+                        },
                     ])
                     // submit
                     .onSuccess(async (e) => {
                         e.preventDefault()
+                        limparMensagem(mensagemErroNome)
+
+                        await postName("userconfigurations", {
+                            "Name": updateAccountRealNameInput.value,
+                        })
                     })
             }
 
+            document.addEventListener('nova-lingua', case2)
             case2()
-
-            document.addEventListener('nova-lingua', event => {
-                case2()
-            })
 
             break
 
@@ -433,6 +392,7 @@ async function changeConfigOptionsContext(t) {
                     
                     <div class="mt-1">
                         <form id="change-password-form" class="row">
+                            <span id="mensagem-erro-redefinicao"></span>
                             <div class="col-12 mt-3">
                                 <label for="config-user-pass-input" class="form-label i18" key="SenhaAtual">${i18next.t("SenhaAtual")}</label>
                                 <div class="col-9 mt-1 d-flex position-relative">
@@ -449,7 +409,7 @@ async function changeConfigOptionsContext(t) {
                                 <label for="config-user-pass-input" class="form-label i18" key="NovaSenha">${i18next.t("NovaSenha")}</label>
                                 <div class="col-9 mt-1 d-flex position-relative">
                                     <div class="input-wrapper w-100">
-                                        <input type="password" class="form-control i18-placeholder"   key="NovaSenha" id="config-user-newpass-input" name="config-user-newpass-input" placeholder="${i18next.t("NovaSenha")}" autocomplete="on">
+                                        <input type="password" class="form-control i18-placeholder" key="NovaSenha" id="config-user-newpass-input" name="config-user-newpass-input" placeholder="${i18next.t("NovaSenha")}" autocomplete="on">
                                     </div>
                                     <div id="olhos-nova-senha">
                                         <i id="olho-aberto-nova-senha" class="btn btn-success rounded-0 rounded-end bi bi-eye text-light position-absolute end-0"></i>
@@ -473,10 +433,11 @@ async function changeConfigOptionsContext(t) {
             const olhoAbertoNovaSenha = document.getElementById("olho-aberto-nova-senha")
             const olhoFechado = document.getElementById("olho-fechado")
             const olhoFechadoNovaSenha = document.getElementById("olho-fechado-nova-senha")
+            const mensagemErroRedefinicao = document.getElementById('mensagem-erro-redefinicao')
 
             const visualizarSenha = (olhos, olhoAberto, olhoFechado, senha) => {
                 olhos.addEventListener('click', () => {
-                    (olhos.classList.contains("d-none")) ? senha.type = "password" : senha.type = "text"
+                    senha.type == "password" ? senha.type = "text" : senha.type = "password"
                     olhoAberto.classList.toggle("d-none")
                     olhoFechado.classList.toggle("d-none")
                 })
@@ -488,21 +449,6 @@ async function changeConfigOptionsContext(t) {
 
             visualizarSenha(olhos, olhoAberto, olhoFechado, changePasswordInput)
             visualizarSenha(olhosNovaSenha, olhoAbertoNovaSenha, olhoFechadoNovaSenha, changeNewPasswordInput)
-
-            const form = document.getElementById("change-password-form")
-
-            form.addEventListener('submit', async (e) => {
-                limparMensagem(mensagemErro)
-
-                const resultado = await postRedefinirSenha("userconfigurations/updatepassword", {
-                    "NewPassword": changeNewPasswordInput.value,
-                    "CurrentPassword": changePasswordInput.value
-                })
-
-                if (resultado) {
-                    form.reset()
-                }
-            })
 
             const changePasswordValidator = new JustValidate(changePasswordForm, {
                 validateBeforeSubmitting: true,
@@ -543,10 +489,11 @@ async function changeConfigOptionsContext(t) {
 
             const postRedefinirSenha = async (endpoint, body) => {
                 const config = configuracaoFetch("PUT", body)
+                limparMensagem(mensagemErroRedefinicao)
 
                 const callbackServidor = data => {
-                    mensagemErro.classList.add("text-danger")
-                    data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
+                    mensagemErroRedefinicao.classList.add("text-danger")
+                    data.results.forEach(element => mensagemErroRedefinicao.innerHTML += `${element}<br>`);
                 }
 
                 loader.show()

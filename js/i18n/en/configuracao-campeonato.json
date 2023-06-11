@@ -50,7 +50,7 @@
     "excluir": "delete",
     "TextoExclusao": "this championship, it will be removed from view and it will not be possible to recover it. You must carefully assess whether this is what you really want to do.",
     "NomeUsuario": "Username:",
-    "NomeUsuarioPlaceholder": "Nome de Usuário",
+    "NomeUsuarioPlaceholder": "Username...",
     "DigiteExcluir": "Type 'Delete Championship'",
     "DigiteExcluirPlaceholder": "Type here...",
     "NomeCampeonatoObrigatorio": "Championship's Name is required",
