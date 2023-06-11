@@ -21,7 +21,7 @@
     "BioMin": "Sua bio deve possuir no mínimo 10 caracteres.",
     "BioMax": "Sua bio deve possuir no máximo 100 caracteres.",
     "Preencher": "Você deve preencher pelo menos um dos campos.",
-    "ImagemTamanho": "Tamanho máximo da imagem: 5mb",
+    "ImagemTamanho": "Arquivo inválido! O arquivo deve possuir até 5mb e ser de tipos: png, jpeg, jpg, webp, gif, bmp, tiff",
     "NomeReal": "Nome real",
     "Ao":"Ao clicar no botão de excluir conta, você estará dando início ao processo de",
     "Processo": "exclusão permanente da sua conta",
@@ -45,5 +45,4 @@
     "NovaSenhaObrigatoria": "Sua nova senha é obrigatória",
     "SenhaInvalida": "Sua senha deve conter pelo menos 4 caracteres, uma letra maiúscula, uma letra minúscula e um número.",
     "AtualizarConta": "Atualizar conta"
-
 }

@@ -7,14 +7,7 @@ import ingles from './i18n/en/redefinir-senha.json' assert { type: 'JSON' }
 import i18next from "i18next";
 import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
 
-inicializarInternacionalizacao(ingles, portugues);
-
-const tradutor = document.querySelector('#lingua')
-tradutor.addEventListener('change', event => {
-    const selectedIndex = event.target.selectedIndex;
-    localStorage.setItem('lng', event.target.children[selectedIndex].value);
-    document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
-})
+inicializarInternacionalizacao(ingles, portugues)
 
 const opcao1 = document.getElementById("1")
 const opcao2 = document.getElementById("2")
@@ -29,10 +22,8 @@ window.addEventListener("DOMContentLoaded", async(e) => {
     const divReposta = document.getElementById("div-reposta")
     const divReposta2 = document.getElementById("div-reposta-2")
 
-    let queryString = window.location.search
-    let endpoint = `auth/reset-password${queryString}`
-    const config = configuracaoFetch("GET")
-    const data = await executarFetch(endpoint, config)
+    const queryString = window.location.search
+    const data = await executarFetch(`auth/reset-password${queryString}`, configuracaoFetch("GET"))
 
     if(!data) {
         divReposta.classList.remove("d-none")
@@ -62,6 +53,17 @@ const validator = new JustValidate(formulario, {
     validateBeforeSubmitting: true,
 })
 
+formulario.addEventListener("submit", async(e) => {
+    e.preventDefault()
+    limparMensagem(mensagemErro)
+
+    if(!validacoes()) return
+    await postToken({
+        "Email": email,
+        "Password": senha.value,
+    })
+})
+
 validator
     .addField(senha, [
         {
@@ -89,8 +91,10 @@ validator
 
 async function postToken(body) {
     const config = configuracaoFetch("POST", body)
-   
+
+    loader.show()
     const res = await fetch(`https://playoffs-api.up.railway.app/auth/reset-password`, config)
+    loader.hide()
 
     const data = await res.json()
 

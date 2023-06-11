@@ -2,11 +2,9 @@ import '../scss/configuracao-usuarios.scss'
 import '../scss/configuracao-campeonato.scss'
 import JustValidate from 'just-validate'
 import { executarFetch, configuracaoFetch, limparMensagem, api } from './utilidades/configFetch'
-// import Dropzone from 'dropzone'
 import { Portuguese } from "flatpickr/dist/l10n/pt.js"
-// import '../node_modules/dropzone/dist/dropzone.css'
 import flatpickr from "flatpickr"
-import { exibidorImagem } from '../js/utilidades/previewImagem'
+import { exibidorImagem } from './utilidades/previewImagem.js'
 import { uploadImagem } from './utilidades/uploadImagem'
 import { notificacaoErro, notificacaoSucesso } from "./utilidades/notificacoes"
 import './utilidades/loader'
@@ -17,18 +15,12 @@ import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao
 
 inicializarInternacionalizacao(ingles, portugues);
 
-document.querySelector('#lingua').addEventListener('change', event => {
-    const selectedIndex = event.target.selectedIndex;
-    localStorage.setItem('lng', event.target.children[selectedIndex].value);
-    document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
-})
-
 const loader = document.createElement('app-loader');
 document.body.appendChild(loader);
 
 const init = async () => {
 	const activateLi = (li) => {
-		for (const item of configMenuList.children) {
+		for (const item of abaBotoes) {
 			item.classList.remove('active')
 		}
 
@@ -96,7 +88,6 @@ const init = async () => {
 			}
 		})
 
-		console.log(campeonato)
 		image.src = campeonato.logo
 		imageInput.value = campeonato.logo
 		name.value = campeonato.name
@@ -108,7 +99,6 @@ const init = async () => {
 
 		for (const option of numero.options) {
 			if (option.value == campeonato.teamQuantity) {
-				console.log('entrou', option.value, option.index)
 				numero.selectedIndex = option.index
 				break;
 			}
@@ -137,24 +127,6 @@ const init = async () => {
 			locale: Portuguese,
 			altInput: true,
 		})
-
-		imageFile.addEventListener("change", async () => {
-			loader.show()
-			const data = await uploadImagem(imageFile, 0, mensagemErro)
-			loader.hide()
-
-			imageInput.value = `${api}img/${data.results}`
-			exibidorImagem(image, imageInput.value)
-		})
-
-		regulamento.addEventListener("change", async () => {
-			const data = await uploadImagem(regulamento, 2, mensagemErro)
-			imageInput.value = `${api}img/${data.results}`
-
-			linkRegulamento.href = imageInput.value;
-			linkRegulamento.classList.toggle('d-none', false)
-		})
-		
 
 		const validator = new JustValidate(form, {
 			validateBeforeSubmitting: true,
@@ -270,6 +242,19 @@ const init = async () => {
 					},
 					errorMessage:`<span class="i18" key="ImagemTamanho">${i18next.t("ImagemTamanho")}</span>`,
 				}
+			], { errorsContainer: document.getElementById('imagem-erro-jv') })
+			.addField(regulamento, [
+				{
+					rule: 'files',
+					value: {
+						files: {
+							extensions: ['pdf'],
+							maxSize: 20000000,
+							types: ['application/pdf'],
+						},
+					},
+					errorMessage:`<span class="i18" key="ImagemTamanho">${i18next.t("PdfInvalido")}</span>`,
+				}
 			])
 			.addField(nacao, [
 				{
@@ -370,8 +355,9 @@ const init = async () => {
 			.onSuccess(async (e) => {
 				e.preventDefault()
 				// console.log('hello world')
-				limparMensagem(mensagemErro)
+				// limparMensagem(mensagemErro)
 
+				loader.show()
 				await putCampeonato({
 					"name": name.value,
 					"initialDate": dataInicial.value,
@@ -389,23 +375,55 @@ const init = async () => {
 					'rules': linkRegulamento.href,
 					"NumberOfPlayers": parseInt(quantidadeJogadores.value)
 				})
-
-				mensagemErro.textContent = ''
+				loader.hide()
+				// mensagemErro.textContent = ''
 			})
+
+		
+		imageFile.addEventListener("change", async () => {
+			const isValid = await validator.revalidateField(imageFile)
+			if (!isValid) return;
+
+			loader.show()
+			const data = await uploadImagem(imageFile, 0, mensagemErro)
+			loader.hide()
+
+			if (Array.isArray(data.results))
+			return;
+
+			imageInput.value = `${api}img/${data.results}`
+			exibidorImagem(image, imageInput.value)
+		})
+
+		regulamento.addEventListener("change", async () => {
+			const isValid = await validator.revalidateField(regulamento)
+			if (!isValid) return;
+			
+			loader.show()
+			const data = await uploadImagem(regulamento, 2, mensagemErro)
+			loader.hide()
+
+			if (Array.isArray(data.results))
+			return;
+
+			imageInput.value = `${api}img/${data.results}`
+
+			linkRegulamento.href = imageInput.value;
+			linkRegulamento.classList.toggle('d-none', false)
+		})
 	}
 
 	const putCampeonato = async body => {
-    const config = configuracaoFetch("PUT", body)
-		console.log(body)
-    const callbackServidor = data => {
-        mensagemErro.classList.add("text-danger")
-        data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`)
-    }
+		const callbackServidor = data => {
+			mensagemErro.classList.add("text-danger")
+			data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`)
+		}
 
-    const data = await executarFetch('championships', config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
-    if (!data) return false
+		const data = await executarFetch('championships', configuracaoFetch("PUT", body), callbackServidor, callbackServidor)
+		if (!data) return false
 
-    notificacaoSucesso(data.results[0])
+		limparMensagem(mensagemErro)
+		notificacaoSucesso(data.results[0])
 	}
 
 	const vincularTime = async teamId => {
@@ -414,11 +432,9 @@ const init = async () => {
 		}
 
 		const configFetch = configuracaoFetch('POST', { 'teamId': teamId, 'championshipId': parseInt(championshipId)}),
-					response = await executarFetch('teams/championship', configFetch, callbackStatus)
+			  response = await executarFetch('teams/championship', configFetch, callbackStatus)
 
-		if (response.succeed) {
-			notificacaoSucesso(i18next.t("VinculadoSucesso"))
-		}
+		if (response.succeed) notificacaoSucesso(i18next.t("VinculadoSucesso"))
 	}
 
 	const desvincularTime = async teamId => {
@@ -427,7 +443,7 @@ const init = async () => {
 		}
 
 		const configFetch = configuracaoFetch('DELETE', { 'teamId': teamId, 'championshipId': parseInt(championshipId)}),
-					response = await executarFetch('teams/championship', configFetch, callbackStatus)
+			  response = await executarFetch('teams/championship', configFetch, callbackStatus)
 
 		if (response.succeed) {
 			notificacaoSucesso(i18next.t("DesvinculadoSucesso"))
@@ -475,12 +491,12 @@ const init = async () => {
 
 	const inicializarPaginaTimes = async () => {
 		const botaoVincular = document.getElementById('botao-vincular-time'),
-					pesquisaWrapper = document.getElementById('pesquisa-time'),
-					inputPesquisa = document.getElementById('pesquisa-time-input'),
-					datalistPesquisa = document.getElementById('pesquisa-time-lista'),
-					configFetch = configuracaoFetch('GET')
+			  pesquisaWrapper = document.getElementById('pesquisa-time'),
+			  inputPesquisa = document.getElementById('pesquisa-time-input'),
+			  datalistPesquisa = document.getElementById('pesquisa-time-lista'),
+			  configFetch = configuracaoFetch('GET')
 					
-		listarTimesVinculados(configFetch)
+		await listarTimesVinculados(configFetch)
 
 		const exibirPesquisa = botaoVincular.onclick = () => {
 			pesquisaWrapper.classList.toggle('d-none')
@@ -497,12 +513,10 @@ const init = async () => {
 				datalistPesquisa.innerHTML = ''
 				return;
 			}
-			// loader.show()
 			const valor = inputPesquisa.value,
-						response = await executarFetch(`teams?query=${valor}&sport=${campeonato.sportsId}`, configFetch),
-						times = response.results
+				  response = await executarFetch(`teams?query=${valor}&sport=${campeonato.sportsId}`, configFetch),
+				  times = response.results
 
-			// loader.hide()
 
 			datalistPesquisa.innerHTML = ''
 			for (const time of times) {
@@ -511,7 +525,7 @@ const init = async () => {
 				newOption.innerHTML = 
 				`
 					<div>
-						<img src="${time.emblem}" class="img-listagem-times">
+						<img src="${time.emblem}" alt="Logo" class="img-listagem-times">
 						${time.name}
 					</div>
 				`
@@ -536,66 +550,51 @@ const init = async () => {
 
 	const inicializarPaginaExclusao = async () => {
 		const formDeletarCampeonato = document.getElementById('delete-championship-form'),
-					deleteAccountValidator = new JustValidate(formDeletarCampeonato, { validateBeforeSubmitting: true }),
-					usernameInput = document.getElementById('delete-user-name-input'),
-					deleteCampeonato = document.getElementById('delete-championship-check-input'),
-					username = document.getElementById('offcanvasUserName')
+			  deleteAccountValidator = new JustValidate(formDeletarCampeonato, { validateBeforeSubmitting: true }),
+			  usernameInput = document.getElementById('delete-user-name-input'),
+			  deleteCampeonato = document.getElementById('delete-championship-check-input'),
+			  username = document.getElementById('offcanvasUserName')
 
 		deleteAccountValidator
 			.addField(usernameInput, [
-					{
-							rule: 'required',
-							errorMessage: `<span class="i18" key="NomeUsuarioObrigatorio">${i18next.t("NomeUsuarioObrigatorio")}</span>`,
-					},
-					{
-							validator: (value) => username.textContent == value,
-							errorMessage: `<span class="i18" key="NomeUsuarioIncorreto">${i18next.t("NomeUsuarioIncorreto")}</span>`
-					}
-			])
-			.addField(deleteCampeonato, [
-					{
-							rule: 'required',
-							errorMessage:  `<span class="i18" key="ConfirmarExclusao">${i18next.t("ConfirmarExclusao")}</span>`,
-					},
-					{
-							validator: (value) => value == 'Excluir Campeonato' ? true : false,
-							errorMessage: `<span class="i18" key="Escreva">${i18next.t("Escreva")}</span>`,
-					},
+				{
+						rule: 'required',
+						errorMessage: `<span class="i18" key="NomeUsuarioObrigatorio">${i18next.t("NomeUsuarioObrigatorio")}</span>`,
+				},
+				{
+						validator: (value) => username.textContent == value,
+						errorMessage: `<span class="i18" key="NomeUsuarioIncorreto">${i18next.t("NomeUsuarioIncorreto")}</span>`
+				}
 			])
 			// submit
 			.onSuccess(async(e) => {
-					e.preventDefault()
-					loader.show()
-					const configFetch = configuracaoFetch('DELETE'),
-								response = await executarFetch(`championships/${championshipId}`, configFetch)
+				e.preventDefault()
+				loader.show()
+				const configFetch = configuracaoFetch('DELETE'),
+					  response = await executarFetch(`championships/${championshipId}`, configFetch)
 
-					loader.hide()
+				loader.hide()
 
-					if (response.succeed) {
-						window.location.assign('/index.html');
-					}
+				if (response.succeed) {
+					window.location.assign('/index.html');
+				}
 			})
 	}
 
 	//#region coisas chatas
 
 	const configMenu = document.querySelector('.config-menu'),
-				configMenuList = document.querySelector('.config-menu-list'),
-				configTitle = document.querySelector('.config-title'),
-				mediaQueryMobile = window.matchMedia('(max-width: 575px)'),
-				menuConfig = document.getElementsByClassName('menu-config'),
-				mensagemErro = document.getElementById('mensagem-erro')
+		  	configMenuList = document.getElementById('config-menu-list'),
+				abaBotoes = configMenuList.children,
+		  	configTitle = document.querySelector('.config-title'),
+		  	mediaQueryMobile = window.matchMedia('(max-width: 575px)'),
+		  	menuConfig = document.getElementsByClassName('menu-config'),
+		  	mensagemErro = document.getElementById('mensagem-erro'),
+				championshipId = document.getElementById('usernameChampionshipId').textContent
 
-	let championshipId = document.getElementById('usernameChampionshipId')?.textContent
-
-	if (!championshipId) {
-		await new Promise(r => setTimeout(r, 300))
-		championshipId = document.getElementById('usernameChampionshipId').textContent
-	};
 	loader.show()
 	const dados = await executarFetch(`championships/${championshipId}`, configuracaoFetch('GET')),
-				campeonato = dados.results
-	
+		  	campeonato = dados.results
 	loader.hide()
 
 	if (mediaQueryMobile.matches) {
@@ -603,21 +602,19 @@ const init = async () => {
 		configMenu.classList.add('mb-0')
 	}
 
-	configMenuList.addEventListener('click', e => {
-		const target = e.target
-
-		if (target.tagName !== 'BUTTON') return
-
-		activateLi(target)
-		configTitle.innerText = target.innerText
-		changeConfigOptionsContext(target.getAttribute('menu'))
-	})
+	for (const configMenuOption of abaBotoes) {
+		configMenuOption.addEventListener('click', () => {	
+			activateLi(configMenuOption)
+			configTitle.innerText = configMenuOption.innerText
+			changeConfigOptionsContext(configMenuOption.getAttribute('menu'))
+		})
+	}
 
 	changeConfigOptionsContext(0)
 	inicializarCampos()
-	inicializarPaginaTimes()
-	inicializarPaginaExclusao()
+	await inicializarPaginaTimes()
+	await inicializarPaginaExclusao()
 	//#endregion
 }
 
-document.addEventListener('DOMContentLoaded', init)
+document.addEventListener('header-carregado', init)

@@ -64,7 +64,7 @@
     "FormatoObrigatorio": "Please select a format",
     "QuantidadeObrigatoria": "Please select a number",
     "LogoObrigatoria": "insert a logo",
-    "ImagemTamanho": "Maximum image size: 5mb",
+    "ImagemTamanho": "Invalid file! The file can't be bigger than 5mb and be of the following types: png, jpeg, jpg, webp, gif, bmp, tiff",
     "PaisObrigatorio": "Country is required",
     "PaisMinimo": "Minimum 4 characters",
     "PaisMaximo": "Maximum 40 characters",
@@ -82,7 +82,7 @@
     "DescricaoMaximo": "Maximum 2000 characters",
     "VinculadoSucesso": "Team linked successfully!",
     "DesvinculadoSucesso": "Team unlinked successfully!",
-    "SemTimes": "There are no linked teams, add a team to your league by clicking the button below!",
+    "SemTimes": "There are no linked teams, add a team to your league by clicking the button above!",
     "Adicionar": "To add",
     "AoCampeonato": "to championship",
     "NomeUsuarioObrigatorio": "Username is required",
@@ -94,5 +94,7 @@
     "QuantidadeJogadoresPlaceholderDisabled": "Select a sport first...",
     "QuantidadeJogadoresPlaceholder": "Number of players per team...",
     "QuantidadeJogadoresObrigatorio": "Please enter number of players per team",
-    "QuantidadeJogadoresInvalido": "Invalid number of players per team"
+    "QuantidadeJogadoresInvalido": "Invalid number of players per team",
+    "PdfInvalido": "Invalid file! The file must have less than 20mb and be a pdf file.",
+    "EspecificacoesRegulamento": "The file must be a PDF and must be smaller than 20 mb."
 }

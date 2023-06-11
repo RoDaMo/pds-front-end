@@ -4,7 +4,7 @@ import flatpickr from "flatpickr"
 import { Portuguese } from "flatpickr/dist/l10n/pt.js"
 import { visualizarSenha } from "./utilidades/visualizar-senha"
 import JustValidate from "just-validate"
-import {redirecionamento} from './utilidades/redirecionamento'
+import { redirecionamento } from './utilidades/redirecionamento'
 import './utilidades/loader'
 import portugues from './i18n/ptbr/cadastro-usuario.json' assert { type: 'JSON' }
 import ingles from './i18n/en/cadastro-usuario.json' assert { type: 'JSON' }
@@ -170,8 +170,6 @@ validator
         e.preventDefault();
         limparMensagem(mensagemErro);
       
-        loader.show(); // Exibe o loader
-      
         const resultado = await postUsuario("auth/register", {
             "Name": nome.value,
             "Email": email.value,
@@ -182,15 +180,13 @@ validator
         
         if (resultado){
             apresentarResultado()
-        }
-      
-        loader.hide(); // Oculta o loader
+        }   
 });
 
 botao.addEventListener("click", async() => {
-    let endpoint = `auth/resend-confirm-email?id=${idUsuario}`
-    const config = configuracaoFetch("GET")
-    const data = await executarFetch(endpoint, config)
+    loader.show()
+    const data = await executarFetch(`auth/resend-confirm-email?id=${idUsuario}`, configuracaoFetch("GET"))
+    loader.hide()
 
     if(data)
         notificacaoSucesso(data.message)
@@ -203,8 +199,10 @@ async function postUsuario(endpoint, body) {
         mensagemErro.classList.add("text-danger")
         data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
     }
-
+    
+    loader.show()
     const data = await executarFetch(endpoint, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
+    loader.hide()
 
     if (!data) return false
 
