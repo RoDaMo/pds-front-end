@@ -1,6 +1,6 @@
 class footer extends HTMLElement {
     connectedCallback() {
-      this.innerHTML = `
+        this.innerHTML = `
     <div class="container mt-4">
         <footer class="mt-5 d-none d-md-flex flex-column ">
             <section class="row">
@@ -28,12 +28,13 @@ class footer extends HTMLElement {
                 <p class="col-auto ms-2 my-auto me-auto text-black opacity-50">@ 2023 RoDaMo</p>
                 <ul class="col-auto me-2 float-right align-self-end list-group list-group-horizontal list-group-flush">
                 <li class="list-group-item border-0 opacity-75"><a href="https://github.com/RoDaMo"><i class="bi bi-github fs-5"></i></a></li>
+                <li class="list-group-item border-0 opacity-75"><a href="https://www.youtube.com/@EquipeRodamo/featured"><i class="bi bi-youtube fs-5"></i></a></li>
                 </ul>
             </section>
         </footer>
     </div>
     `;
     }
-  }
-  
-  window.customElements.define('componente-footer', footer);
+}
+
+window.customElements.define('componente-footer', footer);
