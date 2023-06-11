@@ -34,5 +34,9 @@
     "DataNascimentoObrigatoria": "A data é obrigatória. É necessário possuir pelo menos 13 anos de idade para se cadastrar.",
     "SenhaObrigatoria": "A senha é obrigatória.",
     "TermosUsoObrigatorio": "É necessário aceitar os termos de uso para se cadastrar.",
-    "PoliticaPrivacidadeObrigatoria": "É necessário aceitar a política de privacidade para se cadastrar."
+    "PoliticaPrivacidadeObrigatoria": "É necessário aceitar a política de privacidade para se cadastrar.",
+    "AoMarcar": "Eu aceito os ",
+    "TermosUso": "Termos de Uso",
+    "TermosPrivacidade": "Termos de Privacidade",
+    "DoSite": "do site."
 }

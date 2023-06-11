@@ -37,8 +37,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (response.ok) {
     const resultados = await response.json()
     localStorage.setItem('user-info', JSON.stringify(resultados.results))
+  } else {
+    localStorage.removeItem('user-info')
   }
 
   if (document.body.getAttribute('only-anon') && response.ok) 
     window.location.assign('/')
+
+  document.dispatchEvent(new Event('autenticado', { bubbles: true }))
 })

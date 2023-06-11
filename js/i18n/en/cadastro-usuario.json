@@ -34,6 +34,9 @@
     "DataNascimentoObrigatoria": "The date is mandatory. You must be at least 13 years old to register.",
     "SenhaObrigatoria": "Password is required",
     "TermosUsoObrigatorio": "You must accept the terms of use.",
-    "PoliticaPrivacidadeObrigatoria": "You must accept the privacy policy."
-    
+    "PoliticaPrivacidadeObrigatoria": "You must accept the privacy policy.",
+    "AoMarcar": "I agree to the ",
+    "TermosUso": "Terms of use",
+    "TermosPrivacidade": "Privacy policy",
+    "DoSite": "of the website."
 }

@@ -55,10 +55,15 @@ export class header extends HTMLElement {
                 </nav>
             </header>
         `
-        this.estaLogado(lng)
+
+        document.addEventListener('autenticado', () => this.estaLogado(lng))
+        // this.estaLogado(lng)
     }
     
     estaLogado(lng) {
+        const autenticado = localStorage.getItem('autenticado')
+        if (!autenticado) return;
+
         const defaultImg = 'https://cdn-icons-png.flaticon.com/512/17/17004.png'
         const user = JSON.parse(localStorage.getItem('user-info'))
         const info = /* html */`
@@ -144,6 +149,8 @@ export class header extends HTMLElement {
             const configLogout = configuracaoFetch('DELETE', null, false, false)
             await executarFetch('auth', configLogout)
             loader.hide()
+            localStorage.setItem('autenticado', false)
+            localStorage.removeItem('user-info')
             window.location.assign('/index.html')
         }))
 

@@ -74,6 +74,8 @@ async function postToken(body) {
         mensagemErro.textContent = data.message
         mensagemErro.classList.add("text-danger")
         senha.value = ""
+        localStorage.setItem('autenticado', true)
+        
     } else {
         window.location.assign(`/`)
     }

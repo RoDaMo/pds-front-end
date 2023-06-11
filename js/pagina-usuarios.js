@@ -164,5 +164,4 @@ const obterInfo = async () => {
     document.getElementById("name").textContent = data.results.name
 }
 
-obterInfo();
-
+document.addEventListener('header-carregado', obterInfo)
