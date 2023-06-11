@@ -37,10 +37,12 @@ let filtros = {
     finish: null,
 }
 
+let lng = localStorage.getItem('lng')
+
 
 flatpickr(filtroInicio, {
     dateFormat: "Y-m-d",
-    locale: Portuguese,
+    locale:  lng === 'ptbr' ? Portuguese : ingles,
     altInput: true,
     onChange: async (selectedDates, dateStr, instance) => {
         paginasAnteriores = []
@@ -51,13 +53,47 @@ flatpickr(filtroInicio, {
 
 flatpickr(filtroFim, {
     dateFormat: "Y-m-d",
-    locale: Portuguese,
+    locale:  lng === 'ptbr' ? Portuguese : ingles,
     altInput: true,
     onChange: async (selectedDates, dateStr, instance) => {
         paginasAnteriores = []
         filtros.finish = dateStr;
         await listagem();
     }
+})
+
+document.addEventListener('nova-lingua', event => {
+    let lng = localStorage.getItem('lng');
+    flatpickr(filtroInicio, {
+        dateFormat: "Y-m-d",
+        locale:  lng === 'ptbr' ? Portuguese : ingles,
+        altInput: true,
+        onChange: (selectedDates, dateStr, instance) => {
+            paginasAnteriores = []
+            filtros.finish = dateStr;
+            listagem();
+        }
+    })
+    flatpickr(filtroFim, {
+        dateFormat: "Y-m-d",
+        locale:  lng === 'ptbr' ? Portuguese : ingles,
+        altInput: true,
+        onChange: (selectedDates, dateStr, instance) => {
+            paginasAnteriores = []
+            filtros.finish = dateStr;
+            listagem();
+        }
+    })
+
+    let inputData1 = document.querySelectorAll('[tabindex]')[1]
+    inputData1.placeholder = i18next.t("FiltrarApartir")
+    inputData1.setAttribute('key', 'FiltrarApartir')
+    inputData1.classList.add("i18-placeholder")
+
+    let inputData2 = document.querySelectorAll('[tabindex]')[2]
+    inputData2.placeholder = i18next.t("FiltrarAte")
+    inputData2.setAttribute('key', 'FiltrarAte')
+    inputData2.classList.add("i18-placeholder")
 })
 
 filtroEsporte.addEventListener("change", async () => {
@@ -204,3 +240,13 @@ const exibirDados = async (data) => {
 }
 
 listagem();
+
+let inputData1 = document.querySelectorAll('[tabindex]')[1]
+inputData1.placeholder = i18next.t("FiltrarApartir")
+inputData1.setAttribute('key', 'FiltrarApartir')
+inputData1.classList.add("i18-placeholder")
+
+let inputData2 = document.querySelectorAll('[tabindex]')[2]
+inputData2.placeholder = i18next.t("FiltrarAte")
+inputData2.setAttribute('key', 'FiltrarAte')
+inputData2.classList.add("i18-placeholder")

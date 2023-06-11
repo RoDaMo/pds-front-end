@@ -48,9 +48,11 @@ let idUsuario = null
 
 redirecionamento(nomeUsuario)
 
+const lng = localStorage.getItem('lng')
+
 flatpickr(dataAniversario, {
     dateFormat: "Y-m-d",
-    locale: Portuguese,
+    locale: lng === 'ptbr' ? Portuguese : ingles,
     altInput: true,
     minDate: new Date(new Date().getFullYear() - 100, new Date().getMonth(), new Date().getDate()),
     maxDate: new Date(new Date().getFullYear() - 13, new Date().getMonth(), new Date().getDate())
@@ -87,7 +89,70 @@ const numero = (str) => /[0-9]/.test(str);
 const caracteres = (str) => /.{4,}/.test(str);
 const especial = (str) => /^[a-zA-Z0-9 ]*$/.test(str);
 
-validator
+criarValidacao()
+
+botao.addEventListener("click", async() => {
+    let endpoint = `auth/resend-confirm-email?id=${idUsuario}`
+    const config = configuracaoFetch("GET")
+    const data = await executarFetch(endpoint, config)
+
+    if(data)
+        notificacaoSucesso(data.message)
+})
+
+async function postUsuario(endpoint, body) {
+    const config = configuracaoFetch("POST", body)
+
+    const callbackServidor = data => {
+        mensagemErro.classList.add("text-danger")
+        data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
+    }
+
+    loader.show()
+    const data = await executarFetch(endpoint, config, callbackServidor, callbackServidor)
+    loader.hide()
+
+    if (!data) return false
+
+    idUsuario = data.results
+    notificacaoSucesso(data.message)
+    return true
+}
+
+function apresentarResultado() {
+    h1.style.display = "none"
+    h4.style.display = "none"
+    formulario.style.display = "none"
+    divResposta.classList.remove("d-none")
+}
+
+const tradutor = document.querySelector('#lingua')
+tradutor.addEventListener('change', event => {
+    const selectedIndex = event.target.selectedIndex;
+    localStorage.setItem('lng', event.target.children[selectedIndex].value);
+    document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
+
+    criarValidacao()
+
+    flatpickr(dataAniversario, {
+        dateFormat: "Y-m-d",
+        locale:  event.target.children[selectedIndex].value === 'ptbr' ? Portuguese : ingles,
+        altInput: true,
+        maxDate: new Date(new Date().getFullYear() - 13, new Date().getMonth(), new Date().getDate())
+    })
+})
+
+const opcao1 = document.getElementById("1")
+const opcao2 = document.getElementById("2")
+lng === 'ptbr' ? opcao1.selected = 'true' : opcao2.selected = 'true'
+
+const inputData = document.querySelector('[tabindex]')
+inputData.placeholder = i18next.t("DataNascimentoPlaceholder")
+inputData.setAttribute('key', 'DataNascimentoPlaceholder')
+inputData.classList.add("i18-placeholder")
+
+function criarValidacao() {
+    validator
     .addField(email, [
         {
             rule: 'required',
@@ -156,40 +221,6 @@ validator
         
         if (resultado){
             apresentarResultado()
-        }   
-});
-
-botao.addEventListener("click", async() => {
-    loader.show()
-    const data = await executarFetch(`auth/resend-confirm-email?id=${idUsuario}`, configuracaoFetch("GET"))
-    loader.hide()
-
-    if(data)
-        notificacaoSucesso(data.message)
-})
-
-async function postUsuario(endpoint, body) {
-    const config = configuracaoFetch("POST", body)
-
-    const callbackServidor = data => {
-        mensagemErro.classList.add("text-danger")
-        data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
-    }
-    
-    loader.show()
-    const data = await executarFetch(endpoint, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
-    loader.hide()
-
-    if (!data) return false
-
-    idUsuario = data.results
-    notificacaoSucesso(data.message)
-    return true
-}
-
-function apresentarResultado() {
-    h1.style.display = "none"
-    h4.style.display = "none"
-    formulario.style.display = "none"
-    divResposta.classList.remove("d-none")
+        }
+    });
 }
