@@ -15,25 +15,25 @@ inicializarInternacionalizacao(ingles, portugues);
 const loader = document.createElement('app-loader');
 document.body.appendChild(loader);
 
-const pegarDados = async() => {
+const pegarDados = async () => {
     const config = configuracaoFetch("GET")
-                
+
     const callbackServidor = data => {
         mensagemErro.classList.add("text-danger")
         data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
     }
-    
+
     loader.show()
     const data = await executarFetch("auth/user", config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
     loader.hide()
-    if (!data) return false   
+    if (!data) return false
     data.results.picture = !data.result?.picture ? '../default-user-image.png' : data.result.picture
     return data.results
 }
 
 const configMenu = document.querySelector('.config-menu')
 const configMenuList = document.querySelector('.config-menu-list'),
-      abaBotoes = configMenuList.children
+    abaBotoes = configMenuList.children
 const configTitle = document.querySelector('.config-title')
 const configOptionsWrapper = document.querySelector('.config-options-wrapper')
 
@@ -70,11 +70,11 @@ document.addEventListener('header-carregado', async () => {
             }
         ])
         // submit
-        .onSuccess(async(e) => {
+        .onSuccess(async (e) => {
             e.preventDefault()
             loader.show()
             const configFetch = configuracaoFetch('DELETE'),
-                  response = await executarFetch(`auth/user`, configFetch)
+                response = await executarFetch(`auth/user`, configFetch)
 
             loader.hide()
 
@@ -91,7 +91,7 @@ if (mediaQueryMobile.matches) {
 }
 
 for (const configMenuOption of abaBotoes) {
-    configMenuOption.addEventListener('click', () => {	
+    configMenuOption.addEventListener('click', () => {
         activateLi(configMenuOption)
         configTitle.innerText = configMenuOption.innerText
         changeConfigOptionsContext(configMenuOption.getAttribute('menu'))
@@ -118,8 +118,8 @@ async function changeConfigOptionsContext(t) {
     } else {
         exibidorImagem(document.getElementById("config-user-pic"), '../default-user-image.png')
     }
-    
-    switch(parseInt(t)) {
+
+    switch (parseInt(t)) {
         case 1:
             configOptionsWrapper.innerHTML = /*html*/`
                 <p class="position-absolute config-title fw-semibold i18" key="Perfil">${i18next.t("Perfil")}</p>
@@ -171,7 +171,7 @@ async function changeConfigOptionsContext(t) {
 
             const emblema = document.getElementById("emblema")
 
-            updateProfileForm.addEventListener("submit", async(e) => {
+            updateProfileForm.addEventListener("submit", async (e) => {
                 e.preventDefault()
                 limparMensagem(mensagemErro)
 
@@ -189,130 +189,125 @@ async function changeConfigOptionsContext(t) {
                     mensagemErro.classList.add("text-danger")
                     data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
                 }
-            
+
                 loader.show()
                 const data = await executarFetch(endpoint, configuracaoFetch("PUT", body), callbackServidor, callbackServidor)
                 loader.hide()
                 if (!data) return false
-            
+
                 notificacaoSucesso(data.results[0])
                 return true
             }
-
-            
-
 
             const updateProfileValidator = new JustValidate(updateProfileForm, {
                 validateBeforeSubmitting: true,
             })
 
-            updateProfileValidator
-                .addField(updateProfileUserNameInput, [
-                    {
-                        validator: (value) => {
-                            return updateProfileBioInput.value.length > 0 ? true : value.length > 0
-                        },
-                        errorMessage: ' ',
-                    },
-                    {
-                        rule: 'minLength',
-                        value: 4,
-                        errorMessage: `<span class="i18" key="NomeUsuarioMinimo">${i18next.t("NomeUsuarioMinimo")}</span>`,
-                    },
-                    {
-                        rule: 'maxLength',
-                        value: 20,
-                        errorMessage: `<span class="i18" key="NomeUsuarioMaximo">${i18next.t("NomeUsuarioMaximo")}</span>`,
-                    },
-                    {
-                        rule: 'customRegexp',
-                        value: /^[A-Za-z0-9_-]*$/,
-                        errorMessage: `<span class="i18" key="NomeUsuarioInvalidoInput">${i18next.t("NomeUsuarioInvalidoInput")}</span>`,
-                    },
-                ])
-                .addField(updateProfileBioInput, [
-                    {
-                        rule: 'minLength',
-                        value: 10,
-                        errorMessage: `<span class="i18" key="BioMin">${i18next.t("BioMin")}</span>`,
-                    },
-                    {
-                        rule: 'maxLength',
-                        value: 100,
-                        errorMessage: `<span class="i18" key="BioMax">${i18next.t("BioMax")}</span>`,
-                    },
-                    {
-                        validator: (value) => {
-                            return updateProfileUserNameInput.value.length > 0 ? true : value.length > 0
-                        },
-                        errorMessage: `<span class="i18" key="Preencher">${i18next.t("Preencher")}</span>`,
-                    }
-                ])
-                .addField(updateProfileUserPicInput, [
-                    {
-                        rule: 'files',
-                        value: {
-                            files: {
-                                extensions: ['jpeg', 'jpg', 'png', 'webp', 'gif', 'bmp', 'tiff'],
-                                maxSize: 5000000,
-                                types: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/bmp', 'image/tiff'],
-                            },
-                        },
-                        errorMessage: `<span class="i18" key="ImagemTamanho">${i18next.t("ImagemTamanho")}</span>`,
-                    },
-                    {
-                        validator: (value) => {
-                            return updateProfileUserNameInput.value.length > 0 || updateProfileBioInput.value.length > 0 ? true : value.length > 0
-                        },
-                        errorMessage: ' ',
-                    }
-                ], { errorsContainer: document.getElementById('erros-imagem') })
-                // submit
-                .onSuccess(async(e) => {
-                    // campo vazio mantem valor original
-                    e.preventDefault()
-                    limparMensagem(mensagemErro)
-    
-                    loader.show()
-                    await postPerfil("userconfigurations", {
-                        "Username": updateProfileUserNameInput.value,
-                        "Bio": updateProfileBioInput.value,
-                        "Picture": emblema.value
-                    })
-                    loader.hide()
-                })
-    
+            function case1() {
                 async function postPerfil(endpoint, body) {
                     const config = configuracaoFetch("PUT", body)
-                
+
                     const callbackServidor = data => {
                         mensagemErro.classList.add("text-danger")
                         data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
                     }
-                
+
                     loader.show()
                     const data = await executarFetch(endpoint, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
                     loader.hide()
                     if (!data) return false
-                
+
                     notificacaoSucesso(data.results[0])
                     return true
                 }
 
-                updateProfileUserPicInput.addEventListener("change", async() => {
-                    const isValid = await updateProfileValidator.revalidateField(updateProfileUserPicInput)
-                    if (!isValid) return;
-                    
-                    loader.show()
-                    const data = await uploadImagem(updateProfileUserPicInput, 1, mensagemErro)
-                    loader.hide()
+                updateProfileValidator
+                    .addField(updateProfileUserNameInput, [
+                        {
+                            validator: (value) => {
+                                return updateProfileBioInput.value.length > 0 ? true : value.length > 0
+                            },
+                            errorMessage: ' ',
+                        },
+                        {
+                            rule: 'minLength',
+                            value: 4,
+                            errorMessage: `<span class="i18" key="NomeUsuarioMinimo">${i18next.t("NomeUsuarioMinimo")}</span>`,
+                        },
+                        {
+                            rule: 'maxLength',
+                            value: 20,
+                            errorMessage: `<span class="i18" key="NomeUsuarioMaximo">${i18next.t("NomeUsuarioMaximo")}</span>`,
+                        },
+                        {
+                            rule: 'customRegexp',
+                            value: /^[A-Za-z0-9_-]*$/,
+                            errorMessage: `<span class="i18" key="NomeUsuarioInvalidoInput">${i18next.t("NomeUsuarioInvalidoInput")}</span>`,
+                        },
+                    ])
+                    .addField(updateProfileBioInput, [
+                        {
+                            rule: 'minLength',
+                            value: 10,
+                            errorMessage: `<span class="i18" key="BioMin">${i18next.t("BioMin")}</span>`,
+                        },
+                        {
+                            rule: 'maxLength',
+                            value: 100,
+                            errorMessage: `<span class="i18" key="BioMax">${i18next.t("BioMax")}</span>`,
+                        },
+                        {
+                            validator: (value) => {
+                                return updateProfileUserNameInput.value.length > 0 ? true : value.length > 0
+                            },
+                            errorMessage: `<span class="i18" key="Preencher">${i18next.t("Preencher")}</span>`,
+                        }
+                    ])
+                    .addField(updateProfileUserPicInput, [
+                        {
+                            rule: 'files',
+                            value: {
+                                files: {
+                                    extensions: ['jpeg', 'jpg', 'png', 'webp', 'gif', 'bmp', 'tiff'],
+                                    maxSize: 5000000,
+                                    types: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/bmp', 'image/tiff'],
+                                }
+                            }
+                        }
+                    ], { errorsContainer: document.getElementById('erros-imagem') })
+                    // submit
+                    .onSuccess(async (e) => {
+                        // campo vazio mantem valor original
+                        e.preventDefault()
+                        limparMensagem(mensagemErro)
 
-                    if (Array.isArray(data.results))
-                        return;
+                        loader.show()
+                        await postPerfil("userconfigurations", {
+                            "Username": updateProfileUserNameInput.value,
+                            "Bio": updateProfileBioInput.value,
+                            "Picture": emblema.value
+                        })
+                        loader.hide()
+                    })
+            }
 
-                    emblema.value = `${api}img/${data.results}`
-                    exibidorImagem(document.getElementById("erros-imagem"), emblema.value)
-                })
+            document.addEventListener('nova-lingua', case1)
+            case1()
+
+            updateProfileUserPicInput.addEventListener("change", async () => {
+                const isValid = await updateProfileValidator.revalidateField(updateProfileUserPicInput)
+                if (!isValid) return;
+
+                loader.show()
+                const data = await uploadImagem(updateProfileUserPicInput, 1, mensagemErro)
+                loader.hide()
+
+                if (Array.isArray(data.results))
+                    return;
+
+                emblema.value = `${api}img/${data.results}`
+                exibidorImagem(document.getElementById("erros-imagem"), emblema.value)
+            })
 
             break
 
@@ -352,13 +347,13 @@ async function changeConfigOptionsContext(t) {
                         </div>
                     </div>
                 `
-                
+
             const updateAccountForm = document.querySelector('#update-account-form')
             const updateAccountRealNameInput = document.querySelector('#config-user-realname-input')
 
             updateAccountRealNameInput.value = dados.name
 
-            updateAccountForm.addEventListener('submit', async(e) => {
+            updateAccountForm.addEventListener('submit', async (e) => {
                 e.preventDefault()
                 limparMensagem(mensagemErro)
 
@@ -372,12 +367,12 @@ async function changeConfigOptionsContext(t) {
                     mensagemErro.classList.add("text-danger")
                     data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
                 }
-                
+
                 loader.show()
                 const data = await executarFetch(endpoint, configuracaoFetch("PUT", body), (res) => mensagemErro.textContent = res.results[0], callbackServidor)
                 loader.hide()
                 if (!data) return false
-                
+
                 notificacaoSucesso(data.results[0])
                 return true
             }
@@ -403,13 +398,53 @@ async function changeConfigOptionsContext(t) {
                         errorMessage: `<span class="i18" key="NomeRealMaximo">${i18next.t("NomeRealMaximo")}</span>`,
                     },
                 ])
-                .onSuccess(async(e) => {
+                .onSuccess(async (e) => {
                     e.preventDefault()
                     limparMensagem(mensagemErro)
 
                     await postName("userconfigurations", {
                         "Name": updateAccountRealNameInput.value,
                     })
+                })
+
+            async function postName(endpoint, body) {
+                const callbackServidor = data => {
+                    mensagemErro.classList.add("text-danger")
+                    data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
+                }
+
+                loader.show()
+                const data = await executarFetch(endpoint, configuracaoFetch("PUT", body), (res) => mensagemErro.textContent = res.results[0], callbackServidor)
+                loader.hide()
+                if (!data) return false
+
+                notificacaoSucesso(data.results[0])
+                return true
+            }
+
+
+            function case2() {
+
+                const updateAccountValidator = new JustValidate(updateAccountForm, {
+                    validateBeforeSubmitting: true,
+                })
+                updateAccountValidator
+                    .addField(updateAccountRealNameInput, [
+                        {
+                            rule: 'required',
+                            errorMessage: `<span class="i18" key="NomeRealObrigatorio">${i18next.t("NomeRealObrigatorio")}</span>`,
+                        },
+                    ])
+                    // submit
+                    .onSuccess(async (e) => {
+                        e.preventDefault()
+                    })
+            }
+
+            case2()
+
+            document.addEventListener('nova-lingua', event => {
+                case2()
             })
 
             break
@@ -456,47 +491,48 @@ async function changeConfigOptionsContext(t) {
                     </div>
                 `
 
-                const olhos = document.getElementById("olhos")
-                const olhosNovaSenha = document.getElementById("olhos-nova-senha")
-                const olhoAberto = document.getElementById("olho-aberto")
-                const olhoAbertoNovaSenha = document.getElementById("olho-aberto-nova-senha")
-                const olhoFechado = document.getElementById("olho-fechado")
-                const olhoFechadoNovaSenha = document.getElementById("olho-fechado-nova-senha")
+            const olhos = document.getElementById("olhos")
+            const olhosNovaSenha = document.getElementById("olhos-nova-senha")
+            const olhoAberto = document.getElementById("olho-aberto")
+            const olhoAbertoNovaSenha = document.getElementById("olho-aberto-nova-senha")
+            const olhoFechado = document.getElementById("olho-fechado")
+            const olhoFechadoNovaSenha = document.getElementById("olho-fechado-nova-senha")
 
-                const visualizarSenha = (olhos, olhoAberto, olhoFechado, senha) => {
-                    olhos.addEventListener('click', () => {
-                        (olhos.classList.contains("d-none")) ? senha.type = "password" : senha.type = "text"
-                        olhoAberto.classList.toggle("d-none")
-                        olhoFechado.classList.toggle("d-none")
-                    })
+            const visualizarSenha = (olhos, olhoAberto, olhoFechado, senha) => {
+                olhos.addEventListener('click', () => {
+                    (olhos.classList.contains("d-none")) ? senha.type = "password" : senha.type = "text"
+                    olhoAberto.classList.toggle("d-none")
+                    olhoFechado.classList.toggle("d-none")
+                })
+            }
+
+            const changePasswordForm = document.querySelector('#change-password-form')
+            const changePasswordInput = document.querySelector('#config-user-pass-input')
+            const changeNewPasswordInput = document.querySelector('#config-user-newpass-input')
+
+            visualizarSenha(olhos, olhoAberto, olhoFechado, changePasswordInput)
+            visualizarSenha(olhosNovaSenha, olhoAbertoNovaSenha, olhoFechadoNovaSenha, changeNewPasswordInput)
+
+            const form = document.getElementById("change-password-form")
+
+            form.addEventListener('submit', async (e) => {
+                limparMensagem(mensagemErro)
+
+                const resultado = await postRedefinirSenha("userconfigurations/updatepassword", {
+                    "NewPassword": changeNewPasswordInput.value,
+                    "CurrentPassword": changePasswordInput.value
+                })
+
+                if (resultado) {
+                    form.reset()
                 }
+            })
 
-                const changePasswordForm = document.querySelector('#change-password-form')
-                const changePasswordInput = document.querySelector('#config-user-pass-input')
-                const changeNewPasswordInput = document.querySelector('#config-user-newpass-input')
+            const changePasswordValidator = new JustValidate(changePasswordForm, {
+                validateBeforeSubmitting: true,
+            })
 
-                visualizarSenha(olhos, olhoAberto, olhoFechado, changePasswordInput)
-                visualizarSenha(olhosNovaSenha, olhoAbertoNovaSenha, olhoFechadoNovaSenha, changeNewPasswordInput)
-
-                const form = document.getElementById("change-password-form")
-
-                form.addEventListener('submit', async(e) => {
-                    limparMensagem(mensagemErro)
-
-                    const resultado = await postRedefinirSenha("userconfigurations/updatepassword", {
-                        "NewPassword": changeNewPasswordInput.value,
-                        "CurrentPassword": changePasswordInput.value
-                    })
-
-                    if (resultado){
-                        form.reset()
-                    }
-                })
-
-                const changePasswordValidator = new JustValidate(changePasswordForm, {
-                    validateBeforeSubmitting: true,
-                })
-
+            function case3() {
                 changePasswordValidator
                     .addField(changePasswordInput, [
                         {
@@ -515,35 +551,39 @@ async function changeConfigOptionsContext(t) {
                             errorMessage: `<span class="i18" key="SenhaInvalida">${i18next.t("SenhaInvalida")}</span>`,
                         },
                     ])
-                    .onSuccess(async(e) => {
+                    .onSuccess(async (e) => {
                         limparMensagem(mensagemErro)
-    
+
                         const resultado = await postRedefinirSenha("userconfigurations/updatepassword", {
                             "NewPassword": changeNewPasswordInput.value,
                             "CurrentPassword": changePasswordInput.value
                         })
-    
-                        if (resultado){
+
+                        if (resultado) {
                             form.reset()
                         }
                     })
+            }
 
-                    const postRedefinirSenha = async(endpoint, body) => {
-                      const config = configuracaoFetch("PUT", body)
+            const postRedefinirSenha = async (endpoint, body) => {
+                const config = configuracaoFetch("PUT", body)
 
-                      const callbackServidor = data => {
-                          mensagemErro.classList.add("text-danger")
-                          data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
-                      }
+                const callbackServidor = data => {
+                    mensagemErro.classList.add("text-danger")
+                    data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
+                }
 
-                      loader.show()
-                      const data = await executarFetch(endpoint, config, callbackServidor, callbackServidor)
-                      loader.hide()
-                      if (!data) return false
+                loader.show()
+                const data = await executarFetch(endpoint, config, callbackServidor, callbackServidor)
+                loader.hide()
+                if (!data) return false
 
-                      notificacaoSucesso(data.results[0])
-                    return true
-                    }
+                notificacaoSucesso(data.results[0])
+                return true
+            }
+            document.addEventListener('nova-lingua', case3)
+            case3()
+
             break
 
         // case 'Emails/Sessões':

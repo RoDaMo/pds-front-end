@@ -6,5 +6,7 @@
     "LimparFiltros": "Limpar filtros",
     "Erro": "Nenhum resultado encontrado",
     "De": "De",
-    "Ate": "até"
+    "Ate": "até",
+    "FiltrarApartir": "Filtrar a partir de...",
+    "FiltrarAte": "Filtrar até.."
 }

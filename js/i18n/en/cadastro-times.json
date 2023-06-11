@@ -27,13 +27,17 @@
     "DescricaoMinimo": "Description must have at least 10 characters",
     "DescricaoMaximo": "Description must have a maximum of 1000 characters",
     "TituloModal": "CPF Modal",
-    "ModalTexto": "Insert your CPF to proceed with the creation of the championship. Do not use dots or dashes.",
+    "ModalTexto": "Insert your CPF to proceed with the creation of the championship. If you close the modal, you will be redirected to the home page.",
     "Fechar": "Close",
     "CpfObrigatorio": "Please insert CPF",
     "CpfTamanho": "CPF must have 11 characters.",
     "CpfInvalido": "invalid CPF",
-    "QuantidadeJogadores": "Quantidade de Jogadore por time",
     "Uniforme1Obrigatorio": "Enter the home uniform",
-    "Uniforme2Obrigatorio": "Enter the away uniform"
+    "Uniforme2Obrigatorio": "Enter the away uniform",
+    "QuantidadeJogadores": "Number of Players per team",
+    "CpfErro": "Error",
+    "CpfErroMensagem": "There was a problem checking if he is eligible to use this feature. Try again later...",
+    "CpfErroBotao": "Go to home page"
+
 
 }

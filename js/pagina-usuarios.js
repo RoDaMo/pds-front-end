@@ -96,7 +96,7 @@ if (mediaQueryMobile.matches) {
                 ssFirstContent.classList.add('justify-content-center', 'align-items-center')
                 ssFirstContent.innerHTML = `
                     <div>
-                        <p>Nenhum time por aqui...</p>
+                        <span class="i18" key="NenhumTime">${i18next.t("NenhumTime")}</span>
                     </div>
                 `
     

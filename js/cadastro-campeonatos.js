@@ -1,5 +1,6 @@
 import { configuracaoFetch, executarFetch, limparMensagem, api } from "./utilidades/configFetch"
 import { notificacaoSucesso } from "./utilidades/notificacoes"
+import { notificacaoErro } from "./utilidades/notificacoes"
 import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
 import portugues from './i18n/ptbr/cadastro-campeonatos.json' assert { type: 'JSON' }
 import ingles from './i18n/en/cadastro-campeonatos.json' assert { type: 'JSON' }
@@ -14,10 +15,8 @@ import * as bootstrap from 'bootstrap'
 
 inicializarInternacionalizacao(ingles, portugues);
 
-let cpfObrigatorio = false
-let cadastrouCpf = false
-let confirmouCpf = true
 let meuModal
+let confirmou = false
 
 window.addEventListener("DOMContentLoaded", async(e) => {
     e.preventDefault()
@@ -26,13 +25,24 @@ window.addEventListener("DOMContentLoaded", async(e) => {
     const config = configuracaoFetch("GET")
     const data = await executarFetch(endpoint, config)
 
-    if(data === undefined)
-        confirmouCpf = false
+    if(data === undefined) {
+        notificacaoErro().close()
+        const modal = document.getElementById('ModalErro')
+        let modalErro =  new bootstrap.Modal(modal)
+        modalErro.show()
+        modal.addEventListener('hidden.bs.modal', () => {
+            window.location.assign(`/index.html`)
+        });
+    }
     if(!data.results) {
-        cpfObrigatorio = true
         const modal = document.getElementById('JanelaModal')
         meuModal =  new bootstrap.Modal(modal)
         meuModal.show();
+
+        modal.addEventListener('hidden.bs.modal', () => {
+            if(!confirmou)
+                window.location.assign(`/index.html`)
+        });
     }
 })
 
@@ -43,6 +53,17 @@ const validator2 = new JustValidate(formularioCpf, {
     validateBeforeSubmitting: true,
 })
 
+var cpfInput = document.getElementById('cpf');
+
+cpfInput.addEventListener('input', function(event) {
+    var v = event.target.value
+    v=v.replace(/\D/g,"")
+    v=v.replace(/(\d{3})(\d)/,"$1.$2")
+    v=v.replace(/(\d{3})(\d)/,"$1.$2")
+    v=v.replace(/(\d{3})(\d{1,2})$/,"$1-$2") 
+    event.target.value = v;
+});
+
 validator2
     .addField(cpf, [
         {
@@ -51,19 +72,21 @@ validator2
         },
         {
             rule: 'minLength',
-            value: 11,
+            value: 14,
             errorMessage: `<span class="i18" key="CpfTamanho">${i18next.t("CpfTamanho")}</span>`,
         },
         {
             rule: 'maxLength',
-            value: 11,
+            value: 14,
             errorMessage: `<span class="i18" key="CpfTamanho">${i18next.t("CpfTamanho")}</span>`,
         },
         {
             validator: (value, context) => {
                 const numberCpf = new Array(11)
-                for (let i = 0; i < 11; i++)
-                    numberCpf[i] = parseInt(value[i])
+                let test = value
+                test =  test.replace(/[.-]/g, "")
+                for (var i = 0; i < 11; i++)
+                    numberCpf[i] = parseInt(test[i])
 
                 let sum = 0
                 for (let i = 0; i < 9; i++)
@@ -93,12 +116,12 @@ validator2
         loader.show();
 
         const resultado = await postCpf("auth/cpf", 
-            cpf.value
+            cpf.value.replace(/[.-]/g, "")
         )
 
         if (resultado) {
             formularioCpf.reset()
-            cadastrouCpf = true
+            confirmou = true
             meuModal.hide()
         }
 
@@ -169,17 +192,39 @@ formato.addEventListener("change", () => {
     }
 })
 
+let lng = localStorage.getItem('lng')
+
 flatpickr(dataInicial, {
     dateFormat: "Y-m-d",
-    locale: Portuguese,
+    locale: lng === 'ptbr' ? Portuguese : ingles,
     altInput: true,
 })
 
 flatpickr(dataFinal, {
     dateFormat: "Y-m-d",
-    locale: Portuguese,
+    locale: lng === 'ptbr' ? Portuguese : ingles,
     altInput: true,
 })
+
+document.addEventListener('nova-lingua', event => {
+    let lng = localStorage.getItem('lng')
+
+    flatpickr(dataInicial, {
+        dateFormat: "Y-m-d",
+        locale: lng === 'ptbr' ? Portuguese : ingles,
+        altInput: true,
+    })
+
+    flatpickr(dataFinal, {
+        dateFormat: "Y-m-d",
+        locale: lng === 'ptbr' ? Portuguese : ingles,
+        altInput: true,
+    })
+
+    criarValidacao()
+
+})
+
 
 imagem.addEventListener("change", async() => {
     loader.show()
@@ -230,7 +275,45 @@ quantidadeJogadores.addEventListener("change", () => {
     }
 })
 
-validator
+async function postCampeonato(endpoint, body) {
+    const callbackServidor = data => {
+        mensagemErro.classList.add("text-danger")
+        data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
+    }
+
+    loader.show()
+    const data = await executarFetch(endpoint, configuracaoFetch("POST", body), callbackServidor, callbackServidor)
+    loader.hide()
+
+    if (!data) return false
+
+    notificacaoSucesso(data.results[0])
+    return true
+}
+
+async function postCpf(endpoint, body) {
+    const config = configuracaoFetch("POST", body)
+
+    const callbackServidor = data => {
+        mensagemErro2.classList.add("text-danger")
+        data.results.forEach(element => mensagemErro2.innerHTML += `${element}<br>`);
+    }
+
+    loader.show()
+    const data = await executarFetch(endpoint, config, (res) => mensagemErro2.textContent = res.results, callbackServidor)
+    loader.hide()
+
+    if (!data) return false
+
+    notificacaoSucesso(data.results[0])
+    return true
+}
+
+criarValidacao()
+
+function criarValidacao() {
+    i18next.changeLanguage(localStorage.getItem('lng'))
+    validator
     .addField(nomeCampeonato, [
         {
             rule: 'required',
@@ -454,47 +537,4 @@ validator
         
         window.location.assign('/pages/configuracao-campeonato.html')
     })
-
-async function postCampeonato(endpoint, body) {
-    if(cpfObrigatorio && !cadastrouCpf) {
-        meuModal.show()
-        return
-    }
-
-    if(!confirmouCpf) {
-        location.reload()
-        return
-    }
-
-    const callbackServidor = data => {
-        mensagemErro.classList.add("text-danger")
-        data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
-    }
-
-    loader.show()
-    const data = await executarFetch(endpoint, configuracaoFetch("POST", body), (res) => mensagemErro.textContent = res.results[0], callbackServidor)
-    loader.hide()
-
-    if (!data) return false
-
-    notificacaoSucesso(data.results[0])
-    return true
-}
-
-async function postCpf(endpoint, body) {
-    const config = configuracaoFetch("POST", body)
-
-    const callbackServidor = data => {
-        mensagemErro2.classList.add("text-danger")
-        data.results.forEach(element => mensagemErro2.innerHTML += `${element}<br>`);
-    }
-
-    loader.show()
-    const data = await executarFetch(endpoint, config, (res) => mensagemErro2.textContent = res.results, callbackServidor)
-    loader.hide()
-
-    if (!data) return false
-
-    notificacaoSucesso(data.results[0])
-    return true
 }

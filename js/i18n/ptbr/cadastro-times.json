@@ -27,11 +27,14 @@
     "DescricaoMinimo": "A descrição deve possuir no mínimo 10 caracteres",
     "DescricaoMaximo": "A descrição deve possuir no máximo 1000 caracteres",
     "TituloModal": "Modal CPF",
-    "ModalTexto": "Insira seu CPF para prosseguir com a criação do campeonato. Não utilize pontos ou traços.",
+    "ModalTexto": "Insira seu CPF para prosseguir com a criação do campeonato. Caso feche o modal, será redirecionado para a página inicial.",
     "Fechar": "Fechar",
     "CpfObrigatorio": "Favor inserir CPF",
     "CpfTamanho": "CPF deve possuir 11 caracteres.",
     "CpfInvalido": "CPF inválido",
     "Uniforme1Obrigatorio": "Insira o uniforme de casa",
-    "Uniforme2Obrigatorio": "Insira o uniforme de fora"
+    "Uniforme2Obrigatorio": "Insira o uniforme de fora",
+    "CpfErro": "Erro",
+    "CpfErroMensagem": "Houve um problema ao verificar se está elegível para usar esse recurso. Tente novamente mais tarde...",
+    "CpfErroBotao": "Ir para página inicial"
 }
