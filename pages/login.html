@@ -9,7 +9,7 @@
     <title>Login</title>
     
 </head>
-<body>
+<body only-anon="true">
     <app-loader></app-loader>
     <componente-preloader></componente-preloader>
     <main class="container mt-5">
@@ -28,7 +28,7 @@
                 <form id="formulario" method="post">
                     <div class="mb-5">
                         <label for="nome-usuario" class="form-label text-success mt-3 i18" key="NomeUsuario">Nome de usuário:</label>
-                        <input type="text" class="form-control i18-placeholder" key="NomeUsuarioPlaceholder" id="nome-usuario" name="nome-usuario" placeholder="Nome de usuário...">
+                        <input maxlength="20" type="text" class="form-control i18-placeholder" key="NomeUsuarioPlaceholder" id="nome-usuario" name="nome-usuario" placeholder="Nome de usuário...">
                     </div>
                     <div id="senha-formulario" class="d-none">
                         <label for="nome-usuario" class="form-label text-success mt-3 i18" key="Senha"></label>

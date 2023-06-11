@@ -6,5 +6,7 @@
     "LimparFiltros": "Clear filters",
     "Erro": "No results found",
     "De": "From",
-    "Ate": "to"
+    "Ate": "to",
+    "FiltrarApartir": "Filter from...",
+    "FiltrarAte": "Filter to.."
 }

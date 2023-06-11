@@ -10,11 +10,9 @@ export const uploadImagem = async(input, type, mensagemErro) => {
         data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
     }
 
-    const data = await executarFetch("img", configuracaoFetch("POST", formData, true), (res) => mensagemErro.textContent = res.results[0], callbackServidor)
+    const data = await executarFetch("img", configuracaoFetch("POST", formData, true), callbackServidor, callbackServidor)
 
     if (!data) return false
-
-    console.log(data)
 
     return data
 }

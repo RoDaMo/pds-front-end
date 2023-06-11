@@ -1,6 +1,5 @@
 import '../scss/pagina-usuarios.scss'
 import { configuracaoFetch, executarFetch, limparMensagem } from "./utilidades/configFetch"
-import { notificacaoSucesso } from "./utilidades/notificacoes"
 import './utilidades/loader'
 import portugues from './i18n/ptbr/pagina-usuarios.json' assert { type: 'JSON' }
 import ingles from './i18n/en/pagina-usuarios.json' assert { type: 'JSON' }
@@ -35,7 +34,7 @@ const userPic = document.querySelector('#user-pic'),
 let currentUserId = document.getElementById('usernameUserId')
 
 window.onload = () => {
-    if(userPic.getAttribute('src') == '') {
+    if (userPic.getAttribute('src') == '') {
         userPic.setAttribute('src', '../default-user-image.png')
     }
 
@@ -97,7 +96,7 @@ if (mediaQueryMobile.matches) {
                 ssFirstContent.classList.add('justify-content-center', 'align-items-center')
                 ssFirstContent.innerHTML = `
                     <div>
-                        <p>Nenhum time por aqui...</p>
+                        <span class="i18" key="NenhumTime">${i18next.t("NenhumTime")}</span>
                     </div>
                 `
     

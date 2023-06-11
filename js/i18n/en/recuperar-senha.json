@@ -1,6 +1,7 @@
 {
     "TituloPagina": "Reset password",
     "EmailRedefinicao": "Password reset email",
+    "EmailObrigatorio": "Email is required",
     "VerifiqueEmail": "Check your email and confirm your request.",
     "CasoNao": "If you did not receive the email, click the button below to resend the request:",
     "ReenviarEmail": "Resend email",
@@ -8,5 +9,7 @@
     "ParaRedefinir": "To reset your password, a link will be sent to the email you enter below.",
     "Enviar": "Send",
     "Cancelar": "Cancel",
-    "EmailInvalido": "Invalid Email"
+    "EmailInvalido": "Invalid Email",
+    "EmailObrigatorio": "Email is required"
+
 }

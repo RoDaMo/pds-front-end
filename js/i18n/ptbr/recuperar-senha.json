@@ -1,6 +1,7 @@
 {
     "TituloPagina": "Recuperar senha",
     "EmailRedefinicao": "Email de redefinição de senha",
+    "EmailObrigatorio": "Email é obrigatório",
     "VerifiqueEmail": "Verifique o seu email e confirme sua solicitação.",
     "CasoNao": "Caso não tenha recebido o email, clique no botão abaixo para reenviar a solicitação:",
     "ReenviarEmail": "Reenviar email",
@@ -8,5 +9,6 @@
     "ParaRedefinir": "Para redefinir sua senha, será enviado um link para o email que você inserir abaixo.",
     "Enviar": "Enviar",
     "Cancelar": "Cancelar",
-    "EmailInvalido": "Email inválido"
+    "EmailInvalido": "Email inválido",
+    "EmailObrigatorio": "Email é obrigatório"
 }
