@@ -26,7 +26,7 @@
                     <div class="row gap-0">
                         <div class="mb-3 col-md-7">
                             <label for="nome" class="form-label text-success i18" key="NomeTime">Nome do time:</label>
-                            <input type="text" class="form-control rounded-4 i18-placeholder" key="NomeTimePlaceholder" id="nome" name="nome" placeholder="Nome do time...">
+                            <input type="text" maxlength="100" class="form-control rounded-4 i18-placeholder" key="NomeTimePlaceholder" id="nome" name="nome" placeholder="Nome do time...">
                         </div>
                         <div class="col-md-5 mb-3">
                             <label for="esportes" class="form-label text-success i18" key="FormularioEsporte">Esporte</label>
@@ -38,7 +38,7 @@
                         </div>
                         <div class="col-md-12 mb-5">
                             <label for="descricao" class="form-label text-success i18" key="DescricaoCampeonato">Descrição do time:</label>
-                            <textarea required class="form-control px-3 py-2 i18-placeholder" key="DescricaoCampeonatoPlaceholder" id="descricao" placeholder="Descreva seu time..." name="descricao"></textarea>
+                            <textarea maxlength="1000" class="form-control px-3 py-2 i18-placeholder" key="DescricaoCampeonatoPlaceholder" id="descricao" placeholder="Descreva seu time..." name="descricao"></textarea>
                         </div>
                         
                     </div>
@@ -49,8 +49,9 @@
                         <label for="logo" class="col-md-12 mt-4 btn btn-success d-flex justify-content-center align-items-center">
                             <i class="d-flex justify-content-center align-items-center btn bi bi-upload text-light"></i>
                             <span id="custom-text" class="i18" key="Enviarlogo">Enviar logo</span>
-                            <input id="logo" type="file" name="logo" name="logo" accept=".png, .jpg, .jpeg">
+                            <input id="logo" type="file" name="logo" name="logo" accept=".jpeg, .jpg, .png, .webp, .gif, .bmp, .tiff">
                         </label>
+                        <input type="hidden" name="logo" id="emblema">
                     </div>
 
                     <div class="col-md-12 mt-5">
@@ -66,17 +67,23 @@
                             <div class="col-4 d-flex justify-content-center custom-file-upload">
                                 <label for="uniforme-casa">
                                     <i class="w-100 h-100 d-flex justify-content-center align-items-center border border-primary rounded-circle btn btn-success bi bi-upload text-light"></i>
-                                    <div class="input-wrapper">
-                                        <input id="uniforme-casa" type="file" name="uniforme-casa" name="logo" accept=".png, .jpg, .jpeg">
-                                    </div>
+                                    <input id="uniforme-casa" type="file" name="uniforme-casa" name="logo" accept=".jpeg, .jpg, .png, .webp, .gif, .bmp, .tiff">
                                 </label>
+                                <div class="input-wrapper d-flex align-items-center ms-2">
+                                    <input type="hidden" name="uniforme-casa" id="uniforme-1">
+                                </div>
                             </div>
+
                             <div class="col-4 d-flex justify-content-center custom-file-upload">
                                 <label for="uniforme-fora">
                                     <i class="w-100 h-100 d-flex justify-content-center align-items-center border border-primary rounded-circle btn btn-success bi bi-upload text-light"></i>
-                                    <input id="uniforme-fora" type="file" name="uniforme-fora" name="logo" accept=".png, .jpg, .jpeg">
+                                    <input id="uniforme-fora" type="file" name="uniforme-fora" name="logo" accept=".jpeg, .jpg, .png, .webp, .gif, .bmp, .tiff">
                                 </label>
+                                <div class="input-wrapper d-flex align-items-center ms-2">
+                                    <input type="hidden" name="uniforme-casa" id="uniforme-2">
+                                </div>
                             </div>
+                            
                         </div>
                     </div>
                 </div> 
@@ -89,9 +96,7 @@
             <div class="mt-4 text-danger">
                 <p class="text-danger" id="mensagem-erro"></p>
             </div>
-            <input type="hidden" name="logo" id="emblema">
-            <input type="hidden" name="uniforme-casa" id="uniforme-1">
-            <input type="hidden" name="uniforme-fora" id="uniforme-2">
+            
         </form>
 
         <div id="JanelaModal" class="modal">

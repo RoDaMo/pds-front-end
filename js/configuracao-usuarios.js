@@ -15,25 +15,25 @@ inicializarInternacionalizacao(ingles, portugues);
 const loader = document.createElement('app-loader');
 document.body.appendChild(loader);
 
-const pegarDados = async() => {
+const pegarDados = async () => {
     const config = configuracaoFetch("GET")
-                
+
     const callbackServidor = data => {
         mensagemErro.classList.add("text-danger")
         data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
     }
-    
+
     loader.show()
     const data = await executarFetch("auth/user", config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
     loader.hide()
-    if (!data) return false   
+    if (!data) return false
     data.results.picture = !data.result?.picture ? '../default-user-image.png' : data.result.picture
     return data.results
 }
 
 const configMenu = document.querySelector('.config-menu')
 const configMenuList = document.querySelector('.config-menu-list'),
-      abaBotoes = configMenuList.children
+    abaBotoes = configMenuList.children
 const configTitle = document.querySelector('.config-title')
 const configOptionsWrapper = document.querySelector('.config-options-wrapper')
 
@@ -70,11 +70,11 @@ document.addEventListener('header-carregado', async () => {
             }
         ])
         // submit
-        .onSuccess(async(e) => {
+        .onSuccess(async (e) => {
             e.preventDefault()
             loader.show()
             const configFetch = configuracaoFetch('DELETE'),
-                  response = await executarFetch(`auth/user`, configFetch)
+                response = await executarFetch(`auth/user`, configFetch)
 
             loader.hide()
 
@@ -91,7 +91,7 @@ if (mediaQueryMobile.matches) {
 }
 
 for (const configMenuOption of abaBotoes) {
-    configMenuOption.addEventListener('click', () => {	
+    configMenuOption.addEventListener('click', () => {
         activateLi(configMenuOption)
         configTitle.innerText = configMenuOption.innerText
         changeConfigOptionsContext(configMenuOption.getAttribute('menu'))
@@ -116,10 +116,10 @@ async function changeConfigOptionsContext(t) {
     if (dados.profileImg) {
         exibidorImagem(document.getElementById("config-user-pic"), dados.profileImg)
     } else {
-        exibidorImagem(document.getElementById("config-user-pic"), dados.picture)
+        exibidorImagem(document.getElementById("config-user-pic"), '../default-user-image.png')
     }
-    
-    switch(parseInt(t)) {
+
+    switch (parseInt(t)) {
         case 1:
             configOptionsWrapper.innerHTML = /*html*/`
                 <p class="position-absolute config-title fw-semibold i18" key="Perfil">${i18next.t("Perfil")}</p>
@@ -133,7 +133,7 @@ async function changeConfigOptionsContext(t) {
                     <div class="col-12 col-md mt-2">
                         <div class="d-flex justify-mobile-pic align-items-end h-100">
                             <label for="config-user-pic-input" class="btn play-btn-primary i18" key="AlterarFoto">${i18next.t("AlterarFoto")}</label>
-                            <input type="file" class="d-none" id="config-user-pic-input">
+                            <input type="file" class="d-none" id="config-user-pic-input" accept=".jpeg, .jpg, .png, .webp, .gif, .bmp, .tiff">
                         </div>
                         <div class="text-danger" id="erros-imagem"></div>
                     </div>
@@ -143,11 +143,11 @@ async function changeConfigOptionsContext(t) {
                     <form id="update-profile-form" class="row">
                         <div class="col-12 mt-3">
                             <label for="config-user-name-input" class="form-label i18" key="NomeUsuario">${i18next.t("NomeUsuario")}</label>
-                            <input type="text" class="form-control width-config-input i18-placeholder" key="NomeUsuario" id="config-user-name-input" placeholder="${i18next.t("NomeUsuario")}">
+                            <input maxLength="20" type="text" class="form-control width-config-input i18-placeholder" key="NomeUsuario" id="config-user-name-input" placeholder="${i18next.t("NomeUsuario")}">
                         </div>
                         <div class="col-12 mt-3">
                             <label for="config-user-bio-input" class="form-label">Bio</label>
-                            <textarea class="form-control rounded-4 width-config-input" id="config-user-bio-input" rows="3" placeholder="Bio"></textarea>
+                            <textarea maxLength="100" class="form-control rounded-4 width-config-input" id="config-user-bio-input" rows="3" placeholder="Bio"></textarea>
                         </div>
                         <input type="hidden" name="logo" id="emblema">
                         <div class="col-12 mt-4 justify-touch-btn">
@@ -166,12 +166,12 @@ async function changeConfigOptionsContext(t) {
             if (dados.profileImg) {
                 exibidorImagem(document.getElementById("config-user-pic-mod"), dados.profileImg)
             } else {
-                exibidorImagem(document.getElementById("config-user-pic-mod"), dados.picture)
+                exibidorImagem(document.getElementById("config-user-pic-mod"), '../default-user-image.png')
             }
 
             const emblema = document.getElementById("emblema")
 
-            updateProfileForm.addEventListener("submit", async(e) => {
+            updateProfileForm.addEventListener("submit", async (e) => {
                 e.preventDefault()
                 limparMensagem(mensagemErro)
 
@@ -189,12 +189,12 @@ async function changeConfigOptionsContext(t) {
                     mensagemErro.classList.add("text-danger")
                     data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
                 }
-            
+
                 loader.show()
                 const data = await executarFetch(endpoint, configuracaoFetch("PUT", body), callbackServidor, callbackServidor)
                 loader.hide()
                 if (!data) return false
-            
+
                 notificacaoSucesso(data.results[0])
                 return true
             }
@@ -204,24 +204,61 @@ async function changeConfigOptionsContext(t) {
             })
 
             function case1() {
+                async function postPerfil(endpoint, body) {
+                    const config = configuracaoFetch("PUT", body)
+
+                    const callbackServidor = data => {
+                        mensagemErro.classList.add("text-danger")
+                        data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
+                    }
+
+                    loader.show()
+                    const data = await executarFetch(endpoint, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
+                    loader.hide()
+                    if (!data) return false
+
+                    notificacaoSucesso(data.results[0])
+                    return true
+                }
+
                 updateProfileValidator
                     .addField(updateProfileUserNameInput, [
                         {
                             validator: (value) => {
-                                return updateProfileBioInput.value.length > 0 ? true : value.length > 0 ? true : false
+                                return updateProfileBioInput.value.length > 0 ? true : value.length > 0
                             },
                             errorMessage: ' ',
+                        },
+                        {
+                            rule: 'minLength',
+                            value: 4,
+                            errorMessage: `<span class="i18" key="NomeUsuarioMinimo">${i18next.t("NomeUsuarioMinimo")}</span>`,
+                        },
+                        {
+                            rule: 'maxLength',
+                            value: 20,
+                            errorMessage: `<span class="i18" key="NomeUsuarioMaximo">${i18next.t("NomeUsuarioMaximo")}</span>`,
+                        },
+                        {
+                            rule: 'customRegexp',
+                            value: /^[A-Za-z0-9_-]*$/,
+                            errorMessage: `<span class="i18" key="NomeUsuarioInvalidoInput">${i18next.t("NomeUsuarioInvalidoInput")}</span>`,
                         },
                     ])
                     .addField(updateProfileBioInput, [
                         {
+                            rule: 'minLength',
+                            value: 10,
+                            errorMessage: `<span class="i18" key="BioMin">${i18next.t("BioMin")}</span>`,
+                        },
+                        {
                             rule: 'maxLength',
-                            value: 150,
+                            value: 100,
                             errorMessage: `<span class="i18" key="BioMax">${i18next.t("BioMax")}</span>`,
                         },
                         {
                             validator: (value) => {
-                                return updateProfileUserNameInput.value.length > 0 ? true : value.length > 0 ? true : false
+                                return updateProfileUserNameInput.value.length > 0 ? true : value.length > 0
                             },
                             errorMessage: `<span class="i18" key="Preencher">${i18next.t("Preencher")}</span>`,
                         }
@@ -234,31 +271,33 @@ async function changeConfigOptionsContext(t) {
                                     extensions: ['jpeg', 'jpg', 'png', 'webp', 'gif', 'bmp', 'tiff'],
                                     maxSize: 5000000,
                                     types: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/bmp', 'image/tiff'],
-                                },
-                            },
-                            errorMessage: `<span class="i18" key="ImagemTamanho">${i18next.t("ImagemTamanho")}</span>`,
-                        },
-                        {
-                            validator: (value) => {
-                                return updateProfileUserNameInput.value.length > 0 || updateProfileBioInput.value.length > 0 ? true : value.length > 0 ? true : false
-                            },
-                            errorMessage: ' ',
+                                }
+                            }
                         }
-                    ])
+                    ], { errorsContainer: document.getElementById('erros-imagem') })
                     // submit
-                    .onSuccess(async(e) => {
+                    .onSuccess(async (e) => {
                         // campo vazio mantem valor original
                         e.preventDefault()
+                        limparMensagem(mensagemErro)
+
+                        loader.show()
+                        await postPerfil("userconfigurations", {
+                            "Username": updateProfileUserNameInput.value,
+                            "Bio": updateProfileBioInput.value,
+                            "Picture": emblema.value
+                        })
+                        loader.hide()
                     })
             }
 
             document.addEventListener('nova-lingua', case1)
             case1()
 
-            updateProfileUserPicInput.addEventListener("change", async() => {
+            updateProfileUserPicInput.addEventListener("change", async () => {
                 const isValid = await updateProfileValidator.revalidateField(updateProfileUserPicInput)
                 if (!isValid) return;
-                
+
                 loader.show()
                 const data = await uploadImagem(updateProfileUserPicInput, 1, mensagemErro)
                 loader.hide()
@@ -283,7 +322,7 @@ async function changeConfigOptionsContext(t) {
                         <form id="update-account-form" class="row">
                             <div class="col-12 mt-3">
                                 <label for="config-user-realname-input" class="form-label i18" key="NomeReal">${i18next.t("NomeReal")}</label>
-                                <input type="text" class="form-control width-config-input i18-placeholder" key="NomeReal" id="config-user-realname-input" placeholder="${i18next.t("NomeReal")}">
+                                <input maxLength="100" type="text" class="form-control width-config-input i18-placeholder" key="NomeReal" id="config-user-realname-input" placeholder="${i18next.t("NomeReal")}">
                             </div>
                             <div class="col-12 mt-4 justify-touch-btn">
                                 <button type="submit" class="btn play-btn-primary i18" key="AtualizarConta">${i18next.t("AtualizarConta")}</button>
@@ -308,13 +347,58 @@ async function changeConfigOptionsContext(t) {
                         </div>
                     </div>
                 `
-                
-                const updateAccountForm = document.querySelector('#update-account-form')
-                const updateAccountRealNameInput = document.querySelector('#config-user-realname-input')
 
-                updateAccountRealNameInput.value = dados.name
+            const updateAccountForm = document.querySelector('#update-account-form')
+            const updateAccountRealNameInput = document.querySelector('#config-user-realname-input')
 
-                updateAccountForm.addEventListener('submit', async(e) => {
+            updateAccountRealNameInput.value = dados.name
+
+            updateAccountForm.addEventListener('submit', async (e) => {
+                e.preventDefault()
+                limparMensagem(mensagemErro)
+
+                await postName("userconfigurations", {
+                    "Name": updateAccountRealNameInput.value,
+                })
+            })
+
+            async function postName(endpoint, body) {
+                const callbackServidor = data => {
+                    mensagemErro.classList.add("text-danger")
+                    data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
+                }
+
+                loader.show()
+                const data = await executarFetch(endpoint, configuracaoFetch("PUT", body), (res) => mensagemErro.textContent = res.results[0], callbackServidor)
+                loader.hide()
+                if (!data) return false
+
+                notificacaoSucesso(data.results[0])
+                return true
+            }
+
+            const updateAccountValidator = new JustValidate(updateAccountForm, {
+                validateBeforeSubmitting: true,
+            })
+
+            updateAccountValidator
+                .addField(updateAccountRealNameInput, [
+                    {
+                        rule: 'required',
+                        errorMessage: `<span class="i18" key="NomeRealObrigatorio">${i18next.t("NomeRealObrigatorio")}</span>`,
+                    },
+                    {
+                        rule: 'minLength',
+                        value: 1,
+                        errorMessage: `<span class="i18" key="NomeRealMinimo">${i18next.t("NomeRealMinimo")}</span>`,
+                    },
+                    {
+                        rule: 'maxLength',
+                        value: 100,
+                        errorMessage: `<span class="i18" key="NomeRealMaximo">${i18next.t("NomeRealMaximo")}</span>`,
+                    },
+                ])
+                .onSuccess(async (e) => {
                     e.preventDefault()
                     limparMensagem(mensagemErro)
 
@@ -323,44 +407,45 @@ async function changeConfigOptionsContext(t) {
                     })
                 })
 
-                async function postName(endpoint, body) {
-                    const callbackServidor = data => {
-                        mensagemErro.classList.add("text-danger")
-                        data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
-                    }
-                    
-                    loader.show()
-                    const data = await executarFetch(endpoint, configuracaoFetch("PUT", body), (res) => mensagemErro.textContent = res.results[0], callbackServidor)
-                    loader.hide()
-                    if (!data) return false
-                    
-                    notificacaoSucesso(data.results[0])
-                    return true
+            async function postName(endpoint, body) {
+                const callbackServidor = data => {
+                    mensagemErro.classList.add("text-danger")
+                    data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
                 }
+
+                loader.show()
+                const data = await executarFetch(endpoint, configuracaoFetch("PUT", body), (res) => mensagemErro.textContent = res.results[0], callbackServidor)
+                loader.hide()
+                if (!data) return false
+
+                notificacaoSucesso(data.results[0])
+                return true
+            }
+
+
+            function case2() {
 
                 const updateAccountValidator = new JustValidate(updateAccountForm, {
                     validateBeforeSubmitting: true,
                 })
+                updateAccountValidator
+                    .addField(updateAccountRealNameInput, [
+                        {
+                            rule: 'required',
+                            errorMessage: `<span class="i18" key="NomeRealObrigatorio">${i18next.t("NomeRealObrigatorio")}</span>`,
+                        },
+                    ])
+                    // submit
+                    .onSuccess(async (e) => {
+                        e.preventDefault()
+                    })
+            }
 
-                function case2() {
-                    updateAccountValidator
-                        .addField(updateAccountRealNameInput, [
-                            {
-                                rule: 'required',
-                                errorMessage: `<span class="i18" key="NomeRealObrigatorio">${i18next.t("NomeRealObrigatorio")}</span>`,
-                            },
-                        ])
-                        // submit
-                        .onSuccess(async(e) => {
-                            e.preventDefault()
-                        })
-                }
+            case2()
 
+            document.addEventListener('nova-lingua', event => {
                 case2()
-
-                document.addEventListener('nova-lingua', event => {
-                    case2()
-                })
+            })
 
             break
 
@@ -406,64 +491,49 @@ async function changeConfigOptionsContext(t) {
                     </div>
                 `
 
-                const olhos = document.getElementById("olhos")
-                const olhosNovaSenha = document.getElementById("olhos-nova-senha")
-                const olhoAberto = document.getElementById("olho-aberto")
-                const olhoAbertoNovaSenha = document.getElementById("olho-aberto-nova-senha")
-                const olhoFechado = document.getElementById("olho-fechado")
-                const olhoFechadoNovaSenha = document.getElementById("olho-fechado-nova-senha")
+            const olhos = document.getElementById("olhos")
+            const olhosNovaSenha = document.getElementById("olhos-nova-senha")
+            const olhoAberto = document.getElementById("olho-aberto")
+            const olhoAbertoNovaSenha = document.getElementById("olho-aberto-nova-senha")
+            const olhoFechado = document.getElementById("olho-fechado")
+            const olhoFechadoNovaSenha = document.getElementById("olho-fechado-nova-senha")
 
-                const visualizarSenha = (olhos, olhoAberto, olhoFechado, senha) => {
-                    olhos.addEventListener('click', () => {
-                        (olhos.classList.contains("d-none")) ? senha.type = "password" : senha.type = "text"
-                        olhoAberto.classList.toggle("d-none")
-                        olhoFechado.classList.toggle("d-none")
-                    })
-                }
+            const visualizarSenha = (olhos, olhoAberto, olhoFechado, senha) => {
+                olhos.addEventListener('click', () => {
+                    (olhos.classList.contains("d-none")) ? senha.type = "password" : senha.type = "text"
+                    olhoAberto.classList.toggle("d-none")
+                    olhoFechado.classList.toggle("d-none")
+                })
+            }
 
-                const changePasswordForm = document.querySelector('#change-password-form')
-                const changePasswordInput = document.querySelector('#config-user-pass-input')
-                const changeNewPasswordInput = document.querySelector('#config-user-newpass-input')
+            const changePasswordForm = document.querySelector('#change-password-form')
+            const changePasswordInput = document.querySelector('#config-user-pass-input')
+            const changeNewPasswordInput = document.querySelector('#config-user-newpass-input')
 
-                visualizarSenha(olhos, olhoAberto, olhoFechado, changePasswordInput)
-                visualizarSenha(olhosNovaSenha, olhoAbertoNovaSenha, olhoFechadoNovaSenha, changeNewPasswordInput)
+            visualizarSenha(olhos, olhoAberto, olhoFechado, changePasswordInput)
+            visualizarSenha(olhosNovaSenha, olhoAbertoNovaSenha, olhoFechadoNovaSenha, changeNewPasswordInput)
 
-                const form = document.getElementById("change-password-form")
+            const form = document.getElementById("change-password-form")
 
-                form.addEventListener('submit', async(e) => {
-                    limparMensagem(mensagemErro)
+            form.addEventListener('submit', async (e) => {
+                limparMensagem(mensagemErro)
 
-                    const resultado = await postRedefinirSenha("userconfigurations/updatepassword", {
-                        "NewPassword": changeNewPasswordInput.value,
-                        "CurrentPassword": changePasswordInput.value
-                    })
-
-                    if (resultado){
-                        form.reset()
-                    }
+                const resultado = await postRedefinirSenha("userconfigurations/updatepassword", {
+                    "NewPassword": changeNewPasswordInput.value,
+                    "CurrentPassword": changePasswordInput.value
                 })
 
-                const postRedefinirSenha = async(endpoint, body) => {
-                    const callbackServidor = data => {
-                        mensagemErro.classList.add("text-danger")
-                        data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
-                    }
-                
-                    loader.show()
-                    const data = await executarFetch(endpoint, configuracaoFetch("PUT", body), (res) => mensagemErro.textContent = res.results[0], callbackServidor)
-                    loader.hide()
-                    if (!data) return false
-                
-                    notificacaoSucesso(data.results[0])
-                    return true
+                if (resultado) {
+                    form.reset()
                 }
+            })
 
-                const changePasswordValidator = new JustValidate(changePasswordForm, {
-                    validateBeforeSubmitting: true,
-                })
+            const changePasswordValidator = new JustValidate(changePasswordForm, {
+                validateBeforeSubmitting: true,
+            })
 
-                function case3() {
-                    changePasswordValidator
+            function case3() {
+                changePasswordValidator
                     .addField(changePasswordInput, [
                         {
                             rule: 'required',
@@ -481,14 +551,38 @@ async function changeConfigOptionsContext(t) {
                             errorMessage: `<span class="i18" key="SenhaInvalida">${i18next.t("SenhaInvalida")}</span>`,
                         },
                     ])
+                    .onSuccess(async (e) => {
+                        limparMensagem(mensagemErro)
+
+                        const resultado = await postRedefinirSenha("userconfigurations/updatepassword", {
+                            "NewPassword": changeNewPasswordInput.value,
+                            "CurrentPassword": changePasswordInput.value
+                        })
+
+                        if (resultado) {
+                            form.reset()
+                        }
+                    })
+            }
+
+            const postRedefinirSenha = async (endpoint, body) => {
+                const config = configuracaoFetch("PUT", body)
+
+                const callbackServidor = data => {
+                    mensagemErro.classList.add("text-danger")
+                    data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
                 }
 
-                case3()
-                
+                loader.show()
+                const data = await executarFetch(endpoint, config, callbackServidor, callbackServidor)
+                loader.hide()
+                if (!data) return false
 
-                document.addEventListener('nova-lingua', event => {
-                    case3()
-                })
+                notificacaoSucesso(data.results[0])
+                return true
+            }
+            document.addEventListener('nova-lingua', case3)
+            case3()
 
             break
 

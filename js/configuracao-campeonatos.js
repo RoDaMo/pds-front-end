@@ -54,7 +54,7 @@ const init = async () => {
 
 		const optionDefault = () => {
 			const optionDefault = document.createElement('option')
-			optionDefault.value = 0
+			optionDefault.value = ""
 			optionDefault.innerHTML = `<span class="i18" key="SelecioneOpcao">${i18next.t("SelecioneOpcao")}</span>`
 			numero.appendChild(optionDefault)
 		}
@@ -151,12 +151,57 @@ const init = async () => {
 			validateBeforeSubmitting: true,
 		})
 
+		esporte.addEventListener("change", () => {
+			if (esporte.value === "1") {
+				quantidadeJogadores.value = ""
+				quantidadeJogadores.setAttribute("min", 11)
+				quantidadeJogadores.setAttribute("max", 25)
+			} else if (esporte.value === "2") {
+				quantidadeJogadores.value = ""
+				quantidadeJogadores.setAttribute("min", 6)
+				quantidadeJogadores.setAttribute("max", 15)
+			}
+
+			if (esporte.value) {
+				quantidadeJogadores.value = ""
+				quantidadeJogadores.disabled = false;
+				quantidadeJogadores.setAttribute("key", "QuantidadeJogadoresPlaceholder")
+				quantidadeJogadores.setAttribute("placeholder", i18next.t("QuantidadeJogadoresPlaceholder"))
+			} else {
+				quantidadeJogadores.value = ""
+				quantidadeJogadores.disabled = true;
+				quantidadeJogadores.setAttribute("key", "QuantidadeJogadoresPlaceholderDisabled")
+				quantidadeJogadores.setAttribute("placeholder", i18next.t("QuantidadeJogadoresPlaceholderDisabled"))
+			}
+		})
+
+		quantidadeJogadores.addEventListener("change", () => {
+			if (esporte.value === "1") {
+				if (quantidadeJogadores.value < 11 || quantidadeJogadores.value > 25) {
+					quantidadeJogadores.value = 11
+				}
+			} else if (esporte.value === "2") {
+				if (quantidadeJogadores.value < 6 || quantidadeJogadores.value > 15) {
+					quantidadeJogadores.value = 6
+				}
+			}
+		})
 		function validator1() {
 			validator
 				.addField(name, [
 					{
 						rule: 'required',
-						errorMessage: `<span class="i18" key="NomeCampeonatObrigatorio">${i18next.t("NomeCampeonatObrigatorio")}</span>`,
+						errorMessage: `<span class="i18" key="NomeCampeonatoObrigatorio">${i18next.t("NomeCampeonatoObrigatorio")}</span>`,
+					},
+					{
+						rule: 'minLength',
+						value: 4,
+						errorMessage: `<span class="i18" key="NomeCampeonatoMinimo">${i18next.t("NomeCampeonatoMinimo")}</span>`,
+					},
+					{
+						rule: 'maxLength',
+						value: 40,
+						errorMessage: `<span class="i18" key="NomeCampeonatoMaximo">${i18next.t("NomeCampeonatoMaximo")}</span>`,
 					},
 				])
 				.addField(dataInicial, [
@@ -164,6 +209,15 @@ const init = async () => {
 						rule: 'required',
 						errorMessage: `<span class="i18" key="DataInicialObrigatoria">${i18next.t("DataInicialObrigatoria")}</span>`,
 					},
+					{
+						validator: (value) => {
+							const dataInicial = new Date(value)
+							const dataAtual = new Date()
+							dataAtual.setDate(dataAtual.getDate() - 1)
+							return dataInicial >= dataAtual
+						},
+						errorMessage: `<span class="i18" key="DataInicialMaiorIgual">${i18next.t("DataInicialMaiorIgual")}</span>`
+					}
 				])
 				.addField(dataFinal, [
 					{
@@ -226,11 +280,31 @@ const init = async () => {
 						rule: 'required',
 						errorMessage: `<span class="i18" key="PaisObrigatorio">${i18next.t("PaisObrigatorio")}</span>`,
 					},
+					{
+						rule: 'minLength',
+						value: 4,
+						errorMessage: `<span class="i18" key="PaisMinimo">${i18next.t("PaisMinimo")}</span>`,
+					},
+					{
+						rule: 'maxLength',
+						value: 40,
+						errorMessage: `<span class="i18" key="PaisMaximo">${i18next.t("PaisMaximo")}</span>`,
+					},
 				])
 				.addField(estado, [
 					{
 						rule: 'required',
 						errorMessage: `<span class="i18" key="EstadoObrigatorio">${i18next.t("EstadoObrigatorio")}</span>`,
+					},
+					{
+						rule: 'minLength',
+						value: 4,
+						errorMessage: `<span class="i18" key="EstadoMinimo">${i18next.t("EstadoMinimo")}</span>`,
+					},
+					{
+						rule: 'maxLength',
+						value: 40,
+						errorMessage: `<span class="i18" key="EstadoMaximo">${i18next.t("EstadoMaximo")}</span>`,
 					},
 				])
 				.addField(cidade, [
@@ -238,17 +312,63 @@ const init = async () => {
 						rule: 'required',
 						errorMessage: `<span class="i18" key="CidadeObrigatoria">${i18next.t("CidadeObrigatoria")}</span>`,
 					},
+					{
+						rule: 'minLength',
+						value: 4,
+						errorMessage: `<span class="i18" key="CidadeMinimo">${i18next.t("CidadeMinimo")}</span>`,
+					},
+					{
+						rule: 'maxLength',
+						value: 40,
+						errorMessage: `<span class="i18" key="CidadeMaximo">${i18next.t("CidadeMaximo")}</span>`,
+					},
 				])
 				.addField(bairro, [
 					{
 						rule: 'required',
 						errorMessage: `<span class="i18" key="BairroObrigaorio">${i18next.t("BairroObrigaorio")}</span>`,
 					},
+					{
+						rule: 'minLength',
+						value: 4,
+						errorMessage: `<span class="i18" key="BairroMinimo">${i18next.t("BairroMinimo")}</span>`,
+					},
+					{
+						rule: 'maxLength',
+						value: 40,
+						errorMessage: `<span class="i18" key="BairroMaximo">${i18next.t("BairroMaximo")}</span>`,
+					},
 				])
 				.addField(descricao, [
 					{
 						rule: 'required',
 						errorMessage: `<span class="i18" key="DescricaoObrigatoria">${i18next.t("DescricaoObrigatoria")}</span>`,
+					},
+					{
+						rule: 'minLength',
+						value: 10,
+						errorMessage: `<span class="i18" key="DescricaoMinimo">${i18next.t("DescricaoMinimo")}</span>`,
+					},
+					{
+						rule: 'maxLength',
+						value: 2000,
+						errorMessage: `<span class="i18" key="DescricaoMaximo">${i18next.t("DescricaoMaximo")}</span>`,
+					},
+				])
+				.addField(quantidadeJogadores, [
+					{
+						rule: 'required',
+						errorMessage: `<span class="i18" key="QuantidadeJogadoresObrigatorio">${i18next.t("QuantidadeJogadoresObrigatorio")}</span>`,
+					},
+					{
+						validator: (value) => {
+							if (esporte.value == "2") {
+								return value >= 6 && value <= 15
+							} else if (esporte.value == "1") {
+								return value >= 11 && value <= 25
+							}
+						},
+						errorMessage: `<span class="i18" key="QuantidadeJogadoresInvalido">${i18next.t("QuantidadeJogadoresInvalido")}</span>`,
 					},
 				])
 				.onSuccess(async (e) => {
@@ -276,36 +396,36 @@ const init = async () => {
 					})
 					loader.hide()
 					// mensagemErro.textContent = ''
-			})
+				})
 
 			imageFile.addEventListener("change", async () => {
 				const isValid = await validator.revalidateField(imageFile)
 				if (!isValid) return;
-	
+
 				loader.show()
 				const data = await uploadImagem(imageFile, 0, mensagemErro)
 				loader.hide()
-	
+
 				if (Array.isArray(data.results))
 					return;
-	
+
 				imageInput.value = `${api}img/${data.results}`
 				exibidorImagem(image, imageInput.value)
 			})
-	
+
 			regulamento.addEventListener("change", async () => {
 				const isValid = await validator.revalidateField(regulamento)
 				if (!isValid) return;
-	
+
 				loader.show()
 				const data = await uploadImagem(regulamento, 2, mensagemErro)
 				loader.hide()
-	
+
 				if (Array.isArray(data.results))
 					return;
-	
+
 				imageInput.value = `${api}img/${data.results}`
-	
+
 				linkRegulamento.href = imageInput.value;
 				linkRegulamento.classList.toggle('d-none', false)
 			})

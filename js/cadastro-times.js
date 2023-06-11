@@ -244,6 +244,16 @@ function criarValidacao() {
             rule: 'required',
             errorMessage: `<span class="i18" key="NomeTimeObrigatorio">${i18next.t("NomeTimeObrigatorio")}</span>`,
         },
+        {
+            rule: 'minLength',
+            value: 4,
+            errorMessage: `<span class="i18" key="NomeTimeMinimo">${i18next.t("NomeTimeMinimo")}</span>`,
+        },
+        {
+            rule: 'maxLength',
+            value: 100,
+            errorMessage: `<span class="i18" key="NomeTimeMaximo">${i18next.t("NomeTimeMaximo")}</span>`,
+        }
     ])
     .addField(esporte, [
         {
@@ -255,6 +265,40 @@ function criarValidacao() {
         {
             rule: 'required',
             errorMessage: `<span class="i18" key="EmblemaTimeObrigatorio">${i18next.t("EmblemaTimeObrigatorio")}</span>`,
+        },
+        {
+            rule: 'files',
+            value: {
+                files: {
+                    extensions: ['jpeg', 'jpg', 'png', 'webp', 'gif', 'bmp', 'tiff'],
+                    maxSize: 5000000,
+                    types: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/bmp', 'image/tiff'],
+                },
+            },
+            errorMessage: `<span class="i18" key="TamanhoMaximo">${i18next.t("TamanhoMaximo")}</span>`,
+        }
+    ])
+    .addField(uniforme1, [
+        {
+            rule: 'required',
+            errorMessage: `<span class="i18" key="Uniforme1Obrigatorio">${i18next.t("Uniforme1Obrigatorio")}</span>`,
+        },
+        {
+            rule: 'files',
+            value: {
+                files: {
+                    extensions: ['jpeg', 'jpg', 'png', 'webp', 'gif', 'bmp', 'tiff'],
+                    maxSize: 5000000,
+                    types: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/bmp', 'image/tiff'],
+                },
+            },
+            errorMessage: `<span class="i18" key="TamanhoMaximo">${i18next.t("TamanhoMaximo")}</span>`,
+        }
+    ])
+    .addField(uniforme2, [
+        {
+            rule: 'required',
+            errorMessage: `<span class="i18" key="Uniforme2Obrigatorio">${i18next.t("Uniforme2Obrigatorio")}</span>`,
         },
         {
             rule: 'files',
@@ -303,11 +347,39 @@ function criarValidacao() {
             errorMessage: `<span class="i18" key="TamanhoMaximo">${i18next.t("TamanhoMaximo")}</span>`,
         }
     ])
+    .addField(logo, [
+        {
+            rule: 'required',
+            errorMessage: `<span class="i18" key="LogoObrigatorio">${i18next.t("LogoObrigatorio")}</span>`,
+        },
+        {
+            rule: 'files',
+            value: {
+                files: {
+                    extensions: ['jpeg', 'jpg', 'png', 'webp', 'gif', 'bmp', 'tiff'],
+                    maxSize: 5000000,
+                    types: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/bmp', 'image/tiff'],
+                },
+            },
+            errorMessage: `<span class="i18" key="TamanhoMaximo">${i18next.t("TamanhoMaximo")}</span>`,
+        }
+
+    ])
     .addField(descricao, [
         {
             rule: 'required',
             errorMessage: `<span class="i18" key="DescricaoObrigatoria">${i18next.t("DescricaoObrigatoria")}</span>`,
         },
+        {
+            rule: 'minLength',
+            value: 10,
+            errorMessage: `<span class="i18" key="DescricaoMinimo">${i18next.t("DescricaoMinimo")}</span>`,
+        },
+        {
+            rule: 'maxLength',
+            value: 1000,
+            errorMessage: `<span class="i18" key="DescricaoMaximo">${i18next.t("DescricaoMaximo")}</span>`,
+        }
     ])
     .onSuccess(async(e) => {
         e.preventDefault()

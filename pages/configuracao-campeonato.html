@@ -37,7 +37,6 @@
 						<hr>
 						<div class="row mt-3 justify-mobile-pic">
 							<div class="col-1 position-relative p-0 overflow-hidden rounded-circle config-user-pic-mod-wrapper">
-								<!-- $ Imagem de Pefil do Usuário  ../default-user-image.png - preview? -->
 								<img src="https://playoffs-api.up.railway.app/img/fefabe2b-4038-4b8c-b719-54fbbe9095a4" alt="Imagem do campeonato"
 									class="img-fluid position-absolute w-100 h-100" id="config-championship-pic-mod">
 							</div>
@@ -51,7 +50,7 @@
 
 						<div class="mt-4">
 							<form id="update-profile-form" class="row">
-								<input type="file" class="d-none" id="config-championship-image-input" accept="image/*">
+								<input type="file" class="d-none" id="config-championship-image-input" accept=".jpeg, .jpg, .png, .webp, .gif, .bmp, .tiff">
 								<input type="hidden" name="logo" id="config-imagem-input-hidden">
 								<div class="col-12 mt-3">
 									<label for="config-championship-name-input" class="form-label i18" key="FormularioNomeCampeonato">Nome do campeonato</label>
@@ -106,7 +105,7 @@
 									<label for="config-championship-numero-input" class="form-label i18" key="QuantidadeTimes">Número de times:</label>
 									<select name="config-championship-numero-input" class="form-select rounded-4"
 										id="config-championship-numero-input">
-										<option value="" class="i18" key="SelecioneFormatoAntes" selected>Selecione o formato antes</option>
+										<option value="" class="i18" key="SelecioneFormatoAntes">Selecione o formato antes</option>
 									</select>
 								</div>
 								<div class="col-12 mt-3">
@@ -117,8 +116,8 @@
 									</select>
 								</div>
 								<div class="col-md-12 mt-3">
-									<label for="quantidade-jogadores" class="form-label">Quantidade de Jogadores por Time:</label>
-									<input type="number" class="form-control rounded-4" id="quantidade-jogadores" name="quantidade-jogadores" placeholder="Quantidade de jogadores...">
+									<label for="quantidade-jogadores" class="form-label i18" key="QuantidadeJogadores">Quantidade de Jogadores por Time:</label>
+									<input type="number" class="form-control rounded-4 i18-placeholder" key="QuantidadeJogadoresPlaceholderDisabled" id="quantidade-jogadores" name="quantidade-jogadores" placeholder="{{placeholder}}">
 								</div>
 								<div class="col-12 mt-3">
 									<label for="config-championship-regulamento-input" class="i18" key="Regulamento">

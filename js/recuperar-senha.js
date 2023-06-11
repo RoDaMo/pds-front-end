@@ -1,4 +1,5 @@
 import { notificacaoErro, notificacaoSucesso } from "./utilidades/notificacoes"
+import JustValidate from "just-validate"
 import { configuracaoFetch, executarFetch, limparMensagem, api } from "./utilidades/configFetch"
 import portugues from './i18n/ptbr/recuperar-senha.json' assert { type: 'JSON' }
 import ingles from './i18n/en/recuperar-senha.json' assert { type: 'JSON' }
@@ -19,7 +20,6 @@ const opcao1 = document.getElementById("1")
 const opcao2 = document.getElementById("2")
 const lng = localStorage.getItem('lng');
 lng === 'ptbr' ? opcao1.selected = 'true' : opcao2.selected = 'true'
-
 
 const formulario = document.getElementById("formulario")
 const email = document.getElementById("email")
@@ -83,10 +83,10 @@ botao.addEventListener("click", async () => {
 //     return controle;
 // }
 
+
 const validator = new JustValidate(formulario, {
     validateBeforeSubmitting: true,
 })
-
 criarValidacao()
 
 function criarValidacao() {
