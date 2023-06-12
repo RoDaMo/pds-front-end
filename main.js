@@ -5,6 +5,7 @@ import globalEn from './js/i18n/en/main.json' assert { type: 'JSON' };
 import globalPt from './js/i18n/ptbr/main.json' assert { type: 'JSON' };
 import '/scss/styles.scss'
 import 'bootstrap-icons/font/bootstrap-icons.scss'
+import i18next from 'i18next';
 import * as bootstrap from 'bootstrap'
 
 if (!localStorage.getItem('lng')) {
@@ -15,10 +16,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   inicializarInternacionalizacao(globalEn, globalPt)
   inicializarInternacionalizacaoGlobal()
   document.addEventListener('header-carregado', () => {
-    console.log('hahaha')
     document.getElementById('lingua').addEventListener('change', event => {
       const selectedIndex = event.target.selectedIndex;
       localStorage.setItem('lng', event.target.children[selectedIndex].value);
+      i18next.changeLanguage(localStorage.getItem('lng'))
       document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
     })
   })
