@@ -42,6 +42,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     localStorage.setItem('user-info', JSON.stringify(resultados.results))
   } else {
     localStorage.removeItem('user-info')
+    if (document.body.getAttribute('requires-auth'))
+      window.location.assign('/')
   }
 
   if (document.body.getAttribute('only-anon') && response.ok) 

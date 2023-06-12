@@ -9,7 +9,6 @@
     "ParaRedefinir": "To reset your password, a link will be sent to the email you enter below.",
     "Enviar": "Send",
     "Cancelar": "Cancel",
-    "EmailInvalido": "Invalid Email",
-    "EmailObrigatorio": "Email is required"
+    "EmailInvalido": "Invalid Email"
 
 }

@@ -68,30 +68,35 @@ formulario.addEventListener("submit", async(e) => {
     })
 })
 
-validator
-    .addField(senha, [
-        {
-            rule: 'required',
-            errorMessage: `<span class="i18" key="SenhaObrigatoria">${i18next.t("SenhaObrigatoria")}</span>`
-        },
-        {
-            rule: 'customRegexp',
-            value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{4,}$/,
-            errorMessage: " ",
-        }
-    ])
-    validator.onSuccess(async (e) => {
-        e.preventDefault();
-        limparMensagem(mensagemErro);
-      
-        if(!validacoes()) return
+const criarValidator = () => {
+    validator
+        .addField(senha, [
+            {
+                rule: 'required',
+                errorMessage: `<span class="i18" key="SenhaObrigatoria">${i18next.t("SenhaObrigatoria")}</span>`
+            },
+            {
+                rule: 'customRegexp',
+                value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{4,}$/,
+                errorMessage: " ",
+            }
+        ])
+        validator.onSuccess(async (e) => {
+            e.preventDefault();
+            limparMensagem(mensagemErro);
+          
+            if(!validacoes()) return
+    
+          
+            await postToken({
+                "Email": email,
+                "Password": senha.value,
+            })
+    });
+}
 
-      
-        await postToken({
-            "Email": email,
-            "Password": senha.value,
-        })
-});
+criarValidator()
+document.addEventListener('nova-lingua', criarValidator)
 
 async function postToken(body) {
     const config = configuracaoFetch("POST", body)
