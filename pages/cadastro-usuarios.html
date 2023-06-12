@@ -8,7 +8,7 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <title>Cadastro de Usuários</title>
 </head>
-<body>
+<body only-anon="true">
     <componente-preloader></componente-preloader>
     <main class="container mb-5">
         <div class="row justify-content-center">
@@ -16,8 +16,8 @@
                 <div class="mb-5 mt-5 row">
                     <a class="navbar-brand m-auto p-auto col-9" href="/"><img src="/Logo_Playoffs.png" class="img-fluid" width="300" alt="Logo Playoffs"></a>
                     <select class="form-select rounded-3 ps-3 py-2 bg-transparent col" id="lingua" required>
-                        <option value="ptbr">Português</option>
-                        <option value="en">English</option>
+                        <option value="ptbr" id="1">Português</option>
+                        <option value="en" id="2">English</option>
                     </select>
                 </div>
 
@@ -35,21 +35,21 @@
                     <div id="parte-2" class="mb-3">
                         <div>
                             <label for="nome-usuario" class="form-label text-success mt-3 i18" key="NomeUsuario">Nome de usuário:</label>
-                            <input type="text" class="form-control i18-placeholder" key="NomeUsuarioPlaceholder" id="nome-usuario" name="nome-usuario" placeholder="Nome de usuário...">
+                            <input maxlength="20" type="text" class="form-control i18-placeholder" key="NomeUsuarioPlaceholder" id="nome-usuario" name="nome-usuario" placeholder="Nome de usuário...">
                         </div>
                         <div class="mt-3">
                             <label for="nome" class="form-label text-success i18" key="Nome">Nome:</label>
-                            <input required type="text" class="form-control i18-placeholder" key="NomePlaceholder" id="nome" name="nome" placeholder="Nome..." >
+                            <input maxlength="100" type="text" class="form-control i18-placeholder" key="NomePlaceholder" id="nome" name="nome" placeholder="Nome..." >
                         </div>
                         <div class="mt-3">
                             <label for="email-usuario" class="form-label text-success">Email:</label>
                             <input type="email" class="form-control" id="email-usuario" name="email-usuario" placeholder="Email...">
                         </div>
                         <div class="mt-3" >
-                            <label for="data" class="form-label text-success">Data de nascimento:</label>
+                            <label for="data" class="form-label text-success i18" key="DataNascimento">Data de nascimento:</label>
                             <input type="text" class="form-control" id="data" name="data" placeholder="Data de nascimento...">
                         </div>
-                        <label for="nome-usuario" class="form-label text-success mt-3 i18" key="Senha">Senha:</label>
+                        <label for="senha" class="form-label text-success mt-3 i18" key="Senha">Senha:</label>
                         <div class="d-flex position-relative">
                             <div class="input-wrapper w-100">
                                 <input type="password" class="form-control i18-placeholder" key="SenhaPlaceholder" id="senha" name="senha" placeholder="Senha..." autocomplete="on">
@@ -81,6 +81,24 @@
                                 <i id="icone-especial" class="bi bi-x-circle-fill text-danger"></i>
                                 <small id="texto-especial" class="text-danger i18" key="Invalida">Nenhum acento ou caractere especial</small>
                             </div>
+                        </div>
+                    </div>
+                    <div id="termsCheck">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="useTermsCheckbox">
+                            <label class="form-check-label" for="useTermsCheckbox">
+                                <span class="i18" key="AoMarcar">Ao marcar, você aceita os</span>
+                                <a href="#" class="text-success i18" key="TermosUso">Termos de Uso</a>
+                                <span class="i18" key="DoSite">do site.</span>
+                            </label>
+                          </div>
+                        <div class="form-check mb-5 mt-2">
+                            <input class="form-check-input" type="checkbox" value="" id="privacyTermsCheckbox">
+                            <label class="form-check-label" for="privacyTermsCheckbox">
+                                <span class="i18" key="AoMarcar">Ao marcar, você aceita os</span>
+                                <a href="#" class="text-success i18" key="TermosPrivacidade">Termos de Privacidade</a>
+                                <span class="i18" key="DoSite">do site.</span>
+                            </label>
                         </div>
                     </div>
                     <div class="container m-0">

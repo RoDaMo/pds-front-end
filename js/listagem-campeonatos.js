@@ -5,7 +5,10 @@ import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao
 import portugues from './i18n/ptbr/listagem-campeonatos.json' assert { type: 'JSON' }
 import ingles from './i18n/en/listagem-campeonatos.json' assert { type: 'JSON' }
 import i18next from "i18next";
+import './utilidades/loader'
 
+const loader = document.createElement('app-loader');
+document.body.appendChild(loader);
 inicializarInternacionalizacao(ingles, portugues);
 
 const filtroEsporte = document.getElementById('esportes')
@@ -34,34 +37,72 @@ let filtros = {
     finish: null,
 }
 
+let lng = localStorage.getItem('lng')
+
 
 flatpickr(filtroInicio, {
     dateFormat: "Y-m-d",
-    locale: Portuguese,
+    locale:  lng === 'ptbr' ? Portuguese : ingles,
     altInput: true,
-    onChange: (selectedDates, dateStr, instance) => {
+    onChange: async (selectedDates, dateStr, instance) => {
         paginasAnteriores = []
         filtros.start = dateStr;
-        listagem();
+        await listagem();
     }
 })
 
 flatpickr(filtroFim, {
     dateFormat: "Y-m-d",
-    locale: Portuguese,
+    locale:  lng === 'ptbr' ? Portuguese : ingles,
     altInput: true,
-    onChange: (selectedDates, dateStr, instance) => {
+    onChange: async (selectedDates, dateStr, instance) => {
         paginasAnteriores = []
         filtros.finish = dateStr;
-        listagem();
+        await listagem();
     }
 })
 
-filtroEsporte.addEventListener("change", async() => {
+document.addEventListener('nova-lingua', event => {
+    let lng = localStorage.getItem('lng');
+    flatpickr(filtroInicio, {
+        dateFormat: "Y-m-d",
+        locale:  lng === 'ptbr' ? Portuguese : ingles,
+        altInput: true,
+        onChange: (selectedDates, dateStr, instance) => {
+            paginasAnteriores = []
+            filtros.finish = dateStr;
+            console.log('filtroInicio')
+            listagem();
+        }
+    })
+    flatpickr(filtroFim, {
+        dateFormat: "Y-m-d",
+        locale:  lng === 'ptbr' ? Portuguese : ingles,
+        altInput: true,
+        onChange: (selectedDates, dateStr, instance) => {
+            paginasAnteriores = []
+            filtros.finish = dateStr;
+            console.log('filtroFim')
+            listagem();
+        }
+    })
+
+    let inputData1 = document.querySelectorAll('[tabindex]')[1]
+    inputData1.placeholder = i18next.t("FiltrarApartir")
+    inputData1.setAttribute('key', 'FiltrarApartir')
+    inputData1.classList.add("i18-placeholder")
+
+    let inputData2 = document.querySelectorAll('[tabindex]')[2]
+    inputData2.placeholder = i18next.t("FiltrarAte")
+    inputData2.setAttribute('key', 'FiltrarAte')
+    inputData2.classList.add("i18-placeholder")
+})
+
+filtroEsporte.addEventListener("change", async () => {
     paginasAnteriores = []
     filtros.sport = filtroEsporte.value ? filtroEsporte.value : null;
     if(filtroEsporte.value === "") params = new URLSearchParams();
-    listagem();
+    await listagem();
 })
 
 limpar.addEventListener("click", async(e) => {
@@ -75,7 +116,9 @@ limpar.addEventListener("click", async(e) => {
         params.set(key, null)
     })
 
+    loader.show()
     const data = await executarFetch('championships', config, null, callbackServidor)
+    loader.hide()
 
     exibirDados(data)
 })
@@ -86,14 +129,14 @@ const listagem = async () => {
     usarObjeto()
 
     const endpoint = `championships${params.toString() ? '?' + params.toString() : ''}`
-    console.log(endpoint)
-
+    loader.show()
     const data = await executarFetch(endpoint, config, null, callbackServidor)
+    loader.hide()
 
     exibirDados(data)
 }
 
-proximo.addEventListener('click', async() => {
+proximo.addEventListener('click', async () => {
     const data = await configProximo()
 
     if(data.results.length !== 0) {
@@ -101,7 +144,7 @@ proximo.addEventListener('click', async() => {
     }
 })
 
-anterior.addEventListener("click", async() => {
+anterior.addEventListener("click", async () => {
     exibirDados(elementoAnterior(paginasAnteriores, paginasAnteriores[paginasAnteriores.length-1]))
 });
 
@@ -147,11 +190,15 @@ const reqBotaoProximo = async() => {
     proximo.disabled = (data !== undefined) ? (data.results.length === 0) : true
 }
 
-const exibirDados = (data) => {
+const exibirDados = async (data) => {
     conteudo.innerHTML = ``
 
     if(data.results.length === 0){
-        erro.innerHTML += `<span class="i18" key="Erro" id="mensagem-erro2">${i18next.t("Erro")}</span>`
+        conteudo.innerHTML = /* html */`
+        <div class="text-center my-5">
+            <h1 class="i18 text-primary" key="Erro">${i18next.t("Erro")}</h1>
+        </div>
+        `
     }
 
     data.results.forEach(e => {
@@ -190,8 +237,18 @@ const exibirDados = (data) => {
     });
     paginasAnteriores.push(data)
     anterior.disabled = data === paginasAnteriores[0];
-    reqBotaoProximo()
+    await reqBotaoProximo()
     window.scrollTo(0, 0);
 }
 
 listagem();
+
+let inputData1 = document.querySelectorAll('[tabindex]')[1]
+inputData1.placeholder = i18next.t("FiltrarApartir")
+inputData1.setAttribute('key', 'FiltrarApartir')
+inputData1.classList.add("i18-placeholder")
+
+let inputData2 = document.querySelectorAll('[tabindex]')[2]
+inputData2.placeholder = i18next.t("FiltrarAte")
+inputData2.setAttribute('key', 'FiltrarAte')
+inputData2.classList.add("i18-placeholder")

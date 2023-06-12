@@ -11,7 +11,6 @@ export const inicializarInternacionalizacao = (ingles, portugues) => {
     i18next.addResources('ptbr', 'translation', portugues)
   } 
   else {
-    console.log('nao inicializado')
     i18next.init({
       lng: lng,
       debug: true,
@@ -25,12 +24,13 @@ export const inicializarInternacionalizacao = (ingles, portugues) => {
         }
       },
     });
-    console.log('lng', lng)
   }
 
   mudarLinguagem()
+}
+
+export const inicializarInternacionalizacaoGlobal = () => {
   document.addEventListener('nova-lingua', () => {
-    i18next.changeLanguage(localStorage.getItem('lng'))
     mudarLinguagem()
   })
 }

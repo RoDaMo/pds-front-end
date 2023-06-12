@@ -1,6 +1,5 @@
 import '../scss/pagina-usuarios.scss'
 import { configuracaoFetch, executarFetch, limparMensagem } from "./utilidades/configFetch"
-import { notificacaoSucesso } from "./utilidades/notificacoes"
 import './utilidades/loader'
 import portugues from './i18n/ptbr/pagina-usuarios.json' assert { type: 'JSON' }
 import ingles from './i18n/en/pagina-usuarios.json' assert { type: 'JSON' }
@@ -32,10 +31,8 @@ const userCurrentTeam = document.querySelector('.user-current-team')
 const userPic = document.querySelector('#user-pic'),
       botaoEditar = document.getElementById('botao-perfil-editar')
 
-let currentUserId = document.getElementById('usernameUserId')
-
 window.onload = () => {
-    if(userPic.getAttribute('src') == '') {
+    if (userPic.getAttribute('src') == '') {
         userPic.setAttribute('src', '../default-user-image.png')
     }
 
@@ -97,7 +94,7 @@ if (mediaQueryMobile.matches) {
                 ssFirstContent.classList.add('justify-content-center', 'align-items-center')
                 ssFirstContent.innerHTML = `
                     <div>
-                        <p>Nenhum time por aqui...</p>
+                        <span class="i18" key="NenhumTime">${i18next.t("NenhumTime")}</span>
                     </div>
                 `
     
@@ -138,12 +135,8 @@ const mensagemErro = document.getElementById("mensagem-erro")
 const parametroUrl = new URLSearchParams(window.location.search);
 const obterInfo = async () => {
     const id = parametroUrl.get('id')
+    const currentUserId = document.getElementById('usernameUserId')
 
-    if (!currentUserId) {
-        await new Promise(r => setTimeout(r, 200))
-		currentUserId = document.getElementById('usernameUserId')
-    }
-    console.log(currentUserId && id == currentUserId.textContent, currentUserId.textContent, id)
     if (currentUserId && id == currentUserId.textContent) {
         botaoEditar.classList.remove('d-none')
     }
@@ -165,5 +158,4 @@ const obterInfo = async () => {
     document.getElementById("name").textContent = data.results.name
 }
 
-obterInfo();
-
+document.addEventListener('header-carregado', obterInfo)

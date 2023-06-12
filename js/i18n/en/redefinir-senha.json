@@ -8,11 +8,13 @@
     "NovaSenha": "New Password:",
     "NovaSenhaPlaceholder": "New Password...",
     "SenhaMensagem": "Your password must contain:",
+    "SenhaObrigatoria": "You must enter your password",
     "LetraMaiuscula": "Uppercase letter",
     "LetraMinuscula": "Lower case",
     "Numero": "Number",
     "Minimo": "At least 4 characters",
     "Invalida": "No accents or special characters",
     "Salvar": "Send",
-    "Cancelar": "Cancel"
+    "Cancelar": "Cancel",
+    "Enviar": "Send"
 }

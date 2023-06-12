@@ -4,7 +4,7 @@ import flatpickr from "flatpickr"
 import { Portuguese } from "flatpickr/dist/l10n/pt.js"
 import { visualizarSenha } from "./utilidades/visualizar-senha"
 import JustValidate from "just-validate"
-import {redirecionamento} from './utilidades/redirecionamento'
+import { redirecionamento } from './utilidades/redirecionamento'
 import './utilidades/loader'
 import portugues from './i18n/ptbr/cadastro-usuario.json' assert { type: 'JSON' }
 import ingles from './i18n/en/cadastro-usuario.json' assert { type: 'JSON' }
@@ -25,6 +25,8 @@ const nome = document.getElementById("nome")
 const email = document.getElementById("email-usuario")
 const senha = document.getElementById("senha")
 const dataAniversario = document.getElementById("data")
+const useTermsCheckbox = document.getElementById("useTermsCheckbox")
+const privacyTermsCheckbox = document.getElementById("privacyTermsCheckbox")
 
 const validator = new JustValidate(formulario, {
     validateBeforeSubmitting: true,
@@ -48,9 +50,11 @@ let idUsuario = null
 
 redirecionamento(nomeUsuario)
 
+const lng = localStorage.getItem('lng')
+
 flatpickr(dataAniversario, {
     dateFormat: "Y-m-d",
-    locale: Portuguese,
+    locale: lng === 'ptbr' ? Portuguese : ingles,
     altInput: true,
     minDate: new Date(new Date().getFullYear() - 100, new Date().getMonth(), new Date().getDate()),
     maxDate: new Date(new Date().getFullYear() - 13, new Date().getMonth(), new Date().getDate())
@@ -87,7 +91,72 @@ const numero = (str) => /[0-9]/.test(str);
 const caracteres = (str) => /.{4,}/.test(str);
 const especial = (str) => /^[a-zA-Z0-9 ]*$/.test(str);
 
-validator
+criarValidacao()
+
+botao.addEventListener("click", async() => {
+    let endpoint = `auth/resend-confirm-email?id=${idUsuario}`
+    const config = configuracaoFetch("GET")
+    const data = await executarFetch(endpoint, config)
+
+    if(data)
+        notificacaoSucesso(data.message)
+})
+
+async function postUsuario(endpoint, body) {
+    const config = configuracaoFetch("POST", body)
+
+    const callbackServidor = data => {
+        mensagemErro.classList.add("text-danger")
+        data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
+    }
+
+    loader.show()
+    const data = await executarFetch(endpoint, config, callbackServidor, callbackServidor)
+    loader.hide()
+
+    if (!data) return false
+
+    idUsuario = data.results
+    notificacaoSucesso(data.message)
+    return true
+}
+
+function apresentarResultado() {
+    h1.style.display = "none"
+    h4.style.display = "none"
+    formulario.style.display = "none"
+    divResposta.classList.remove("d-none")
+}
+const inputData = document.querySelector('[tabindex]')
+inputData.placeholder = i18next.t("DataNascimentoPlaceholder")
+dataAniversario.placeholder = i18next.t("DataNascimentoPlaceholder")
+inputData.setAttribute('key', 'DataNascimentoPlaceholder')
+inputData.classList.add("i18-placeholder")
+
+document.addEventListener('DOMContentLoaded', () => document.dispatchEvent(new Event('header-carregado', { bubbles: true })))
+i18next.on('languageChanged', event => {
+    criarValidacao()
+    
+    inputData.placeholder = i18next.t("DataNascimentoPlaceholder")
+    dataAniversario.placeholder = i18next.t("DataNascimentoPlaceholder")
+    inputData.setAttribute('key', 'DataNascimentoPlaceholder')
+    inputData.classList.add("i18-placeholder")
+
+    flatpickr(dataAniversario, {
+        dateFormat: "Y-m-d",
+        locale:  localStorage.getItem('lng') === 'ptbr' ? Portuguese : ingles,
+        altInput: true,
+        maxDate: new Date(new Date().getFullYear() - 13, new Date().getMonth(), new Date().getDate())
+    })
+})
+
+const opcao1 = document.getElementById("1")
+const opcao2 = document.getElementById("2")
+lng === 'ptbr' ? opcao1.selected = 'true' : opcao2.selected = 'true'
+
+
+function criarValidacao() {
+    validator
     .addField(email, [
         {
             rule: 'required',
@@ -102,6 +171,16 @@ validator
         {
             rule: 'required',
             errorMessage:  `<span class="i18" key="NomeObrigatorio">${i18next.t("NomeObrigatorio")}</span>`
+        },
+        {
+            rule: 'minLength',
+            value: 1,
+            errorMessage: `<span class="i18" key="NomeMinimo">${i18next.t("NomeMinimo")}</span>`,
+        },
+        {
+            rule: 'maxLength',
+            value: 100,
+            errorMessage: `<span class="i18" key="NomeMaximo">${i18next.t("NomeMaximo")}</span>`,
         },
     ])
     .addField(nomeUsuario, [
@@ -142,11 +221,21 @@ validator
             errorMessage: " ",
         }
     ])
+    .addField(useTermsCheckbox, [
+        {
+            rule: 'required',
+            errorMessage: `<span class="i18" key="TermosUsoObrigatorio">${i18next.t("TermosUsoObrigatorio")}</span>`
+        },
+    ])
+    .addField(privacyTermsCheckbox, [
+        {
+            rule: 'required',
+            errorMessage: `<span class="i18" key="PoliticaPrivacidadeObrigatoria">${i18next.t("PoliticaPrivacidadeObrigatoria")}</span>`
+        },
+    ])
     validator.onSuccess(async (e) => {
         e.preventDefault();
         limparMensagem(mensagemErro);
-      
-        loader.show(); // Exibe o loader
       
         const resultado = await postUsuario("auth/register", {
             "Name": nome.value,
@@ -159,39 +248,5 @@ validator
         if (resultado){
             apresentarResultado()
         }
-      
-        loader.hide(); // Oculta o loader
-});
-
-botao.addEventListener("click", async() => {
-    let endpoint = `auth/resend-confirm-email?id=${idUsuario}`
-    const config = configuracaoFetch("GET")
-    const data = await executarFetch(endpoint, config)
-
-    if(data)
-        notificacaoSucesso(data.message)
-})
-
-async function postUsuario(endpoint, body) {
-    const config = configuracaoFetch("POST", body)
-
-    const callbackServidor = data => {
-        mensagemErro.classList.add("text-danger")
-        data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
-    }
-
-    const data = await executarFetch(endpoint, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
-
-    if (!data) return false
-
-    idUsuario = data.results
-    notificacaoSucesso(data.message)
-    return true
-}
-
-function apresentarResultado() {
-    h1.style.display = "none"
-    h4.style.display = "none"
-    formulario.style.display = "none"
-    divResposta.classList.remove("d-none")
+    });
 }

@@ -19,13 +19,10 @@
 				<h5 class="i18" key="Configuracoes">Configurações</h5>
 
 				<!-- Config Menu -->
-				<ul class="list-group list-group-flush config-menu-list">
-					<button class="list-group-item list-group-item-action my-1 border-0 rounded-4 active" menu="0"><i
-							class="bi bi-gear me-2"></i> <span class="i18" key="Editar">Editar informações</span> </button>
-					<button class="list-group-item list-group-item-action my-1 border-0 rounded-4" menu="1"><i
-							class="bi bi-people me-2"></i><span class="i18" key="Times">Times</span> </button>
-					<button class="list-group-item list-group-item-action my-1 border-0 rounded-4" menu="2"><i
-							class="bi bi-lock me-2"></i><span class="i18" key="Exclusao">Exclusão</span></button>
+				<ul class="list-group list-group-flush config-menu-list" id="config-menu-list">
+					<button class="list-group-item list-group-item-action my-1 border-0 rounded-4 active" menu="0"><i class="bi bi-gear me-2"></i> <span class="i18" key="Editar">Editar informações</span> </button>
+					<button class="list-group-item list-group-item-action my-1 border-0 rounded-4" menu="1"><i class="bi bi-people me-2"></i><span class="i18" key="Times">Times</span> </button>
+					<button class="list-group-item list-group-item-action my-1 border-0 rounded-4" menu="2"><i class="bi bi-lock me-2"></i><span class="i18" key="Exclusao">Exclusão</span></button>
 					<!-- <button class="list-group-item list-group-item-action my-1 border-0 mb-2 rounded-4"><i class="bi bi-envelope me-2"></i>Emails/Sessões</button> -->
 				</ul>
 			</section>
@@ -40,7 +37,6 @@
 						<hr>
 						<div class="row mt-3 justify-mobile-pic">
 							<div class="col-1 position-relative p-0 overflow-hidden rounded-circle config-user-pic-mod-wrapper">
-								<!-- $ Imagem de Pefil do Usuário  ../default-user-image.png - preview? -->
 								<img src="https://playoffs-api.up.railway.app/img/fefabe2b-4038-4b8c-b719-54fbbe9095a4" alt="Imagem do campeonato"
 									class="img-fluid position-absolute w-100 h-100" id="config-championship-pic-mod">
 							</div>
@@ -48,12 +44,13 @@
 								<div class="d-flex justify-mobile-pic align-items-end h-100">
 									<label for="config-championship-image-input" class="btn play-btn-primary i18" key="Logo">Alterar logo</label>
 								</div>
+								<div id="imagem-erro-jv"></div>
 							</div>
 						</div>
 
 						<div class="mt-4">
 							<form id="update-profile-form" class="row">
-								<input type="file" class="d-none" id="config-championship-image-input">
+								<input type="file" class="d-none" id="config-championship-image-input" accept=".jpeg, .jpg, .png, .webp, .gif, .bmp, .tiff">
 								<input type="hidden" name="logo" id="config-imagem-input-hidden">
 								<div class="col-12 mt-3">
 									<label for="config-championship-name-input" class="form-label i18" key="FormularioNomeCampeonato">Nome do campeonato</label>
@@ -105,27 +102,33 @@
 									</select>
 								</div>
 								<div class="col-6 mt-3">
-									<label for="config-championship-numero-input" class="form-label i18" key="QuantidadeTimes">Número de times</label>
+									<label for="config-championship-numero-input" class="form-label i18" key="QuantidadeTimes">Número de times:</label>
 									<select name="config-championship-numero-input" class="form-select rounded-4"
 										id="config-championship-numero-input">
-										<option value="" class="i18" key="SelecioneFormatoAntes" selected>Selecione o formato antes</option>
+										<option value="" class="i18" key="SelecioneFormatoAntes">Selecione o formato antes</option>
 									</select>
 								</div>
 								<div class="col-12 mt-3">
-									<label for="config-championship-esporte-input" class="form-label i18" key="FormularioEsporte">Esporte</label>
+									<label for="config-championship-esporte-input" class="form-label i18" key="FormularioEsporte">Esporte:</label>
 									<select class="form-select rounded-4" id="config-championship-esporte-input" disabled>
 										<option value="1" class="i18" key="FormularioEsporteFutebol">Futebol</option>
 										<option value="2" class="i18" key="FormularioEsporteVolei">Vôlei</option>
 									</select>
 								</div>
 								<div class="col-md-12 mt-3">
-									<label for="quantidade-jogadores" class="form-label">Quantidade de Jogadores por Time</label>
-									<input type="number" class="form-control rounded-4" id="quantidade-jogadores" name="quantidade-jogadores" placeholder="Quantidade de jogadores...">
+									<label for="quantidade-jogadores" class="form-label i18" key="QuantidadeJogadores">Quantidade de Jogadores por Time:</label>
+									<input type="number" class="form-control rounded-4 i18-placeholder" key="QuantidadeJogadoresPlaceholderDisabled" id="quantidade-jogadores" name="quantidade-jogadores" placeholder="{{placeholder}}">
 								</div>
 								<div class="col-12 mt-3">
-									<label for="config-championship-regulamento-input" class="i18" key="Regulamento">Regulamento do campeonato</label>
-									<a href="javascript:void(0)" class="d-none i18" id="regulamento-existente" key="Baixar">Baixar regulamento</a>
+									<label for="config-championship-regulamento-input" class="i18" key="Regulamento">
+										Regulamento do campeonato:
+									</label>
+									<br>
+									<small class="i18" key="EspecificacoesRegulamento">O arquivo deve ser de tipo PDF e deve ter um tamanho menor que 20 mb.</small>
+									
 									<input type="file" class="form-control" id="config-championship-regulamento-input">
+
+									<a href="javascript:void(0)" class="d-none i18" id="regulamento-existente" key="Baixar">Baixar regulamento</a>
 								</div>
 								<div class="mt-4">
 									<p class="text-danger" id="mensagem-erro"></p>
@@ -139,20 +142,18 @@
 					<div class="d-none menu-config width-config-input" menu="1">
 						<h5 class="i18" key="VincularTimes">Vincular times</h5>
 						<hr>
-						<h6 class="i18" key="TimesVinculados">Times vinculados</h6>
-						<ul class="list-group list-group-flush border-2 border-primary my-3" id="times-vinculados">
-
-						</ul>
-						<button type="button" class="btn btn-primary" id="botao-vincular-time"><i
-								class="bi bi-plus-circle px-2"></i> <span class="i18" key="VincularNovo">Vincular novo time</span> </button>
+						<button type="button" class="btn btn-primary mb-3" id="botao-vincular-time"><i class="bi bi-plus-circle px-2"></i> <span class="i18" key="VincularNovo">Vincular novo time</span> </button>
 						<form class="form-group mt-3 d-none" id="pesquisa-time">
 							<label for="pesquisa-time-input" class="i18" key="Pesquise">Pesquise o nome do time que deseja adicionar:</label>
-							<input type="search" name="query" id="pesquisa-time-input" class="form-control i18-placeholder" key="PesquisePlaceholder"
-								placeholder="Escreva o nome de um time para pesquisar...">
+							<input type="search" name="query" id="pesquisa-time-input" class="form-control i18-placeholder" key="PesquisePlaceholder" placeholder="Escreva o nome de um time para pesquisar...">
 							<ul class="list-group list-group-flush border-2 border-primary my-3" id="pesquisa-time-lista">
 
 							</ul>
 						</form>
+						<h6 class="i18" key="TimesVinculados">Times vinculados</h6>
+						<ul class="list-group list-group-flush border-2 border-primary my-3" id="times-vinculados">
+
+						</ul>
 					</div>
 					<div class="d-none menu-config width-config-input" menu="2">
 						<h5 class="text-danger i18" key="ExcluirCampeonato">Excluir Campeonato</h5>
@@ -179,7 +180,7 @@
 					<div class="modal-dialog">
 						<div class="modal-content p-3">
 							<div class="modal-header">
-								<h1 class="modal-title fs-5" id="deleteChampionshipLabel i18" key="Certeza">Você tem certeza?</h1>
+								<h1 class="modal-title fs-5 i18" id="deleteChampionshipLabel" key="Certeza">Você tem certeza?</h1>
 								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 							</div>
 							<!-- form -->
@@ -194,13 +195,8 @@
 									</p>
 									<div class="col-12 mt-3">
 										<label for="delete-account-user-name-input" class="form-label i18" key="NomeUsuario">Nome de Usuário</label>
-										<input type="text" class="form-control" id="delete-user-name-input i18-placeholder" key="NomeUsuarioPlaceholder" placeholder="Nome de Usuário">
+										<input type="text" class="form-control i18-placeholder" id="delete-user-name-input" key="NomeUsuarioPlaceholder" placeholder="Nome de Usuário">
 									</div>
-									<div class="col-12 mt-3">
-										<label for="delete-account-check-input" class="form-label i18" key="DigiteExcluir">Digite "Excluir Campeonato"</label>
-										<input type="text" class="form-control i18-placeholder" key="DigiteExcluirPlaceholder" id="delete-championship-check-input" placeholder="Digite aqui...">
-									</div>
-
 								</div>
 								<div class="modal-footer justify-content-center">
 									<button type="submit" class="btn btn-danger i18" key="ExcluirCampeonato">Excluir Campeonato</button>

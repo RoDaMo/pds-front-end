@@ -1,19 +1,17 @@
 import { configuracaoFetch, limparMensagem, executarFetch } from "./utilidades/configFetch"
 import { notificacaoErro } from "./utilidades/notificacoes"
 import { visualizarSenha } from "./utilidades/visualizar-senha"
+import JustValidate from "just-validate"
 import portugues from './i18n/ptbr/redefinir-senha.json' assert { type: 'JSON' }
 import ingles from './i18n/en/redefinir-senha.json' assert { type: 'JSON' }
 import i18next from "i18next";
 import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
+import './utilidades/loader'
 
-inicializarInternacionalizacao(ingles, portugues);
+const loader = document.createElement('app-loader')
+document.body.appendChild(loader)
 
-const tradutor = document.querySelector('#lingua')
-tradutor.addEventListener('change', event => {
-    const selectedIndex = event.target.selectedIndex;
-    localStorage.setItem('lng', event.target.children[selectedIndex].value);
-    document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
-})
+inicializarInternacionalizacao(ingles, portugues)
 
 const opcao1 = document.getElementById("1")
 const opcao2 = document.getElementById("2")
@@ -28,10 +26,8 @@ window.addEventListener("DOMContentLoaded", async(e) => {
     const divReposta = document.getElementById("div-reposta")
     const divReposta2 = document.getElementById("div-reposta-2")
 
-    let queryString = window.location.search
-    let endpoint = `auth/reset-password${queryString}`
-    const config = configuracaoFetch("GET")
-    const data = await executarFetch(endpoint, config)
+    const queryString = window.location.search
+    const data = await executarFetch(`auth/reset-password${queryString}`, configuracaoFetch("GET"))
 
     if(!data) {
         divReposta.classList.remove("d-none")
@@ -57,22 +53,57 @@ const textoCaractere = document.getElementById("texto-caractere")
 const iconeEspecial = document.getElementById("icone-especial")
 const textoEspecial = document.getElementById("texto-especial")
 
+const validator = new JustValidate(formulario, {
+    validateBeforeSubmitting: true,
+})
+
 formulario.addEventListener("submit", async(e) => {
     e.preventDefault()
     limparMensagem(mensagemErro)
 
     if(!validacoes()) return
-
     await postToken({
         "Email": email,
         "Password": senha.value,
     })
 })
 
+const criarValidator = () => {
+    validator
+        .addField(senha, [
+            {
+                rule: 'required',
+                errorMessage: `<span class="i18" key="SenhaObrigatoria">${i18next.t("SenhaObrigatoria")}</span>`
+            },
+            {
+                rule: 'customRegexp',
+                value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{4,}$/,
+                errorMessage: " ",
+            }
+        ])
+        validator.onSuccess(async (e) => {
+            e.preventDefault();
+            limparMensagem(mensagemErro);
+          
+            if(!validacoes()) return
+    
+          
+            await postToken({
+                "Email": email,
+                "Password": senha.value,
+            })
+    });
+}
+
+criarValidator()
+document.addEventListener('nova-lingua', criarValidator)
+
 async function postToken(body) {
     const config = configuracaoFetch("POST", body)
-   
+
+    loader.show()
     const res = await fetch(`https://playoffs-api.up.railway.app/auth/reset-password`, config)
+    loader.hide()
 
     const data = await res.json()
 
@@ -123,3 +154,5 @@ const validacoes = () => {
 
     return controle;
 }
+
+document.addEventListener('DOMContentLoaded', () => document.dispatchEvent(new Event('header-carregado', { bubbles: true })))

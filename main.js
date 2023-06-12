@@ -1,18 +1,29 @@
 
-import { inicializarInternacionalizacao } from './js/utilidades/internacionalizacao'
-import { configuracaoFetch, executarFetch } from './js/utilidades/configFetch';
+import { inicializarInternacionalizacao, inicializarInternacionalizacaoGlobal } from './js/utilidades/internacionalizacao'
+import { configuracaoFetch, api } from './js/utilidades/configFetch';
 import globalEn from './js/i18n/en/main.json' assert { type: 'JSON' };
 import globalPt from './js/i18n/ptbr/main.json' assert { type: 'JSON' };
 import '/scss/styles.scss'
 import 'bootstrap-icons/font/bootstrap-icons.scss'
+import i18next from 'i18next';
 import * as bootstrap from 'bootstrap'
 
 if (!localStorage.getItem('lng')) {
   localStorage.setItem('lng', 'ptbr')
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   inicializarInternacionalizacao(globalEn, globalPt)
+  inicializarInternacionalizacaoGlobal()
+  document.addEventListener('header-carregado', () => {
+    document.getElementById('lingua').addEventListener('change', event => {
+      const selectedIndex = event.target.selectedIndex;
+      localStorage.setItem('lng', event.target.children[selectedIndex].value);
+      i18next.changeLanguage(localStorage.getItem('lng'))
+      document.body.dispatchEvent(new Event('nova-lingua', { bubbles: true }))
+    })
+  })
+
   const pesquisa = document.getElementById("pesquisa")
   const barraPesquisa = document.getElementById("barra-pesquisa")
   
@@ -23,9 +34,21 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   }
 
-  if (document.body.getAttribute('requires-auth')) {
-    const config = configuracaoFetch('GET'),
-          response = executarFetch('auth', config)
-  }
-})
+  const config = configuracaoFetch('GET'),
+        response = await fetch(`${api}auth/user`, config)
 
+  localStorage.setItem('autenticado', response.ok)
+  if (response.ok) {
+    const resultados = await response.json()
+    localStorage.setItem('user-info', JSON.stringify(resultados.results))
+  } else {
+    localStorage.removeItem('user-info')
+    if (document.body.getAttribute('requires-auth'))
+      window.location.assign('/')
+  }
+
+  if (document.body.getAttribute('only-anon') && response.ok) 
+    window.location.assign('/')
+
+  document.dispatchEvent(new Event('autenticado', { bubbles: true }))
+})
