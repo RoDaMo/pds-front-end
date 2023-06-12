@@ -417,6 +417,8 @@ const init = async () => {
 				const isValid = await validator.revalidateField(regulamento)
 				if (!isValid) return;
 
+				if (regulamento.files.length == 0) return;
+
 				loader.show()
 				const data = await uploadImagem(regulamento, 2, mensagemErro)
 				loader.hide()
