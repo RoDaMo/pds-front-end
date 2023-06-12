@@ -38,7 +38,11 @@ export default defineConfig({
         confirmacaoCadastro: resolve(__dirname, 'pages/confirmacao-cadastro.html'),
         configuracaoUsuarios: resolve(__dirname, 'pages/configuracao-usuarios.html'),
         configuracaoCampeonato: resolve(__dirname, 'pages/configuracao-campeonato.html'),
-        recuperarSenha: resolve(__dirname, 'pages/recuperar-senha.html')
+        recuperarSenha: resolve(__dirname, 'pages/recuperar-senha.html'),
+        cookies: resolve(__dirname, 'pages/cookies.html'),
+        sobreNos: resolve(__dirname, 'pages/sobre-nos.html'),
+        termosPrivacidade: resolve(__dirname, 'pages/termos-de-privacidade.html'),
+        termosDeUso: resolve(__dirname, 'pages/termos-de-uso.html')
       }
     }
   },

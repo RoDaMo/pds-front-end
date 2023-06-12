@@ -12,12 +12,12 @@ class footer extends HTMLElement {
                 
                 <div class="col-auto">
                 <ul class="list-group list-group-horizontal list-group-flush">
-                    <li class="list-group-item border-0 opacity-75"><a href="../pages/termos-de-privacidade.html" class="i18" key="Politica">Política</a></li>
-                    <li class="list-group-item border-0 opacity-75"><a href="../pages/termos-de-uso.html" class="i18" key="Termos">Termos</a></li>
+                    <li class="list-group-item border-0 opacity-75"><a href="/pages/termos-de-privacidade.html" class="i18" key="Politica">Política</a></li>
+                    <li class="list-group-item border-0 opacity-75"><a href="/pages/termos-de-uso.html" class="i18" key="Termos">Termos</a></li>
                 </ul>
                 <ul class="list-group list-group-horizontal list-group-flush">
-                    <li class="list-group-item border-0 opacity-75"><a href="../pages/sobre-nos.html" class="i18" key="Sobre">Sobre</a></li>
-                    <li class="list-group-item border-0 opacity-75"><a href="../pages/cookies.html">Cookies</a></li>
+                    <li class="list-group-item border-0 opacity-75"><a href="/pages/sobre-nos.html" class="i18" key="Sobre">Sobre</a></li>
+                    <li class="list-group-item border-0 opacity-75"><a href="/pages/cookies.html">Cookies</a></li>
                 </ul>
                 </div>
             </section>
