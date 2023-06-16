@@ -18,27 +18,36 @@
                     <div class="mt-6r championship-chars d-inline-flex">
                         <div class="d-inline-flex championship-char">
                             <!-- Ícone mudar de acordo com o esporte praticado do time atual (Extra / WIP) -->
-                            <img src="../icons/sports_soccer.svg" alt="sport-icon" class="sports-icon mb-3">
+                            <img src="../icons/sports_soccer.svg" alt="sport-icon" class="sports-icon me-1">
 
                             <!-- $ Esporte do Campeonato -->
                             <p id="championship-sport">Sport</p>
                         </div>
+                        <i class="bi bi-dot mx-2"></i>
+                        <div class="d-inline-flex championship-char">
+                            <i class="bi bi-calendar-week me-1"></i>
+
+                            <!-- $ Datas do Campeonato -->
+                            <span id="data-inicial">dataI</span>
+                            <p class="mx-1">até</p>
+                            <span id="data-final">dataF</span>
+                        </div>
                     </div>
 
                     <!-- $ Descrição do Campeonato -->
-                    <p id="championship-desc" class="align-text-bottom championship-desc">
+                    <p id="championship-desc" class="align-text-bottom championship-desc text-break">
                         Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aliquam in qui error odio sed? Inventore ab natus tenetur officiis distinctio sunt rem facere totam odit reiciendis aut neque, excepturi dignissimos!
                     </p>
                 </div>
                 <div class="col me-4">
                     <div class="position-relative overflow-hidden rounded-circle championship-pic-wrapper mx-auto me-0">
 
-                        <!-- $ Imagem de Pefil do Usuário -->
+                        <!-- $ Imagem do Campeonato -->
                         <img src="" alt="championship-pic" class="img-fluid position-absolute w-100 h-100" id="championship-pic">
                     </div>
                     <div class="mt-3 me-4">
 
-                        <!-- $ Nome Real do Usuário -->
+                        <!-- $ Nome do Campeonato -->
                         <p id="name" class="text-end fs-4 championship-name"></p>
                     </div>
                     <!-- <div class="mx-auto me-3 d-flex justify-content-end">

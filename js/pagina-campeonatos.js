@@ -42,46 +42,42 @@ window.onload = () => {
         championshipName.innerText = 'Name'
     }
 
-if (mediaQueryMobile.matches) {
-    document.addEventListener('DOMContentLoaded', () => {
-        if (ssTeamContent.length == 0) {
-            ssFirstContent.classList.add('justify-content-center', 'align-items-center')
-            ssFirstContent.innerHTML = `
-                <div>
-                    <span class="i18" key="NenhumTime">${i18next.t("NenhumTime")}</span>
-                </div>
-            `
+    if (ssTeamContent.length == 0) {
+        ssFirstContent.classList.add('justify-content-center', 'align-items-center')
+        ssFirstContent.innerHTML = `
+            <div class="p-5">
+                <span class="i18" key="NenhumTime">${i18next.t("NenhumTime")}</span>
+            </div>
+        `
+    }
 
-            championshipChars.classList.add('d-none')
-        }
-    })
-
-    championshipInfo.firstElementChild.classList.remove("ms-3")
-    championshipChars.classList.replace("mt-6r", "mt-5")
-    championshipPicWrapper.parentElement.classList.remove("me-4")
-    championshipPicWrapper.classList.remove("me-0")
-    championshipName.parentElement.classList.remove("me-4")
-    championshipName.classList.replace("text-end", "text-center")
-    // championshipConfigBtn.parentElement.classList.remove("me-3")
-    // championshipConfigBtn.parentElement.classList.replace("justify-content-end", "justify-content-center")
-
-    ssSlider.classList.replace('w-100', 'vw-100')
-    sportsSection.classList.remove('ms-4')
-    ssFirstContentWrapper.classList.replace('w-90', 'w-100')
-    ssTeamContent.forEach(content => {
-        if (ssTeamContent.length > 1) {
-            content.classList.replace('w-100', 'w-75')
-        } else {
-            content.classList.replace('w-100', 'w-87')
-        }
-         
-        content.classList.add('mx-2')
-    })
-    ssTeamName.forEach(name => {
-        name.parentElement.classList.add('w-50')
-    })
-}
     if (mediaQueryMobile.matches) {
+
+        championshipInfo.firstElementChild.classList.remove("ms-3")
+        championshipChars.classList.replace("mt-6r", "mt-5")
+        championshipPicWrapper.parentElement.classList.remove("me-4")
+        championshipPicWrapper.classList.remove("me-0")
+        championshipName.parentElement.classList.remove("me-4")
+        championshipName.classList.replace("text-end", "text-center")
+        // championshipConfigBtn.parentElement.classList.remove("me-3")
+        // championshipConfigBtn.parentElement.classList.replace("justify-content-end", "justify-content-center")
+
+        ssSlider.classList.replace('w-100', 'vw-100')
+        sportsSection.classList.remove('ms-4')
+        ssFirstContentWrapper.classList.replace('w-90', 'w-100')
+        ssTeamContent.forEach(content => {
+            if (ssTeamContent.length > 1) {
+                content.classList.replace('w-100', 'w-75')
+            } else {
+                content.classList.replace('w-100', 'w-87')
+            }
+            
+            content.classList.add('mx-2')
+        })
+        ssTeamName.forEach(name => {
+            name.parentElement.classList.add('w-50')
+        })
+
         document.addEventListener('DOMContentLoaded', () => {
             if (ssTeamContent.length == 0) {
                 ssFirstContent.classList.add('justify-content-center', 'align-items-center')
