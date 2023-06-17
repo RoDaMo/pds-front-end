@@ -168,6 +168,19 @@ body, html {
     }
 }
 
+.download-btn {
+
+    &:hover {
+        background: $play-cor-fundos-secundaria;
+    }
+
+    &:active {
+        background: $play-cor-fundos-secundaria;
+        filter: brightness(0.9);
+        
+    }
+}
+
 @include media-breakpoint-down(sm) {
     .bg-grad {
         height: 10rem;

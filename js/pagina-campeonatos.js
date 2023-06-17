@@ -19,6 +19,10 @@ const ssFirstContent = document.querySelector('.ss-first-content')
 const ssTeamContent = document.querySelectorAll('.ss-team-content')
 const ssTeamName = document.querySelectorAll('.ss-team-name')
 
+// const championshipSport = document.getElementById('championshipSport')
+
+const teamsSportIcon = document.querySelectorAll('.teams-sport-icon')
+
 const championshipInfo = document.querySelector('.championship-info')
 const championshipDesc = document.querySelector('.championship-desc')
 const championshipPicWrapper = document.querySelector('.championship-pic-wrapper')
@@ -28,6 +32,7 @@ const championshipChars = document.querySelector('.championship-chars'),
         championshipChar = document.querySelectorAll('.championship-char')
 const championshipPic = document.querySelector('#championship-pic')
         // botaoEditar = document.getElementById('botao-campeonato-editar')
+
 
 window.onload = () => {
     if (championshipPic.getAttribute('src') == '') {
@@ -52,9 +57,15 @@ window.onload = () => {
     }
 
     if (mediaQueryMobile.matches) {
+        teamsSportIcon.forEach(icon => {
+            icon.classList.remove('me-3')
+        })
 
+        championshipInfo.firstElementChild.classList.add('d-flex', 'justify-content-center')
         championshipInfo.firstElementChild.classList.remove("ms-3")
+        championshipDesc.classList.add('text-center')
         championshipChars.classList.replace("mt-6r", "mt-5")
+        championshipChars.classList.add('justify-content-center')
         championshipPicWrapper.parentElement.classList.remove("me-4")
         championshipPicWrapper.classList.remove("me-0")
         championshipName.parentElement.classList.remove("me-4")

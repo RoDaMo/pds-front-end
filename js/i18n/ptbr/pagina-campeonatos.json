@@ -1,9 +1,12 @@
 {
     "TituloPagina": "Página de Usuário",
     "Times": "Times",
+    "BaixarRegulamento": "Baixar regulamento",
     "Politica": "Política",
     "Sobre": "Sobre",
     "Termos": "Termos",
     "NenhumTime": "Nenhum time por aqui...",
-    "SemDescricao": "Sem descrição"
+    "SemDescricao": "Sem descrição",
+    "Vôlei": "Vôlei",
+    "Futebol": "Futebol"
 }
