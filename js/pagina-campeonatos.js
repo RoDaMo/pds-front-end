@@ -75,15 +75,6 @@ function ssTeamContentMobile() {
     ssTeamName.forEach(name => {
         name.parentElement.classList.add('w-50')
     })
-
-    if (ssTeamContent.length == 0) {
-        ssFirstContent.classList.add('justify-content-center', 'align-items-center')
-        ssFirstContent.innerHTML = `
-            <div class="p-5">
-                <span class="i18" key="NenhumTime">${i18next.t("NenhumTime")}</span>
-            </div>
-        `
-    }
 }
 
 window.onload = () => {
@@ -186,6 +177,15 @@ const obterInfo = async () => {
 
     if (mediaQueryMobile.matches) {
         ssTeamContentMobile()
+    }
+
+    if (ssTeamContent.length == 0) {
+        ssFirstContent.classList.add('justify-content-center', 'align-items-center')
+        ssFirstContent.innerHTML = `
+            <div class="p-5">
+                <span class="i18" key="NenhumTime">${i18next.t("NenhumTime")}</span>
+            </div>
+        `
     }
 }
 
