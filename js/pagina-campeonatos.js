@@ -30,6 +30,7 @@ document.body.appendChild(loader);
 const mediaQueryMobile = window.matchMedia('(max-width: 575px)')
 
 var offcanvasNavbar = document.querySelector("#offcanvasNavbar")
+var offcanvasUser = document.querySelector("#offcanvasUser")
 
 const sportsSection = document.querySelector('.sports-section')
 const ssSlider = document.querySelector('.ss-slider')
@@ -103,8 +104,16 @@ window.onload = () => {
     offcanvasNavbar.addEventListener("show.bs.offcanvas", () => {
         ssSlider.classList.toggle('z-9999')
     })
+
+    offcanvasUser.addEventListener("show.bs.offcanvas", () => {
+        ssSlider.classList.toggle('z-9999')
+    })
     
     offcanvasNavbar.addEventListener("hide.bs.offcanvas", () => {
+        ssSlider.classList.toggle('z-9999')
+    })
+
+    offcanvasUser.addEventListener("hide.bs.offcanvas", () => {
         ssSlider.classList.toggle('z-9999')
     })
 
