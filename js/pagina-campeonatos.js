@@ -39,7 +39,8 @@ const ssFirstContent = document.querySelector('.ss-first-content')
 
 const ssTeamName = document.querySelectorAll('.ss-team-name')
 
-// const championshipSport = document.getElementById('championshipSport')
+const championshipSport = document.getElementById('championshipSport')
+const championshipSportIcon = document.getElementById('championshipSportIcon')
 
 const teamsSportIcon = document.querySelectorAll('.teams-sport-icon')
 
@@ -153,6 +154,8 @@ const obterInfo = async () => {
     document.getElementById("name").textContent = data.results.name
     document.getElementById("regulamento").href = data.results.rules
 
+    let iconSrc = (data.results.sportsId === 1) ? '../icons/sports_soccer.svg' : '../icons/sports_volleyball.svg'
+
     data.results.teams.forEach((e) => {
         document.getElementById("times").innerHTML += `
             <div class="d-flex w-100 rounded-5 mb-3 mt-5 mt-md-0 ss-team-content">
@@ -167,26 +170,36 @@ const obterInfo = async () => {
 
                 </span>
                 <span class="d-flex justify-content-end ms-auto sports-icon-wrapper">
-                    <img src="../icons/sports_soccer.svg" alt="sport-icon" class="sports-icon teams-sport-icon mt-3 me-3">
+                    <img src="${iconSrc}" alt="sport-icon" class="sports-icon teams-sport-icon mt-3 me-3">
                 </span>
             </div>
         `
-
-        
     })
+
+    if (data.results.sportsId === 1) {
+        championshipSportIcon.src = '../icons/sports_soccer.svg'
+
+    } else {
+        championshipSportIcon.src = '../icons/sports_volleyball.svg'
+
+    }
 
     if (mediaQueryMobile.matches) {
         ssTeamContentMobile()
+    } else {
+        const ssTeamContent = document.querySelectorAll('.ss-team-content')
+
+        if (ssTeamContent.length == 0) {
+            ssFirstContent.classList.add('justify-content-center', 'align-items-center')
+            ssFirstContent.innerHTML = `
+                <div class="p-5">
+                    <span class="i18" key="NenhumTime">${i18next.t("NenhumTime")}</span>
+                </div>
+            `
+        }
     }
 
-    if (ssTeamContent.length == 0) {
-        ssFirstContent.classList.add('justify-content-center', 'align-items-center')
-        ssFirstContent.innerHTML = `
-            <div class="p-5">
-                <span class="i18" key="NenhumTime">${i18next.t("NenhumTime")}</span>
-            </div>
-        `
-    }
+    
 }
 
 obterInfo();
