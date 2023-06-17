@@ -131,6 +131,10 @@ body, html {
     background: $play-cor-fundos;
     max-height: 23rem;
     overflow-y: auto;
+
+    div {
+        flex: 0 0 auto;
+    }
 }
 
 .ss-slider {
@@ -166,10 +170,21 @@ body, html {
         top: -5.5rem;
         right: 37.5rem;
     }
+
+    .ss-slider {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
 }
 
 .download-btn {
-
     &:hover {
         background: $play-cor-fundos-secundaria;
     }
