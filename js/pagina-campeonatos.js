@@ -40,7 +40,7 @@ window.onload = () => {
     }
 
     if (championshipDesc.innerText == '') {
-        championshipDesc.innerHTML = `<span class="i18" key="SemDescricao">${i18next.t("SemDescricao")}</span>`
+        championshipDesc.innerHTML = `<span id="camp-bio" class="i18" key="SemDescricao">${i18next.t("SemDescricao")}</span>`
     }
 
     if (championshipName.innerText == '') {
@@ -130,3 +130,51 @@ window.onload = () => {
     }
 }
 
+
+const mensagemErro = document.getElementById("mensagem-erro")
+const parametroUrl = new URLSearchParams(window.location.search);
+const obterInfo = async () => {
+    const id = parametroUrl.get('id')
+    console.log(id)
+
+    const config = configuracaoFetch("GET")
+    
+    const callbackServidor = data => {
+        mensagemErro.classList.add("text-danger")
+        data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
+    }
+    
+    loader.show()
+    const data = await executarFetch(`championships/${id}`, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
+    loader.hide()
+    
+    document.getElementById("championship-pic").src = !data.results.logo ? '../default-user-image.png' : data.results.logo
+    document.getElementById("championship-desc").textContent = data.results.description
+    document.getElementById("championshipSport").textContent = data.results.sportsId === 1 ? "Futebol" : "Vôlei"
+    document.getElementById("data-inicial").textContent = new Date(data.results.initialDate).toLocaleDateString('pt-BR')
+    document.getElementById("data-final").textContent = new Date(data.results.finalDate).toLocaleDateString('pt-BR')
+    document.getElementById("name").textContent = data.results.name
+    document.getElementById("regulamento").href = data.results.rules
+
+    data.results.teams.forEach((e) => {
+        document.getElementById("times").innerHTML += `
+            <div class="d-flex w-100 rounded-5 mb-3 mt-5 mt-md-0 ss-team-content">
+
+                <div class="position-relative m-3 overflow-hidden rounded-circle ss-team-logo">
+                    <img src=${e.emblem} alt="user" class="img-fluid position-absolute mw-100 h-100">
+                </div>
+
+                <span>
+
+                    <p class="mt-3 ss-team-name w-100 fs-5 text-nowrap text-truncate d-block">${e.name}</p>
+
+                </span>
+                <span class="d-flex justify-content-end sports-icon-wrapper">
+                    <img src="../icons/sports_soccer.svg" alt="sport-icon" class="sports-icon teams-sport-icon mt-3 me-3">
+                </span>
+            </div>
+        `
+    })
+}
+
+obterInfo();
