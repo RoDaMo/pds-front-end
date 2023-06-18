@@ -204,12 +204,12 @@ const exibirDados = async (data) => {
 
     data.results.forEach(e => {
         conteudo.innerHTML += 
-        `
-            <div class="card card-body mt-5 border border-2 rounded-custom text-black ">
+        /*html*/`
+            <div class="card card-body mt-5 border border-2 rounded-custom text-black">
                 <a href="pagina-campeonatos.html?id=${e.id}" class="text-decoration-none">
                     <div class="row gap-0">
                         <div class="col-md-2  d-flex justify-content-center ">
-                            <div >
+                            <div>
                                 <img src="${e.logo}" style="max-height: 105px; max-width: 10rem;" id="logo" class="rounded img-fluid"  alt="Trofeu">
                             </div>
                         </div>
@@ -221,8 +221,8 @@ const exibirDados = async (data) => {
                             </div>
                         </div>
 
-                        <div class="col-md-1 d-flex justify-content-center align-items-center d-none">
-                            <a href="" class="d-none d-sm-block"><img src="/icons/right.svg" width="60"></a>
+                        <div class="col-md-1 d-flex justify-content-center align-items-center">
+                            <img src="/icons/right.svg" width="60">
                         </div> 
                         ${
                             (data.results[data.results.length - 1] === e) ?
