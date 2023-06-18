@@ -29,9 +29,6 @@ document.body.appendChild(loader);
 
 const mediaQueryMobile = window.matchMedia('(max-width: 575px)')
 
-var offcanvasNavbar = document.querySelector("#offcanvasNavbar")
-var offcanvasUser = document.querySelector("#offcanvasUser")
-
 const sportsSection = document.querySelector('.sports-section')
 const ssSlider = document.querySelector('.ss-slider')
 const ssFirstContentWrapper = document.querySelector('.ss-first-content-wrapper')
@@ -78,7 +75,7 @@ function ssTeamContentMobile() {
     })
 }
 
-window.onload = () => {
+document.addEventListener('header-carregado', () => {
     if (championshipPic.getAttribute('src') == '') {
         championshipPic.setAttribute('src', '../default-championship-image.png')
     }
@@ -92,22 +89,15 @@ window.onload = () => {
     }
 
     ssSlider.classList.add('z-9999')
-
-    offcanvasNavbar.addEventListener("show.bs.offcanvas", () => {
-        ssSlider.classList.toggle('z-9999')
-    })
-
-    offcanvasUser.addEventListener("show.bs.offcanvas", () => {
-        ssSlider.classList.toggle('z-9999')
-    })
+    const callback = () => ssSlider.classList.toggle('z-9999')
     
-    offcanvasNavbar.addEventListener("hide.bs.offcanvas", () => {
-        ssSlider.classList.toggle('z-9999')
-    })
-
-    offcanvasUser.addEventListener("hide.bs.offcanvas", () => {
-        ssSlider.classList.toggle('z-9999')
-    })
+    const offcanvasNavbar = document.getElementById("offcanvasNavbar")
+    const offcanvasUser = document.getElementById("offcanvasUser")
+    
+    offcanvasNavbar.addEventListener("show.bs.offcanvas", callback)
+    offcanvasUser.addEventListener("show.bs.offcanvas", callback)
+    offcanvasNavbar.addEventListener("hidden.bs.offcanvas", callback)
+    offcanvasUser.addEventListener("hidden.bs.offcanvas", callback)
 
     if (mediaQueryMobile.matches) {
         teamsSportIcon.forEach(icon => {
@@ -126,8 +116,7 @@ window.onload = () => {
         // championshipConfigBtn.parentElement.classList.remove("me-3")
         // championshipConfigBtn.parentElement.classList.replace("justify-content-end", "justify-content-center")
     }
-}
-
+})
 
 const mensagemErro = document.getElementById("mensagem-erro")
 const parametroUrl = new URLSearchParams(window.location.search);
@@ -146,18 +135,23 @@ const obterInfo = async () => {
     const data = await executarFetch(`championships/${id}`, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
     loader.hide()
     
+    const sport = document.getElementById("championshipSport"),
+          key = data.results.sportsId == 1 ? "Futebol" : "Volei"
+
+    sport.textContent = i18next.t(key)
+    sport.setAttribute('key', key)
+
     document.getElementById("championship-pic").src = !data.results.logo ? '../default-user-image.png' : data.results.logo
     document.getElementById("championship-desc").textContent = data.results.description
-    document.getElementById("championshipSport").textContent = data.results.sportsId === 1 ? "Futebol" : "Vôlei"
     document.getElementById("data-inicial").textContent = new Date(data.results.initialDate).toLocaleDateString('pt-BR')
     document.getElementById("data-final").textContent = new Date(data.results.finalDate).toLocaleDateString('pt-BR')
     document.getElementById("name").textContent = data.results.name
     document.getElementById("regulamento").href = data.results.rules
 
     let iconSrc = (data.results.sportsId === 1) ? '../icons/sports_soccer.svg' : '../icons/sports_volleyball.svg'
-
+    const times = document.getElementById("times")
     data.results.teams.forEach((e) => {
-        document.getElementById("times").innerHTML += `
+        times.innerHTML += `
             <div class="d-flex w-100 rounded-5 mb-3 mt-5 mt-md-0 ss-team-content">
 
                 <div class="position-relative m-3 overflow-hidden rounded-circle ss-team-logo">
