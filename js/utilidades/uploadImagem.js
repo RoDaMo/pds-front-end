@@ -14,5 +14,8 @@ export const uploadImagem = async(input, type, mensagemErro) => {
 
     if (!data) return false
 
+    if (Array.isArray(data.results))
+        return;
+        
     return data
 }

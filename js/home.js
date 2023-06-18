@@ -125,13 +125,13 @@ if (mediaQueryMobile.matches) {
             if (endY > startY && !(isVisible(scrollTrigger[0]))) {
                 scrollTrigger.forEach(trigger => {
                     if (isVisible(trigger) && trigger.classList.contains("bottom-trigger")) {
-                        lenis.scrollTo(trigger.parentElement, {lock: true, duration: 1, force: true})
+                        lenis.scrollTo(trigger.parentElement, {duration: 0.7})
                     }
                 })
             } else if (endY < startY && !(isVisible(scrollTrigger[7]))) {
                 scrollTrigger.forEach(trigger => {
                     if (isVisible(trigger) && trigger.classList.contains("top-trigger")) {
-                        lenis.scrollTo(trigger.parentElement, {lock: true, duration: 1, force: true})
+                        lenis.scrollTo(trigger.parentElement, {duration: 0.7})
                     }
                 })
             }
