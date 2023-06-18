@@ -131,6 +131,7 @@ const listagem = async () => {
     const endpoint = `championships${params.toString() ? '?' + params.toString() : ''}`
     loader.show()
     const data = await executarFetch(endpoint, config, null, callbackServidor)
+    console.log(data)
     loader.hide()
 
     exibirDados(data)
@@ -203,35 +204,37 @@ const exibirDados = async (data) => {
 
     data.results.forEach(e => {
         conteudo.innerHTML += 
-        `
-            <div class="card card-body mt-5 border border-2 rounded-custom text-black ">
-                <div class="row gap-0">
-                    <div class="col-md-2  d-flex justify-content-center ">
-                        <div >
-                            <img src="${e.logo}" style="max-height: 105px; max-width: 10rem;" id="logo" class="rounded img-fluid"  alt="Trofeu">
+        /*html*/`
+            <div class="card card-body mt-5 border border-2 rounded-custom text-black">
+                <a href="pagina-campeonatos.html?id=${e.id}" class="text-decoration-none">
+                    <div class="row gap-0">
+                        <div class="col-md-2  d-flex justify-content-center ">
+                            <div>
+                                <img src="${e.logo}" style="max-height: 105px; max-width: 10rem;" id="logo" class="rounded img-fluid"  alt="Trofeu">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="col-md-9 d-flex flex-column justify-content-center  ">
-                        <h3 id="nome" class="card-title text-success">${e.name}</h3>
-                        <div class="row gap-0">      
-                            <p class="col-md-12 text-success"><i class="bi bi-calendar-event-fill m-1 text-success"></i> <span class="i18" key="De">${i18next.t("De")}</span> ${new Date(e.initialDate).toLocaleDateString('pt-BR')}  <span class="i18" key="Ate">${i18next.t("Ate")}</span> ${new Date(e.finalDate).toLocaleDateString('pt-BR')} -<i class="bi bi-geo-alt-fill m-1 text-success"></i> ${e.nation}, ${e.city}</p>
+                        <div class="col-md-9 d-flex flex-column justify-content-center  ">
+                            <h3 id="nome" class="card-title text-success">${e.name}</h3>
+                            <div class="row gap-0">      
+                                <p class="col-md-12 text-success"><i class="bi bi-calendar-event-fill m-1 text-success"></i> <span class="i18" key="De">${i18next.t("De")}</span> ${new Date(e.initialDate).toLocaleDateString('pt-BR')}  <span class="i18" key="Ate">${i18next.t("Ate")}</span> ${new Date(e.finalDate).toLocaleDateString('pt-BR')} -<i class="bi bi-geo-alt-fill m-1 text-success"></i> ${e.nation}, ${e.city}</p>
+                            </div>
                         </div>
+
+                        <div class="col-md-1 d-flex justify-content-center align-items-center">
+                            <img src="/icons/right.svg" width="60">
+                        </div> 
+                        ${
+                            (data.results[data.results.length - 1] === e) ?
+                            `
+                                <p id="pitId" class="d-none">${e.pitId}</p>
+                                <p id="sort" class="d-none">${e.sort}</p>
+
+                            ` :
+                            ""
+                        }
                     </div>
-
-                    <div class="col-md-1 d-flex justify-content-center align-items-center d-none">
-                        <a href="" class="d-none d-sm-block"><img src="/icons/right.svg" width="60"></a>
-                    </div> 
-                    ${
-                        (data.results[data.results.length - 1] === e) ?
-                        `
-                            <p id="pitId" class="d-none">${e.pitId}</p>
-                            <p id="sort" class="d-none">${e.sort}</p>
-
-                        ` :
-                        ""
-                    }
-                </div>
+                </a>
             </div>
         `;
     });

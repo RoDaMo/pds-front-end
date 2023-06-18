@@ -1,0 +1,138 @@
+{
+    "TituloPagina": "Privacy Terms",
+    "TermosPrivacidade": "Privacy Terms",
+    "SiteMantido": "This website is maintained and operated by the Rodamo Team.",
+    "Coletamos": "We collect and use some personal data belonging to users who use our website. In doing so, we act as controller of this data and are subject to the provisions of Federal Law No. 13,709/2018 (General Law for the Protection of Personal Data - LGPD).",
+    "Compromisso": "We are committed to protecting your personal data and, therefore, we provide this privacy policy that contains important information about:",
+    "QuemDeve": "1. Who should use our website;",
+    "QuaisDados": "2. What data we collect and how we use it;",
+    "Compartilhamento": "3. Sharing data with third parties;",
+    "Tempo": "4. Data storage time;",
+    "Bases": "5. Legal bases for data processing;",
+    "Seguranca": "6. Data processing security measures;",
+    "Alteracoes": "7. Policy Changes;",
+    "Contato": "8. How to contact us.",
+    "QuemDeve2": "1. Who should use our website",
+    "NossoSite": "Our website is intended solely for individuals thirteen (13) years of age or older. Therefore, by accessing and using our website, you represent that you are at least 13 years of age, as required by applicable law. If you are under 13, we ask that you do not use our site and do not provide any personal information. We reserve the right to take steps to verify the age of users and to remove anyone who does not meet the appropriate age requirements.",
+    "DadosColetamos": "2. Data we collect and reasons for collection",
+    "DadosFornecidos": "2.1 Data expressly provided by the user",
+    "NosColetamos": "We collect the following personal data explicitly provided by users when using our website:",
+    "ColetamosEndereco": "We collect the email address provided by users for communication purposes, such as sending important information, updates, notifications and responding to queries.",
+    "Nascimento": "2. Date of Birth:",
+    "SolicitamosData": "We ask users for their date of birth to verify that they are at least 13 years old, as per our minimum age requirements.",
+    "Senha": "3. Password:",
+    "UsuariosSenha": "Users provide a password to access and protect their accounts on our website. It is important to choose a secure password and keep it confidential.",
+    "DeterminadosCasos": "In certain cases, we may request the CPF (Individual Taxpayer Registration) number from users for identity verification purposes, where necessary.",
+    "ColetaDados": "The collection of the aforementioned personal data takes place at the following times:",
+    "Cadastro": "1. User registration:",
+    "AoCadastrar": "When registering on our website, we ask the user to provide their email, date of birth and password, as mentioned above.",
+    "Recuperacao": "2. Password recovery:",
+    "SeUsuario": "If the user forgets his password, he can request recovery by providing the e-mail associated with his account. In this process, the user may be asked to confirm their identity or provide additional information to ensure account security.",
+    "AlteracaoSenha": "3. Password change:",
+    "QuandoUsuario": "When a user chooses to change their password, they provide their chosen new password through a password change process in their account.",
+    "ExclusaoConta": "4. Account deletion:",
+    "CasoExcluir": "If you decide to delete your account, we may collect additional information for the purpose of verifying your identity and processing your deletion request.",
+    "AlteracaoEmail": "5. Email Change:",
+    "UsuarioOptar": "If you choose to change the email address associated with your account, we will ask for the new email address and may perform an identity verification process to ensure account security.",
+    "Criacao": "6. Championship and team creation:",
+    "Organizador": "The organizing and technical user must provide their CPF as a form of authenticity, responsibility and transparency, both for the championship and the team.",
+    "DadosSensiveis": "2.2 Sensitive data",
+    "NaoSerao": "Sensitive user data will not be collected on our website. This includes the data defined in articles 11 et seq. of the Personal Data Protection Law, such as racial or ethnic origin, religious conviction, political opinion, membership of a union or organization of a religious, philosophical or political nature, data relating to health or sex life, genetic or biometric data, when linked to a natural person. We are committed to respecting and protecting the privacy and rights of users in accordance with applicable personal data protection laws and regulations.",
+    "DadosCriancas": "2.3 Data from children and adolescents",
+    "DadosCriancasTexto": "We collect the following data from children and adolescents when using our website:",
+    "ColetaDadosCriancas": "The collection of data from the mentioned children and adolescents occurs at the following times:",
+    "DadosParaConteudo": "The data we collect from children and adolescents is used exclusively for the purpose of adapting the content of our website according to their specific needs and interests. This personalization aims to provide a more appropriate and relevant experience for younger users.",
+    "TratamentoDados": "The processing of personal data of children and adolescents is carried out taking into account the best interest of the child or adolescent, in accordance with applicable laws and regulations. Our goal is to ensure the privacy and safety of younger users, as well as providing a positive and enriching online experience.",
+    "Ressaltamos": "We emphasize that we adopt appropriate measures to protect the personal data of children and adolescents, as well as to obtain adequate consent from parents or legal guardians when necessary. In addition, we comply with the legal provisions related to the collection and processing of data from children and adolescents, ensuring respect for the rights and privacy of younger users.",
+    "CasoPais": "If parents or legal guardians have any questions or concerns regarding the processing of their children's data, we encourage them to contact us so that we can provide additional information and clarify any issues.",
+    "ColetaDadosPrevistos": "2.4. Collection of data not expressly provided for",
+    "Eventualmente": "Eventually, we may collect other types of data in addition to those mentioned in this Privacy Policy. This additional collection will only take place with the express consent of the user or when there is another legal basis provided by law that allows us to collect and process such data.",
+    "ColetaDadosAdicionais": "In the case of additional data collection, we will inform website users about the purpose of the collection, the types of data involved and any processing activities related to this data. This communication will be carried out in a transparent, clear and accessible way for users, so that they can make an informed decision about sharing their data.",
+    "Reforçamos": "We reinforce our commitment to respecting the privacy and rights of users, ensuring compliance with the laws and regulations applicable to the protection of personal data. We always seek to provide transparency about our data collection and processing practices, offering users the possibility to consent or not to further collection, when applicable.",
+    "CasoDuvida": "If you have any questions or concerns regarding data collection, we invite you to contact us for more information. We are available to clarify any further queries and provide details on the data processing activities in question.",
+    "CompartilhamentoDadosPessoais": "3. Sharing data with third parties",
+    "NosEntendemos": "We understand the importance of the privacy of our users' personal data and, as a general rule, we do not share this information with third parties. We are committed to maintaining the confidentiality and security of the personal data we collect.",
+    "NoEntanto": "However, it is important to note that in some specific situations, we may be required to share your personal data to comply with legal, regulatory determinations or orders issued by public authorities. In these circumstances, we will act in accordance with applicable legal requirements and take the necessary steps to protect the privacy and security of your personal data during the sharing process.",
+    "DadosPessoais": "4. How long will your personal data be stored",
+    "OsDadosPessoais": "The personal data collected by the website are stored and used for the period of time necessary to achieve the purposes for which they were collected, taking into account the rights of the data subjects, the legitimate interests of the website controller and the applicable legal or regulatory provisions.",
+    "UmaVez": "Once the period of storage of personal data expires, we will take the appropriate measures to remove them from our databases or make them anonymized, unless there is the possibility or the need for continuous storage in accordance with any legal provision or regulatory.",
+    "EssasMedidas": "These measures are aimed at ensuring the privacy and security of users' personal data, as well as complying with applicable legal and regulatory obligations regarding the storage and retention of data.",
+    "CasoArmazenar": "If personal data needs to be stored for a longer period based on any legal or regulatory requirement, we will ensure that adequate security is applied to the data during the additional storage period.",
+    "BasesLegais": "5. Legal bases for the processing of personal data",
+    "CadaOperacao": "Each personal data processing operation carried out by us is based on a legal basis, in accordance with the permissions established in the General Law for the Protection of Personal Data (LGPD). The legal bases provide valid justifications for carrying out these personal data processing activities.",
+    "NosComprometemos": "We undertake to operate in accordance with the legal bases established by applicable law. For detailed information about the specific legal bases we use for each personal data processing operation, we recommend that you contact us through the channels provided at the end of this Privacy Policy.",
+    "EstamosEmpenhados": "We are committed to providing transparency and clarification of the legal bases used for the processing of personal data, in order to ensure that our practices comply with data protection legislation.",
+    "MedidasSegurancaTratamento": "6. Security measures in the processing of personal data",
+    "EmpregamosTecnicas": "We employ robust technical and organizational measures to protect personal data against unauthorized access, as well as situations that may result in the destruction, loss, misplacement or alteration of such data. We recognize the importance of adopting adequate security measures to guarantee the integrity and confidentiality of the personal data we collect and process.",
+    "MedidasImplementadas": "The security measures we implement take into account the nature of the data, the context and purpose of the treatment, the risks involved and the security standards currently used by similar companies in the market. Among the measures adopted, we highlight:",
+    "ArmazenamentoSenhas": "Storing passwords using cryptographic hashes:",
+    "AsSenhas": "User passwords are stored in encrypted form, which increases security and prevents unauthorized access by third parties.",
+    "Restricoes": "Database access restrictions:",
+    "ImplementamosControles": "We implement access controls to ensure that only authorized persons have access to personal data stored in our databases. This includes adopting security policies and assigning access privileges to specific people.",
+    "ApesarMedidas": "Despite all the measures adopted, it is important to point out that, in certain circumstances, security incidents may occur due to the action of third parties, such as hacker or cracker attacks, or in cases of negligence by the user himself, such as sharing his data with third parties in a way irresponsible. In these exceptional situations, over which we have no direct control, we disclaim responsibility.",
+    "ComprometemosNotificar": "However, we undertake to notify affected users in the event of any security incident that poses a relevant risk or damage to their rights and freedoms, in accordance with the obligations established in the General Data Protection Act. In addition, we will follow the guidelines of the National Data Protection Authority, in case it is necessary to report any security incident.",
+    "ProtegerDados": "We are committed to protecting the security of personal data and acting diligently to prevent and respond to security incidents. If you have any concerns or suspect a security breach, we recommend that you contact us through the contact channels provided at the end of this Privacy Policy.",
+    "AlteracaoPolitica": "7. Changes to this policy",
+    "PresenteVersao": "This version of this Privacy Policy was last updated on: 06/08/2023",
+    "DireitoModificar": "We reserve the right to modify these rules at any time, especially to adapt them to any changes made to our website, either by making new features available, or by suppressing or modifying those that already exist.",
+    "SempreModificacao": "Whenever there is a change, our users will be notified about the change.",
+    "ContatoConosco": "8. How to contact us",
+    "EsclarecerDuvida": "To clarify any doubts about this Privacy Policy or about the processing of personal data carried out by us, you can contact our Personal Data Protection Officer through the following channel:"
+
+    
+
+
+
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+
+
+
+
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+    
+
+
+    
+
+    
+
+    
+
+
+    
+    
+
+
+    
+
+
+
+
+
+
+
+}

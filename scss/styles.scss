@@ -50,6 +50,15 @@ body {
   z-index: 3;
 }
 
+.z-9999 {
+  z-index: 9999;
+}
+
+// o suficiente para nao ficar estranho com o offcanvas aberto
+.z-1039 {
+  z-index: 1039;
+}
+
 .ptx-90 {
   padding-top: 90px !important;
 }

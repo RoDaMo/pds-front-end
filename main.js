@@ -6,6 +6,7 @@ import globalPt from './js/i18n/ptbr/main.json' assert { type: 'JSON' };
 import '/scss/styles.scss'
 import 'bootstrap-icons/font/bootstrap-icons.scss'
 import i18next from 'i18next';
+import { cookie } from './js/utilidades/cookieModal';
 import * as bootstrap from 'bootstrap'
 
 if (!localStorage.getItem('lng')) {
@@ -13,6 +14,19 @@ if (!localStorage.getItem('lng')) {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
+  console.log(document.cookie)
+  if (!document.cookie.includes('aceitou-cookies')) {
+    const cookieTooltip = new cookie()
+    document.body.appendChild(cookieTooltip)
+    const toast = new bootstrap.Toast(cookieTooltip, { autohide: false })
+    toast.show()
+    document.getElementById('btn-aceitar-cookie').addEventListener('click', () => {
+      document.cookie = `aceitou-cookies=true; expires=${new Date().setTime(new Date().getTime() + 2000*24*60*60*1000)};path=/;`
+      toast.hide()
+    })
+  }
+
+
   inicializarInternacionalizacao(globalEn, globalPt)
   inicializarInternacionalizacaoGlobal()
   document.addEventListener('header-carregado', () => {
