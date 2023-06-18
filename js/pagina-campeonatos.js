@@ -75,7 +75,7 @@ function ssTeamContentMobile() {
     })
 }
 
-window.onload = () => {
+document.addEventListener('header-carregado', () => {
     if (championshipPic.getAttribute('src') == '') {
         championshipPic.setAttribute('src', '../default-championship-image.png')
     }
@@ -88,7 +88,16 @@ window.onload = () => {
         championshipName.innerText = 'Name'
     }
 
-    ssSlider.classList.add('z-1039')
+    ssSlider.classList.add('z-9999')
+    const callback = () => ssSlider.classList.toggle('z-9999')
+    
+    const offcanvasNavbar = document.getElementById("offcanvasNavbar")
+    const offcanvasUser = document.getElementById("offcanvasUser")
+    
+    offcanvasNavbar.addEventListener("show.bs.offcanvas", callback)
+    offcanvasUser.addEventListener("show.bs.offcanvas", callback)
+    offcanvasNavbar.addEventListener("hidden.bs.offcanvas", callback)
+    offcanvasUser.addEventListener("hidden.bs.offcanvas", callback)
 
     if (mediaQueryMobile.matches) {
         teamsSportIcon.forEach(icon => {
@@ -107,8 +116,7 @@ window.onload = () => {
         // championshipConfigBtn.parentElement.classList.remove("me-3")
         // championshipConfigBtn.parentElement.classList.replace("justify-content-end", "justify-content-center")
     }
-}
-
+})
 
 const mensagemErro = document.getElementById("mensagem-erro")
 const parametroUrl = new URLSearchParams(window.location.search);
