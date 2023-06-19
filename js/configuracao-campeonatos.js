@@ -426,7 +426,7 @@ const init = async () => {
 				if (Array.isArray(data.results))
 					return;
 
-				imageInput.value = `${api}img/${data.results}`
+				regulamento.value = `${api}img/${data.results}`
 
 				linkRegulamento.href = imageInput.value;
 				linkRegulamento.classList.toggle('d-none', false)
