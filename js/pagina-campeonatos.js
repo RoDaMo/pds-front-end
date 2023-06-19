@@ -146,7 +146,14 @@ const obterInfo = async () => {
     document.getElementById("data-inicial").textContent = new Date(data.results.initialDate).toLocaleDateString('pt-BR')
     document.getElementById("data-final").textContent = new Date(data.results.finalDate).toLocaleDateString('pt-BR')
     document.getElementById("name").textContent = data.results.name
-    document.getElementById("regulamento").href = data.results.rules
+
+    if(data.results.rules){
+        document.getElementById("conteudo").innerHTML += `
+            <button class="btn download-btn rounded-pill fw-semibold card-bg" id="botao-baixar-regulamento">
+                <a href="${data.results.rules}" id="regulamento" class="text-center fs-6 i18 text-decoration-none" key="BaixarRegulamento">Baixar Regulamento</a>
+            </button>
+        `
+    }
 
     let iconSrc = (data.results.sportsId === 1) ? '../icons/sports_soccer.svg' : '../icons/sports_volleyball.svg'
     const times = document.getElementById("times")
