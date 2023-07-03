@@ -1,3 +1,5 @@
+@import "variables.scss";
+
 .custom-file-upload label {
     display: flex;
     justify-content: center;
@@ -21,4 +23,9 @@
 
 textarea{
     height: 18rem;
+}
+
+// Color
+body {
+    background-color: $gray-400 !important;
 }

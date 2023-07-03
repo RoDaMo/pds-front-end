@@ -12,23 +12,23 @@ class footer extends HTMLElement {
                 
                 <div class="col-auto">
                 <ul class="list-group list-group-horizontal list-group-flush">
-                    <li class="list-group-item border-0 opacity-75"><a href="/pages/termos-de-privacidade.html" class="i18" key="Politica">Política</a></li>
-                    <li class="list-group-item border-0 opacity-75"><a href="/pages/termos-de-uso.html" class="i18" key="Termos">Termos</a></li>
+                    <li class="list-group-item bg-transparent border-0 opacity-75"><a href="/pages/termos-de-privacidade.html" class="i18" key="Politica">Política</a></li>
+                    <li class="list-group-item bg-transparent border-0 opacity-75"><a href="/pages/termos-de-uso.html" class="i18" key="Termos">Termos</a></li>
                 </ul>
                 <ul class="list-group list-group-horizontal list-group-flush">
-                    <li class="list-group-item border-0 opacity-75"><a href="/pages/sobre-nos.html" class="i18" key="Sobre">Sobre</a></li>
-                    <li class="list-group-item border-0 opacity-75"><a href="/pages/cookies.html">Cookies</a></li>
+                    <li class="list-group-item bg-transparent border-0 opacity-75"><a href="/pages/sobre-nos.html" class="i18" key="Sobre">Sobre</a></li>
+                    <li class="list-group-item bg-transparent border-0 opacity-75"><a href="/pages/cookies.html">Cookies</a></li>
                 </ul>
                 </div>
             </section>
 
-            <hr class="opacity-50 border rounded-pill m-0 bg-dark d-flex">
+            <hr class="border border-dark rounded-pill my-2 bg-dark d-flex">
             
             <section class="row">
-                <p class="col-auto ms-2 my-auto me-auto text-black opacity-50">@ 2023 RoDaMo</p>
+                <p class="col-auto ms-2 my-auto me-auto text-black opacity-50">&#169 2023 RoDaMo</p>
                 <ul class="col-auto me-2 float-right align-self-end list-group list-group-horizontal list-group-flush">
-                <li class="list-group-item border-0 opacity-75"><a href="https://github.com/RoDaMo"><i class="bi bi-github fs-5"></i></a></li>
-                <li class="list-group-item border-0 opacity-75"><a href="https://www.youtube.com/@EquipeRodamo/featured"><i class="bi bi-youtube fs-5"></i></a></li>
+                <li class="list-group-item bg-transparent border-0 opacity-75"><a href="https://github.com/RoDaMo"><i class="bi bi-github fs-5"></i></a></li>
+                <li class="list-group-item bg-transparent border-0 opacity-75"><a href="https://www.youtube.com/@EquipeRodamo/featured"><i class="bi bi-youtube fs-5"></i></a></li>
                 </ul>
             </section>
         </footer>

@@ -6,7 +6,7 @@
 
 .config-menu-list {
     button {
-        background-color: $play-cor-fundos;
+        background-color: $gray-200;
         transition: all $transition;
 
         &.active {
@@ -15,7 +15,7 @@
         }
 
         &:hover:not(.active) {
-            background: $play-cor-fundos;
+            background: $gray-300;
             color: $play-cor-texto;
             box-shadow: 5px 5px 20px 0px rgb(0 0 0 / 20%);
         }
@@ -83,6 +83,16 @@
     top: -1.5rem;
 }
 
+.config-user-bio {
+    line-break: anywhere;
+}
+
+// Color
+body {
+    background-color: $gray-400 !important;
+}
+
+// Media Queries
 @include media-breakpoint-down(sm) {
     .config-menu {
         margin-bottom: 2rem !important;
@@ -113,6 +123,3 @@
 }
 
 
-.config-user-bio {
-    line-break: anywhere;
-}

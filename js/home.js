@@ -77,6 +77,8 @@ window.onload = () => {
     mobibarLogo = navbar.querySelector('img[alt="Logo Playoffs"]')
     navTogglerOpen = navbar.querySelector(".navbar-toggler")
     navTogglerClose = navbar.querySelector("#close-offcanvas")
+
+    navbar.firstElementChild.classList.remove("bg-white", "pb-1")
 }
 
 function isVisible(el) {

@@ -1,3 +1,5 @@
+@import "variables.scss";
+
 .custom-file-upload label {
     display: flex;
     justify-content: center;
@@ -17,4 +19,9 @@
 .uniforme, .escudo{
     height: 10rem;
     width: 10rem;
+}
+
+// Color
+body {
+    background-color: $gray-400 !important;
 }
