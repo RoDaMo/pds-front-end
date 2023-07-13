@@ -1,5 +1,7 @@
 import Lenis from '@studio-freight/lenis'
 import '../scss/home.scss'
+import Aos from 'aos'
+import 'aos/dist/aos.css'
 import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
 import portugues from './i18n/ptbr/home.json' assert { type: 'JSON' }
 import ingles from './i18n/en/home.json' assert { type: 'JSON' }
@@ -7,8 +9,11 @@ import i18next from 'i18next'
 
 inicializarInternacionalizacao(ingles, portugues);
 
+Aos.init({
+    disable: 'mobile'
+})
 
-const navbar = document.querySelector("componente-header")
+const navbarComponente = document.querySelector("componente-header")
 const homeCards = document.querySelectorAll(".home-card.d-flex")
 const homePill = document.querySelector("#home-pill")
 const homeSubText = document.querySelector(".home-subtext")
@@ -36,8 +41,10 @@ const mediaQueryTablet = window.matchMedia('(max-width: 992px)')
 const mediaQueryDesktop = window.matchMedia('(max-width: 1199px)')
 const mobilePortrait = window.matchMedia("(orientation: portrait)")
 
-const mobibarClasses = ["position-fixed", "topx-14", "z-1", "start-50", "translate-middle-x", "w-60", "rounded-4", "glass-effect"]
-const mobibarLogoClasses = ["w-90", "mb-2", "translate-6"]
+// const mobibarClasses = ["position-fixed", "topx-14", "z-1", "start-50", "translate-middle-x", "w-60", "rounded-4", "glass-effect"]
+const mobibarComponenteClasses = ["position-fixed", "z-1", "w-100", "rounded-0", "mt-0", "shadow-none", "navbar-blur"]
+
+const mobibarLogoClasses = ["mt-0"]
 
 let lenis = new Lenis({
     wheelMultiplier: 0.4,
@@ -58,6 +65,7 @@ requestAnimationFrame(raf)
 let mobibarLogo
 let navTogglerClose
 let navTogglerOpen
+let navbar
 
 let triggerArr = Array.from(scrollTrigger)
 
@@ -68,11 +76,12 @@ if (isVisible(scrollTrigger[0])) {
 }
 
 window.onload = () => {
-    mobibarLogo = navbar.querySelector('img[alt="Logo Playoffs"]')
-    navTogglerOpen = navbar.querySelector(".navbar-toggler")
-    navTogglerClose = navbar.querySelector("#close-offcanvas")
+    mobibarLogo = navbarComponente.querySelector('img[alt="Logo Playoffs"]')
+    navTogglerOpen = navbarComponente.querySelector(".navbar-toggler")
+    navTogglerClose = navbarComponente.querySelector("#close-offcanvas")
+    navbar = navbarComponente.querySelector(".navbar")
 
-    navbar.firstElementChild.classList.remove("bg-white", "pb-1")
+    navbarComponente.firstElementChild.classList.remove("bg-white", "pb-1")
 }
 
 function isVisible(el) {
@@ -90,6 +99,22 @@ lenis.on("scroll", () => {
         toTopBtn.style.display = "block"
     } else {
         toTopBtn.style.display = "none"
+    }
+
+    if (
+        document.body.scrollTop > 585 ||
+        document.documentElement.scrollTop > 585
+    ) {
+        navbarComponente.querySelectorAll(".nav-item").forEach(item => item.firstElementChild.classList.add("text-dark"))
+        if(navbarComponente.querySelector(".bi-caret-left-fill")) {
+            navbarComponente.querySelector(".bi-caret-left-fill").style.setProperty('--custom-white', "black")
+        }
+
+    } else {
+        navbarComponente.querySelectorAll(".nav-item").forEach(item => item.firstElementChild.classList.remove("text-dark"))
+        if(navbarComponente.querySelector(".bi-caret-left-fill")) {
+            navbarComponente.querySelector(".bi-caret-left-fill").style.setProperty('--custom-white', "white")
+        }
     }
 })
 
@@ -147,8 +172,6 @@ if (mediaQueryMobile.matches) {
 
     rodamoLogo.classList.add("w-25")
 
-    document.querySelector(".bg-about-text").classList.add("glass-effect")
-
     featWrapper.classList.add("card-bg2", "glass-effect")
     
     feats.forEach(feat => feat.querySelector("p").classList.add("fs-5"))
@@ -183,10 +206,11 @@ if (mediaQueryMobile.matches) {
 
     // Mobile navbar changer
     lenis.on("scroll", () => {
+        navbar.classList.add("pt-1")
 
         // pegar evento ja no carregamento da pagina
         navTogglerOpen.addEventListener("click", () => {
-            navbar.classList.remove(...mobibarClasses)  
+            navbarComponente.classList.remove(...mobibarComponenteClasses)  
             mobibarLogo.classList.remove(...mobibarLogoClasses)   
             menuOpen = true
             lenis.stop()
@@ -194,7 +218,7 @@ if (mediaQueryMobile.matches) {
 
         navTogglerClose.addEventListener("click", () => {
             if (window.scrollY != 0) {
-                navbar.classList.add(...mobibarClasses)
+                navbarComponente.classList.add(...mobibarComponenteClasses)
                 mobibarLogo.classList.add(...mobibarLogoClasses)  
 
                 menuOpen = false
@@ -205,7 +229,7 @@ if (mediaQueryMobile.matches) {
         })
 
         if (!menuOpen) {
-            navbar.classList.add(...mobibarClasses)
+            navbarComponente.classList.add(...mobibarComponenteClasses)
             mobibarLogo.classList.add(...mobibarLogoClasses)
 
             if (window.scrollY === 0){
@@ -213,7 +237,7 @@ if (mediaQueryMobile.matches) {
                 homeCards[0].classList.add("vh-91")
                 homeCards.forEach(card => card.classList.add("rounded-4", "rounded-5"))
                 homePill.classList.remove("d-none")
-                navbar.classList.remove(...mobibarClasses)
+                navbarComponente.classList.remove(...mobibarComponenteClasses)
                 mobibarLogo.classList.remove(...mobibarLogoClasses)
             } else {   
                 homeCards.forEach(card => { 
@@ -276,25 +300,32 @@ if (mediaQueryMobile.matches) {
 } else {
 
     document.addEventListener("DOMContentLoaded", () => {
-        const FTBHeight = homeCards[0].parentElement.offsetHeight + navbar.offsetHeight
+        const FTBHeight = homeCards[0].parentElement.offsetHeight + navbarComponente.offsetHeight
 
         firstTitleBg.style.height = `${FTBHeight + 85}px`
-        firstTitleBg.style.marginTop = `-${navbar.offsetHeight + 40}px`
+        firstTitleBg.style.marginTop = `-${navbarComponente.offsetHeight + 40}px`
 
         homeNoise.style.height = `${FTBHeight + 85}px`
 
-        navbar.querySelector(".navbar-toggler").addEventListener("click", () => {
+        navbarComponente.querySelector(".navbar-toggler").addEventListener("click", () => {
             noiseSvgs.forEach(svg => svg.classList.toggle("z-1"))
             homeTitle.classList.toggle("z-1")
             homeSubText.classList.toggle("z-1")
         })
 
-        navbar.querySelector("#close-offcanvas").addEventListener("click", () => {
+        navbarComponente.querySelector("#close-offcanvas").addEventListener("click", () => {
             noiseSvgs.forEach(svg => svg.classList.toggle("z-1"))
             homeTitle.classList.toggle("z-1")
             homeSubText.classList.toggle("z-1")
         })
 
+        lenis.on("scroll", () => {
+            if (window.scrollY === 0){
+                navbarComponente.classList.remove(...mobibarComponenteClasses)
+            } else {   
+                navbarComponente.classList.add(...mobibarComponenteClasses)
+            }
+        })
 
         var offcanvasNavbar = document.querySelector("#offcanvasNavbar")
     
@@ -326,7 +357,7 @@ if (mediaQueryMobile.matches) {
 
     footerCta[1].parentElement.classList.remove("mb-auto")
 
-    navbar.classList.add("position-relative", "z-1")
+    navbarComponente.classList.add("position-relative", "z-1")
 
     rodamoLogo.classList.add("w-50")
 

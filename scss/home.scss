@@ -11,6 +11,10 @@ html, body {
   overflow-x: hidden !important;
 }
 
+.bi-caret-left-fill::before {
+  color: var(--custom-white);
+}
+
 // Conteúdo Principal
 #home-pill {
   width: 15%;
@@ -127,8 +131,6 @@ html, body {
 
 .feats {
   background: rgba( 0, 0, 0, 0.7 ) !important;
-  backdrop-filter: blur( 2px ) !important;
-  -webkit-backdrop-filter: blur( 2px ) !important;
   height: 28%;
   font-size: x-large;
 }
@@ -139,6 +141,19 @@ html, body {
   border-radius: 15px;
   border: 1px solid rgba( 255, 255, 255, 0.18 ) !important;
 }
+
+.navbar-blur {
+  backdrop-filter: blur( 15px );
+  -webkit-backdrop-filter: blur( 15px );
+  border-bottom: 1px solid rgba(98, 98, 98, 0.121) !important;
+}
+
+// Menu glassmorphism
+// .offcanvas-blur {
+//   backdrop-filter: blur( 8px );
+//   -webkit-backdrop-filter: blur( 8px );
+//   background: rgba(255, 255, 255, 0.43) !important;
+// }
 
 .feat-home1 {
   border-radius: $border-radius-2xl 15px 15px 15px !important;
@@ -340,6 +355,16 @@ ul.dots-list {
   .home-btn {
     float: right;
   }
+
+  .navbar-blur {
+    background: rgb(181 181 181 / 9%) !important;
+  }
+
+  // .home-card {
+  //   &:nth-of-type(3) {
+  //     margin-bottom: -23px !important;
+  //   }
+  // }
 
   .rotate-wrapper {
     span {
