@@ -141,7 +141,7 @@ const obterInfo = async () => {
     sport.textContent = i18next.t(key)
     sport.setAttribute('key', key)
 
-    document.getElementById("championship-pic").src = !data.results.logo ? '../default-user-image.png' : data.results.logo
+    document.getElementById("championship-pic").src = !data.results.logo ? '../default-championship-image.png' : data.results.logo
     document.getElementById("championship-desc").textContent = data.results.description
     document.getElementById("data-inicial").textContent = new Date(data.results.initialDate).toLocaleDateString('pt-BR')
     document.getElementById("data-final").textContent = new Date(data.results.finalDate).toLocaleDateString('pt-BR')
