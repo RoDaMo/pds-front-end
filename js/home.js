@@ -1,6 +1,5 @@
 import Lenis from '@studio-freight/lenis'
 import '../scss/home.scss'
-import Rellax from 'rellax'
 import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
 import portugues from './i18n/ptbr/home.json' assert { type: 'JSON' }
 import ingles from './i18n/en/home.json' assert { type: 'JSON' }
@@ -59,11 +58,6 @@ requestAnimationFrame(raf)
 let mobibarLogo
 let navTogglerClose
 let navTogglerOpen
-
-// Rellax.JS
-new Rellax('.rellax', {
-    breakpoints:[576, 768, 1201]
-}) 
 
 let triggerArr = Array.from(scrollTrigger)
 
