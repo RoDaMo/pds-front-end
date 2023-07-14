@@ -5,6 +5,16 @@ body, html {
     overflow-x: hidden !important;
 }
 
+.splide__slide img {
+    width: 90%;
+    height: 90%;
+    object-fit: cover;
+}
+
+.splide:not( .is-overflow ) .splide__list {
+    justify-content: center;
+}
+
 .bg-grad {
     background: rgb(216,255,219);
     background: linear-gradient(180deg, rgba(216,255,219,1) 0%, rgba(255,255,255,0) 100%);
@@ -222,6 +232,12 @@ body, html {
         div {
             flex: 0 0 auto;
         }
+    }
+
+    .ss-second-content {
+        @extend .ss-first-content;
+
+        height: auto;
     }
 
     .ss-slider {

@@ -6,6 +6,26 @@ import ingles from './i18n/en/pagina-times.json' assert { type: 'JSON' }
 import i18next from "i18next";
 import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
 import Lenis from '@studio-freight/lenis'
+import Splide from '@splidejs/splide';
+import '@splidejs/splide/css';
+
+document.addEventListener( 'DOMContentLoaded', () => {
+    new Splide( '#image-carousel', {
+        type: 'loop',
+        padding: { left: '10rem', right: '8rem' },
+        perPage: 1,
+        lazyLoad: 'nearby',
+        breakpoints: {
+            1199: {
+                padding: { left: '9.5rem', right: '8.3rem' },
+            },
+            575: {
+                padding: { left: '5rem', right: '4rem' },
+            },
+
+        },
+    }).mount();
+});
 
 let lenis = new Lenis({
     wheelMultiplier: 0.4,
@@ -33,6 +53,9 @@ const sportsSection = document.querySelector('.sports-section')
 const ssSlider = document.querySelector('.ss-slider')
 const ssFirstContentWrapper = document.querySelector('.ss-first-content-wrapper')
 const ssFirstContent = document.querySelector('.ss-first-content')
+
+const ssSecondContentWrapper = document.querySelector('.ss-second-content-wrapper')
+const ssSecondContent = document.querySelector('.ss-second-content')
 
 const ssPlayerName = document.querySelectorAll('.ss-player-name')
 
@@ -63,11 +86,6 @@ function ssPlayerContentMobile() {
         content.classList.add('mx-2')
     })
 
-    ssFirstContentWrapper.classList.replace('w-90', 'w-100')
-
-    ssSlider.classList.replace('w-100', 'vw-100')
-    sportsSection.classList.remove('ms-4')
-        
     ssPlayerName.forEach(name => {
         name.parentElement.classList.add('w-50')
     })
@@ -105,9 +123,16 @@ document.addEventListener('header-carregado', () => {
     offcanvasUser.addEventListener("show.bs.offcanvas", callback)
     offcanvasNavbar.addEventListener("hidden.bs.offcanvas", callback)
     offcanvasUser.addEventListener("hidden.bs.offcanvas", callback)
+})
 
-    if (mediaQueryMobile.matches) {
-        teamInfo.firstElementChild.classList.add('d-flex', 'justify-content-center')
+if (mediaQueryMobile.matches) {
+    ssFirstContentWrapper.classList.replace('w-90', 'w-100')
+    ssSecondContentWrapper.classList.replace('w-75', 'w-100')
+
+    ssSlider.classList.replace('w-100', 'vw-100')
+    sportsSection.classList.remove('ms-4')
+
+    teamInfo.firstElementChild.classList.add('d-flex', 'justify-content-center')
         teamInfo.firstElementChild.classList.remove("ms-3")
         teamDesc.classList.add('text-center')
         teamChars.classList.replace("mt-6r", "mt-5")
@@ -118,8 +143,7 @@ document.addEventListener('header-carregado', () => {
         teamName.classList.replace("text-end", "text-center")
         // teamConfigBtn.parentElement.classList.remove("me-3")
         // teamConfigBtn.parentElement.classList.replace("justify-content-end", "justify-content-center")
-    }
-})
+}
 
 const mensagemErro = document.getElementById("mensagem-erro")
 const parametroUrl = new URLSearchParams(window.location.search);
