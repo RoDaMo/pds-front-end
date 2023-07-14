@@ -71,6 +71,15 @@ function ssPlayerContentMobile() {
     ssPlayerName.forEach(name => {
         name.parentElement.classList.add('w-50')
     })
+
+    if (ssPlayerContent.length == 0) {
+        ssFirstContent.classList.add('justify-content-center', 'align-items-center')
+        ssFirstContent.innerHTML = `
+            <div class="p-5">
+                <span class="i18" key="NenhumJogador">${i18next.t("NenhumJogador")}</span>
+            </div>
+        `
+    }
 }
 
 document.addEventListener('header-carregado', () => {
@@ -139,11 +148,10 @@ const obterInfo = async () => {
     document.getElementById("team-desc").textContent = data.results.description
     document.getElementById("name").textContent = data.results.name
 
-    let iconSrc = (data.results.sportsId === 1) ? '../icons/sports_soccer.svg' : '../icons/sports_volleyball.svg'
     const jogadores = document.getElementById("jogadores")
     data.results.players.forEach((e) => {
         jogadores.innerHTML += `
-            <div class="d-flex w-100 rounded-5 mb-3 mt-5 mt-md-0 ss-team-content">
+            <div class="d-flex w-100 rounded-5 mb-3 mt-5 mt-md-0 ss-player-content">
 
                 <div class="position-relative m-3 overflow-hidden rounded-circle ss-player-image">
                     <img src="" alt="playerImage" class="img-fluid position-absolute mw-100 h-100">
@@ -152,26 +160,33 @@ const obterInfo = async () => {
                 <span>
 
                     <p class="mt-3 ss-player-name w-100 fs-5 text-nowrap text-truncate d-block">${e.name}</p>
+                    <p class="ss-player-username w-100 fs-6 opacity-75 text-nowrap text-truncate d-block">${e.username}</p>
 
                 </span>
             </div>
         `
     })
 
-    if (data.results.sportsId === 1) {
+    if (data.results.sportsId == 1) {
         teamSportIcon.src = '../icons/sports_soccer.svg'
 
     } else {
         teamSportIcon.src = '../icons/sports_volleyball.svg'
 
-    }
+    }    
+}
+
+obterInfo()
+
+async function validacaoJogadores() {
+    await obterInfo()
 
     if (mediaQueryMobile.matches) {
         ssPlayerContentMobile()
     } else {
-        const ssTeamContent = document.querySelectorAll('.ss-team-content')
+        const ssPlayerContent = document.querySelectorAll('.ss-player-content')
 
-        if (ssTeamContent.length == 0) {
+        if (ssPlayerContent.length == 0) {
             ssFirstContent.classList.add('justify-content-center', 'align-items-center')
             ssFirstContent.innerHTML = `
                 <div class="p-5">
@@ -180,9 +195,7 @@ const obterInfo = async () => {
             `
         }
     }
-
-    
 }
 
-obterInfo();
+validacaoJogadores()
 
