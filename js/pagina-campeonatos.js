@@ -64,11 +64,6 @@ function ssTeamContentMobile() {
         
         content.classList.add('mx-2')
     })
-
-    ssFirstContentWrapper.classList.replace('w-90', 'w-100')
-
-    ssSlider.classList.replace('w-100', 'vw-100')
-    sportsSection.classList.remove('ms-4')
         
     ssTeamName.forEach(name => {
         name.parentElement.classList.add('w-50')
@@ -107,25 +102,30 @@ document.addEventListener('header-carregado', () => {
     offcanvasUser.addEventListener("show.bs.offcanvas", callback)
     offcanvasNavbar.addEventListener("hidden.bs.offcanvas", callback)
     offcanvasUser.addEventListener("hidden.bs.offcanvas", callback)
-
-    if (mediaQueryMobile.matches) {
-        teamsSportIcon.forEach(icon => {
-            icon.classList.remove('me-3')
-        })
-
-        championshipInfo.firstElementChild.classList.add('d-flex', 'justify-content-center')
-        championshipInfo.firstElementChild.classList.remove("ms-3")
-        championshipDesc.classList.add('text-center')
-        championshipChars.classList.replace("mt-6r", "mt-5")
-        championshipChars.classList.add('justify-content-center')
-        championshipPicWrapper.parentElement.classList.remove("me-4")
-        championshipPicWrapper.classList.remove("me-0")
-        championshipName.parentElement.classList.remove("me-4")
-        championshipName.classList.replace("text-end", "text-center")
-        // championshipConfigBtn.parentElement.classList.remove("me-3")
-        // championshipConfigBtn.parentElement.classList.replace("justify-content-end", "justify-content-center")
-    }
 })
+
+if (mediaQueryMobile.matches) {
+    ssFirstContentWrapper.classList.replace('w-90', 'w-100')
+
+    ssSlider.classList.replace('w-100', 'vw-100')
+    sportsSection.classList.remove('ms-4')
+
+    teamsSportIcon.forEach(icon => {
+        icon.classList.remove('me-3')
+    })
+
+    championshipInfo.firstElementChild.classList.add('d-flex', 'justify-content-center')
+    championshipInfo.firstElementChild.classList.remove("ms-3")
+    championshipDesc.classList.add('text-center')
+    championshipChars.classList.replace("mt-6r", "mt-5")
+    championshipChars.classList.add('justify-content-center')
+    championshipPicWrapper.parentElement.classList.remove("me-4")
+    championshipPicWrapper.classList.remove("me-0")
+    championshipName.parentElement.classList.remove("me-4")
+    championshipName.classList.replace("text-end", "text-center")
+    // championshipConfigBtn.parentElement.classList.remove("me-3")
+    // championshipConfigBtn.parentElement.classList.replace("justify-content-end", "justify-content-center")
+}
 
 const mensagemErro = document.getElementById("mensagem-erro")
 const parametroUrl = new URLSearchParams(window.location.search);
