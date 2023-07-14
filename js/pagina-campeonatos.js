@@ -73,6 +73,15 @@ function ssTeamContentMobile() {
     ssTeamName.forEach(name => {
         name.parentElement.classList.add('w-50')
     })
+
+    if (ssTeamContent.length == 0) {
+        ssFirstContent.classList.add('justify-content-center', 'align-items-center')
+        ssFirstContent.innerHTML = `
+            <div class="p-5">
+                <span class="i18" key="NenhumTime">${i18next.t("NenhumTime")}</span>
+            </div>
+        `
+    }
 }
 
 document.addEventListener('header-carregado', () => {
@@ -185,6 +194,14 @@ const obterInfo = async () => {
 
     }
 
+    
+}
+
+obterInfo();
+
+async function validacaoTimes() {
+    await obterInfo()
+
     if (mediaQueryMobile.matches) {
         ssTeamContentMobile()
     } else {
@@ -199,9 +216,6 @@ const obterInfo = async () => {
             `
         }
     }
-
-    
 }
 
-obterInfo();
-
+validacaoTimes()
