@@ -43,7 +43,8 @@ export default defineConfig({
         cookies: resolve(__dirname, 'pages/cookies.html'),
         sobreNos: resolve(__dirname, 'pages/sobre-nos.html'),
         termosPrivacidade: resolve(__dirname, 'pages/termos-de-privacidade.html'),
-        termosDeUso: resolve(__dirname, 'pages/termos-de-uso.html')
+        termosDeUso: resolve(__dirname, 'pages/termos-de-uso.html'),
+        paginaTimes: resolve(__dirname, 'pages/pagina-times.html')
       }
     }
   },
