@@ -17,7 +17,7 @@
                 <div id="conteudo" class="col-md-5 col-12 order-1 order-md-0 flex-column ms-3">
                     <div class="mt-5 team-chars d-inline-flex">
                         <div class="d-inline-flex team-char">
-                            <!-- Ícone mudar de acordo com o esporte praticado do time atual (Extra / WIP) -->
+                            <!-- $ Ícone de esporte do time -->
                             <img id="teamSportIcon" src="" alt="sport-icon" class="sports-icon me-1">
 
                             <!-- $ Esporte do Time -->
@@ -53,40 +53,106 @@
 
         <section class="ms-4 sports-section h-100">
             <div class="row">
-                <div class="col-12 col-md-12 col-lg-9">
-                    <div class="position-relative w-90 ss-first-content-wrapper">
+                <div class="col-12 col-md-12 col-lg-8">
+                    <div class="position-relative w-100 ss-first-content-wrapper">
                         <div class="d-flex p-4 glass-effect ss-title align-items-center">
                             <h2 class="text-start m-4 i18" key="Jogadores">Jogadores</h2>
                         </div>
                         <div data-lenis-prevent class="d-flex px-3 pt-3 ss-first-content w-auto">
-                            <div id="jogadores" class="ss-slider w-100 d-flex flex-row flex-md-column"></div>
+                            <!-- Jogadores do time -->
+                            <div id="jogadores" class="ss-slider w-100 d-flex flex-row flex-md-column">
+                                <div class="d-flex w-100 rounded-5 mb-3 mt-5 mt-md-0 ss-player-content">
+
+                                    <div class="position-relative m-3 overflow-hidden rounded-circle ss-player-image">
+                                        <img src="" alt="playerImage" class="img-fluid position-absolute mw-100 h-100">
+                                    </div>
+                    
+                                    <span>
+                    
+                                        <p class="mt-3 ss-player-name w-100 fs-5 text-nowrap text-truncate d-block">${e.name}</p>
+                                        <p class="ss-player-username w-100 fs-6 opacity-75 text-nowrap text-truncate d-block">${e.username}</p>
+                    
+                                    </span>
+                                </div>
+                                <div class="d-flex w-100 rounded-5 mb-3 mt-5 mt-md-0 ss-player-content">
+
+                                    <div class="position-relative m-3 overflow-hidden rounded-circle ss-player-image">
+                                        <img src="" alt="playerImage" class="img-fluid position-absolute mw-100 h-100">
+                                    </div>
+                    
+                                    <span>
+                    
+                                        <p class="mt-3 ss-player-name w-100 fs-5 text-nowrap text-truncate d-block">${e.name}</p>
+                                        <p class="ss-player-username w-100 fs-6 opacity-75 text-nowrap text-truncate d-block">${e.username}</p>
+                    
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-12 col-md-12 col-lg position-relative">
-                    <div class="ss-test-1 d-none d-lg-block"></div>
+                    <div class="ss-test-1"></div>
                     <div class="ss-test-2"></div>
                 </div>
             </div>
-            <div class="row mt-5">
-                <div class="col-12 col-md-12 col-lg-9">
-                    <div class="position-relative w-75 ss-second-content-wrapper">
+            <div class="row">
+                <div class="col-12 col-md-12 col-lg-6 mt-5">
+                    <div class="position-relative w-100 ss-second-content-wrapper">
                         <div class="d-flex p-4 glass-effect ss-title align-items-center">
                             <h2 class="text-start m-4 i18" key="Uniformes">Uniformes</h2>
                         </div>
                         <div data-lenis-prevent class="d-flex px-3 pt-3 ss-second-content w-auto">
                             <section id="image-carousel" class="splide" aria-label="jerseys-imgs">
-                                <div class="splide__track rounded-5">
-                                      <ul class="splide__list">
-                                          <li class="splide__slide">
-                                            <img class="img-fluid rounded-4 jerseys-img" src="https://w7.pngwing.com/pngs/381/330/png-transparent-arsenal-f-c-premier-league-jersey-kit-shirt-jersey-tshirt-blue-team-thumbnail.png" alt="C1">
-                                          </li>
-                                          <li class="splide__slide">
-                                            <img class="img-fluid rounded-4 jerseys-img" src="https://w7.pngwing.com/pngs/340/878/png-transparent-chelsea-f-c-t-shirt-jersey-football-kit-t-shirt-tshirt-angle-jersey.png" alt="C2">
-                                          </li>
-                                      </ul>
+                                <div class="splide__track">
+                                    <!-- Camisetas do time -->
+                                    <ul class="splide__list">
+                                        <li class="splide__slide">
+                                            <img class="img-fluid rounded-4 jerseys-img" src="https://s2.glbimg.com/et8WqfpqRZ9QUE2FRW7EMduS2Tg=/e.glbimg.com/og/ed/f/original/2021/02/19/ancientrelic.jpg" alt="C1">
+                                        </li>
+                                        <li class="splide__slide">
+                                            <img class="img-fluid rounded-4 jerseys-img" src="https://avatars.githubusercontent.com/u/97525102?v=4" alt="C1">
+                                        </li>
+                                    </ul>
                                 </div>
-                              </section>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-12 col-lg mt-5">
+                    <div class="position-relative w-100 ss-third-content-wrapper">
+                        <div class="d-flex p-4 glass-effect ss-title align-items-center">
+                            <h2 class="text-start m-4 i18" key="Campeonatos">Campeonatos</h2>
+                        </div>
+                        <div data-lenis-prevent class="d-flex px-3 pt-3 ss-third-content w-auto">
+                            <div class="container">
+                                <div class="row gap-3 mx-auto mb-3">
+                                    <div class="col-4 rounded-5 ss-championship-content bg-black d-flex flex-column p-2">
+                                        <div class="ss-championship-img-wrapper position-relative rounded-circle overflow-hidden m-auto mt-3">
+                                            <img class="img-fluid position-absolute mw-100 h-100" src="https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png" alt="">
+                                        </div>
+                                        <p class="text-center mt-2 mb-3 fs-5 text-nowrap text-truncate d-inline-block m-auto ss-championship-texts">nome</p>
+                                    </div>
+                                    <div class="col-4 rounded-5 ss-championship-content bg-black d-flex flex-column p-2">
+                                        <div class="ss-championship-img-wrapper position-relative rounded-circle overflow-hidden m-auto mt-3">
+                                            <img class="img-fluid position-absolute mw-100 h-100" src="https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png" alt="">
+                                        </div>
+                                        <p class="text-center mt-2 mb-3 fs-5 text-nowrap text-truncate d-inline-block m-auto ss-championship-texts">nome</p>
+                                    </div>
+                                    <div class="col-4 rounded-5 ss-championship-content bg-black d-flex flex-column p-2"> 
+                                        <div class="ss-championship-img-wrapper position-relative rounded-circle overflow-hidden m-auto mt-3">
+                                            <img class="img-fluid position-absolute mw-100 h-100" src="https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png" alt="">
+                                        </div>
+                                        <p class="text-center mt-2 mb-3 fs-5 text-nowrap text-truncate d-inline-block m-auto ss-championship-texts">nome</p>
+                                    </div>
+                                    <div class="col-4 rounded-5 ss-championship-content bg-black d-flex flex-column p-2">
+                                        <div class="ss-championship-img-wrapper position-relative rounded-circle overflow-hidden m-auto mt-3">
+                                            <img class="img-fluid position-absolute mw-100 h-100" src="https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png" alt="">
+                                        </div>
+                                        <p class="text-center mt-2 mb-3 fs-5 text-nowrap text-truncate d-inline-block m-auto ss-championship-texts">nome</p>
+                                    </div>  
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -94,36 +160,6 @@
         </section>
 
         <!-- Camisas do Time / Campeonatos -->
-
-        <footer class="mt-5 d-none d-md-flex flex-column">
-            <section class="row">
-                <div class="me-auto col-auto my-auto">
-                    <a class="navbar-brand" href="/">
-                        <img src="/Logo_Playoffs.png" class="logo-play img-fluid ms-2" width="180" alt="Logo Playoffs">
-                    </a>
-                </div>
-              
-                <div class="col-auto">
-                        <ul class="list-group list-group-horizontal list-group-flush">
-                        <li class="list-group-item border-0 opacity-75"><a href="#" class="i18" key="Politica">Política</a></li>
-                        <li class="list-group-item border-0 opacity-75"><a href="#" class="i18" key="Termos">Termos</a></li>
-                    </ul>
-                        <ul class="list-group list-group-horizontal list-group-flush">
-                        <li class="list-group-item border-0 opacity-75"><a href="#" class="i18" key="Sobre">Sobre</a></li>
-                        <li class="list-group-item border-0 opacity-75"><a href="#">Cookies</a></li>
-                    </ul>
-                </div>
-            </section>
-  
-            <hr class="opacity-50 border rounded-pill m-0 bg-dark d-flex">
-            
-            <section class="row">
-                <p class="col-auto ms-2 my-auto me-auto text-black opacity-50">@ 2023 RoDaMo</p>
-                <ul class="col-auto me-2 float-right align-self-end list-group list-group-horizontal list-group-flush">
-                    <li class="list-group-item border-0 opacity-75"><a href="https://github.com/RoDaMo"><i class="bi bi-github fs-5"></i></a></li>
-                </ul>
-            </section>
-        </footer>
 
         <div class="d-flex d-md-none flex-column mt-5">
             <div class="row mb-2 justify-content-center">
@@ -151,7 +187,7 @@
   
             <div class="row mt-4">
                 <div class="col">
-                    <p class="text-black text-center opacity-50">@ 2023 RoDaMo</p>
+                    <p class="text-black text-center opacity-50">&#169 2023 RoDaMo</p>
                 </div>
             </div>
         </div>
@@ -159,8 +195,11 @@
             <p class="text-danger" id="mensagem-erro"></p>
         </div>
     </main>
+
+    <componente-footer></componente-footer>
     <script type="module" src="../main.js"></script>
     <script type="module" src="../js/utilidades/header.js"></script>
+    <script type="module" src="../js/utilidades/footer.js"></script>
     <script type="module" src="../js/pagina-times.js"></script>
 </body>
 </html>

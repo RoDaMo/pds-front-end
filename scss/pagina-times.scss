@@ -141,14 +141,37 @@ body, html {
     background: $play-cor-fundos;
     max-height: 23rem;
     overflow-y: auto;
-
-    div {
-        flex: 0 0 auto;
-    }
 }
 
 .ss-second-content {
     @extend .ss-first-content;
+
+    height: auto;
+    max-height: 30rem;
+}
+
+.ss-third-content {
+    @extend .ss-first-content;
+
+    height: auto;
+    max-height: 30rem;
+}
+
+.ss-championship-content {
+    width: 11rem;
+}
+
+.ss-championship-img-wrapper {
+    height: 5rem;
+    min-width: 5rem;
+
+    img {
+        min-width: 100%;
+    }
+}
+
+.ss-championship-texts {
+    max-width: 100px;
 }
 
 .ss-slider {
@@ -176,8 +199,8 @@ body, html {
 
 @include media-breakpoint-only(md) {
     .ss-test-1 {
-        top: -30.5rem;
-        right: 7.5rem;
+        top: 23.5rem;
+        right: 9.5rem;
     }
 
     .ss-test-2 {
@@ -219,6 +242,11 @@ body, html {
         width: 15%;
     }
 
+    .ss-test-1 {
+        top: 13.5rem;
+        right: 5.5rem;
+    }
+
     .ss-test-2 {
         top: -4.5rem;
         right: 16.5rem;
@@ -235,6 +263,12 @@ body, html {
     }
 
     .ss-second-content {
+        @extend .ss-first-content;
+
+        height: auto;
+    }
+
+    .ss-third-content {
         @extend .ss-first-content;
 
         height: auto;

@@ -6,8 +6,10 @@
     "Sobre": "About",
     "Termos": "Terms",
     "NenhumJogador": "No player here...",
+    "NenhumCampeonato": "No championship here...",
     "SemDescricao": "No description",
     "Volei": "Volleyball",
     "Futebol": "Soccer",
-    "Uniformes": "Uniforms"
+    "Uniformes": "Uniforms",
+    "Campeonatos": "Championships"
 }
