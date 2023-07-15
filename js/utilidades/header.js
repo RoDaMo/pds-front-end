@@ -30,7 +30,7 @@ export class header extends HTMLElement {
                         <div class="offcanvas offcanvas-end mobile" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
 
                             <div class="offcanvas-header container pt-2 pb-2">
-                                <h2 class="fw-light text-black">Menu</h2>
+                                <h2 class="fw-semibold mb-0 text-black">Menu</h2>
                                 <button id="close-offcanvas" type="button" class="btn-close me-1" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                             </div>
 
