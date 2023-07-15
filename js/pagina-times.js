@@ -9,24 +9,6 @@ import Lenis from '@studio-freight/lenis'
 import Splide from '@splidejs/splide';
 import '@splidejs/splide/css';
 
-document.addEventListener( 'DOMContentLoaded', () => {
-    new Splide( '#image-carousel', {
-        type: 'loop',
-        padding: { left: '10rem', right: '8rem' },
-        perPage: 1,
-        lazyLoad: 'nearby',
-        breakpoints: {
-            1199: {
-                padding: { left: '9.5rem', right: '8.3rem' },
-            },
-            575: {
-                padding: { left: '5rem', right: '4rem' },
-            },
-
-        },
-    }).mount();
-});
-
 let lenis = new Lenis({
     wheelMultiplier: 0.4,
     smoothWheel: true,
@@ -48,14 +30,20 @@ const loader = document.createElement('app-loader');
 document.body.appendChild(loader);
 
 const mediaQueryMobile = window.matchMedia('(max-width: 575px)')
+const mediaQueryTablet = window.matchMedia('(max-width: 992px)')
 
 const sportsSection = document.querySelector('.sports-section')
 const ssSlider = document.querySelector('.ss-slider')
 const ssFirstContentWrapper = document.querySelector('.ss-first-content-wrapper')
 const ssFirstContent = document.querySelector('.ss-first-content')
 
+const splideList = document.querySelector('.splide__list')
+
 const ssSecondContentWrapper = document.querySelector('.ss-second-content-wrapper')
 const ssSecondContent = document.querySelector('.ss-second-content')
+
+const ssThirdContentWrapper = document.querySelector('.ss-third-content-wrapper')
+const ssThirdContent = document.querySelector('.ss-third-content')
 
 const ssPlayerName = document.querySelectorAll('.ss-player-name')
 
@@ -89,15 +77,6 @@ function ssPlayerContentMobile() {
     ssPlayerName.forEach(name => {
         name.parentElement.classList.add('w-50')
     })
-
-    if (ssPlayerContent.length == 0) {
-        ssFirstContent.classList.add('justify-content-center', 'align-items-center')
-        ssFirstContent.innerHTML = `
-            <div class="p-5">
-                <span class="i18" key="NenhumJogador">${i18next.t("NenhumJogador")}</span>
-            </div>
-        `
-    }
 }
 
 document.addEventListener('header-carregado', () => {
@@ -126,23 +105,21 @@ document.addEventListener('header-carregado', () => {
 })
 
 if (mediaQueryMobile.matches) {
-    ssFirstContentWrapper.classList.replace('w-90', 'w-100')
-    ssSecondContentWrapper.classList.replace('w-75', 'w-100')
 
     ssSlider.classList.replace('w-100', 'vw-100')
     sportsSection.classList.remove('ms-4')
 
     teamInfo.firstElementChild.classList.add('d-flex', 'justify-content-center')
-        teamInfo.firstElementChild.classList.remove("ms-3")
-        teamDesc.classList.add('text-center')
-        teamChars.classList.replace("mt-6r", "mt-5")
-        teamChars.classList.add('justify-content-center')
-        teamPicWrapper.parentElement.classList.remove("me-4")
-        teamPicWrapper.classList.remove("me-0")
-        teamName.parentElement.classList.remove("me-4")
-        teamName.classList.replace("text-end", "text-center")
-        // teamConfigBtn.parentElement.classList.remove("me-3")
-        // teamConfigBtn.parentElement.classList.replace("justify-content-end", "justify-content-center")
+    teamInfo.firstElementChild.classList.remove("ms-3")
+    teamDesc.classList.add('text-center')
+    teamChars.classList.replace("mt-6r", "mt-5")
+    teamChars.classList.add('justify-content-center')
+    teamPicWrapper.parentElement.classList.remove("me-4")
+    teamPicWrapper.classList.remove("me-0")
+    teamName.parentElement.classList.remove("me-4")
+    teamName.classList.replace("text-end", "text-center")
+    // teamConfigBtn.parentElement.classList.remove("me-3")
+    // teamConfigBtn.parentElement.classList.replace("justify-content-end", "justify-content-center")
 }
 
 const mensagemErro = document.getElementById("mensagem-erro")
@@ -172,6 +149,7 @@ const obterInfo = async () => {
     document.getElementById("team-desc").textContent = data.results.description
     document.getElementById("name").textContent = data.results.name
 
+    // Jogadores do time
     const jogadores = document.getElementById("jogadores")
     data.results.players.forEach((e) => {
         jogadores.innerHTML += `
@@ -191,6 +169,16 @@ const obterInfo = async () => {
         `
     })
 
+    // Camisetas do time
+    data.results.shirts.forEach(e => {
+        splideList.innerHTML += `
+            <li class="splide__slide">
+                <img class="img-fluid rounded-4 jerseys-img" src="${e.shirtURL}" alt="C1">
+            </li>
+        `
+    })
+
+    // Ícone de esporte do time
     if (data.results.sportsId == 1) {
         teamSportIcon.src = '../icons/sports_soccer.svg'
 
@@ -200,26 +188,60 @@ const obterInfo = async () => {
     }    
 }
 
-obterInfo()
+// obterInfo()
 
-async function validacaoJogadores() {
-    await obterInfo()
+async function waitInfo() {
+    const ssPlayerContent = document.querySelectorAll('.ss-player-content')
+    const ssChampionshipContent = document.querySelectorAll('.ss-championship-content')
+    // await obterInfo()
 
     if (mediaQueryMobile.matches) {
         ssPlayerContentMobile()
-    } else {
-        const ssPlayerContent = document.querySelectorAll('.ss-player-content')
-
-        if (ssPlayerContent.length == 0) {
-            ssFirstContent.classList.add('justify-content-center', 'align-items-center')
-            ssFirstContent.innerHTML = `
-                <div class="p-5">
-                    <span class="i18" key="NenhumJogador">${i18next.t("NenhumJogador")}</span>
-                </div>
-            `
-        }
     }
+
+    if (ssPlayerContent.length == 0) {
+        ssFirstContent.classList.add('justify-content-center', 'align-items-center')
+        ssFirstContent.removeAttribute('data-lenis-prevent')
+        ssFirstContent.innerHTML = `
+            <div class="p-5">
+                <span class="i18" key="NenhumJogador">${i18next.t("NenhumJogador")}</span>
+            </div>
+        `
+    }
+
+    if (ssChampionshipContent.length == 0) {
+        ssThirdContent.classList.add('justify-content-center', 'align-items-center')
+        ssThirdContent.removeAttribute('data-lenis-prevent')
+        ssThirdContent.innerHTML = `
+            <div class="p-5">
+                <span class="i18" key="NenhumCampeonato">${i18next.t("NenhumCampeonato")}</span>
+            </div>
+        `
+    }
+
+    const splide = new Splide( '#image-carousel', {
+        type: 'loop',
+        padding: { left: '10rem', right: '8rem' },
+        perPage: 1,
+        lazyLoad: 'nearby',
+        breakpoints: {
+            1199: {
+                padding: { left: '9.5rem', right: '8.3rem' },
+            },
+            575: {
+                padding: { left: '5rem', right: '4rem' },
+            },
+
+        },
+    })
+
+    splide.mount()
+
+    document.querySelector('.splide__arrows').classList.add('d-none')
+
 }
 
-validacaoJogadores()
+waitInfo()
+
+
 
