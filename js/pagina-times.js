@@ -18,6 +18,22 @@ let lenis = new Lenis({
     normalizeWheel: true,
 })
 
+const splide = new Splide( '#image-carousel', {
+    type: 'loop',
+    padding: { left: '10rem', right: '8rem' },
+    perPage: 1,
+    lazyLoad: 'nearby',
+    breakpoints: {
+        1199: {
+            padding: { left: '9.5rem', right: '8.3rem' },
+        },
+        575: {
+            padding: { left: '4rem', right: '3rem' },
+        },
+
+    },
+})
+
 function raf(time) {
     lenis.raf(time)
     requestAnimationFrame(raf)
@@ -209,6 +225,10 @@ async function waitInfo() {
         `
     }
 
+    if (ssPlayerContent.length <= 3) {
+        ssFirstContent.removeAttribute('data-lenis-prevent')
+    }
+
     if (ssChampionshipContent.length == 0) {
         ssThirdContent.classList.add('justify-content-center', 'align-items-center')
         ssThirdContent.removeAttribute('data-lenis-prevent')
@@ -219,25 +239,17 @@ async function waitInfo() {
         `
     }
 
-    const splide = new Splide( '#image-carousel', {
-        type: 'loop',
-        padding: { left: '10rem', right: '8rem' },
-        perPage: 1,
-        lazyLoad: 'nearby',
-        breakpoints: {
-            1199: {
-                padding: { left: '9.5rem', right: '8.3rem' },
-            },
-            575: {
-                padding: { left: '5rem', right: '4rem' },
-            },
-
-        },
-    })
+    if (ssChampionshipContent.length <= 6) {
+        ssThirdContent.removeAttribute('data-lenis-prevent')
+    }
 
     splide.mount()
 
-    document.querySelector('.splide__arrows').classList.add('d-none')
+    document.querySelector('.splide__arrows').remove()
+
+    document.addEventListener('resize', () => {
+        document.querySelector('.splide__arrows').remove()
+    })
 
 }
 
