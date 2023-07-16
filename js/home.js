@@ -10,7 +10,7 @@ import i18next from 'i18next'
 inicializarInternacionalizacao(ingles, portugues);
 
 Aos.init({
-    disable: 'mobile'
+    disable: 'phone'
 })
 
 const navbarComponente = document.querySelector("componente-header")
@@ -38,7 +38,9 @@ const firstTitleBg = document.querySelector(".first-title-bg")
 
 const mediaQueryMobile = window.matchMedia('(max-width: 575px)')
 const mediaQueryTablet = window.matchMedia('(max-width: 992px)')
-const mediaQueryDesktop = window.matchMedia('(max-width: 1199px)')
+const mediaQueryOnlyTablet = window.matchMedia('(min-width: 576px) and (max-width: 992px)')
+const mediaQueryDesktopDown = window.matchMedia('(max-width: 1199px)')
+const mediaQueryDesktopUp = window.matchMedia('(min-width: 1200px)')
 const mobilePortrait = window.matchMedia("(orientation: portrait)")
 
 // const mobibarClasses = ["position-fixed", "topx-14", "z-1", "start-50", "translate-middle-x", "w-60", "rounded-4", "glass-effect"]
@@ -63,11 +65,8 @@ function raf(time) {
 requestAnimationFrame(raf)
 
 let mobibarLogo
-let navTogglerClose
-let navTogglerOpen
 let navbar
-
-let triggerArr = Array.from(scrollTrigger)
+let offcanvasNavbar 
 
 toTopBtn.style.display = "none"
 
@@ -75,14 +74,13 @@ if (isVisible(scrollTrigger[0])) {
     dots[0].classList.add('dots-active')
 }
 
-window.onload = () => {
+document.addEventListener("DOMContentLoaded", () => {
     mobibarLogo = navbarComponente.querySelector('img[alt="Logo Playoffs"]')
-    navTogglerOpen = navbarComponente.querySelector(".navbar-toggler")
-    navTogglerClose = navbarComponente.querySelector("#close-offcanvas")
     navbar = navbarComponente.querySelector(".navbar")
+    offcanvasNavbar = navbarComponente.querySelector("#offcanvasNavbar")
 
     navbarComponente.firstElementChild.classList.remove("bg-white", "pb-1")
-}
+})
 
 function isVisible(el) {
     let rect = el.getBoundingClientRect()
@@ -122,11 +120,10 @@ toTopBtn.addEventListener("click", () => {
     lenis.scrollTo(0, {lock: true, duration: 2})
 })
 
+let menuOpen = false
+
 // Media Query Mobile
 if (mediaQueryMobile.matches) {
-    
-
-    let menuOpen = false
 
     let startY = 0
     let endY = 0
@@ -182,16 +179,11 @@ if (mediaQueryMobile.matches) {
     }
     // feats[4].querySelector("i").classList.add("feat-lift2")
     
-
-
     divRows.forEach(div => {
         div.classList.add("gap-0")
     })
 
-    let lastScrollTop = window.pageYOffset
-
     document.addEventListener("DOMContentLoaded", () => {
-        const offcanvasNavbar = document.querySelector("#offcanvasNavbar")
 
         offcanvasNavbar.addEventListener("show.bs.offcanvas", () => {
             menuOpen = true
@@ -208,15 +200,14 @@ if (mediaQueryMobile.matches) {
     lenis.on("scroll", () => {
         navbar.classList.add("pt-1")
 
-        // pegar evento ja no carregamento da pagina
-        navTogglerOpen.addEventListener("click", () => {
+        offcanvasNavbar.addEventListener("show.bs.offcanvas", () => {
             navbarComponente.classList.remove(...mobibarComponenteClasses)  
-            mobibarLogo.classList.remove(...mobibarLogoClasses)   
+            mobibarLogo.classList.remove(...mobibarLogoClasses)  
             menuOpen = true
             lenis.stop()
         })
 
-        navTogglerClose.addEventListener("click", () => {
+        offcanvasNavbar.addEventListener("hide.bs.offcanvas", () => {
             if (window.scrollY != 0) {
                 navbarComponente.classList.add(...mobibarComponenteClasses)
                 mobibarLogo.classList.add(...mobibarLogoClasses)  
@@ -298,53 +289,17 @@ if (mediaQueryMobile.matches) {
     // `
 
 } else {
-
-    document.addEventListener("DOMContentLoaded", () => {
+    function noiseHandler() {
         const FTBHeight = homeCards[0].parentElement.offsetHeight + navbarComponente.offsetHeight
 
         firstTitleBg.style.height = `${FTBHeight + 85}px`
         firstTitleBg.style.marginTop = `-${navbarComponente.offsetHeight + 40}px`
 
         homeNoise.style.height = `${FTBHeight + 85}px`
+    }
 
-        navbarComponente.querySelector(".navbar-toggler").addEventListener("click", () => {
-            noiseSvgs.forEach(svg => svg.classList.toggle("z-1"))
-            homeTitle.classList.toggle("z-1")
-            homeSubText.classList.toggle("z-1")
-        })
+    noiseHandler()
 
-        navbarComponente.querySelector("#close-offcanvas").addEventListener("click", () => {
-            noiseSvgs.forEach(svg => svg.classList.toggle("z-1"))
-            homeTitle.classList.toggle("z-1")
-            homeSubText.classList.toggle("z-1")
-        })
-
-        lenis.on("scroll", () => {
-            if (window.scrollY === 0){
-                navbarComponente.classList.remove(...mobibarComponenteClasses)
-            } else {   
-                navbarComponente.classList.add(...mobibarComponenteClasses)
-            }
-        })
-
-        var offcanvasNavbar = document.querySelector("#offcanvasNavbar")
-    
-        offcanvasNavbar.addEventListener("show.bs.offcanvas", () => {
-            lenis.destroy()
-        })
-    
-        offcanvasNavbar.addEventListener("hide.bs.offcanvas", () => {
-            lenis = new Lenis({
-                wheelMultiplier: 0.4,
-                smoothWheel: true,
-                touchMultiplier: 0.6,
-                smoothTouch: true,
-                syncTouch: true,
-                normalizeWheel: true,
-            })
-            lenis.start()
-        })
-    })
 
     homeCards[3].classList.remove("card-bg")
     homeCards[3].classList.add("my-5")
@@ -386,11 +341,88 @@ if (mediaQueryMobile.matches) {
     //     <br> Com a Playoffs, você pode criar e personalizar campeonatos de acordo com sua necessidade.
     // `
 
+
+    document.addEventListener("DOMContentLoaded", () => {
+        noiseHandler()
     
+        if (mediaQueryDesktopUp.matches) {
+            offcanvasNavbar.addEventListener("show.bs.offcanvas", () => {
+                lenis.destroy()
+            })
+        
+            offcanvasNavbar.addEventListener("hide.bs.offcanvas", () => {
+                lenis = new Lenis({
+                    wheelMultiplier: 0.4,
+                    smoothWheel: true,
+                    touchMultiplier: 0.6,
+                    smoothTouch: true,
+                    syncTouch: true,
+                    normalizeWheel: true,
+                })
+                lenis.start()
+            })
+
+            lenis.on("scroll", () => {
+                if (!menuOpen) {
+                    navbarComponente.classList.add(...mobibarComponenteClasses)
+                    mobibarLogo.classList.add(...mobibarLogoClasses)
+        
+                    if (window.scrollY === 0){
+                        navbarComponente.classList.remove(...mobibarComponenteClasses)
+                        mobibarLogo.classList.remove(...mobibarLogoClasses)
+                    }
+                } 
+            })
+        } else if (mediaQueryOnlyTablet.matches) {
+
+            offcanvasNavbar.addEventListener("show.bs.offcanvas", () => {
+                navbarComponente.classList.remove(...mobibarComponenteClasses)  
+                mobibarLogo.classList.remove(...mobibarLogoClasses)  
+
+                noiseSvgs.forEach(svg => svg.classList.toggle("z-1"))
+                homeTitle.classList.toggle("z-1")
+                homeSubText.classList.toggle("z-1")
+        
+                menuOpen = true
+                lenis.stop()
+            })
+        
+            offcanvasNavbar.addEventListener("hide.bs.offcanvas", () => {
+                noiseSvgs.forEach(svg => svg.classList.toggle("z-1"))
+                homeTitle.classList.toggle("z-1")
+                homeSubText.classList.toggle("z-1")
+        
+                if (window.scrollY != 0) {
+                    navbarComponente.classList.add(...mobibarComponenteClasses)
+                    mobibarLogo.classList.add(...mobibarLogoClasses)  
+                    menuOpen = false
+                } else {
+                    menuOpen = false
+                }
+        
+                lenis.start()
+            })
+
+            lenis.on("scroll", () => {
+                if (!menuOpen) {
+                    navbarComponente.classList.add(...mobibarComponenteClasses)
+                    mobibarLogo.classList.add(...mobibarLogoClasses)
+        
+                    if (window.scrollY === 0){
+                        navbarComponente.classList.remove(...mobibarComponenteClasses)
+                        mobibarLogo.classList.remove(...mobibarLogoClasses)
+                    }
+                } 
+            })
+
+                
+        }
+    })
 }
 
+
 window.addEventListener("resize", () => {
-    if(mediaQueryDesktop.matches) {
+    if(mediaQueryDesktopDown.matches) {
         homeTitle.classList.add("display-2")
         homeTitle.classList.remove("display-1")
     } else {
