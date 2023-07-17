@@ -109,9 +109,6 @@ if (mediaQueryMobile.matches) {
             homePill.classList.add("d-none")
         }
 
-
-        
-
         // Page Indicator 
         if (isVisible(scrollTrigger[0])) {
             dots[0].classList.add('dots-active')
@@ -139,23 +136,6 @@ if (mediaQueryMobile.matches) {
 
     }, {passive: "false"})
 
-    // Mobile Orientation Change
-    // mobilePortrait.addEventListener("change", e => {
-    //     if(!e.matches) {
-    //         navbar.classList.remove("position-fixed")
-    //     } else {
-    //         // Landscape
-    //     }
-    // })
-
-    // homeSubText.innerHTML = `
-    //     Se você é um apaixonado por esportes e quer organizar o seu próprio campeonato, 
-    //     temos uma excelente dica para você!
-
-
-    //     <br><br> Quer saber o que é? Arrasta pra cima! 
-    // `
-
 } else {
     function noiseHandler() {
         const FTBHeight = homeCards[0].parentElement.offsetHeight + navbarComponente.offsetHeight
@@ -167,7 +147,6 @@ if (mediaQueryMobile.matches) {
     }
 
     noiseHandler()
-
 
     homeCards[3].classList.remove("card-bg")
     homeCards[3].classList.add("my-5")
@@ -199,16 +178,6 @@ if (mediaQueryMobile.matches) {
     homeCards[1].querySelector("h2").classList.add("mt-5", "mbr-8")
 
     feats.forEach(feat => feat.classList.add("mb-5"))
-
-    // homeSubText.innerHTML = `
-    //     Se você ama esportes e quer organizar o seu próprio campeonato, 
-    //     temos uma excelente dica para você!
-
-
-    //     <br><br> Não perca mais tempo procurando por soluções complicadas para organizar o seu campeonato.
-    //     <br> Com a Playoffs, você pode criar e personalizar campeonatos de acordo com sua necessidade.
-    // `
-
 
     document.addEventListener("DOMContentLoaded", () => {
         noiseHandler()
