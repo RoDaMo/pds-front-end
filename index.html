@@ -36,7 +36,7 @@
         <div class="home-row row pt-2">
 
           <!-- Card 1 - Intro -->
-          <section class="col-12 home-card rounded-5 d-flex flex-column pt-5 downwards-section current-section">
+          <section id="card1" class="col-12 home-card rounded-5 d-flex flex-column pt-5 downwards-section current-section">
         
             <div class="scroll-trigger"></div> 
             <div id="home-pill" class="mt-0 mb-3 rounded-pill mx-auto"></div>
@@ -80,7 +80,7 @@
         <div class="home-row row mt-3">
 
           <!-- Card 2 - Features -->
-          <section class="col-12 home-card rounded-4 d-flex flex-column padding-home-4 upwards-section">
+          <section id="card2" class="col-12 home-card rounded-4 d-flex flex-column padding-home-4 upwards-section">
             <div class="scroll-trigger top-trigger"></div> 
             <div class="scale-sm">
               <h2 class="text-black fw-semibold text-center lh-1"> <span class="i18" key="Aqui">Aqui você vai ter tudo isso</span> <br> <span class="fw-lighter fs-6 i18" key="Mais">e muito mais</span></h2>
@@ -162,15 +162,15 @@
           </section>
 
           <!-- Card 3 - Sobre -->
-          <section class="col-12 order-0 order-md-last home-card card-bg rounded-5 d-flex flex-column padding-home-4">
+          <section id="card3" class="col-12 order-0 order-md-last home-card card-bg rounded-5 d-flex flex-column padding-home-4">
             <div class="scroll-trigger top-trigger"></div>
             <div class="row position-relative scale-sm">
-              <div class="col-12 col-md-2 d-flex justify-content-center m-auto mb-3 mt-4">
+              <div class="col-12 col-md-2 d-flex justify-content-center m-auto mb-0 mb-md-3 mt-4">
                 <img class="m-auto me-1" src="/rodamoLogo.png" alt="Rodamo Logo">
                 <h4 class="display-2 text-black fw-light text-center lh-1 d-flex d-md-none ms-0 me-auto align-items-center i18" key="SobreNos">Sobre Nós</h4>
               </div> 
       
-              <div class="col bg-about-text rounded-5 d-flex flex-column p-4"> 
+              <div class="col bg-about-text rounded-5 d-flex flex-column px-4"> 
                 <p class="mt-3 fw-normal text-black about-text">
                   <span class="i18" key="Somos">Somos uma equipe de estudantes do curso de informática do Instituto Federal que decidiu unir forças para criar um projeto inovador.</span> <br><br> 
                   <span class="i18" key="Estamos">Estamos sempre em busca de novos desafios e buscamos utilizar nossa expertise em tecnologia para ajudar ao máximo o nosso público-alvo.</span><br><br>
@@ -186,7 +186,7 @@
           </section>
 
           <!-- Card 4 - Footer -->
-          <section class="col-12 col-md home-card card-bg rounded-4 d-flex flex-column padding-home-4">
+          <section id="card4" class="col-12 col-md home-card card-bg rounded-4 d-flex flex-column padding-home-4">
             <div class="scroll-trigger top-trigger"></div> 
             <div class="scale-sm">
               <div class="row">
@@ -221,34 +221,6 @@
                 </div>
                  
               </div>
-  
-              <div class="row mb-2 mt-4 justify-content-center d-flex d-md-none">
-                <ul class="list-group list-group-horizontal list-group-flush justify-content-center p-0">
-                  <li class="list-group-item border-0 opacity-75 bg-transparent"><a href="https://github.com/RoDaMo"><i class="bi bi-github fs-1"></i></a></li>
-                </ul>    
-              </div>
-              
-  
-              <hr class="opacity-50 border rounded-pill m-0 bg-dark d-flex d-md-none">
-  
-              <div class="row mb-auto mt-2 justify-content-center d-flex d-md-none">
-                <div class="col-auto">
-                  <ul class="list-group list-group-horizontal list-group-flush">
-                    <li class="list-group-item border-0 opacity-75 me-5 bg-transparent"><a href="#" class="i18" key="Politica">Política</a></li>
-                    <li class="list-group-item border-0 opacity-75 bg-transparent"><a href="#" class="i18" key="Termos">Termos</a></li>
-                  </ul>
-                  <ul class="list-group list-group-horizontal list-group-flush">
-                    <li class="list-group-item border-0 opacity-75 me-5 bg-transparent"><a href="#" class="i18" key="Sobre">Sobre</a></li>
-                    <li class="list-group-item border-0 opacity-75 bg-transparent"><a href="#">Cookies</a></li>
-                  </ul>
-                </div>
-              </div>
-
-              <div class="row d-flex d-md-none">
-                <div class="col">
-                  <p class="text-black text-center opacity-50">@ 2023 RoDaMo</p>
-                </div>
-              </div>
             </div>
 
             <div class="scroll-trigger bottom-trigger d-flex d-md-none"></div> 
@@ -272,6 +244,8 @@
         </button>
         
       </div>
+
+      <div id="is-homer"></div>
     </main>
     
     <componente-footer></componente-footer>

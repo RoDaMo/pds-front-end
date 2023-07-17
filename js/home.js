@@ -1,4 +1,3 @@
-import Lenis from '@studio-freight/lenis'
 import '../scss/home.scss'
 import Aos from 'aos'
 import 'aos/dist/aos.css'
@@ -25,7 +24,6 @@ const scrollTrigger = document.querySelectorAll(".scroll-trigger")
 const dotsWrapper = document.querySelector(".dots-wrapper")
 const featWrapper = document.querySelector(".feat-wrapper")
 const dots = document.querySelectorAll(".dot")
-const toTopBtn = document.getElementById("gotop")
 const rodamoLogo = document.querySelector("img[alt='Rodamo Logo']")
 
 const footerCta = document.querySelectorAll(".footer-cta")
@@ -43,39 +41,14 @@ const mediaQueryDesktopDown = window.matchMedia('(max-width: 1199px)')
 const mediaQueryDesktopUp = window.matchMedia('(min-width: 1200px)')
 const mobilePortrait = window.matchMedia("(orientation: portrait)")
 
-// const mobibarClasses = ["position-fixed", "topx-14", "z-1", "start-50", "translate-middle-x", "w-60", "rounded-4", "glass-effect"]
-const mobibarComponenteClasses = ["position-fixed", "z-1", "w-100", "rounded-0", "mt-0", "shadow-none", "navbar-blur"]
-
-const mobibarLogoClasses = ["mt-0"]
-
-let lenis = new Lenis({
-    wheelMultiplier: 0.4,
-    smoothWheel: true,
-    touchMultiplier: 0.6,
-    smoothTouch: true,
-    syncTouch: true,
-    normalizeWheel: true,
-})
-
-function raf(time) {
-    lenis.raf(time)
-    requestAnimationFrame(raf)
-}
-  
-requestAnimationFrame(raf)
-
-let mobibarLogo
 let navbar
 let offcanvasNavbar 
-
-toTopBtn.style.display = "none"
 
 if (isVisible(scrollTrigger[0])) {
     dots[0].classList.add('dots-active')
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    mobibarLogo = navbarComponente.querySelector('img[alt="Logo Playoffs"]')
     navbar = navbarComponente.querySelector(".navbar")
     offcanvasNavbar = navbarComponente.querySelector("#offcanvasNavbar")
 
@@ -88,74 +61,8 @@ function isVisible(el) {
     return !(rect.bottom < 0 || rect.top - viewHeight >= 0)
 }
 
-lenis.on("scroll", () => {
-    // To top button appearing
-    if (
-        document.body.scrollTop > 200 ||
-        document.documentElement.scrollTop > 200
-    ) {
-        toTopBtn.style.display = "block"
-    } else {
-        toTopBtn.style.display = "none"
-    }
-
-    if (
-        document.body.scrollTop > 585 ||
-        document.documentElement.scrollTop > 585
-    ) {
-        navbarComponente.querySelectorAll(".nav-item").forEach(item => item.firstElementChild.classList.add("text-dark"))
-        if(navbarComponente.querySelector(".bi-caret-left-fill")) {
-            navbarComponente.querySelector(".bi-caret-left-fill").style.setProperty('--custom-white', "black")
-        }
-
-    } else {
-        navbarComponente.querySelectorAll(".nav-item").forEach(item => item.firstElementChild.classList.remove("text-dark"))
-        if(navbarComponente.querySelector(".bi-caret-left-fill")) {
-            navbarComponente.querySelector(".bi-caret-left-fill").style.setProperty('--custom-white', "white")
-        }
-    }
-})
-
-toTopBtn.addEventListener("click", () => {
-    lenis.scrollTo(0, {lock: true, duration: 2})
-})
-
-let menuOpen = false
-
 // Media Query Mobile
 if (mediaQueryMobile.matches) {
-
-    let startY = 0
-    let endY = 0
-
-
-    window.addEventListener("touchstart", e => {
-        startY = e.touches[0].clientY
-    })
-
-    // Scrollend Trigger
-    window.addEventListener("touchend", e => {
-        endY = e.changedTouches[0].clientY
-
-        console.log(endY, startY);
-
-        setTimeout(() => {
-            if (endY > startY && !(isVisible(scrollTrigger[0]))) {
-                scrollTrigger.forEach(trigger => {
-                    if (isVisible(trigger) && trigger.classList.contains("bottom-trigger")) {
-                        lenis.scrollTo(trigger.parentElement, {duration: 0.7})
-                    }
-                })
-            } else if (endY < startY && !(isVisible(scrollTrigger[7]))) {
-                scrollTrigger.forEach(trigger => {
-                    if (isVisible(trigger) && trigger.classList.contains("top-trigger")) {
-                        lenis.scrollTo(trigger.parentElement, {duration: 0.7})
-                    }
-                })
-            }
-        }, 120);
-
-    })
 
     homeCards[0].parentElement.classList.remove("pt-2")
     homeCards[2].parentElement.classList.remove("mt-3")
@@ -169,7 +76,8 @@ if (mediaQueryMobile.matches) {
 
     rodamoLogo.classList.add("w-25")
 
-    featWrapper.classList.add("card-bg2", "glass-effect")
+    featWrapper.classList.add("card-bg2")
+    featWrapper.parentElement.classList.add("px-2")
     
     feats.forEach(feat => feat.querySelector("p").classList.add("fs-5"))
 
@@ -183,64 +91,24 @@ if (mediaQueryMobile.matches) {
         div.classList.add("gap-0")
     })
 
-    document.addEventListener("DOMContentLoaded", () => {
-
-        offcanvasNavbar.addEventListener("show.bs.offcanvas", () => {
-            menuOpen = true
-            lenis.stop()
-        })
-
-        offcanvasNavbar.addEventListener("hide.bs.offcanvas", () => {
-            menuOpen = false
-            lenis.start()
-        })
-    })
-
     // Mobile navbar changer
-    lenis.on("scroll", () => {
-        navbar.classList.add("pt-1")
+    document.addEventListener("scroll", () => {
+        if (window.scrollY === 0){
+            homeCards[0].classList.remove("ptx-90")
+            homeCards[0].classList.add("vh-91")
+            homeCards.forEach(card => card.classList.add("rounded-4", "rounded-5"))
+            homePill.classList.remove("d-none")
+        } else {   
+            homeCards.forEach(card => { 
+                card.classList.add("ptx-90")
+                card.classList.remove("rounded-4", "rounded-5")
+            })
 
-        offcanvasNavbar.addEventListener("show.bs.offcanvas", () => {
-            navbarComponente.classList.remove(...mobibarComponenteClasses)  
-            mobibarLogo.classList.remove(...mobibarLogoClasses)  
-            menuOpen = true
-            lenis.stop()
-        })
+            homeCards[0].classList.remove("vh-91")
 
-        offcanvasNavbar.addEventListener("hide.bs.offcanvas", () => {
-            if (window.scrollY != 0) {
-                navbarComponente.classList.add(...mobibarComponenteClasses)
-                mobibarLogo.classList.add(...mobibarLogoClasses)  
+            homePill.classList.add("d-none")
+        }
 
-                menuOpen = false
-            } else {
-                menuOpen = false
-            }
-            lenis.start()
-        })
-
-        if (!menuOpen) {
-            navbarComponente.classList.add(...mobibarComponenteClasses)
-            mobibarLogo.classList.add(...mobibarLogoClasses)
-
-            if (window.scrollY === 0){
-                homeCards[0].classList.remove("ptx-90")
-                homeCards[0].classList.add("vh-91")
-                homeCards.forEach(card => card.classList.add("rounded-4", "rounded-5"))
-                homePill.classList.remove("d-none")
-                navbarComponente.classList.remove(...mobibarComponenteClasses)
-                mobibarLogo.classList.remove(...mobibarLogoClasses)
-            } else {   
-                homeCards.forEach(card => { 
-                    card.classList.add("ptx-90")
-                    card.classList.remove("rounded-4", "rounded-5")
-                })
-    
-                homeCards[0].classList.remove("vh-91")
-    
-                homePill.classList.add("d-none")
-            }
-        } 
 
         
 
@@ -362,17 +230,7 @@ if (mediaQueryMobile.matches) {
                 lenis.start()
             })
 
-            lenis.on("scroll", () => {
-                if (!menuOpen) {
-                    navbarComponente.classList.add(...mobibarComponenteClasses)
-                    mobibarLogo.classList.add(...mobibarLogoClasses)
-        
-                    if (window.scrollY === 0){
-                        navbarComponente.classList.remove(...mobibarComponenteClasses)
-                        mobibarLogo.classList.remove(...mobibarLogoClasses)
-                    }
-                } 
-            })
+            
         } else if (mediaQueryOnlyTablet.matches) {
 
             offcanvasNavbar.addEventListener("show.bs.offcanvas", () => {
@@ -401,21 +259,7 @@ if (mediaQueryMobile.matches) {
                 }
         
                 lenis.start()
-            })
-
-            lenis.on("scroll", () => {
-                if (!menuOpen) {
-                    navbarComponente.classList.add(...mobibarComponenteClasses)
-                    mobibarLogo.classList.add(...mobibarLogoClasses)
-        
-                    if (window.scrollY === 0){
-                        navbarComponente.classList.remove(...mobibarComponenteClasses)
-                        mobibarLogo.classList.remove(...mobibarLogoClasses)
-                    }
-                } 
-            })
-
-                
+            })              
         }
     })
 }

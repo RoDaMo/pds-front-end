@@ -395,7 +395,7 @@ async function changeConfigOptionsContext(t) {
                             <span id="mensagem-erro-redefinicao"></span>
                             <div class="col-12 mt-3">
                                 <label for="config-user-pass-input" class="form-label i18" key="SenhaAtual">${i18next.t("SenhaAtual")}</label>
-                                <div class="col-9 mt-1 d-flex position-relative">
+                                <div class="col col-md-9 mt-1 d-flex position-relative">
                                     <div class="input-wrapper w-100">
                                         <input type="password" class="form-control i18-placeholder"   key="SenhaAtual" id="config-user-pass-input" name="config-user-pass-input" placeholder="${i18next.t("SenhaAtual")}" autocomplete="on">
                                     </div>
@@ -407,7 +407,7 @@ async function changeConfigOptionsContext(t) {
                             </div>
                             <div class="col-12 mt-3">
                                 <label for="config-user-pass-input" class="form-label i18" key="NovaSenha">${i18next.t("NovaSenha")}</label>
-                                <div class="col-9 mt-1 d-flex position-relative">
+                                <div class="col col-md-9 mt-1 d-flex position-relative">
                                     <div class="input-wrapper w-100">
                                         <input type="password" class="form-control i18-placeholder" key="NovaSenha" id="config-user-newpass-input" name="config-user-newpass-input" placeholder="${i18next.t("NovaSenha")}" autocomplete="on">
                                     </div>
