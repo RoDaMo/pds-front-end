@@ -98,12 +98,14 @@ lenis.on("scroll", () => {
         }
     } 
 
-    if(window.scrollY != 0) {
-        // document.body.style.marginTop = "60px"
-        navbarComponente.firstElementChild.classList.remove("bg-white", "pb-1")
-    } else {
-        // document.body.style.marginTop = "0px"
-        navbarComponente.firstElementChild.classList.add("bg-white", "pb-1")
+    if(!isHomer) {
+        if(window.scrollY != 0) {
+            // document.body.style.marginTop = "60px"
+            navbarComponente.firstElementChild.classList.remove("bg-white", "pb-1")
+        } else {
+            // document.body.style.marginTop = "0px"
+            navbarComponente.firstElementChild.classList.add("bg-white", "pb-1")
+        }
     }
 })
 

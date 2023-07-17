@@ -175,7 +175,7 @@ const obterInfo = async () => {
             <div class="d-flex w-100 rounded-5 mb-3 mt-5 mt-md-0 ss-player-content">
 
                 <div class="position-relative m-3 overflow-hidden rounded-circle ss-player-image">
-                    <img src="" alt="playerImage" class="img-fluid position-absolute mw-100 h-100">
+                    <img src="${e.player.sla}" alt="playerImage" class="img-fluid position-absolute mw-100 h-100">
                 </div>
 
                 <span>
@@ -224,12 +224,12 @@ const obterInfo = async () => {
     }    
 }
 
-// obterInfo()
+obterInfo()
 
 async function waitInfo() {
     const ssPlayerContent = document.querySelectorAll('.ss-player-content')
     const ssChampionshipContent = document.querySelectorAll('.ss-championship-content')
-    // await obterInfo()
+    await obterInfo()
 
     if (mediaQueryMobile.matches) {
         ssPlayerContentMobile()
