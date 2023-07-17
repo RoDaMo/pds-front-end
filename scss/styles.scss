@@ -122,6 +122,12 @@ body {
   background-color: $gray-400 !important;
 }
 
+.navbar-blur {
+  backdrop-filter: blur( 15px );
+  -webkit-backdrop-filter: blur( 15px );
+  border-bottom: 1px solid rgba(98, 98, 98, 0.121) !important;
+}
+
 // -- Outras Classes
 
 .link-unstyled {
@@ -300,6 +306,12 @@ button.navbar-toggler {
     a, #lingua {
       color: $play-cor-texto !important;
     }
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .navbar-blur {
+    background: rgb(255 255 255 / 10%) !important;
   }
 }
 

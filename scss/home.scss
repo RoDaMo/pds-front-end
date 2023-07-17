@@ -145,12 +145,6 @@ html, body {
   border: 1px solid rgba( 255, 255, 255, 0.18 ) !important;
 }
 
-.navbar-blur {
-  backdrop-filter: blur( 15px );
-  -webkit-backdrop-filter: blur( 15px );
-  border-bottom: 1px solid rgba(98, 98, 98, 0.121) !important;
-}
-
 // Menu glassmorphism
 // .offcanvas-blur {
 //   backdrop-filter: blur( 8px );
@@ -335,16 +329,21 @@ ul.dots-list {
 
 @include media-breakpoint-down(sm) {
   .home-card {
-    height: 100vh;
-    // transition: all $transition;
+    &#card4 {
+      border-radius: 0 0 $border-radius-2xl $border-radius-2xl !important;
+      padding-bottom: 2rem !important;
+    }
+
+    &:not(#card4) {
+      height: 100vh;
+      // transition: all $transition;
+    }
   }
+
+
 
   .home-btn {
     float: right;
-  }
-
-  .navbar-blur {
-    background: rgb(255 255 255 / 10%) !important;
   }
 
   // .home-card {

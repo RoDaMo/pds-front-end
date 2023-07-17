@@ -1,4 +1,3 @@
-
 import { inicializarInternacionalizacao, inicializarInternacionalizacaoGlobal } from './js/utilidades/internacionalizacao'
 import { configuracaoFetch, api } from './js/utilidades/configFetch';
 import globalEn from './js/i18n/en/main.json' assert { type: 'JSON' };

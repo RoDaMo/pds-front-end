@@ -1,9 +1,165 @@
 import { configuracaoFetch, api, executarFetch } from "./configFetch";
 import './loader'
 import i18next from "i18next"
+import Lenis from '@studio-freight/lenis'
 
-const loader = document.createElement('app-loader');
-document.body.appendChild(loader);
+const toTopBtn = document.getElementById("gotop")
+const navbarComponente = document.querySelector("componente-header")
+const mediaQueryMobile = window.matchMedia('(max-width: 575px)')
+const scrollTrigger = document.querySelectorAll(".scroll-trigger")
+const isHomer = document.querySelector("#is-homer")
+
+let mobibarLogo
+let navbar
+let offcanvasNavbar 
+
+function isVisible(el) {
+    let rect = el.getBoundingClientRect()
+    let viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight)
+    return !(rect.bottom < 0 || rect.top - viewHeight >= 0)
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    mobibarLogo = navbarComponente.querySelector('img[alt="Logo Playoffs"]')
+    navbar = navbarComponente.querySelector(".navbar")
+    offcanvasNavbar = navbarComponente.querySelector("#offcanvasNavbar")
+
+    navbarComponente.firstElementChild.classList.remove("bg-white", "pb-1")
+})
+
+const loader = document.createElement('app-loader')
+document.body.appendChild(loader)
+
+const mobibarComponenteClasses = ["position-fixed", "z-3", "top-0", "w-100", "rounded-0", "mt-0", "shadow-none", "navbar-blur"]
+const mobibarLogoClasses = ["mt-0"]
+
+let lenis = new Lenis({
+    wheelMultiplier: 0.4,
+    smoothWheel: true,
+    touchMultiplier: 0.6,
+    smoothTouch: true,
+    syncTouch: true,
+    normalizeWheel: true,
+})
+
+function raf(time) {
+    lenis.raf(time)
+    requestAnimationFrame(raf)
+}
+  
+requestAnimationFrame(raf)
+
+if(toTopBtn) {
+    toTopBtn.style.display = "none"
+}
+
+let menuOpen = false
+
+lenis.on("scroll", () => {
+    // To top button appearing
+    if (
+        document.body.scrollTop > 200 ||
+        document.documentElement.scrollTop > 200
+    ) {
+        if(toTopBtn) {
+            toTopBtn.style.display = "block"
+        }
+    } else {
+        if(toTopBtn) {
+            toTopBtn.style.display = "none"
+        }
+    }
+
+    if (
+        document.body.scrollTop > 585 ||
+        document.documentElement.scrollTop > 585
+    ) {
+        navbarComponente.querySelectorAll(".nav-item").forEach(item => item.firstElementChild.classList.add("text-dark"))
+        if(navbarComponente.querySelector(".bi-caret-left-fill")) {
+            navbarComponente.querySelector(".bi-caret-left-fill").style.setProperty('--custom-white', "black")
+        }
+
+    } else {
+        navbarComponente.querySelectorAll(".nav-item").forEach(item => item.firstElementChild.classList.remove("text-dark"))
+        if(navbarComponente.querySelector(".bi-caret-left-fill")) {
+            navbarComponente.querySelector(".bi-caret-left-fill").style.setProperty('--custom-white', "white")
+        }
+    }
+
+    if (!menuOpen) {
+        navbarComponente.classList.add(...mobibarComponenteClasses)
+        mobibarLogo.classList.add(...mobibarLogoClasses)
+
+        if (window.scrollY === 0){
+            navbarComponente.classList.remove(...mobibarComponenteClasses)
+            mobibarLogo.classList.remove(...mobibarLogoClasses)
+        }
+    } 
+})
+
+if(toTopBtn) {
+    toTopBtn.addEventListener("click", () => {
+        lenis.scrollTo(0, {lock: true, force: true, duration: 1.8})
+    })
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    offcanvasNavbar.addEventListener("show.bs.offcanvas", () => {
+        navbarComponente.classList.remove(...mobibarComponenteClasses)  
+        mobibarLogo.classList.remove(...mobibarLogoClasses)  
+        menuOpen = true
+        lenis.stop()
+    })
+
+    offcanvasNavbar.addEventListener("hide.bs.offcanvas", () => {
+        if (window.scrollY != 0) {
+            navbarComponente.classList.add(...mobibarComponenteClasses)
+            mobibarLogo.classList.add(...mobibarLogoClasses)  
+
+            menuOpen = false
+        } else {
+            menuOpen = false
+        }
+        lenis.start()
+    })
+})
+
+if (mediaQueryMobile.matches) {
+
+    if(isHomer) {
+        let startY = 0
+        let endY = 0
+
+
+        window.addEventListener("touchstart", e => {
+            startY = e.touches[0].clientY
+        })
+
+        // Scrollend Trigger
+        window.addEventListener("touchend", e => {
+            endY = e.changedTouches[0].clientY
+
+            console.log(endY, startY);
+
+            setTimeout(() => {
+                if (endY > startY && !(isVisible(scrollTrigger[0]))) {
+                    scrollTrigger.forEach(trigger => {
+                        if (isVisible(trigger) && trigger.classList.contains("bottom-trigger")) {
+                            lenis.scrollTo(trigger.parentElement, {duration: 0.7})
+                        }
+                    })
+                } else if (endY < startY && !(isVisible(scrollTrigger[7]))) {
+                    scrollTrigger.forEach(trigger => {
+                        if (isVisible(trigger) && trigger.classList.contains("top-trigger")) {
+                            lenis.scrollTo(trigger.parentElement, {duration: 0.7})
+                        }
+                    })
+                }
+            }, 120);
+
+        })
+    }
+}
 
 export class header extends HTMLElement {
     constructor() {
