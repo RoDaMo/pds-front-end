@@ -54,6 +54,7 @@ const ssFirstContentWrapper = document.querySelector('.ss-first-content-wrapper'
 const ssFirstContent = document.querySelector('.ss-first-content')
 
 const splideList = document.querySelector('.splide__list')
+const champStuff = document.querySelector('#champstuff')
 
 const ssSecondContentWrapper = document.querySelector('.ss-second-content-wrapper')
 const ssSecondContent = document.querySelector('.ss-second-content')
@@ -93,6 +94,8 @@ function ssPlayerContentMobile() {
     ssPlayerName.forEach(name => {
         name.parentElement.classList.add('w-50')
     })
+
+    champStuff.classList.add('z-9999')
 }
 
 document.addEventListener('header-carregado', () => {
@@ -194,6 +197,23 @@ const obterInfo = async () => {
         `
     })
 
+    // Campeonatos do time
+    data.results.championships.forEach(e => {
+        champStuff.innerHTML += `
+            <div class="col">
+                <a href="/pages/pagina-campeonatos.html?id=${e.id}" class="text-decoration-none">
+                    <div class="rounded-5 ss-championship-content d-flex flex-column m-auto p-2">
+                        <div class="ss-championship-img-wrapper position-relative rounded-circle overflow-hidden m-auto mt-3">
+                            <img class="img-fluid position-absolute mw-100 h-100" src="${e.logoURL}" alt="ChampLogo">
+                        </div>
+                        <p class="text-center mt-2 mb-3 fs-5 text-nowrap text-truncate d-inline-block m-auto ss-championship-texts">${e.name}</p>
+                    </div>  
+                </a>
+            </div>
+        `
+    })
+
+
     // Ícone de esporte do time
     if (data.results.sportsId == 1) {
         teamSportIcon.src = '../icons/sports_soccer.svg'
@@ -243,14 +263,15 @@ async function waitInfo() {
         ssThirdContent.removeAttribute('data-lenis-prevent')
     }
 
-    splide.mount()
-
-    document.querySelector('.splide__arrows').remove()
+    splide.on('mounted', () => {
+        document.querySelector('.splide__arrows').remove()
+    })
 
     document.addEventListener('resize', () => {
         document.querySelector('.splide__arrows').remove()
     })
 
+    splide.mount()
 }
 
 waitInfo()
