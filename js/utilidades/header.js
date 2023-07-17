@@ -24,7 +24,9 @@ document.addEventListener("DOMContentLoaded", () => {
     navbar = navbarComponente.querySelector(".navbar")
     offcanvasNavbar = navbarComponente.querySelector("#offcanvasNavbar")
 
-    navbarComponente.firstElementChild.classList.remove("bg-white", "pb-1")
+    if(isHomer) {
+        navbarComponente.firstElementChild.classList.remove("bg-white", "pb-1")
+    }
 })
 
 const loader = document.createElement('app-loader')
@@ -95,6 +97,14 @@ lenis.on("scroll", () => {
             mobibarLogo.classList.remove(...mobibarLogoClasses)
         }
     } 
+
+    if(window.scrollY != 0) {
+        // document.body.style.marginTop = "60px"
+        navbarComponente.firstElementChild.classList.remove("bg-white", "pb-1")
+    } else {
+        // document.body.style.marginTop = "0px"
+        navbarComponente.firstElementChild.classList.add("bg-white", "pb-1")
+    }
 })
 
 if(toTopBtn) {
