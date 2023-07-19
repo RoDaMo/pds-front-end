@@ -140,10 +140,10 @@ if (mediaQueryMobile.matches) {
     function noiseHandler() {
         const FTBHeight = homeCards[0].parentElement.offsetHeight + navbarComponente.offsetHeight
 
-        firstTitleBg.style.height = `${FTBHeight + 85}px`
+        firstTitleBg.style.height = `${FTBHeight + 110}px`
         firstTitleBg.style.marginTop = `-${navbarComponente.offsetHeight + 40}px`
 
-        homeNoise.style.height = `${FTBHeight + 85}px`
+        homeNoise.style.height = `${FTBHeight + 110}px`
     }
 
     noiseHandler()
@@ -159,7 +159,7 @@ if (mediaQueryMobile.matches) {
 
     footerCta[1].parentElement.classList.remove("mb-auto")
 
-    navbarComponente.classList.add("position-relative", "z-1")
+    navbarComponente.classList.add("z-1")
 
     rodamoLogo.classList.add("w-50")
 
