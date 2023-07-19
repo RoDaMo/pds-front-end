@@ -134,8 +134,6 @@ body {
     text-decoration: none !important;
     color: inherit !important;
 }
-
-
   
 // Conteúdo Principal
 #gotop {
@@ -153,6 +151,10 @@ body {
     top: 1.6rem;
     color: $play-cor-secundaria;
   }
+}
+
+header {
+  transition: all $transition;
 }
 
 #gotop {

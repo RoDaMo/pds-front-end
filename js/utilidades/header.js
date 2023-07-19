@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
 const loader = document.createElement('app-loader')
 document.body.appendChild(loader)
 
-const mobibarComponenteClasses = ["position-fixed", "z-3", "top-0", "w-100", "rounded-0", "mt-0", "shadow-none", "navbar-blur"]
+const mobibarComponenteClasses = ["rounded-0", "mt-0", "shadow-none", "navbar-blur"]
 const mobibarLogoClasses = ["mt-0"]
 
 let lenis = new Lenis({
@@ -56,6 +56,17 @@ if(toTopBtn) {
 }
 
 let menuOpen = false
+
+navbarComponente.classList.add("w-100", "position-fixed", "top-0", "z-3")
+
+if(!isHomer) {
+    document.body.style.marginTop = "calc(60px + 2rem)"
+} else {
+    if (mediaQueryMobile.matches) {
+        document.body.style.marginTop = "calc(60px)"
+    }
+}
+
 
 lenis.on("scroll", () => {
     // To top button appearing
