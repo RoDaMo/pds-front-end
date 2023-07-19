@@ -5,18 +5,8 @@ import portugues from './i18n/ptbr/pagina-times.json' assert { type: 'JSON' }
 import ingles from './i18n/en/pagina-times.json' assert { type: 'JSON' }
 import i18next from "i18next";
 import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
-import Lenis from '@studio-freight/lenis'
 import Splide from '@splidejs/splide';
 import '@splidejs/splide/css';
-
-let lenis = new Lenis({
-    wheelMultiplier: 0.4,
-    smoothWheel: true,
-    touchMultiplier: 0.6,
-    smoothTouch: true,
-    syncTouch: true,
-    normalizeWheel: true,
-})
 
 const splide = new Splide( '#image-carousel', {
     type: 'loop',
@@ -33,13 +23,6 @@ const splide = new Splide( '#image-carousel', {
 
     },
 })
-
-function raf(time) {
-    lenis.raf(time)
-    requestAnimationFrame(raf)
-}
-
-requestAnimationFrame(raf)
 
 inicializarInternacionalizacao(ingles, portugues);
 const loader = document.createElement('app-loader');
@@ -169,49 +152,46 @@ const obterInfo = async () => {
     document.getElementById("name").textContent = data.results.name
 
     // Jogadores do time
-    const jogadores = document.getElementById("jogadores")
-    data.results.players.forEach((e) => {
-        jogadores.innerHTML += `
-            <div class="d-flex w-100 rounded-5 mb-3 mt-5 mt-md-0 ss-player-content">
+    // const jogadores = document.getElementById("jogadores")
+    // data.results.players.forEach((e) => {
+    //     jogadores.innerHTML += `
+    //         <div class="d-flex w-100 rounded-5 mb-3 mt-5 mt-md-0 ss-player-content">
 
-                <div class="position-relative m-3 overflow-hidden rounded-circle ss-player-image">
-                    <img src="${e.player.sla}" alt="playerImage" class="img-fluid position-absolute mw-100 h-100">
-                </div>
+    //             <div class="position-relative m-3 overflow-hidden rounded-circle ss-player-image">
+    //                 <img src="${e.player.sla}" alt="playerImage" class="img-fluid position-absolute mw-100 h-100">
+    //             </div>
 
-                <span>
+    //             <span>
 
-                    <p class="mt-3 ss-player-name w-100 fs-5 text-nowrap text-truncate d-block">${e.name}</p>
-                    <p class="ss-player-username w-100 fs-6 opacity-75 text-nowrap text-truncate d-block">${e.username}</p>
+    //                 <p class="mt-3 ss-player-name w-100 fs-5 text-nowrap text-truncate d-block">${e.name}</p>
+    //                 <p class="ss-player-username w-100 fs-6 opacity-75 text-nowrap text-truncate d-block">${e.username}</p>
 
-                </span>
-            </div>
-        `
-    })
+    //             </span>
+    //         </div>
+    //     `
+    // })
 
     // Camisetas do time
-    data.results.shirts.forEach(e => {
-        splideList.innerHTML += `
-            <li class="splide__slide">
-                <img class="img-fluid rounded-4 jerseys-img" src="${e.shirtURL}" alt="C1">
-            </li>
-        `
-    })
+    splide.mount()
+
+    splide.add('<li class="splide__slide"><img class="img-fluid rounded-4 jerseys-img" src="' + (data.results.uniformHome) + '" alt="C1"></li>')
+    splide.add('<li class="splide__slide"><img class="img-fluid rounded-4 jerseys-img" src="' + (data.results.uniformAway) + '" alt="C1"></li>')
 
     // Campeonatos do time
-    data.results.championships.forEach(e => {
-        champStuff.innerHTML += `
-            <div class="col">
-                <a href="/pages/pagina-campeonatos.html?id=${e.id}" class="text-decoration-none">
-                    <div class="rounded-5 ss-championship-content d-flex flex-column m-auto p-2">
-                        <div class="ss-championship-img-wrapper position-relative rounded-circle overflow-hidden m-auto mt-3">
-                            <img class="img-fluid position-absolute mw-100 h-100" src="${e.logoURL}" alt="ChampLogo">
-                        </div>
-                        <p class="text-center mt-2 mb-3 fs-5 text-nowrap text-truncate d-inline-block m-auto ss-championship-texts">${e.name}</p>
-                    </div>  
-                </a>
-            </div>
-        `
-    })
+    // data.results.championships.forEach(e => {
+    //     champStuff.innerHTML += `
+    //         <div class="col">
+    //             <a href="/pages/pagina-campeonatos.html?id=${e.id}" class="text-decoration-none">
+    //                 <div class="rounded-5 ss-championship-content d-flex flex-column m-auto p-2">
+    //                     <div class="ss-championship-img-wrapper position-relative rounded-circle overflow-hidden m-auto mt-3">
+    //                         <img class="img-fluid position-absolute mw-100 h-100" src="${e.logoURL}" alt="ChampLogo">
+    //                     </div>
+    //                     <p class="text-center mt-2 mb-3 fs-5 text-nowrap text-truncate d-inline-block m-auto ss-championship-texts">${e.name}</p>
+    //                 </div>  
+    //             </a>
+    //         </div>
+    //     `
+    // })
 
 
     // Ícone de esporte do time
@@ -223,8 +203,6 @@ const obterInfo = async () => {
 
     }    
 }
-
-obterInfo()
 
 async function waitInfo() {
     const ssPlayerContent = document.querySelectorAll('.ss-player-content')
@@ -263,15 +241,14 @@ async function waitInfo() {
         ssThirdContent.removeAttribute('data-lenis-prevent')
     }
 
-    splide.on('mounted', () => {
-        document.querySelector('.splide__arrows').remove()
-    })
+    // splide.on('mounted', () => {
+    //     document.querySelector('.splide__arrows').remove()
+    // })
 
-    document.addEventListener('resize', () => {
-        document.querySelector('.splide__arrows').remove()
-    })
+    // document.addEventListener('resize', () => {
+    //     document.querySelector('.splide__arrows').remove()
+    // })
 
-    splide.mount()
 }
 
 waitInfo()
