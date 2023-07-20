@@ -56,7 +56,7 @@ const teamPicWrapper = document.querySelector('.team-pic-wrapper')
 const teamName = document.querySelector('.team-name')
 // const teamConfigBtn = document.querySelector('.team-config-btn')
 const teamChars = document.querySelector('.team-chars'),
-        teamChar = document.querySelectorAll('.team-char')
+        teamChar = document.querySelector('.team-char')
 const teamPic = document.querySelector('#team-pic')
         // botaoEditar = document.getElementById('botao-time-editar')
 
@@ -147,6 +147,9 @@ const obterInfo = async () => {
     sport.textContent = i18next.t(key)
     sport.setAttribute('key', key)
 
+    let iconSrc = (data.results.sportsId === 1) ? '../icons/sports_soccer.svg' : '../icons/sports_volleyball.svg'
+    teamChar.insertAdjacentHTML("afterbegin", '<img id="teamSportIcon" src="'+ iconSrc +'" alt="sport-icon" class="sports-icon me-1">')
+
     document.getElementById("team-pic").src = !data.results.emblem ? '../default-team-image.png' : data.results.emblem
     document.getElementById("team-desc").textContent = data.results.description
     document.getElementById("name").textContent = data.results.name
@@ -191,17 +194,7 @@ const obterInfo = async () => {
     //             </a>
     //         </div>
     //     `
-    // })
-
-
-    // Ícone de esporte do time
-    if (data.results.sportsId == 1) {
-        teamSportIcon.src = '../icons/sports_soccer.svg'
-
-    } else {
-        teamSportIcon.src = '../icons/sports_volleyball.svg'
-
-    }    
+    // })  
 }
 
 async function waitInfo() {
