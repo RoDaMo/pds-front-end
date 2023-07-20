@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script type="module" src="../js/utilidades/preloader.js"></script>
+	<link rel="icon" type="image/svg+xml" href="/vite.svg" />
+	<title>Configuração de Time</title>
+</head>
+
+<body requires-auth="true">
+	<app-loader></app-loader>
+	<componente-header></componente-header>
+	<main class="container">
+		<div class="row mb-4 mt-5 h-100">
+			<section class="col-10 col-md-3 config-menu mb-5 mb-md bg-white p-4 rounded-5">
+				<h5 class="i18" key="ConfigMenuTime">Configurações de Time</h5>
+
+				<!-- Config Menu -->
+				<ul class="list-group list-group-flush config-menu-list" id="config-menu-list">
+					<button class="list-group-item list-group-item-action my-1 border-0 rounded-4 active" menu="0"><i class="bi bi-gear me-2"></i> <span class="i18" key="EditarInfosTime">Editar informações</span> </button>
+					<button class="list-group-item list-group-item-action my-1 border-0 rounded-4" menu="1"><i class="bi bi-people me-2"></i><span class="i18" key="Jogadores">Jogadores</span> </button>
+					<button class="list-group-item list-group-item-action my-1 border-0 rounded-4" menu="2"><i class="bi bi-trophy me-2"></i><span class="i18" key="Campeonatos">Campeonatos</span> </button>
+					<button class="list-group-item list-group-item-action my-1 border-0 rounded-4" menu="3"><i class="bi bi-lock me-2"></i><span class="i18" key="Exclusao">Exclusão</span></button>
+				</ul>
+			</section>
+
+			<div class="col">
+				<section class="row config-options-wrapper justify-mobile-pic p-4 rounded-5 mx-2 h-auto position-relative bg-white">
+					<p class="position-absolute config-title fw-semibold i18" key="Editar">Editar informações</p>
+
+					<!-- Time -->
+					<div class="d-none menu-config width-config-input" menu="0">
+						<h5 class="i18" key="Editar">Editar informações</h5>
+						<hr>
+						<div class="row mt-3 justify-mobile-pic">
+							<div class="col-1 position-relative p-0 overflow-hidden rounded-circle config-user-pic-mod-wrapper">
+								<img src="https://playoffs-api.up.railway.app/img/fefabe2b-4038-4b8c-b719-54fbbe9095a4" alt="Imagem do time"
+									class="img-fluid position-absolute w-100 h-100" id="config-team-pic-mod">
+							</div>
+							<div class="col-12 col-md mt-2">
+								<div class="d-flex justify-mobile-pic align-items-end h-100">
+									<label for="config-team-image-input" class="btn play-btn-primary i18" key="Brasao">Alterar brasão</label>
+								</div>
+								<div id="imagem-erro-jv"></div>
+							</div>
+						</div>
+
+						<div class="mt-4">
+							<form id="update-profile-form" class="row">
+								<input type="file" class="d-none" id="config-team-image-input" accept=".jpeg, .jpg, .png, .webp, .gif, .bmp, .tiff">
+								<input type="hidden" name="logo" id="config-imagem-input-hidden">
+								<div class="col-12 mt-3">
+									<label for="config-team-name-input" class="form-label i18" key="FormularioNomeTime">Nome do time</label>
+									<input type="text" class="form-control i18-placeholder" key="FormularioNomeTimePlaceholder" id="config-team-name-input"
+										placeholder="Nome do time">
+								</div>
+								<div class="col-12 mt-3">
+									<label for="config-team-descricao-input" class="form-label i18" key="DescricaoTime">Descrição</label>
+									<textarea class="form-control rounded-4 py-2 px-3 i18-placeholder" key="DescricaoTimePlaceholder" id="config-team-descricao-input" rows="3"
+										placeholder="Descrição"></textarea>
+								</div>
+								<div class="col-12 mt-3">
+									<label for="config-team-esporte-input" class="form-label i18" key="FormularioEsporte">Esporte:</label>
+									<select class="form-select rounded-4" id="config-team-esporte-input">
+										<option value="1" class="i18" key="FormularioEsporteFutebol">Futebol</option>
+										<option value="2" class="i18" key="FormularioEsporteVolei">Vôlei</option>
+									</select>
+								</div>
+								<div class="mt-4">
+									<p class="text-danger" id="mensagem-erro"></p>
+								</div>
+								<div class="col-12 mt-4 justify-touch-btn">
+									<button type="submit" class="btn play-btn-primary i18" key="AtualizarTime">Atualizar Time</button>
+								</div>
+							</form>
+						</div>
+					</div>
+
+					<!-- Jogadores -->
+					<div class="d-none menu-config width-config-input" menu="1">
+						<h5 class="i18" key="AdicionarJogadores">Adicionar jogadores</h5>
+						<hr>
+						<button type="button" class="btn btn-primary mb-3" id="botao-adicionar-jogador"><i class="bi bi-plus-circle px-2"></i> <span class="i18" key="AdicionarNovoJogador">Adicionar novo jogador</span> </button>
+						<form class="form-group mt-3 d-none" id="pesquisa-jogador">
+							<label for="pesquisa-time-input" class="i18" key="Pesquise">Pesquise o nome do time que deseja adicionar:</label>
+							<input type="search" name="query" id="pesquisa-time-input" class="form-control i18-placeholder" key="PesquisePlaceholder" placeholder="Escreva o nome de um time para pesquisar...">
+							<ul class="list-group list-group-flush border-2 border-primary my-3" id="pesquisa-time-lista">
+
+							</ul>
+						</form>
+
+						<!-- >= 1 Jogador no time -->
+						<div id="addedPlayers" class="d-none">
+							<h6 class="i18" key="TimesVinculados">Times vinculados</h6>
+							<ul class="list-group list-group-flush border-2 border-primary my-3" id="times-vinculados">
+						</div>
+
+						</ul>
+					</div>
+
+					<!-- Campeonatos -->
+
+					<!-- Exclusão -->
+					<div class="d-none menu-config width-config-input" menu="3">
+						<h5 class="text-danger i18" key="ExcluirTime">Excluir Time</h5>
+						<hr>
+						
+						<div class="mt-1">
+								<p class="text-danger fs-6">
+									<span class="i18" key="AoExcluirTime">Ao clicar no botão de excluir time, você estará dando início ao processo de </span>
+										
+										<span class="fw-bold i18" key="ExclusaoDoTime"> exclusão do seu time.</span><br><br>
+
+										<span class="i18" key="Certifique">Certifique-se de que realmente deseja prosseguir antes de tomar essa decisão.</span> 
+								</p>
+
+								<!-- modal -->
+								<div class="justify-touch-btn">
+									<button type="button" data-bs-toggle="modal" data-bs-target="#deleteteam" class="btn btn-danger mt-3 i18" key="ExcluirTime">Excluir Time</button>
+								</div>
+						</div>
+					</div>
+				</section>
+
+				<div class="modal fade" id="deleteteam" tabindex="-1" aria-labelledby="deleteteamLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content p-3">
+							<div class="modal-header">
+								<h1 class="modal-title fs-5 i18" id="deleteteamLabel" key="Certeza">Você tem certeza?</h1>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<!-- form -->
+							<form id="delete-team-form" class="row" method="">
+								<div class="modal-body">
+									<p class="text-danger">
+										<span class="i18" key="CasoVoce">Caso você decida </span>
+										<span class="fw-bold i18" key="excluir"> excluir </span> 
+										<span class="i18" key="TextoExclusaoTime">este time, ele será removido de visualização e não será possível recuperá-lo. 
+											Você deve avaliar cuidadosamente se é isso que realmente deseja fazer.</span>
+										
+									</p>
+									<div class="col-12 mt-3">
+										<label for="delete-team-name-input" class="form-label i18" key="NomeTime">Nome do time</label>
+										<input type="text" class="form-control i18-placeholder" id="delete-team-name-input" key="NomeTimePlaceholder" placeholder="Nome do time">
+									</div>
+								</div>
+								<div class="modal-footer justify-content-center">
+									<button type="submit" class="btn btn-danger i18" key="ExcluirTime">Excluir Time</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+	<componente-footer></componente-footer>
+	<script type="module" src="../main.js"></script>
+	<script type="module" src="../js/utilidades/header.js"></script>
+	<script type="module" src="../js/configuracao-time.js"></script>
+	<script type="module" src="../js/utilidades/footer.js"></script>
+</body>
+
+</html>
