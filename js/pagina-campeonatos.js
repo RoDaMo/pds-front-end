@@ -47,7 +47,7 @@ const championshipPicWrapper = document.querySelector('.championship-pic-wrapper
 const championshipName = document.querySelector('.championship-name')
 // const championshipConfigBtn = document.querySelector('.championship-config-btn')
 const championshipChars = document.querySelector('.championship-chars'),
-        championshipChar = document.querySelectorAll('.championship-char')
+        championshipChar = document.querySelector('.championship-char')
 const championshipPic = document.querySelector('#championship-pic')
         // botaoEditar = document.getElementById('botao-campeonato-editar')
 
@@ -150,6 +150,9 @@ const obterInfo = async () => {
     sport.textContent = i18next.t(key)
     sport.setAttribute('key', key)
 
+    let iconSrc = (data.results.sportsId === 1) ? '../icons/sports_soccer.svg' : '../icons/sports_volleyball.svg'
+    championshipChar.insertAdjacentHTML("afterbegin", 'championshipSportIcon" src="'+ iconSrc +'" alt="sport-icon" class="sports-icon me-1">')
+
     document.getElementById("championship-pic").src = !data.results.logo ? '../default-championship-image.png' : data.results.logo
     document.getElementById("championship-desc").textContent = data.results.description
     document.getElementById("data-inicial").textContent = new Date(data.results.initialDate).toLocaleDateString('pt-BR')
@@ -164,40 +167,32 @@ const obterInfo = async () => {
         `
     }
 
-    let iconSrc = (data.results.sportsId === 1) ? '../icons/sports_soccer.svg' : '../icons/sports_volleyball.svg'
     const times = document.getElementById("times")
     data.results.teams.forEach((e) => {
         times.innerHTML += `
-            <div class="d-flex w-100 rounded-5 mb-3 mt-5 mt-md-0 ss-team-content">
+            <a href="pagina-times.html?id=${e.id}" class="text-decoration-none">
+                <div class="d-flex w-100 rounded-5 mb-3 mt-5 mt-md-0 ss-team-content">
 
-                <div class="position-relative m-3 overflow-hidden rounded-circle ss-team-logo">
-                    <img src=${e.emblem} alt="teamCrest" class="img-fluid position-absolute mw-100 h-100">
+                    <div class="position-relative m-3 overflow-hidden rounded-circle ss-team-logo">
+                        <img src=${e.emblem} alt="teamCrest" class="img-fluid position-absolute mw-100 h-100">
+                    </div>
+
+                    <span>
+
+                        <p class="mt-3 ss-team-name w-100 fs-5 text-nowrap text-truncate d-block">${e.name}</p>
+
+                    </span>
+                    <span class="d-flex justify-content-end ms-auto sports-icon-wrapper">
+                        <img src="${iconSrc}" alt="sport-icon" class="sports-icon teams-sport-icon mt-3 me-3">
+                    </span>
                 </div>
-
-                <span>
-
-                    <p class="mt-3 ss-team-name w-100 fs-5 text-nowrap text-truncate d-block">${e.name}</p>
-
-                </span>
-                <span class="d-flex justify-content-end ms-auto sports-icon-wrapper">
-                    <img src="${iconSrc}" alt="sport-icon" class="sports-icon teams-sport-icon mt-3 me-3">
-                </span>
-            </div>
+            </a>
         `
     })
 
-    if (data.results.sportsId === 1) {
-        championshipSportIcon.src = '../icons/sports_soccer.svg'
-
-    } else {
-        championshipSportIcon.src = '../icons/sports_volleyball.svg'
-
-    }
-
     
+        
 }
-
-obterInfo();
 
 async function validacaoTimes() {
     await obterInfo()
