@@ -525,7 +525,7 @@ const init = async () => {
 			pesquisaWrapper.classList.toggle('d-none')
 			botaoVincular.innerHTML = `<span class="i18" key="Cancelar">${i18next.t("Cancelar")}</span>`
 			botaoVincular.onclick = () => {
-				botaoVincular.innerHTML = `<span class="i18" key="VincularNovo">${i18next.t("VincularNovo")}</span>`
+				botaoVincular.innerHTML = `<i class="bi bi-plus-circle px-2"></i><span class="i18" key="VincularNovo">${i18next.t("VincularNovo")}</span>`
 				pesquisaWrapper.classList.toggle('d-none')
 				botaoVincular.onclick = exibirPesquisa
 			}
@@ -544,11 +544,11 @@ const init = async () => {
 			datalistPesquisa.innerHTML = ''
 			for (const time of times) {
 				const newOption = document.createElement('li');
-				newOption.classList.add('list-group-item', 'bg-verde-limao', 'd-flex', 'justify-content-between', 'align-items-center')
+				newOption.classList.add('list-group-item', 'bg-verde-limao', 'rounded-5', 'p-3', 'd-flex', 'justify-content-between', 'align-items-center')
 				newOption.innerHTML =
 					`
 					<div>
-						<img src="${time.emblem}" alt="Logo" class="img-listagem-times">
+						<img src="${time.emblem}" alt="Logo" class="img-listagem-times rounded-4 me-2">
 						${time.name}
 					</div>
 				`

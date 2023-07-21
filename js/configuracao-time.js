@@ -37,132 +37,61 @@ const init = async () => {
 			imageFile = document.getElementById('config-team-image-input'),
 			imageInput = document.getElementById('config-imagem-input-hidden'),
 			name = document.getElementById('config-team-name-input'),
-			descricao = document.getElementById('config-team-descricao-input'),
-			esporte = document.getElementById('config-championship-esporte-input'),
-			form = document.getElementById('update-profile-form'),
-			quantidadeJogadores = document.getElementById('quantidade-jogadores')
+			// descricao = document.getElementById('config-team-descricao-input'),
+			esporte = document.getElementById('config-team-esporte-input'),
+			form = document.getElementById('update-profile-form')
+			// quantidadeJogadores = document.getElementById('quantidade-jogadores')
 
-		const optionDefault = () => {
-			const optionDefault = document.createElement('option')
-			optionDefault.value = ""
-			optionDefault.innerHTML = `<span class="i18" key="SelecioneOpcao">${i18next.t("SelecioneOpcao")}</span>`
-			numero.appendChild(optionDefault)
-		}
 
-		const adicionarOpcao = (value) => {
-			const option = document.createElement('option')
-			option.value = value
-			option.text = value
-			numero.appendChild(option)
-		}
 
-		const resetQuantidade = () => {
-			numero.innerHTML = ""
-			optionDefault()
-		}
-
-		formato.addEventListener("change", () => {
-			if (formato.value === "1") {
-				resetQuantidade()
-				for (let i = 1; i <= 18; i++) {
-					if (i % 2 === 0) {
-						adicionarOpcao(i + 2)
-					}
-				}
-			}
-			else {
-				resetQuantidade()
-				for (let i = 1; i <= 6; i++) {
-					adicionarOpcao(2 ** i)
-				}
-			}
-		})
-
-		image.src = team.logo
-		imageInput.value = team.logo
+		image.src = team.emblem
+		imageInput.value = team.emblem
 		name.value = team.name
-		descricao.value = team.description
+		// descricao.value = team.description
 
-		for (const option of numero.options) {
-			if (option.value == team.teamQuantity) {
-				numero.selectedIndex = option.index
-				break;
-			}
-		}
-
-		quantidadeJogadores.value = team.numberOfPlayers
+		// quantidadeJogadores.value = team.numberOfPlayers
 		esporte.selectedIndex = team.sportsId - 1
-
-		let lng = localStorage.getItem('lng')
-
-		flatpickr(dataInicial, {
-			dateFormat: "Y-m-d",
-			locale: lng === 'ptbr' ? Portuguese : ingles,
-			altInput: true,
-		})
-
-		flatpickr(dataFinal, {
-			dateFormat: "Y-m-d",
-			locale: lng === 'ptbr' ? Portuguese : ingles,
-			altInput: true,
-		})
-
-		document.addEventListener('nova-lingua', event => {
-			let lng = localStorage.getItem('lng')
-
-			flatpickr(dataInicial, {
-				dateFormat: "Y-m-d",
-				locale: lng === 'ptbr' ? Portuguese : ingles,
-				altInput: true,
-			})
-
-			flatpickr(dataFinal, {
-				dateFormat: "Y-m-d",
-				locale: lng === 'ptbr' ? Portuguese : ingles,
-				altInput: true,
-			})
-
-		})
 
 		const validator = new JustValidate(form, {
 			validateBeforeSubmitting: true,
 		})
 
-		esporte.addEventListener("change", () => {
-			if (esporte.value === "1") {
-				quantidadeJogadores.value = ""
-				quantidadeJogadores.setAttribute("min", 11)
-				quantidadeJogadores.setAttribute("max", 25)
-			} else if (esporte.value === "2") {
-				quantidadeJogadores.value = ""
-				quantidadeJogadores.setAttribute("min", 6)
-				quantidadeJogadores.setAttribute("max", 15)
-			}
+		// esporte.addEventListener("change", () => {
+		// 	if (esporte.value === "1") {
+		// 		quantidadeJogadores.value = ""
+		// 		quantidadeJogadores.setAttribute("min", 11)
+		// 		quantidadeJogadores.setAttribute("max", 25)
+		// 	} else if (esporte.value === "2") {
+		// 		quantidadeJogadores.value = ""
+		// 		quantidadeJogadores.setAttribute("min", 6)
+		// 		quantidadeJogadores.setAttribute("max", 15)
+		// 	}
 
-			if (esporte.value) {
-				quantidadeJogadores.value = ""
-				quantidadeJogadores.disabled = false;
-				quantidadeJogadores.setAttribute("key", "QuantidadeJogadoresPlaceholder")
-				quantidadeJogadores.setAttribute("placeholder", i18next.t("QuantidadeJogadoresPlaceholder"))
-			} else {
-				quantidadeJogadores.value = ""
-				quantidadeJogadores.disabled = true;
-				quantidadeJogadores.setAttribute("key", "QuantidadeJogadoresPlaceholderDisabled")
-				quantidadeJogadores.setAttribute("placeholder", i18next.t("QuantidadeJogadoresPlaceholderDisabled"))
-			}
-		})
+		// 	if (esporte.value) {
+		// 		quantidadeJogadores.value = ""
+		// 		quantidadeJogadores.disabled = false;
+		// 		quantidadeJogadores.setAttribute("key", "QuantidadeJogadoresPlaceholder")
+		// 		quantidadeJogadores.setAttribute("placeholder", i18next.t("QuantidadeJogadoresPlaceholder"))
+		// 	} else {
+		// 		quantidadeJogadores.value = ""
+		// 		quantidadeJogadores.disabled = true;
+		// 		quantidadeJogadores.setAttribute("key", "QuantidadeJogadoresPlaceholderDisabled")
+		// 		quantidadeJogadores.setAttribute("placeholder", i18next.t("QuantidadeJogadoresPlaceholderDisabled"))
+		// 	}
+		// })
 
-		quantidadeJogadores.addEventListener("change", () => {
-			if (esporte.value === "1") {
-				if (quantidadeJogadores.value < 11 || quantidadeJogadores.value > 25) {
-					quantidadeJogadores.value = 11
-				}
-			} else if (esporte.value === "2") {
-				if (quantidadeJogadores.value < 6 || quantidadeJogadores.value > 15) {
-					quantidadeJogadores.value = 6
-				}
-			}
-		})
+		// quantidadeJogadores.addEventListener("change", () => {
+		// 	if (esporte.value === "1") {
+		// 		if (quantidadeJogadores.value < 11 || quantidadeJogadores.value > 25) {
+		// 			quantidadeJogadores.value = 11
+		// 		}
+		// 	} else if (esporte.value === "2") {
+		// 		if (quantidadeJogadores.value < 6 || quantidadeJogadores.value > 15) {
+		// 			quantidadeJogadores.value = 6
+		// 		}
+		// 	}
+		// })
+
 		function validator1() {
 			validator
 				.addField(name, [
@@ -179,12 +108,6 @@ const init = async () => {
 						rule: 'maxLength',
 						value: 40,
 						errorMessage: `<span class="i18" key="NomeTimeMaximo">${i18next.t("NomeTimeMaximo")}</span>`,
-					},
-				])
-				.addField(numero, [
-					{
-						rule: 'required',
-						errorMessage: `<span class="i18" key="QuantidadeObrigatoria">${i18next.t("QuantidadeObrigatoria")}</span>`,
 					},
 				])
 				.addField(imageFile, [
@@ -204,48 +127,48 @@ const init = async () => {
 						errorMessage: `<span class="i18" key="ImagemTamanho">${i18next.t("ImagemTamanho")}</span>`,
 					}
 				], { errorsContainer: document.getElementById('imagem-erro-jv') })
-				.addField(descricao, [
-					{
-						rule: 'required',
-						errorMessage: `<span class="i18" key="DescricaoObrigatoria">${i18next.t("DescricaoObrigatoria")}</span>`,
-					},
-					{
-						rule: 'minLength',
-						value: 10,
-						errorMessage: `<span class="i18" key="DescricaoMinimo">${i18next.t("DescricaoMinimo")}</span>`,
-					},
-					{
-						rule: 'maxLength',
-						value: 2000,
-						errorMessage: `<span class="i18" key="DescricaoMaximo">${i18next.t("DescricaoMaximo")}</span>`,
-					},
-				])
-				.addField(quantidadeJogadores, [
-					{
-						rule: 'required',
-						errorMessage: `<span class="i18" key="QuantidadeJogadoresObrigatorio">${i18next.t("QuantidadeJogadoresObrigatorio")}</span>`,
-					},
-					{
-						validator: (value) => {
-							if (esporte.value == "2") {
-								return value >= 6 && value <= 15
-							} else if (esporte.value == "1") {
-								return value >= 11 && value <= 25
-							}
-						},
-						errorMessage: `<span class="i18" key="QuantidadeJogadoresInvalido">${i18next.t("QuantidadeJogadoresInvalido")}</span>`,
-					},
-				])
+				// .addField(descricao, [
+				// 	{
+				// 		rule: 'required',
+				// 		errorMessage: `<span class="i18" key="DescricaoObrigatoria">${i18next.t("DescricaoObrigatoria")}</span>`,
+				// 	},
+				// 	{
+				// 		rule: 'minLength',
+				// 		value: 10,
+				// 		errorMessage: `<span class="i18" key="DescricaoMinimo">${i18next.t("DescricaoMinimo")}</span>`,
+				// 	},
+				// 	{
+				// 		rule: 'maxLength',
+				// 		value: 2000,
+				// 		errorMessage: `<span class="i18" key="DescricaoMaximo">${i18next.t("DescricaoMaximo")}</span>`,
+				// 	},
+				// ])
+				// .addField(quantidadeJogadores, [
+				// 	{
+				// 		rule: 'required',
+				// 		errorMessage: `<span class="i18" key="QuantidadeJogadoresObrigatorio">${i18next.t("QuantidadeJogadoresObrigatorio")}</span>`,
+				// 	},
+				// 	{
+				// 		validator: (value) => {
+				// 			if (esporte.value == "2") {
+				// 				return value >= 6 && value <= 15
+				// 			} else if (esporte.value == "1") {
+				// 				return value >= 11 && value <= 25
+				// 			}
+				// 		},
+				// 		errorMessage: `<span class="i18" key="QuantidadeJogadoresInvalido">${i18next.t("QuantidadeJogadoresInvalido")}</span>`,
+				// 	},
+				// ])
 				.onSuccess(async (e) => {
 					e.preventDefault()
 					// console.log('hello world')
 					// limparMensagem(mensagemErro)
 
 					loader.show()
-					await putCampeonato({
+					await putTeam({
 						"name": name.value,
-						"logo": imageInput.value,
-						"description": descricao.value,
+						"emblem": imageInput.value,
+						// "description": descricao.value,
 						'id': teamId,
 						'sportsId': team.sportsId,
 						// "NumberOfPlayers": parseInt(quantidadeJogadores.value)
@@ -273,20 +196,20 @@ const init = async () => {
 		validator1()
 	}
 
-	const putCampeonato = async body => {
+	const putTeam = async body => {
 		const callbackServidor = data => {
 			mensagemErro.classList.add("text-danger")
 			data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`)
 		}
 
-		const data = await executarFetch('championships', configuracaoFetch("PUT", body), callbackServidor, callbackServidor)
+		const data = await executarFetch('teams', configuracaoFetch("PUT", body), callbackServidor, callbackServidor)
 		if (!data) return false
 
 		limparMensagem(mensagemErro)
 		notificacaoSucesso(data.results[0])
 	}
 
-	const vincularTime = async teamId => {
+	const vincularJogador = async teamId => {
 		const callbackStatus = (data) => {
 			notificacaoErro(data.results)
 		}
@@ -297,7 +220,7 @@ const init = async () => {
 		if (response.succeed) notificacaoSucesso(i18next.t("VinculadoSucesso"))
 	}
 
-	const desvincularTime = async teamId => {
+	const desvincularJogador = async teamId => {
 		const callbackStatus = (data) => {
 			notificacaoErro(data.results)
 		}
@@ -310,18 +233,19 @@ const init = async () => {
 		}
 	}
 
-	const listarTimesVinculados = async configFetch => {
+	const listarJogadoresVinculados = async configFetch => {
 		loader.show()
-		const timesVinculadosWrapper = document.getElementById('times-vinculados'),
+		const jogadoresVinculadosWrapper = document.getElementById('jogadores-vinculados'),
 			timesVinculados = await executarFetch(`championships/teams?championshipId=${teamId}`, configFetch)
 
 		loader.hide()
 
-		timesVinculadosWrapper.innerHTML = ''
+		jogadoresVinculadosWrapper.innerHTML = ''
 
-		if (timesVinculados.results.length == 0) {
-			timesVinculadosWrapper.innerHTML = `<p><span class="i18" key="SemTimes">${i18next.t("SemTimes")}</span></p>`
-			return;
+		if (timesVinculados.results.length >= 1) {
+			// jogadoresVinculadosWrapper.innerHTML = `<p><span class="i18" key="SemJogadores">${i18next.t("SemTimes")}</span></p>`
+			// return;
+			jogadoresVinculadosWrapper.parentElement.classList.remove('d-none')
 		}
 
 		for (const time of timesVinculados.results) {
@@ -340,29 +264,29 @@ const init = async () => {
 			botao.setAttribute('title', `Remover ${time.name} do campeonato`)
 			botao.innerHTML = `<i class="bi bi-x-lg"></i>`
 			botao.addEventListener('click', async () => {
-				await desvincularTime(time.id)
-				await listarTimesVinculados(configFetch)
+				await desvincularJogador(time.id)
+				await listarJogadoresVinculados(configFetch)
 			})
 
 			newOption.appendChild(botao)
-			timesVinculadosWrapper.appendChild(newOption)
+			jogadoresVinculadosWrapper.appendChild(newOption)
 		}
 	}
 
-	const inicializarPaginaTimes = async () => {
-		const botaoVincular = document.getElementById('botao-vincular-time'),
-			pesquisaWrapper = document.getElementById('pesquisa-time'),
-			inputPesquisa = document.getElementById('pesquisa-time-input'),
-			datalistPesquisa = document.getElementById('pesquisa-time-lista'),
+	const inicializarPaginaJogadores = async () => {
+		const botaoVincular = document.getElementById('botao-vincular-jogador'),
+			pesquisaWrapper = document.getElementById('pesquisa-jogador'),
+			inputPesquisa = document.getElementById('pesquisa-jogador-input'),
+			datalistPesquisa = document.getElementById('pesquisa-jogador-lista'),
 			configFetch = configuracaoFetch('GET')
 
-		await listarTimesVinculados(configFetch)
+		await listarJogadoresVinculados(configFetch)
 
 		const exibirPesquisa = botaoVincular.onclick = () => {
 			pesquisaWrapper.classList.toggle('d-none')
 			botaoVincular.innerHTML = `<span class="i18" key="Cancelar">${i18next.t("Cancelar")}</span>`
 			botaoVincular.onclick = () => {
-				botaoVincular.innerHTML = `<span class="i18" key="VincularNovo">${i18next.t("VincularNovo")}</span>`
+				botaoVincular.innerHTML = `<i class="bi bi-plus-circle px-2"></i><span class="i18" key="AdicionarNovoJogador">${i18next.t("AdicionarNovoJogador")}</span>`
 				pesquisaWrapper.classList.toggle('d-none')
 				botaoVincular.onclick = exibirPesquisa
 			}
@@ -375,34 +299,130 @@ const init = async () => {
 			}
 			const valor = inputPesquisa.value,
 				response = await executarFetch(`teams?query=${valor}&sport=${team.sportsId}`, configFetch),
-				times = response.results
+				jogadores = response.results
 
 
 			datalistPesquisa.innerHTML = ''
-			for (const time of times) {
+			for (const jogador of jogadores) {
 				const newOption = document.createElement('li');
-				newOption.classList.add('list-group-item', 'bg-verde-limao', 'd-flex', 'justify-content-between', 'align-items-center')
+				newOption.classList.add('list-group-item', 'bg-verde-limao', 'rounded-5', 'p-3', 'd-flex', 'justify-content-between', 'align-items-center')
 				newOption.innerHTML =
 					`
 					<div>
-						<img src="${time.emblem}" alt="Logo" class="img-listagem-times">
-						${time.name}
+						<img id="playerListPic" src="${jogador.picture}" alt="Pic" class="img-listagem-times rounded-4 me-2">
+						<p id="playerListName">${jogador.name}</p>
 					</div>
+					<div id="addPlayerStep" class="btn btn-primary"><i class="bi bi-chevron-right"></i></div>
 				`
 				const botao = document.createElement('button')
 				botao.classList.add('btn', 'btn-primary', 'adicionar-vinculo-campeonato', 'btn-sm')
 				botao.setAttribute('type', 'button')
-				botao.setAttribute('title', `${i18next.t("Adicionar")} ${time.name} ${i18next.t("AoCampeonato")}`)
+				botao.setAttribute('title', `${i18next.t("Adicionar")} ${jogador.name} ${i18next.t("AoCampeonato")}`)
 				botao.innerHTML = `<i class="bi bi-plus-lg"></i>`
 				botao.addEventListener('click', async () => {
-					await vincularTime(time.id)
+					await vincularJogador(jogador.id)
 					datalistPesquisa.innerHTML = ''
 					inputPesquisa.innerHTML = ''
-					await listarTimesVinculados(configFetch)
+					await listarJogadoresVinculados(configFetch)
 				})
 
-				newOption.appendChild(botao)
+				// newOption.appendChild(botao)
 				datalistPesquisa.appendChild(newOption)
+
+				const addPlayerStep = document.getElementById('addPlayerStep')
+				jogadores.forEach(jogador => {
+					addPlayerStep.addEventListener('click', async e => {
+						document.getElementById('playerStep').innerHTML = `
+							<div class="card bg-verde-limao">
+								<div class="card-body row">
+									<div class="col-12">
+										<img id="playerListPic" src="${jogador.emblem}" alt="Pic" class="img-listagem-times rounded-circle d-block mb-3 mx-auto">
+										<h6 id="playerListName" class="text-center mb-3">${jogador.name}</h6>
+									</div>
+									<hr>
+									<div class="col">
+										<form id="vincularJogadorForm">
+											<div class="mb-3">
+												<div class="form-check">
+													<input class="form-check-input" type="checkbox" value="" id="isCaptain">
+													<label class="form-check-label" for="flexCheckDefault">
+														É Capitão
+													</label>
+												</div>
+											</div>
+											<div class="mb-3">
+												<label for="fantasyName" class="form-label">Nome Fantasia</label>
+												<input type="text" class="form-control" id="fantasyName" placeholder="Nome Fantasia">
+											</div>
+											<div class="mb-3">
+												<label for="playerNumber" class="form-label">Número do Jogador</label>
+												<input type="number" class="form-control" id="playerNumber" placeholder="Número do Jogador">
+											</div>
+											<button type="submit" class="btn btn-primary">Submit</button>
+										<form>
+									</div>
+								</div>
+							</div>
+						`
+					})
+				})
+
+				const vincularJogadorForm = document.getElementById('vincularJogadorForm')
+				const isCaptain = document.getElementById('isCaptain')
+				const fantasyName = document.getElementById('fantasyName')
+				const playerNumber = document.getElementById('playerNumber')
+
+				validator
+					.addField(fantasyName, [
+						{
+							rule: 'required',
+							errorMessage: `<span class="i18" key="NomeFantasiaObrigatorio">${i18next.t("NomeFantasiaObrigatorio")}</span>`,
+						},
+						{
+							rule: 'minLength',
+							value: 4,
+							errorMessage: `<span class="i18" key="NomeFantasiaMinimo">${i18next.t("NomeFantasiaMinimo")}</span>`,
+						},
+						{
+							rule: 'maxLength',				
+							value: 40,
+							errorMessage: `<span class="i18" key="NomeFantasiaMaximo">${i18next.t("NomeFantasiaMaximo")}</span>`,
+						},
+					])
+					.addField(playerNumber, [
+						{
+							rule: 'required',
+							errorMessage: `<span class="i18" key="NumeroJogadorObrigatorio">${i18next.t("NumeroJogadorObrigatorio")}</span>`,
+						},
+						{
+							rule: 'minLength',
+							value: 1,
+							errorMessage: `<span class="i18" key="NumeroJogadorMinimo">${i18next.t("NumeroJogadorMinimo")}</span>`,
+						},
+						{
+							rule: 'maxLength',
+							value: 3,
+							errorMessage: `<span class="i18" key="NumeroJogadorMaximo">${i18next.t("NumeroJogadorMaximo")}</span>`,
+						},
+					])
+					.onSuccess(async (e) => {
+						e.preventDefault()
+						const body = {
+							'playerId': jogador.id,
+							'teamId': teamId,
+							'isCaptain': isCaptain.checked,
+							'fantasyName': fantasyName.value,
+							'playerNumber': playerNumber.value,
+						}
+
+						const configFetch = configuracaoFetch('POST', body),
+							response = await executarFetch('teams/players', configFetch)
+
+						if (response.succeed) {
+							notificacaoSucesso(i18next.t("JogadorVinculadoSucesso"))
+							await listarJogadoresVinculados(configFetch)
+						}
+					})
 			}
 
 		})
@@ -431,7 +451,7 @@ const init = async () => {
 					e.preventDefault()
 					loader.show()
 					const configFetch = configuracaoFetch('DELETE'),
-						response = await executarFetch(`championships/${teamId}`, configFetch)
+						response = await executarFetch(`team/${teamId}`, configFetch)
 
 					loader.hide()
 
@@ -455,10 +475,10 @@ const init = async () => {
 		mediaQueryMobile = window.matchMedia('(max-width: 575px)'),
 		menuConfig = document.getElementsByClassName('menu-config'),
 		mensagemErro = document.getElementById('mensagem-erro'),
-		teamId = document.getElementById('usernameChampionshipId').textContent
+		teamId = document.getElementById('usernameTeamManagementId').textContent
 
 	loader.show()
-	const dados = await executarFetch(`championships/${teamId}`, configuracaoFetch('GET')),
+	const dados = await executarFetch(`teams/${teamId}`, configuracaoFetch('GET')),
 		team = dados.results
 	loader.hide()
 
@@ -477,7 +497,7 @@ const init = async () => {
 
 	changeConfigOptionsContext(0)
 	inicializarCampos()
-	await inicializarPaginaTimes()
+	await inicializarPaginaJogadores()
 	await inicializarPaginaExclusao()
 	//#endregion
 }

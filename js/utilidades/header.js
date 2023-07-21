@@ -303,6 +303,7 @@ export class header extends HTMLElement {
                     <img src="${user.picture ? user.picture : defaultImg}" class="foto-usuario">
                     <h5 class="offcanvas-title" id="offcanvasUserName">${user.userName}</h5>
                     <p id="usernameChampionshipId" class="d-none">${user.championshipId}</p>
+                    <p id="usernameTeamManagementId" class="d-none">${user.teamManagementId}</p>
                     <p id="usernameUserId" class="d-none">${user.id}</p>
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -322,7 +323,11 @@ export class header extends HTMLElement {
                     <a href="/pages/cadastro-times.html" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
                         <i class="bi bi-people fs-4"></i>
                         <span class="i18" key="Time">${i18next.t("Time")}</span>
-                    </a>` : ``}
+                    </a>` : `
+                    <a href="/pages/configuracao-time.html" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
+                        <i class="bi bi-people fs-4"></i>
+                        <span class="i18" key="TimeConfig">${i18next.t("TimeConfig")}</span>
+                    </a>`}
                     <a href="javascript:void(0)" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3 deslogar-usuario">
                         <i class="bi bi-box-arrow-right fs-4"></i>
                         <span class="i18" key="Sair">${i18next.t("Sair")}</span>
