@@ -57,11 +57,11 @@
 									<input type="text" class="form-control i18-placeholder" key="FormularioNomeTimePlaceholder" id="config-team-name-input"
 										placeholder="Nome do time">
 								</div>
-								<div class="col-12 mt-3">
+								<!-- <div class="col-12 mt-3">
 									<label for="config-team-descricao-input" class="form-label i18" key="DescricaoTime">Descrição</label>
 									<textarea class="form-control rounded-4 py-2 px-3 i18-placeholder" key="DescricaoTimePlaceholder" id="config-team-descricao-input" rows="3"
 										placeholder="Descrição"></textarea>
-								</div>
+								</div> -->
 								<div class="col-12 mt-3">
 									<label for="config-team-esporte-input" class="form-label i18" key="FormularioEsporte">Esporte:</label>
 									<select class="form-select rounded-4" id="config-team-esporte-input">
@@ -80,25 +80,32 @@
 					</div>
 
 					<!-- Jogadores -->
-					<div class="d-none menu-config width-config-input" menu="1">
-						<h5 class="i18" key="AdicionarJogadores">Adicionar jogadores</h5>
-						<hr>
-						<button type="button" class="btn btn-primary mb-3" id="botao-adicionar-jogador"><i class="bi bi-plus-circle px-2"></i> <span class="i18" key="AdicionarNovoJogador">Adicionar novo jogador</span> </button>
-						<form class="form-group mt-3 d-none" id="pesquisa-jogador">
-							<label for="pesquisa-time-input" class="i18" key="Pesquise">Pesquise o nome do time que deseja adicionar:</label>
-							<input type="search" name="query" id="pesquisa-time-input" class="form-control i18-placeholder" key="PesquisePlaceholder" placeholder="Escreva o nome de um time para pesquisar...">
-							<ul class="list-group list-group-flush border-2 border-primary my-3" id="pesquisa-time-lista">
-
-							</ul>
-						</form>
-
-						<!-- >= 1 Jogador no time -->
-						<div id="addedPlayers" class="d-none">
-							<h6 class="i18" key="TimesVinculados">Times vinculados</h6>
-							<ul class="list-group list-group-flush border-2 border-primary my-3" id="times-vinculados">
+					<div class="d-none menu-config container" menu="1">
+						<div class="row">
+							<div class="col-8">
+								<h5 class="i18" key="AdicionarJogadores">Adicionar jogadores</h5>
+								<hr>
+								<button type="button" class="btn btn-primary mb-3" id="botao-vincular-jogador"><i class="bi bi-plus-circle px-2"></i> <span class="i18" key="AdicionarNovoJogador">Adicionar novo jogador</span> </button>
+								<form class="form-group mt-3 d-none" id="pesquisa-jogador">
+									<label for="pesquisa-jogador-input" class="i18" key="PesquiseJogador">Pesquise o nome do jogador que deseja adicionar:</label>
+									<input type="search" name="query" id="pesquisa-jogador-input" class="form-control i18-placeholder" key="PesquiseJogadorPlaceholder" placeholder="Escreva o nome de um jogador para pesquisar...">
+									<ul class="list-group list-group-flush border-2 border-primary my-3" id="pesquisa-jogador-lista">
+		
+									</ul>
+								</form>
+		
+								<!-- >= 1 Jogador no time -->
+								<div id="addedPlayers" class="d-none">
+									<h6 class="i18" key="JogadoresVinculados">Jogadores vinculados</h6>
+									<ul class="list-group list-group-flush border-2 border-primary my-3" id="jogadores-vinculados">
+								</div>
+		
+								</ul>
+							</div>
+							<div class="col">
+								<div id="playerStep"></div>
+							</div>
 						</div>
-
-						</ul>
 					</div>
 
 					<!-- Campeonatos -->

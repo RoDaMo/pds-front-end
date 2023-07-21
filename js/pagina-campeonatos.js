@@ -151,7 +151,7 @@ const obterInfo = async () => {
     sport.setAttribute('key', key)
 
     let iconSrc = (data.results.sportsId === 1) ? '../icons/sports_soccer.svg' : '../icons/sports_volleyball.svg'
-    championshipChar.insertAdjacentHTML("afterbegin", 'championshipSportIcon" src="'+ iconSrc +'" alt="sport-icon" class="sports-icon me-1">')
+    // championshipChar.insertAdjacentHTML("afterbegin", 'championshipSportIcon" src="'+ iconSrc +'" alt="sport-icon" class="sports-icon me-1">')
 
     document.getElementById("championship-pic").src = !data.results.logo ? '../default-championship-image.png' : data.results.logo
     document.getElementById("championship-desc").textContent = data.results.description
