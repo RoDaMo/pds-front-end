@@ -321,125 +321,114 @@ const init = async () => {
 						</div>
 						<p id="playerListName" class="m-auto">${jogador.name}</p>
 					</div>
-					<div class="addPlayerStep btn btn-primary"><i class="bi bi-chevron-right"></i></div>
 				`
 				// const botao = document.createElement('button')
-				// botao.classList.add('btn', 'btn-primary', 'adicionar-vinculo-campeonato', 'btn-sm')
-				// botao.setAttribute('type', 'button')
-				// botao.setAttribute('title', `${i18next.t("Adicionar")} ${jogador.name} ${i18next.t("AoCampeonato")}`)
-				// botao.innerHTML = `<i class="bi bi-plus-lg"></i>`
-				// botao.addEventListener('click', async () => {
-				// 	await vincularJogador(jogador.id)
-				// 	datalistPesquisa.innerHTML = ''
-				// 	inputPesquisa.innerHTML = ''
-				// 	await listarJogadoresVinculados(configFetch)
-				// })
+				const addPlayerStep = document.createElement('button')
+				addPlayerStep.classList.add('btn', 'btn-primary')
+				addPlayerStep.setAttribute('type', 'button')
+				addPlayerStep.innerHTML = `<i class="bi bi-chevron-right"></i>`
 
-				// newOption.appendChild(botao)
-				datalistPesquisa.appendChild(newOption)
-
-				const addPlayerStep = document.querySelector('.addPlayerStep')
-				jogadores.forEach(jogador => {
-					addPlayerStep.addEventListener('click', async e => {
-						document.getElementById('playerStep').innerHTML = `
-							<div class="card bg-verde-limao p-2 border-0">
-								<div class="card-body row">
-									<div class="col-12">
-										<div class="position-relative mx-auto mb-3 p-0 overflow-hidden rounded-circle img-player-step">
-											<img id="playerListPic" src="${jogador.emblem}" alt="Pic" class="img-fluid position-absolute w-100 h-100">
+				addPlayerStep.addEventListener('click', async e => {
+					document.getElementById('playerStep').innerHTML = `
+						<div class="card bg-verde-limao p-2 border-0">
+							<div class="card-body row">
+								<div class="col-12">
+									<div class="position-relative mx-auto mb-3 p-0 overflow-hidden rounded-circle img-player-step">
+										<img id="playerListPic" src="${jogador.emblem}" alt="Pic" class="img-fluid position-absolute w-100 h-100">
+									</div>
+									<h6 id="playerListName" class="text-center mb-3">${jogador.name}</h6>
+								</div>
+								<hr>
+								<div class="col">
+									<form id="vincularJogadorForm">
+										<div class="mb-3">
+											<div class="form-check">
+												<input class="form-check-input" type="checkbox" value="" id="isCaptain">
+												<label class="form-check-label" for="flexCheckDefault">
+													<span class="i18" key="Capitao">${i18next.t("Capitao")}</span>
+												</label>
+											</div>
 										</div>
-										<h6 id="playerListName" class="text-center mb-3">${jogador.name}</h6>
-									</div>
-									<hr>
-									<div class="col">
-										<form id="vincularJogadorForm">
-											<div class="mb-3">
-												<div class="form-check">
-													<input class="form-check-input" type="checkbox" value="" id="isCaptain">
-													<label class="form-check-label" for="flexCheckDefault">
-														<span class="i18" key="Capitao">${i18next.t("Capitao")}</span>
-													</label>
-												</div>
-											</div>
-											<div class="mb-3">
-												<label for="fantasyName" class="form-label">
-													<span class="i18" key="NomeFantasia">${i18next.t("NomeFantasia")}</span>
-												</label>
-												<input type="text" class="form-control i18-placeholder" key="NomeFantasiaPlaceholder" id="fantasyName" placeholder="${i18next.t("NomeFantasiaPlaceholder")}">
-											</div>
-											<div class="mb-3">
-												<label for="playerNumber" class="form-label">
-													<span class="i18" key="NumeroJogador">${i18next.t("NumeroJogador")}</span>
-												</label>
-												<input type="number" class="form-control i18-placeholder" key="NumeroJogadorPlaceholder" id="playerNumber" placeholder="${i18next.t("NumeroJogadorPlaceholder")}">
-											</div>
-											<button type="submit" class="btn btn-primary i18 mx-auto d-block" key="AddJogador">${i18next.t("AddJogador")}</button>
-										<form>
-									</div>
+										<div class="mb-3">
+											<label for="fantasyName" class="form-label">
+												<span class="i18" key="NomeFantasia">${i18next.t("NomeFantasia")}</span>
+											</label>
+											<input type="text" class="form-control i18-placeholder" key="NomeFantasiaPlaceholder" id="fantasyName" placeholder="${i18next.t("NomeFantasiaPlaceholder")}">
+										</div>
+										<div class="mb-3">
+											<label for="playerNumber" class="form-label">
+												<span class="i18" key="NumeroJogador">${i18next.t("NumeroJogador")}</span>
+											</label>
+											<input type="number" class="form-control i18-placeholder" key="NumeroJogadorPlaceholder" id="playerNumber" placeholder="${i18next.t("NumeroJogadorPlaceholder")}">
+										</div>
+										<button type="submit" class="btn btn-primary i18 mx-auto d-block" key="AddJogador">${i18next.t("AddJogador")}</button>
+									<form>
 								</div>
 							</div>
-						`
+						</div>
+					`
 
-						const isCaptain = document.getElementById('isCaptain')
-						const fantasyName = document.getElementById('fantasyName')
-						const playerNumber = document.getElementById('playerNumber')
+					const isCaptain = document.getElementById('isCaptain')
+					const fantasyName = document.getElementById('fantasyName')
+					const playerNumber = document.getElementById('playerNumber')
 
-						const validatorPlayerStep = new JustValidate('#vincularJogadorForm', { validateBeforeSubmitting: true })
-						
-						validatorPlayerStep
-							.addField(fantasyName, [
-								{
-									rule: 'required',
-									errorMessage: `<span class="i18" key="NomeFantasiaObrigatorio">${i18next.t("NomeFantasiaObrigatorio")}</span>`,
-								},
-								{
-									rule: 'minLength',
-									value: 4,
-									errorMessage: `<span class="i18" key="NomeFantasiaMinimo">${i18next.t("NomeFantasiaMinimo")}</span>`,
-								},
-								{
-									rule: 'maxLength',				
-									value: 40,
-									errorMessage: `<span class="i18" key="NomeFantasiaMaximo">${i18next.t("NomeFantasiaMaximo")}</span>`,
-								},
-							])
-							.addField(playerNumber, [
-								{
-									rule: 'required',
-									errorMessage: `<span class="i18" key="NumeroJogadorObrigatorio">${i18next.t("NumeroJogadorObrigatorio")}</span>`,
-								},
-								{
-									rule: 'minLength',
-									value: 1,
-									errorMessage: `<span class="i18" key="NumeroJogadorMinimo">${i18next.t("NumeroJogadorMinimo")}</span>`,
-								},
-								{
-									rule: 'maxLength',
-									value: 3,
-									errorMessage: `<span class="i18" key="NumeroJogadorMaximo">${i18next.t("NumeroJogadorMaximo")}</span>`,
-								},
-							])
-							.onSuccess(async (e) => {
-								e.preventDefault()
-								const body = {
-									'playerId': jogador.id,
-									'teamId': teamId,
-									'isCaptain': isCaptain.checked,
-									'fantasyName': fantasyName.value,
-									'playerNumber': playerNumber.value,
-								}
+					const validatorPlayerStep = new JustValidate('#vincularJogadorForm', { validateBeforeSubmitting: true })
+					
+					validatorPlayerStep
+						.addField(fantasyName, [
+							{
+								rule: 'required',
+								errorMessage: `<span class="i18" key="NomeFantasiaObrigatorio">${i18next.t("NomeFantasiaObrigatorio")}</span>`,
+							},
+							{
+								rule: 'minLength',
+								value: 4,
+								errorMessage: `<span class="i18" key="NomeFantasiaMinimo">${i18next.t("NomeFantasiaMinimo")}</span>`,
+							},
+							{
+								rule: 'maxLength',				
+								value: 40,
+								errorMessage: `<span class="i18" key="NomeFantasiaMaximo">${i18next.t("NomeFantasiaMaximo")}</span>`,
+							},
+						])
+						.addField(playerNumber, [
+							{
+								rule: 'required',
+								errorMessage: `<span class="i18" key="NumeroJogadorObrigatorio">${i18next.t("NumeroJogadorObrigatorio")}</span>`,
+							},
+							{
+								rule: 'minLength',
+								value: 1,
+								errorMessage: `<span class="i18" key="NumeroJogadorMinimo">${i18next.t("NumeroJogadorMinimo")}</span>`,
+							},
+							{
+								rule: 'maxLength',
+								value: 3,
+								errorMessage: `<span class="i18" key="NumeroJogadorMaximo">${i18next.t("NumeroJogadorMaximo")}</span>`,
+							},
+						])
+						.onSuccess(async (e) => {
+							e.preventDefault()
+							const body = {
+								'playerId': jogador.id,
+								'teamId': teamId,
+								'isCaptain': isCaptain.checked,
+								'fantasyName': fantasyName.value,
+								'playerNumber': playerNumber.value,
+							}
 
-								const configFetch = configuracaoFetch('POST', body),
-									response = await executarFetch('teams/players', configFetch)
+							const configFetch = configuracaoFetch('POST', body),
+								response = await executarFetch('teams/players', configFetch)
 
-								if (response.succeed) {
-									notificacaoSucesso(i18next.t("JogadorVinculadoSucesso"))
-									await listarJogadoresVinculados(configFetch)
-								}
-							})
-					})
-
+							if (response.succeed) {
+								notificacaoSucesso(i18next.t("JogadorVinculadoSucesso"))
+								await listarJogadoresVinculados(configFetch)
+							}
+						})
 				})
+
+				newOption.appendChild(addPlayerStep)
+				datalistPesquisa.appendChild(newOption)
 			}
 
 		})
