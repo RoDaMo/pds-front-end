@@ -293,6 +293,7 @@ const init = async () => {
 			botaoVincular.onclick = () => {
 				botaoVincular.innerHTML = `<i class="bi bi-plus-circle px-2"></i><span class="i18" key="AdicionarNovoJogador">${i18next.t("AdicionarNovoJogador")}</span>`
 				pesquisaWrapper.classList.toggle('d-none')
+				document.getElementById('playerStep').innerHTML = ''
 				botaoVincular.onclick = exibirPesquisa
 			}
 		}
@@ -300,6 +301,7 @@ const init = async () => {
 		inputPesquisa.addEventListener('input', async () => {
 			if (!inputPesquisa.value) {
 				datalistPesquisa.innerHTML = ''
+				document.getElementById('playerStep').innerHTML = ''
 				return;
 			}
 			const valor = inputPesquisa.value,
@@ -319,7 +321,7 @@ const init = async () => {
 						</div>
 						<p id="playerListName" class="m-auto">${jogador.name}</p>
 					</div>
-					<div id="addPlayerStep" class="btn btn-primary"><i class="bi bi-chevron-right"></i></div>
+					<div class="addPlayerStep btn btn-primary"><i class="bi bi-chevron-right"></i></div>
 				`
 				// const botao = document.createElement('button')
 				// botao.classList.add('btn', 'btn-primary', 'adicionar-vinculo-campeonato', 'btn-sm')
@@ -336,7 +338,7 @@ const init = async () => {
 				// newOption.appendChild(botao)
 				datalistPesquisa.appendChild(newOption)
 
-				const addPlayerStep = document.getElementById('addPlayerStep')
+				const addPlayerStep = document.querySelector('.addPlayerStep')
 				jogadores.forEach(jogador => {
 					addPlayerStep.addEventListener('click', async e => {
 						document.getElementById('playerStep').innerHTML = `
@@ -436,6 +438,7 @@ const init = async () => {
 								}
 							})
 					})
+
 				})
 			}
 
