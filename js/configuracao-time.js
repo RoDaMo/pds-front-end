@@ -1,5 +1,6 @@
 import '../scss/configuracao-usuarios.scss'
 import '../scss/configuracao-time.scss'
+import '../scss/pagina-times.scss'
 import JustValidate from 'just-validate'
 import { executarFetch, configuracaoFetch, limparMensagem, api } from './utilidades/configFetch'
 import { Portuguese } from "flatpickr/dist/l10n/pt.js"
@@ -14,6 +15,8 @@ import i18next from "i18next";
 import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
 
 inicializarInternacionalizacao(ingles, portugues);
+
+const mediaQueryMobile = window.matchMedia('(max-width: 575px)')
 
 const loader = document.createElement('app-loader');
 document.body.appendChild(loader);
@@ -113,7 +116,7 @@ const init = async () => {
 				.addField(imageFile, [
 					{
 						rule: 'required',
-						errorMessage: `<span class="i18" key="LogoObrigatoria">${i18next.t("LogoObrigatoria")}</span>`,
+						errorMessage: `<span class="i18" key="BrasaoObrigatorio">${i18next.t("BrasaoObrigatorio")}</span>`,
 					},
 					{
 						rule: 'files',
@@ -236,40 +239,42 @@ const init = async () => {
 	const listarJogadoresVinculados = async configFetch => {
 		loader.show()
 		const jogadoresVinculadosWrapper = document.getElementById('jogadores-vinculados'),
-			timesVinculados = await executarFetch(`championships/teams?championshipId=${teamId}`, configFetch)
+			jogadoresVinculados = await executarFetch(`championships/teams?championshipId=${teamId}`, configFetch)
 
 		loader.hide()
 
-		jogadoresVinculadosWrapper.innerHTML = ''
+		// jogadoresVinculadosWrapper.innerHTML = ''
 
-		if (timesVinculados.results.length >= 1) {
+		if (jogadoresVinculados.results.length >= 1) {
 			// jogadoresVinculadosWrapper.innerHTML = `<p><span class="i18" key="SemJogadores">${i18next.t("SemTimes")}</span></p>`
 			// return;
 			jogadoresVinculadosWrapper.parentElement.classList.remove('d-none')
 		}
 
-		for (const time of timesVinculados.results) {
-			const newOption = document.createElement('li');
-			newOption.classList.add('list-group-item', 'bg-verde-limao', 'd-flex', 'justify-content-between', 'align-items-center')
-			newOption.innerHTML =
+		for (const jogador of jogadoresVinculados.results) {
+			jogadoresVinculadosWrapper.innerHTML +=
 				`
-				<div>
-					<img src="${time.emblem}" class="img-listagem-times">
-					${time.name}
+				<div class="d-flex w-100 rounded-5 mb-3 mt-5 mt-md-0 ss-list-player-content">
+
+					<div class="position-relative m-3 overflow-hidden rounded-circle ss-player-image">
+						<img src="${jogador.picture}" alt="playerImage" class="img-fluid position-absolute mw-100 h-100">
+					</div>
+
+					<span>
+						<p class="mt-3 ss-player-name w-100 fs-5 text-nowrap text-truncate d-block">${jogador.name}</p>
+						<p class="ss-player-username w-100 fs-6 opacity-75 text-nowrap text-truncate d-block">${jogador.nickname}</p>
+					</span>
+
+					<div class="d-flex align-items-center ms-auto me-3">
+						<div class="delete-listed-player rounded-4 remover-vinculo-campeonato bg-danger d-flex"><i class="bi bi-trash text-light fs-5 m-auto"></i></div>
+					</div>
 				</div>
 			`
-			const botao = document.createElement('button')
-			botao.classList.add('btn', 'btn-danger', 'remover-vinculo-campeonato', 'btn-sm')
-			botao.setAttribute('type', 'button')
-			botao.setAttribute('title', `Remover ${time.name} do campeonato`)
-			botao.innerHTML = `<i class="bi bi-x-lg"></i>`
-			botao.addEventListener('click', async () => {
-				await desvincularJogador(time.id)
+			const botaoDesvincular = document.querySelector('.delete-listed-player')
+			botaoDesvincular.addEventListener('click', async () => {
+				await desvincularJogador(jogador.id)
 				await listarJogadoresVinculados(configFetch)
 			})
-
-			newOption.appendChild(botao)
-			jogadoresVinculadosWrapper.appendChild(newOption)
 		}
 	}
 
@@ -308,23 +313,25 @@ const init = async () => {
 				newOption.classList.add('list-group-item', 'bg-verde-limao', 'rounded-5', 'p-3', 'd-flex', 'justify-content-between', 'align-items-center')
 				newOption.innerHTML =
 					`
-					<div>
-						<img id="playerListPic" src="${jogador.picture}" alt="Pic" class="img-listagem-times rounded-4 me-2">
-						<p id="playerListName">${jogador.name}</p>
+					<div class="d-inline-flex align-items-center">
+						<div class="position-relative m-auto p-0 overflow-hidden rounded-4 me-2 img-listagem-players">
+							<img id="playerListPic" src="${jogador.emblem}" alt="Pic" class="img-fluid position-absolute w-100 h-100">
+						</div>
+						<p id="playerListName" class="m-auto">${jogador.name}</p>
 					</div>
 					<div id="addPlayerStep" class="btn btn-primary"><i class="bi bi-chevron-right"></i></div>
 				`
-				const botao = document.createElement('button')
-				botao.classList.add('btn', 'btn-primary', 'adicionar-vinculo-campeonato', 'btn-sm')
-				botao.setAttribute('type', 'button')
-				botao.setAttribute('title', `${i18next.t("Adicionar")} ${jogador.name} ${i18next.t("AoCampeonato")}`)
-				botao.innerHTML = `<i class="bi bi-plus-lg"></i>`
-				botao.addEventListener('click', async () => {
-					await vincularJogador(jogador.id)
-					datalistPesquisa.innerHTML = ''
-					inputPesquisa.innerHTML = ''
-					await listarJogadoresVinculados(configFetch)
-				})
+				// const botao = document.createElement('button')
+				// botao.classList.add('btn', 'btn-primary', 'adicionar-vinculo-campeonato', 'btn-sm')
+				// botao.setAttribute('type', 'button')
+				// botao.setAttribute('title', `${i18next.t("Adicionar")} ${jogador.name} ${i18next.t("AoCampeonato")}`)
+				// botao.innerHTML = `<i class="bi bi-plus-lg"></i>`
+				// botao.addEventListener('click', async () => {
+				// 	await vincularJogador(jogador.id)
+				// 	datalistPesquisa.innerHTML = ''
+				// 	inputPesquisa.innerHTML = ''
+				// 	await listarJogadoresVinculados(configFetch)
+				// })
 
 				// newOption.appendChild(botao)
 				datalistPesquisa.appendChild(newOption)
@@ -333,10 +340,12 @@ const init = async () => {
 				jogadores.forEach(jogador => {
 					addPlayerStep.addEventListener('click', async e => {
 						document.getElementById('playerStep').innerHTML = `
-							<div class="card bg-verde-limao">
+							<div class="card bg-verde-limao p-2 border-0">
 								<div class="card-body row">
 									<div class="col-12">
-										<img id="playerListPic" src="${jogador.emblem}" alt="Pic" class="img-listagem-times rounded-circle d-block mb-3 mx-auto">
+										<div class="position-relative mx-auto mb-3 p-0 overflow-hidden rounded-circle img-player-step">
+											<img id="playerListPic" src="${jogador.emblem}" alt="Pic" class="img-fluid position-absolute w-100 h-100">
+										</div>
 										<h6 id="playerListName" class="text-center mb-3">${jogador.name}</h6>
 									</div>
 									<hr>
@@ -346,83 +355,88 @@ const init = async () => {
 												<div class="form-check">
 													<input class="form-check-input" type="checkbox" value="" id="isCaptain">
 													<label class="form-check-label" for="flexCheckDefault">
-														É Capitão
+														<span class="i18" key="Capitao">${i18next.t("Capitao")}</span>
 													</label>
 												</div>
 											</div>
 											<div class="mb-3">
-												<label for="fantasyName" class="form-label">Nome Fantasia</label>
-												<input type="text" class="form-control" id="fantasyName" placeholder="Nome Fantasia">
+												<label for="fantasyName" class="form-label">
+													<span class="i18" key="NomeFantasia">${i18next.t("NomeFantasia")}</span>
+												</label>
+												<input type="text" class="form-control i18-placeholder" key="NomeFantasiaPlaceholder" id="fantasyName" placeholder="${i18next.t("NomeFantasiaPlaceholder")}">
 											</div>
 											<div class="mb-3">
-												<label for="playerNumber" class="form-label">Número do Jogador</label>
-												<input type="number" class="form-control" id="playerNumber" placeholder="Número do Jogador">
+												<label for="playerNumber" class="form-label">
+													<span class="i18" key="NumeroJogador">${i18next.t("NumeroJogador")}</span>
+												</label>
+												<input type="number" class="form-control i18-placeholder" key="NumeroJogadorPlaceholder" id="playerNumber" placeholder="${i18next.t("NumeroJogadorPlaceholder")}">
 											</div>
-											<button type="submit" class="btn btn-primary">Submit</button>
+											<button type="submit" class="btn btn-primary i18 mx-auto d-block" key="AddJogador">${i18next.t("AddJogador")}</button>
 										<form>
 									</div>
 								</div>
 							</div>
 						`
+
+						const isCaptain = document.getElementById('isCaptain')
+						const fantasyName = document.getElementById('fantasyName')
+						const playerNumber = document.getElementById('playerNumber')
+
+						const validatorPlayerStep = new JustValidate('#vincularJogadorForm', { validateBeforeSubmitting: true })
+						
+						validatorPlayerStep
+							.addField(fantasyName, [
+								{
+									rule: 'required',
+									errorMessage: `<span class="i18" key="NomeFantasiaObrigatorio">${i18next.t("NomeFantasiaObrigatorio")}</span>`,
+								},
+								{
+									rule: 'minLength',
+									value: 4,
+									errorMessage: `<span class="i18" key="NomeFantasiaMinimo">${i18next.t("NomeFantasiaMinimo")}</span>`,
+								},
+								{
+									rule: 'maxLength',				
+									value: 40,
+									errorMessage: `<span class="i18" key="NomeFantasiaMaximo">${i18next.t("NomeFantasiaMaximo")}</span>`,
+								},
+							])
+							.addField(playerNumber, [
+								{
+									rule: 'required',
+									errorMessage: `<span class="i18" key="NumeroJogadorObrigatorio">${i18next.t("NumeroJogadorObrigatorio")}</span>`,
+								},
+								{
+									rule: 'minLength',
+									value: 1,
+									errorMessage: `<span class="i18" key="NumeroJogadorMinimo">${i18next.t("NumeroJogadorMinimo")}</span>`,
+								},
+								{
+									rule: 'maxLength',
+									value: 3,
+									errorMessage: `<span class="i18" key="NumeroJogadorMaximo">${i18next.t("NumeroJogadorMaximo")}</span>`,
+								},
+							])
+							.onSuccess(async (e) => {
+								e.preventDefault()
+								const body = {
+									'playerId': jogador.id,
+									'teamId': teamId,
+									'isCaptain': isCaptain.checked,
+									'fantasyName': fantasyName.value,
+									'playerNumber': playerNumber.value,
+								}
+
+								const configFetch = configuracaoFetch('POST', body),
+									response = await executarFetch('teams/players', configFetch)
+
+								if (response.succeed) {
+									notificacaoSucesso(i18next.t("JogadorVinculadoSucesso"))
+									await listarJogadoresVinculados(configFetch)
+								}
+							})
 					})
 				})
-
-				const vincularJogadorForm = document.getElementById('vincularJogadorForm')
-				const isCaptain = document.getElementById('isCaptain')
-				const fantasyName = document.getElementById('fantasyName')
-				const playerNumber = document.getElementById('playerNumber')
-
-				validator
-					.addField(fantasyName, [
-						{
-							rule: 'required',
-							errorMessage: `<span class="i18" key="NomeFantasiaObrigatorio">${i18next.t("NomeFantasiaObrigatorio")}</span>`,
-						},
-						{
-							rule: 'minLength',
-							value: 4,
-							errorMessage: `<span class="i18" key="NomeFantasiaMinimo">${i18next.t("NomeFantasiaMinimo")}</span>`,
-						},
-						{
-							rule: 'maxLength',				
-							value: 40,
-							errorMessage: `<span class="i18" key="NomeFantasiaMaximo">${i18next.t("NomeFantasiaMaximo")}</span>`,
-						},
-					])
-					.addField(playerNumber, [
-						{
-							rule: 'required',
-							errorMessage: `<span class="i18" key="NumeroJogadorObrigatorio">${i18next.t("NumeroJogadorObrigatorio")}</span>`,
-						},
-						{
-							rule: 'minLength',
-							value: 1,
-							errorMessage: `<span class="i18" key="NumeroJogadorMinimo">${i18next.t("NumeroJogadorMinimo")}</span>`,
-						},
-						{
-							rule: 'maxLength',
-							value: 3,
-							errorMessage: `<span class="i18" key="NumeroJogadorMaximo">${i18next.t("NumeroJogadorMaximo")}</span>`,
-						},
-					])
-					.onSuccess(async (e) => {
-						e.preventDefault()
-						const body = {
-							'playerId': jogador.id,
-							'teamId': teamId,
-							'isCaptain': isCaptain.checked,
-							'fantasyName': fantasyName.value,
-							'playerNumber': playerNumber.value,
-						}
-
-						const configFetch = configuracaoFetch('POST', body),
-							response = await executarFetch('teams/players', configFetch)
-
-						if (response.succeed) {
-							notificacaoSucesso(i18next.t("JogadorVinculadoSucesso"))
-							await listarJogadoresVinculados(configFetch)
-						}
-					})
 			}
 
 		})
@@ -471,7 +485,7 @@ const init = async () => {
 	const configMenu = document.querySelector('.config-menu'),
 		configMenuList = document.getElementById('config-menu-list'),
 		abaBotoes = configMenuList.children,
-		configTitle = document.querySelector('.config-title'),
+		// configTitle = document.querySelector('.config-title'),
 		mediaQueryMobile = window.matchMedia('(max-width: 575px)'),
 		menuConfig = document.getElementsByClassName('menu-config'),
 		mensagemErro = document.getElementById('mensagem-erro'),
@@ -490,7 +504,6 @@ const init = async () => {
 	for (const configMenuOption of abaBotoes) {
 		configMenuOption.addEventListener('click', () => {
 			activateLi(configMenuOption)
-			configTitle.innerText = configMenuOption.innerText
 			changeConfigOptionsContext(configMenuOption.getAttribute('menu'))
 		})
 	}
@@ -501,5 +514,6 @@ const init = async () => {
 	await inicializarPaginaExclusao()
 	//#endregion
 }
+
 
 document.addEventListener('header-carregado', init)
