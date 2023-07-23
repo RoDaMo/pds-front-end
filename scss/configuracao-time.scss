@@ -40,7 +40,19 @@
   overflow-y: auto;
 }
 
+#campeonatos-vinculados {
+  max-height: 30rem;
+  overflow-y: auto;
+}
+
 // Color
 body {
   background-color: $gray-200 !important;
+}
+
+@include media-breakpoint-down(sm) {
+  .delete-listed-player {
+    width: 3rem;
+    height: 3rem;
+  }
 }

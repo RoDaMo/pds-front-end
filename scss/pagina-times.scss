@@ -272,6 +272,15 @@ body, html {
         width: 15%;
     }
 
+    .ss-player-image {
+        height: 3rem;
+        min-width: 3rem;
+    
+        img {
+            min-width: 100%;
+        }
+    }
+
     .ss-test-1 {
         top: 13.5rem;
         right: 5.5rem;
