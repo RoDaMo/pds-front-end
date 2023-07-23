@@ -21,6 +21,7 @@
     "AdicionarJogadores": "Adicionar Jogadores",
     "AddJogador" : "Adicionar Jogador",
     "JogadoresVinculados": "Jogadores vinculados",
+    "CampeonatosVinculados": "Campeonatos vinculados",
     "AdicionarNovoJogador": "Adicionar novo jogador",
     "PesquiseJogador": "Pesquise o nome do jogador que deseja adicionar:",
     "PesquiseJogadorPlaceholder": "Escreva o nome de um jogador para pesquisar...",
@@ -40,6 +41,7 @@
     "NomeFantasiaObrigatorio": "O nome fantasia é obrigatório",
     "NomeFantasiaMinimo": "O nome fantasia deve possuir no mínimo 4 caracteres",
     "NomeFantasiaMaximo": "O nome fantasia deve possuir no máximo 40 caracteres",
+    "NomeFantasiaInvalido": "Nome fantasia inválido",
     "NumeroJogadorObrigatorio": "O número do jogador é obrigatório",
     "NumeroJogadorMinimo": "O número do jogador deve possuir no mínimo 1 caractere",
     "NumeroJogadorMaximo": "O número do jogador deve possuir no máximo 3 caracteres",
@@ -60,6 +62,7 @@
     "AoCampeonato": "ao campeonato",
     "NomeUsuarioObrigatorio": "Seu nome de usuário é obrigatório",
     "NomeUsuarioIncorreto": "Nome de usuário incorreto",
+    "SemCampeonatos": "O time não possui campeonatos vinculados",
     "ConfirmarExclusao": "Você deve confirmar a exclusão do time.",
     "Escreva": "Escreva 'Excluir Campeonato' para confirmar a exclusão do time.",
     "Cancelar": "Cancelar"

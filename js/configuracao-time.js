@@ -3,8 +3,6 @@ import '../scss/configuracao-time.scss'
 import '../scss/pagina-times.scss'
 import JustValidate from 'just-validate'
 import { executarFetch, configuracaoFetch, limparMensagem, api } from './utilidades/configFetch'
-import { Portuguese } from "flatpickr/dist/l10n/pt.js"
-import flatpickr from "flatpickr"
 import { exibidorImagem } from './utilidades/previewImagem.js'
 import { uploadImagem } from './utilidades/uploadImagem'
 import { notificacaoErro, notificacaoSucesso } from "./utilidades/notificacoes"
@@ -212,23 +210,36 @@ const init = async () => {
 		notificacaoSucesso(data.results[0])
 	}
 
-	const vincularJogador = async teamId => {
+	// const vincularJogador = async teamId => {
+	// 	const callbackStatus = (data) => {
+	// 		notificacaoErro(data.results)
+	// 	}
+
+	// 	const configFetch = configuracaoFetch('POST', { 'teamId': teamId, 'championshipId': parseInt(teamId) }),
+	// 		response = await executarFetch('teams/championship', configFetch, callbackStatus)
+
+	// 	if (response.succeed) notificacaoSucesso(i18next.t("VinculadoSucesso"))
+	// }
+
+	const desvincularJogador = async playerId => {
 		const callbackStatus = (data) => {
 			notificacaoErro(data.results)
 		}
 
-		const configFetch = configuracaoFetch('POST', { 'teamId': teamId, 'championshipId': parseInt(teamId) }),
-			response = await executarFetch('teams/championship', configFetch, callbackStatus)
+		const configFetch = configuracaoFetch('DELETE', { 'teamId': teamId, 'playerId': parseInt(playerId) }),
+			response = await executarFetch('teams/players', configFetch, callbackStatus)
 
-		if (response.succeed) notificacaoSucesso(i18next.t("VinculadoSucesso"))
+		if (response.succeed) {
+			notificacaoSucesso(i18next.t("DesvinculadoSucesso"))
+		}
 	}
 
-	const desvincularJogador = async teamId => {
+	const desvincularCampeonato = async championshipId => {
 		const callbackStatus = (data) => {
 			notificacaoErro(data.results)
 		}
 
-		const configFetch = configuracaoFetch('DELETE', { 'teamId': teamId, 'championshipId': parseInt(teamId) }),
+		const configFetch = configuracaoFetch('DELETE', { 'teamId': teamId, 'championshipId': parseInt(championshipId) }),
 			response = await executarFetch('teams/championship', configFetch, callbackStatus)
 
 		if (response.succeed) {
@@ -239,11 +250,11 @@ const init = async () => {
 	const listarJogadoresVinculados = async configFetch => {
 		loader.show()
 		const jogadoresVinculadosWrapper = document.getElementById('jogadores-vinculados'),
-			jogadoresVinculados = await executarFetch(`championships/teams?championshipId=${teamId}`, configFetch)
+			jogadoresVinculados = await executarFetch(`teams/players?teamId=${teamId}`, configFetch)
 
 		loader.hide()
 
-		// jogadoresVinculadosWrapper.innerHTML = ''
+		jogadoresVinculadosWrapper.innerHTML = ''
 
 		if (jogadoresVinculados.results.length >= 1) {
 			// jogadoresVinculadosWrapper.innerHTML = `<p><span class="i18" key="SemJogadores">${i18next.t("SemTimes")}</span></p>`
@@ -252,28 +263,84 @@ const init = async () => {
 		}
 
 		for (const jogador of jogadoresVinculados.results) {
-			jogadoresVinculadosWrapper.innerHTML +=
-				`
-				<div class="d-flex w-100 rounded-5 mb-3 mt-5 mt-md-0 ss-list-player-content">
-
-					<div class="position-relative m-3 overflow-hidden rounded-circle ss-player-image">
+			const jogadoresVinculadosContent = document.createElement('div');
+			jogadoresVinculadosContent.classList.add('d-flex', 'w-100', 'rounded-5', 'mb-3', 'mt-5', 'mt-md-0', 'ss-list-player-content')
+			
+			jogadoresVinculadosContent.innerHTML = `
+				<div class="d-flex w-100 rounded-5 mb-3 mt-md-0 ss-list-player-content">
+					<div class="position-relative m-3 me-2 overflow-hidden rounded-circle ss-player-image">
 						<img src="${jogador.picture}" alt="playerImage" class="img-fluid position-absolute mw-100 h-100">
 					</div>
 
-					<span>
+					<span class="text-start">
 						<p class="mt-3 ss-player-name w-100 fs-5 text-nowrap text-truncate d-block">${jogador.name}</p>
 						<p class="ss-player-username w-100 fs-6 opacity-75 text-nowrap text-truncate d-block">${jogador.nickname}</p>
 					</span>
-
-					<div class="d-flex align-items-center ms-auto me-3">
-						<div class="delete-listed-player rounded-4 remover-vinculo-campeonato bg-danger d-flex"><i class="bi bi-trash text-light fs-5 m-auto"></i></div>
-					</div>
 				</div>
+
 			`
-			const botaoDesvincular = document.querySelector('.delete-listed-player')
-			botaoDesvincular.addEventListener('click', async () => {
+
+			const botaoDesvincularWrapper = document.createElement('div')
+			botaoDesvincularWrapper.classList.add('d-flex', 'align-items-center', 'ms-auto', 'me-3')
+			botaoDesvincularWrapper.innerHTML = `<button type="button" class="delete-listed-player rounded-4 remover-vinculo-campeonato btn btn-danger d-flex"><i class="bi bi-trash text-light fs-5 m-auto"></i></button>`
+			
+			jogadoresVinculadosContent.appendChild(botaoDesvincularWrapper)
+			jogadoresVinculadosWrapper.appendChild(jogadoresVinculadosContent)
+
+			botaoDesvincularWrapper.addEventListener('click', async e => {
 				await desvincularJogador(jogador.id)
 				await listarJogadoresVinculados(configFetch)
+			})
+
+			if(mediaQueryMobile.matches) {
+				document.querySelectorAll('.ss-player-name').forEach(element => {
+					element.classList.remove('fs-5')
+				})
+			}
+		}
+	}
+
+	const listarCampeonatosVinculados = async configFetch => {
+		loader.show()
+		const campeonatosVinculadosWrapper = document.getElementById('campeonatos-vinculados'),
+			campeonatosVinculados = await executarFetch(`teams/championship?teamId=${teamId}`, configFetch)
+
+		loader.hide()
+
+		campeonatosVinculadosWrapper.innerHTML = ''
+
+		if (campeonatosVinculados.results.length == 0) {
+			campeonatosVinculadosWrapper.innerHTML = `<p class="p-5 text-center"><span class="i18" key="SemCampeonatos">${i18next.t("SemCampeonatos")}</span></p>`
+			return;
+		}
+
+		for (const campeonato of campeonatosVinculados.results) {
+			const campeonatosVinculadosContent = document.createElement('div');
+			campeonatosVinculadosContent.classList.add('d-flex', 'w-100', 'rounded-5', 'mb-3', 'mt-5', 'mt-md-0', 'ss-list-player-content')
+
+			campeonatosVinculadosContent.innerHTML = `
+				<div class="d-flex w-100 rounded-5 mb-3 mt-md-0 ss-list-player-content">
+					<div class="position-relative m-3 me-2 overflow-hidden rounded-circle ss-player-image">
+						<img src="${campeonato.logo}" alt="champImage" class="img-fluid position-absolute mw-100 h-100">
+					</div>
+
+					<span class="text-start">
+						<p class="mt-3 ss-player-name w-100 fs-5 text-nowrap text-truncate d-block">${campeonato.name}</p>
+					</span>
+				</div>
+
+			`
+
+			const botaoDesvincularWrapper = document.createElement('div')
+			botaoDesvincularWrapper.classList.add('d-flex', 'align-items-center', 'ms-auto', 'me-3')
+			botaoDesvincularWrapper.innerHTML = `<button type="button" class="delete-listed-player rounded-4 remover-vinculo-campeonato btn btn-danger d-flex"><i class="bi bi-trash text-light fs-5 m-auto"></i></button>`
+			
+			campeonatosVinculadosContent.appendChild(botaoDesvincularWrapper)
+			campeonatosVinculadosWrapper.appendChild(campeonatosVinculadosContent)
+
+			botaoDesvincularWrapper.addEventListener('click', async e => {
+				await desvincularCampeonato(campeonato.id)
+				await listarCampeonatosVinculados(configFetch)
 			})
 		}
 	}
@@ -305,28 +372,28 @@ const init = async () => {
 				return;
 			}
 			const valor = inputPesquisa.value,
-				response = await executarFetch(`teams?query=${valor}&sport=${team.sportsId}`, configFetch),
+				// response = await executarFetch(`teams?query=${valor}&sport=${team.sportsId}`, configFetch),
+				response = await executarFetch(`players?query=${valor}&sport=${team.sportsId}`, configFetch),
 				jogadores = response.results
 
 
 			datalistPesquisa.innerHTML = ''
 			for (const jogador of jogadores) {
 				const newOption = document.createElement('li');
-				newOption.classList.add('list-group-item', 'bg-verde-limao', 'rounded-5', 'p-3', 'd-flex', 'justify-content-between', 'align-items-center')
+				newOption.classList.add('list-group-item', 'bg-verde-limao', 'border-0', 'mb-3', 'rounded-5', 'p-3', 'd-flex', 'justify-content-between', 'align-items-center')
 				newOption.innerHTML =
 					`
 					<div class="d-inline-flex align-items-center">
 						<div class="position-relative m-auto p-0 overflow-hidden rounded-4 me-2 img-listagem-players">
 							<img id="playerListPic" src="${jogador.emblem}" alt="Pic" class="img-fluid position-absolute w-100 h-100">
 						</div>
-						<p id="playerListName" class="m-auto">${jogador.name}</p>
+						<p id="playerListName" class="m-auto w-75 d-block text-truncate">${jogador.name}</p>
 					</div>
 				`
-				// const botao = document.createElement('button')
 				const addPlayerStep = document.createElement('button')
-				addPlayerStep.classList.add('btn', 'btn-primary')
+				addPlayerStep.classList.add('btn', 'btn-primary', 'rounded-4')
 				addPlayerStep.setAttribute('type', 'button')
-				addPlayerStep.innerHTML = `<i class="bi bi-chevron-right"></i>`
+				addPlayerStep.innerHTML = `<i class="bi bi-chevron-right fs-5 m-auto"></i>`
 
 				addPlayerStep.addEventListener('click', async e => {
 					document.getElementById('playerStep').innerHTML = `
@@ -359,7 +426,7 @@ const init = async () => {
 											<label for="playerNumber" class="form-label">
 												<span class="i18" key="NumeroJogador">${i18next.t("NumeroJogador")}</span>
 											</label>
-											<input type="number" class="form-control i18-placeholder" key="NumeroJogadorPlaceholder" id="playerNumber" placeholder="${i18next.t("NumeroJogadorPlaceholder")}">
+											<input type="number" class="form-control i18-placeholder" key="NumeroJogadorPlaceholder" id="playerNumber" min="0" placeholder="${i18next.t("NumeroJogadorPlaceholder")}">
 										</div>
 										<button type="submit" class="btn btn-primary i18 mx-auto d-block" key="AddJogador">${i18next.t("AddJogador")}</button>
 									<form>
@@ -389,6 +456,11 @@ const init = async () => {
 								rule: 'maxLength',				
 								value: 40,
 								errorMessage: `<span class="i18" key="NomeFantasiaMaximo">${i18next.t("NomeFantasiaMaximo")}</span>`,
+							},
+							{
+								rule: 'customRegexp',
+								value: /^[A-Za-z0-9_-]*$/,
+								errorMessage: `<span class="i18" key="NomeFantasiaInvalido">${i18next.t("NomeFantasiaInvalido")}</span>`,
 							},
 						])
 						.addField(playerNumber, [
@@ -434,22 +506,38 @@ const init = async () => {
 		})
 	}
 
+	const inicializarPaginaCampeonatos = async () => {
+		configFetch = configuracaoFetch('GET')
+		await listarCampeonatosVinculados(configFetch)
+	}
+
+
 	const inicializarPaginaExclusao = async () => {
 		const formDeletarTime = document.getElementById('delete-team-form'),
 			deleteAccountValidator = new JustValidate(formDeletarTime, { validateBeforeSubmitting: true }),
-			teamInput = document.getElementById('delete-team-name-input'),
-			username = document.getElementById('offcanvasUserName')
+			teamInput = document.getElementById('delete-team-name-input')
+			// username = document.getElementById('offcanvasUserName')
 
 		function validor2() {
 			deleteAccountValidator
-				.addField(usernameInput, [
+				// .addField(usernameInput, [
+				// 	{
+				// 		rule: 'required',
+				// 		errorMessage: `<span class="i18" key="NomeUsuarioObrigatorio">${i18next.t("NomeTimeObrigatorio")}</span>`,
+				// 	},
+				// 	{
+				// 		validator: (value) => username.textContent == value,
+				// 		errorMessage: `<span class="i18" key="NomeUsuarioIncorreto">${i18next.t("NomeTimeIncorreto")}</span>`
+				// 	}
+				// ])
+				.addField(teamInput, [
 					{
 						rule: 'required',
-						errorMessage: `<span class="i18" key="NomeUsuarioObrigatorio">${i18next.t("NomeTimeObrigatorio")}</span>`,
+						errorMessage: `<span class="i18" key="NomeTimeObrigatorio">${i18next.t("NomeTimeObrigatorio")}</span>`,
 					},
 					{
-						validator: (value) => username.textContent == value,
-						errorMessage: `<span class="i18" key="NomeUsuarioIncorreto">${i18next.t("NomeTimeIncorreto")}</span>`
+						validator: (value) => team.name == value,
+						errorMessage: `<span class="i18" key="NomeTimeIncorreto">${i18next.t("NomeTimeIncorreto")}</span>`
 					}
 				])
 				// submit
@@ -503,6 +591,7 @@ const init = async () => {
 	changeConfigOptionsContext(0)
 	inicializarCampos()
 	await inicializarPaginaJogadores()
+	await inicializarPaginaCampeonatos()
 	await inicializarPaginaExclusao()
 	//#endregion
 }
