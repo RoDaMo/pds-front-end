@@ -8,5 +8,10 @@
     "De": "From",
     "Ate": "to",
     "FiltrarApartir": "Filter from...",
-    "FiltrarAte": "Filter to.."
+    "FiltrarAte": "Filter to..",
+    "Status": "Status",
+    "Ativo": "Active",
+    "Finalizado": "Finished",
+    "Inativo": "Inactive",
+    "Pendente": "Pending"
 }

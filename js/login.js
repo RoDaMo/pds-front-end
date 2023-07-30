@@ -103,7 +103,7 @@ function criarValidacao() {
             },
             {
                 rule: 'maxLength',
-                value: 20,
+                value: 100,
                 errorMessage: `<span class="i18" key="NomeMaximo">${i18next.t("NomeMaximo")}</span>`,
             },
             {

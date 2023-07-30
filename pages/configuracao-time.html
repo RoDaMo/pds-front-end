@@ -7,6 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<script type="module" src="../js/utilidades/preloader.js"></script>
 	<link rel="icon" type="image/svg+xml" href="/vite.svg" />
+	<link rel="stylesheet" href="../scss/cadastro-times.scss">
 	<title>Configuração de Time</title>
 </head>
 
@@ -46,6 +47,38 @@
 								<div id="imagem-erro-jv"></div>
 							</div>
 						</div>
+						<div class="col-md-12 mt-5">
+							<div class="row d-flex justify-content-around">
+								<p class="text-success col-4 d-flex justify-content-center i18" key="UniformeCasa">Uniforme casa</p>
+								<p class="text-success col-4 d-flex justify-content-center i18" key="UniformeFora">Uniforme fora</p>
+							</div>
+							<div class="row d-flex justify-content-around gap-2">
+								<img id="home" src="https://playoffs-api.up.railway.app/img/fefabe2b-4038-4b8c-b719-54fbbe9095a4" class="col-4 p-1 img-fluid uniforme border border-success rounded-5" alt="">
+								<img id="away" src="https://playoffs-api.up.railway.app/img/fefabe2b-4038-4b8c-b719-54fbbe9095a4" class="col-4 p-1 img-fluid uniforme border border-success rounded-5" alt="">
+							</div>
+							<div class="row mt-3 d-flex justify-content-around">
+								<div class="col-4 d-flex justify-content-center custom-file-upload">
+									<label for="uniforme-casa">
+										<i class="w-100 h-100 d-flex justify-content-center align-items-center border border-primary rounded-circle btn btn-success bi bi-upload text-light"></i>
+										<input id="uniforme-casa" type="file" name="uniforme-casa" name="logo" accept=".jpeg, .jpg, .png, .webp, .gif, .bmp, .tiff">
+									</label>
+									<div class="input-wrapper d-flex align-items-center ms-2">
+										<input type="hidden" name="uniforme-casa" id="uniforme-1">
+									</div>
+								</div>
+	
+								<div class="col-4 d-flex justify-content-center custom-file-upload">
+									<label for="uniforme-fora">
+										<i class="w-100 h-100 d-flex justify-content-center align-items-center border border-primary rounded-circle btn btn-success bi bi-upload text-light"></i>
+										<input id="uniforme-fora" type="file" name="uniforme-fora" name="logo" accept=".jpeg, .jpg, .png, .webp, .gif, .bmp, .tiff">
+									</label>
+									<div class="input-wrapper d-flex align-items-center ms-2">
+										<input type="hidden" name="uniforme-casa" id="uniforme-2">
+									</div>
+								</div>
+								
+							</div>
+						</div>
 
 						<div class="mt-4">
 							<form id="update-profile-form" class="row">
@@ -83,14 +116,34 @@
 						<div class="row">
 							<h5 class="i18" key="AdicionarJogadores">Adicionar jogadores</h5>
 							<hr>
-							<div class="col-12 col-lg-8">
-								<button type="button" class="btn btn-primary mb-3" id="botao-vincular-jogador"><i class="bi bi-plus-circle px-2"></i> <span class="i18" key="AdicionarNovoJogador">Adicionar novo jogador</span> </button>
+							<div id="vinculo-jogador" class="col-12 col-lg-8">
+								<div class="">
+									<button type="button" class="btn btn-primary mb-3" id="botao-vincular-jogador"><i class="bi bi-plus-circle px-2"></i> <span class="i18" key="AdicionarNovoJogador">Adicionar novo jogador</span> </button>
+								
+									<button type="button" class="btn btn-primary mb-3" id="botao-vincular-jogador-temporario"><i class="bi bi-plus-circle px-2"></i> <span>Adicionar novo jogador temporário</span> </button>
+								</div>
+
 								<form class="form-group mt-3 d-none" id="pesquisa-jogador">
 									<label for="pesquisa-jogador-input" class="i18" key="PesquiseJogador">Pesquise o nome do jogador que deseja adicionar:</label>
 									<input type="search" name="query" id="pesquisa-jogador-input" class="form-control i18-placeholder" key="PesquiseJogadorPlaceholder" placeholder="Escreva o nome de um jogador para pesquisar...">
 									<ul class="list-group list-group-flush my-3" id="pesquisa-jogador-lista">
 		
 									</ul>
+								</form>
+								<form class="form-group mt-3 d-none" id="formulario-jogador-temporario">
+									<label for="nome-jogador" class="form-label text-success mt-3">Nome do jogador:</label>
+                            		<input type="text" class="form-control" id="nome-jogador" name="nome-jogador" placeholder="Nome do jogador...">
+									<label for="nome-artistico" class="form-label text-success mt-3">Nome artístico:</label>
+                            		<input type="text" class="form-control" id="nome-artistico" name="nome-artistico" placeholder="Nome do artistico...">
+									<label for="numero" class="form-label text-success mt-3">Número:</label>
+                            		<input type="number" class="form-control rounded-4" id="numero" name="numero" placeholder="Insira o número da camisa">
+									<label for="email-jogador" class="form-label text-success">Email:</label>
+                            		<input type="email" class="form-control" id="email-jogador" name="email-jogador" placeholder="Email...">
+									<label for="posicao" class="form-label">Posição:</label>
+									<select class="form-select rounded-4 width-config-input" id="posicao" name="posicao">
+						
+									</select>
+									<button class="btn btn-primary mt-5" id="submit-formulario-jogador-temporario">Cadastrar</button>
 								</form>
 		
 								</ul>

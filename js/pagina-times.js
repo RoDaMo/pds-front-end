@@ -139,6 +139,7 @@ const obterInfo = async () => {
     
     loader.show()
     const data = await executarFetch(`teams/${id}`, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
+    console.log(data)
     loader.hide()
     
     const sport = document.getElementById("teamSport"),
@@ -156,18 +157,21 @@ const obterInfo = async () => {
 
     // Jogadores do time
     const jogadores = document.getElementById("jogadores")
-    data.results.players.forEach((e) => {
+    const jogadoresVinculados = await executarFetch(`teams/${id}/players`, configuracaoFetch("GET"))
+    const campeonatosVinculados = await executarFetch(`teams/championship/${id}`, configuracaoFetch("GET"))
+    console.log(campeonatosVinculados)
+    jogadoresVinculados.results.forEach((e) => {
         jogadores.innerHTML += `
             <div class="d-flex w-100 rounded-5 mb-3 mt-5 mt-md-0 ss-player-content">
 
                 <div class="position-relative m-3 overflow-hidden rounded-circle ss-player-image">
-                    <img src="${e.player.sla}" alt="playerImage" class="img-fluid position-absolute mw-100 h-100">
+                    <img src="${e.picture}" alt="playerImage" class="img-fluid position-absolute mw-100 h-100">
                 </div>
 
                 <span>
 
                     <p class="mt-3 ss-player-name w-100 fs-5 text-nowrap text-truncate d-block">${e.name}</p>
-                    <p class="ss-player-username w-100 fs-6 opacity-75 text-nowrap text-truncate d-block">${e.username}</p>
+                    <p class="ss-player-username w-100 fs-6 opacity-75 text-nowrap text-truncate d-block">${e.artisticName}</p>
 
                 </span>
             </div>
@@ -181,13 +185,13 @@ const obterInfo = async () => {
     splide.add('<li class="splide__slide"><img class="img-fluid rounded-4 jerseys-img" src="' + (data.results.uniformAway) + '" alt="C1"></li>')
 
     // Campeonatos do time
-    data.results.championships.forEach(e => {
-        champStuff.innerHTML += `
+    campeonatosVinculados.results.forEach(e => {
+        champStuff.innerHTML += /*html*/`
             <div class="col">
                 <a href="/pages/pagina-campeonatos.html?id=${e.id}" class="text-decoration-none">
                     <div class="rounded-5 ss-championship-content d-flex flex-column m-auto p-2">
                         <div class="ss-championship-img-wrapper position-relative rounded-circle overflow-hidden m-auto mt-3">
-                            <img class="img-fluid position-absolute mw-100 h-100" src="${e.logoURL}" alt="ChampLogo">
+                            <img class="img-fluid position-absolute mw-100 h-100" src="${e.logo}" alt="ChampLogo">
                         </div>
                         <p class="text-center mt-2 mb-3 fs-5 text-nowrap text-truncate d-inline-block m-auto ss-championship-texts">${e.name}</p>
                     </div>  
@@ -206,29 +210,33 @@ async function waitInfo() {
         ssPlayerContentMobile()
     }
 
-    if (ssPlayerContent.length == 0) {
-        ssFirstContent.classList.add('justify-content-center', 'align-items-center')
-        ssFirstContent.removeAttribute('data-lenis-prevent')
-        ssFirstContent.innerHTML = `
-            <div class="p-5">
-                <span class="i18" key="NenhumJogador">${i18next.t("NenhumJogador")}</span>
-            </div>
-        `
-    }
+    //!!!!!!!!!!!!Codigo abaixo esta dando problema!!!!!!!!!!!
+    // if (ssPlayerContent.length == 0) {
+    //     ssFirstContent.classList.add('justify-content-center', 'align-items-center')
+    //     ssFirstContent.removeAttribute('data-lenis-prevent')
+    //     ssFirstContent.innerHTML = `
+    //         <div class="p-5">
+    //             <span class="i18" key="NenhumJogador">${i18next.t("NenhumJogador")}</span>
+    //         </div>
+    //     `
+    // }
+    //!!!!!!!!!!!!Codigo acima esta dando problema!!!!!!!!!!!
 
     if (ssPlayerContent.length <= 3) {
         ssFirstContent.removeAttribute('data-lenis-prevent')
     }
 
-    if (ssChampionshipContent.length == 0) {
-        ssThirdContent.classList.add('justify-content-center', 'align-items-center')
-        ssThirdContent.removeAttribute('data-lenis-prevent')
-        ssThirdContent.innerHTML = `
-            <div class="p-5">
-                <span class="i18" key="NenhumCampeonato">${i18next.t("NenhumCampeonato")}</span>
-            </div>
-        `
-    }
+    //!!!!!!!!!!!!Codigo abaixo esta dando problema!!!!!!!!!!!
+    // if (ssChampionshipContent.length == 0) {
+    //     ssThirdContent.classList.add('justify-content-center', 'align-items-center')
+    //     ssThirdContent.removeAttribute('data-lenis-prevent')
+    //     ssThirdContent.innerHTML = `
+    //         <div class="p-5">
+    //             <span class="i18" key="NenhumCampeonato">${i18next.t("NenhumCampeonato")}</span>
+    //         </div>
+    //     `
+    // }
+    //!!!!!!!!!!!!Codigo acima esta dando problema!!!!!!!!!!!
 
     if (ssChampionshipContent.length <= 6) {
         ssThirdContent.removeAttribute('data-lenis-prevent')

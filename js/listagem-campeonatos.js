@@ -12,6 +12,7 @@ document.body.appendChild(loader);
 inicializarInternacionalizacao(ingles, portugues);
 
 const filtroEsporte = document.getElementById('esportes')
+const filtroStatus = document.getElementById('status')
 const filtroInicio = document.getElementById('data-inicio')
 const filtroFim = document.getElementById('data-fim')
 const erro = document.getElementById("mensagem-erro")
@@ -35,6 +36,7 @@ let filtros = {
     sport: null,
     start: null,
     finish: null,
+    status: null
 }
 
 let lng = localStorage.getItem('lng')
@@ -102,6 +104,13 @@ filtroEsporte.addEventListener("change", async () => {
     paginasAnteriores = []
     filtros.sport = filtroEsporte.value ? filtroEsporte.value : null;
     if(filtroEsporte.value === "") params = new URLSearchParams();
+    await listagem();
+})
+
+filtroStatus.addEventListener("change", async () => {
+    paginasAnteriores = []
+    filtros.status = filtroStatus.value ? filtroStatus.value : null;
+    if(filtroStatus.value === "") params = new URLSearchParams();
     await listagem();
 })
 
