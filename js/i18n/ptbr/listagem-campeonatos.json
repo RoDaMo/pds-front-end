@@ -8,5 +8,10 @@
     "De": "De",
     "Ate": "até",
     "FiltrarApartir": "Filtrar a partir de...",
-    "FiltrarAte": "Filtrar até.."
+    "FiltrarAte": "Filtrar até..",
+    "Status": "Status",
+    "Ativo": "Ativo",
+    "Finalizado": "Finalizado",
+    "Inativo": "Inativo",
+    "Pendente": "Pendente"
 }

@@ -20,7 +20,7 @@
     
     <div class="row align-items-start mt-5 gap-0">
       
-      <div class="col-md-3 mb-2">
+      <div class="col-md-2 mb-2">
         <select id="esportes" class="form-select" aria-label="Default select example"  placeholder="Filtrar a partir de...">
             <option class="i18" key="Esportes" value="" selected>Esportes</option>
             <option class="i18" key="Futebol" value="1">Futebol</option>
@@ -28,23 +28,34 @@
           </select>
       </div>
 
-      <div class="col-md-3 mb-2">
+      <div class="col-md-2 mb-2">
             <div class="input-group ">
               <input id="data-inicio" type="text" class="form-control" placeholder="Filtrar a partir de..." aria-label="Filtrar a partir de..." aria-describedby="basic-addon2">
                 
             </div>
       </div>
 
-      <div class="col-md-3 mb-2">
+      <div class="col-md-2 mb-2">
             <div class="input-group">
               <input id="data-fim" type="text" class="form-control" placeholder="Filtrar até..." aria-label="Filtrar até..." aria-describedby="basic-addon2">
                 
             </div>
       </div>
 
+      <div class="col-md-2 mb-2">
+        <select id="status" class="form-select">
+            <option class="i18" key="Status" value="" selected>Status</option>
+            <option class="i18" key="Ativo" value="0">Ativo</option>
+            <option class="i18" key="Finalizado" value="1">Finalizado</option>  
+            <option class="i18" key="Inativo" value="2">Inativo</option>
+            <option class="i18" key="Pendente" value="3">Pendente</option>  
+          </select>
+      </div>
+
       <div class="col-md-3 mb-2 border-start">
         <button id="limpar" type="button" class="btn btn-outline-primary i18" key="LimparFiltros">Limpar filtros</button>
       </div>
+
       
     </div>
 

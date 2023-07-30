@@ -38,19 +38,22 @@ const init = async () => {
 			imageFile = document.getElementById('config-team-image-input'),
 			imageInput = document.getElementById('config-imagem-input-hidden'),
 			name = document.getElementById('config-team-name-input'),
-			// descricao = document.getElementById('config-team-descricao-input'),
 			esporte = document.getElementById('config-team-esporte-input'),
-			form = document.getElementById('update-profile-form')
-			// quantidadeJogadores = document.getElementById('quantidade-jogadores')
+			form = document.getElementById('update-profile-form'),
+			home = document.getElementById("home"),
+			homeInput = document.getElementById("uniforme-casa"),
+			homeFile = document.getElementById("uniforme-1"),
+			away = document.getElementById("away"),
+			awayInput = document.getElementById("uniforme-fora"),
+			awayFile = document.getElementById("uniforme-2")
 
 
 
 		image.src = team.emblem
 		imageInput.value = team.emblem
 		name.value = team.name
-		// descricao.value = team.description
-
-		// quantidadeJogadores.value = team.numberOfPlayers
+		home.src = team.uniformHome
+		away.src = team.uniformAway
 		esporte.selectedIndex = team.sportsId - 1
 
 		const validator = new JustValidate(form, {
@@ -128,53 +131,22 @@ const init = async () => {
 						errorMessage: `<span class="i18" key="ImagemTamanho">${i18next.t("ImagemTamanho")}</span>`,
 					}
 				], { errorsContainer: document.getElementById('imagem-erro-jv') })
-				// .addField(descricao, [
-				// 	{
-				// 		rule: 'required',
-				// 		errorMessage: `<span class="i18" key="DescricaoObrigatoria">${i18next.t("DescricaoObrigatoria")}</span>`,
-				// 	},
-				// 	{
-				// 		rule: 'minLength',
-				// 		value: 10,
-				// 		errorMessage: `<span class="i18" key="DescricaoMinimo">${i18next.t("DescricaoMinimo")}</span>`,
-				// 	},
-				// 	{
-				// 		rule: 'maxLength',
-				// 		value: 2000,
-				// 		errorMessage: `<span class="i18" key="DescricaoMaximo">${i18next.t("DescricaoMaximo")}</span>`,
-				// 	},
-				// ])
-				// .addField(quantidadeJogadores, [
-				// 	{
-				// 		rule: 'required',
-				// 		errorMessage: `<span class="i18" key="QuantidadeJogadoresObrigatorio">${i18next.t("QuantidadeJogadoresObrigatorio")}</span>`,
-				// 	},
-				// 	{
-				// 		validator: (value) => {
-				// 			if (esporte.value == "2") {
-				// 				return value >= 6 && value <= 15
-				// 			} else if (esporte.value == "1") {
-				// 				return value >= 11 && value <= 25
-				// 			}
-				// 		},
-				// 		errorMessage: `<span class="i18" key="QuantidadeJogadoresInvalido">${i18next.t("QuantidadeJogadoresInvalido")}</span>`,
-				// 	},
-				// ])
 				.onSuccess(async (e) => {
 					e.preventDefault()
-					// console.log('hello world')
-					// limparMensagem(mensagemErro)
 
 					loader.show()
-					await putTeam({
-						"name": name.value,
-						"emblem": imageInput.value,
-						// "description": descricao.value,
+					const resultado = await putTeam({
 						'id': teamId,
-						'sportsId': team.sportsId,
-						// "NumberOfPlayers": parseInt(quantidadeJogadores.value)
+						"emblem": imageInput.value,
+						"uniformHome": document.getElementById("uniforme-1").value ? document.getElementById("uniforme-1").value : document.getElementById("home").src,
+						"uniformAway": document.getElementById("uniforme-2").value ? document.getElementById("uniforme-2").value : document.getElementById("away").src,
+						'sportsId': esporte.value.toString(),
+						"name": name.value,
 					})
+
+					console.log(resultado)
 					loader.hide()
+
 					// mensagemErro.textContent = ''
 				})
 
@@ -192,42 +164,69 @@ const init = async () => {
 				imageInput.value = `${api}img/${data.results}`
 				exibidorImagem(image, imageInput.value)
 			})
+
+			homeInput.addEventListener("change", async () => {
+				loader.show()
+				const data = await uploadImagem(homeInput, 3, mensagemErro)
+				loader.hide()
+
+				if (Array.isArray(data.results))
+					return;
+
+				homeFile.value = `${api}img/${data.results}`
+				exibidorImagem(home, homeFile.value)
+			})
+
+			awayInput.addEventListener("change", async () => {
+
+				loader.show()
+				const data = await uploadImagem(awayInput, 3, mensagemErro)
+				loader.hide()
+
+				if (Array.isArray(data.results))
+					return;
+
+				awayFile.value = `${api}img/${data.results}`
+				exibidorImagem(away, awayFile.value)
+			})
 		}
 		document.addEventListener('nova-lingua', validator1)
 		validator1()
 	}
 
 	const putTeam = async body => {
+		console.log(body)
 		const callbackServidor = data => {
 			mensagemErro.classList.add("text-danger")
 			data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`)
 		}
 
 		const data = await executarFetch('teams', configuracaoFetch("PUT", body), callbackServidor, callbackServidor)
+		console.log(data)
 		if (!data) return false
 
 		limparMensagem(mensagemErro)
 		notificacaoSucesso(data.results[0])
 	}
 
-	// const vincularJogador = async teamId => {
-	// 	const callbackStatus = (data) => {
-	// 		notificacaoErro(data.results)
-	// 	}
+	const vincularJogador = async teamId => {
+		const callbackStatus = (data) => {
+			notificacaoErro(data.results)
+		}
 
-	// 	const configFetch = configuracaoFetch('POST', { 'teamId': teamId, 'championshipId': parseInt(teamId) }),
-	// 		response = await executarFetch('teams/championship', configFetch, callbackStatus)
+		const configFetch = configuracaoFetch('POST', { 'teamId': teamId, 'championshipId': parseInt(teamId) }),
+			response = await executarFetch('teams/championship', configFetch, callbackStatus)
 
-	// 	if (response.succeed) notificacaoSucesso(i18next.t("VinculadoSucesso"))
-	// }
+		if (response.succeed) notificacaoSucesso(i18next.t("VinculadoSucesso"))
+	}
 
 	const desvincularJogador = async playerId => {
 		const callbackStatus = (data) => {
 			notificacaoErro(data.results)
 		}
 
-		const configFetch = configuracaoFetch('DELETE', { 'teamId': teamId, 'playerId': parseInt(playerId) }),
-			response = await executarFetch('teams/players', configFetch, callbackStatus)
+		const configFetch = configuracaoFetch('DELETE'),
+			response = await executarFetch(`players/${playerId}`, configFetch, callbackStatus)
 
 		if (response.succeed) {
 			notificacaoSucesso(i18next.t("DesvinculadoSucesso"))
@@ -239,20 +238,23 @@ const init = async () => {
 			notificacaoErro(data.results)
 		}
 
-		const configFetch = configuracaoFetch('DELETE', { 'teamId': teamId, 'championshipId': parseInt(championshipId) }),
+		const configFetch = configuracaoFetch('DELETE', {'championshipId': parseInt(championshipId), 'teamId': parseInt(teamId),  }),
 			response = await executarFetch('teams/championship', configFetch, callbackStatus)
+		console.log(response)
 
 		if (response.succeed) {
 			notificacaoSucesso(i18next.t("DesvinculadoSucesso"))
 		}
 	}
 
-	const listarJogadoresVinculados = async configFetch => {
+	const listarJogadoresVinculados = async () => {
 		loader.show()
 		const jogadoresVinculadosWrapper = document.getElementById('jogadores-vinculados'),
-			jogadoresVinculados = await executarFetch(`teams/players?teamId=${teamId}`, configFetch)
+			jogadoresVinculados = await executarFetch(`teams/${team.id}/players`, configuracaoFetch("GET"))
 
 		loader.hide()
+
+		console.log(jogadoresVinculados)
 
 		jogadoresVinculadosWrapper.innerHTML = ''
 
@@ -266,7 +268,7 @@ const init = async () => {
 			const jogadoresVinculadosContent = document.createElement('div');
 			jogadoresVinculadosContent.classList.add('d-flex', 'w-100', 'rounded-5', 'mb-3', 'mt-5', 'mt-md-0', 'ss-list-player-content')
 			
-			jogadoresVinculadosContent.innerHTML = `
+			jogadoresVinculadosContent.innerHTML = /*html*/`
 				<div class="d-flex w-100 rounded-5 mb-3 mt-md-0 ss-list-player-content">
 					<div class="position-relative m-3 me-2 overflow-hidden rounded-circle ss-player-image">
 						<img src="${jogador.picture}" alt="playerImage" class="img-fluid position-absolute mw-100 h-100">
@@ -274,7 +276,7 @@ const init = async () => {
 
 					<span class="text-start">
 						<p class="mt-3 ss-player-name w-100 fs-5 text-nowrap text-truncate d-block">${jogador.name}</p>
-						<p class="ss-player-username w-100 fs-6 opacity-75 text-nowrap text-truncate d-block">${jogador.nickname}</p>
+						<p class="ss-player-username w-100 fs-6 opacity-75 text-nowrap text-truncate d-block">${jogador.artisticName}</p>
 					</span>
 				</div>
 
@@ -289,7 +291,7 @@ const init = async () => {
 
 			botaoDesvincularWrapper.addEventListener('click', async e => {
 				await desvincularJogador(jogador.id)
-				await listarJogadoresVinculados(configFetch)
+				await listarJogadoresVinculados()
 			})
 
 			if(mediaQueryMobile.matches) {
@@ -303,9 +305,11 @@ const init = async () => {
 	const listarCampeonatosVinculados = async configFetch => {
 		loader.show()
 		const campeonatosVinculadosWrapper = document.getElementById('campeonatos-vinculados'),
-			campeonatosVinculados = await executarFetch(`teams/championship?teamId=${teamId}`, configFetch)
+			campeonatosVinculados = await executarFetch(`teams/championship/${teamId}`, configFetch)
 
 		loader.hide()
+
+		console.log(campeonatosVinculados)
 
 		campeonatosVinculadosWrapper.innerHTML = ''
 
@@ -350,19 +354,104 @@ const init = async () => {
 			pesquisaWrapper = document.getElementById('pesquisa-jogador'),
 			inputPesquisa = document.getElementById('pesquisa-jogador-input'),
 			datalistPesquisa = document.getElementById('pesquisa-jogador-lista'),
+			botaoVincularJogadorTemporario = document.getElementById("botao-vincular-jogador-temporario"),
+			formularioJogadorTemporario = document.getElementById("formulario-jogador-temporario"),
 			configFetch = configuracaoFetch('GET')
 
-		await listarJogadoresVinculados(configFetch)
+		await listarJogadoresVinculados()
 
 		const exibirPesquisa = botaoVincular.onclick = () => {
 			pesquisaWrapper.classList.toggle('d-none')
-			botaoVincular.innerHTML = `<span class="i18" key="Cancelar">${i18next.t("Cancelar")}</span>`
+			botaoVincular.innerHTML = `
+				<span class="i18" key="Cancelar">${i18next.t("Cancelar")}</span>
+			`
+			
 			botaoVincular.onclick = () => {
-				botaoVincular.innerHTML = `<i class="bi bi-plus-circle px-2"></i><span class="i18" key="AdicionarNovoJogador">${i18next.t("AdicionarNovoJogador")}</span>`
+				botaoVincular.innerHTML = `<i class="bi bi-plus-circle px-2"></i><span class="i18" key="AdicionarNovoJogador">${i18next.t("AdicionarNovoJogador")}</span>
+				`
 				pesquisaWrapper.classList.toggle('d-none')
 				document.getElementById('playerStep').innerHTML = ''
 				botaoVincular.onclick = exibirPesquisa
 			}
+		}
+
+		const exibirFormJogadorTemporario = botaoVincularJogadorTemporario.onclick = () => {
+			formularioJogadorTemporario.classList.toggle('d-none')
+			botaoVincularJogadorTemporario.innerHTML = `
+				<span class="i18" key="Cancelar">${i18next.t("Cancelar")}</span>
+			`
+
+			if(team.sportsId === 1){
+				document.getElementById("posicao").innerHTML += `
+					<option value="1">Goleiro</option>
+					<option value="2">Zagueiro</option>
+					<option value="3">Lateral</option>
+					<option value="4">Volante</option>
+					<option value="5">Meio-Campista</option>
+					<option value="6">Meia-Atacante</option>
+					<option value="7">Ala</option>
+					<option value="8">Ponta</option>
+					<option value="9">Centroavante</option>
+				` 
+			}else{
+				document.getElementById("posicao").innerHTML += `
+					<option value="10">Levantador</option>
+					<option value="11">Central</option>
+					<option value="12">Líbero</option>
+					<option value="13">Ponteiro</option>
+					<option value="14">Oposto</option>
+				` 
+			}
+			
+			botaoVincularJogadorTemporario.onclick = () => {
+				botaoVincularJogadorTemporario.innerHTML = `<i class="bi bi-plus-circle px-2"></i><span>Adicionar novo jogador temporário</span>
+				`
+				formularioJogadorTemporario.classList.toggle('d-none')
+				botaoVincularJogadorTemporario.onclick = exibirFormJogadorTemporario
+			}
+
+			const postJogadorTemporario = async(endpoint, body) => {
+				const callbackServidor = data => {
+					mensagemErro.classList.add("text-danger")
+					data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
+				}
+			
+				loader.show()
+				console.log(body)
+				const data = await executarFetch(endpoint, configuracaoFetch("POST", body), callbackServidor, callbackServidor)
+				loader.hide()
+			
+				if (!data) return false
+			
+				notificacaoSucesso(data.results[0])
+				return true
+			}
+
+			document.getElementById("formulario-jogador-temporario").addEventListener("submit", async(e) => {
+				console.log("form enviado")
+				e.preventDefault()
+				limparMensagem(mensagemErro)
+
+				loader.show();
+
+				const resultado = await postJogadorTemporario("playertempprofiles", {
+					"name": document.getElementById("nome-jogador").value,
+					"artisticName": document.getElementById("nome-artistico").value,
+					"number": parseInt(document.getElementById("numero").value),
+					"email": document.getElementById("email-jogador").value,
+					"teamsId": parseInt(team.id),
+					"playerPosition": parseInt(document.getElementById("posicao").value)
+				})
+
+				if (resultado) {
+					formularioJogadorTemporario.reset()
+				}
+
+				loader.hide();
+
+				listarJogadoresVinculados()
+
+			})
 		}
 
 		inputPesquisa.addEventListener('input', async () => {
@@ -507,7 +596,7 @@ const init = async () => {
 	}
 
 	const inicializarPaginaCampeonatos = async () => {
-		configFetch = configuracaoFetch('GET')
+		const configFetch = configuracaoFetch('GET')
 		await listarCampeonatosVinculados(configFetch)
 	}
 
@@ -545,7 +634,7 @@ const init = async () => {
 					e.preventDefault()
 					loader.show()
 					const configFetch = configuracaoFetch('DELETE'),
-						response = await executarFetch(`team/${teamId}`, configFetch)
+						response = await executarFetch(`teams/${teamId}`, configFetch)
 
 					loader.hide()
 
@@ -574,6 +663,7 @@ const init = async () => {
 	loader.show()
 	const dados = await executarFetch(`teams/${teamId}`, configuracaoFetch('GET')),
 		team = dados.results
+	console.log(team)
 	loader.hide()
 
 	if (mediaQueryMobile.matches) {
