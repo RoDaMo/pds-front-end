@@ -92,16 +92,16 @@ document.addEventListener('header-carregado', () => {
         championshipName.innerText = 'Name'
     }
 
-    ssSlider.classList.add('z-9999')
-    const callback = () => ssSlider.classList.toggle('z-9999')
+    // ssSlider.classList.add('z-9999')
+    // const callback = () => ssSlider.classList.toggle('z-9999')
     
-    const offcanvasNavbar = document.getElementById("offcanvasNavbar")
-    const offcanvasUser = document.getElementById("offcanvasUser")
+    // const offcanvasNavbar = document.getElementById("offcanvasNavbar")
+    // const offcanvasUser = document.getElementById("offcanvasUser")
     
-    offcanvasNavbar.addEventListener("show.bs.offcanvas", callback)
-    offcanvasUser.addEventListener("show.bs.offcanvas", callback)
-    offcanvasNavbar.addEventListener("hidden.bs.offcanvas", callback)
-    offcanvasUser.addEventListener("hidden.bs.offcanvas", callback)
+    // offcanvasNavbar.addEventListener("show.bs.offcanvas", callback)
+    // offcanvasUser.addEventListener("show.bs.offcanvas", callback)
+    // offcanvasNavbar.addEventListener("hidden.bs.offcanvas", callback)
+    // offcanvasUser.addEventListener("hidden.bs.offcanvas", callback)
 })
 
 if (mediaQueryMobile.matches) {
@@ -170,24 +170,32 @@ const obterInfo = async () => {
     const times = document.getElementById("times")
     data.results.teams.forEach((e) => {
         times.innerHTML += `
-            <a href="pagina-times.html?id=${e.id}" class="text-decoration-none">
-                <div class="d-flex w-100 rounded-5 mb-3 mt-5 mt-md-0 ss-team-content">
-
-                    <div class="position-relative m-3 overflow-hidden rounded-circle ss-team-logo">
-                        <img src=${e.emblem} alt="teamCrest" class="img-fluid position-absolute mw-100 h-100">
-                    </div>
-
-                    <span>
-
-                        <p class="mt-3 ss-team-name w-100 fs-5 text-nowrap text-truncate d-block">${e.name}</p>
-
-                    </span>
-                    <span class="d-flex justify-content-end ms-auto sports-icon-wrapper">
-                        <img src="${iconSrc}" alt="sport-icon" class="sports-icon teams-sport-icon mt-3 me-3">
-                    </span>
+            <div class="d-flex w-100 rounded-5 mb-3 mt-5 mt-md-0 ss-team-content">
+                <span class="d-none team-id">${e.id}</span>
+                <div class="position-relative m-3 overflow-hidden rounded-circle ss-team-logo">
+                    <img src=${e.emblem} alt="teamCrest" class="img-fluid position-absolute mw-100 h-100">
                 </div>
-            </a>
+
+                <span>
+
+                    <p class="mt-3 ss-team-name w-100 fs-5 text-nowrap text-truncate d-block">${e.name}</p>
+
+                </span>
+                <span class="d-flex justify-content-end ms-auto sports-icon-wrapper">
+                    <img src="${iconSrc}" alt="sport-icon" class="sports-icon teams-sport-icon mt-3 me-3">
+                </span>
+            </div>
         `
+
+        // Ao clicar em cada time da lista, redireciona para a página desse time
+        const ssTeamContent = document.querySelectorAll('.ss-team-content')
+        ssTeamContent.forEach(content => {
+            content.addEventListener('click', () => {
+                const teamId = content.querySelector('.team-id').textContent
+                window.location.href = `pagina-times.html?id=${teamId}`
+            })
+        })
+
     })
 
     

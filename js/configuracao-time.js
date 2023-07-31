@@ -313,7 +313,7 @@ const init = async () => {
 
 		campeonatosVinculadosWrapper.innerHTML = ''
 
-		if (campeonatosVinculados.results.length == 0) {
+		if (!campeonatosVinculadosWrapper.hasChildNodes()) {
 			campeonatosVinculadosWrapper.innerHTML = `<p class="p-5 text-center"><span class="i18" key="SemCampeonatos">${i18next.t("SemCampeonatos")}</span></p>`
 			return;
 		}
@@ -461,7 +461,6 @@ const init = async () => {
 				return;
 			}
 			const valor = inputPesquisa.value,
-				// response = await executarFetch(`teams?query=${valor}&sport=${team.sportsId}`, configFetch),
 				response = await executarFetch(`players?query=${valor}&sport=${team.sportsId}`, configFetch),
 				jogadores = response.results
 

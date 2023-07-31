@@ -59,6 +59,16 @@ body, html {
     margin-bottom: -0.3rem;
 }
 
+.ss-team-content {
+    &:hover {
+        filter: brightness(0.9);
+    }
+
+    &:active {
+        filter: brightness(0.8);
+    }
+}
+
 .sports-section {
     margin-top: 20rem;
 }

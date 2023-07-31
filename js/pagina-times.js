@@ -77,8 +77,6 @@ function ssPlayerContentMobile() {
     ssPlayerName.forEach(name => {
         name.parentElement.classList.add('w-50')
     })
-
-    champStuff.classList.add('z-9999')
 }
 
 document.addEventListener('header-carregado', () => {
@@ -93,17 +91,14 @@ document.addEventListener('header-carregado', () => {
     if (teamName.innerText == '') {
         teamName.innerText = 'Name'
     }
-
-    ssSlider.classList.add('z-9999')
-    const callback = () => ssSlider.classList.toggle('z-9999')
     
-    const offcanvasNavbar = document.getElementById("offcanvasNavbar")
-    const offcanvasUser = document.getElementById("offcanvasUser")
+    // const offcanvasNavbar = document.getElementById("offcanvasNavbar")
+    // const offcanvasUser = document.getElementById("offcanvasUser")
     
-    offcanvasNavbar.addEventListener("show.bs.offcanvas", callback)
-    offcanvasUser.addEventListener("show.bs.offcanvas", callback)
-    offcanvasNavbar.addEventListener("hidden.bs.offcanvas", callback)
-    offcanvasUser.addEventListener("hidden.bs.offcanvas", callback)
+    // offcanvasNavbar.addEventListener("show.bs.offcanvas", callback)
+    // offcanvasUser.addEventListener("show.bs.offcanvas", callback)
+    // offcanvasNavbar.addEventListener("hidden.bs.offcanvas", callback)
+    // offcanvasUser.addEventListener("hidden.bs.offcanvas", callback)
 })
 
 if (mediaQueryMobile.matches) {
@@ -202,6 +197,8 @@ const obterInfo = async () => {
 }
 
 async function waitInfo() {
+    const jogadores = document.getElementById("jogadores")
+    const champStuff = document.getElementById("champstuff")
     const ssPlayerContent = document.querySelectorAll('.ss-player-content')
     const ssChampionshipContent = document.querySelectorAll('.ss-championship-content')
     await obterInfo()
@@ -210,33 +207,29 @@ async function waitInfo() {
         ssPlayerContentMobile()
     }
 
-    //!!!!!!!!!!!!Codigo abaixo esta dando problema!!!!!!!!!!!
-    // if (ssPlayerContent.length == 0) {
-    //     ssFirstContent.classList.add('justify-content-center', 'align-items-center')
-    //     ssFirstContent.removeAttribute('data-lenis-prevent')
-    //     ssFirstContent.innerHTML = `
-    //         <div class="p-5">
-    //             <span class="i18" key="NenhumJogador">${i18next.t("NenhumJogador")}</span>
-    //         </div>
-    //     `
-    // }
-    //!!!!!!!!!!!!Codigo acima esta dando problema!!!!!!!!!!!
+    if (!jogadores.hasChildNodes()) {
+        ssFirstContent.classList.add('justify-content-center', 'align-items-center')
+        ssFirstContent.removeAttribute('data-lenis-prevent')
+        ssFirstContent.innerHTML = `
+            <div class="p-5">
+                <span class="i18" key="NenhumJogador">${i18next.t("NenhumJogador")}</span>
+            </div>
+        `
+    }
 
     if (ssPlayerContent.length <= 3) {
         ssFirstContent.removeAttribute('data-lenis-prevent')
     }
 
-    //!!!!!!!!!!!!Codigo abaixo esta dando problema!!!!!!!!!!!
-    // if (ssChampionshipContent.length == 0) {
-    //     ssThirdContent.classList.add('justify-content-center', 'align-items-center')
-    //     ssThirdContent.removeAttribute('data-lenis-prevent')
-    //     ssThirdContent.innerHTML = `
-    //         <div class="p-5">
-    //             <span class="i18" key="NenhumCampeonato">${i18next.t("NenhumCampeonato")}</span>
-    //         </div>
-    //     `
-    // }
-    //!!!!!!!!!!!!Codigo acima esta dando problema!!!!!!!!!!!
+    if (!champStuff.hasChildNodes()) {
+        ssThirdContent.classList.add('justify-content-center', 'align-items-center')
+        ssThirdContent.removeAttribute('data-lenis-prevent')
+        ssThirdContent.innerHTML = `
+            <div class="p-5">
+                <span class="i18" key="NenhumCampeonato">${i18next.t("NenhumCampeonato")}</span>
+            </div>
+        `
+    }
 
     if (ssChampionshipContent.length <= 6) {
         ssThirdContent.removeAttribute('data-lenis-prevent')
