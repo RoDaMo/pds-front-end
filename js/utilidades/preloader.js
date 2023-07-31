@@ -2,6 +2,7 @@
   document.body.classList.add('loaded');
 });
 
+// - z-index: 9999; removed
 export class preLoader extends HTMLElement {
     connectedCallback() {
       this.innerHTML = `
@@ -16,7 +17,6 @@ export class preLoader extends HTMLElement {
         display: flex;
         align-items: center;
         justify-content: center;
-        z-index: 9999;
         transition: opacity 0.5s ease-in-out;
         opacity: 1;
         pointer-events: auto;
