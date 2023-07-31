@@ -280,10 +280,15 @@ export class header extends HTMLElement {
                     <span class="i18" key="Configuracoes">${i18next.t("Configuracoes")}</span>
                 </a>
                 ${this.possuiCampeonato(user.championshipId)}
+                ${!user.teamManagementId ? `
                 <a href="/pages/cadastro-times.html" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
                     <i class="bi bi-people fs-4"></i>
                     <span class="i18" key="Time">${i18next.t("Time")}</span>
-                </a>
+                </a> ` : `
+                <a href="/pages/configuracao-time.html" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
+                    <i class="bi bi-people fs-4"></i>
+                    <span class="i18" key="TimeConfig">${i18next.t("TimeConfig")}</span>
+                </a>`}
                 <a href="javascript:void(0)" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3 deslogar-usuario">
                     <i class="bi bi-box-arrow-right fs-4"></i>
                     <span class="i18" key="Sair">${i18next.t("Sair")}</span>
