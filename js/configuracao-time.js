@@ -382,6 +382,7 @@ const init = async () => {
 			`
 
 			if(team.sportsId === 1){
+				document.getElementById("posicao").innerHTML = ""
 				document.getElementById("posicao").innerHTML += `
 					<option value="1">Goleiro</option>
 					<option value="2">Zagueiro</option>
@@ -394,6 +395,7 @@ const init = async () => {
 					<option value="9">Centroavante</option>
 				` 
 			}else{
+				document.getElementById("posicao").innerHTML = ""
 				document.getElementById("posicao").innerHTML += `
 					<option value="10">Levantador</option>
 					<option value="11">Central</option>
@@ -404,7 +406,7 @@ const init = async () => {
 			}
 			
 			botaoVincularJogadorTemporario.onclick = () => {
-				botaoVincularJogadorTemporario.innerHTML = `<i class="bi bi-plus-circle px-2"></i><span>Adicionar novo jogador temporário</span>
+				botaoVincularJogadorTemporario.innerHTML = `<i class="bi bi-plus-circle px-2"></i><span class="i18" key="AdicionarNovoJogadorTemp">${i18next.t("AdicionarNovoJogadorTemp")}</span>
 				`
 				formularioJogadorTemporario.classList.toggle('d-none')
 				botaoVincularJogadorTemporario.onclick = exibirFormJogadorTemporario
