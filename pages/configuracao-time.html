@@ -123,7 +123,7 @@
 								<div class="">
 									<button type="button" class="btn btn-primary mb-3" id="botao-vincular-jogador"><i class="bi bi-plus-circle px-2"></i> <span class="i18" key="AdicionarNovoJogador">Adicionar novo jogador</span> </button>
 								
-									<button type="button" class="btn btn-primary mb-3" id="botao-vincular-jogador-temporario"><i class="bi bi-plus-circle px-2"></i> <span>Adicionar novo jogador temporário</span> </button>
+									<button type="button" class="btn btn-primary mb-3" id="botao-vincular-jogador-temporario"><i class="bi bi-plus-circle px-2"></i> <span class="i18" key="AdicionarNovoJogadorTemp">Adicionar novo jogador temporário</span> </button>
 								</div>
 
 								<form class="form-group mt-3 d-none" id="pesquisa-jogador">
@@ -134,18 +134,28 @@
 									</ul>
 								</form>
 								<form class="form-group mt-3 d-none" id="formulario-jogador-temporario">
-									<label for="nome-jogador" class="form-label text-success mt-3">Nome do jogador:</label>
-                            		<input type="text" class="form-control" id="nome-jogador" name="nome-jogador" placeholder="Nome do jogador...">
-									<label for="nome-artistico" class="form-label text-success mt-3">Nome artístico:</label>
-                            		<input type="text" class="form-control" id="nome-artistico" name="nome-artistico" placeholder="Nome do artistico...">
-									<label for="numero" class="form-label text-success mt-3">Número:</label>
-                            		<input type="number" class="form-control rounded-4" id="numero" name="numero" placeholder="Insira o número da camisa">
-									<label for="email-jogador" class="form-label text-success">Email:</label>
-                            		<input type="email" class="form-control" id="email-jogador" name="email-jogador" placeholder="Email...">
-									<label for="posicao" class="form-label">Posição:</label>
-									<select class="form-select rounded-4 width-config-input" id="posicao" name="posicao">
-						
-									</select>
+									<div>
+										<label for="nome-jogador" class="form-label text-success mt-3"><span class="i18" key="NomeJogadorLabel">Nome do jogador:</span></label>
+                            			<input type="text" class="form-control i18-placeholder" id="nome-jogador" name="nome-jogador" key="NomeJogadorPlaceholder" placeholder="Nome do jogador...">
+									</div>
+									<div>
+										<label for="nome-artistico" class="form-label text-success mt-3"><span class="i18" key="NomeArtisticoLabel">Nome artístico:</span></label>
+                            			<input type="text" class="form-control i18-placeholder" id="nome-artistico" name="nome-artistico" key="NomeArtisticoPlaceholder" placeholder="Nome do artistico...">
+									</div>
+									<div>
+										<label for="numero" class="form-label text-success mt-3"><span class="i18" key="NumeroJogadorLabel">Número:</span></label>
+                            			<input type="number" class="form-control i18-placeholder" id="numero" name="numero" key="NumeroJogadorPlaceholder" placeholder="Insira o número da camisa...">
+									</div>
+									<div>
+										<label for="email-jogador" class="form-label text-success mt-3"><span class="i18" key="EmailJogadorLabel">Email:</span></label>
+                            			<input type="email" class="form-control i18-placeholder" id="email-jogador" name="email-jogador" key="EmailJogadorPlaceholder" placeholder="Email...">
+									</div>
+									<div>
+										<label for="posicao" class="form-label text-success mt-3"><span class="i18" key="PosicaoJogadorLabel">Posição:</span></label>
+										<select class="form-select rounded-4 width-config-input" id="posicao" name="posicao">
+							
+										</select>
+									</div>
 									<button class="btn btn-primary mt-5" id="submit-formulario-jogador-temporario">Cadastrar</button>
 								</form>
 		
