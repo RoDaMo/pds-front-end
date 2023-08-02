@@ -131,6 +131,38 @@ const init = async () => {
 						errorMessage: `<span class="i18" key="ImagemTamanho">${i18next.t("ImagemTamanho")}</span>`,
 					}
 				], { errorsContainer: document.getElementById('imagem-erro-jv') })
+				.addField(homeInput, [
+					{
+						rule: 'files',
+						value: {
+							files: {
+								extensions: ['jpeg', 'jpg', 'png', 'webp', 'gif', 'bmp', 'tiff'],
+								maxSize: 5000000,
+								types: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/bmp', 'image/tiff'],
+							},
+						},
+						errorMessage: `<span class="i18" key="ImagemTamanho">${i18next.t("ImagemTamanho")}</span>`,
+					}
+				], { errorsContainer: document.getElementById('uniforme-erro-jv') })
+				.addField(awayInput, [
+					{
+						rule: 'files',
+						value: {
+							files: {
+								extensions: ['jpeg', 'jpg', 'png', 'webp', 'gif', 'bmp', 'tiff'],
+								maxSize: 5000000,
+								types: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/bmp', 'image/tiff'],
+							},
+						},
+						errorMessage: `<span class="i18" key="ImagemTamanho">${i18next.t("ImagemTamanho")}</span>`,
+					}
+				], { errorsContainer: document.getElementById('uniforme-erro-jv') })
+				.addField(esporte, [
+					{
+						rule: 'required',
+						errorMessage: `<span class="i18" key="EsporteObrigatorio">${i18next.t("EsporteObrigatorio")}</span>`,
+					},
+				])
 				.onSuccess(async (e) => {
 					e.preventDefault()
 
@@ -360,101 +392,216 @@ const init = async () => {
 
 		await listarJogadoresVinculados()
 
-		const exibirPesquisa = botaoVincular.onclick = () => {
-			pesquisaWrapper.classList.toggle('d-none')
-			botaoVincular.innerHTML = `
-				<span class="i18" key="Cancelar">${i18next.t("Cancelar")}</span>
+		let isJNOpen = false
+		let isJTOpen = false
+
+		function fecharJogadorNormal() {
+			pesquisaWrapper.classList.add('d-none')
+			botaoVincular.innerHTML = `<i class="bi bi-plus-circle px-2"></i><span class="i18" key="AdicionarNovoJogador">${i18next.t("AdicionarNovoJogador")}</span>
 			`
-			
-			botaoVincular.onclick = () => {
-				botaoVincular.innerHTML = `<i class="bi bi-plus-circle px-2"></i><span class="i18" key="AdicionarNovoJogador">${i18next.t("AdicionarNovoJogador")}</span>
-				`
-				pesquisaWrapper.classList.toggle('d-none')
-				document.getElementById('playerStep').innerHTML = ''
-				botaoVincular.onclick = exibirPesquisa
-			}
+			document.getElementById('playerStep').innerHTML = ''
 		}
 
-		const exibirFormJogadorTemporario = botaoVincularJogadorTemporario.onclick = () => {
-			formularioJogadorTemporario.classList.toggle('d-none')
-			botaoVincularJogadorTemporario.innerHTML = `
-				<span class="i18" key="Cancelar">${i18next.t("Cancelar")}</span>
+		function abrirJogadorNormal() {
+			pesquisaWrapper.classList.remove('d-none')
+			botaoVincular.innerHTML = `<span class="i18" key="Cancelar">${i18next.t("Cancelar")}</span>
 			`
+		}
+
+		function fecharJogadorTemporario() {
+			formularioJogadorTemporario.classList.add('d-none')
+			botaoVincularJogadorTemporario.innerHTML = `<i class="bi bi-plus-circle px-2"></i><span class="i18" key="AdicionarNovoJogadorTemp">${i18next.t("AdicionarNovoJogadorTemp")}</span>
+			`
+		}
+
+		function abrirJogadorTemporario() {
+			formularioJogadorTemporario.classList.remove('d-none')
+			botaoVincularJogadorTemporario.innerHTML = `<span class="i18" key="Cancelar">${i18next.t("Cancelar")}</span>
+			`
+		}
+
+		const exibirPesquisaNormal = () => {
+
+			if (!isJNOpen && isJTOpen) {
+				fecharJogadorTemporario()
+				isJTOpen = false
+
+				abrirJogadorNormal()
+				isJNOpen = true
+			} else if (!isJNOpen && !isJTOpen) {
+				abrirJogadorNormal()
+				isJNOpen = true
+			} else if (isJNOpen && !isJTOpen) {
+				fecharJogadorNormal()
+				isJNOpen = false
+			}
+
+		}
+
+		botaoVincular.addEventListener('click', exibirPesquisaNormal)
+
+		const exibirPesquisaTemporario = () => {
+
+			if (!isJTOpen && isJNOpen) {
+				fecharJogadorNormal()
+				isJNOpen = false
+
+				abrirJogadorTemporario()
+				isJTOpen = true
+			} else if (!isJTOpen && !isJNOpen) {
+				abrirJogadorTemporario()
+				isJTOpen = true
+			} else if (isJTOpen && !isJNOpen) {
+				fecharJogadorTemporario()
+				isJTOpen = false
+			}
+
+		}
+
+		botaoVincularJogadorTemporario.addEventListener('click', exibirPesquisaTemporario)
+
+		botaoVincularJogadorTemporario.onclick = () => {
 
 			if(team.sportsId === 1){
 				document.getElementById("posicao").innerHTML = ""
 				document.getElementById("posicao").innerHTML += `
-					<option value="1">Goleiro</option>
-					<option value="2">Zagueiro</option>
-					<option value="3">Lateral</option>
-					<option value="4">Volante</option>
-					<option value="5">Meio-Campista</option>
-					<option value="6">Meia-Atacante</option>
-					<option value="7">Ala</option>
-					<option value="8">Ponta</option>
-					<option value="9">Centroavante</option>
+					<option value="1"><span class="i18" key="Goleiro">${i18next.t("Goleiro")}</span></option>
+					<option value="2"><span class="i18" key="Zagueiro">${i18next.t("Zagueiro")}</span></option>
+					<option value="3"><span class="i18" key="Lateral">${i18next.t("Lateral")}</span></option>
+					<option value="4"><span class="i18" key="Volante">${i18next.t("Volante")}</span></option>
+					<option value="5"><span class="i18" key="MeioCampista">${i18next.t("MeioCampista")}</span></option>
+					<option value="6"><span class="i18" key="MeiaAtacante">${i18next.t("MeiaAtacante")}</span></option>
+					<option value="7"><span class="i18" key="Ponta">${i18next.t("Ponta")}</span></option>
+					<option value="8"><span class="i18" key="Centroavante">${i18next.t("Centroavante")}</span></option>
 				` 
 			}else{
 				document.getElementById("posicao").innerHTML = ""
 				document.getElementById("posicao").innerHTML += `
-					<option value="10">Levantador</option>
-					<option value="11">Central</option>
-					<option value="12">Líbero</option>
-					<option value="13">Ponteiro</option>
-					<option value="14">Oposto</option>
+					<option value="9"><span class="i18" key="Levantador">${i18next.t("Levantador")}</span></option>
+					<option value="10"><span class="i18" key="Central">${i18next.t("Central")}</span></option>
+					<option value="11"><span class="i18" key="Libero">${i18next.t("Libero")}</span></option>
+					<option value="12"><span class="i18" key="Ponteiro">${i18next.t("Ponteiro")}</span></option>
+					<option value="13"><span class="i18" key="Oposto">${i18next.t("Oposto")}</span></option>
 				` 
 			}
-			
-			botaoVincularJogadorTemporario.onclick = () => {
-				botaoVincularJogadorTemporario.innerHTML = `<i class="bi bi-plus-circle px-2"></i><span class="i18" key="AdicionarNovoJogadorTemp">${i18next.t("AdicionarNovoJogadorTemp")}</span>
-				`
-				formularioJogadorTemporario.classList.toggle('d-none')
-				botaoVincularJogadorTemporario.onclick = exibirFormJogadorTemporario
-			}
 
-			const postJogadorTemporario = async(endpoint, body) => {
-				const callbackServidor = data => {
-					mensagemErro.classList.add("text-danger")
-					data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
-				}
-			
-				loader.show()
-				console.log(body)
-				const data = await executarFetch(endpoint, configuracaoFetch("POST", body), callbackServidor, callbackServidor)
-				loader.hide()
-			
-				if (!data) return false
-			
-				notificacaoSucesso(data.results[0])
-				return true
-			}
-
-			document.getElementById("formulario-jogador-temporario").addEventListener("submit", async(e) => {
-				console.log("form enviado")
-				e.preventDefault()
-				limparMensagem(mensagemErro)
-
-				loader.show();
-
-				const resultado = await postJogadorTemporario("playertempprofiles", {
-					"name": document.getElementById("nome-jogador").value,
-					"artisticName": document.getElementById("nome-artistico").value,
-					"number": parseInt(document.getElementById("numero").value),
-					"email": document.getElementById("email-jogador").value,
-					"teamsId": parseInt(team.id),
-					"playerPosition": parseInt(document.getElementById("posicao").value)
-				})
-
-				if (resultado) {
-					formularioJogadorTemporario.reset()
-				}
-
-				loader.hide();
-
-				listarJogadoresVinculados()
-
-			})
 		}
+
+		const postJogadorTemporario = async(endpoint, body) => {
+			const callbackServidor = data => {
+				mensagemErro.classList.add("text-danger")
+				data.results.forEach(element => mensagemErro.innerHTML += `${element}<br>`);
+			}
+		
+			loader.show()
+			console.log(body)
+			const data = await executarFetch(endpoint, configuracaoFetch("POST", body), callbackServidor, callbackServidor)
+			loader.hide()
+		
+			if (!data) return false
+		
+			notificacaoSucesso(data.results[0])
+			return true
+		}
+
+		const jogadorTempFrom = document.getElementById("formulario-jogador-temporario")
+
+		const jogadorTempValidator = new JustValidate(jogadorTempFrom, { validateBeforeSubmitting: true })
+
+		function jogadorTempValidator1() {
+			jogadorTempValidator
+				.addField(document.getElementById("nome-jogador"), [
+					{
+						rule: 'required',
+						errorMessage: `<span class="i18" key="NomeJogadorObrigatorio">${i18next.t("NomeJogadorObrigatorio")}</span>`,
+					},
+					{
+						rule: 'minLength',
+						value: 4,
+						errorMessage: `<span class="i18" key="NomeJogadorMinimo">${i18next.t("NomeJogadorMinimo")}</span>`,
+					},
+					{
+						rule: 'maxLength',
+						value: 40,
+						errorMessage: `<span class="i18" key="NomeJogadorMaximo">${i18next.t("NomeJogadorMaximo")}</span>`,
+					},
+				])
+				.addField(document.getElementById("nome-artistico"), [
+					{
+						rule: 'required',
+						errorMessage: `<span class="i18" key="NomeArtisticoObrigatorio">${i18next.t("NomeArtisticoObrigatorio")}</span>`,
+					},
+					{
+						rule: 'minLength',
+						value: 4,
+						errorMessage: `<span class="i18" key="NomeArtisticoMinimo">${i18next.t("NomeArtisticoMinimo")}</span>`,
+					},
+					{
+						rule: 'maxLength',
+						value: 40,
+						errorMessage: `<span class="i18" key="NomeArtisticoMaximo">${i18next.t("NomeArtisticoMaximo")}</span>`,
+					},
+				])
+				.addField(document.getElementById("numero"), [
+					{
+						rule: 'required',
+						errorMessage: `<span class="i18" key="NumeroJogadorObrigatorio">${i18next.t("NumeroJogadorObrigatorio")}</span>`,
+					},
+					{
+						rule: 'minLength',
+						value: 1,
+						errorMessage: `<span class="i18" key="NumeroJogadorMinimo">${i18next.t("NumeroJogadorMinimo")}</span>`,
+					},
+					{
+						rule: 'maxLength',
+						value: 3,
+						errorMessage: `<span class="i18" key="NumeroJogadorMaximo">${i18next.t("NumeroJogadorMaximo")}</span>`,
+					},
+				])
+				.addField(document.getElementById("email-jogador"), [
+					{
+						rule: 'required',
+						errorMessage: `<span class="i18" key="EmailJogadorObrigatorio">${i18next.t("EmailJogadorObrigatorio")}</span>`,
+					},
+					{
+						rule: 'email',
+						errorMessage: `<span class="i18" key="EmailJogadorInvalido">${i18next.t("EmailJogadorInvalido")}</span>`,
+					},
+				])
+				.addField(document.getElementById("posicao"), [
+					{
+						rule: 'required',
+						errorMessage: `<span class="i18" key="PosicaoJogadorObrigatorio">${i18next.t("PosicaoJogadorObrigatorio")}</span>`,
+					},
+				])
+				.onSuccess(async (e) => {
+					e.preventDefault()
+					limparMensagem(mensagemErro)
+
+					loader.show()
+
+					const resultado = await postJogadorTemporario("playertempprofiles", {
+						"name": document.getElementById("nome-jogador").value,
+						"artisticName": document.getElementById("nome-artistico").value,
+						"number": parseInt(document.getElementById("numero").value),
+						"email": document.getElementById("email-jogador").value,
+						"teamsId": parseInt(team.id),
+						"playerPosition": parseInt(document.getElementById("posicao").value)
+					})
+
+					if (resultado) {
+						formularioJogadorTemporario.reset()
+					}
+
+					loader.hide();
+
+					listarJogadoresVinculados()
+
+				})
+		}
+	
+		jogadorTempValidator1()
+		document.addEventListener('nova-lingua', jogadorTempValidator1)
 
 		inputPesquisa.addEventListener('input', async () => {
 			if (!inputPesquisa.value) {
@@ -508,9 +655,9 @@ const init = async () => {
 										</div>
 										<div class="mb-3">
 											<label for="fantasyName" class="form-label">
-												<span class="i18" key="NomeFantasia">${i18next.t("NomeFantasia")}</span>
+												<span class="i18" key="NomeArtistico">${i18next.t("NomeArtistico")}</span>
 											</label>
-											<input type="text" class="form-control i18-placeholder" key="NomeFantasiaPlaceholder" id="fantasyName" placeholder="${i18next.t("NomeFantasiaPlaceholder")}">
+											<input type="text" class="form-control i18-placeholder" key="NomeArtisticoPlaceholder" id="fantasyName" placeholder="${i18next.t("NomeArtisticoPlaceholder")}">
 										</div>
 										<div class="mb-3">
 											<label for="playerNumber" class="form-label">
@@ -535,22 +682,22 @@ const init = async () => {
 						.addField(fantasyName, [
 							{
 								rule: 'required',
-								errorMessage: `<span class="i18" key="NomeFantasiaObrigatorio">${i18next.t("NomeFantasiaObrigatorio")}</span>`,
+								errorMessage: `<span class="i18" key="NomeArtisticoObrigatorio">${i18next.t("NomeArtisticoObrigatorio")}</span>`,
 							},
 							{
 								rule: 'minLength',
 								value: 4,
-								errorMessage: `<span class="i18" key="NomeFantasiaMinimo">${i18next.t("NomeFantasiaMinimo")}</span>`,
+								errorMessage: `<span class="i18" key="NomeArtisticoMinimo">${i18next.t("NomeArtisticoMinimo")}</span>`,
 							},
 							{
 								rule: 'maxLength',				
 								value: 40,
-								errorMessage: `<span class="i18" key="NomeFantasiaMaximo">${i18next.t("NomeFantasiaMaximo")}</span>`,
+								errorMessage: `<span class="i18" key="NomeArtisticoMaximo">${i18next.t("NomeArtisticoMaximo")}</span>`,
 							},
 							{
 								rule: 'customRegexp',
 								value: /^[A-Za-z0-9_-]*$/,
-								errorMessage: `<span class="i18" key="NomeFantasiaInvalido">${i18next.t("NomeFantasiaInvalido")}</span>`,
+								errorMessage: `<span class="i18" key="NomeArtisticoInvalido">${i18next.t("NomeArtisticoInvalido")}</span>`,
 							},
 						])
 						.addField(playerNumber, [
