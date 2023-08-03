@@ -298,25 +298,28 @@ const init = async () => {
 
 		for (const jogador of jogadoresVinculados.results) {
 			const jogadoresVinculadosContent = document.createElement('div');
-			jogadoresVinculadosContent.classList.add('d-flex', 'w-100', 'rounded-5', 'mb-3', 'mt-5', 'mt-md-0', 'ss-list-player-content')
+			jogadoresVinculadosContent.classList.add('row', 'rounded-5', 'mx-1', 'px-0', 'py-3', 'mb-2', 'ss-list-player-content')
 			
 			jogadoresVinculadosContent.innerHTML = /*html*/`
-				<div class="d-flex w-100 rounded-5 mb-3 mt-md-0 ss-list-player-content">
-					<div class="position-relative m-3 me-2 overflow-hidden rounded-circle ss-player-image">
-						<img src="${jogador.picture}" alt="playerImage" class="img-fluid position-absolute mw-100 h-100">
-					</div>
+				<div class="col-auto my-auto position-relative mx-auto ms-md-3 p-0 overflow-hidden rounded-circle me-md-2 ss-player-image">
+					<img src="https://www.petz.com.br/blog/wp-content/uploads/2020/08/cat-sitter-felino-1280x720.jpg" alt="playerImage" class="img-fluid position-absolute mw-100 h-100">
+				</div>
 
-					<span class="text-start">
-						<p class="mt-3 ss-player-name w-100 fs-5 text-nowrap text-truncate d-block">${jogador.name}</p>
-						<p class="ss-player-username w-100 fs-6 opacity-75 text-nowrap text-truncate d-block">${jogador.artisticName}</p>
-					</span>
+				<div class="col-auto ss-player-info-wrapper text-center text-md-start ms-md-1 my-auto d-flex flex-column">
+					<p class="ss-player-name w-100 text-center text-md-start text-nowrap text-truncate d-block">${jogador.name}</p>
+					<p class="mb-0 ss-player-username text-center text-md-start w-100 opacity-75 text-nowrap text-truncate d-block">${jogador.artisticName}</p>
+					<div class="ss-player-data d-flex flex-row mt-2 bg-primary px-2 py-1 rounded-pill mx-md-auto ms-md-0">
+						<p class="fs-6 mb-0 text-white text-opacity-75">10</p>
+						<i class="bi bi-dot mx-1"></i>
+						<p class="fs-6 mb-0 text-white text-opacity-75">Centroavante</p>
+					</div>
 				</div>
 
 			`
 
 			const botaoDesvincularWrapper = document.createElement('div')
-			botaoDesvincularWrapper.classList.add('d-flex', 'align-items-center', 'ms-auto', 'me-3')
-			botaoDesvincularWrapper.innerHTML = `<button type="button" class="delete-listed-player rounded-4 remover-vinculo-campeonato btn btn-danger d-flex"><i class="bi bi-trash text-light fs-5 m-auto"></i></button>`
+			botaoDesvincularWrapper.classList.add('col-auto', 'd-flex', 'mt-3', 'mt-md', 'my-auto', 'mx-auto', 'ms-md-auto', 'me-md-2')
+			botaoDesvincularWrapper.innerHTML = `<button type="button" class="delete-listed-player justify-content-center align-items-center rounded-4 remover-vinculo-campeonato btn btn-danger d-flex"><i class="bi bi-trash text-light fs-5"></i></button>`
 			
 			jogadoresVinculadosContent.appendChild(botaoDesvincularWrapper)
 			jogadoresVinculadosWrapper.appendChild(jogadoresVinculadosContent)
@@ -392,6 +395,21 @@ const init = async () => {
 
 		await listarJogadoresVinculados()
 
+		const pesquisaJNValidator = new JustValidate(pesquisaWrapper, { validateBeforeSubmitting: true })
+
+		function pesquisaJNValidator1() {
+			pesquisaJNValidator
+				.addField(inputPesquisa, [
+					{
+						rule: 'required',
+						errorMessage: `<span class="i18" key="PesquisaJogadorObrigatorio">${i18next.t("PesquisaJogadorObrigatorio")}</span>`,
+					},
+				])
+				.onSuccess(async (e) => {
+					e.preventDefault()
+				})
+		}
+
 		let isJNOpen = false
 		let isJTOpen = false
 
@@ -421,6 +439,8 @@ const init = async () => {
 		}
 
 		const exibirPesquisaNormal = () => {
+
+			pesquisaJNValidator1()
 
 			if (!isJNOpen && isJTOpen) {
 				fecharJogadorTemporario()
@@ -460,8 +480,7 @@ const init = async () => {
 
 		botaoVincularJogadorTemporario.addEventListener('click', exibirPesquisaTemporario)
 
-		botaoVincularJogadorTemporario.onclick = () => {
-
+		function resetPositionOptions() {
 			if(team.sportsId === 1){
 				document.getElementById("posicao").innerHTML = ""
 				document.getElementById("posicao").innerHTML += `
@@ -484,8 +503,13 @@ const init = async () => {
 					<option value="13"><span class="i18" key="Oposto">${i18next.t("Oposto")}</span></option>
 				` 
 			}
-
 		}
+
+		botaoVincularJogadorTemporario.onclick = () => {
+			resetPositionOptions()
+		}
+
+		document.addEventListener('nova-lingua', resetPositionOptions)
 
 		const postJogadorTemporario = async(endpoint, body) => {
 			const callbackServidor = data => {

@@ -63,6 +63,7 @@
     "EsporteObrigatorio": "Please select a sport",
     "FormatoObrigatorio": "Please select a format",
     "QuantidadeObrigatoria": "Please select a number",
+    "PesquisaTimeObrigatorio": "Please enter a team name to search",
     "LogoObrigatoria": "insert a logo",
     "ImagemTamanho": "Invalid file! The file can't be bigger than 5mb and be of the following types: png, jpeg, jpg, webp, gif, bmp, tiff",
     "PaisObrigatorio": "Country is required",

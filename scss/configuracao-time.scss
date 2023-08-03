@@ -38,6 +38,8 @@
 #jogadores-vinculados {
   max-height: 30rem;
   overflow-y: auto;
+
+  background-color: $play-cor-fundos;
 }
 
 #campeonatos-vinculados {
@@ -81,5 +83,28 @@ body {
     width: 100%;
 
     justify-content: center;
+  }
+
+  .ss-player-name {
+    font-size: 1rem !important;
+  }
+
+  .ss-player-username {
+    font-size: 0.8rem !important;
+  }
+
+  .ss-player-data {
+    scale: 0.8;
+  }
+
+  .ss-player-info-wrapper {
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .delete-listed-player {
+    width: 5rem !important;
+    height: 2rem;
   }
 }
