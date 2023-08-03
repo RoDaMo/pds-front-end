@@ -63,6 +63,7 @@
     "EsporteObrigatorio": "Favor selecionar um esporte",
     "FormatoObrigatorio": "Favor selecionar um formato",
     "QuantidadeObrigatoria": "Favor selecionar uma quantidade",
+    "PesquisaTimeObrigatorio": "Favor inserir um time para pesquisar",
     "LogoObrigatoria": "Insira uma logo",
     "ImagemTamanho": "Arquivo inválido! O arquivo deve possuir até 5mb e ser de tipos: png, jpeg, jpg, webp, gif, bmp, tiff",
     "PaisObrigatorio": "O país é obrigatório",

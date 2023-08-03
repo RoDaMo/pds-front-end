@@ -521,7 +521,25 @@ const init = async () => {
 
 		await listarTimesVinculados(configFetch)
 
+		const pesquisaTimeValidator = new JustValidate(pesquisaWrapper, { validateBeforeSubmitting: true })
+
+		function pesquisaTimeValidator1() {
+			pesquisaTimeValidator
+				.addField(inputPesquisa, [
+					{
+						rule: 'required',
+						errorMessage: `<span class="i18" key="PesquisaTimeObrigatorio">${i18next.t("PesquisaTimeObrigatorio")}</span>`,
+					},
+				])
+				.onSuccess(async (e) => {
+					e.preventDefault()
+					await listarTimesVinculados(configFetch)
+				})
+		}
+
 		const exibirPesquisa = botaoVincular.onclick = () => {
+			pesquisaTimeValidator1()
+
 			pesquisaWrapper.classList.toggle('d-none')
 			botaoVincular.innerHTML = `<span class="i18" key="Cancelar">${i18next.t("Cancelar")}</span>`
 			botaoVincular.onclick = () => {
