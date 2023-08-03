@@ -302,16 +302,16 @@ const init = async () => {
 			
 			jogadoresVinculadosContent.innerHTML = /*html*/`
 				<div class="col-auto my-auto position-relative mx-auto ms-md-3 p-0 overflow-hidden rounded-circle me-md-2 ss-player-image">
-					<img src="https://www.petz.com.br/blog/wp-content/uploads/2020/08/cat-sitter-felino-1280x720.jpg" alt="playerImage" class="img-fluid position-absolute mw-100 h-100">
+					<img src="${jogador.picture}" alt="playerImage" class="img-fluid position-absolute mw-100 h-100">
 				</div>
 
 				<div class="col-auto ss-player-info-wrapper text-center text-md-start ms-md-1 my-auto d-flex flex-column">
 					<p class="ss-player-name w-100 text-center text-md-start text-nowrap text-truncate d-block">${jogador.name}</p>
 					<p class="mb-0 ss-player-username text-center text-md-start w-100 opacity-75 text-nowrap text-truncate d-block">${jogador.artisticName}</p>
 					<div class="ss-player-data d-flex flex-row mt-2 bg-primary px-2 py-1 rounded-pill mx-md-auto ms-md-0">
-						<p class="fs-6 mb-0 text-white text-opacity-75">10</p>
+						<p class="fs-6 mb-0 text-white text-opacity-75">${jogador.number}</p>
 						<i class="bi bi-dot mx-1"></i>
-						<p class="fs-6 mb-0 text-white text-opacity-75">Centroavante</p>
+						<p class="fs-6 mb-0 text-white text-opacity-75">${jogador.position}</p>
 					</div>
 				</div>
 
