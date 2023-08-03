@@ -54,6 +54,7 @@
     "NumeroJogadorObrigatorio": "Player's number is required",
     "NumeroJogadorMinimo": "Minimum 1 character",
     "NumeroJogadorMaximo": "Maximum 3 characters",
+    "PesquisaJogadorObrigatorio": "Please enter a player's name to search",
     "PosicaoJogadorLabel": "Player's position:",
     "PosicaoJogadorObrigatorio": "Player's position is required",
     "EmailJogadorLabel": "Player's email:",
