@@ -640,39 +640,44 @@ const init = async () => {
 				return;
 			}
 			const valor = inputPesquisa.value,
-				// response = await executarFetch(`players?query=${valor}&sport=${team.sportsId}`, configFetch),
-				response = await executarFetch(`teams?query=${valor}&sport=1`, configFetch),
+				response = await executarFetch(`players?query=${valor}&sport=${team.sportsId}`, configFetch),
+
+				// fetch pra testes
+				// response = await executarFetch(`teams?query=${valor}&sport=1`, configFetch),
 
 				jogadores = response.results
 
 
 			datalistPesquisa.innerHTML = ''
 			for (const jogador of jogadores) {
-				const newOption = document.createElement('li');
-				newOption.classList.add('list-group-item', 'bg-verde-limao', 'border-0', 'mb-3', 'rounded-5', 'p-3', 'd-flex', 'justify-content-between', 'align-items-center')
-				newOption.innerHTML =
-					`
-					<div class="d-inline-flex align-items-center">
-						<div class="position-relative m-auto p-0 overflow-hidden rounded-4 me-2 img-listagem-players">
-							<img id="playerListPic" src="${jogador.emblem}" alt="Pic" class="img-fluid position-absolute w-100 h-100">
-						</div>
-						<p id="playerListName" class="m-auto w-75 d-block text-truncate">${jogador.name}</p>
+				const newOption = document.createElement('div');
+				newOption.classList.add('row', 'rounded-5', 'mx-1', 'px-0', 'py-3', 'mb-2', 'ss-list-player-content')
+				newOption.innerHTML = `
+					<div class="col-auto my-auto position-relative mx-auto ms-md-3 p-0 overflow-hidden rounded-circle me-md-2 ss-player-image">
+						<img src="${jogador.emblem}" alt="playerImage" class="img-fluid position-absolute mw-100 h-100">
+					</div>
+					
+					<div class="col-auto ss-player-info-wrapper text-center text-md-start ms-md-1 my-auto d-flex flex-column">
+						<p class="ss-player-name w-auto text-center text-md-start text-nowrap text-truncate d-block">${jogador.name}</p>
+						<p class="mb-0 ss-player-username text-center text-md-start w-auto opacity-75 text-nowrap text-truncate d-block">${jogador.artisticName}</p>
 					</div>
 				`
-				const addPlayerStep = document.createElement('button')
-				addPlayerStep.classList.add('btn', 'btn-primary', 'rounded-4')
-				addPlayerStep.setAttribute('type', 'button')
-				addPlayerStep.innerHTML = `<i class="bi bi-plus fs-3 m-auto"></i>`
 
-				addPlayerStep.addEventListener('click', async e => {
+				const addPlayerStepWrapper = document.createElement('div')
+				addPlayerStepWrapper.classList.add('col-auto', 'd-flex', 'mt-3', 'mt-md-auto', 'my-auto', 'mx-auto', 'ms-md-auto', 'me-md-2')
+				addPlayerStepWrapper.innerHTML = `<button type="button" class="add-listed-thing justify-content-center align-items-center rounded-4 adicionar-player-step btn btn-primary d-flex"><i class="bi bi-plus text-light fs-5"></i></button>`
+
+				newOption.appendChild(addPlayerStepWrapper)
+
+				addPlayerStepWrapper.addEventListener('click', async e => {
 					document.getElementById('playerStep').innerHTML = `
 						<div class="card bg-verde-limao p-2 border-0">
 							<div class="card-body row">
 								<div class="col-12">
 									<div class="position-relative mx-auto mb-3 p-0 overflow-hidden rounded-circle img-player-step">
-										<img id="playerListPic" src="${jogador.emblem}" alt="Pic" class="img-fluid position-absolute w-100 h-100">
+										<img src="${jogador.emblem}" alt="Pic" class="img-fluid position-absolute w-100 h-100">
 									</div>
-									<h6 id="playerListName" class="text-center mb-3">${jogador.name}</h6>
+									<h6 class="text-center mb-3">${jogador.name}</h6>
 								</div>
 								<hr>
 								<div class="col">
@@ -768,7 +773,6 @@ const init = async () => {
 						})
 				})
 
-				newOption.appendChild(addPlayerStep)
 				datalistPesquisa.appendChild(newOption)
 			}
 
