@@ -1,5 +1,7 @@
 import '../scss/configuracao-usuarios.scss'
 import '../scss/configuracao-campeonato.scss'
+import '../scss/pagina-times.scss'
+
 import JustValidate from 'just-validate'
 import { executarFetch, configuracaoFetch, limparMensagem, api } from './utilidades/configFetch'
 import { Portuguese } from "flatpickr/dist/l10n/pt.js"
@@ -483,32 +485,39 @@ const init = async () => {
 		timesVinculadosWrapper.innerHTML = ''
 
 		if (timesVinculados.results.length == 0) {
-			timesVinculadosWrapper.innerHTML = `<p><span class="i18" key="SemTimes">${i18next.t("SemTimes")}</span></p>`
+			timesVinculadosWrapper.innerHTML = `<p class="p-2 text-center"><span class="i18" key="SemTimes">${i18next.t("SemTimes")}</span></p>`
 			return;
 		}
 
+		const keySport = timesVinculados.results.sportsId == 1 ? "Futebol" : "Volei"
+
 		for (const time of timesVinculados.results) {
-			const newOption = document.createElement('li');
-			newOption.classList.add('list-group-item', 'bg-verde-limao', 'd-flex', 'justify-content-between', 'align-items-center')
-			newOption.innerHTML =
-				`
-				<div>
-					<img src="${time.emblem}" class="img-listagem-times">
-					${time.name}
+			const newOption = document.createElement('div');
+			newOption.classList.add('row', 'rounded-5', 'mx-1', 'px-0', 'py-3', 'mb-2', 'ss-list-player-content')
+			newOption.innerHTML = `
+				<div class="col-auto my-auto position-relative mx-auto ms-md-3 p-0 overflow-hidden rounded-circle me-md-2 ss-player-image">
+					<img src="${time.emblem}" alt="teamImage" class="img-fluid position-absolute mw-100 h-100">
+				</div>
+
+				<div class="col-auto ss-player-info-wrapper text-center text-md-start ms-md-1 my-auto d-flex flex-column">
+					<p class="ss-player-name w-auto text-center text-md-start text-nowrap text-truncate d-block">${time.name}</p>
+					<div class="ss-player-data d-flex flex-row mt-2 bg-primary px-2 py-1 rounded-pill mx-md-auto ms-md-0">
+						<p class="fs-6 mb-0 text-white text-opacity-75">${keySport}</p>
+					</div>
 				</div>
 			`
-			const botao = document.createElement('button')
-			botao.classList.add('btn', 'btn-danger', 'remover-vinculo-campeonato', 'btn-sm')
-			botao.setAttribute('type', 'button')
-			botao.setAttribute('title', `Remover ${time.name} do campeonato`)
-			botao.innerHTML = `<i class="bi bi-x-lg"></i>`
-			botao.addEventListener('click', async () => {
+
+			const botaoDesvincularWrapper = document.createElement('div')
+			botaoDesvincularWrapper.classList.add('col-auto', 'd-flex', 'mt-3', 'mt-md-auto', 'my-auto', 'mx-auto', 'ms-md-auto', 'me-md-2')
+			botaoDesvincularWrapper.innerHTML = `<button type="button" class="delete-listed-thing justify-content-center align-items-center rounded-4 remover-vinculo-campeonato btn btn-danger d-flex"><i class="bi bi-trash text-light fs-5"></i></button>`
+
+			newOption.appendChild(botaoDesvincularWrapper)
+			timesVinculadosWrapper.appendChild(newOption)
+
+			botaoDesvincularWrapper.addEventListener('click', async () => {
 				await desvincularTime(time.id)
 				await listarTimesVinculados(configFetch)
 			})
-
-			newOption.appendChild(botao)
-			timesVinculadosWrapper.appendChild(newOption)
 		}
 	}
 

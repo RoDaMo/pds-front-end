@@ -11,7 +11,67 @@
   max-height: 60px;
 }
 
+#times-vinculados {
+  max-height: 30rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  background-color: $play-cor-fundos;
+}
+
+.delete-listed-thing {
+  width: 3.5rem;
+  height: 3.5rem;
+
+  cursor: pointer;
+
+  &:hover {
+    filter: brightness(0.9);
+  }
+
+  &:active {
+    filter: brightness(0.8);
+  }
+}
+
+.ss-list-player-content {
+  background-color: $play-cor-fundos-secundaria;
+}
+
 // Color
 body {
   background-color: $gray-200 !important;
+}
+
+// media queries
+
+@include media-breakpoint-down(sm) {
+  .delete-listed-thing {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .ss-player-name {
+    font-size: 1rem !important;
+  }
+
+  .ss-player-username {
+    font-size: 0.8rem !important;
+  }
+
+  .ss-player-data {
+    scale: 0.8;
+  }
+
+  .ss-player-info-wrapper {
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .delete-listed-thing {
+    width: 5rem !important;
+    height: 2rem;
+  }
+  
 }
