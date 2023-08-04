@@ -131,9 +131,13 @@
 										<label for="pesquisa-jogador-input" class="i18" key="PesquiseJogador">Pesquise o nome do jogador que deseja adicionar:</label>
 										<input type="search" name="query" id="pesquisa-jogador-input" class="form-control i18-placeholder" key="PesquiseJogadorPlaceholder" placeholder="Escreva o nome de um jogador para pesquisar...">
 									</div>
-									<ul class="list-group list-group-flush my-3" id="pesquisa-jogador-lista">
-		
-									</ul>
+									
+									<!-- Pesquisa Jogadores -->
+
+									<div id="searchPlayers" class="my-3">
+										<div data-lenis-prevent id="pesquisa-jogador-lista" class="rounded-5"></div>
+									</div>
+
 								</form>
 								<form class="form-group mt-3 d-none" id="formulario-jogador-temporario">
 									<div>
@@ -161,7 +165,6 @@
 									<button class="btn btn-primary mt-5" id="submit-formulario-jogador-temporario">Cadastrar</button>
 								</form>
 		
-								</ul>
 							</div>
 							<div class="col-12 col-lg">
 								<div id="playerStep"></div>

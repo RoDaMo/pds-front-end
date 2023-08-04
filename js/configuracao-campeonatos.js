@@ -570,28 +570,31 @@ const init = async () => {
 
 			datalistPesquisa.innerHTML = ''
 			for (const time of times) {
-				const newOption = document.createElement('li');
-				newOption.classList.add('list-group-item', 'bg-verde-limao', 'rounded-5', 'p-3', 'd-flex', 'justify-content-between', 'align-items-center')
-				newOption.innerHTML =
-					`
-					<div>
-						<img src="${time.emblem}" alt="Logo" class="img-listagem-times rounded-4 me-2">
-						${time.name}
+				const newOption = document.createElement('div');
+				newOption.classList.add('row', 'rounded-5', 'mx-1', 'px-0', 'py-3', 'mb-2', 'ss-list-player-content')
+				newOption.innerHTML = `
+					<div class="col-auto my-auto position-relative mx-auto ms-md-3 p-0 overflow-hidden rounded-circle me-md-2 ss-player-image">
+						<img src="${time.emblem}" alt="teamImage" class="img-fluid position-absolute mw-100 h-100">
+					</div>
+					
+					<div class="col-auto ss-player-info-wrapper text-center text-md-start ms-md-1 my-auto d-flex flex-column">
+						<p class="ss-player-name w-auto text-center text-md-start text-nowrap text-truncate d-block">${time.name}</p>
 					</div>
 				`
-				const botao = document.createElement('button')
-				botao.classList.add('btn', 'btn-primary', 'adicionar-vinculo-campeonato', 'btn-sm')
-				botao.setAttribute('type', 'button')
-				botao.setAttribute('title', `${i18next.t("Adicionar")} ${time.name} ${i18next.t("AoCampeonato")}`)
-				botao.innerHTML = `<i class="bi bi-plus-lg"></i>`
-				botao.addEventListener('click', async () => {
+
+				const addTeamButtonWrapper = document.createElement('div')
+				addTeamButtonWrapper.classList.add('col-auto', 'd-flex', 'mt-3', 'mt-md-auto', 'my-auto', 'mx-auto', 'ms-md-auto', 'me-md-2')
+				addTeamButtonWrapper.innerHTML = `<button type="button" class="add-listed-thing justify-content-center align-items-center rounded-4 adicionar-vinculo-campeonato btn btn-primary d-flex"><i class="bi bi-plus-lg text-light fs-5"></i></button>`
+
+				newOption.appendChild(addTeamButtonWrapper)
+
+				addTeamButtonWrapper.addEventListener('click', async () => {
 					await vincularTime(time.id)
 					datalistPesquisa.innerHTML = ''
 					inputPesquisa.innerHTML = ''
 					await listarTimesVinculados(configFetch)
 				})
 
-				newOption.appendChild(botao)
 				datalistPesquisa.appendChild(newOption)
 			}
 
