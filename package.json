@@ -30,7 +30,6 @@
     "@capacitor/android": "^5.0.4",
     "@capacitor/core": "^5.0.4",
     "@popperjs/core": "^2.11.6",
-    "@splidejs/splide": "^4.1.4",
     "@studio-freight/lenis": "^1.0.14",
     "aos": "^2.3.4",
     "bootstrap": "^5.2.3",
