@@ -5,24 +5,6 @@ import portugues from './i18n/ptbr/pagina-times.json' assert { type: 'JSON' }
 import ingles from './i18n/en/pagina-times.json' assert { type: 'JSON' }
 import i18next from "i18next";
 import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
-import Splide from '@splidejs/splide';
-import '@splidejs/splide/css';
-
-const splide = new Splide( '#image-carousel', {
-    type: 'loop',
-    padding: { left: '10rem', right: '8rem' },
-    perPage: 1,
-    lazyLoad: 'nearby',
-    breakpoints: {
-        1199: {
-            padding: { left: '9.5rem', right: '8.3rem' },
-        },
-        575: {
-            padding: { left: '4rem', right: '3rem' },
-        },
-
-    },
-})
 
 inicializarInternacionalizacao(ingles, portugues);
 const loader = document.createElement('app-loader');
@@ -36,7 +18,6 @@ const ssSlider = document.querySelector('.ss-slider')
 const ssFirstContentWrapper = document.querySelector('.ss-first-content-wrapper')
 const ssFirstContent = document.querySelector('.ss-first-content')
 
-const splideList = document.querySelector('.splide__list')
 const champStuff = document.querySelector('#champstuff')
 
 const ssSecondContentWrapper = document.querySelector('.ss-second-content-wrapper')
@@ -157,27 +138,35 @@ const obterInfo = async () => {
     console.log(campeonatosVinculados)
     jogadoresVinculados.results.forEach((e) => {
         jogadores.innerHTML += `
-            <div class="d-flex w-100 rounded-5 mb-3 mt-5 mt-md-0 ss-player-content">
+            <div class="d-flex w-100 rounded-5 mb-3 p-2 mt-5 mt-md-0 ss-player-content">
 
-                <div class="position-relative m-3 overflow-hidden rounded-circle ss-player-image">
+                <section class="position-relative m-3 overflow-hidden rounded-circle ss-player-image">
                     <img src="${e.picture}" alt="playerImage" class="img-fluid position-absolute mw-100 h-100">
-                </div>
+                </section>
 
-                <span>
+                <span class="d-flex flex-column justify-content-center align-items-center">
 
-                    <p class="mt-3 ss-player-name w-100 fs-5 text-nowrap text-truncate d-block">${e.name}</p>
-                    <p class="ss-player-username w-100 fs-6 opacity-75 text-nowrap text-truncate d-block">${e.artisticName}</p>
+                    <p class="ss-player-name w-100 fs-5 text-nowrap text-truncate d-block">${e.name}</p>
+                    <p class="mb-0 ss-player-username w-100 fs-6 opacity-75 text-nowrap text-truncate d-block">${e.artisticName}</p>
+
+                    <div class="ss-player-data d-flex flex-row mt-1 bg-primary px-2 py-1 rounded-pill ms-md-0">
+						<p class="fs-6 mb-0 text-white text-opacity-75">${e.number}</p>
+						<i class="bi bi-dot mx-1"></i>
+						<p class="fs-6 mb-0 text-white text-opacity-75">${e.position}</p>
+					</div>
 
                 </span>
             </div>
         `
     })
 
-    // Camisetas do time
-    splide.mount()
+    // Uniformes do time
+    const uniformeHome = document.getElementById("uniforme-home")
+    const uniformeAway = document.getElementById("uniforme-away")
 
-    splide.add('<li class="splide__slide"><img class="img-fluid rounded-4 jerseys-img" src="' + (data.results.uniformHome) + '" alt="C1"></li>')
-    splide.add('<li class="splide__slide"><img class="img-fluid rounded-4 jerseys-img" src="' + (data.results.uniformAway) + '" alt="C1"></li>')
+    uniformeHome.firstElementChild.src = data.results.uniformHome
+    uniformeAway.firstElementChild.src = data.results.uniformAway
+                
 
     // Campeonatos do time
     campeonatosVinculados.results.forEach(e => {
@@ -211,7 +200,7 @@ async function waitInfo() {
         ssFirstContent.classList.add('justify-content-center', 'align-items-center')
         ssFirstContent.removeAttribute('data-lenis-prevent')
         ssFirstContent.innerHTML = `
-            <div class="p-5">
+            <div class="p-md-5">
                 <span class="i18" key="NenhumJogador">${i18next.t("NenhumJogador")}</span>
             </div>
         `
@@ -225,7 +214,7 @@ async function waitInfo() {
         ssThirdContent.classList.add('justify-content-center', 'align-items-center')
         ssThirdContent.removeAttribute('data-lenis-prevent')
         ssThirdContent.innerHTML = `
-            <div class="p-5">
+            <div class="p-md-5">
                 <span class="i18" key="NenhumCampeonato">${i18next.t("NenhumCampeonato")}</span>
             </div>
         `
@@ -235,13 +224,6 @@ async function waitInfo() {
         ssThirdContent.removeAttribute('data-lenis-prevent')
     }
 
-    // splide.on('mounted', () => {
-    //     document.querySelector('.splide__arrows').remove()
-    // })
-
-    // document.addEventListener('resize', () => {
-    //     document.querySelector('.splide__arrows').remove()
-    // })
 
 }
 
