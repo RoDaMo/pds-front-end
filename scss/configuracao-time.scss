@@ -35,6 +35,10 @@
   }
 }
 
+#botoes-vinculo {
+  width: 75%;
+}
+
 #jogadores-vinculados {
   max-height: 30rem;
   overflow-y: auto;
@@ -80,6 +84,10 @@ body {
   .delete-listed-thing {
     width: 3rem;
     height: 3rem;
+  }
+
+  #botoes-vinculo {
+    width: 100%;
   }
 
   #uniform-wrapper {
