@@ -419,6 +419,8 @@ const init = async () => {
 		let isJNOpen = false
 		let isJTOpen = false
 
+		let selectPositionElem = null
+
 		function fecharJogadorNormal() {
 			pesquisaWrapper.classList.add('d-none')
 			botaoVincular.innerHTML = `<i class="bi bi-plus-circle px-2"></i><span class="i18" key="AdicionarNovoJogador">${i18next.t("AdicionarNovoJogador")}</span>
@@ -461,7 +463,6 @@ const init = async () => {
 				fecharJogadorNormal()
 				isJNOpen = false
 			}
-
 		}
 
 		botaoVincular.addEventListener('click', exibirPesquisaNormal)
@@ -482,14 +483,16 @@ const init = async () => {
 				isJTOpen = false
 			}
 
+			selectPositionElem = document.getElementById('posicao')
+
 		}
 
 		botaoVincularJogadorTemporario.addEventListener('click', exibirPesquisaTemporario)
 
 		function resetPositionOptions() {
 			if(team.sportsId === 1){
-				document.getElementById("posicao").innerHTML = ""
-				document.getElementById("posicao").innerHTML += `
+				selectPositionElem.innerHTML = ""
+				selectPositionElem.innerHTML += `
 					<option value="1"><span class="i18" key="Goleiro">${i18next.t("Goleiro")}</span></option>
 					<option value="2"><span class="i18" key="Zagueiro">${i18next.t("Zagueiro")}</span></option>
 					<option value="3"><span class="i18" key="Lateral">${i18next.t("Lateral")}</span></option>
@@ -500,8 +503,8 @@ const init = async () => {
 					<option value="8"><span class="i18" key="Centroavante">${i18next.t("Centroavante")}</span></option>
 				` 
 			}else{
-				document.getElementById("posicao").innerHTML = ""
-				document.getElementById("posicao").innerHTML += `
+				selectPositionElem.innerHTML = ""
+				selectPositionElem.innerHTML += `
 					<option value="9"><span class="i18" key="Levantador">${i18next.t("Levantador")}</span></option>
 					<option value="10"><span class="i18" key="Central">${i18next.t("Central")}</span></option>
 					<option value="11"><span class="i18" key="Libero">${i18next.t("Libero")}</span></option>
@@ -642,8 +645,9 @@ const init = async () => {
 			const valor = inputPesquisa.value,
 				response = await executarFetch(`players?query=${valor}&sport=${team.sportsId}`, configFetch),
 
-				// fetch pra testes
+				// fetch pra testes --
 				// response = await executarFetch(`teams?query=${valor}&sport=1`, configFetch),
+				// ------------------
 
 				jogadores = response.results
 
@@ -702,6 +706,12 @@ const init = async () => {
 											</label>
 											<input type="number" class="form-control i18-placeholder" key="NumeroJogadorPlaceholder" id="playerNumber" min="0" placeholder="${i18next.t("NumeroJogadorPlaceholder")}">
 										</div>
+										<div class="mb-3">
+											<label for="playerPosition" class="form-label">
+												<span class="i18" key="PosicaoJogadorLabel">${i18next.t("PosicaoJogadorLabel")}</span>
+											</label>
+											<select class="w-100 form-select rounded-4 width-config-input" id="playerPosition" name="playerPosition"></select>
+										</div>
 										<button type="submit" class="btn btn-primary i18 mx-auto d-block" key="AddJogador">${i18next.t("AddJogador")}</button>
 									<form>
 								</div>
@@ -709,6 +719,10 @@ const init = async () => {
 						</div>
 					`
 
+					selectPositionElem = document.getElementById('playerPosition')
+					resetPositionOptions()
+
+					
 					const isCaptain = document.getElementById('isCaptain')
 					const fantasyName = document.getElementById('fantasyName')
 					const playerNumber = document.getElementById('playerNumber')
@@ -761,6 +775,7 @@ const init = async () => {
 								'isCaptain': isCaptain.checked,
 								'fantasyName': fantasyName.value,
 								'playerNumber': playerNumber.value,
+								'playerPosition': parseInt(selectPositionElem.value)
 							}
 
 							const configFetch = configuracaoFetch('POST', body),

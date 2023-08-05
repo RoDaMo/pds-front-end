@@ -50,6 +50,7 @@
     "NomeArtisticoObrigatorio": "O nome artístico é obrigatório",
     "NomeArtisticoMinimo": "O nome artístico deve possuir no mínimo 4 caracteres",
     "NomeArtisticoMaximo": "O nome artístico deve possuir no máximo 40 caracteres",
+    "NomeArtisticoInvalido": "Nome artístico inválido",
     "NumeroJogadorLabel": "Número do jogador:",
     "NumeroJogadorObrigatorio": "O número do jogador é obrigatório",
     "NumeroJogadorMinimo": "O número do jogador deve possuir no mínimo 1 caractere",
