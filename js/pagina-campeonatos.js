@@ -54,6 +54,8 @@ const championshipPic = document.querySelector('#championship-pic')
 
 function ssTeamContentMobile() {
     const ssTeamContent = document.querySelectorAll('.ss-team-content')
+    const ssTeamName = document.querySelectorAll('.ss-team-name')
+
 
     ssTeamContent.forEach(content => {
         if (ssTeamContent.length > 1) {
@@ -66,13 +68,15 @@ function ssTeamContentMobile() {
     })
         
     ssTeamName.forEach(name => {
-        name.parentElement.classList.add('w-50')
+        name.parentElement.classList.replace('align-items-center', 'align-items-start')
+        name.parentElement.classList.add('w-75')
+        name.classList.replace('w-100', 'w-75')
     })
 
     if (ssTeamContent.length == 0) {
         ssFirstContent.classList.add('justify-content-center', 'align-items-center')
         ssFirstContent.innerHTML = `
-            <div class="p-5">
+            <div class="p-md-5">
                 <span class="i18" key="NenhumTime">${i18next.t("NenhumTime")}</span>
             </div>
         `
@@ -145,10 +149,10 @@ const obterInfo = async () => {
     loader.hide()
     
     const sport = document.getElementById("championshipSport"),
-          key = data.results.sportsId == 1 ? "Futebol" : "Volei"
+          keySport = data.results.sportsId == 1 ? "Futebol" : "Volei"
 
-    sport.textContent = i18next.t(key)
-    sport.setAttribute('key', key)
+    sport.textContent = i18next.t(keySport)
+    sport.setAttribute('key', keySport)
 
     let iconSrc = (data.results.sportsId === 1) ? '../icons/sports_soccer.svg' : '../icons/sports_volleyball.svg'
     // championshipChar.insertAdjacentHTML("afterbegin", 'championshipSportIcon" src="'+ iconSrc +'" alt="sport-icon" class="sports-icon me-1">')
@@ -176,14 +180,12 @@ const obterInfo = async () => {
                     <img src=${e.emblem} alt="teamCrest" class="img-fluid position-absolute mw-100 h-100">
                 </div>
 
-                <span>
+                <span class="d-flex flex-column justify-content-center align-items-center">
 
-                    <p class="mt-3 ss-team-name w-100 fs-5 text-nowrap text-truncate d-block">${e.name}</p>
+                    <p class="mb-0 ss-team-name w-100 fs-5 text-nowrap text-truncate d-block">${e.name}</p>
 
                 </span>
-                <span class="d-flex justify-content-end ms-auto sports-icon-wrapper">
-                    <img src="${iconSrc}" alt="sport-icon" class="sports-icon teams-sport-icon mt-3 me-3">
-                </span>
+                
             </div>
         `
 
@@ -213,7 +215,7 @@ async function validacaoTimes() {
         if (ssTeamContent.length == 0) {
             ssFirstContent.classList.add('justify-content-center', 'align-items-center')
             ssFirstContent.innerHTML = `
-                <div class="p-5">
+                <div class="p-md-5">
                     <span class="i18" key="NenhumTime">${i18next.t("NenhumTime")}</span>
                 </div>
             `

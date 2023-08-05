@@ -150,6 +150,8 @@ body, html {
 .ss-slider {
     div {
         background: $play-cor-fundos-secundaria;
+
+        cursor: pointer;
     }
 }
 
@@ -272,7 +274,8 @@ body, html {
                 margin-right: 1.9rem !important;
             }
 
-            box-shadow: 0px 0px 20px 0px rgb(0 0 0 / 20%);
+            box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.1);
+
         }
     }
 }
