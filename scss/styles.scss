@@ -397,3 +397,13 @@ componente-footer {
   width: 100%;
   display: block;
 }
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 60px - 2rem);
+}
+
+main {
+  flex: 1; 
+}
