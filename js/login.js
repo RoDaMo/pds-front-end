@@ -129,11 +129,13 @@ function criarValidacao() {
             limparMensagem(mensagemErro)
     
             loader.show();
+            const formData = new FormData(formulario)
     
             await postToken({
                 "Username": nomeUsuario.value,
                 "Password": senha.value,
-                "RememberMe": lembrar.checked ? true : false
+                "RememberMe": lembrar.checked ? true : false,
+                "CaptchaToken": formData.get('g-recaptcha-response')
             })
             loader.hide();
         })

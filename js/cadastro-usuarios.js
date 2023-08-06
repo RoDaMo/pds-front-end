@@ -234,15 +234,17 @@ function criarValidacao() {
         },
     ])
     validator.onSuccess(async (e) => {
-        e.preventDefault();
-        limparMensagem(mensagemErro);
+        e.preventDefault()
+        limparMensagem(mensagemErro)
+        const formData = new FormData(formulario)
       
         const resultado = await postUsuario("auth/register", {
             "Name": nome.value,
             "Email": email.value,
             "Password": senha.value,
             "Username": nomeUsuario.value,
-            "Birthday": dataAniversario.value
+            "Birthday": dataAniversario.value,
+            "CaptchaToken": formData.get('g-recaptcha-response')
         })
         
         if (resultado){

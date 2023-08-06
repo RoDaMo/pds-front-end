@@ -8,6 +8,7 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <link rel="stylesheet" href="../scss/cadastro-usuarios.scss">
     <title>Cadastro de Usuários</title>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body only-anon="true">
     <componente-preloader></componente-preloader>
@@ -102,9 +103,10 @@
                             </label>
                         </div>
                     </div>
+                    <!-- <button class="g-recaptcha"  data-callback='onSubmit' data-action='submit'>Submit</button> -->
                     <div class="container m-0">
                         <div id="formulario-2" class="row gap-2">
-                            <button id="salvar" class="col-md-4 btn btn-success rounded-pill i18" key="Salvar" type="submit">Salvar</button>
+                            <button id="salvar" class="col-md-4 btn btn-success rounded-pill i18 g-recaptcha" data-sitekey="6Lc9iocnAAAAAJfGkYHTnzAfX3HJqlaYCItstRiq" key="Salvar" data-callback="onSubmit" type="submit">Salvar</button>
                             <a href="/index.html" class="col-md-3 btn btn-outline-success rounded-pill i18" key="Cancelar">Cancelar</a>
                         </div>
                     </div>
@@ -117,6 +119,10 @@
     </main>
     <script type="module" src="../main.js"></script>
     <script type="module" src="../js/cadastro-usuarios.js"></script>
-
+    <script>
+        function onSubmit() {
+            document.getElementById('formulario').dispatchEvent(new Event('submit'));
+        }
+    </script>
 </body>
 </html>
