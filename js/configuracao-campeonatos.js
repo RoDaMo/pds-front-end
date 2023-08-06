@@ -564,7 +564,7 @@ const init = async () => {
 				return;
 			}
 			const valor = inputPesquisa.value,
-				response = await executarFetch(`teams?query=${valor}&sport=${campeonato.sportsId}`, configFetch),
+				response = await executarFetch(`teams?query=${valor}&sport=${campeonato.sportsId}&championshipId=${championshipId}`, configFetch),
 				times = response.results
 
 
