@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('btn-aceitar-cookie').addEventListener('click', () => {
       document.cookie = `aceitou-cookies=true; expires=${new Date().setTime(new Date().getTime() + 2000*24*60*60*1000)};path=/;`
       toast.hide()
-      toast.dispose()
+      cookieTooltip.remove();
     })
   }
 
