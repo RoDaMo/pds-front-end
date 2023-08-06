@@ -31,8 +31,8 @@ class footer extends HTMLElement {
                 </div>
             </div>
         ` : `
-            <div class="container mt-4">
-                <footer class="mt-5 d-none d-md-flex flex-column ">
+            <div class="container">
+                <footer class="mt-2 d-none d-md-flex flex-column ">
                     <section class="row">
                         <div class="me-auto col-auto my-auto">
                         <a class="navbar-brand" href="/">
