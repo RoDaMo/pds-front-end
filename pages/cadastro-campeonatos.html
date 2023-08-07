@@ -43,14 +43,20 @@
                             <label for="data-final" class="form-label text-success mt-3 i18" key="FormularioDataFinal">Data final:</label>
                             <input type="text" class="form-control rounded-4" id="data-final" name="data-final" placeholder="dd/MM/yyyy">
                         </div>
-                        <div class="col-md-6 mb-3 mt-3">
-                            <label for="formato" class="form-label text-success i18" key="Formato">Formato:</label>
-                            <select name="formato" class="form-select rounded-4" id="formato">
-                                <option value="" selected class="i18" key="SelecioneFormato">Selecione um Formato</option>
-                                <option value="1" class="i18" key="PontosCorridos">Pontos Corridos</option>
-                                <option value="2" class="i18" key="MataMata">Mata-Mata</option>
-                                <option value="2" class="i18" key="GruposMataMata">Fase de Grupos e Mata-Mata</option>
-                            </select>
+                        <div id="input-formato" class="col-md-6 mb-3 mt-3">
+                            <div>
+                                <label for="formato" class="form-label text-success i18" key="Formato">Formato:</label>
+                                <select name="formato" class="form-select rounded-4" id="formato">
+                                    <option value="" selected class="i18" key="SelecioneFormato">Selecione um Formato</option>
+                                    <option value="1" class="i18" key="PontosCorridos">Pontos Corridos</option>
+                                    <option value="2" class="i18" key="Eliminatorias">Eliminatórias</option>
+                                    <option value="2" class="i18" key="GruposEliminatorias">Fase de Grupos com Eliminatórias</option>
+                                </select>
+                            </div>
+                            <div id="double-match-wrapper">
+
+                            </div>
+                            
                         </div>
                         <div class="col-md-6 mb-3 mt-3">
                             <label for="quantidade" class="form-label text-success i18" key="QuantidadeTimes">Quantidade de times:</label>

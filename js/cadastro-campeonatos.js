@@ -148,6 +148,20 @@ const quantidade = document.getElementById('quantidade')
 const imagem = document.getElementById('logo')
 const emblema = document.getElementById('emblema')
 const quantidadeJogadores = document.getElementById('quantidade-jogadores')
+const inputFormato = document.getElementById('input-formato')
+
+const doubleMatchWrapper = document.getElementById('double-match-wrapper')
+
+// Double Match Checkboxes
+const doubleMatchPontosCorridos = document.createElement('div')
+doubleMatchPontosCorridos.classList.add('form-check', 'mt-2')
+doubleMatchPontosCorridos.innerHTML = `
+    <label class="form-check-label" for="double-match-pc">
+        <span class="i18 text-success " key="DoubleMatchPC">${i18next.t("DoubleMatchPC")}</span>
+    </label>
+
+    <input class="form-check-input" type="checkbox" value="" id="double-match-pc">
+`
 
 const validator = new JustValidate(formulario, {
     validateBeforeSubmitting: true,
@@ -175,6 +189,9 @@ const resetQuantidade = () => {
 const loader = document.createElement('app-loader');
 document.body.appendChild(loader);
 
+
+// Checkboxes
+// Verify sport value
 formato.addEventListener("change", () => {
     if(formato.value === "1"){
         resetQuantidade()
@@ -183,6 +200,9 @@ formato.addEventListener("change", () => {
                 adicionarOpcao(i + 2)
             }
         }
+
+        doubleMatchWrapper.innerHTML = ""
+        doubleMatchWrapper.appendChild(doubleMatchPontosCorridos)
     }
     else{
         resetQuantidade()
