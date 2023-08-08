@@ -128,7 +128,7 @@ async function changeConfigOptionsContext(t) {
                 <h5 class="i18" key="Informacoes">${i18next.t("Informacoes")}</h5>
                 <hr>
                 <div class="row mt-3 justify-mobile-pic">
-                    <div class="col-1 position-relative p-0 overflow-hidden rounded-circle config-user-pic-mod-wrapper">
+                    <div class="col-1 position-relative p-0 overflow-hidden rounded-circle border border-2 config-user-pic-mod-wrapper">
                         <!-- $ Imagem de Pefil do Usuário  ../default-user-image.png - preview? -->
                         <img src="../default-user-image.png" alt="config-user-pic-mod" class="img-fluid position-absolute w-100 h-100" id="config-user-pic-mod">
                     </div>

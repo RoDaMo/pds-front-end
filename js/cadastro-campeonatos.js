@@ -163,6 +163,36 @@ doubleMatchPontosCorridos.innerHTML = `
     <input class="form-check-input" type="checkbox" value="" id="double-match-pc">
 `
 
+const doubleMatchEliminatorias = document.createElement('div')
+doubleMatchEliminatorias.classList.add('form-check', 'mt-2')
+doubleMatchEliminatorias.innerHTML = `
+    <label class="form-check-label" for="double-match-eliminatorias">
+        <span class="i18 text-success " key="DoubleMatchEliminatorias">${i18next.t("DoubleMatchEliminatorias")}</span>
+    </label>
+    
+    <input class="form-check-input" type="checkbox" value="" id="double-match-eliminatorias">
+`
+
+const doubleMatchFinal = document.createElement('div')
+doubleMatchFinal.classList.add('form-check', 'mt-2')
+doubleMatchFinal.innerHTML = `
+    <label class="form-check-label" for="double-match-final">
+        <span class="i18 text-success " key="DoubleMatchFinal">${i18next.t("DoubleMatchFinal")}</span>
+    </label>
+
+    <input class="form-check-input" type="checkbox" value="" id="double-match-final">
+`
+
+const doubleMatchFaseDeGrupos = document.createElement('div')
+doubleMatchFaseDeGrupos.classList.add('form-check', 'mt-2')
+doubleMatchFaseDeGrupos.innerHTML = `
+    <label class="form-check-label" for="double-match-FG">
+        <span class="i18 text-success " key="DoubleMatchFG">${i18next.t("DoubleMatchFG")}</span>
+    </label>
+
+    <input class="form-check-input" type="checkbox" value="" id="double-match-FG">
+`
+
 const validator = new JustValidate(formulario, {
     validateBeforeSubmitting: true,
 })
@@ -170,7 +200,10 @@ const validator = new JustValidate(formulario, {
 const optionDefault = () => {
     const optionDefault = document.createElement('option')
     optionDefault.value = ""
-    optionDefault.innerHTML = `<span class="i18" key="SelecioneOpcao">${i18next.t("SelecioneOpcao")}</span>`,
+    optionDefault.classList.add('i18')
+    optionDefault.text = i18next.t("SelecioneOpcao")
+    optionDefault.setAttribute("key", "SelecioneOpcao")
+    // optionDefault.innerHTML = `<span class="i18" key="SelecioneOpcao">${i18next.t("SelecioneOpcao")}</span>`,
     quantidade.appendChild(optionDefault)
 }
 
@@ -195,22 +228,66 @@ document.body.appendChild(loader);
 formato.addEventListener("change", () => {
     if(formato.value === "1"){
         resetQuantidade()
-        for(let i = 1; i <= 18; i++){
+        for(let i = 1; i <= 18; i++ ){
             if(i % 2 === 0){
                 adicionarOpcao(i + 2)
             }
         }
 
-        doubleMatchWrapper.innerHTML = ""
-        doubleMatchWrapper.appendChild(doubleMatchPontosCorridos)
-    }
-    else{
+    } else if (formato.value === "2") {
         resetQuantidade()
-        for(let i = 1; i <= 6; i++){
+        for(let i = 1; i <= 6; i++) {
+            adicionarOpcao(2 ** i)
+        }
+
+    } else {
+        resetQuantidade()
+        for(let i = 1; i <= 6; i++) {
             adicionarOpcao(2 ** i)
         }
     }
+
+    doubleMatchWrapper.innerHTML = ""
+
+    changeTeamQTDStatus()
+
+    verifyDoubleMatch()
 })
+
+function changeTeamQTDStatus() {
+    if (esporte.value && formato.value) {
+        quantidade.value = ""
+        quantidade.disabled = false;
+        quantidade.setAttribute("key", "QuantidadePlaceholder")
+        quantidade.setAttribute("placeholder", i18next.t("QuantidadePlaceholder"))
+        quantidade.classList.remove("text-muted")
+    } else {
+        quantidade.value = ""
+        quantidade.disabled = true;
+        quantidade.firstElementChild.textContent = i18next.t("QuantidadePlaceholderDisabled")
+        quantidade.classList.add("text-muted")
+    }
+}
+
+function verifyDoubleMatch() {
+    
+    if (formato.value === "1") {
+        doubleMatchWrapper.appendChild(doubleMatchPontosCorridos)
+    } else if (formato.value === "2") {
+        if (esporte.value === "1") {
+            doubleMatchWrapper.appendChild(doubleMatchEliminatorias)
+            doubleMatchWrapper.appendChild(doubleMatchFinal)
+        }
+    } else if (formato.value === "3") {
+        doubleMatchWrapper.appendChild(doubleMatchFaseDeGrupos)
+
+        if (esporte.value === "1") {
+            doubleMatchWrapper.appendChild(doubleMatchEliminatorias)
+            doubleMatchWrapper.appendChild(doubleMatchFinal)
+        }
+        
+    }
+}
 
 let lng = localStorage.getItem('lng')
 
@@ -260,6 +337,11 @@ imagem.addEventListener("change", async() => {
 })
 
 esporte.addEventListener("change", () => {
+    
+    doubleMatchWrapper.innerHTML = ""
+
+    changeTeamQTDStatus()
+    
     if(esporte.value === "1") {
         quantidadeJogadores.value = ""
         quantidadeJogadores.setAttribute("min", 11)
@@ -275,11 +357,23 @@ esporte.addEventListener("change", () => {
         quantidadeJogadores.disabled = false;
         quantidadeJogadores.setAttribute("key", "QuantidadeJogadoresPlaceholder")
         quantidadeJogadores.setAttribute("placeholder", i18next.t("QuantidadeJogadoresPlaceholder"))
+
+        formato.disabled = false;
+        formato.value = ""
+        formato.firstElementChild.textContent = i18next.t("FormatoPlaceholder")
+        formato.classList.remove("text-muted")
     } else {
+        doubleMatchWrapper.innerHTML = ""
+
         quantidadeJogadores.value = ""
         quantidadeJogadores.disabled = true;
         quantidadeJogadores.setAttribute("key", "QuantidadeJogadoresPlaceholderDisabled")
         quantidadeJogadores.setAttribute("placeholder", i18next.t("QuantidadeJogadoresPlaceholderDisabled"))
+
+        formato.disabled = true;
+        formato.value = ""
+        formato.firstElementChild.textContent = i18next.t("FormatoPlaceholderDisabled")
+        formato.classList.add("text-muted")
     }
 })
 
