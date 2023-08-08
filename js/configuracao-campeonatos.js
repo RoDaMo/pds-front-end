@@ -20,6 +20,9 @@ inicializarInternacionalizacao(ingles, portugues);
 const loader = document.createElement('app-loader');
 document.body.appendChild(loader);
 
+const doubleMatchWrapper = document.getElementById('double-match-wrapper')
+
+
 const init = async () => {
 	const activateLi = (li) => {
 		for (const item of abaBotoes) {
@@ -54,10 +57,61 @@ const init = async () => {
 			form = document.getElementById('update-profile-form'),
 			quantidadeJogadores = document.getElementById('quantidade-jogadores')
 
+		// Double Match Checkboxes
+		const doubleMatchPontosCorridos = document.createElement('div')
+		doubleMatchPontosCorridos.classList.add('form-check', 'mt-2')
+		doubleMatchPontosCorridos.innerHTML = `
+			<label class="form-check-label" for="double-match-pc">
+				<span class="i18 text-success " key="DoubleMatchPC">${i18next.t("DoubleMatchPC")}</span>
+			</label>
+
+			<input class="form-check-input" type="checkbox" value="" id="double-match-pc">
+		`
+
+		let PCCheckboxElem = null
+
+		const doubleMatchEliminatorias = document.createElement('div')
+		doubleMatchEliminatorias.classList.add('form-check', 'mt-2')
+		doubleMatchEliminatorias.innerHTML = `
+			<label class="form-check-label" for="double-match-eliminatorias">
+				<span class="i18 text-success " key="DoubleMatchEliminatorias">${i18next.t("DoubleMatchEliminatorias")}</span>
+			</label>
+			
+			<input class="form-check-input" type="checkbox" value="" id="double-match-eliminatorias">
+		`
+
+		let eliminatoriasCheckboxElem = null
+
+		const doubleMatchFinal = document.createElement('div')
+		doubleMatchFinal.classList.add('form-check', 'mt-2')
+		doubleMatchFinal.innerHTML = `
+			<label class="form-check-label" for="double-match-final">
+				<span class="i18 text-success " key="DoubleMatchFinal">${i18next.t("DoubleMatchFinal")}</span>
+			</label>
+
+			<input class="form-check-input" type="checkbox" value="" id="double-match-final">
+		`
+
+		let finalCheckboxElem = null
+
+		const doubleMatchFaseDeGrupos = document.createElement('div')
+		doubleMatchFaseDeGrupos.classList.add('form-check', 'mt-2')
+		doubleMatchFaseDeGrupos.innerHTML = `
+			<label class="form-check-label" for="double-match-FG">
+				<span class="i18 text-success " key="DoubleMatchFG">${i18next.t("DoubleMatchFG")}</span>
+			</label>
+
+			<input class="form-check-input" type="checkbox" value="" id="double-match-FG">
+		`
+
+		let FGCheckboxElem = null
+
 		const optionDefault = () => {
 			const optionDefault = document.createElement('option')
 			optionDefault.value = ""
-			optionDefault.innerHTML = `<span class="i18" key="SelecioneOpcao">${i18next.t("SelecioneOpcao")}</span>`
+			optionDefault.classList.add('i18')
+			optionDefault.text = i18next.t("SelecioneOpcao")
+			optionDefault.setAttribute("key", "SelecioneOpcao")
 			numero.appendChild(optionDefault)
 		}
 
@@ -74,7 +128,7 @@ const init = async () => {
 		}
 
 		formato.addEventListener("change", () => {
-			if (formato.value === "1") {
+			if (formato.value === "3") {
 				resetQuantidade()
 				for (let i = 1; i <= 18; i++) {
 					if (i % 2 === 0) {
@@ -88,7 +142,82 @@ const init = async () => {
 					adicionarOpcao(2 ** i)
 				}
 			}
+
+			doubleMatchWrapper.innerHTML = ""
+
+			changeTeamQTDStatus()
+
+			verifyDoubleMatch()
 		})
+
+		function changeTeamQTDStatus() {
+			if (esporte.value && formato.value) {
+				numero.value = ""
+				numero.disabled = false;
+				numero.setAttribute("key", "QuantidadePlaceholder")
+				numero.setAttribute("placeholder", i18next.t("QuantidadePlaceholder"))
+				numero.classList.remove("text-muted")
+			} else {
+				numero.value = ""
+				numero.disabled = true;
+				numero.firstElementChild.textContent = i18next.t("QuantidadePlaceholderDisabled")
+				numero.classList.add("text-muted")
+			}
+		}
+		
+		function verifyDoubleMatch() {
+			
+			if (formato.value === "3") {
+				doubleMatchWrapper.appendChild(doubleMatchPontosCorridos)
+				PCCheckboxElem = document.getElementById('double-match-pc')
+				
+				if (campeonato.DoubleStartLeagueSystem) {
+					PCCheckboxElem.checked = true
+				}
+
+			} else if (formato.value === "1") {
+				if (esporte.value === "1") {
+					doubleMatchWrapper.appendChild(doubleMatchEliminatorias)
+					eliminatoriasCheckboxElem = document.getElementById('double-match-eliminatorias')
+
+					doubleMatchWrapper.appendChild(doubleMatchFinal)
+					finalCheckboxElem = document.getElementById('double-match-final')
+					
+
+					if (campeonato.DoubleMatchEliminations) {
+						eliminatoriasCheckboxElem.checked = true
+					}
+
+					if (campeonato.FinalDoubleMatch) {
+						finalCheckboxElem.checked = true
+					}
+				}
+			} else if (formato.value === "4") {
+				doubleMatchWrapper.appendChild(doubleMatchFaseDeGrupos)
+				FGCheckboxElem = document.getElementById('double-match-FG')
+
+				if (campeonato.DoubleMatchGroupStage) {
+					FGCheckboxElem.checked = true
+				}
+		
+				if (esporte.value === "1") {
+					doubleMatchWrapper.appendChild(doubleMatchEliminatorias)
+					eliminatoriasCheckboxElem = document.getElementById('double-match-eliminatorias')
+
+					doubleMatchWrapper.appendChild(doubleMatchFinal)
+					finalCheckboxElem = document.getElementById('double-match-final')
+
+					if (campeonato.DoubleMatchEliminations) {
+						eliminatoriasCheckboxElem.checked = true
+					}
+
+					if (campeonato.FinalDoubleMatch) {
+						finalCheckboxElem.checked = true
+					}
+				}
+				
+			}
+		}
 
 		image.src = campeonato.logo
 		imageInput.value = campeonato.logo
@@ -96,7 +225,7 @@ const init = async () => {
 		descricao.value = campeonato.description
 		dataInicial.value = campeonato.initialDate
 		dataFinal.value = campeonato.finalDate
-		formato.selectedIndex = campeonato.format
+		formato.value = campeonato.format
 		formato.dispatchEvent(new Event('change'))
 
 		for (const option of numero.options) {
@@ -154,6 +283,11 @@ const init = async () => {
 		})
 
 		esporte.addEventListener("change", () => {
+
+			doubleMatchWrapper.innerHTML = ""
+
+    		changeTeamQTDStatus()
+
 			if (esporte.value === "1") {
 				quantidadeJogadores.value = ""
 				quantidadeJogadores.setAttribute("min", 11)
@@ -169,11 +303,23 @@ const init = async () => {
 				quantidadeJogadores.disabled = false;
 				quantidadeJogadores.setAttribute("key", "QuantidadeJogadoresPlaceholder")
 				quantidadeJogadores.setAttribute("placeholder", i18next.t("QuantidadeJogadoresPlaceholder"))
+
+				formato.disabled = false;
+				formato.value = ""
+				formato.firstElementChild.textContent = i18next.t("FormatoPlaceholder")
+				formato.classList.remove("text-muted")
 			} else {
+				doubleMatchWrapper.innerHTML = ""
+
 				quantidadeJogadores.value = ""
 				quantidadeJogadores.disabled = true;
 				quantidadeJogadores.setAttribute("key", "QuantidadeJogadoresPlaceholderDisabled")
 				quantidadeJogadores.setAttribute("placeholder", i18next.t("QuantidadeJogadoresPlaceholderDisabled"))
+
+				formato.disabled = true;
+				formato.value = ""
+				formato.firstElementChild.textContent = i18next.t("FormatoPlaceholderDisabled")
+				formato.classList.add("text-muted")
 			}
 		})
 
@@ -394,10 +540,16 @@ const init = async () => {
 						'id': championshipId,
 						'sportsId': campeonato.sportsId,
 						'rules': linkRegulamento.href,
-						"NumberOfPlayers": parseInt(quantidadeJogadores.value)
+						"NumberOfPlayers": parseInt(quantidadeJogadores.value),
+						"DoubleStartLeagueSystem": PCCheckboxElem?.checked,
+						"DoubleMatchEliminations": eliminatoriasCheckboxElem?.checked,
+						"FinalDoubleMatch": finalCheckboxElem?.checked,
+						"DoubleMatchGroupStage": FGCheckboxElem?.checked,
 					})
 					loader.hide()
 					// mensagemErro.textContent = ''
+
+					console.log(finalCheckboxElem?.checked);
 				})
 
 			imageFile.addEventListener("change", async () => {

@@ -35,7 +35,7 @@
 						<h5 class="i18" key="Editar">Editar informações</h5>
 						<hr>
 						<div class="row mt-3 justify-mobile-pic">
-							<div class="col-1 position-relative p-0 overflow-hidden rounded-circle config-user-pic-mod-wrapper">
+							<div class="col-1 position-relative p-0 overflow-hidden border border-2 rounded-circle config-user-pic-mod-wrapper">
 								<img src="https://playoffs-api.up.railway.app/img/fefabe2b-4038-4b8c-b719-54fbbe9095a4" alt="Imagem do campeonato"
 									class="img-fluid position-absolute w-100 h-100" id="config-championship-pic-mod">
 							</div>
@@ -92,13 +92,18 @@
 										placeholder="Bairro"></input>
 								</div>
 								<div class="col-6 mt-3">
-									<label for="config-championship-formato-input" class="form-label i18" key="Formato">Formato</label>
-									<select class="form-select rounded-4" id="config-championship-formato-input">
-										<option value="" class="i18" key="SelecioneFormato" selected>Selecione um Formato</option>
-										<option value="1" class="i18" key="PontosCorridos">Pontos Corridos</option>
-										<option value="2" class="i18" key="MataMata">Mata-Mata</option>
-										<option value="3" class="i18" key="GruposMataMata">Fase de Grupos e Mata-Mata</option>
-									</select>
+									<div>
+										<label for="config-championship-formato-input" class="form-label i18" key="Formato">Formato</label>
+										<select class="form-select rounded-4" id="config-championship-formato-input">
+											<option value="" class="i18" key="SelecioneFormato" selected>Selecione um Formato</option>
+											<option value="3" class="i18" key="PontosCorridos">Pontos Corridos</option>
+											<option value="1" class="i18" key="Eliminatorias">Eliminatorias</option>
+											<option value="4" class="i18" key="GruposEliminatorias">Fase de Grupos com Eliminatórias</option>
+										</select>
+									</div>
+									<div id="double-match-wrapper">
+
+									</div>
 								</div>
 								<div class="col-6 mt-3">
 									<label for="config-championship-numero-input" class="form-label i18" key="QuantidadeTimes">Número de times:</label>

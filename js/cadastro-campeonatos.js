@@ -163,6 +163,8 @@ doubleMatchPontosCorridos.innerHTML = `
     <input class="form-check-input" type="checkbox" value="" id="double-match-pc">
 `
 
+let PCCheckboxElem = null
+
 const doubleMatchEliminatorias = document.createElement('div')
 doubleMatchEliminatorias.classList.add('form-check', 'mt-2')
 doubleMatchEliminatorias.innerHTML = `
@@ -172,6 +174,8 @@ doubleMatchEliminatorias.innerHTML = `
     
     <input class="form-check-input" type="checkbox" value="" id="double-match-eliminatorias">
 `
+
+let eliminatoriasCheckboxElem = null
 
 const doubleMatchFinal = document.createElement('div')
 doubleMatchFinal.classList.add('form-check', 'mt-2')
@@ -183,6 +187,8 @@ doubleMatchFinal.innerHTML = `
     <input class="form-check-input" type="checkbox" value="" id="double-match-final">
 `
 
+let finalCheckboxElem = null
+
 const doubleMatchFaseDeGrupos = document.createElement('div')
 doubleMatchFaseDeGrupos.classList.add('form-check', 'mt-2')
 doubleMatchFaseDeGrupos.innerHTML = `
@@ -192,6 +198,9 @@ doubleMatchFaseDeGrupos.innerHTML = `
 
     <input class="form-check-input" type="checkbox" value="" id="double-match-FG">
 `
+
+let FGCheckboxElem = null
+
 
 const validator = new JustValidate(formulario, {
     validateBeforeSubmitting: true,
@@ -203,7 +212,6 @@ const optionDefault = () => {
     optionDefault.classList.add('i18')
     optionDefault.text = i18next.t("SelecioneOpcao")
     optionDefault.setAttribute("key", "SelecioneOpcao")
-    // optionDefault.innerHTML = `<span class="i18" key="SelecioneOpcao">${i18next.t("SelecioneOpcao")}</span>`,
     quantidade.appendChild(optionDefault)
 }
 
@@ -226,18 +234,12 @@ document.body.appendChild(loader);
 // Checkboxes
 // Verify sport value
 formato.addEventListener("change", () => {
-    if(formato.value === "1"){
+    if(formato.value === "3"){
         resetQuantidade()
         for(let i = 1; i <= 18; i++ ){
             if(i % 2 === 0){
                 adicionarOpcao(i + 2)
             }
-        }
-
-    } else if (formato.value === "2") {
-        resetQuantidade()
-        for(let i = 1; i <= 6; i++) {
-            adicionarOpcao(2 ** i)
         }
 
     } else {
@@ -271,19 +273,30 @@ function changeTeamQTDStatus() {
 
 function verifyDoubleMatch() {
     
-    if (formato.value === "1") {
+    if (formato.value === "3") {
         doubleMatchWrapper.appendChild(doubleMatchPontosCorridos)
-    } else if (formato.value === "2") {
+		PCCheckboxElem = document.getElementById('double-match-pc')
+        
+    } else if (formato.value === "1") {
         if (esporte.value === "1") {
             doubleMatchWrapper.appendChild(doubleMatchEliminatorias)
+			eliminatoriasCheckboxElem = document.getElementById('double-match-eliminatorias')
+
             doubleMatchWrapper.appendChild(doubleMatchFinal)
+			finalCheckboxElem = document.getElementById('double-match-final')
+
         }
-    } else if (formato.value === "3") {
+    } else if (formato.value === "4") {
         doubleMatchWrapper.appendChild(doubleMatchFaseDeGrupos)
+		FGCheckboxElem = document.getElementById('double-match-FG')
 
         if (esporte.value === "1") {
             doubleMatchWrapper.appendChild(doubleMatchEliminatorias)
+			eliminatoriasCheckboxElem = document.getElementById('double-match-eliminatorias')
+
             doubleMatchWrapper.appendChild(doubleMatchFinal)
+			finalCheckboxElem = document.getElementById('double-match-final')
+
         }
         
     }
@@ -641,12 +654,10 @@ function criarValidacao() {
             "City": cidade.value,
             "Neighborhood": bairro.value,
             "NumberOfPlayers": quantidadeJogadores.value,
-            "DoubleMatch": {
-                "PC": document.getElementById('double-match-pc')?.checked,
-                "Eliminatorias": document.getElementById('double-match-eliminatorias')?.checked,
-                "Final": document.getElementById('double-match-final')?.checked,
-                "FaseDeGrupos": document.getElementById('double-match-FG')?.checked,
-            }
+            "DoubleStartLeagueSystem": PCCheckboxElem?.checked,
+            "DoubleMatchEliminations": eliminatoriasCheckboxElem?.checked,
+            "FinalDoubleMatch": finalCheckboxElem?.checked,
+            "DoubleMatchGroupStage": FGCheckboxElem?.checked,
         })
 
         if (resultado) {
@@ -655,6 +666,6 @@ function criarValidacao() {
         }
         loader.hide();
         
-        window.location.assign('/pages/configuracao-campeonato.html')
+        window.location.assign(`/pages/configuracao-campeonato.html`)
     })
 }
