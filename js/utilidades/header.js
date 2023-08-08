@@ -310,6 +310,7 @@ export class header extends HTMLElement {
                     <p id="usernameChampionshipId" class="d-none">${user.championshipId}</p>
                     <p id="usernameTeamManagementId" class="d-none">${user.teamManagementId}</p>
                     <p id="usernameUserId" class="d-none">${user.id}</p>
+                    <p id="userRole" class="d-none">${user.role}</p>
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
@@ -333,6 +334,11 @@ export class header extends HTMLElement {
                         <i class="bi bi-people fs-4"></i>
                         <span class="i18" key="TimeConfig">${i18next.t("TimeConfig")}</span>
                     </a>`}
+                    ${user.role == 'admin' ? `
+                    <a href="/pages/error-log.html" class="list-group-item py-4 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
+                        <i class="bi bi-person-gear fs-4"></i>
+                        Logs de erro
+                    </a>` : ''}
                     <a href="javascript:void(0)" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3 deslogar-usuario">
                         <i class="bi bi-box-arrow-right fs-4"></i>
                         <span class="i18" key="Sair">${i18next.t("Sair")}</span>
