@@ -45,7 +45,8 @@ export default defineConfig({
         termosPrivacidade: resolve(__dirname, 'pages/termos-de-privacidade.html'),
         termosDeUso: resolve(__dirname, 'pages/termos-de-uso.html'),
         paginaTimes: resolve(__dirname, 'pages/pagina-times.html'),
-        configuracaoTime: resolve(__dirname, 'pages/configuracao-time.html')
+        configuracaoTime: resolve(__dirname, 'pages/configuracao-time.html'),
+        errorLogs: resolve(__dirname, 'pages/error-log.html')
       }
     }
   },
