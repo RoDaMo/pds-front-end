@@ -640,7 +640,13 @@ function criarValidacao() {
             "State": estado.value,
             "City": cidade.value,
             "Neighborhood": bairro.value,
-            "NumberOfPlayers": quantidadeJogadores.value
+            "NumberOfPlayers": quantidadeJogadores.value,
+            "DoubleMatch": {
+                "PC": document.getElementById('double-match-pc')?.checked,
+                "Eliminatorias": document.getElementById('double-match-eliminatorias')?.checked,
+                "Final": document.getElementById('double-match-final')?.checked,
+                "FaseDeGrupos": document.getElementById('double-match-FG')?.checked,
+            }
         })
 
         if (resultado) {
