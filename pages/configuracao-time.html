@@ -36,7 +36,7 @@
 						<h5 class="i18" key="EditarInfosTime">Editar informações</h5>
 						<hr>
 						<div class="row mt-3 justify-mobile-pic">
-							<div class="col-1 position-relative p-0 overflow-hidden rounded-circle config-user-pic-mod-wrapper">
+							<div class="col-1 position-relative p-0 overflow-hidden rounded-circle border border-2 config-user-pic-mod-wrapper">
 								<img src="https://playoffs-api.up.railway.app/img/fefabe2b-4038-4b8c-b719-54fbbe9095a4" alt="Imagem do time"
 									class="img-fluid position-absolute w-100 h-100" id="config-team-pic-mod">
 							</div>
@@ -140,6 +140,22 @@
 
 								</form>
 								<form class="form-group mt-3 d-none" id="formulario-jogador-temporario">
+									<div class="row mt-3 justify-mobile-pic">
+										<div class="col-1 position-relative p-0 overflow-hidden rounded-circle border border-2 temp-player-pic-mod-wrapper">
+											<img src="https://playoffs-api.up.railway.app/img/fefabe2b-4038-4b8c-b719-54fbbe9095a4" alt="Imagem do jogador temporário"
+												class="img-fluid position-absolute w-100 h-100" id="temp-player-pic-mod">
+										</div>
+										<div class="col-12 col-md mt-2">
+											<div class="d-flex justify-mobile-pic align-items-end upload-container h-100">
+												<div class="upload-drop-zone" id="upload-drop-zone">
+													<p>Drag &amp; Drop an image here</p>
+												</div>
+												<label for="temp-player-image-input" class="btn play-btn-primary i18" key="FotoJogadorTemp">Adicionar Foto</label>
+												<input type="file" class="d-none" id="temp-player-image-input" accept=".jpeg, .jpg, .png, .webp, .gif, .bmp, .tiff">
+												<input type="hidden" name="logo" id="temp-player-input-hidden">
+											</div>
+										</div>
+									</div>
 									<div>
 										<label for="nome-jogador" class="form-label text-success mt-3"><span class="i18" key="NomeJogadorLabel">Nome do jogador:</span></label>
                             			<input type="text" class="form-control i18-placeholder" id="nome-jogador" name="nome-jogador" key="NomeJogadorPlaceholder" placeholder="Nome do jogador...">

@@ -299,7 +299,52 @@ const init = async () => {
 		for (const jogador of jogadoresVinculados.results) {
 			const jogadoresVinculadosContent = document.createElement('div');
 			jogadoresVinculadosContent.classList.add('row', 'rounded-5', 'mx-1', 'px-0', 'py-3', 'mb-2', 'ss-list-player-content')
-			
+
+			switch (jogador.playerPosition) {
+				case 1:
+					jogador.playerPos = `<span class="i18" key="Goleiro">${i18next.t("Goleiro")}</span>`
+					break;
+				case 2:
+					jogador.playerPos = `<span class="i18" key="Zagueiro">${i18next.t("Zagueiro")}</span>`
+					break;
+				case 3:
+					jogador.playerPos = `<span class="i18" key="Lateral">${i18next.t("Lateral")}</span>`
+					break;
+				case 4:
+					jogador.playerPos = `<span class="i18" key="Volante">${i18next.t("Volante")}</span>`
+					break;
+				case 5:
+					jogador.playerPos = `<span class="i18" key="MeioCampista">${i18next.t("MeioCampista")}</span>`
+					break;
+				case 6:
+					jogador.playerPos = `<span class="i18" key="MeiaAtacante">${i18next.t("MeiaAtacante")}</span>`
+					break;
+				case 7:
+					jogador.playerPos = `<span class="i18" key="Ponta">${i18next.t("Ponta")}</span>`
+					break;
+				case 8:
+					jogador.playerPos = `<span class="i18" key="Centroavante">${i18next.t("Centroavante")}</span>`
+					break;
+				case 9:
+					jogador.playerPos = `<span class="i18" key="Levantador">${i18next.t("Levantador")}</span>`
+					break;
+				case 10:
+					jogador.playerPos = `<span class="i18" key="Central">${i18next.t("Central")}</span>`
+					break;
+				case 11:
+					jogador.playerPos = `<span class="i18" key="Libero">${i18next.t("Libero")}</span>`
+					break;
+				case 12:
+					jogador.playerPos = `<span class="i18" key="Ponteiro">${i18next.t("Ponteiro")}</span>`
+					break;
+				case 13:
+					jogador.playerPos = `<span class="i18" key="Oposto">${i18next.t("Oposto")}</span>`
+					break;
+				default:
+					jogador.playerPos = `<span class="i18" key="SemPosicao">${i18next.t("SemPosicao")}</span>`
+					break;
+			}
+
 			jogadoresVinculadosContent.innerHTML = /*html*/`
 				<div class="col-auto my-auto position-relative mx-auto ms-md-3 p-0 overflow-hidden rounded-circle me-md-2 ss-player-image">
 					<img src="${jogador.picture}" alt="playerImage" class="img-fluid position-absolute mw-100 h-100">
@@ -311,7 +356,7 @@ const init = async () => {
 					<div class="ss-player-data d-flex flex-row mt-2 bg-primary px-2 py-1 rounded-pill mx-md-auto ms-md-0">
 						<p class="fs-6 mb-0 text-white text-opacity-75">${jogador.number}</p>
 						<i class="bi bi-dot mx-1"></i>
-						<p class="fs-6 mb-0 text-white text-opacity-75">${jogador.position}</p>
+						<p class="fs-6 mb-0 text-white text-opacity-75">${jogador.playerPos}</p>
 					</div>
 				</div>
 
@@ -397,6 +442,10 @@ const init = async () => {
 			datalistPesquisa = document.getElementById('pesquisa-jogador-lista'),
 			botaoVincularJogadorTemporario = document.getElementById("botao-vincular-jogador-temporario"),
 			formularioJogadorTemporario = document.getElementById("formulario-jogador-temporario"),
+			tempPlayerImage = document.getElementById('temp-player-pic-mod'),
+			tempPlayerImageFile = document.getElementById('temp-player-image-input'),
+			tempPlayerImageInput = document.getElementById('temp-player-input-hidden'),
+			dropZone = document.getElementById("upload-drop-zone"),
 			configFetch = configuracaoFetch('GET')
 
 		await listarJogadoresVinculados()
@@ -541,8 +590,65 @@ const init = async () => {
 
 		const jogadorTempValidator = new JustValidate(jogadorTempFrom, { validateBeforeSubmitting: true })
 
+		// drag and drop de imagem de jogador temporario
+		dropZone.addEventListener("dragover", e => {
+			e.preventDefault()
+			dropZone.classList.add("dragover")
+		})
+
+		dropZone.addEventListener("dragleave", e => {
+			e.preventDefault()
+			dropZone.classList.remove("dragover")
+		})
+
+		dropZone.addEventListener("drop", async e => {
+			e.preventDefault()
+			dropZone.classList.remove("dragover")
+
+			loader.show()
+			const data = await uploadImagem(e.dataTransfer, 3, mensagemErro)
+			loader.hide()
+
+			if (Array.isArray(data.results))
+				return;
+
+			tempPlayerImageInput.value = `${api}img/${data.results}`
+			exibidorImagem(tempPlayerImage, tempPlayerImageInput.value)
+		})		
+
+		tempPlayerImageFile.addEventListener("change", async () => {
+			loader.show()
+			const data = await uploadImagem(tempPlayerImageFile, 3, mensagemErro)
+			loader.hide()
+
+			if (Array.isArray(data.results))
+				return;
+
+			tempPlayerImageInput.value = `${api}img/${data.results}`
+			exibidorImagem(tempPlayerImage, tempPlayerImageInput.value)
+		})
+
+		
+
 		function jogadorTempValidator1() {
 			jogadorTempValidator
+				.addField(tempPlayerImageFile, [
+					{
+						rule: 'required',
+						errorMessage: `<span class="i18" key="ImagemJogadorObrigatoria">${i18next.t("ImagemJogadorObrigatoria")}</span>`,
+					},
+					{
+						rule: 'files',
+						value: {
+							files: {
+								extensions: ['jpeg', 'jpg', 'png', 'webp', 'gif', 'bmp', 'tiff'],
+								maxSize: 5000000,
+								types: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/bmp', 'image/tiff'],
+							},
+						},
+						errorMessage: `<span class="i18" key="ImagemTamanho">${i18next.t("ImagemTamanho")}</span>`,
+					}
+				], { errorsContainer: document.getElementById('imagem-erro-jt') })
 				.addField(document.getElementById("nome-jogador"), [
 					{
 						rule: 'required',
@@ -619,7 +725,8 @@ const init = async () => {
 						"number": parseInt(document.getElementById("numero").value),
 						"email": document.getElementById("email-jogador").value,
 						"teamsId": parseInt(team.id),
-						"playerPosition": parseInt(document.getElementById("posicao").value)
+						"playerPosition": parseInt(document.getElementById("posicao").value),
+						"picture": document.getElementById("temp-player-input-hidden").value,
 					})
 
 					if (resultado) {

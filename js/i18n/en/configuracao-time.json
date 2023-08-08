@@ -69,7 +69,7 @@
     "NumeroJogador": "Player's number:",
     "NumeroJogadorPlaceholder": "Player's number...",
     "EsporteObrigatorio": "Please select a sport",
-    "BrasaoObrigatorio": "insert a crest",
+    "BrasaoObrigatorio": "Insert a crest",
     "ImagemTamanho": "Invalid file! The file can't be bigger than 5mb and be of the following types: png, jpeg, jpg, webp, gif, bmp, tiff",
     "DescricaoObrigatoria": "Please enter a description",
     "DescricaoMinimo": "Minimum 10 characters",
