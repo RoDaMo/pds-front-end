@@ -320,24 +320,27 @@ const init = async () => {
 					jogador.playerPos = `<span class="i18" key="MeiaAtacante">${i18next.t("MeiaAtacante")}</span>`
 					break;
 				case 7:
-					jogador.playerPos = `<span class="i18" key="Ponta">${i18next.t("Ponta")}</span>`
+					jogador.playerPos = `<span class="i18" key="Ala">${i18next.t("Ala")}</span>`
 					break;
 				case 8:
-					jogador.playerPos = `<span class="i18" key="Centroavante">${i18next.t("Centroavante")}</span>`
+					jogador.playerPos = `<span class="i18" key="Ponta">${i18next.t("Ponta")}</span>`
 					break;
 				case 9:
-					jogador.playerPos = `<span class="i18" key="Levantador">${i18next.t("Levantador")}</span>`
+					jogador.playerPos = `<span class="i18" key="Centroavante">${i18next.t("Centroavante")}</span>`
 					break;
 				case 10:
-					jogador.playerPos = `<span class="i18" key="Central">${i18next.t("Central")}</span>`
+					jogador.playerPos = `<span class="i18" key="Levantador">${i18next.t("Levantador")}</span>`
 					break;
 				case 11:
-					jogador.playerPos = `<span class="i18" key="Libero">${i18next.t("Libero")}</span>`
+					jogador.playerPos = `<span class="i18" key="Central">${i18next.t("Central")}</span>`
 					break;
 				case 12:
-					jogador.playerPos = `<span class="i18" key="Ponteiro">${i18next.t("Ponteiro")}</span>`
+					jogador.playerPos = `<span class="i18" key="Libero">${i18next.t("Libero")}</span>`
 					break;
 				case 13:
+					jogador.playerPos = `<span class="i18" key="Ponteiro">${i18next.t("Ponteiro")}</span>`
+					break;
+				case 14:
 					jogador.playerPos = `<span class="i18" key="Oposto">${i18next.t("Oposto")}</span>`
 					break;
 				default:
@@ -548,17 +551,18 @@ const init = async () => {
 					<option value="4"><span class="i18" key="Volante">${i18next.t("Volante")}</span></option>
 					<option value="5"><span class="i18" key="MeioCampista">${i18next.t("MeioCampista")}</span></option>
 					<option value="6"><span class="i18" key="MeiaAtacante">${i18next.t("MeiaAtacante")}</span></option>
-					<option value="7"><span class="i18" key="Ponta">${i18next.t("Ponta")}</span></option>
-					<option value="8"><span class="i18" key="Centroavante">${i18next.t("Centroavante")}</span></option>
+					<option value="7"><span class="i18" key="Ala">${i18next.t("Ala")}</span></option>
+					<option value="8"><span class="i18" key="Ponta">${i18next.t("Ponta")}</span></option>
+					<option value="9"><span class="i18" key="Centroavante">${i18next.t("Centroavante")}</span></option>
 				` 
 			}else{
 				selectPositionElem.innerHTML = ""
 				selectPositionElem.innerHTML += `
-					<option value="9"><span class="i18" key="Levantador">${i18next.t("Levantador")}</span></option>
-					<option value="10"><span class="i18" key="Central">${i18next.t("Central")}</span></option>
-					<option value="11"><span class="i18" key="Libero">${i18next.t("Libero")}</span></option>
-					<option value="12"><span class="i18" key="Ponteiro">${i18next.t("Ponteiro")}</span></option>
-					<option value="13"><span class="i18" key="Oposto">${i18next.t("Oposto")}</span></option>
+					<option value="10"><span class="i18" key="Levantador">${i18next.t("Levantador")}</span></option>
+					<option value="11"><span class="i18" key="Central">${i18next.t("Central")}</span></option>
+					<option value="12"><span class="i18" key="Libero">${i18next.t("Libero")}</span></option>
+					<option value="13"><span class="i18" key="Ponteiro">${i18next.t("Ponteiro")}</span></option>
+					<option value="14"><span class="i18" key="Oposto">${i18next.t("Oposto")}</span></option>
 				` 
 			}
 		}
