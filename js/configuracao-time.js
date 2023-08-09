@@ -300,6 +300,10 @@ const init = async () => {
 			const jogadoresVinculadosContent = document.createElement('div');
 			jogadoresVinculadosContent.classList.add('row', 'rounded-5', 'mx-1', 'px-0', 'py-3', 'mb-2', 'ss-list-player-content')
 
+			if (jogador.picture === null || jogador.picture === '' || jogador.picture === undefined) {
+				jogador.picture = '../default-user-image.png'
+			}
+
 			switch (jogador.playerPosition) {
 				case 1:
 					jogador.playerPos = `<span class="i18" key="Goleiro">${i18next.t("Goleiro")}</span>`
@@ -353,20 +357,21 @@ const init = async () => {
 					<img src="${jogador.picture}" alt="playerImage" class="img-fluid position-absolute mw-100 h-100">
 				</div>
 
-				<div class="col-auto ss-player-info-wrapper text-center text-md-start ms-md-1 my-auto d-flex flex-column">
-					<p class="ss-player-name w-auto text-center text-md-start text-nowrap text-truncate d-block">${jogador.name}</p>
-					<p class="mb-0 ss-player-username text-center text-md-start w-auto opacity-75 text-nowrap text-truncate d-block">${jogador.artisticName}</p>
-					<div class="ss-player-data d-flex flex-row mt-2 bg-primary px-2 py-1 rounded-pill mx-md-auto ms-md-0">
-						<p class="fs-6 mb-0 text-white text-opacity-75">${jogador.number}</p>
-						<i class="bi bi-dot mx-1"></i>
-						<p class="fs-6 mb-0 text-white text-opacity-75">${jogador.playerPos}</p>
+				<div class="col-auto ss-player-info-wrapper text-center mb-3 mb-md-0 text-md-start ms-md-1 mt-auto d-flex flex-column">
+					<p class="ss-player-name w-75 w-md-auto text-center text-md-start text-nowrap text-truncate d-block">${jogador.name}</p>
+					<p class="mb-0 ss-player-username text-center text-md-start w-75 w-md-auto opacity-75 text-nowrap text-truncate d-block">${jogador.artisticName}</p>
+					<div class="ss-player-data2 row justify-content-center align-items-center d-flex flex-column flex-md-row mt-2 mx-md-auto ms-md-0">
+						<p class="col col-md-auto ss-player-data-number px-2 py-1 fs-6 mb-0 text-white text-opacity-75">${jogador.number}</p>
+						<i class="col col-md-auto bi bi-dot d-none d-md-block mx-auto"></i>
+						<hr class="ss-player-data-hr rounded-pill d-block m-0 my-2 d-md-none">
+						<p class="col col-md-auto ss-player-data-position px-2 py-1 fs-6 mb-0 text-white text-opacity-75">${jogador.playerPos}</p>
 					</div>
 				</div>
 
 			`
 
 			const botaoDesvincularWrapper = document.createElement('div')
-			botaoDesvincularWrapper.classList.add('col-auto', 'd-flex', 'mt-3', 'mt-md-auto', 'my-auto', 'mx-auto', 'ms-md-auto', 'me-md-2')
+			botaoDesvincularWrapper.classList.add('col-auto', 'd-flex', 'my-auto', 'mx-auto', 'ms-md-auto', 'me-md-2')
 			botaoDesvincularWrapper.innerHTML = `<button type="button" class="delete-listed-thing justify-content-center align-items-center rounded-4 remover-vinculo-campeonato btn btn-danger d-flex"><i class="bi bi-trash text-light fs-5"></i></button>`
 			
 			jogadoresVinculadosContent.appendChild(botaoDesvincularWrapper)
@@ -632,6 +637,9 @@ const init = async () => {
 			exibidorImagem(tempPlayerImage, tempPlayerImageInput.value)
 		})
 
+		document.getElementById("numero").addEventListener('change', e => {
+			if(e.target.value.length > 2) e.target.value = e.target.value.slice(0, 2)
+		})
 		
 
 		function jogadorTempValidator1() {
@@ -697,7 +705,7 @@ const init = async () => {
 					},
 					{
 						rule: 'maxLength',
-						value: 3,
+						value: 2,
 						errorMessage: `<span class="i18" key="NumeroJogadorMaximo">${i18next.t("NumeroJogadorMaximo")}</span>`,
 					},
 				])
@@ -735,6 +743,8 @@ const init = async () => {
 
 					if (resultado) {
 						formularioJogadorTemporario.reset()
+						tempPlayerImage.src = "../default-user-image.png"
+						tempPlayerImageInput.value = ""
 					}
 
 					loader.hide();
@@ -754,10 +764,10 @@ const init = async () => {
 				return;
 			}
 			const valor = inputPesquisa.value,
-				response = await executarFetch(`players?query=${valor}&sport=${team.sportsId}`, configFetch),
+				// response = await executarFetch(`players?query=${valor}&sport=${team.sportsId}`, configFetch),
 
 				// fetch pra testes --
-				// response = await executarFetch(`teams?query=${valor}&sport=1`, configFetch),
+				response = await executarFetch(`teams?query=${valor}&sport=1`, configFetch),
 				// ------------------
 
 				jogadores = response.results

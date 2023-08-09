@@ -21,11 +21,13 @@
     "SelecioneOpcao": "Selecione uma opção",
     "AtualizarTime": "Atualizar time",
     "AdicionarJogadores": "Adicionar Jogadores",
+    "CadastrarJogador": "Cadastrar Jogador",
     "AddJogador" : "Adicionar Jogador",
     "JogadoresVinculados": "Jogadores vinculados",
     "CampeonatosVinculados": "Campeonatos vinculados",
     "AdicionarNovoJogador": "Adicionar novo jogador",
     "AdicionarNovoJogadorTemp": "Adicionar novo jogador temporário",
+    "InserirFoto": "Inserir foto",
     "PesquiseJogador": "Pesquise o nome do jogador que deseja adicionar:",
     "PesquiseJogadorPlaceholder": "Escreva o nome de um jogador para pesquisar...",
     "ExcluirTime": "Excluir time",
@@ -35,6 +37,7 @@
     "Certeza": "Você tem certeza?",
     "CasoVoce": "Caso você decida",
     "excluir": "excluir",
+    "Ou": "ou",
     "TextoExclusaoTime": "este time, ele será removido de visualização e não será possível recuperá-lo. Você deve avaliar cuidadosamente se é isso que realmente deseja fazer.",
     "NomeTime": "Nome do time:",
     "NomeTimePlaceholder": "Nome do time...",
@@ -54,7 +57,7 @@
     "NumeroJogadorLabel": "Número do jogador:",
     "NumeroJogadorObrigatorio": "O número do jogador é obrigatório",
     "NumeroJogadorMinimo": "O número do jogador deve possuir no mínimo 1 caractere",
-    "NumeroJogadorMaximo": "O número do jogador deve possuir no máximo 3 caracteres",
+    "NumeroJogadorMaximo": "O número do jogador deve possuir no máximo 2 caracteres",
     "PesquisaJogadorObrigatorio": "Por favor, pesquise um jogador para adicionar",
     "EmailJogadorLabel": "E-mail do jogador:",
     "EmailJogadorPlaceholder": "E-mail do jogador...",
@@ -96,5 +99,6 @@
     "Central": "Central",
     "Libero": "Líbero",
     "Ponteiro": "Ponteiro",
-    "Oposto": "Oposto"
+    "Oposto": "Oposto",
+    "DropZoneText": "Arraste e solte a imagem aqui"
 }

@@ -392,12 +392,16 @@ esporte.addEventListener("change", () => {
 
 quantidadeJogadores.addEventListener("change", () => {
     if(esporte.value === "1") {
-        if(quantidadeJogadores.value < 11 || quantidadeJogadores.value > 25) {
+        if(quantidadeJogadores.value < 11) {
             quantidadeJogadores.value = 11
+        } else if (quantidadeJogadores.value > 25) {
+            quantidadeJogadores.value = 25
         }
     } else if(esporte.value === "2") {
-        if(quantidadeJogadores.value < 6 || quantidadeJogadores.value > 15) {
+        if(quantidadeJogadores.value < 6) {
             quantidadeJogadores.value = 6
+        } else if (quantidadeJogadores.value > 15) {
+            quantidadeJogadores.value = 15
         }
     }
 })

@@ -21,11 +21,13 @@
     "SelecioneOpcao": "Select an option",
     "AtualizarTime": "Update team",
     "AdicionarJogadores": "Add players",
+    "CadastrarJogador": "Add player",
     "AddJogador": "Add player",
     "JogadoresVinculados": "Linked players",
     "CampeonatosVinculados": "Linked championships",
     "AdicionarNovoJogador": "Add new player",
     "AdicionarNovoJogadorTemp": "Add new temporary player",
+    "InserirFoto": "Insert photo",
     "PesquiseJogador": "Search for the name of the player you want to add:",
     "PesquiseJogadorPlaceholder": "Type a player name to search...",
     "ExcluirTime": "Delete team",
@@ -35,6 +37,7 @@
     "Certeza": "Are you sure?",
     "CasoVoce": "In case you decide ",
     "excluir": "delete",
+    "Ou": "or",
     "TextoExclusaoTime": "this team, it will be removed from view and it will not be possible to recover it. You must carefully assess whether this is what you really want to do.",
     "NomeTime": "Team's name:",
     "NomeTimePlaceholder": "Team's name...",
@@ -53,7 +56,7 @@
     "NumeroJogadorLabel": "Player's number:",
     "NumeroJogadorObrigatorio": "Player's number is required",
     "NumeroJogadorMinimo": "Minimum 1 character",
-    "NumeroJogadorMaximo": "Maximum 3 characters",
+    "NumeroJogadorMaximo": "Maximum 2 characters",
     "PesquisaJogadorObrigatorio": "Please enter a player's name to search",
     "PosicaoJogadorLabel": "Player's position:",
     "PosicaoJogadorPlaceholder": "Select a position...",
@@ -96,5 +99,6 @@
     "Central": "Middle Blocker",
     "Libero": "Líbero",
     "Ponteiro": "Outside Hitter",
-    "Oposto": "Opposite Hitter"
+    "Oposto": "Opposite Hitter",
+    "DropZoneText": "Drag and drop the image here"
 }
