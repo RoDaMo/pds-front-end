@@ -14,8 +14,8 @@
 	<app-loader></app-loader>
 	<componente-header></componente-header>
 	<main class="container">
-		<div class="row mb-4 mt-5 h-100">
-			<section class="col-10 col-md-3 config-menu mb-5 mb-md-0 bg-white p-4 rounded-5">
+		<div class="row flex-column flex-lg-row mx-auto mb-4 h-100">
+			<section class="col-auto config-menu mb-md bg-white p-4 rounded-5">
 				<h5 class="i18" key="ConfigMenu">Configurações</h5>
 
 				<!-- Config Menu -->
@@ -27,14 +27,14 @@
 				</ul>
 			</section>
 
-			<div class="col">
+			<div class="col mt-5 mt-md-5 mt-lg-0 mx-lg-2">
 				<!-- User Info -->
 
-				<section class="row config-options-wrapper justify-mobile-pic p-4 rounded-5 mx-2 h-auto position-relative bg-white">
+				<section class="row config-options-wrapper justify-mobile-pic p-4 px-2 rounded-5 h-auto position-relative bg-white">
 					<div class="d-none menu-config" menu="0">
-						<h5 class="i18" key="Editar">Editar informações</h5>
-						<hr>
-						<div class="row mt-3 justify-mobile-pic">
+						<h5 class="i18 text-center" key="Editar">Editar informações</h5>
+						<hr class="my-2">
+						<div class="row mt-5 m-auto justify-mobile-pic">
 							<div class="col-1 position-relative p-0 overflow-hidden border border-2 rounded-circle config-user-pic-mod-wrapper">
 								<img src="https://playoffs-api.up.railway.app/img/fefabe2b-4038-4b8c-b719-54fbbe9095a4" alt="Imagem do campeonato"
 									class="img-fluid position-absolute w-100 h-100" id="config-championship-pic-mod">
@@ -143,10 +143,14 @@
 							</form>
 						</div>
 					</div>
+
+					<!-- Vincular Times -->
 					<div class="d-none menu-config" menu="1">
-						<h5 class="i18" key="VincularTimes">Vincular times</h5>
-						<hr>
-						<button type="button" class="btn btn-primary mb-3" id="botao-vincular-time"><i class="bi bi-plus-circle px-2"></i> <span class="i18" key="VincularNovo">Vincular novo time</span> </button>
+						<h5 class="i18 text-center" key="VincularTimes">Vincular times</h5>
+						<hr class="my-2">
+						<div class="d-flex flex-column justify-content-center align-items-center my-4">
+							<button type="button" class="btn btn-primary" id="botao-vincular-time"><i class="bi bi-plus-circle px-2"></i> <span class="i18" key="VincularNovo">Vincular novo time</span> </button>
+						</div>
 						<form class="form-group mt-3 d-none" id="pesquisa-time">
 							<div>
 								<label for="pesquisa-time-input" class="i18" key="Pesquise">Pesquise o nome do time que deseja adicionar:</label>
@@ -170,11 +174,13 @@
 						</div>
 
 					</div>
+
+					<!-- Exclusão -->
 					<div class="d-none menu-config" menu="2">
-						<h5 class="text-danger i18" key="ExcluirCampeonato">Excluir Campeonato</h5>
-						<hr>
+						<h5 class="text-danger text-center i18" key="ExcluirCampeonato">Excluir Campeonato</h5>
+						<hr class="my-2">
 						
-						<div class="mt-1">
+						<div class="mt-4">
 								<p class="text-danger fs-6">
 									<span class="i18" key="Ao">Ao clicar no botão de excluir campeonato, você estará dando início ao processo de </span>
 										

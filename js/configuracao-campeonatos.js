@@ -647,20 +647,20 @@ const init = async () => {
 			const newOption = document.createElement('div');
 			newOption.classList.add('row', 'rounded-5', 'mx-1', 'px-0', 'py-3', 'mb-2', 'ss-list-player-content')
 			newOption.innerHTML = `
-				<div class="col-auto my-auto position-relative mx-auto ms-md-3 p-0 overflow-hidden rounded-circle me-md-2 ss-player-image">
+				<div class="col-auto my-auto position-relative mx-auto border border-2 ms-md-3 p-0 overflow-hidden rounded-circle me-md-2 ss-player-image">
 					<img src="${time.emblem}" alt="teamImage" class="img-fluid position-absolute mw-100 h-100">
 				</div>
 
-				<div class="col-auto ss-player-info-wrapper text-center text-md-start ms-md-1 my-auto d-flex flex-column">
-					<p class="ss-player-name w-auto text-center text-md-start text-nowrap text-truncate d-block">${time.name}</p>
-					<div class="ss-player-data d-flex flex-row mt-2 bg-primary px-2 py-1 rounded-pill mx-md-auto ms-md-0">
-						<p class="fs-6 mb-0 text-white text-opacity-75">${keySport}</p>
+				<div class="col-auto ss-player-info-wrapper text-center mb-3 mb-md-0 text-md-start ms-md-1 mt-auto d-flex flex-column">
+					<p class="ss-player-name text-center text-md-start text-nowrap text-truncate d-block">${time.name}</p>
+					<div class="ss-player-data2 row justify-content-center align-items-center d-flex flex-column flex-md-row mt-2 mx-md-auto ms-md-0">
+						<p class="col col-md-auto ss-player-data-number px-2 py-1 fs-6 mb-0 text-white text-opacity-75">${keySport}</p>
 					</div>
 				</div>
 			`
 
 			const botaoDesvincularWrapper = document.createElement('div')
-			botaoDesvincularWrapper.classList.add('col-auto', 'd-flex', 'mt-3', 'mt-md-auto', 'my-auto', 'mx-auto', 'ms-md-auto', 'me-md-2')
+			botaoDesvincularWrapper.classList.add('col-auto', 'd-flex', 'my-auto', 'mx-auto', 'ms-md-auto', 'me-md-2')
 			botaoDesvincularWrapper.innerHTML = `<button type="button" class="delete-listed-thing justify-content-center align-items-center rounded-4 remover-vinculo-campeonato btn btn-danger d-flex"><i class="bi bi-trash text-light fs-5"></i></button>`
 
 			newOption.appendChild(botaoDesvincularWrapper)

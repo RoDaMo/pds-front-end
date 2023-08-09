@@ -353,13 +353,14 @@ const init = async () => {
 			}
 
 			jogadoresVinculadosContent.innerHTML = /*html*/`
-				<div class="col-auto my-auto position-relative mx-auto ms-md-3 p-0 overflow-hidden rounded-circle me-md-2 ss-player-image">
+				<div class="col-auto my-auto position-relative mx-auto ms-md-3 p-0 border border-2 overflow-hidden rounded-circle me-md-2 ss-player-image">
 					<img src="${jogador.picture}" alt="playerImage" class="img-fluid position-absolute mw-100 h-100">
 				</div>
 
 				<div class="col-auto ss-player-info-wrapper text-center mb-3 mb-md-0 text-md-start ms-md-1 mt-auto d-flex flex-column">
-					<p class="ss-player-name w-75 w-md-auto text-center text-md-start text-nowrap text-truncate d-block">${jogador.name}</p>
-					<p class="mb-0 ss-player-username text-center text-md-start w-75 w-md-auto opacity-75 text-nowrap text-truncate d-block">${jogador.artisticName}</p>
+					<p class="ss-player-name text-center text-md-start text-nowrap text-truncate d-block">${jogador.name}</p>
+					<p class="mb-0 ss-player-username text-center text-md-start opacity-75 text-nowrap text-truncate d-block">${jogador.artisticName}</p>
+
 					<div class="ss-player-data2 row justify-content-center align-items-center d-flex flex-column flex-md-row mt-2 mx-md-auto ms-md-0">
 						<p class="col col-md-auto ss-player-data-number px-2 py-1 fs-6 mb-0 text-white text-opacity-75">${jogador.number}</p>
 						<i class="col col-md-auto bi bi-dot d-none d-md-block mx-auto"></i>
@@ -401,28 +402,23 @@ const init = async () => {
 
 		campeonatosVinculadosWrapper.innerHTML = ''
 
-		if (!campeonatosVinculadosWrapper.hasChildNodes()) {
-			campeonatosVinculadosWrapper.innerHTML = `<p class="p-1 pt-3 text-center"><span class="i18" key="SemCampeonatos">${i18next.t("SemCampeonatos")}</span></p>`
-			return;
-		}
-
 		for (const campeonato of campeonatosVinculados.results) {
 			const campeonatosVinculadosContent = document.createElement('div');
 			campeonatosVinculadosContent.classList.add('row', 'rounded-5', 'mx-1', 'px-0', 'py-3', 'mb-2', 'ss-list-player-content')
 
 			campeonatosVinculadosContent.innerHTML = `
-				<div class="col-auto my-auto position-relative mx-auto ms-md-3 p-0 overflow-hidden rounded-circle me-md-2 ss-player-image">
+				<div class="col-auto my-auto position-relative mx-auto border border-2 ms-md-3 p-0 overflow-hidden rounded-circle me-md-2 ss-player-image">
 					<img src="${campeonato.logo}" alt="champImage" class="img-fluid position-absolute mw-100 h-100">
 				</div>
 
-				<div class="col-auto col-md-8 ss-player-info-wrapper text-center text-md-start ms-md-1 my-auto d-flex flex-column">
-					<p class="ss-player-name w-100 text-center text-md-start text-nowrap text-truncate d-block">${campeonato.name}</p>
+				<div class="col-auto ss-player-info-wrapper text-center mb-3 mb-md-0 text-md-start ms-md-1 mt-auto d-flex flex-column">
+					<p class="ss-player-name text-center text-md-start text-nowrap text-truncate d-block">${campeonato.name}</p>
 					
-					<div class="d-flex flex-column flex-md-row mt-3 mt-md-0">
-						<p class="mb-0 ss-player-username text-center text-md-start w-auto opacity-75 text-nowrap text-truncate d-block">${campeonato.initialDate}</p>
-						<i class="bi bi-dot mx-1 my-0 d-none d-md-block"></i> 
-						<hr class="hr-listed-champs d-block mx-auto d-md-none w-50 rounded-pill my-2">
-						<p class="mb-0 ss-player-username text-center text-md-start w-auto opacity-75 text-nowrap text-truncate d-block">${campeonato.finalDate}</p>
+					<div class="ss-player-data2 row justify-content-center align-items-center d-flex flex-column flex-md-row mt-2 mx-md-auto ms-md-0">
+						<p class="col col-md-auto px-2 py-1 fs-6 mb-0 text-black text-opacity-75">${campeonato.initialDate}</p>
+						<i class="col col-md-auto bi bi-dot d-none d-md-block mx-auto"></i> 
+						<hr class="ss-player-data-hr rounded-pill d-block m-0 my-2 d-md-none">
+						<p class="col col-md-auto px-2 py-1 fs-6 mb-0 text-black text-opacity-75">${campeonato.finalDate}</p>
 					</div>
 
 				</div>
@@ -430,7 +426,7 @@ const init = async () => {
 			`
 
 			const botaoDesvincularWrapper = document.createElement('div')
-			botaoDesvincularWrapper.classList.add('col-auto', 'd-flex', 'mt-3', 'mt-md-auto', 'my-auto', 'mx-auto', 'ms-md-auto', 'me-md-2')
+			botaoDesvincularWrapper.classList.add('col-auto', 'd-flex', 'my-auto', 'mx-auto', 'ms-md-auto', 'me-md-2')
 			botaoDesvincularWrapper.innerHTML = `<button type="button" class="delete-listed-thing justify-content-center align-items-center rounded-4 remover-vinculo-campeonato btn btn-danger d-flex"><i class="bi bi-trash text-light fs-5"></i></button>`
 			
 			campeonatosVinculadosContent.appendChild(botaoDesvincularWrapper)
@@ -440,6 +436,11 @@ const init = async () => {
 				await desvincularCampeonato(campeonato.id)
 				await listarCampeonatosVinculados(configFetch)
 			})
+		}
+
+		if (!campeonatosVinculadosWrapper.hasChildNodes()) {
+			campeonatosVinculadosWrapper.innerHTML = `<p class="p-1 pt-3 text-center"><span class="i18" key="SemCampeonatos">${i18next.t("SemCampeonatos")}</span></p>`
+			return;
 		}
 	}
 
@@ -454,6 +455,8 @@ const init = async () => {
 			tempPlayerImageFile = document.getElementById('temp-player-image-input'),
 			tempPlayerImageInput = document.getElementById('temp-player-input-hidden'),
 			dropZone = document.getElementById("upload-drop-zone"),
+			playerStep = document.getElementById('playerStep'),
+
 			configFetch = configuracaoFetch('GET')
 
 		await listarJogadoresVinculados()
@@ -761,6 +764,7 @@ const init = async () => {
 			if (!inputPesquisa.value) {
 				datalistPesquisa.innerHTML = ''
 				document.getElementById('playerStep').innerHTML = ''
+				playerStep.parentElement.classList.add('d-none')
 				return;
 			}
 			const valor = inputPesquisa.value,
@@ -839,6 +843,9 @@ const init = async () => {
 							</div>
 						</div>
 					`
+
+					playerStep.parentElement.classList.remove('d-none')
+
 
 					selectPositionElem = document.getElementById('playerPosition')
 					resetPositionOptions()

@@ -22,10 +22,20 @@
 
 .ss-player-data-number {
   background-color: $play-cor-primaria;
+  border-radius: 0.6rem;
 }
 
 .ss-player-data-position {
   background-color: $black;
+  border-radius: 0.8rem;
+}
+
+.ss-player-name {
+  width: 16rem !important;
+}
+
+.ss-player-username {
+  width: 17rem !important;
 }
 
 .temp-player-pic-mod-wrapper {
@@ -90,14 +100,6 @@
   width: 100%;
 }
 
-.ss-player-data-number {
-  border-radius: 0.6rem;
-}
-
-.ss-player-data-position {
-  border-radius: 0.8rem;
-}
-
 #formulario-jogador-temporario {
   width: 100%;
 }
@@ -108,6 +110,11 @@ body {
 }
 
 // Media Queries
+@include media-breakpoint-up(lg) {
+  #vinculo-jogador {
+    justify-content: flex-start;
+  }
+}
 
 @include media-breakpoint-only(md) {
   #uniform-wrapper {
@@ -135,13 +142,6 @@ body {
 @include media-breakpoint-down(md) {
   #vinculo-jogador {
     justify-content: center;
-  }
-
-}
-
-@include media-breakpoint-up(lg) {
-  #vinculo-jogador {
-    justify-content: flex-start;
   }
 }
 
@@ -177,10 +177,12 @@ body {
 
   .ss-player-name {
     font-size: 1rem !important;
+    width: 8rem !important;
   }
 
   .ss-player-username {
     font-size: 0.8rem !important;
+    width: 9rem !important;
   }
 
   .ss-player-data2 {
