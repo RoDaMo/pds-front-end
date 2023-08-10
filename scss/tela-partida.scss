@@ -9,6 +9,10 @@
 .m-team-img-wrapper {
     max-width: 6rem;
     height: 6rem;
+
+    .m-team-img {
+        min-width: 100%;
+    }
 }
 
 #aggregate-score-wrapper {
