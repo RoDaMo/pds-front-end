@@ -94,9 +94,6 @@ body {
 
 // Media Queries
 @include media-breakpoint-down(sm) {
-    .config-menu {
-        margin-bottom: 2rem !important;
-    }
 
     .width-config-input {
         width: 100% !important;

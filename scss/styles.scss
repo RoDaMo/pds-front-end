@@ -145,6 +145,24 @@ body {
     text-decoration: none !important;
     color: inherit !important;
 }
+
+.dragover {
+  border: 2px dashed $play-cor-efeitos !important;
+}
+
+.upload-image-drop-label {
+  justify-content: center;
+}
+
+.upload-container {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.upload-drop-zone {
+  border: 2px dashed #ccc;
+  padding: 20px;
+}
   
 // Conteúdo Principal
 #gotop {
@@ -346,6 +364,10 @@ button.navbar-toggler {
       background: $white;
       height: 400vh;
     }
+  }
+
+  .upload-image-drop-label {
+    justify-content: start;
   }
 }
 

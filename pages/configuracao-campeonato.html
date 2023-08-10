@@ -15,7 +15,7 @@
 	<componente-header></componente-header>
 	<main class="container">
 		<div class="row flex-column flex-lg-row mx-auto mb-4 h-100">
-			<section class="col-auto config-menu mb-md bg-white p-4 rounded-5">
+			<section class="col-auto config-menu mb-md mb-0 bg-white p-4 rounded-5">
 				<h5 class="i18" key="ConfigMenu">Configurações</h5>
 
 				<!-- Config Menu -->
@@ -30,7 +30,7 @@
 			<div class="col mt-5 mt-md-5 mt-lg-0 mx-lg-2">
 				<!-- User Info -->
 
-				<section class="row config-options-wrapper justify-mobile-pic p-4 px-2 rounded-5 h-auto position-relative bg-white">
+				<section class="row config-options-wrapper justify-mobile-pic p-4 px-2 px-md-4 rounded-5 h-auto position-relative bg-white">
 					<div class="d-none menu-config" menu="0">
 						<h5 class="i18 text-center" key="Editar">Editar informações</h5>
 						<hr class="my-2">
@@ -39,11 +39,24 @@
 								<img src="https://playoffs-api.up.railway.app/img/fefabe2b-4038-4b8c-b719-54fbbe9095a4" alt="Imagem do campeonato"
 									class="img-fluid position-absolute w-100 h-100" id="config-championship-pic-mod">
 							</div>
-							<div class="col-12 col-md mt-2">
-								<div class="d-flex justify-mobile-pic align-items-end h-100">
-									<label for="config-championship-image-input" class="btn play-btn-primary i18" key="Logo">Alterar logo</label>
+							<div class="col-12 col-md">
+
+								<div class="row flex-column justify-mobile-pic justify-content-start align-items-center my-auto upload-container h-100">
+									<div class="col d-flex justify-content-center d-none d-lg-flex">
+										<div class="upload-drop-zone justify-content-center w-75 rounded-5" id="config-championship-drop-zone">
+											<span class="i18 my-3 text-muted" key="DropZoneText"></span>
+										</div>
+									</div>
+
+									<span class="d-none my-2 d-lg-block i18" key="Ou">ou</span>
+
+									<div class="col d-flex align-items-center my-auto upload-image-drop-label">
+										<label for="config-championship-image-input" class="btn play-btn-primary mt-3 mt-md-0 i18" key="Logo">Alterar logo</label>
+									</div>
 								</div>
 								<div id="imagem-erro-jv"></div>
+
+
 							</div>
 						</div>
 

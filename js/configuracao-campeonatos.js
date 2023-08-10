@@ -22,6 +22,29 @@ document.body.appendChild(loader);
 
 const doubleMatchWrapper = document.getElementById('double-match-wrapper')
 
+const dropZones = document.querySelectorAll(".upload-drop-zone")
+
+for	(const dropZone of dropZones) {
+	dropZone.addEventListener("dragover", e => {
+		e.preventDefault()
+		dropZone.classList.add("dragover")
+	})
+
+	dropZone.addEventListener("dragleave", e => {
+		e.preventDefault()
+		dropZone.classList.remove("dragover")
+	})
+
+	dropZone.addEventListener("drop", async e => {
+		e.preventDefault()
+		dropZone.classList.remove("dragover")
+	})	
+}
+
+function genericExibition(input, data, image) {
+	input.value = `${api}img/${data.results}`
+	exibidorImagem(image, input.value)
+}
 
 const init = async () => {
 	const activateLi = (li) => {
@@ -55,7 +78,8 @@ const init = async () => {
 			linkRegulamento = document.getElementById('regulamento-existente'),
 			esporte = document.getElementById('config-championship-esporte-input'),
 			form = document.getElementById('update-profile-form'),
-			quantidadeJogadores = document.getElementById('quantidade-jogadores')
+			quantidadeJogadores = document.getElementById('quantidade-jogadores'),
+			configChampionshipDropZone = document.getElementById('config-championship-drop-zone')
 
 		// Double Match Checkboxes
 		const doubleMatchPontosCorridos = document.createElement('div')
@@ -551,6 +575,17 @@ const init = async () => {
 
 					console.log(finalCheckboxElem?.checked);
 				})
+
+			configChampionshipDropZone.addEventListener("drop", async e => {
+				loader.show()
+				const data = await uploadImagem(e.dataTransfer, 3, mensagemErro)
+				loader.hide()
+	
+				if (Array.isArray(data.results))
+					return;
+	
+				genericExibition(imageInput, data, image)
+			})
 
 			imageFile.addEventListener("change", async () => {
 				const isValid = await validator.revalidateField(imageFile)

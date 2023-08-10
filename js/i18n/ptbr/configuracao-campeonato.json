@@ -22,6 +22,7 @@
     "GruposEliminatorias": "Fase de Grupos com Eliminatórias",
     "QuantidadeTimes": "Quantidade de Times:" ,
     "SelecioneFormatoAntes": "Selecione o formato antes",
+    "Ou": "ou",
     "Pais": "País:",
     "PaisPlaceholder": "País...",
     "Estado": "Estado:",
@@ -101,5 +102,7 @@
     "QuantidadeJogadoresObrigatorio": "Favor inserir número de jogadores por time",
     "QuantidadeJogadoresInvalido": "Quantidade de jogadores por time inválido",
     "PdfInvalido": "Arquivo inválido! O arquivo deve conter até 20mb e ser um arquivo pdf.",
-    "EspecificacoesRegulamento": "O arquivo deve ser de tipo PDF e deve ter um tamanho menor que 20 mb."
+    "EspecificacoesRegulamento": "O arquivo deve ser de tipo PDF e deve ter um tamanho menor que 20 mb.",
+    "DropZoneText": "Arraste e solte a imagem aqui"
+
 }

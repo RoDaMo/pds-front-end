@@ -15,6 +15,29 @@ import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao
 inicializarInternacionalizacao(ingles, portugues);
 
 const mediaQueryMobile = window.matchMedia('(max-width: 575px)')
+const dropZones = document.querySelectorAll(".upload-drop-zone")
+
+for	(const dropZone of dropZones) {
+	dropZone.addEventListener("dragover", e => {
+		e.preventDefault()
+		dropZone.classList.add("dragover")
+	})
+
+	dropZone.addEventListener("dragleave", e => {
+		e.preventDefault()
+		dropZone.classList.remove("dragover")
+	})
+
+	dropZone.addEventListener("drop", async e => {
+		e.preventDefault()
+		dropZone.classList.remove("dragover")
+	})	
+}
+
+function genericExibition(input, data, image) {
+	input.value = `${api}img/${data.results}`
+	exibidorImagem(image, input.value)
+}
 
 const loader = document.createElement('app-loader');
 document.body.appendChild(loader);
@@ -45,7 +68,9 @@ const init = async () => {
 			homeFile = document.getElementById("uniforme-1"),
 			away = document.getElementById("away"),
 			awayInput = document.getElementById("uniforme-fora"),
-			awayFile = document.getElementById("uniforme-2")
+			awayFile = document.getElementById("uniforme-2"),
+			configTeamDropZone = document.getElementById("config-team-drop-zone")
+			
 
 
 
@@ -182,6 +207,17 @@ const init = async () => {
 					// mensagemErro.textContent = ''
 				})
 
+			configTeamDropZone.addEventListener("drop", async e => {
+				loader.show()
+				const data = await uploadImagem(e.dataTransfer, 3, mensagemErro)
+				loader.hide()
+	
+				if (Array.isArray(data.results))
+					return;
+	
+				genericExibition(imageInput, data, image)
+			})
+
 			imageFile.addEventListener("change", async () => {
 				const isValid = await validator.revalidateField(imageFile)
 				if (!isValid) return;
@@ -193,8 +229,7 @@ const init = async () => {
 				if (Array.isArray(data.results))
 					return;
 
-				imageInput.value = `${api}img/${data.results}`
-				exibidorImagem(image, imageInput.value)
+				genericExibition(imageInput, data, image)
 			})
 
 			homeInput.addEventListener("change", async () => {
@@ -454,8 +489,8 @@ const init = async () => {
 			tempPlayerImage = document.getElementById('temp-player-pic-mod'),
 			tempPlayerImageFile = document.getElementById('temp-player-image-input'),
 			tempPlayerImageInput = document.getElementById('temp-player-input-hidden'),
-			dropZone = document.getElementById("upload-drop-zone"),
 			playerStep = document.getElementById('playerStep'),
+			playerTempDropZone = document.getElementById('player-temp-drop-zone'),
 
 			configFetch = configuracaoFetch('GET')
 
@@ -602,21 +637,8 @@ const init = async () => {
 
 		const jogadorTempValidator = new JustValidate(jogadorTempFrom, { validateBeforeSubmitting: true })
 
-		// drag and drop de imagem de jogador temporario
-		dropZone.addEventListener("dragover", e => {
-			e.preventDefault()
-			dropZone.classList.add("dragover")
-		})
-
-		dropZone.addEventListener("dragleave", e => {
-			e.preventDefault()
-			dropZone.classList.remove("dragover")
-		})
-
-		dropZone.addEventListener("drop", async e => {
-			e.preventDefault()
-			dropZone.classList.remove("dragover")
-
+		// drag and drop de imagem
+		playerTempDropZone.addEventListener("drop", async e => {
 			loader.show()
 			const data = await uploadImagem(e.dataTransfer, 3, mensagemErro)
 			loader.hide()
@@ -624,9 +646,9 @@ const init = async () => {
 			if (Array.isArray(data.results))
 				return;
 
-			tempPlayerImageInput.value = `${api}img/${data.results}`
-			exibidorImagem(tempPlayerImage, tempPlayerImageInput.value)
-		})		
+			genericExibition(tempPlayerImageInput, data, tempPlayerImage)
+		})
+			
 
 		tempPlayerImageFile.addEventListener("change", async () => {
 			loader.show()
@@ -636,14 +658,12 @@ const init = async () => {
 			if (Array.isArray(data.results))
 				return;
 
-			tempPlayerImageInput.value = `${api}img/${data.results}`
-			exibidorImagem(tempPlayerImage, tempPlayerImageInput.value)
+			genericExibition(tempPlayerImageInput, data, tempPlayerImage)
 		})
-
+		
 		document.getElementById("numero").addEventListener('change', e => {
 			if(e.target.value.length > 2) e.target.value = e.target.value.slice(0, 2)
 		})
-		
 
 		function jogadorTempValidator1() {
 			jogadorTempValidator
@@ -768,10 +788,10 @@ const init = async () => {
 				return;
 			}
 			const valor = inputPesquisa.value,
-				// response = await executarFetch(`players?query=${valor}&sport=${team.sportsId}`, configFetch),
+				response = await executarFetch(`players?query=${valor}&sport=${team.sportsId}`, configFetch),
 
 				// fetch pra testes --
-				response = await executarFetch(`teams?query=${valor}&sport=1`, configFetch),
+				// response = await executarFetch(`teams?query=${valor}&sport=1`, configFetch),
 				// ------------------
 
 				jogadores = response.results

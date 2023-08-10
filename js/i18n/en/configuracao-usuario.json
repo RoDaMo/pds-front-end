@@ -24,6 +24,7 @@
     "ImagemTamanho": "Invalid file! The file can't be bigger than 5mb and be of the following types: png, jpeg, jpg, webp, gif, bmp, tiff",
     "NomeReal": "Real name",
     "Ao":"By clicking the delete account button, you are initiating the process of",
+    "Ou": "or",
     "Processo": "deleting your account permanently",
     "ExclusaoTexto": " and you will not be able to go back.",
     "Certificar": "Please make sure you really want to proceed before making this decision.",
@@ -44,5 +45,7 @@
     "SenhaAtualObrigatoria": "Your current password is required.",
     "NovaSenhaObrigatoria": "Your new password is required.",
     "SenhaInvalida": "Your password must contain at least 4 characters, one letter uppercase letter, a lowercase letter, and a number.",
-    "AtualizarConta": "Update account"
+    "AtualizarConta": "Update account",
+    "DropZoneText": "Drag and drop the image here"
+
 }

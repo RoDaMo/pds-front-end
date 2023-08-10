@@ -21,6 +21,14 @@
   border-radius: 0.8rem;
 }
 
+.ss-player-name {
+  width: 16rem !important;
+}
+
+.ss-player-username {
+  width: 17rem !important;
+}
+
 #times-vinculados {
   max-height: 30rem;
   overflow-y: auto;
@@ -74,10 +82,12 @@ body {
 
   .ss-player-name {
     font-size: 1rem !important;
+    width: 8rem !important;
   }
 
   .ss-player-username {
     font-size: 0.8rem !important;
+    width: 9rem !important;
   }
 
   .ss-player-data2 {

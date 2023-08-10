@@ -29,7 +29,7 @@
 			</section>
 
 			<div class="col mt-5 mt-md-5 mt-lg-0 mx-lg-2">
-				<section class="row config-options-wrapper justify-mobile-pic p-4 px-2 rounded-5 h-auto position-relative bg-white">
+				<section class="row config-options-wrapper justify-mobile-pic p-4 px-2 px-md-4 rounded-5 h-auto position-relative bg-white">
 
 					<!-- Time -->
 					<div class="d-none menu-config" menu="0">
@@ -40,11 +40,24 @@
 								<img src="https://playoffs-api.up.railway.app/img/fefabe2b-4038-4b8c-b719-54fbbe9095a4" alt="Imagem do time"
 									class="img-fluid position-absolute w-100 h-100" id="config-team-pic-mod">
 							</div>
-							<div class="col-12 col-md mt-2">
-								<div class="d-flex justify-mobile-pic align-items-end h-100">
-									<label for="config-team-image-input" class="btn play-btn-primary i18" key="Brasao">Alterar brasão</label>
+							<div class="col-12 col-md">
+
+								<div class="row flex-column justify-mobile-pic justify-content-start align-items-center my-auto upload-container h-100">
+									<div class="col d-flex justify-content-center d-none d-lg-flex">
+										<div class="upload-drop-zone justify-content-center w-75 rounded-5" id="config-team-drop-zone">
+											<span class="i18 my-3 text-muted" key="DropZoneText"></span>
+										</div>
+									</div>
+
+									<span class="d-none my-2 d-lg-block i18" key="Ou">ou</span>
+
+									<div class="col d-flex align-items-center my-auto upload-image-drop-label">
+										<label for="config-team-image-input" class="btn play-btn-primary mt-3 mt-md-0 i18" key="Brasao">Alterar brasão</label>
+									</div>
 								</div>
 								<div id="imagem-erro-jv"></div>
+
+
 							</div>
 						</div>
 						<div class="mt-5">
@@ -85,8 +98,10 @@
 
 						<div class="mt-4">
 							<form id="update-profile-form" class="row">
+
 								<input type="file" class="d-none" id="config-team-image-input" accept=".jpeg, .jpg, .png, .webp, .gif, .bmp, .tiff">
 								<input type="hidden" name="logo" id="config-imagem-input-hidden">
+
 								<div class="col-12 mt-3">
 									<label for="config-team-name-input" class="form-label i18" key="FormularioNomeTime">Nome do time</label>
 									<input type="text" class="form-control i18-placeholder width-config-input" key="FormularioNomeTimePlaceholder" id="config-team-name-input"
@@ -147,9 +162,11 @@
 												class="img-fluid position-absolute w-100 h-100" id="temp-player-pic-mod">
 										</div>
 										<div class="col-12 col-md">
+
+											<!-- dropzone content -->
 											<div class="row flex-column justify-mobile-pic justify-content-start align-items-center my-auto upload-container h-100">
 												<div class="col d-flex justify-content-center d-none d-lg-flex">
-													<div class="upload-drop-zone justify-content-center w-75 rounded-5" id="upload-drop-zone">
+													<div class="upload-drop-zone justify-content-center w-75 rounded-5" id="player-temp-drop-zone">
 														<span class="i18 my-3 text-muted" key="DropZoneText"></span>
 													</div>
 												</div>
@@ -162,6 +179,7 @@
 													<input type="hidden" name="logo" id="temp-player-input-hidden">
 												</div>
 											</div>
+
 										</div>
 									</div>
 									<div>

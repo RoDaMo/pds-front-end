@@ -22,6 +22,7 @@
     "GruposEliminatorias": "Groups and knockout",
     "QuantidadeTimes": "Number of teams:" ,
     "SelecioneFormatoAntes": "Please select format first",
+    "Ou": "or",
     "Pais": "Country:",
     "PaisPlaceholder": "Country...",
     "Estado": "State:",
@@ -101,5 +102,7 @@
     "QuantidadeJogadoresObrigatorio": "Please enter number of players per team",
     "QuantidadeJogadoresInvalido": "Invalid number of players per team",
     "PdfInvalido": "Invalid file! The file must have less than 20mb and be a pdf file.",
-    "EspecificacoesRegulamento": "The file must be a PDF and must be smaller than 20 mb."
+    "EspecificacoesRegulamento": "The file must be a PDF and must be smaller than 20 mb.",
+    "DropZoneText": "Drag and drop the image here"
+
 }

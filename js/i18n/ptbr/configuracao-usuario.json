@@ -24,6 +24,7 @@
     "ImagemTamanho": "Arquivo inválido! O arquivo deve possuir até 5mb e ser de tipos: png, jpeg, jpg, webp, gif, bmp, tiff",
     "NomeReal": "Nome real",
     "Ao":"Ao clicar no botão de excluir conta, você estará dando início ao processo de",
+    "Ou": "ou",
     "Processo": "exclusão permanente da sua conta",
     "ExclusaoTexto": " e não será possível voltar atrás. ",
     "Certificar": "Certifique-se de que realmente deseja prosseguir antes de tomar essa decisão.",
@@ -44,5 +45,7 @@
     "SenhaAtualObrigatoria": "Sua senha atual é obrigatória.",
     "NovaSenhaObrigatoria": "Sua nova senha é obrigatória",
     "SenhaInvalida": "Sua senha deve conter pelo menos 4 caracteres, uma letra maiúscula, uma letra minúscula e um número.",
-    "AtualizarConta": "Atualizar conta"
+    "AtualizarConta": "Atualizar conta",
+    "DropZoneText": "Arraste e solte a imagem aqui"
+
 }
