@@ -1,3 +1,23 @@
 // @import "bootstrap-config.scss";
 @import "variables.scss";
 
+.m-team-name {
+    width: 17rem;
+    font-size: larger;
+}
+
+.m-team-img-wrapper {
+    max-width: 6rem;
+    height: 6rem;
+}
+
+#aggregate-score-wrapper {
+    margin-bottom: -0.7rem;
+}
+
+#score-wrapper {
+    background-color: $play-cor-fundos;
+    box-shadow: 0px 3px 20px 2px rgb(0 0 0 / 10%);
+
+    width: 60%;
+}

@@ -12,7 +12,45 @@
     <componente-preloader></componente-preloader>
     <componente-header></componente-header>
     <main class="container">
+        <!-- Scoreboard -->
+        <section id="score-board" class="row flex-row justify-content-center align-items-center">
 
+            <!-- Team 1 Info -->
+            <div class="col-4 row flex-row align-items-center">
+                <div class="col m-team-img-wrapper position-relative d-flex justify-content-center overflow-hidden border border-2 rounded-circle m-auto">
+                    <img class="m-team-img position-absolute img-fluid w-100 h-100" src="https://humanepro.org/sites/default/files/styles/article_new/public/images/post/cat-portrait.jpg?itok=36RD2Zba" alt="">
+                </div>
+                <div class="col">
+                    <span id="m-team1-name" class="m-team-name fw-semibold text-black text-truncate d-block">Independiente Bigote</span>
+                </div>
+            </div>
+
+            <!-- Score -->
+            <div class="col-2 d-flex justify-content-center align-items-center">
+                <div id="score-wrapper" class="h-auto rounded-4 p-3">
+                    <div class="row flex-column justify-content-center align-items-center">
+                        <div id="aggregate-score-wrapper" class="col d-flex justify-content-center align-items-center">
+                            <span id="aggregate-score" class="text-muted text-center">(1 : 2)</span>
+                        </div>
+                        <div id="match-score-wrapper" class="col d-flex justify-content-center align-items-center">
+                            <span id="match-score" class="text-black fw-bold fs-1">4 : 5</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team 2 Info -->
+            <div class="col-4 row flex-row align-items-center">
+                <div class="col d-flex justify-content-end">
+                    <span id="m-team2-name" class="m-team-name fw-semibold text-black text-truncate text-end d-block">Portman Kunis United</span>
+                </div>
+                <div class="col m-team-img-wrapper position-relative d-flex justify-content-center overflow-hidden border border-2 rounded-circle m-auto">
+                    <img class="m-team-img position-absolute img-fluid w-100 h-100" src="https://humanepro.org/sites/default/files/styles/article_new/public/images/post/cat-portrait.jpg?itok=36RD2Zba" alt="">
+                </div>
+            </div>
+        </section>
+
+        <section id="match-details"></section>
     </main>
     <componente-footer></componente-footer>
     <script type="module" src="../main.js"></script>
