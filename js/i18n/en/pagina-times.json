@@ -11,5 +11,19 @@
     "Volei": "Volleyball",
     "Futebol": "Soccer",
     "Uniformes": "Uniforms",
-    "Campeonatos": "Championships"
+    "Campeonatos": "Championships",
+    "Goleiro": "Goalkeeper",
+    "Zagueiro": "Defender",
+    "Lateral": "Full-Back",
+    "Volante": "Defensive Midfielder",
+    "MeioCampista": "Midfielder",
+    "MeiaAtacante": "Attacking Midfielder",
+    "Ala": "Wingback",
+    "Ponta": "Winger",
+    "Centroavante": "Center Forward",
+    "Levantador": "Setter",
+    "Central": "Middle Blocker",
+    "Libero": "Líbero",
+    "Ponteiro": "Outside Hitter",
+    "Oposto": "Opposite Hitter"
 }

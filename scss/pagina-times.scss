@@ -14,7 +14,7 @@ body, html {
 }
 
 .team-info {
-    top: 11rem;
+    top: 6rem;
 }
 
 .team-pic-wrapper {
@@ -57,6 +57,11 @@ body, html {
 
 .ss-player-name {
     margin-bottom: -0.3rem;
+    width: 16rem !important;
+}
+
+.ss-player-username {
+    width: 17rem !important;
 }
 
 .sports-section {
@@ -251,10 +256,6 @@ body, html {
         font-size: 0.7rem;
     }
 
-    .team-info {
-        top: 6rem;
-    }
-
     .sports-section {
         margin-top: 27rem;
     }
@@ -270,6 +271,23 @@ body, html {
         img {
             min-width: 100%;
         }
+    }
+
+    .ss-player-data {
+        width: 11rem !important;
+    }
+
+    .ss-player-data-position,
+    .ss-player-data-number {
+        font-size: 0.8rem;
+    }
+
+    .ss-player-name {
+        width: 8rem !important;
+    }
+
+    .ss-player-username {
+        width: 9rem !important;
     }
 
     .ss-test-1 {

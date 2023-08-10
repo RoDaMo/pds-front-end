@@ -182,7 +182,7 @@ const obterInfo = async () => {
 
                 <span class="d-flex flex-column justify-content-center align-items-center">
 
-                    <p class="mb-0 ss-team-name w-100 fs-5 text-nowrap text-truncate d-block">${e.name}</p>
+                    <p class="mb-0 ss-team-name fs-5 text-nowrap text-truncate d-block">${e.name}</p>
 
                 </span>
                 

@@ -461,7 +461,7 @@ const init = async () => {
 			`
 
 			const botaoDesvincularWrapper = document.createElement('div')
-			botaoDesvincularWrapper.classList.add('col-auto', 'd-flex', 'my-auto', 'mx-auto', 'ms-md-auto', 'me-md-2')
+			botaoDesvincularWrapper.classList.add('col-auto', 'd-flex', 'my-auto', 'mx-auto', 'ms-md-auto', 'me-md-0')
 			botaoDesvincularWrapper.innerHTML = `<button type="button" class="delete-listed-thing justify-content-center align-items-center rounded-4 remover-vinculo-campeonato btn btn-danger d-flex"><i class="bi bi-trash text-light fs-5"></i></button>`
 			
 			campeonatosVinculadosContent.appendChild(botaoDesvincularWrapper)
@@ -667,7 +667,7 @@ const init = async () => {
 
 		function jogadorTempValidator1() {
 			jogadorTempValidator
-				.addField(tempPlayerImageFile, [
+				.addField(tempPlayerImageInput, [
 					{
 						rule: 'required',
 						errorMessage: `<span class="i18" key="ImagemJogadorObrigatoria">${i18next.t("ImagemJogadorObrigatoria")}</span>`,
