@@ -17,7 +17,7 @@
     "NomeUsuarioObrigatorio": "Username is required",
     "Informacoes": "Informations",
     "AlterarFoto": "Change Photo",
-    "AtualizarPerfil": "Update Profile",
+    "Salvar": "Save changes",
     "BioMin": "Your bio must have a minimum of 10 characters.",
     "BioMax": "Your bio must have a maximum of 150 characters.",
     "Preencher": "You must fill in at least one of the fields.",
@@ -40,12 +40,11 @@
     "MudarSenha": "Change password",
     "SenhaAtual": "Current Password",
     "NovaSenha": "New password",
-    "AtualizarSenha": "Update password",
+    "SalvarSenha": "Save password",
     "RecuperarSenha": "Retrieve password",
     "SenhaAtualObrigatoria": "Your current password is required.",
     "NovaSenhaObrigatoria": "Your new password is required.",
     "SenhaInvalida": "Your password must contain at least 4 characters, one letter uppercase letter, a lowercase letter, and a number.",
-    "AtualizarConta": "Update account",
     "DropZoneText": "Drag and drop the image here"
 
 }

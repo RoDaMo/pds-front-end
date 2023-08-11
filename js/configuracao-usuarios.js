@@ -171,7 +171,7 @@ async function changeConfigOptionsContext(t) {
                         <input type="hidden" name="logo" id="emblema">
 
                         <div class="col-12 mt-4 justify-touch-btn">
-                            <button type="submit" class="btn play-btn-primary i18" key="AtualizarPerfil" id='salvar'>${i18next.t("AtualizarPerfil")}</button>
+                            <button type="submit" class="btn play-btn-primary i18" key="Salvar" id='salvar'>${i18next.t("Salvar")}</button>
                         </div>
                     </form>
                 </div>
@@ -349,13 +349,13 @@ async function changeConfigOptionsContext(t) {
                                 <input maxLength="100" type="text" class="form-control width-config-input i18-placeholder" key="NomeReal" id="config-user-realname-input" placeholder="${i18next.t("NomeReal")}">
                             </div>
                             <div class="col-12 mt-4 justify-touch-btn">
-                                <button type="submit" class="btn play-btn-primary i18" key="AtualizarConta">${i18next.t("AtualizarConta")}</button>
+                                <button type="submit" class="btn play-btn-primary i18" key="Salvar">${i18next.t("Salvar")}</button>
                             </div>
                         </form>
                     </div>
 
-                    <h5 class="text-danger mt-5 i18" key="ExcluirConta">${i18next.t("ExcluirConta")}</h5>
-                    <hr>
+                    <h5 class="text-danger text-center mt-5 i18" key="ExcluirConta">${i18next.t("ExcluirConta")}</h5>
+                    <hr class="my-2">
                     
                     <div class="mt-1">
                         <p class="text-danger fs-6">
@@ -465,7 +465,7 @@ async function changeConfigOptionsContext(t) {
                                 </div>
                             </div>
                             <div class="col-md-5 col-lg-3 mt-4 justify-touch-btn">
-                                <button type="submit" class="btn play-btn-primary i18" key="AtualizarSenha">${i18next.t("AtualizarSenha")}</button>
+                                <button type="submit" class="btn play-btn-primary i18" key="SalvarSenha">${i18next.t("SalvarSenha")}</button>
                             </div>
                             <div class="col form-text text-success mt-auto mb-0 pb-0 justify-touch-btn">
                                 <a href="recuperar-senha.html" class="fs-6 fw-semibold i18" key="RecuperarSenha">${i18next.t("RecuperarSenha")}</a>
