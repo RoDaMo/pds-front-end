@@ -46,6 +46,7 @@ function genericExibition(input, data, image) {
 	exibidorImagem(image, input.value)
 }
 
+
 const init = async () => {
 	const activateLi = (li) => {
 		for (const item of abaBotoes) {
@@ -195,7 +196,7 @@ const init = async () => {
 				doubleMatchWrapper.appendChild(doubleMatchPontosCorridos)
 				PCCheckboxElem = document.getElementById('double-match-pc')
 				
-				if (campeonato.DoubleStartLeagueSystem) {
+				if (campeonato.doubleStartLeagueSystem) {
 					PCCheckboxElem.checked = true
 				}
 
@@ -208,11 +209,11 @@ const init = async () => {
 					finalCheckboxElem = document.getElementById('double-match-final')
 					
 
-					if (campeonato.DoubleMatchEliminations) {
+					if (campeonato.doubleMatchEliminations) {
 						eliminatoriasCheckboxElem.checked = true
 					}
 
-					if (campeonato.FinalDoubleMatch) {
+					if (campeonato.finalDoubleMatch) {
 						finalCheckboxElem.checked = true
 					}
 				}
@@ -220,7 +221,7 @@ const init = async () => {
 				doubleMatchWrapper.appendChild(doubleMatchFaseDeGrupos)
 				FGCheckboxElem = document.getElementById('double-match-FG')
 
-				if (campeonato.DoubleMatchGroupStage) {
+				if (campeonato.doubleMatchGroupStage) {
 					FGCheckboxElem.checked = true
 				}
 		
@@ -231,11 +232,11 @@ const init = async () => {
 					doubleMatchWrapper.appendChild(doubleMatchFinal)
 					finalCheckboxElem = document.getElementById('double-match-final')
 
-					if (campeonato.DoubleMatchEliminations) {
+					if (campeonato.doubleMatchEliminations) {
 						eliminatoriasCheckboxElem.checked = true
 					}
 
-					if (campeonato.FinalDoubleMatch) {
+					if (campeonato.finalDoubleMatch) {
 						finalCheckboxElem.checked = true
 					}
 				}
@@ -265,6 +266,12 @@ const init = async () => {
 		bairro.value = campeonato.neighborhood
 		quantidadeJogadores.value = campeonato.numberOfPlayers
 		esporte.selectedIndex = campeonato.sportsId - 1
+
+
+		checkBracketCreationAvailability()
+
+		console.log(campeonato.teams.length);
+		console.log(campeonato.teamQuantity);
 
 		if (campeonato.rules) {
 			linkRegulamento.classList.remove('d-none')
@@ -573,7 +580,7 @@ const init = async () => {
 					loader.hide()
 					// mensagemErro.textContent = ''
 
-					console.log(finalCheckboxElem?.checked);
+					checkBracketCreationAvailability()
 				})
 
 			configChampionshipDropZone.addEventListener("drop", async e => {
@@ -625,6 +632,33 @@ const init = async () => {
 		validator1()
 	}
 
+	const createBracket = async championshipId => {
+		const callbackStatus = (data) => {
+			notificacaoErro(data.results)
+		}
+
+		let endpoint = ''
+		if (campeonato.format == 3) {
+			endpoint = 'bracketing/league-system'
+		} else if (campeonato.format == 1) {
+			endpoint = 'bracketing/knockout'
+		} else if (campeonato.format == 4) {
+			endpoint = 'bracketing/group-stage'
+		}
+
+		loader.show()
+		const configFetch = configuracaoFetch('POST', { 'championshipId': parseInt(championshipId) }),
+			response = await executarFetch(endpoint, configFetch, callbackStatus)
+
+		loader.hide()
+
+		if (response.succeed) {
+			notificacaoSucesso(i18next.t("SucessoCriacaoChaveamento"))
+
+			btnModalBracketSuccessTrigger.click()
+		}
+	}
+
 	const putCampeonato = async body => {
 		const callbackServidor = data => {
 			mensagemErro.classList.add("text-danger")
@@ -646,7 +680,11 @@ const init = async () => {
 		const configFetch = configuracaoFetch('POST', { 'teamId': teamId, 'championshipId': parseInt(championshipId) }),
 			response = await executarFetch('teams/championship', configFetch, callbackStatus)
 
-		if (response.succeed) notificacaoSucesso(i18next.t("VinculadoSucesso"))
+		if (response.succeed) { 
+			notificacaoSucesso(i18next.t("VinculadoSucesso"))
+
+			checkBracketCreationAvailability()
+		}
 	}
 
 	const desvincularTime = async teamId => {
@@ -659,6 +697,8 @@ const init = async () => {
 
 		if (response.succeed) {
 			notificacaoSucesso(i18next.t("DesvinculadoSucesso"))
+
+			checkBracketCreationAvailability()
 		}
 	}
 
@@ -835,7 +875,10 @@ const init = async () => {
 		mediaQueryMobile = window.matchMedia('(max-width: 575px)'),
 		menuConfig = document.getElementsByClassName('menu-config'),
 		mensagemErro = document.getElementById('mensagem-erro'),
-		championshipId = document.getElementById('usernameChampionshipId').textContent
+		championshipId = document.getElementById('usernameChampionshipId').textContent,
+		createBracketBtn = document.getElementById('create-bracket-btn'),
+		confirmCreateBracketBtn = document.getElementById('confirm-create-bracket-btn'),
+		btnModalBracketSuccessTrigger = document.getElementById('btn-modal-bracket-success-trigger')
 
 	loader.show()
 	const dados = await executarFetch(`championships/${championshipId}`, configuracaoFetch('GET')),
@@ -853,6 +896,22 @@ const init = async () => {
 			changeConfigOptionsContext(configMenuOption.getAttribute('menu'))
 		})
 	}
+
+	async function checkBracketCreationAvailability () {
+		const dados = await executarFetch(`championships/${championshipId}`, configuracaoFetch('GET')),
+		campeonato = dados.results
+
+		if (campeonato.teamQuantity == campeonato.teams.length) {
+			createBracketBtn.disabled = false
+		} else {
+			createBracketBtn.disabled = true
+			mensagemErro.innerHTML = `<span class="i18" key="QuantidadeTimesInsuficiente">${i18next.t("QuantidadeTimesInsuficiente")}</span>`
+		}
+	}
+
+	confirmCreateBracketBtn.addEventListener('click', async () => {
+		await createBracket(campeonato.id)
+	})
 
 	changeConfigOptionsContext(0)
 	inicializarCampos()

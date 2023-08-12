@@ -103,6 +103,9 @@
     "QuantidadeJogadoresInvalido": "Invalid number of players per team",
     "PdfInvalido": "Invalid file! The file must have less than 20mb and be a pdf file.",
     "EspecificacoesRegulamento": "The file must be a PDF and must be smaller than 20 mb.",
-    "DropZoneText": "Drag and drop the image here"
+    "DropZoneText": "Drag and drop the image here",
+    "PaginaChaveamento": "Bracket page",
+    "CriarChaveamento": "Create bracket"
+    
 
 }

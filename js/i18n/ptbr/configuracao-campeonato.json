@@ -103,6 +103,8 @@
     "QuantidadeJogadoresInvalido": "Quantidade de jogadores por time inválido",
     "PdfInvalido": "Arquivo inválido! O arquivo deve conter até 20mb e ser um arquivo pdf.",
     "EspecificacoesRegulamento": "O arquivo deve ser de tipo PDF e deve ter um tamanho menor que 20 mb.",
-    "DropZoneText": "Arraste e solte a imagem aqui"
+    "DropZoneText": "Arraste e solte a imagem aqui",
+    "PaginaChaveamento": "Página de chaveamento",
+    "CriarChaveamento": "Criar chaveamento"
 
 }
