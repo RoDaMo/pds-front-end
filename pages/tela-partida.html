@@ -13,20 +13,20 @@
     <componente-header></componente-header>
     <main class="container">
         <!-- Scoreboard -->
-        <section id="score-board" class="row flex-row justify-content-center align-items-center">
+        <section id="score-board" class="row row-cols-3 mt-lg-4 flex-row justify-content-center align-items-center">
 
             <!-- Team 1 Info -->
-            <div class="col-4 row flex-row align-items-center">
-                <div class="col m-team-img-wrapper position-relative d-flex justify-content-center overflow-hidden border border-2 rounded-circle m-auto">
+            <div class="col-5 row row-cols-2 flex-row justify-content-center align-items-center">
+                <div class="col-auto m-team-img-wrapper position-relative d-flex justify-content-center overflow-hidden border border-2 rounded-circle">
                     <img class="m-team-img position-absolute img-fluid w-100 h-100" src="https://humanepro.org/sites/default/files/styles/article_new/public/images/post/cat-portrait.jpg?itok=36RD2Zba" alt="">
                 </div>
-                <div class="col">
+                <div class="col w-auto">
                     <span id="m-team1-name" class="m-team-name fw-semibold text-black text-truncate d-block">Independiente Bigote</span>
                 </div>
             </div>
 
             <!-- Score -->
-            <div class="col-2 d-flex justify-content-center align-items-center">
+            <div class="col-2 d-flex justify-content-center w-auto align-items-center">
                 <div id="score-wrapper" class="h-auto rounded-4 p-3">
                     <div class="row flex-column justify-content-center align-items-center">
                         <div id="aggregate-score-wrapper" class="col d-flex justify-content-center align-items-center">
@@ -40,17 +40,81 @@
             </div>
 
             <!-- Team 2 Info -->
-            <div class="col-4 row flex-row align-items-center">
-                <div class="col d-flex justify-content-end">
+            <div class="col-5 row row-cols-2 flex-row justify-content-center align-items-center">
+                <div class="col w-auto order-2 order-lg-1 d-flex justify-content-end">
                     <span id="m-team2-name" class="m-team-name fw-semibold text-black text-truncate text-end d-block">Portman Kunis United</span>
                 </div>
-                <div class="col m-team-img-wrapper position-relative d-flex justify-content-center overflow-hidden border border-2 rounded-circle m-auto">
+                <div class="col-auto order-1 order-lg-2 m-team-img-wrapper position-relative d-flex justify-content-center overflow-hidden border border-2 rounded-circle">
                     <img class="m-team-img position-absolute img-fluid w-100 h-100" src="https://humanepro.org/sites/default/files/styles/article_new/public/images/post/cat-portrait.jpg?itok=36RD2Zba" alt="">
                 </div>
             </div>
         </section>
 
-        <section id="match-details"></section>
+        <!-- Detalhes da Partida -->
+        <section id="match-details-wrapper" class="mt-5 mx-lg-5">
+            <div id="match-details" class="p-4 pt-2">
+                <div id="match-details-options-wrapper" class="z-2 rounded-5">
+                    <ul class="list-group list-group-horizontal list-group-flush d-flex justify-content-center align-items-center" id="match-details-options">
+                        <button class="list-group-item list-group-item-action m-2 w-auto border-0 rounded-pill active" menu="0"><span class="i18" key="Eventos">Eventos</span> </button>
+                        <button class="list-group-item list-group-item-action m-2 w-auto border-0 rounded-pill" menu="1"><span class="i18" key="Jogadores">Jogadores</span> </button>
+                        <button class="list-group-item list-group-item-action m-2 w-auto border-0 rounded-pill d-none" menu="2"><span class="i18" key="Administrar">Administrar</span> </button>
+                    </ul>
+                </div>
+
+                <div id="match-details-content-wrapper">
+
+                    <div id="match-details-content">
+                        <!-- Eventos -->
+                        <div data-lenis-prevent id="match-details-content-events" class="d-none menu-config row mx-md-5 mt-3" menu="0">
+
+                            <!-- Eventos time 1 -->
+                            <div id="match-details-content-events-team1" class="col">
+
+                                <!-- Template Evento (Gol) -->
+                                <div class="row flex-column p-3 my-2 match-details-content-event rounded-5 position-relative">
+                                    <div class="col event-player-name"><span class="fw-semibold text-black text-truncate d-block">Goal Maker</span></div>
+                                    <div class="col d-flex flex-row event-data">
+                                        <div class="event-type"><span class="text-muted">Gol</span></div>
+                                        <i class="bi bi-dot"></i>
+                                        <div class="event-time"><span class="text-muted">"32</span></div>
+                                    </div>
+                                    <div class="col position-absolute w-auto h-auto event-illustration">
+                                        <img src="../public/icons/sports_soccer.svg" alt="">
+                                    </div>
+                                </div>
+                                
+
+                                
+                                
+                            </div>
+
+                            <!-- Linha divisória -->
+                            <div class="col-1 d-flex justify-content-center">
+                                <div id="vertical-line" class="rounded-5"></div>
+                            </div>
+
+                            <!-- Eventos time 2 -->
+                            <div id="match-details-content-events-team2" class="col">
+                                <div class="row p-5 my-2 match-details-content-event">
+
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                        <!-- Jogadores -->
+                        <div id="match-details-content-players" class="d-none menu-config" menu="1">
+
+                        </div>
+
+                        <!-- Administrar -->
+                        <div id="match-details-content-admin" class="d-none menu-config" menu="2">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
     <componente-footer></componente-footer>
     <script type="module" src="../main.js"></script>

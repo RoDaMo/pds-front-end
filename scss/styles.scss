@@ -387,6 +387,12 @@ button.navbar-toggler {
   border-radius: 50%;
 }
 
+.foto-usuario-mobile {
+  @extend .foto-usuario;
+
+  max-width: 40px !important;
+}
+
 #offcanvasUser {
   color: $play-cor-texto;
 

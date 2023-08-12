@@ -1001,7 +1001,6 @@ const init = async () => {
 	const configMenu = document.querySelector('.config-menu'),
 		configMenuList = document.getElementById('config-menu-list'),
 		abaBotoes = configMenuList.children,
-		// configTitle = document.querySelector('.config-title'),
 		mediaQueryMobile = window.matchMedia('(max-width: 575px)'),
 		menuConfig = document.getElementsByClassName('menu-config'),
 		mensagemErro = document.getElementById('mensagem-erro'),
