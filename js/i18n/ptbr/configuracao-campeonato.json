@@ -105,6 +105,16 @@
     "EspecificacoesRegulamento": "O arquivo deve ser de tipo PDF e deve ter um tamanho menor que 20 mb.",
     "DropZoneText": "Arraste e solte a imagem aqui",
     "PaginaChaveamento": "Página de chaveamento",
-    "CriarChaveamento": "Criar chaveamento"
+    "CriarChaveamento": "Criar chaveamento",
+    "ChaveamentoSucesso": "Chaveamento criado com sucesso!",
+    "AgoraPode": "Agora você pode",
+    "ContinuarNaPagina": "Ficar aqui",
+    "IrParaChaveamento": "Ir para o chaveamento",
+    "TextoModalChaveamento1": "Por favor, esteja ciente de que, uma vez criado o torneio, você não poderá alterar nenhuma das configurações do campeonato.",
+    "TextoModalChaveamento2": "Caso deseje editar as configurações do torneio após o chaveamento ter sido gerado, será necessário excluir o torneio, o que resultará na remoção de todas as partidas geradas.",
+    "TextoModalChaveamento3": "Ainda deseja continuar e criar o torneio com as configurações atuais?",
+    "TextoModalChaveamentoSucesso": "Parabéns! Seu chaveamento foi criado com sucesso.",
+    "SucessoCriacaoChaveamento": "Chaveamento criado com sucesso!"
+    
 
 }

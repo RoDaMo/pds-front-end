@@ -407,12 +407,12 @@ async function changeConfigOptionsContext(t) {
                         },
                         {
                             rule: 'minLength',
-                            value: 1,
+                            value: 4,
                             errorMessage: `<span class="i18" key="NomeRealMinimo">${i18next.t("NomeRealMinimo")}</span>`,
                         },
                         {
                             rule: 'maxLength',
-                            value: 100,
+                            value: 200,
                             errorMessage: `<span class="i18" key="NomeRealMaximo">${i18next.t("NomeRealMaximo")}</span>`,
                         },
                     ])

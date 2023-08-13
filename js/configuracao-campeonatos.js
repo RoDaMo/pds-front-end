@@ -14,6 +14,7 @@ import portugues from './i18n/ptbr/configuracao-campeonato.json' assert { type: 
 import ingles from './i18n/en/configuracao-campeonato.json' assert { type: 'JSON' }
 import i18next from "i18next";
 import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
+import * as bootstrap from 'bootstrap'
 
 inicializarInternacionalizacao(ingles, portugues);
 
@@ -555,6 +556,40 @@ const init = async () => {
 					// console.log('hello world')
 					// limparMensagem(mensagemErro)
 
+					let PCStatus = false
+					let eliminatoriasStatus = false
+					let finalStatus = false
+					let FGStatus = false
+
+					if (formato.value == "3") {
+						if (PCCheckboxElem.checked) {
+							PCStatus = true
+						}
+					} else if (formato.value == "1") {
+						if(esporte.value == "1") {
+							if (eliminatoriasCheckboxElem.checked) {
+								eliminatoriasStatus = true
+							}
+							if (finalCheckboxElem.checked) {
+								finalStatus = true
+							}
+						}
+					} else if (formato.value == "4") {
+						if (FGCheckboxElem.checked) {
+							FGStatus = true
+						}
+
+						if (esporte.value == "1") {
+							if (eliminatoriasCheckboxElem.checked) {
+								eliminatoriasStatus = true
+							}
+							if (finalCheckboxElem.checked) {
+								finalStatus = true
+							}
+						}
+					}
+
+
 					loader.show()
 					await putCampeonato({
 						"name": name.value,
@@ -572,10 +607,10 @@ const init = async () => {
 						'sportsId': campeonato.sportsId,
 						'rules': linkRegulamento.href,
 						"NumberOfPlayers": parseInt(quantidadeJogadores.value),
-						"DoubleStartLeagueSystem": PCCheckboxElem?.checked,
-						"DoubleMatchEliminations": eliminatoriasCheckboxElem?.checked,
-						"FinalDoubleMatch": finalCheckboxElem?.checked,
-						"DoubleMatchGroupStage": FGCheckboxElem?.checked,
+						"DoubleStartLeagueSystem": PCStatus,
+						"DoubleMatchEliminations": eliminatoriasStatus,
+						"FinalDoubleMatch": finalStatus,
+						"DoubleMatchGroupStage": FGStatus,
 					})
 					loader.hide()
 					// mensagemErro.textContent = ''
@@ -638,16 +673,15 @@ const init = async () => {
 		}
 
 		let endpoint = ''
-		if (campeonato.format == 3) {
-			endpoint = 'bracketing/league-system'
-		} else if (campeonato.format == 1) {
-			endpoint = 'bracketing/knockout'
-		} else if (campeonato.format == 4) {
-			endpoint = 'bracketing/group-stage'
-		}
+
+		// a elegância
+		endpoint = (campeonato.format == 3) ? 'bracketing/league-system' 
+			: (campeonato.format == 1) ? 'bracketing/knockout' 
+			: (campeonato.format == 4) ? 'bracketing/group-stage' 
+			: ''
 
 		loader.show()
-		const configFetch = configuracaoFetch('POST', { 'championshipId': parseInt(championshipId) }),
+		const configFetch = configuracaoFetch('POST', parseInt(championshipId)),
 			response = await executarFetch(endpoint, configFetch, callbackStatus)
 
 		loader.hide()
@@ -655,7 +689,7 @@ const init = async () => {
 		if (response.succeed) {
 			notificacaoSucesso(i18next.t("SucessoCriacaoChaveamento"))
 
-			btnModalBracketSuccessTrigger.click()
+			modalSuccessBracketBT.show()
 		}
 	}
 
@@ -878,7 +912,13 @@ const init = async () => {
 		championshipId = document.getElementById('usernameChampionshipId').textContent,
 		createBracketBtn = document.getElementById('create-bracket-btn'),
 		confirmCreateBracketBtn = document.getElementById('confirm-create-bracket-btn'),
-		btnModalBracketSuccessTrigger = document.getElementById('btn-modal-bracket-success-trigger')
+		modalSuccessBracket = document.getElementById('modalCriacaoChaveamentoSucesso'),
+		bracketModal = document.getElementById('bracketModal'),
+		bracketBtnWrapper = document.getElementById('bracket-btn-wrapper')
+		
+        let modalSuccessBracketBT = new bootstrap.Modal(modalSuccessBracket, {keyboard: false})
+
+		let bracketModalBT = new bootstrap.Modal(bracketModal, {keyboard: false})
 
 	loader.show()
 	const dados = await executarFetch(`championships/${championshipId}`, configuracaoFetch('GET')),
@@ -911,7 +951,18 @@ const init = async () => {
 
 	confirmCreateBracketBtn.addEventListener('click', async () => {
 		await createBracket(campeonato.id)
+
+		bracketModalBT.hide()
 	})
+
+	// fetch pra verificar se o chaveamento está criado
+		// dentro do fetch, se estiver criado, muda o botão de criar chaveamento para excluir chaveamento | innerHTML (#bracket-btn-wrapper)
+			// bracketBtnWrapper.innerHTML = <button data-bs-toggle="modal" data-bs-target="#deleteBracketModal" id="delete-bracket-btn" class="btn btn-danger border-0 d-flex justify-content-center align-items-center"><i class="bi bi-trash me-2"></i><span class="i18 fw-semibold" key="ExcluirChaveamento">Excluir Chaveamento</span></button> 
+			// document.getElementById('delete-bracket-btn').addEventListener('click', async () => {
+			// 	await deleteBracket(campeonato.id)
+			// 	bracketBtnWrapper.innerHTML = `<button type="button" class="btn btn-primary" id="create-bracket-btn"><span class="i18" key="CriarChaveamento">${i18next.t("CriarChaveamento")}</span></button>`
+			// 	checkBracketCreationAvailability()
+			// })
 
 	changeConfigOptionsContext(0)
 	inicializarCampos()

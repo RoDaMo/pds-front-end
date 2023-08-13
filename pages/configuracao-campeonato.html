@@ -32,18 +32,19 @@
 
 				<!-- Action Buttons -->
 				<div id="chaveamento-btnset-wrapper" class="row row-cols-1 flex-column justify-content-center">
-					<div class="col d-flex justify-content-center">
+					<div id="bracket-btn-wrapper" class="col d-flex justify-content-center">
 						<button disabled data-bs-toggle="modal" data-bs-target="#bracketModal" id="create-bracket-btn" class="btn border-0 d-flex justify-content-center align-items-center chaveamento-btn"><i class="bi bi-diagram-2 me-2"></i><span class="i18 fw-semibold" key="CriarChaveamento">Criar Chaveamento</span></button>
 					</div>
 					<div class="col d-flex justify-content-center">
-						<a href="" class="text-decoration-none">
-							<button class="btn border-0 d-flex justify-content-center align-items-center mt-3 chaveamento-btn"><i class="bi bi-box-arrow-up-right me-2"></i><span class="i18 fw-semibold" key="PaginaChaveamento">Página de Chaveamento</span></button>
+						<!-- Link - ir para chaveamento -->
+						<a href="#" id="link-bracket-btn-wrapper" class="text-decoration-none d-flex justify-content-center">
+							<button id="link-bracket-btn" class="btn border-0 d-flex w-100 justify-content-center align-items-center mt-3 chaveamento-btn"><i class="bi bi-box-arrow-up-right me-2"></i><span class="i18 fw-semibold" key="PaginaChaveamento">Página de Chaveamento</span></button>
 						</a>
 					</div>
 				</div>
 
 				<!-- Modal Confirmação Chaveamento -->
-				<div class="modal fade" id="bracketModal" tabindex="-1" aria-labelledby="backetModalLabel" aria-hidden="true">
+				<div class="modal fade" id="bracketModal" tabindex="-1" aria-labelledby="backetModalLabel" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content p-3">
 							<div class="modal-header">
@@ -51,8 +52,12 @@
 								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 							</div>
 							<div class="modal-body">
-								<p class="text-black">
-									<span class="i18" key="TextoModalChaveamento"></span>
+								<p id="texto-modal-bracket" class="text-black">
+									<span class="i18" key="TextoModalChaveamento1"></span>
+									<br><br>
+									<span class="i18" key="TextoModalChaveamento2"></span>
+									<br><br>
+									<span class="i18" key="TextoModalChaveamento3"></span>
 								</p>
 							</div>
 							<div class="modal-footer d-flex justify-content-center">
@@ -62,24 +67,36 @@
 					</div>
 				</div>
 
-				<button id="btn-modal-bracket-success-trigger" class="d-none" data-bs-toggle="modal" data-bs-target="#modalCriacaoChaveamentoSucesso"></button>
-
 				<!-- Modal Sucesso Chaveamento -->
-				<div class="modal fade" id="modalCriacaoChaveamentoSucesso" tabindex="-1" aria-labelledby="modalCriacaoChaveamentoSucessoLabel" aria-hidden="true">
+				<div class="modal fade" id="modalCriacaoChaveamentoSucesso" tabindex="-1" aria-labelledby="modalCriacaoChaveamentoSucessoLabel" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content p-3">
 							<div class="modal-header">
-								<h1 class="modal-title fs-5 text-success i18" id="modalCriacaoChaveamentoSucessoLabel" key="ChaveamentoSucesso">Chaveamento realizado com sucesso</h1>
-								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								<h1 class="modal-title fs-5 text-success text-center w-100 i18" id="modalCriacaoChaveamentoSucessoLabel" key="ChaveamentoSucesso">Chaveamento realizado com sucesso</h1>
 							</div>
 							<div class="modal-body">
-								<p class="text-black">
+								<p id="texto-modal-bracket-success" class="text-black">
 									<span class="i18" key="TextoModalChaveamentoSucesso"></span>
 								</p>
 							</div>
-							<div class="modal-footer d-flex justify-content-center">
-								<button id="stay-on-page" class="btn"><span class="i18 fw-semibold" key="ContinuarNaPagina">Continuar aqui</span></button>
-								<button id="redirect-to-bracket" class="btn chaveamento-btn"><span class="i18 fw-semibold" key="IrParaChaveamento">Ir para o chaveamento</span></button>
+							<div class="modal-footer d-flex flex-column justify-content-center">
+								<div>
+									<span class="i18 text-muted fst-italic" key="AgoraPode">Agora você pode</span>
+								</div>
+								<div class="row w-100 d-flex flex-column flex-md-row">
+									<div class="col p-0">
+										<button id="stay-on-page" class="btn w-100 chaveamento-btn" data-bs-dismiss="modal" aria-label="Close"><span class="i18 fw-semibold" key="ContinuarNaPagina">Continuar aqui</span></button>
+									</div>
+									<div class="col col-md-1 d-flex justify-content-center">
+										<span class="m-2 i18" key="Ou">ou</span>
+									</div>
+									<div class="col p-0">
+										<!-- Link - ir para chaveamento -->
+										<a href="#" class="text-decoration-none">
+											<button id="redirect-to-bracket" class="btn w-100 chaveamento-btn"><span class="i18 fw-semibold" key="IrParaChaveamento">Ir para o chaveamento</span></button>
+										</a>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>

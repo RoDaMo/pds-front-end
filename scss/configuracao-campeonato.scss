@@ -60,6 +60,10 @@
   background-color: $play-cor-fundos;
 }
 
+#link-bracket-btn-wrapper {
+  width: auto;
+}
+
 .delete-listed-thing {
   width: 3.5rem;
   height: 3.5rem;
@@ -95,6 +99,10 @@ body {
   .chaveamento-btn {
     width: 60%;
   }
+
+  #link-bracket-btn-wrapper {
+    width: 60%;
+  }
 }
 
 @include media-breakpoint-down(sm) {
@@ -104,6 +112,18 @@ body {
   }
 
   .chaveamento-btn {
+    width: 100%;
+  }
+
+  #texto-modal-bracket {
+    font: 0.9rem sans-serif;
+  }
+
+  #texto-modal-bracket-success {
+    font: 0.9rem sans-serif;
+  }
+
+  #link-bracket-btn-wrapper {
     width: 100%;
   }
 
