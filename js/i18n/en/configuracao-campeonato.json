@@ -97,5 +97,11 @@
     "QuantidadeJogadoresObrigatorio": "Please enter number of players per team",
     "QuantidadeJogadoresInvalido": "Invalid number of players per team",
     "PdfInvalido": "Invalid file! The file must have less than 20mb and be a pdf file.",
-    "EspecificacoesRegulamento": "The file must be a PDF and must be smaller than 20 mb."
+    "EspecificacoesRegulamento": "The file must be a PDF and must be smaller than 20 mb.",
+    "VincularSubOrganizadores": "Link sub-host",
+    "SubOrganizadores": "Sub-host",
+    "AdicionarSubOrg": "Add sub-host",  
+    "AdicionarSubOrgTemp": "Add new temporary sub-host",
+    "PesquiseSuborg": "Search for the name of a user you want to add as a sub-host",
+    "PesquiseSubOrgPlaceholder": "Type a username to search..."
 }

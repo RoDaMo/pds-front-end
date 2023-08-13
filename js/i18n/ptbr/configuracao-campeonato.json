@@ -97,5 +97,11 @@
     "QuantidadeJogadoresObrigatorio": "Favor inserir número de jogadores por time",
     "QuantidadeJogadoresInvalido": "Quantidade de jogadores por time inválido",
     "PdfInvalido": "Arquivo inválido! O arquivo deve conter até 20mb e ser um arquivo pdf.",
-    "EspecificacoesRegulamento": "O arquivo deve ser de tipo PDF e deve ter um tamanho menor que 20 mb."
+    "EspecificacoesRegulamento": "O arquivo deve ser de tipo PDF e deve ter um tamanho menor que 20 mb.",
+    "VincularSubOrganizadores": "Vincular sub-organizadores",
+    "SubOrganizadores": "Sub-organizadores",
+    "AdicionarSubOrg": "Adicionar sub-organizadores",  
+    "AdicionarSubOrgTemp": "Adicionar novo sub-organizadores temporário",
+    "PesquiseSuborg": "Pesquise o nome de um usuário que deseja adicionar como sub-organizador",  
+    "PesquiseSubOrgPlaceholder": "Escreva o nome de um usuário para pesquisar..."
 }

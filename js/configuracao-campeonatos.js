@@ -601,6 +601,39 @@ const init = async () => {
 		})
 	}
 
+
+
+	const botaoVincularSuborg = document.getElementById('botao-vincular-suborg');
+    const botaoVincularSuborgTemporario = document.getElementById('botao-vincular-suborg-temporario');
+    const formularioJogadorTemporario = document.getElementById('formulario-suborg-temporario');
+    const pesquisaSuborg = document.getElementById('pesquisa-suborg');
+
+    botaoVincularSuborg.addEventListener('click', () => {
+      if (botaoVincularSuborg.classList.contains('cancelar')) {
+        botaoVincularSuborg.classList.remove('cancelar');
+        botaoVincularSuborg.innerHTML = '<i class="bi bi-plus-circle px-2"></i> <span class="i18" key="AdicionarSubOrg">Adicionar sub-organizadores</span>';
+        pesquisaSuborg.classList.add('d-none');
+      } else {
+        botaoVincularSuborg.classList.add('cancelar');
+        botaoVincularSuborg.innerHTML = '<i class="bi bi-x-circle px-2"></i> <span class="i18" key="Cancelar">Cancelar</span>';
+        pesquisaSuborg.classList.remove('d-none');
+      }
+    });
+
+    botaoVincularSuborgTemporario.addEventListener('click', () => {
+      if (botaoVincularSuborgTemporario.classList.contains('cancelar')) {
+        botaoVincularSuborgTemporario.classList.remove('cancelar');
+        botaoVincularSuborgTemporario.innerHTML = '<i class="bi bi-plus-circle px-2"></i> <span class="i18" key="AdicionarSubOrgTemp">Adicionar novo sub-organizadores temporário</span>';
+        formularioJogadorTemporario.classList.add('d-none');
+      } else {
+        botaoVincularSuborgTemporario.classList.add('cancelar');
+        botaoVincularSuborgTemporario.innerHTML = '<i class="bi bi-x-circle px-2"></i> <span class="i18" key="Cancelar">Cancelar</span>';
+        formularioJogadorTemporario.classList.remove('d-none');
+      }
+    });
+
+
+
 	const inicializarPaginaExclusao = async () => {
 		const formDeletarCampeonato = document.getElementById('delete-championship-form'),
 			deleteAccountValidator = new JustValidate(formDeletarCampeonato, { validateBeforeSubmitting: true }),
