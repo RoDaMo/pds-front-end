@@ -320,13 +320,32 @@ const init = async () => {
 			const botaoDesvincularWrapper = document.createElement('div')
 			botaoDesvincularWrapper.classList.add('col-auto', 'd-flex', 'mt-3', 'mt-md-auto', 'my-auto', 'mx-auto', 'ms-md-auto', 'me-md-2')
 			botaoDesvincularWrapper.innerHTML = `<button type="button" class="delete-listed-thing justify-content-center align-items-center rounded-4 remover-vinculo-campeonato btn btn-danger d-flex"><i class="bi bi-trash text-light fs-5"></i></button>`
+
+			const botaoCapitao = document.createElement('div')
+			botaoCapitao.classList.add('col-auto', 'd-flex', 'mt-3', 'mt-md-auto', 'my-auto', 'mx-auto', 'ms-md-auto', 'me-md-2')
+			botaoCapitao.innerHTML = `<button type="button" class="delete-listed-thing justify-content-center align-items-center rounded-4 btn btn-dark d-flex"><i class="bi bi-trash text-light fs-5"></i></button>`
 			
 			jogadoresVinculadosContent.appendChild(botaoDesvincularWrapper)
+			jogadoresVinculadosContent.appendChild(botaoCapitao)
 			jogadoresVinculadosWrapper.appendChild(jogadoresVinculadosContent)
 
 			botaoDesvincularWrapper.addEventListener('click', async e => {
 				await desvincularJogador(jogador.id)
 				await listarJogadoresVinculados(configFetch)
+			})
+
+			botaoCapitao.addEventListener('click', async() => {
+				const callbackStatus = (data) => {
+					notificacaoErro(data.results)
+				}
+		
+				const configFetch = configuracaoFetch('PUT', ),
+					response = await executarFetch('teams/championship', configFetch, callbackStatus)
+				console.log(response)
+		
+				if (response.succeed) {
+					notificacaoSucesso(i18next.t("Capitao"))
+				}
 			})
 
 			if(mediaQueryMobile.matches) {
@@ -643,13 +662,14 @@ const init = async () => {
 				return;
 			}
 			const valor = inputPesquisa.value,
-				response = await executarFetch(`players?query=${valor}&sport=${team.sportsId}`, configFetch),
+				response = await executarFetch(`players?username=${valor}`, configFetch),
 
 				// fetch pra testes --
 				// response = await executarFetch(`teams?query=${valor}&sport=1`, configFetch),
 				// ------------------
 
 				jogadores = response.results
+			console.log(jogadores)
 
 
 			datalistPesquisa.innerHTML = ''
@@ -658,12 +678,11 @@ const init = async () => {
 				newOption.classList.add('row', 'rounded-5', 'mx-1', 'px-0', 'py-3', 'mb-2', 'ss-list-player-content')
 				newOption.innerHTML = `
 					<div class="col-auto my-auto position-relative mx-auto ms-md-3 p-0 overflow-hidden rounded-circle me-md-2 ss-player-image">
-						<img src="${jogador.emblem}" alt="playerImage" class="img-fluid position-absolute mw-100 h-100">
+						<img src="${jogador.picture}" alt="playerImage" class="img-fluid position-absolute mw-100 h-100">
 					</div>
 					
 					<div class="col-auto ss-player-info-wrapper text-center text-md-start ms-md-1 my-auto d-flex flex-column">
 						<p class="ss-player-name w-auto text-center text-md-start text-nowrap text-truncate d-block">${jogador.name}</p>
-						<p class="mb-0 ss-player-username text-center text-md-start w-auto opacity-75 text-nowrap text-truncate d-block">${jogador.artisticName}</p>
 					</div>
 				`
 
@@ -679,21 +698,14 @@ const init = async () => {
 							<div class="card-body row">
 								<div class="col-12">
 									<div class="position-relative mx-auto mb-3 p-0 overflow-hidden rounded-circle img-player-step">
-										<img src="${jogador.emblem}" alt="Pic" class="img-fluid position-absolute w-100 h-100">
+										<img src="${jogador.picture}" alt="Pic" class="img-fluid position-absolute w-100 h-100">
 									</div>
 									<h6 class="text-center mb-3">${jogador.name}</h6>
 								</div>
 								<hr>
 								<div class="col">
 									<form id="vincularJogadorForm">
-										<div class="mb-3">
-											<div class="form-check">
-												<input class="form-check-input" type="checkbox" value="" id="isCaptain">
-												<label class="form-check-label" for="flexCheckDefault">
-													<span class="i18" key="Capitao">${i18next.t("Capitao")}</span>
-												</label>
-											</div>
-										</div>
+										
 										<div class="mb-3">
 											<label for="fantasyName" class="form-label">
 												<span class="i18" key="NomeArtistico">${i18next.t("NomeArtistico")}</span>
@@ -770,20 +782,23 @@ const init = async () => {
 						.onSuccess(async (e) => {
 							e.preventDefault()
 							const body = {
-								'playerId': jogador.id,
-								'teamId': teamId,
-								'isCaptain': isCaptain.checked,
-								'fantasyName': fantasyName.value,
-								'playerNumber': playerNumber.value,
-								'playerPosition': parseInt(selectPositionElem.value)
+								'artisticName': fantasyName.value,
+								'number': parseInt(playerNumber.value),
+								'playerTeamId': parseInt(teamId),
+								'playerPosition': parseInt(selectPositionElem.value),
+								'iscaptain': false,		
+								"id": jogador.id
 							}
 
-							const configFetch = configuracaoFetch('POST', body),
-								response = await executarFetch('teams/players', configFetch)
+							const configFetch = configuracaoFetch('PUT', body),
+								response = await executarFetch('players', configFetch)
 
 							if (response.succeed) {
 								notificacaoSucesso(i18next.t("JogadorVinculadoSucesso"))
 								await listarJogadoresVinculados(configFetch)
+								inputPesquisa.value = ''
+								newOption.parentNode.removeChild(newOption)
+								document.getElementById('playerStep').innerHTML = ''
 							}
 						})
 				})

@@ -17,10 +17,19 @@ import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao
 
 inicializarInternacionalizacao(ingles, portugues);
 
+
 const loader = document.createElement('app-loader');
 document.body.appendChild(loader);
 
 const init = async () => {
+
+	const usuarioAtual = await executarFetch('auth/user', configuracaoFetch('GET'))
+
+	if(usuarioAtual.results.isSubOrganizer){
+		document.getElementById('exclusao-campeonato').classList.add('d-none')
+		document.getElementById('btn-suborg').classList.add('d-none')
+	}
+
 	const activateLi = (li) => {
 		for (const item of abaBotoes) {
 			item.classList.remove('active')
@@ -604,30 +613,108 @@ const init = async () => {
 
 
 
-	// Codigo do chat para teste
+
 	const botaoVincularSuborg = document.getElementById('botao-vincular-suborg');
 	const pesquisaSuborg = document.getElementById('pesquisa-suborg');
+
+	document.getElementById('btn-suborg').addEventListener('click', () => exibirSuborg())
+
 	
 	botaoVincularSuborg.addEventListener('click', () => {
-	  if (botaoVincularSuborg.classList.contains('cancelar')) {
-		botaoVincularSuborg.classList.remove('cancelar');
-		botaoVincularSuborg.innerHTML = `<i class="bi bi-plus-circle px-2"></i><span class="i18" key="AdicionarSubOrg"></span>`;
-		pesquisaSuborg.classList.add('d-none');
-	  } else {
-		botaoVincularSuborg.classList.add('cancelar');
-		botaoVincularSuborg.innerHTML = '<i class="bi bi-x-circle px-2"></i><span class="i18" key="Cancelar"></span>';
-		pesquisaSuborg.classList.remove('d-none');
-	  }
-	  updateText(); 
+		if (botaoVincularSuborg.classList.contains('cancelar')) {
+			botaoVincularSuborg.classList.remove('cancelar');
+			botaoVincularSuborg.innerHTML = `<i class="bi bi-plus-circle px-2"></i><span class="i18" key="AdicionarSubOrg"></span>`;
+			pesquisaSuborg.classList.add('d-none');
+		} else {
+			botaoVincularSuborg.classList.add('cancelar');
+			botaoVincularSuborg.innerHTML = '<i class="bi bi-x-circle px-2"></i><span class="i18" key="Cancelar"></span>';
+			pesquisaSuborg.classList.remove('d-none');
+		}
+		updateText(); 
 	});
 
-	function updateText() {
+	const updateText = async() => {
 		const i18Elements = document.querySelectorAll('.i18');
 		i18Elements.forEach((element) => {
 		  const key = element.getAttribute('key');
 		  const translation = i18next.t(key);
 		  element.textContent = translation;
 		});
+
+		const pesquisaInput = document.getElementById("pesquisa-suborg-input")
+		pesquisaInput.addEventListener('keyup', async() =>{
+			const response = await executarFetch(`organizer?username=${pesquisaInput.value ? pesquisaInput.value : null}`, configuracaoFetch("GET"))
+			console.log(response)
+			document.getElementById('suborg-vinculados').innerHTML = ""
+			for(const result of response.results){
+				const newOption = document.createElement('div');
+				newOption.classList.add('row', 'rounded-5', 'mx-1', 'px-0', 'py-3', 'mb-2', 'ss-list-player-content')
+				newOption.innerHTML = `
+					<div class="col-auto my-auto position-relative mx-auto ms-md-3 p-0 overflow-hidden rounded-circle me-md-2 ss-player-image">
+						<img src="${result.picture}" alt="playerImage" class="img-fluid position-absolute mw-100 h-100">
+					</div>
+					
+					<div class="col-auto ss-player-info-wrapper text-center text-md-start ms-md-1 my-auto d-flex flex-column">
+						<p class="ss-player-name w-auto text-center text-md-start text-nowrap text-truncate d-block">${result.name}</p>
+					</div>
+					<button id="vincular-suborg" type="button" class="add-listed-thing justify-content-center align-items-center rounded-4 adicionar-player-step btn btn-primary d-flex"><i class="bi bi-plus text-light fs-5"></i></button>
+				`
+				document.getElementById('suborg-vinculados').appendChild(newOption)
+				document.getElementById("vincular-suborg").addEventListener('click', async() => {
+					const config = configuracaoFetch("POST", {
+						'organizerId': result.id,
+						'championshipId': championshipId
+					})
+					await executarFetch(`organizer`, config)
+					pesquisaInput.value = ""
+					document.getElementById('suborg-vinculados').innerHTML = ""
+					exibirSuborg()
+				})
+			}
+		})
+
+	}
+
+	const exibirSuborg = async() => {
+		const response = await executarFetch(`organizer/championship/${campeonato.id}`, configuracaoFetch("GET"))
+		console.log(response)
+		document.getElementById('suborganizadores-ja-vinculados').innerHTML = ""
+		for(const result of response.results){
+			console.log(result)
+			const newOption = document.createElement('div');
+			newOption.classList.add('row', 'rounded-5', 'mx-1', 'px-0', 'py-3', 'mb-2', 'ss-list-player-content')
+			newOption.innerHTML = `
+				<div class="col-auto my-auto position-relative mx-auto ms-md-3 p-0 overflow-hidden rounded-circle me-md-2 ss-player-image">
+					<img src="${result.picture}" alt="playerImage" class="img-fluid position-absolute mw-100 h-100">
+				</div>
+				
+				<div class="col-auto ss-player-info-wrapper text-center text-md-start ms-md-1 my-auto d-flex flex-column">
+					<p class="ss-player-name w-auto text-center text-md-start text-nowrap text-truncate d-block">${result.name}</p>
+				</div>
+			`
+			const botaoDesvincularWrapper = document.createElement('div')
+			botaoDesvincularWrapper.classList.add('col-auto', 'd-flex', 'mt-3', 'mt-md-auto', 'my-auto', 'mx-auto', 'ms-md-auto', 'me-md-2')
+			botaoDesvincularWrapper.innerHTML = `<button type="button" class="delete-listed-thing justify-content-center align-items-center rounded-4 remover-vinculo-campeonato btn btn-danger d-flex"><i class="bi bi-trash text-light fs-5"></i></button>`
+
+			document.getElementById('suborganizadores-ja-vinculados').appendChild(newOption)
+			if(usuarioAtual.results.id !== result.id) newOption.appendChild(botaoDesvincularWrapper)
+
+			botaoDesvincularWrapper.addEventListener('click', async() => {
+				const callbackStatus = (data) => {
+					notificacaoErro(data.results)
+				}
+		
+				const configFetch = configuracaoFetch('DELETE', {'organizerId': result.id, 'championshipId': parseInt(championshipId)}),
+					response = await executarFetch('organizer', configFetch, callbackStatus)
+				console.log(response)
+		
+				if (response.succeed) {
+					notificacaoSucesso(i18next.t("DesvinculadoSucesso"))
+					exibirSuborg()
+				}
+			})
+		}
+
 	}
 
 	//
@@ -711,6 +798,8 @@ const init = async () => {
 	await inicializarPaginaTimes()
 	await inicializarPaginaExclusao()
 	//#endregion
+
+
 }
 
 document.addEventListener('header-carregado', init)
