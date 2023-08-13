@@ -603,22 +603,34 @@ const init = async () => {
 
 
 
-    const botaoVincularSuborg = document.getElementById('botao-vincular-suborg');
-    const pesquisaSuborg = document.getElementById('pesquisa-suborg');
 
-    botaoVincularSuborg.addEventListener('click', () => {
-      if (botaoVincularSuborg.classList.contains('cancelar')) {
-        botaoVincularSuborg.classList.remove('cancelar');
-        botaoVincularSuborg.innerHTML = `<i class="bi bi-plus-circle px-2"></i><span class="i18" key="AdicionarSubOrg">${i18next.t("Adicionar sub-organizadores")}</span>`
-        pesquisaSuborg.classList.add('d-none');
-      } else {
-        botaoVincularSuborg.classList.add('cancelar');
-        botaoVincularSuborg.innerHTML = '<i class="bi bi-x-circle px-2"></i> <span class="i18" key="Cancelar">Cancelar</span>';
-        pesquisaSuborg.classList.remove('d-none');
-      }
-    });
+	// Codigo do chat para teste
+	const botaoVincularSuborg = document.getElementById('botao-vincular-suborg');
+	const pesquisaSuborg = document.getElementById('pesquisa-suborg');
+	
+	botaoVincularSuborg.addEventListener('click', () => {
+	  if (botaoVincularSuborg.classList.contains('cancelar')) {
+		botaoVincularSuborg.classList.remove('cancelar');
+		botaoVincularSuborg.innerHTML = `<i class="bi bi-plus-circle px-2"></i><span class="i18" key="AdicionarSubOrg"></span>`;
+		pesquisaSuborg.classList.add('d-none');
+	  } else {
+		botaoVincularSuborg.classList.add('cancelar');
+		botaoVincularSuborg.innerHTML = '<i class="bi bi-x-circle px-2"></i><span class="i18" key="Cancelar"></span>';
+		pesquisaSuborg.classList.remove('d-none');
+	  }
+	  updateText(); 
+	});
 
+	function updateText() {
+		const i18Elements = document.querySelectorAll('.i18');
+		i18Elements.forEach((element) => {
+		  const key = element.getAttribute('key');
+		  const translation = i18next.t(key);
+		  element.textContent = translation;
+		});
+	}
 
+	//
 	
 
 

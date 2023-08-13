@@ -104,5 +104,6 @@
     "AdicionarSubOrgTemp": "Add new temporary sub-host",
     "PesquiseSuborg": "Search for the name of a user you want to add as a sub-host",
     "PesquiseSubOrgPlaceholder": "Type a username to search...",
-    "SubOrgVinculados": "Linked sub-organizers"
+    "SubOrgVinculados": "Linked sub-organizers",
+    "avisoSubOrg": "Please be aware that sub-organisers do not have permission to delete the championship and also do not have the ability to add or remove other sub-organisers."
 }
