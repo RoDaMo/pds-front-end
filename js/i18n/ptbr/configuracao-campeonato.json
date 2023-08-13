@@ -103,5 +103,6 @@
     "AdicionarSubOrg": "Adicionar sub-organizadores",  
     "AdicionarSubOrgTemp": "Adicionar novo sub-organizadores temporário",
     "PesquiseSuborg": "Pesquise o nome de um usuário que deseja adicionar como sub-organizador",  
-    "PesquiseSubOrgPlaceholder": "Escreva o nome de um usuário para pesquisar..."
+    "PesquiseSubOrgPlaceholder": "Escreva o nome de um usuário para pesquisar...",
+    "SubOrgVinculados": "Sub-organizadores vinculados"
 }

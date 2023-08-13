@@ -103,5 +103,6 @@
     "AdicionarSubOrg": "Add sub-host",  
     "AdicionarSubOrgTemp": "Add new temporary sub-host",
     "PesquiseSuborg": "Search for the name of a user you want to add as a sub-host",
-    "PesquiseSubOrgPlaceholder": "Type a username to search..."
+    "PesquiseSubOrgPlaceholder": "Type a username to search...",
+    "SubOrgVinculados": "Linked sub-organizers"
 }
