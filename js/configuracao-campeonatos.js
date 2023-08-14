@@ -750,7 +750,6 @@ const init = async () => {
 			return;
 		}
 
-		const keySport = timesVinculados.results.sportsId == 1 ? "Futebol" : "Volei"
 
 		for (const time of timesVinculados.results) {
 			const newOption = document.createElement('div');
@@ -760,12 +759,19 @@ const init = async () => {
 					<img src="${time.emblem}" alt="teamImage" class="img-fluid position-absolute mw-100 h-100">
 				</div>
 
-				<div class="col-auto ss-player-info-wrapper text-center mb-3 mb-md-0 text-md-start ms-md-1 mt-auto d-flex flex-column">
+                <span class="d-none team-id">${time.id}</span>
+
+				<div class="col-auto ss-player-info-wrapper text-center mb-0 text-md-start ms-md-1 mt-auto mt-md-0 d-flex flex-column">
 					<p class="ss-player-name text-center text-md-start text-nowrap text-truncate d-block">${time.name}</p>
 					<div class="ss-player-data2 row justify-content-center align-items-center d-flex flex-column flex-md-row mt-2 mx-md-auto ms-md-0">
-						<p class="col col-md-auto ss-player-data-number px-2 py-1 fs-6 mb-0 text-white text-opacity-75">${keySport}</p>
+						<button class="col link-ss-list-team py-1 px-4 mb-2 mb-md-0 me-md-2 btn border-0"><i class="bi text-white bi-box-arrow-up-right"></i></button>
 					</div>
 				</div>
+
+				<div class="col-auto d-flex justify-content-center w-100 d-md-none">
+					<hr class="w-50 opacity-25 m-0 mb-2"></hr>
+				</div>
+
 			`
 
 			const botaoDesvincularWrapper = document.createElement('div')
@@ -778,6 +784,14 @@ const init = async () => {
 			botaoDesvincularWrapper.addEventListener('click', async () => {
 				await desvincularTime(time.id)
 				await listarTimesVinculados(configFetch)
+			})
+
+			const linkSSListTeam = document.querySelectorAll('.link-ss-list-team')
+			linkSSListTeam.forEach(content => {
+				content.addEventListener('click', () => {
+					const teamId = content.parentElement.parentElement.parentElement.querySelector('.team-id').textContent
+					window.location.href = `pagina-times.html?id=${teamId}`
+				})
 			})
 		}
 	}

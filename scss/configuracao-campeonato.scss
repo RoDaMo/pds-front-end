@@ -79,8 +79,26 @@
   }
 }
 
+.link-ss-list-team {
+  background-color: $play-cor-secundaria;
+
+  transition: all $transition;
+
+  &:hover {
+    filter: brightness(0.9);
+    background-color: $play-cor-primaria !important;
+  }
+
+  &:active {
+    filter: brightness(0.8);
+    background-color: $play-cor-primaria !important;
+  }
+}
+
 .ss-list-player-content {
   background-color: $play-cor-fundos-secundaria;
+
+  transition: all $transition;
 }
 
 // Color
@@ -109,6 +127,19 @@ body {
   .delete-listed-thing {
     width: 3rem;
     height: 3rem;
+  }
+
+  #times-vinculados {
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .link-ss-list-team {
+    width: 50%;
   }
 
   .chaveamento-btn {

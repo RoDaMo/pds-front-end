@@ -101,5 +101,8 @@
     "Libero": "Líbero",
     "Ponteiro": "Outside Hitter",
     "Oposto": "Opposite Hitter",
-    "DropZoneText": "Drag and drop the image here"
+    "DropZoneText": "Drag and drop the image here",
+    "PontosCorridos": "Points",
+    "Eliminatorias": "Knockout",
+    "GruposEliminatorias": "Groups and knockout"
 }

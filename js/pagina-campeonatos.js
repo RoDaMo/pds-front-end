@@ -166,7 +166,7 @@ const obterInfo = async () => {
     if(data.results.rules){
         document.getElementById("conteudo").innerHTML += `
             <button class="btn download-btn rounded-pill fw-semibold card-bg" id="botao-baixar-regulamento">
-                <a href="${data.results.rules}" id="regulamento" class="text-center fs-6 i18 text-decoration-none" key="BaixarRegulamento">Baixar Regulamento</a>
+                <a href="${data.results.rules}" id="regulamento" class="text-center fs-6 i18 text-decoration-none" key="BaixarRegulamento">${i18next.t("BaixarRegulamento")}</a>
             </button>
         `
     }
@@ -189,7 +189,6 @@ const obterInfo = async () => {
             </div>
         `
 
-        // Ao clicar em cada time da lista, redireciona para a página desse time
         const ssTeamContent = document.querySelectorAll('.ss-team-content')
         ssTeamContent.forEach(content => {
             content.addEventListener('click', () => {

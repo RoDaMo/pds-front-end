@@ -396,11 +396,11 @@ const init = async () => {
 					<p class="ss-player-name text-center text-md-start text-nowrap text-truncate d-block">${jogador.name}</p>
 					<p class="mb-0 ss-player-username text-center text-md-start opacity-75 text-nowrap text-truncate d-block">${jogador.artisticName}</p>
 
-					<div class="ss-player-data2 row justify-content-center align-items-center d-flex flex-column flex-md-row mt-2 mx-md-auto ms-md-0">
-						<p class="col col-md-auto ss-player-data-number px-2 py-1 fs-6 mb-0 text-white text-opacity-75">${jogador.number}</p>
-						<i class="col col-md-auto bi bi-dot d-none d-md-block mx-auto"></i>
+					<div class="ss-player-data2 row justify-content-center align-items-center flex-column flex-md-row mt-2 mx-md-auto ms-md-0">
+						<p class="col col-md-auto w-auto ss-player-data-number px-2 py-1 fs-6 mb-0 text-white text-opacity-75">${jogador.number}</p>
+						<i class="col col-md-auto bi bi-dot p-0 d-none d-md-block mx-auto"></i>
 						<hr class="ss-player-data-hr rounded-pill d-block m-0 my-2 d-md-none">
-						<p class="col col-md-auto ss-player-data-position px-2 py-1 fs-6 mb-0 text-white text-opacity-75">${jogador.playerPos}</p>
+						<p class="col col-md-auto w-auto ss-player-data-position px-2 py-1 fs-6 mb-0 text-white text-opacity-75">${jogador.playerPos}</p>
 					</div>
 				</div>
 
@@ -438,6 +438,14 @@ const init = async () => {
 		campeonatosVinculadosWrapper.innerHTML = ''
 
 		for (const campeonato of campeonatosVinculados.results) {
+
+			let championshipFormat = ''
+
+			championshipFormat = (campeonato.format == 3) ? `<span class="i18" key="PontosCorridos">${i18next.t("PontosCorridos")}</span>` 
+				: (campeonato.format == 1) ? `<span class="i18" key="Eliminatorias">${i18next.t("Eliminatorias")}</span>` 
+				: (campeonato.format == 4) ? `<span class="i18" key="GruposEliminatorias">${i18next.t("GruposEliminatorias")}</span>` 
+				: ''
+
 			const campeonatosVinculadosContent = document.createElement('div');
 			campeonatosVinculadosContent.classList.add('row', 'rounded-5', 'mx-1', 'px-0', 'py-3', 'mb-2', 'ss-list-player-content')
 
@@ -446,18 +454,17 @@ const init = async () => {
 					<img src="${campeonato.logo}" alt="champImage" class="img-fluid position-absolute mw-100 h-100">
 				</div>
 
-				<div class="col-auto ss-player-info-wrapper text-center mb-3 mb-md-0 text-md-start ms-md-1 mt-auto d-flex flex-column">
+				<div class="col-auto d-flex justify-content-center ss-player-info-wrapper text-center mb-0 mb-md-0 text-md-start ms-md-1 mt-0 d-flex flex-column">
 					<p class="ss-player-name text-center text-md-start text-nowrap text-truncate d-block">${campeonato.name}</p>
 					
 					<div class="ss-player-data2 row justify-content-center align-items-center d-flex flex-column flex-md-row mt-2 mx-md-auto ms-md-0">
-						<p class="col col-md-auto px-2 py-1 fs-6 mb-0 text-black text-opacity-75">${campeonato.initialDate}</p>
-						<i class="col col-md-auto bi bi-dot d-none d-md-block mx-auto"></i> 
-						<hr class="ss-player-data-hr rounded-pill d-block m-0 my-2 d-md-none">
-						<p class="col col-md-auto px-2 py-1 fs-6 mb-0 text-black text-opacity-75">${campeonato.finalDate}</p>
+						<p class="col col-md-auto w-auto ss-player-data-position px-2 py-1 fs-6 mb-0 text-white text-opacity-75">${championshipFormat}</p>
 					</div>
-
 				</div>
 
+				<div class="col-auto d-flex justify-content-center w-100 d-md-none">
+					<hr class="w-50 opacity-25 m-0 mt-1 mb-2"></hr>
+				</div>
 			`
 
 			const botaoDesvincularWrapper = document.createElement('div')

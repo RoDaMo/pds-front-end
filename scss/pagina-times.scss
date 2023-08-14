@@ -17,6 +17,28 @@ body, html {
     top: 6rem;
 }
 
+.coach-board {
+    background-color: $play-cor-fundos-secundaria;
+    border-radius: 1.5rem;
+
+    .coach-badge {
+        span {
+            border-radius: 0.5rem;
+            background-color: $black;
+        }
+    }
+}
+
+.ss-player-data-number {
+    background-color: $play-cor-primaria;
+    border-radius: 0.6rem;
+}
+
+.ss-player-data-position {
+    background-color: $black;
+    border-radius: 0.8rem;
+}
+
 .team-pic-wrapper {
     height: 8rem;
     width: 8rem;
@@ -129,6 +151,7 @@ body, html {
     border-radius: $border-radius-2xl $border-radius-2xl 0 0 !important;
     height: 4rem;
     box-shadow: none;
+    background-color: rgb(179 233 148 / 20%) !important;
 
     h2 {
         color: $play-cor-texto
@@ -245,6 +268,10 @@ body, html {
         -ms-overflow-style: none;
         scrollbar-width: none;
     }
+
+    .ss-player-name {
+        width: 11rem !important;
+    }
 }
 
 @include media-breakpoint-down(sm) {
@@ -279,7 +306,7 @@ body, html {
 
     .ss-player-data-position,
     .ss-player-data-number {
-        font-size: 0.8rem;
+        font-size: 0.75rem;
     }
 
     .ss-player-name {
@@ -303,7 +330,7 @@ body, html {
     .ss-first-content {
         flex-wrap: nowrap;
         overflow-x: auto;
-        height: 8.5rem;
+        height: 7.8rem;
 
         div {
             flex: 0 0 auto;
