@@ -23,6 +23,7 @@ body, html {
 
     .coach-badge {
         span {
+            font-size: 0.7rem;
             border-radius: 0.5rem;
             background-color: $black;
         }
@@ -270,7 +271,7 @@ body, html {
     }
 
     .ss-player-name {
-        width: 11rem !important;
+        width: 10rem !important;
     }
 }
 
@@ -298,6 +299,10 @@ body, html {
         img {
             min-width: 100%;
         }
+    }
+
+    #coach-board-wrapper {
+        justify-content: center;
     }
 
     .ss-player-data {

@@ -970,6 +970,7 @@ const init = async () => {
 	})
 
 	// fetch pra verificar se o chaveamento está criado
+		// se estiver criado, bloquear a edição do campeonado 
 		// dentro do fetch, se estiver criado, muda o botão de criar chaveamento para excluir chaveamento | innerHTML (#bracket-btn-wrapper)
 			// bracketBtnWrapper.innerHTML = <button data-bs-toggle="modal" data-bs-target="#deleteBracketModal" id="delete-bracket-btn" class="btn btn-danger border-0 d-flex justify-content-center align-items-center"><i class="bi bi-trash me-2"></i><span class="i18 fw-semibold" key="ExcluirChaveamento">Excluir Chaveamento</span></button> 
 			// document.getElementById('delete-bracket-btn').addEventListener('click', async () => {

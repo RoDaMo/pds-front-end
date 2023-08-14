@@ -26,7 +26,12 @@ const init = async () => {
     const 
         matchDetailsOptions = document.getElementById('match-details-options'),
         abaBotoes = matchDetailsOptions.children,
-        menuConfig = document.getElementsByClassName('menu-config')
+        menuConfig = document.getElementsByClassName('menu-config'),
+		blankSpaces = document.getElementsByClassName('blank-space')
+
+	for(const blankSpace of blankSpaces) {
+		blankSpace.style.height = `${matchDetailsOptions.offsetHeight + 35}px`
+	} 
 
     for (const configMenuOption of abaBotoes) {
 		configMenuOption.addEventListener('click', () => {

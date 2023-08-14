@@ -132,31 +132,32 @@ const obterInfo = async () => {
     document.getElementById("team-desc").textContent = data.results.description
     document.getElementById("name").textContent = data.results.name
 
+    const coach = data.results.technician
+
     // Técnico do time
-    // fetch do usuario passando o id do técnico do time
 
-    // conteudoInicial.insertAdjacentHTML("beforeend", `
-    //     <div class="d-flex justify-content-center">
-    //         <div class="row coach-board flex-row align-content-center px-3 p-2">
+    conteudoInicial.insertAdjacentHTML("beforeend", `
+        <div id="coach-board-wrapper" class="d-flex">
+            <div class="row coach-board flex-row align-content-center px-3 p-2">
 
-    //             <div class="col-auto p-0 d-flex justify-content-center align-items-center">
-    //                 <div class="position-relative overflow-hidden rounded-circle ss-player-image">
-    //                     <img src="${t.picture}" alt="coachImage" class="img-fluid position-absolute mw-100 h-100">
-    //                 </div>
-    //             </div>
+                <div class="col-auto p-0 d-flex justify-content-center align-items-center">
+                    <div class="position-relative overflow-hidden rounded-circle ss-player-image">
+                        <img src="${coach.picture}" alt="coachImage" class="img-fluid position-absolute mw-100 h-100">
+                    </div>
+                </div>
 
-    //             <div class="col row flex-column">
-    //                 <div class="col">
-    //                     <span class="ss-player-name fs-5 text-nowrap text-truncate mb-1 mb-md d-block">${t.name}</span>
-    //                 </div>
+                <div class="col row justify-content-center flex-column">
+                    <div class="col-auto">
+                        <span class="ss-player-name fs-5 text-nowrap text-truncate mb-1 mb-md-0 d-block">${coach.name}</span>
+                    </div>
 
-    //                 <div class="col-auto d-flex coach-badge align-items-center w-auto">
-    //                     <span class="i18 coach-badge-text p-1 w-auto text-white text-opacity-75" key="Tecnico">${i18next.t("Tecnico")}</span>
-    //                 </div>
-    //             </div>
-    //         </div>
-    //     </div>
-    // `)
+                    <div class="col-auto d-flex coach-badge align-items-center w-auto">
+                        <span class="i18 coach-badge-text p-1 px-2 w-auto text-white text-opacity-75" key="Tecnico">${i18next.t("Tecnico")}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `)
 
     // Jogadores do time
     const jogadores = document.getElementById("jogadores")
@@ -217,7 +218,7 @@ const obterInfo = async () => {
         jogadores.innerHTML += `
             <div class="d-flex w-100 rounded-5 mb-3 p-2 mt-5 mt-md-0 ss-player-content">
 
-                <section class="position-relative m-3 overflow-hidden rounded-circle ss-player-image">
+                <section class="position-relative border border-2 m-3 overflow-hidden rounded-circle ss-player-image">
                     <img src="${e.picture}" alt="playerImage" class="img-fluid position-absolute mw-100 h-100">
                 </section>
 
