@@ -135,28 +135,28 @@ const obterInfo = async () => {
     // Técnico do time
     // fetch do usuario passando o id do técnico do time
 
-    conteudoInicial.insertAdjacentHTML("beforeend", `
-        <div class="d-flex justify-content-center">
-            <div class="row coach-board flex-row align-content-center px-3 p-2">
+    // conteudoInicial.insertAdjacentHTML("beforeend", `
+    //     <div class="d-flex justify-content-center">
+    //         <div class="row coach-board flex-row align-content-center px-3 p-2">
 
-                <div class="col-auto p-0 d-flex justify-content-center align-items-center">
-                    <div class="position-relative overflow-hidden rounded-circle ss-player-image">
-                        <img src="${t.picture}" alt="coachImage" class="img-fluid position-absolute mw-100 h-100">
-                    </div>
-                </div>
+    //             <div class="col-auto p-0 d-flex justify-content-center align-items-center">
+    //                 <div class="position-relative overflow-hidden rounded-circle ss-player-image">
+    //                     <img src="${t.picture}" alt="coachImage" class="img-fluid position-absolute mw-100 h-100">
+    //                 </div>
+    //             </div>
 
-                <div class="col row flex-column">
-                    <div class="col">
-                        <span class="ss-player-name fs-5 text-nowrap text-truncate mb-1 mb-md d-block">${t.name}</span>
-                    </div>
+    //             <div class="col row flex-column">
+    //                 <div class="col">
+    //                     <span class="ss-player-name fs-5 text-nowrap text-truncate mb-1 mb-md d-block">${t.name}</span>
+    //                 </div>
 
-                    <div class="col-auto d-flex coach-badge align-items-center w-auto">
-                        <span class="i18 coach-badge-text p-1 w-auto text-white text-opacity-75" key="Tecnico">${i18next.t("Tecnico")}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `)
+    //                 <div class="col-auto d-flex coach-badge align-items-center w-auto">
+    //                     <span class="i18 coach-badge-text p-1 w-auto text-white text-opacity-75" key="Tecnico">${i18next.t("Tecnico")}</span>
+    //                 </div>
+    //             </div>
+    //         </div>
+    //     </div>
+    // `)
 
     // Jogadores do time
     const jogadores = document.getElementById("jogadores")
