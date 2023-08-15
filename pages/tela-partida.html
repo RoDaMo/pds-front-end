@@ -52,25 +52,58 @@
 
         <!-- Detalhes da Partida -->
         <section id="match-details-wrapper" class="mt-5 mx-lg-5">
-            <div id="match-details" class="p-4 pt-2">
-                <div id="match-details-options-wrapper" class="z-2 rounded-5">
+            <div id="match-details" class="p-4 pt-2 position-relative">
+                <div id="match-details-options-wrapper" class="z-2 rounded-5 position-relative">
                     <ul class="list-group list-group-horizontal list-group-flush d-flex justify-content-center align-items-center" id="match-details-options">
                         <button class="list-group-item list-group-item-action m-2 w-auto border-0 rounded-pill active" menu="0"><span class="i18" key="Eventos">Eventos</span> </button>
                         <button class="list-group-item list-group-item-action m-2 w-auto border-0 rounded-pill" menu="1"><span class="i18" key="Jogadores">Jogadores</span> </button>
-                        <button class="list-group-item list-group-item-action m-2 w-auto border-0 rounded-pill d-none" menu="2"><span class="i18" key="Administrar">Administrar</span> </button>
+                        <button id="manage-match-btn" class="list-group-item list-group-item-action m-2 w-auto border-0 rounded-pill d-none" menu="2"><span class="i18" key="Administrar">Administrar</span> </button>
                     </ul>
+                </div>
+
+                <!-- d-none -->
+                <div id="blurwall-events" class="blurwall w-100 start-0 top-0 position-absolute h-100 d-flex justify-content-center align-items-center">
+                    <div class="blurwall-message-user w-50 text-center">
+                        <span class="blurwall-message-user-text i18 fs-4 fw-semibold" key="BlurwallMessageUserText">${i18next.t("BlurwallMessageUserText")}</span>
+                    </div>
                 </div>
 
                 <div id="match-details-content-wrapper">
 
                     <div id="match-details-content">
+
                         <!-- Eventos -->
                         <div data-lenis-prevent id="match-details-content-events" class="d-none menu-config row mx-md-5 mt-3" menu="0">
 
                             <!-- Eventos time 1 -->
                             <div id="match-details-content-events-team1" class="col">
 
-                                <!-- Template Evento (Gol) -->
+                                <!-- Template Blurwall [Placeholder] -->
+                                <div class="row flex-column p-3 my-2 match-details-content-event rounded-5 position-relative">
+                                    <div class="col event-player-name"><span class="fw-semibold text-black text-truncate d-block">Goal Maker</span></div>
+                                    <div class="col d-flex flex-row event-data">
+                                        <div class="event-type"><span class="text-muted">Gol</span></div>
+                                        <i class="bi bi-dot"></i>
+                                        <div class="event-time"><span class="text-muted">"32</span></div>
+                                    </div>
+                                    <div class="col position-absolute w-auto h-auto event-illustration">
+                                        <img src="../public/icons/sports_soccer.svg" alt="">
+                                    </div>
+                                </div>
+                                <div class="row blank-space"></div>
+                                <div class="row blank-space"></div>
+                                <div class="row flex-column p-3 my-2 match-details-content-event rounded-5 position-relative">
+                                    <div class="col event-player-name"><span class="fw-semibold text-black text-truncate d-block">Goal Maker</span></div>
+                                    <div class="col d-flex flex-row event-data">
+                                        <div class="event-type"><span class="text-muted">Gol</span></div>
+                                        <i class="bi bi-dot"></i>
+                                        <div class="event-time"><span class="text-muted">"32</span></div>
+                                    </div>
+                                    <div class="col position-absolute w-auto h-auto event-illustration">
+                                        <img src="../public/icons/sports_soccer.svg" alt="">
+                                    </div>
+                                </div>
+                                <div class="row blank-space"></div>
                                 <div class="row flex-column p-3 my-2 match-details-content-event rounded-5 position-relative">
                                     <div class="col event-player-name"><span class="fw-semibold text-black text-truncate d-block">Goal Maker</span></div>
                                     <div class="col d-flex flex-row event-data">
@@ -92,6 +125,8 @@
 
                             <!-- Eventos time 2 -->
                             <div id="match-details-content-events-team2" class="col">
+
+                                <!-- Template Blurwall [Placeholder] -->
                                 <div class="row blank-space"></div>
                                 <div class="row flex-column p-3 my-2 match-details-content-event rounded-5 position-relative">
                                     <div class="col event-player-name"><span class="fw-semibold text-black text-truncate d-block">Goal Maker</span></div>
@@ -104,6 +139,31 @@
                                         <img src="../public/icons/sports_soccer.svg" alt="">
                                     </div>
                                 </div>
+                                <div class="row flex-column p-3 my-2 match-details-content-event rounded-5 position-relative">
+                                    <div class="col event-player-name"><span class="fw-semibold text-black text-truncate d-block">Goal Maker</span></div>
+                                    <div class="col d-flex flex-row event-data">
+                                        <div class="event-type"><span class="text-muted">Gol</span></div>
+                                        <i class="bi bi-dot"></i>
+                                        <div class="event-time"><span class="text-muted">"32</span></div>
+                                    </div>
+                                    <div class="col position-absolute w-auto h-auto event-illustration">
+                                        <img src="../public/icons/sports_soccer.svg" alt="">
+                                    </div>
+                                </div>
+                                <div class="row blank-space"></div>
+                                <div class="row flex-column p-3 my-2 match-details-content-event rounded-5 position-relative">
+                                    <div class="col event-player-name"><span class="fw-semibold text-black text-truncate d-block">Goal Maker</span></div>
+                                    <div class="col d-flex flex-row event-data">
+                                        <div class="event-type"><span class="text-muted">Gol</span></div>
+                                        <i class="bi bi-dot"></i>
+                                        <div class="event-time"><span class="text-muted">"32</span></div>
+                                    </div>
+                                    <div class="col position-absolute w-auto h-auto event-illustration">
+                                        <img src="../public/icons/sports_soccer.svg" alt="">
+                                    </div>
+                                </div>
+                                <div class="row blank-space"></div>
+
                                 
                             </div>
                         </div>
@@ -125,7 +185,7 @@
     <componente-footer></componente-footer>
     <script type="module" src="../main.js"></script>
     <script type="module" src="../js/utilidades/header.js"></script>
-    <script type="module" src="../js/tela-partida.js"></script>
     <script type="module" src="../js/utilidades/footer.js"></script>
+    <script type="module" src="../js/tela-partida.js"></script>
 </body>
 </html>

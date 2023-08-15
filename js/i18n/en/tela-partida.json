@@ -1,3 +1,10 @@
 {
-    "TituloPagina": "Match Screen"
+    "TituloPagina": "Match Screen",
+    "Eventos": "Events",
+    "Jogadores": "Players",
+    "Administrar": "Manage",
+    "IniciarPartida": "Start Match",
+    "BlurwallMessageUserText": "The match has not yet started. Wait for the start of the match to see the events.",
+    "BlurwallMessageOrganizerText": "The match hasn't started yet. Do you want to start the match now?",
+    "ErroConfiguracaoPartida": "The match cannot be started without configuration. Please configure the match before starting."
 }

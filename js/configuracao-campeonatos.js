@@ -693,6 +693,18 @@ const init = async () => {
 		}
 	}
 
+	// const bracketbtnChange = async championshipId => {
+	// 	// fetch pra verificar se o chaveamento está criado
+	// 	// se estiver criado, bloquear a edição do campeonado 
+	// 	// dentro do fetch, se estiver criado, muda o botão de criar chaveamento para excluir chaveamento | innerHTML (#bracket-btn-wrapper)
+	// 		// bracketBtnWrapper.innerHTML = <button data-bs-toggle="modal" data-bs-target="#deleteBracketModal" id="delete-bracket-btn" class="btn btn-danger border-0 d-flex justify-content-center align-items-center"><i class="bi bi-trash me-2"></i><span class="i18 fw-semibold" key="ExcluirChaveamento">Excluir Chaveamento</span></button> 
+	// 		// document.getElementById('delete-bracket-btn').addEventListener('click', async () => {
+	// 		// 	await deleteBracket(campeonato.id)
+	// 		// 	bracketBtnWrapper.innerHTML = `<button type="button" class="btn btn-primary" id="create-bracket-btn"><span class="i18" key="CriarChaveamento">${i18next.t("CriarChaveamento")}</span></button>`
+	// 		// 	checkBracketCreationAvailability()
+	// 		// })
+	// }
+
 	const putCampeonato = async body => {
 		const callbackServidor = data => {
 			mensagemErro.classList.add("text-danger")
@@ -969,20 +981,11 @@ const init = async () => {
 		bracketModalBT.hide()
 	})
 
-	// fetch pra verificar se o chaveamento está criado
-		// se estiver criado, bloquear a edição do campeonado 
-		// dentro do fetch, se estiver criado, muda o botão de criar chaveamento para excluir chaveamento | innerHTML (#bracket-btn-wrapper)
-			// bracketBtnWrapper.innerHTML = <button data-bs-toggle="modal" data-bs-target="#deleteBracketModal" id="delete-bracket-btn" class="btn btn-danger border-0 d-flex justify-content-center align-items-center"><i class="bi bi-trash me-2"></i><span class="i18 fw-semibold" key="ExcluirChaveamento">Excluir Chaveamento</span></button> 
-			// document.getElementById('delete-bracket-btn').addEventListener('click', async () => {
-			// 	await deleteBracket(campeonato.id)
-			// 	bracketBtnWrapper.innerHTML = `<button type="button" class="btn btn-primary" id="create-bracket-btn"><span class="i18" key="CriarChaveamento">${i18next.t("CriarChaveamento")}</span></button>`
-			// 	checkBracketCreationAvailability()
-			// })
-
 	changeConfigOptionsContext(0)
 	inicializarCampos()
 	await inicializarPaginaTimes()
 	await inicializarPaginaExclusao()
+	await bracketBtnChange()
 	//#endregion
 }
 

@@ -76,8 +76,28 @@ body {
                 }
             }
         }
+
+        @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+            .blurwall {
+                background-color: rgb(255 255 255 / 2%);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                z-index: 1;
+                border-radius: 4rem;
+            }
+        }
+
+        /* slightly transparent fallback for Firefox (not supporting backdrop-filter) */
+        @supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+            .blurwall {
+                background-color: rgba(255, 255, 255, 0.5);
+                z-index: 1;
+                border-radius: 4rem;
+            }
+        }
     
-        #match-details-content-wrapper {         
+        #match-details-content-wrapper {                
+
             #match-details-content {
                 #match-details-content-events {
                     min-height: 39rem;

@@ -1,3 +1,10 @@
 {
-    "TituloPagina": "Tela de Partida"
+    "TituloPagina": "Tela de Partida",
+    "Eventos": "Eventos",
+    "Jogadores": "Jogadores",
+    "Administrar": "Administrar",
+    "IniciarPartida": "Iniciar Partida",
+    "BlurwallMessageUserText": "A partida ainda não foi iniciada. Aguarde o início da partida para ver os eventos.",
+    "BlurwallMessageOrganizerText": "A partida ainda não começou. Deseja iniciar a partida agora?",
+    "ErroConfiguracaoPartida": "A partida não pode ser iniciada sem configuração. Por favor, configure a partida antes de iniciar."
 }
