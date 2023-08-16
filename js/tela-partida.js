@@ -5,6 +5,8 @@ import portugues from './i18n/ptbr/tela-partida.json' assert { type: 'JSON' }
 import ingles from './i18n/en/tela-partida.json' assert { type: 'JSON' }
 import i18next from "i18next";
 import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
+import JustValidate from 'just-validate'
+
 
 inicializarInternacionalizacao(ingles, portugues);
 const loader = document.createElement('app-loader');
@@ -17,6 +19,129 @@ const init = async () => {
             item.classList.remove('active')
 
 		li.classList.add('active')
+	}
+
+	const postGoal = async body => {
+		const callbackStatus = (data) => {
+			notificacaoErro(data.results)
+		}
+
+		loader.show()
+		const configFetch = configuracaoFetch('POST', body),
+			response = await executarFetch('matches/goals', configFetch, callbackStatus)
+
+		if (response.succeed) {
+			notificacaoSucesso(i18next.t("SucessoPostGol"))
+		}
+	}
+
+	const matchManagementSystem = () => {
+		const selectEventType = matchManagementForm.querySelector('select#select-event-type')
+
+		let eventEndpoint = ''
+
+		// true = yellowCard, false = redCard
+		let cardType = (selectEventType.value == 2) ? true : (selectEventType.value == 3) ? false : ''
+
+		selectEventType.addEventListener('change', () => {
+			// eventEndpoint = (selectEventType.value == 1) ? 'matches/goals' 
+			// 	: (selectEventType.value == 2 || selectEventType == 3) ? 'matches/cards'
+			// 	: (selectEventType.value == 4) ? 'matches/substitutions'
+			// 	: ''
+
+			if (selectEventType.value) {
+				matchManagementForm.insertAdjacentHTML('beforeend', `
+					<label for="select-event-team" class="i18 form-label" key="SelectEventTeamLabel">${i18next.t("SelectEventTeamLabel")}</label>
+					<select id="select-event-team" class="form-select">
+						<option value="" selected class="i18" key="SelectEventTeamPlaceholder">${i18next.t("SelectEventTeamPlaceholder")}</option>
+						<option value="1">${match.team1.name}</option>
+						<option value="2">${match.team2.name}</option>
+					</select>
+				`)
+
+				const selectEventTeam = matchManagementForm.querySelector('select#select-event-team')
+
+				let players = []
+
+				selectEventTeam.addEventListener('change', () => {
+					players = (selectEventTeam.value == 1) ? playersTeam1 : playersTeam2
+				})
+
+				switch (selectEventType.value) {
+					case 1:
+						if (selectEventTeam.value) {
+							matchManagementForm.insertAdjacentHTML('beforeend', `
+								<label for="select-event-player" class="i18 form-label" key="SelectEventPlayerLabel">${i18next.t("SelectEventPlayerLabel")}</label>
+								<select id="select-event-player" class="form-select">
+									<option value="" selected class="i18" key="SelectEventPlayerPlaceholder">${i18next.t("SelectEventPlayerPlaceholder")}</option>
+									${players.map(player => `<option value="${player.id}">${player.name}</option>`)}
+								</select>
+
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" value="" id="checkbox-event-assister-player">
+									<label class="form-check-label i18" key="CheckboxEventAssisterPlayerLabel" for="checkbox-event-assister-player">${i18next.t("CheckboxEventAssisterPlayerLabel")}</label>
+								</div>
+							`)
+
+							const checkboxEventAssisterPlayer = matchManagementForm.querySelector('input#checkbox-event-assister-player')
+
+							if (checkboxEventAssisterPlayer.checked) {
+								matchManagementForm.insertAdjacentHTML('beforeend', `
+									<label for="select-event-assister-player" class="i18 form-label" key="SelectEventAssisterPlayerLabel">${i18next.t("SelectEventAssisterPlayerLabel")}</label>
+									<select id="select-event-assister-player" class="form-select">
+										<option value="" selected class="i18" key="SelectEventAssisterPlayerPlaceholder">${i18next.t("SelectEventAssisterPlayerPlaceholder")}</option>
+										${players.map(player => `<option value="${player.id}">${player.name}</option>`)}
+									</select>
+								`)
+							} else {
+								matchManagementForm.querySelector('label[for="select-event-assister-player"]').remove()
+								matchManagementForm.querySelector('select#select-event-assister-player').remove()
+							}
+
+							const selectEventPlayer = matchManagementForm.querySelector('select#select-event-player')
+							const selectEventAssisterPlayer = matchManagementForm.querySelector('select#select-event-assister-player')
+
+							const postGoalValidator = new JustValidate(matchManagementForm, {
+								validateBeforeSubmitting: true,
+							})
+
+							postGoalValidator
+								.addField(selectEventPlayer, [
+									{
+										rule: 'required',
+										errorMessage: `<span class="i18" key="JogadorObrigatorio">${i18next.t("JogadorObrigatorio")}</span>`,
+									},
+									{
+										validator: (value, item) => {
+											return selectEventPlayer.value != selectEventAssisterPlayer.value
+										},
+										errorMessage: `<span class="i18" key="JogadoresDiferentes">${i18next.t("JogadoresDiferentes")}</span>`
+									}
+
+								])
+								.onSuccess(async e => {
+									e.preventDefault()
+
+									loader.show()
+									await postGoal({
+										"MatchId": match.id,
+										"PlayerTempId": selectEventPlayer.value,
+										"TeamId": selectEventTeam.value,
+										"AssisterPlayerTempId": selectEventAssisterPlayer?.value
+									})
+									loader.hide()
+								})
+						}
+						break;
+				
+					default:
+						break;
+				}
+			} else {
+				matchManagementForm.querySelector('label[for="select-event-team"]').remove()
+				matchManagementForm.querySelector('select#select-event-team').remove()
+			}
+		})
 	}
 
 	const changeConfigOptionsContext = (menuSelecionado) => {
@@ -158,10 +283,13 @@ const init = async () => {
 		} else {
 			if (isMatchOrganizer) {
 				manageMatchBtn.classList.remove('d-none')
+
+				matchManagementSystem()
 			}
 
 			// Get all match informations
-			
+			eventsWrapperTeam1.innerHTML = ''
+			eventsWrapperTeam2.innerHTML = ''
 		}
 	}
 
@@ -178,14 +306,24 @@ const init = async () => {
 		eventsWrapperTeam2 = document.getElementById('match-details-content-events-team2'),
 		matchDetails = document.getElementById('match-details'),
 		blurWallEvents = document.getElementById('blurwall-events'),
-		manageMatchBtn = document.getElementById('manage-match-btn')
+		manageMatchBtn = document.getElementById('manage-match-btn'),
+		matchManagementForm = document.getElementById('match-management-form')
 
-	// loader.show()
-	// const 
-	// 	dados = await executarFetch(`matches/${matchId}`, configuracaoFetch('GET')),
-	// 	match = dados.results
-	// console.log(match)
-	// loader.hide()
+	loader.show()
+	const 
+		dataMatch = await executarFetch(`matches/${matchId}`, configuracaoFetch('GET')),
+		match = dataMatch.results
+	
+	const 
+		dataPlayersTeam1 = await executarFetch(`teams/${match[0].id}/players`, configuracaoFetch('GET')),
+		playersTeam1 = dataPlayersTeam1.results
+	
+	const 
+		dataPlayersTeam2 = await executarFetch(`teams/${match[1].id}/players`, configuracaoFetch('GET')),
+		playersTeam2 = dataPlayersTeam2.results
+
+	console.log(match)
+	loader.hide()
 
 	for(const blankSpace of blankSpaces) {
 		blankSpace.style.height = `${matchDetailsOptions.offsetHeight + 35}px`
@@ -201,6 +339,8 @@ const init = async () => {
     changeConfigOptionsContext(0)
 	await carregarPartida()
 	console.log(sessionUserInfo);
+	matchManagementSystem()
+
 
 }
 

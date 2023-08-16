@@ -57,16 +57,11 @@
                     <ul class="list-group list-group-horizontal list-group-flush d-flex justify-content-center align-items-center" id="match-details-options">
                         <button class="list-group-item list-group-item-action m-2 w-auto border-0 rounded-pill active" menu="0"><span class="i18" key="Eventos">Eventos</span> </button>
                         <button class="list-group-item list-group-item-action m-2 w-auto border-0 rounded-pill" menu="1"><span class="i18" key="Jogadores">Jogadores</span> </button>
-                        <button id="manage-match-btn" class="list-group-item list-group-item-action m-2 w-auto border-0 rounded-pill d-none" menu="2"><span class="i18" key="Administrar">Administrar</span> </button>
+                        <button id="manage-match-btn" class="d-none list-group-item list-group-item-action m-2 w-auto border-0 rounded-pill" menu="2"><span class="i18" key="Administrar">Administrar</span> </button>
                     </ul>
                 </div>
 
-                <!-- d-none -->
-                <div id="blurwall-events" class="blurwall w-100 start-0 top-0 position-absolute h-100 d-flex justify-content-center align-items-center">
-                    <div class="blurwall-message-user w-50 text-center">
-                        <span class="blurwall-message-user-text i18 fs-4 fw-semibold" key="BlurwallMessageUserText">${i18next.t("BlurwallMessageUserText")}</span>
-                    </div>
-                </div>
+                <div id="blurwall-events" class="d-none blurwall w-100 start-0 top-0 position-absolute h-100 d-flex justify-content-center align-items-center"></div>
 
                 <div id="match-details-content-wrapper">
 
@@ -76,47 +71,7 @@
                         <div data-lenis-prevent id="match-details-content-events" class="d-none menu-config row mx-md-5 mt-3" menu="0">
 
                             <!-- Eventos time 1 -->
-                            <div id="match-details-content-events-team1" class="col">
-
-                                <!-- Template Blurwall [Placeholder] -->
-                                <div class="row flex-column p-3 my-2 match-details-content-event rounded-5 position-relative">
-                                    <div class="col event-player-name"><span class="fw-semibold text-black text-truncate d-block">Goal Maker</span></div>
-                                    <div class="col d-flex flex-row event-data">
-                                        <div class="event-type"><span class="text-muted">Gol</span></div>
-                                        <i class="bi bi-dot"></i>
-                                        <div class="event-time"><span class="text-muted">"32</span></div>
-                                    </div>
-                                    <div class="col position-absolute w-auto h-auto event-illustration">
-                                        <img src="../public/icons/sports_soccer.svg" alt="">
-                                    </div>
-                                </div>
-                                <div class="row blank-space"></div>
-                                <div class="row blank-space"></div>
-                                <div class="row flex-column p-3 my-2 match-details-content-event rounded-5 position-relative">
-                                    <div class="col event-player-name"><span class="fw-semibold text-black text-truncate d-block">Goal Maker</span></div>
-                                    <div class="col d-flex flex-row event-data">
-                                        <div class="event-type"><span class="text-muted">Gol</span></div>
-                                        <i class="bi bi-dot"></i>
-                                        <div class="event-time"><span class="text-muted">"32</span></div>
-                                    </div>
-                                    <div class="col position-absolute w-auto h-auto event-illustration">
-                                        <img src="../public/icons/sports_soccer.svg" alt="">
-                                    </div>
-                                </div>
-                                <div class="row blank-space"></div>
-                                <div class="row flex-column p-3 my-2 match-details-content-event rounded-5 position-relative">
-                                    <div class="col event-player-name"><span class="fw-semibold text-black text-truncate d-block">Goal Maker</span></div>
-                                    <div class="col d-flex flex-row event-data">
-                                        <div class="event-type"><span class="text-muted">Gol</span></div>
-                                        <i class="bi bi-dot"></i>
-                                        <div class="event-time"><span class="text-muted">"32</span></div>
-                                    </div>
-                                    <div class="col position-absolute w-auto h-auto event-illustration">
-                                        <img src="../public/icons/sports_soccer.svg" alt="">
-                                    </div>
-                                </div>
-                                
-                            </div>
+                            <div id="match-details-content-events-team1" class="col"></div>
 
                             <!-- Linha divisória -->
                             <div class="col-1 d-flex justify-content-center">
@@ -124,48 +79,7 @@
                             </div>
 
                             <!-- Eventos time 2 -->
-                            <div id="match-details-content-events-team2" class="col">
-
-                                <!-- Template Blurwall [Placeholder] -->
-                                <div class="row blank-space"></div>
-                                <div class="row flex-column p-3 my-2 match-details-content-event rounded-5 position-relative">
-                                    <div class="col event-player-name"><span class="fw-semibold text-black text-truncate d-block">Goal Maker</span></div>
-                                    <div class="col d-flex flex-row event-data">
-                                        <div class="event-type"><span class="text-muted">Gol</span></div>
-                                        <i class="bi bi-dot"></i>
-                                        <div class="event-time"><span class="text-muted">"32</span></div>
-                                    </div>
-                                    <div class="col position-absolute w-auto h-auto event-illustration">
-                                        <img src="../public/icons/sports_soccer.svg" alt="">
-                                    </div>
-                                </div>
-                                <div class="row flex-column p-3 my-2 match-details-content-event rounded-5 position-relative">
-                                    <div class="col event-player-name"><span class="fw-semibold text-black text-truncate d-block">Goal Maker</span></div>
-                                    <div class="col d-flex flex-row event-data">
-                                        <div class="event-type"><span class="text-muted">Gol</span></div>
-                                        <i class="bi bi-dot"></i>
-                                        <div class="event-time"><span class="text-muted">"32</span></div>
-                                    </div>
-                                    <div class="col position-absolute w-auto h-auto event-illustration">
-                                        <img src="../public/icons/sports_soccer.svg" alt="">
-                                    </div>
-                                </div>
-                                <div class="row blank-space"></div>
-                                <div class="row flex-column p-3 my-2 match-details-content-event rounded-5 position-relative">
-                                    <div class="col event-player-name"><span class="fw-semibold text-black text-truncate d-block">Goal Maker</span></div>
-                                    <div class="col d-flex flex-row event-data">
-                                        <div class="event-type"><span class="text-muted">Gol</span></div>
-                                        <i class="bi bi-dot"></i>
-                                        <div class="event-time"><span class="text-muted">"32</span></div>
-                                    </div>
-                                    <div class="col position-absolute w-auto h-auto event-illustration">
-                                        <img src="../public/icons/sports_soccer.svg" alt="">
-                                    </div>
-                                </div>
-                                <div class="row blank-space"></div>
-
-                                
-                            </div>
+                            <div id="match-details-content-events-team2" class="col"></div>
                         </div>
 
                         <!-- Jogadores -->
@@ -175,7 +89,17 @@
 
                         <!-- Administrar -->
                         <div id="match-details-content-admin" class="d-none menu-config" menu="2">
+                            <form id="match-management-form">
+                                <label for="select-event-type" class="form-label i18" key="SelectEventTypeLabel">Selecione o tipo de evento</label>
+                                <select id="select-event-type" class="form-select">
+                                    <option selected value="" class="i18" key="SelectEventTypePlaceholder"></option>
+                                    <option value="1" class="i18" key="Goal">Gol</option>
+                                    <option value="2" class="i18" key="YellowCard">Cartão Amarelo</option>
+                                    <option value="3" class="i18" key="RedCard">Cartão Vermelho</option>
+                                    <option value="4" class="i18" key="Substitution">Substituição</option>
+                                </select>
 
+                            </form>
                         </div>
                     </div>
                 </div>
