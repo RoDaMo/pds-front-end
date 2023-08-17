@@ -339,6 +339,12 @@ export class header extends HTMLElement {
                         <i class="bi bi-person-gear fs-4"></i>
                         Logs de erro
                     </a>` : ''}
+
+                    <a href="/pages/listagem-campeo-usuario.html" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
+                    <i class="bi bi-list-ul fs-4"></i>
+                        <span class="i18" key="Campeonatos gerenciados">${i18next.t("Campeonatos gerenciados")}</span>
+                    </a>
+
                     <a href="javascript:void(0)" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3 deslogar-usuario">
                         <i class="bi bi-box-arrow-right fs-4"></i>
                         <span class="i18" key="Sair">${i18next.t("Sair")}</span>
