@@ -657,8 +657,11 @@ const init = async () => {
 					<div class="col-auto ss-player-info-wrapper text-center text-md-start ms-md-1 my-auto d-flex flex-column">
 						<p class="ss-player-name w-auto text-center text-md-start text-nowrap text-truncate d-block">${result.name}</p>
 					</div>
-					<button id="vincular-suborg" type="button" class="add-listed-thing justify-content-center align-items-center rounded-4 adicionar-player-step btn btn-primary d-flex"><i class="bi bi-plus text-light fs-5"></i></button>
-				`
+					<div class="col-auto d-flex mt-3 mt-md-auto my-auto mx-auto ms-md-auto me-md-2">
+						<button id="vincular-suborg" type="button" class="add-listed-thing justify-content-center align-items-center rounded-4 adicionar-player-step btn btn-primary d-flex"><i class="bi bi-plus text-light fs-5"></i></button>
+					</div>
+					`
+				
 				document.getElementById('suborg-vinculados').appendChild(newOption)
 				document.getElementById("vincular-suborg").addEventListener('click', async() => {
 					const config = configuracaoFetch("POST", {
