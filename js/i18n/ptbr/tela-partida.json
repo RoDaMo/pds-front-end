@@ -3,7 +3,7 @@
     "Eventos": "Eventos",
     "Jogadores": "Jogadores",
     "Administrar": "Administrar",
-    "IniciarPartida": "Iniciar Partida",
+    "ConfigurarPartida": "Configurar Partida",
     "SelectEventTypeLabel": "Selecione o tipo de evento",
     "SelectEventTypePlaceholder": "Selecione o tipo de evento...",
     "Goal": "Gol",
@@ -18,9 +18,9 @@
     "SelectEventAssisterPlayerLabel": "Selecione o jogador que deu a assistência",
     "SelectEventAssisterPlayerPlaceholder": "Selecione o jogador...",
     "BlurwallMessageUserText": "A partida ainda não foi iniciada. Aguarde o início da partida para ver os eventos.",
-    "BlurwallMessageOrganizerText": "A partida ainda não começou. Deseja iniciar a partida agora?",
-    "ErroConfiguracaoPartida": "A partida não pode ser iniciada sem configuração. Por favor, configure a partida antes de iniciar.",
+    "BlurwallMessageOrganizerText": "A partida não pode ser iniciada sem configuração. Por favor, configure a partida antes de iniciar.",
     "JogadorObrigatorio": "O jogador é obrigatório.",
     "JogadoresDiferentes": "Os jogadores devem ser diferentes.",
-    "SucessoPostGol": "Gol registrado com sucesso."
+    "SucessoPostGol": "Gol registrado com sucesso.",
+    "DataPartidaNaoChegou": "A data da partida ainda não chegou."
 }

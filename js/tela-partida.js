@@ -171,8 +171,16 @@ const init = async () => {
 		return isOrganizer
 	}
 
+	const isMatchConfigured = async () => {
+		if (matchStartConditionsResults.date && matchStartConditionsResults.configured) {
+			return true
+		} else {
+			return false
+		}
+	}
+
 	async function carregarPartida() {
-		if (!isMatchStarted) {
+		if (!isMatchConfigured) {
 			blurWallEvents.classList.remove('d-none')
 
 			// Placeholder blurwall - Team 1
@@ -256,28 +264,32 @@ const init = async () => {
 			`
 			if (!isMatchOrganizer) {
 				blurWallEvents.innerHTML = `
-					<div class="blurwall-message-user w-50 text-center">
+					<div id="blurwall-message-user" class="w-50 text-center">
 						<span class="blurwall-message-user-text i18 fs-4 fw-semibold" key="BlurwallMessageUserText">${i18next.t("BlurwallMessageUserText")}</span>
 					</div>
 				`
 			} else {
-				blurWallEvents.innerHTML = `
-					<div class="blurwall-message-organizer w-50 text-center">
+				if (!matchStartConditionsResults.date) {
+					blurWallEvents.insertAdjacentHTML('beforeend', `
+						<div class="w-100 text-center">
+							<span class="i18" key="DataPartidaNaoChegou">${i18next.t("DataPartidaNaoChegou")}</span>
+						</div>
+					`)
+				}
+
+				if (!matchStartConditionsResults.configured) {
+					blurWallEvents.insertAdjacentHTML('beforeend', `
+					<div id="blurwall-message-organizer" class="w-50 text-center">
 						<span class="blurwall-message-organizer-text i18 fs-4 fw-semibold" key="BlurwallMessageOrganizerText">${i18next.t("BlurwallMessageOrganizerText")}</span>
-						<button id="start-match-btn"><span class="i18" key="IniciarPartida">${i18next.t("IniciarPartida")}</span></button>
+						<button id="configure-match-btn"><span class="i18" key="ConfigurarPartida">${i18next.t("ConfigurarPartida")}</span></button>
 					</div>
-				`
+					`)
+				}
 
-				const startMatchBtn = document.getElementById('start-match-btn')
-				startMatchBtn.addEventListener('click', () => {
-					if (!isMatchConfigured) {
-						blurWallEvents.insertAdjacentHTML('beforeend', `<span class="i18 mt-2 text-danger" key="ErroConfiguracaoPartida">${i18next.t("ErroConfiguracaoPartida")}</span>`)
-					} else {
-						// fetch put - Set match as started
+				const configureMatchBtn = document.getElementById('configure-match-btn')
 
-						// On success - Reload page
-						// location.reload()
-					}
+				configureMatchBtn.addEventListener('click', () => {
+					// window.location.href = `../link-tabela`
 				})
 			}
 		} else {
@@ -290,6 +302,54 @@ const init = async () => {
 			// Get all match informations
 			eventsWrapperTeam1.innerHTML = ''
 			eventsWrapperTeam2.innerHTML = ''
+
+			// Goals
+			const
+				matchGoals = await executarFetch(`matches/${matchId}/goals`, configuracaoFetch('GET')),
+				matchGoalsResults = matchGoals.results
+
+			matchGoalsResults.forEach(result => {
+				if (result.teamId == match[0].id) {
+					eventsWrapperTeam1.insertAdjacentHTML('beforeend', `
+						<div class="row flex-column p-3 my-2 match-details-content-event rounded-5 position-relative">
+							<div class="col event-player-name"><span class="fw-semibold text-black text-truncate d-block">Goal Maker</span></div>
+							<div class="col d-flex flex-row event-data">
+								<div class="event-type"><span class="text-muted">Gol</span></div>
+								<i class="bi bi-dot"></i>
+								<div class="event-time"><span class="text-muted">"32</span></div>
+							</div>
+							<div class="col position-absolute w-auto h-auto event-illustration">
+								<img src="../public/icons/sports_soccer.svg" alt="">
+							</div>
+						</div>
+					`)
+
+					eventsWrapperTeam2.insertAdjacentHTML('beforeend', `
+						<div class="row blank-space"></div>
+					`)
+				}
+
+				if (result.teamId == match[1].id) {
+					eventsWrapperTeam2.insertAdjacentHTML('beforeend', `
+						<div class="row flex-column p-3 my-2 match-details-content-event rounded-5 position-relative">
+							<div class="col event-player-name"><span class="fw-semibold text-black text-truncate d-block">Goal Maker</span></div>
+							<div class="col d-flex flex-row event-data">
+								<div class="event-type"><span class="text-muted">Gol</span></div>
+								<i class="bi bi-dot"></i>
+								<div class="event-time"><span class="text-muted">"32</span></div>
+							</div>
+							<div class="col position-absolute w-auto h-auto event-illustration">
+								<img src="../public/icons/sports_soccer.svg" alt="">
+							</div>
+						</div>
+					`)
+
+					eventsWrapperTeam1.insertAdjacentHTML('beforeend', `
+						<div class="row blank-space"></div>
+					`)
+				}
+				
+			});
 		}
 	}
 
@@ -322,6 +382,9 @@ const init = async () => {
 		dataPlayersTeam2 = await executarFetch(`teams/${match[1].id}/players`, configuracaoFetch('GET')),
 		playersTeam2 = dataPlayersTeam2.results
 
+	const
+		matchStartConditions = await executarFetch(`matches/${matchId}/start-conditions`, configuracaoFetch('GET')),
+		matchStartConditionsResults = matchStartConditions.results
 	console.log(match)
 	loader.hide()
 
@@ -339,9 +402,6 @@ const init = async () => {
     changeConfigOptionsContext(0)
 	await carregarPartida()
 	console.log(sessionUserInfo);
-	matchManagementSystem()
-
-
 }
 
 document.addEventListener('header-carregado', init)

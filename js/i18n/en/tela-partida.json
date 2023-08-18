@@ -3,7 +3,7 @@
     "Eventos": "Events",
     "Jogadores": "Players",
     "Administrar": "Manage",
-    "IniciarPartida": "Start Match",
+    "ConfigurarPartida": "Configure Match",
     "SelectEventTypeLabel": "Select the event type",
     "SelectEventTypePlaceholder": "Select the event type...",
     "Goal": "Goal",
@@ -18,9 +18,9 @@
     "SelectEventAssisterPlayerLabel": "Select the assister player",
     "SelectEventAssisterPlayerPlaceholder": "Select the assister player...",
     "BlurwallMessageUserText": "The match has not yet started. Wait for the start of the match to see the events.",
-    "BlurwallMessageOrganizerText": "The match hasn't started yet. Do you want to start the match now?",
-    "ErroConfiguracaoPartida": "The match cannot be started without configuration. Please configure the match before starting.",
+    "BlurwallMessageOrganizerText": "The match cannot be started without configuration. Please configure the match before starting.",
     "JogadorObrigatorio": "The player is required.",
     "JogadoresDiferentes": "The players must be different.",
-    "SucessoPostGol": "Goal successfully registered."
+    "SucessoPostGol": "Goal successfully registered.",
+    "DataPartidaNaoChegou": "The match date has not yet arrived."
 }
