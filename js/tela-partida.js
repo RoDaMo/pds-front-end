@@ -75,6 +75,13 @@ const init = async () => {
 									${players.map(player => `<option value="${player.id}">${player.name}</option>`)}
 								</select>
 
+								${(match.sportId == 1) ? `
+									<div class="form-group">
+										<label for="input-event-time" class="i18" key="InputEventTimeLabel">${i18next.t("InputEventTimeLabel")}</label>
+										<input type="number" class="form-control" id="input-event-time">
+									</div>
+								` : ''}
+
 								<div class="form-check">
 									<input class="form-check-input" type="checkbox" value="" id="checkbox-event-assister-player">
 									<label class="form-check-label i18" key="CheckboxEventAssisterPlayerLabel" for="checkbox-event-assister-player">${i18next.t("CheckboxEventAssisterPlayerLabel")}</label>
@@ -143,6 +150,12 @@ const init = async () => {
 										<option value="" selected class="i18" key="SelectEventPlayerPlaceholder">${i18next.t("SelectEventPlayerPlaceholder")}</option>
 										${players.map(player => `<option value="${player.id}">${player.name}</option>`)}
 									</select>
+									${(match.sportId == 1) ? `
+										<div class="form-group">
+											<label for="input-event-time" class="i18" key="InputEventTimeLabel">${i18next.t("InputEventTimeLabel")}</label>
+											<input type="number" class="form-control" id="input-event-time">
+										</div>
+									` : ''}
 								`)
 
 								const selectEventPlayer = matchManagementForm.querySelector('select#select-event-player')

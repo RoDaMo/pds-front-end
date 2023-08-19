@@ -79,7 +79,6 @@ const init = async () => {
 			bairro = document.getElementById('config-championship-bairro-input'),
 			linkRegulamento = document.getElementById('regulamento-existente'),
 			esporte = document.getElementById('config-championship-esporte-input'),
-			form = document.getElementById('update-profile-form'),
 			quantidadeJogadores = document.getElementById('quantidade-jogadores'),
 			configChampionshipDropZone = document.getElementById('config-championship-drop-zone')
 
@@ -713,6 +712,22 @@ const init = async () => {
 		}
 	}
 
+	const disableForm = () => {
+		let formElements = form.elements;
+		
+		for (let i = 0; i < formElements.length; i++) {
+			formElements[i].disabled = true;
+		}
+	}
+
+	const enableForm = () => {
+		let formElements = form.elements;
+		
+		for (let i = 0; i < formElements.length; i++) {
+			formElements[i].disabled = false;
+		}
+	}
+
 	const bracketExists = async championshipId => {
 		const configFetch = configuracaoFetch('GET')
 
@@ -727,10 +742,10 @@ const init = async () => {
 		if (response.succeed) {
 			if (response.results) {
 				// se estiver criado, bloquear a edição do campeonado 
-
+				disableForm()
 
 				bracketBtnWrapper.innerHTML = `
-					<button data-bs-toggle="modal" data-bs-target="#deleteBracketModal" id="delete-bracket-btn" class="btn btn-danger border-0 d-flex justify-content-center align-items-center">
+					<button data-bs-toggle="modal" data-bs-target="#bracketDeleteModal" id="delete-bracket-btn" class="btn btn-danger border-0 d-flex justify-content-center align-items-center">
 						<i class="bi bi-trash me-2"></i>
 						<span class="i18 fw-semibold" key="ExcluirChaveamento">${i18next.t("ExcluirChaveamento")}</span>
 					</button>
@@ -739,12 +754,12 @@ const init = async () => {
 					await deleteBracket(campeonato.id)
 				})
 			} else {
-				// se não estiver criado, permitir a criação do chaveamento
-
+				// se não estiver criado, permitir a edição do campeonato
+				enableForm()
 				
 				bracketBtnWrapper.innerHTML = `
-					<button data-bs-toggle="modal" data-bs-target="#createBracketModal" id="create-bracket-btn" class="btn btn-success border-0 d-flex justify-content-center align-items-center">
-						<i class="bi bi-plus me-2"></i>
+					<button disabled data-bs-toggle="modal" data-bs-target="#bracketCreateModal" id="create-bracket-btn" class="btn border-0 d-flex justify-content-center align-items-center chaveamento-btn">
+						<i class="bi bi-diagram-2 me-2"></i>
 						<span class="i18 fw-semibold" key="CriarChaveamento">${i18next.t("CriarChaveamento")}</span>
 					</button> 
 				`
@@ -986,12 +1001,12 @@ const init = async () => {
 		menuConfig = document.getElementsByClassName('menu-config'),
 		mensagemErro = document.getElementById('mensagem-erro'),
 		championshipId = document.getElementById('usernameChampionshipId').textContent,
-		createBracketBtn = document.getElementById('create-bracket-btn'),
 		confirmCreateBracketBtn = document.getElementById('confirm-create-bracket-btn'),
 		confirmDeleteBracketBtn = document.getElementById('confirm-delete-bracket-btn'),
 		modalCreateSuccessBracket = document.getElementById('modalCriacaoChaveamentoSucesso'),
 		bracketCreateModal = document.getElementById('bracketCreateModal'),
-		bracketBtnWrapper = document.getElementById('bracket-btn-wrapper')
+		bracketBtnWrapper = document.getElementById('bracket-btn-wrapper'),
+		form = document.getElementById('update-profile-form')
 		
         let modalCreateSuccessBracketBT = new bootstrap.Modal(modalCreateSuccessBracket, {keyboard: false})
 
@@ -1014,7 +1029,9 @@ const init = async () => {
 		})
 	}
 
-	async function checkBracketCreationAvailability () {
+	const checkBracketCreationAvailability = async () => {
+		const createBracketBtn = document.getElementById('create-bracket-btn')
+
 		const dados = await executarFetch(`championships/${championshipId}`, configuracaoFetch('GET')),
 		campeonato = dados.results
 
@@ -1037,6 +1054,7 @@ const init = async () => {
 	await inicializarPaginaTimes()
 	await inicializarPaginaExclusao()
 	await bracketExists(campeonato.id)
+	checkBracketCreationAvailability()
 	//#endregion
 }
 
