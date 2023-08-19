@@ -385,52 +385,84 @@ const init = async () => {
 				return a.time - b.time
 			})
 
-			itsGoal = false
-			itsCard = false
-
 			// Loop through the array
-			matchEvents.forEach(event => {
-				// Todo
-					// Get the player name
-					// Get the event time
-					// Change the event icon based on the event type
-					// Fix templates 
-					
+			matchEvents.forEach(event => {		
+				let eventData = ''	
+				let eventIllustration = ''	
+
+				if (matchSport == 1) {
+					if (event.type == 'goal') {
+						eventData = `
+							<div class="event-type"><span class="text-muted i18" key="Gol">${i18next.t("Gol")}</span></div>
+							<i class="bi bi-dot"></i>
+							<div class="event-time"><span class="text-muted">${event.Time}</span></div>
+						`
+
+						eventIllustration = `
+							<img src="../public/icons/sports_soccer.svg" alt="">
+						`
+					} else if (event.type == 'card') {
+						eventData = `
+							<div class="event-type"><span class="text-muted i18" key="Falta">${i18next.t("Falta")}</span></div>
+							<i class="bi bi-dot"></i>
+							<div class="event-time"><span class="text-muted">${event.Time}</span></div>
+						`
+
+						if (event.cardType == 'red') {
+							eventIllustration = `
+								<img src="../public/icons/red-card.svg" alt="">
+							`
+						} else if (event.cardType == 'yellow') {
+							eventIllustration = `
+								<img src="../public/icons/yellow-card.svg" alt="">
+							`
+						}
+					}
+				} else if (matchSport == 2) {
+					if (event.type == 'goal') {
+						eventData = `
+							<div class="event-type"><span class="text-muted i18" key="Ponto">${i18next.t("Ponto")}</span></div>
+						`
+
+						eventIllustration = `
+							<img src="../public/icons/sports_volleyball.svg" alt="">
+						`
+					} else if (event.type == 'card') {
+						eventData = `
+							<div class="event-type"><span class="text-muted i18" key="Falta">${i18next.t("Falta")}</span></div>
+						`
+
+						if (event.cardType == 'red') {
+							eventIllustration = `
+								<img src="../public/icons/red-card.svg" alt="">
+							`
+						} else if (event.cardType == 'yellow') {
+							eventIllustration = `
+								<img src="../public/icons/yellow-card.svg" alt="">
+							`
+						}
+					}
+				}
 				// Verify if the event is from team 1 or team 2
 
 				// If it's a team 1 event, add the event to the team 1 eventsWrapper and add a blank space on the team 2 eventsWrapper
-				if (event.teamId == match[0].id) {
-					// If it's a goal, insert the goal event template
-					if (event.type == 'goal') {
-						eventsWrapperTeam1.insertAdjacentHTML('beforeend', `
-							<div class="row flex-column p-3 my-2 match-details-content-event rounded-5 position-relative">
-								<div class="col event-player-name"><span class="fw-semibold text-black text-truncate d-block">${player.name}</span></div>
-								<div class="col d-flex flex-row event-data">
-									<div class="event-type"><span class="text-muted i18" key="Gol">${i18next.t("Gol")}</span></div>
-									<i class="bi bi-dot"></i>
-									<div class="event-time"><span class="text-muted">"32</span></div>
-								</div>
-								<div class="col position-absolute w-auto h-auto event-illustration">
-									<img src="../public/icons/sports_soccer.svg" alt="">
-								</div>
+				if (event.teamId == match[0].id) {					
+					eventsWrapperTeam1.insertAdjacentHTML('beforeend', `
+						<div class="row flex-column p-3 my-2 match-details-content-event rounded-5 position-relative">
+							<div class="col event-player-name"><span class="fw-semibold text-black text-truncate fs-5 d-block">${event.PlayerTempId}</span></div>
+							${(event.type == 'goal') ?
+								(event.AssisterPlayerTempId) ? `
+									<div class="col event-player-name"><span class="fw-semibold text-black text-truncate d-block">${event.AssisterPlayerTempId}</span></div>
+								` : ''
+							: ''}
+							<div class="col d-flex flex-row event-data">
+								${eventData}
 							</div>
-						`)
-
-					} else if (event.type == 'card') {
-						eventsWrapperTeam1.insertAdjacentHTML('beforeend', `
-							<div class="row flex-column p-3 my-2 match-details-content-event rounded-5 position-relative">
-								<div class="col event-player-name"><span class="fw-semibold text-black text-truncate d-block">Goal Maker</span></div>
-								<div class="col d-flex flex-row event-data">
-									<div class="event-type"><span class="text-muted i18" key="Falta">${i18next.t("Falta")}</span></div>
-									<i class="bi bi-dot"></i>
-									<div class="event-time"><span class="text-muted">"32</span></div>
-								</div>
-								<div class="col position-absolute w-auto h-auto event-illustration">
-									<img src="../public/icons/sports_soccer.svg" alt="">
-								</div>
+							<div class="col position-absolute w-auto h-auto event-illustration">
+								${eventIllustration}
 							</div>
-						`)
-					}
+						</div>
+					`)
 
 					eventsWrapperTeam2.insertAdjacentHTML('beforeend', `
 						<div class="row blank-space"></div>
@@ -438,36 +470,22 @@ const init = async () => {
 				
 				// If it's a team 2 event, add the event to the team 2 eventsWrapper and add a blank space on the team 1 eventsWrapper
 				} else if (event.teamId == match[1].id) {
-					if (event.type == 'goal') {
-						eventsWrapperTeam2.insertAdjacentHTML('beforeend', `
-							<div class="row flex-column p-3 my-2 match-details-content-event rounded-5 position-relative">
-								<div class="col event-player-name"><span class="fw-semibold text-black text-truncate d-block">Goal Maker</span></div>
-								<div class="col d-flex flex-row event-data">
-									<div class="event-type"><span class="text-muted i18" key="Gol">${i18next.t("Gol")}</span></div>
-									<i class="bi bi-dot"></i>
-									<div class="event-time"><span class="text-muted">"32</span></div>
-								</div>
-								<div class="col position-absolute w-auto h-auto event-illustration">
-									<img src="../public/icons/sports_soccer.svg" alt="">
-								</div>
+					eventsWrapperTeam2.insertAdjacentHTML('beforeend', `
+						<div class="row flex-column p-3 my-2 match-details-content-event rounded-5 position-relative">
+							<div class="col event-player-name"><span class="fw-semibold text-black text-truncate fs-5 d-block">${event.PlayerTempId}</span></div>
+							${(event.type == 'goal') ?
+								(event.AssisterPlayerTempId) ? `
+									<div class="col event-player-name"><span class="fw-semibold text-black text-truncate d-block">${event.AssisterPlayerTempId}</span></div>
+								` : ''
+							: ''}
+							<div class="col d-flex flex-row event-data">
+								${eventData}
 							</div>
-						`)
-
-					} else if (event.type == 'card') {
-						eventsWrapperTeam2.insertAdjacentHTML('beforeend', `
-							<div class="row flex-column p-3 my-2 match-details-content-event rounded-5 position-relative">
-								<div class="col event-player-name"><span class="fw-semibold text-black text-truncate d-block">Goal Maker</span></div>
-								<div class="col d-flex flex-row event-data">
-									<div class="event-type"><span class="text-muted i18" key="Falta">${i18next.t("Falta")}</span></div>
-									<i class="bi bi-dot"></i>
-									<div class="event-time"><span class="text-muted">"32</span></div>
-								</div>
-								<div class="col position-absolute w-auto h-auto event-illustration">
-									<img src="../public/icons/sports_soccer.svg" alt="">
-								</div>
+							<div class="col position-absolute w-auto h-auto event-illustration">
+								${eventIllustration}
 							</div>
-						`)
-					}	
+						</div>
+					`)
 
 					eventsWrapperTeam1.insertAdjacentHTML('beforeend', `
 						<div class="row blank-space"></div>
@@ -509,6 +527,10 @@ const init = async () => {
 	const
 		matchStartConditions = await executarFetch(`matches/${matchId}/start-conditions`, configuracaoFetch('GET')),
 		matchStartConditionsResults = matchStartConditions.results
+
+	const
+		teamFetch = await executarFetch(`teams/${match[0].id}`, configuracaoFetch('GET')),
+		matchSport = teamFetch.results.sportId
 	console.log(match)
 	loader.hide()
 

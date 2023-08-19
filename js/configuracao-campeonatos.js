@@ -689,21 +689,71 @@ const init = async () => {
 		if (response.succeed) {
 			notificacaoSucesso(i18next.t("SucessoCriacaoChaveamento"))
 
-			modalSuccessBracketBT.show()
+			modalCreateSuccessBracketBT.show()
+
+			bracketExists(championshipId)
 		}
 	}
 
-	// const bracketbtnChange = async championshipId => {
-	// 	// fetch pra verificar se o chaveamento está criado
-	// 	// se estiver criado, bloquear a edição do campeonado 
-	// 	// dentro do fetch, se estiver criado, muda o botão de criar chaveamento para excluir chaveamento | innerHTML (#bracket-btn-wrapper)
-	// 		// bracketBtnWrapper.innerHTML = <button data-bs-toggle="modal" data-bs-target="#deleteBracketModal" id="delete-bracket-btn" class="btn btn-danger border-0 d-flex justify-content-center align-items-center"><i class="bi bi-trash me-2"></i><span class="i18 fw-semibold" key="ExcluirChaveamento">Excluir Chaveamento</span></button> 
-	// 		// document.getElementById('delete-bracket-btn').addEventListener('click', async () => {
-	// 		// 	await deleteBracket(campeonato.id)
-	// 		// 	bracketBtnWrapper.innerHTML = `<button type="button" class="btn btn-primary" id="create-bracket-btn"><span class="i18" key="CriarChaveamento">${i18next.t("CriarChaveamento")}</span></button>`
-	// 		// 	checkBracketCreationAvailability()
-	// 		// })
-	// }
+	const deleteBracket = async championshipId => {
+		const callbackStatus = (data) => {
+			notificacaoErro(data.results)
+		}
+
+		loader.show()
+		const configFetch = configuracaoFetch('DELETE', parseInt(championshipId)),
+			response = await executarFetch('bracketing/delete', configFetch, callbackStatus)
+
+		loader.hide()
+
+		if (response.succeed) {
+			notificacaoSucesso(i18next.t("SucessoExclusaoChaveamento"))
+
+			bracketExists(championshipId)
+		}
+	}
+
+	const bracketExists = async championshipId => {
+		const configFetch = configuracaoFetch('GET')
+
+		const callbackStatus = (data) => {
+			notificacaoErro(data.results)
+		}
+
+		loader.show()
+			const response = await executarFetch(`bracketing/exists/${championshipId}`, configFetch, callbackStatus)
+		loader.hide()
+
+		if (response.succeed) {
+			if (response.results) {
+				// se estiver criado, bloquear a edição do campeonado 
+
+
+				bracketBtnWrapper.innerHTML = `
+					<button data-bs-toggle="modal" data-bs-target="#deleteBracketModal" id="delete-bracket-btn" class="btn btn-danger border-0 d-flex justify-content-center align-items-center">
+						<i class="bi bi-trash me-2"></i>
+						<span class="i18 fw-semibold" key="ExcluirChaveamento">${i18next.t("ExcluirChaveamento")}</span>
+					</button>
+				` 
+				confirmDeleteBracketBtn.addEventListener('click', async () => {
+					await deleteBracket(campeonato.id)
+				})
+			} else {
+				// se não estiver criado, permitir a criação do chaveamento
+
+				
+				bracketBtnWrapper.innerHTML = `
+					<button data-bs-toggle="modal" data-bs-target="#createBracketModal" id="create-bracket-btn" class="btn btn-success border-0 d-flex justify-content-center align-items-center">
+						<i class="bi bi-plus me-2"></i>
+						<span class="i18 fw-semibold" key="CriarChaveamento">${i18next.t("CriarChaveamento")}</span>
+					</button> 
+				`
+				confirmCreateBracketBtn.addEventListener('click', async () => {
+					await createBracket(campeonato.id)
+				})
+			}
+		}
+	}
 
 	const putCampeonato = async body => {
 		const callbackServidor = data => {
@@ -938,13 +988,14 @@ const init = async () => {
 		championshipId = document.getElementById('usernameChampionshipId').textContent,
 		createBracketBtn = document.getElementById('create-bracket-btn'),
 		confirmCreateBracketBtn = document.getElementById('confirm-create-bracket-btn'),
-		modalSuccessBracket = document.getElementById('modalCriacaoChaveamentoSucesso'),
-		bracketModal = document.getElementById('bracketModal'),
+		confirmDeleteBracketBtn = document.getElementById('confirm-delete-bracket-btn'),
+		modalCreateSuccessBracket = document.getElementById('modalCriacaoChaveamentoSucesso'),
+		bracketCreateModal = document.getElementById('bracketCreateModal'),
 		bracketBtnWrapper = document.getElementById('bracket-btn-wrapper')
 		
-        let modalSuccessBracketBT = new bootstrap.Modal(modalSuccessBracket, {keyboard: false})
+        let modalCreateSuccessBracketBT = new bootstrap.Modal(modalCreateSuccessBracket, {keyboard: false})
 
-		let bracketModalBT = new bootstrap.Modal(bracketModal, {keyboard: false})
+		let bracketCreateModalBT = new bootstrap.Modal(bracketCreateModal, {keyboard: false})
 
 	loader.show()
 	const dados = await executarFetch(`championships/${championshipId}`, configuracaoFetch('GET')),
@@ -978,14 +1029,14 @@ const init = async () => {
 	confirmCreateBracketBtn.addEventListener('click', async () => {
 		await createBracket(campeonato.id)
 
-		bracketModalBT.hide()
+		bracketCreateModalBT.hide()
 	})
 
 	changeConfigOptionsContext(0)
 	inicializarCampos()
 	await inicializarPaginaTimes()
 	await inicializarPaginaExclusao()
-	await bracketBtnChange()
+	await bracketExists(campeonato.id)
 	//#endregion
 }
 

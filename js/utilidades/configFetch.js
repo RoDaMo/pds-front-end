@@ -1,4 +1,4 @@
-export const api = "https://playoffs-api.up.railway.app/"
+export const api = "https://www.api.playoffs.app.br/"
 export const configuracaoFetch = (method, data = null, uploadArquivo = false, body = true) => {
     const lng = localStorage.getItem('lng')
     const config = {

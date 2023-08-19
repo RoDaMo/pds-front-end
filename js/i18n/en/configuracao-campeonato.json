@@ -106,15 +106,20 @@
     "DropZoneText": "Drag and drop the image here",
     "PaginaChaveamento": "Bracket page",
     "CriarChaveamento": "Create bracket",
+    "ExcluirChaveamento": "Delete bracket",
     "ChaveamentoSucesso": "Bracket created successfully!",
     "AgoraPode": "Now you can",
     "ContinuarNaPagina": "Stay here",
     "IrParaChaveamento": "Go to bracket page",
-    "TextoModalChaveamento1": "Please be aware that once the bracket is created, you will not be able to change any of the championship settings.",
-    "TextoModalChaveamento2": "If you wish to edit the championship settings after the bracket is generated, you will need to delete the bracket, which will result in the removal of all generated matches.",
-    "TextoModalChaveamento3": "Do you still want to continue and create the bracket with the current settings?",
+    "TextoCriarModalChaveamento1": "Please be aware that once the bracket is created, you won't be able to change any of the championship settings.",
+    "TextoCriarModalChaveamento2": "If you wish to edit the championship settings later on, you will need to delete the bracket, which will result in the removal of all generated matches.",
+    "TextoCriarModalChaveamento3": "Do you still wish to proceed and create the bracket with the current settings?",
+    "TextoExcluirModalChaveamento1": "Please be aware that once the bracket is deleted, you won't be able to view the generated matches anymore.",
+    "TextoExcluirModalChaveamento2": "If you wish to view the matches again, you will need to create a new bracket, which will result in new matches.",
+    "TextoExcluirModalChaveamento3": "Do you still wish to proceed and delete the bracket?",
     "TextoModalChaveamentoSucesso": "Congratulations! Your bracket has been successfully created.",
-    "SucessoCriacaoChaveamento": "Bracket created successfully!"
+    "SucessoCriacaoChaveamento": "Bracket created successfully!",
+    "SucessoExclusaoChaveamento": "Bracket deleted successfully!"
     
 
 }

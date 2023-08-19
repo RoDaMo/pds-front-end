@@ -106,15 +106,20 @@
     "DropZoneText": "Arraste e solte a imagem aqui",
     "PaginaChaveamento": "Página de chaveamento",
     "CriarChaveamento": "Criar chaveamento",
+    "ExcluirChaveamento": "Excluir chaveamento",
     "ChaveamentoSucesso": "Chaveamento criado com sucesso!",
     "AgoraPode": "Agora você pode",
     "ContinuarNaPagina": "Ficar aqui",
     "IrParaChaveamento": "Ir para o chaveamento",
-    "TextoModalChaveamento1": "Por favor, esteja ciente de que, uma vez criado o torneio, você não poderá alterar nenhuma das configurações do campeonato.",
-    "TextoModalChaveamento2": "Caso deseje editar as configurações do torneio após o chaveamento ter sido gerado, será necessário excluir o torneio, o que resultará na remoção de todas as partidas geradas.",
-    "TextoModalChaveamento3": "Ainda deseja continuar e criar o torneio com as configurações atuais?",
+    "TextoCriarModalChaveamento1": "Por favor, esteja ciente de que, uma vez criado o chaveamento, você não poderá alterar nenhuma das configurações do campeonato.",
+    "TextoCriarModalChaveamento2": "Caso deseje editar as configurações do campeonato posteriormente, será necessário excluir o chaveamento, o que resultará na remoção de todas as partidas geradas.",
+    "TextoCriarModalChaveamento3": "Ainda deseja continuar e criar o chaveamento com as configurações atuais?",
+    "TextoExcluirModalChaveamento1": "Por favor, esteja ciente de que, uma vez excluído o chaveamento, você não poderá mais visualizar as partidas geradas.",
+    "TextoExcluirModalChaveamento2": "Caso deseje visualizar as partidas novamente, será necessário criar um novo chaveamento que resultará em novas partidas.",
+    "TextoExcluirModalChaveamento3": "Ainda deseja continuar e excluir o chaveamento?",
     "TextoModalChaveamentoSucesso": "Parabéns! Seu chaveamento foi criado com sucesso.",
-    "SucessoCriacaoChaveamento": "Chaveamento criado com sucesso!"
+    "SucessoCriacaoChaveamento": "Chaveamento criado com sucesso!",
+    "SucessoExclusaoChaveamento": "Chaveamento excluído com sucesso!"
     
 
 }
