@@ -153,12 +153,13 @@ const init = async () => {
 									${(match.sportId == 1) ? `
 										<div class="form-group">
 											<label for="input-event-time" class="i18" key="InputEventTimeLabel">${i18next.t("InputEventTimeLabel")}</label>
-											<input type="number" class="form-control" id="input-event-time">
+											<input min="0" type="number" class="form-control" id="input-event-time">
 										</div>
 									` : ''}
 								`)
 
 								const selectEventPlayer = matchManagementForm.querySelector('select#select-event-player')
+								const inputEventTime = matchManagementForm.querySelector('input#input-event-time')
 
 								const postCardValidator = new JustValidate(matchManagementForm, {
 									validateBeforeSubmitting: true,
@@ -169,6 +170,12 @@ const init = async () => {
 										{
 											rule: 'required',
 											errorMessage: `<span class="i18" key="JogadorObrigatorio">${i18next.t("JogadorObrigatorio")}</span>`,
+										}
+									])
+									.addField(inputEventTime, [
+										{
+											rule: 'required',
+											errorMessage: `<span class="i18" key="TempoObrigatorio">${i18next.t("TempoObrigatorio")}</span>`,
 										}
 									])
 									.onSuccess(async e => {

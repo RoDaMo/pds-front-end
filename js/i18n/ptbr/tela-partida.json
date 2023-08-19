@@ -7,6 +7,8 @@
     "SelectEventTypeLabel": "Selecione o tipo de evento",
     "SelectEventTypePlaceholder": "Selecione o tipo de evento...",
     "Goal": "Gol",
+    "Falta": "Falta",
+    "Ponto": "Ponto",
     "YellowCard": "Cartão Amarelo",
     "RedCard": "Cartão Vermelho",
     "Substitution": "Substituição",
@@ -22,5 +24,7 @@
     "JogadorObrigatorio": "O jogador é obrigatório.",
     "JogadoresDiferentes": "Os jogadores devem ser diferentes.",
     "SucessoPostGol": "Gol registrado com sucesso.",
-    "DataPartidaNaoChegou": "A data da partida ainda não chegou."
+    "DataPartidaNaoChegou": "A data da partida ainda não chegou.",
+    "TempoObrigatorio": "O tempo do evento é obrigatório.",
+    "InputEventTimeLabel": "Tempo do evento (minutos)"
 }

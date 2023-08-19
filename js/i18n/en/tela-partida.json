@@ -7,6 +7,8 @@
     "SelectEventTypeLabel": "Select the event type",
     "SelectEventTypePlaceholder": "Select the event type...",
     "Goal": "Goal",
+    "Falta": "Foul",
+    "Ponto": "Point",
     "YellowCard": "Yellow Card",
     "RedCard": "Red Card",
     "Substitution": "Substitution",
@@ -22,5 +24,7 @@
     "JogadorObrigatorio": "The player is required.",
     "JogadoresDiferentes": "The players must be different.",
     "SucessoPostGol": "Goal successfully registered.",
-    "DataPartidaNaoChegou": "The match date has not yet arrived."
+    "DataPartidaNaoChegou": "The match date has not yet arrived.",
+    "TempoObrigatorio": "The event time is required.",
+    "InputEventTimeLabel": "Event time (min)"
 }
