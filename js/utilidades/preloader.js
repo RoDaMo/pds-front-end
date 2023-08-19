@@ -20,6 +20,7 @@ export class preLoader extends HTMLElement {
         transition: opacity 0.5s ease-in-out;
         opacity: 1;
         pointer-events: auto;
+        z-index: 9999;
       }
 
       body.loaded .preloader {

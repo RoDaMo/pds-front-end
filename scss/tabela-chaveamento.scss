@@ -29,29 +29,91 @@
     align-items: center;
 }
 
-.seta-botao{
+.seta-botao, .seta-botao-rodada{
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);
 }
 
+.seta-botao-rodada {
+    border: 3px solid $play-cor-fundos!important;
+}
+
+.partida-rodada {
+    border-radius: 10px;
+}
+
+.badge-ultima-partida {
+    div {
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+    }
+
+    .vencedor, .perdedor, .neutro {
+        cursor: pointer;
+    }
+}
+
+.vencedor {
+    background-color: $success;
+}
+
+.perdedor {
+    background-color: $danger;
+}
+
+.neutro {
+    background-color: $gray-400;
+}
+
+.tabela-customizada {
+    border-color: $play-cor-secundaria!important;
+
+
+    .cabecalho-customizado {
+        border-bottom: 3px solid $play-cor-secundaria;
+    }
+
+    td,th {
+        vertical-align: middle;
+    }
+}
+
+.time-vencedor {
+    border: 2px solid $success;
+}
+.time-perdedor {
+    border: 2px solid $danger;
+}
+
+.coluna-fixa {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    background-color: $play-cor-fundos!important;
+}
+
+.borda-leve {
+    border-radius: 20px;
+}
 
 @media (max-width: 715px) {
     .custom-container {
-        background: none;
-        padding: 0;
-        border-radius: 0;
-        box-shadow: none;
-        overflow: visible;
+        // background: none;
+        // padding: 0;
+        // border-radius: 0;
+        // box-shadow: none;
+        // overflow: visible;
     }
     
     .inner-container {
-        margin: 0;
+        // margin: 0;
         background-color: transparent; 
-        padding: 10px;
+        // padding: 10px;
         border-radius: 0;
-        position: static;
+        // position: static;
         width: auto;
         height: auto;
-        transform: scale(1.2);
+        // transform: scale(1.2);
         transform-origin: center center;
     }
     
@@ -91,6 +153,21 @@
 
     .custom-container2 .row {
         flex-direction: column;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .coluna-fixa {
+        left: -17px;
+        top: -6px;
+    }
+    .borda-top-lg {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+    .borda-bottom-lg {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
     }
 }
 
