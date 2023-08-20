@@ -6,6 +6,9 @@ import purgeCSSPlugin from '@fullhuman/postcss-purgecss'
 const isDev = process.env.NODE_ENV === 'development'
 
 export default defineConfig({
+  esbuild: {
+    target: 'es2015'
+  },
   plugins: [
     purgeCSSPlugin({
       content: ['./**/*.html']
