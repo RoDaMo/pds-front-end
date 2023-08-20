@@ -120,6 +120,14 @@ body {
                     }
                 }
             }
+
+            @include media-breakpoint-down(sm) {
+                #match-details-options {
+                    button {
+                        font-size: 0.8rem;
+                    }
+                }
+            }
         }
 
         @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
