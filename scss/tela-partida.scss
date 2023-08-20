@@ -19,18 +19,63 @@ body {
     }
 }
 
+@include media-breakpoint-down(sm) {
+    .m-team-name {
+        font-size: 0.8rem;
+    }
+
+    .m-team-img-wrapper {
+        max-width: 4rem;
+        height: 4rem;
+        min-width: 4rem;
+    }
+}
+
+
+.m-player-img-wrapper {
+    max-width: 4rem;
+    height: 4rem;
+    min-width: 4rem;
+
+    .m-player-img {
+        min-width: 100%;
+    }
+}
+
 #vertical-line {
     border-left: 1px solid rgba(0, 0, 0, 0.2);
     height: 100%;
 }
 
-#aggregate-score-wrapper {
-    margin-bottom: -0.7rem;
-}
-
 #score-wrapper {
     background-color: $white;
     box-shadow: 0px 0px 90px 20px rgba(0, 0, 0, 0.1);
+
+    #aggregate-score-wrapper {
+        margin-bottom: -0.7rem;
+
+        #aggregate-score {
+            font-size: 1.2rem;
+        }
+
+        @include media-breakpoint-down(sm) {
+            #aggregate-score {
+                font-size: 1rem;
+            }
+        }
+    }
+
+    #match-score-wrapper {
+        #match-score {
+            font-size: 2.5rem;
+        }
+
+        @include media-breakpoint-down(sm) {
+            #match-score {
+                font-size: 1.5rem;
+            }
+        }
+    }
 }
 
 #match-details-wrapper {
@@ -97,7 +142,6 @@ body {
         }
     
         #match-details-content-wrapper {                
-
             #match-details-content {
                 #match-details-content-events {
                     min-height: 39rem;
@@ -112,6 +156,62 @@ body {
                             height: 2rem;
                             
                             right: 0;
+                        }
+                    }
+                }
+
+                #match-details-content-players {
+                    #match-details-content-players-team2 {
+                        .match-details-content-player {
+                            justify-content: flex-end;
+                        }
+                    }
+
+                    #match-details-content-players-team1 {
+                        .match-details-content-player {
+                            justify-content: flex-start;
+                        }
+                    }
+
+                    .match-details-content-player {
+                        background-color: $gray-300;
+
+                        @include media-breakpoint-down(sm) {
+                            justify-content: center;
+                        }
+
+                        .m-player-info {
+                            @include media-breakpoint-up(lg) {
+                                .m-player-info-text {
+                                    width: 11rem;
+                                }
+                            }
+
+                            @include media-breakpoint-up(xl) {
+                                .m-player-info-text {
+                                    width: 17rem;
+                                }
+                            }
+                            
+                            @include media-breakpoint-only(md) {
+                                .m-player-info-text {
+                                    width: 8rem;
+                                }
+                            }
+
+                            @include media-breakpoint-down(sm) {
+                                .m-player-name {
+                                    font-size: 0.8rem;
+                                }
+
+                                .m-player-position {
+                                    font-size: 0.8rem;
+                                }
+
+                                .m-player-number {
+                                    font-size: 0.8rem;
+                                }
+                            }
                         }
                     }
                 }

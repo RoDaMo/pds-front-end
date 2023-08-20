@@ -236,6 +236,54 @@ const init = async () => {
 		}
 	}
 
+	const listPlayers = async () => {
+		const team1PlayersList = document.querySelector('#match-details-content-players-team1')
+		const team2PlayersList = document.querySelector('#match-details-content-players-team2')
+
+		playersTeam1.forEach(player => {
+			team1PlayersList.insertAdjacentHTML('beforeend', `
+				<div class="row row-cols-1 row-cols-md-2 align-items-center p-2 flex-column flex-md-row my-2 rounded-5 match-details-content-player">
+					<div class="col m-player-img-wrapper me-md-2 me-0 position-relative d-flex justify-content-center overflow-hidden border border-2 rounded-circle">
+						<img class="m-player-img position-absolute img-fluid w-100 h-100" src="${player.picture}" alt="">
+					</div>
+					<div class="row col justify-content-center align-items-center flex-column w-auto m-player-info">
+						<div class="col p-0 text-center text-md-start">
+							<span class="m-player-name m-player-info-text fw-semibold text-black text-truncate d-block">${player.name}</span>
+						</div>
+						<div class="col p-0 text-center text-md-start">
+							<span class="m-player-position m-player-info-text text-muted text-truncate d-block">${playerPosition}</span>
+						</div>
+						<div class="col p-0 text-center text-md-start">
+							<span class="m-player-number m-player-info-text text-muted text-truncate d-block">${player.number}</span>
+						</div>
+					</div>
+				</div>
+			`)
+		})
+
+		playersTeam2.forEach(player => {
+			team2PlayersList.insertAdjacentHTML('beforeend', `
+				<div class="row row-cols-1 row-cols-md-2 align-items-center p-2 flex-column flex-md-row my-2 rounded-5 match-details-content-player">
+					<div class="col m-player-img-wrapper order-1 order-md-2 ms-md-2 ms-0 position-relative d-flex justify-content-center overflow-hidden border border-2 rounded-circle">
+						<img class="m-player-img position-absolute img-fluid w-100 h-100" src="${player.picture}" alt="">
+					</div>
+					<div class="row col order-2 order-md-1 justify-content-center align-items-center flex-column w-auto m-player-info">
+						<div class="col p-0 text-center text-md-end">
+							<span class="m-player-name m-player-info-text fw-semibold text-black text-truncate d-block">${player.name}</span>
+						</div>
+						<div class="col p-0 text-center text-md-end">
+							<span class="m-player-position m-player-info-text text-muted text-truncate d-block">${playerPosition}</span>
+						</div>
+						<div class="col p-0 text-center text-md-end">
+							<span class="m-player-number m-player-info-text text-muted text-truncate d-block">${player.number}</span>
+						</div>
+					</div>
+				</div>
+			`)
+		})
+	}
+
+
 	async function carregarPartida() {
 		if (!isMatchConfigured) {
 			blurWallEvents.classList.remove('d-none')
@@ -536,6 +584,8 @@ const init = async () => {
 					`)
 				}
 			})
+
+			listPlayers()
 		}
 	}
 
@@ -555,28 +605,28 @@ const init = async () => {
 		manageMatchBtn = document.getElementById('manage-match-btn'),
 		matchManagementForm = document.getElementById('match-management-form')
 
-	loader.show()
-	const 
-		dataMatch = await executarFetch(`matches/${matchId}`, configuracaoFetch('GET')),
-		match = dataMatch.results
+	// loader.show()
+	// const 
+	// 	dataMatch = await executarFetch(`matches/${matchId}`, configuracaoFetch('GET')),
+	// 	match = dataMatch.results
 	
-	const 
-		dataPlayersTeam1 = await executarFetch(`teams/${match[0].id}/players`, configuracaoFetch('GET')),
-		playersTeam1 = dataPlayersTeam1.results
+	// const 
+	// 	dataPlayersTeam1 = await executarFetch(`teams/${match[0].id}/players`, configuracaoFetch('GET')),
+	// 	playersTeam1 = dataPlayersTeam1.results
 	
-	const 
-		dataPlayersTeam2 = await executarFetch(`teams/${match[1].id}/players`, configuracaoFetch('GET')),
-		playersTeam2 = dataPlayersTeam2.results
+	// const 
+	// 	dataPlayersTeam2 = await executarFetch(`teams/${match[1].id}/players`, configuracaoFetch('GET')),
+	// 	playersTeam2 = dataPlayersTeam2.results
 
-	const
-		matchStartConditions = await executarFetch(`matches/${matchId}/start-conditions`, configuracaoFetch('GET')),
-		matchStartConditionsResults = matchStartConditions.results
+	// const
+	// 	matchStartConditions = await executarFetch(`matches/${matchId}/start-conditions`, configuracaoFetch('GET')),
+	// 	matchStartConditionsResults = matchStartConditions.results
 
-	const
-		teamFetch = await executarFetch(`teams/${match[0].id}`, configuracaoFetch('GET')),
-		matchSport = teamFetch.results.sportId
-	console.log(match)
-	loader.hide()
+	// const
+	// 	teamFetch = await executarFetch(`teams/${match[0].id}`, configuracaoFetch('GET')),
+	// 	matchSport = teamFetch.results.sportId
+	// console.log(match)
+	// loader.hide()
 
 	for(const blankSpace of blankSpaces) {
 		blankSpace.style.height = `${matchDetailsOptions.offsetHeight + 35}px`
@@ -590,7 +640,7 @@ const init = async () => {
 	}
 
     changeConfigOptionsContext(0)
-	await carregarPartida()
+	// await carregarPartida()
 	console.log(sessionUserInfo);
 }
 

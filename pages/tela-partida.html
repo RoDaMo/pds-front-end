@@ -13,7 +13,7 @@
     <componente-header></componente-header>
     <main class="container">
         <!-- Scoreboard -->
-        <section id="score-board" class="row row-cols-3 mt-lg-4 flex-row justify-content-center align-items-center">
+        <section id="score-board" class="row row-cols-3 mx-auto mt-lg-4 flex-row justify-content-center align-items-center">
 
             <!-- Team 1 Info -->
             <div class="col-5 row row-cols-2 flex-row justify-content-center align-items-center">
@@ -21,19 +21,19 @@
                     <img class="m-team-img position-absolute img-fluid w-100 h-100" src="https://static01.nyt.com/images/2023/06/01/multimedia/01MUSTACHE-01-mtlv-esp/01MUSTACHE-01-mtlv-articleLarge.jpg?quality=75&auto=webp&disable=upscale" alt="">
                 </div>
                 <div class="col w-auto">
-                    <span id="m-team1-name" class="m-team-name fw-semibold text-black text-truncate d-block">Independiente Bigote</span>
+                    <span id="m-team1-name" class="m-team-name fw-semibold text-black text-wrap text-center d-block">Independiente Bigote</span>
                 </div>
             </div>
 
             <!-- Score -->
             <div class="col-2 d-flex justify-content-center w-auto align-items-center">
-                <div id="score-wrapper" class="h-auto rounded-4 p-3">
+                <div id="score-wrapper" class="h-auto rounded-4 p-md-3 p-2">
                     <div class="row flex-column justify-content-center align-items-center">
                         <div id="aggregate-score-wrapper" class="col d-flex justify-content-center align-items-center">
                             <span id="aggregate-score" class="text-muted text-center">(1 : 2)</span>
                         </div>
                         <div id="match-score-wrapper" class="col d-flex justify-content-center align-items-center">
-                            <span id="match-score" class="text-black fw-bold fs-1">4 : 5</span>
+                            <span id="match-score" class="text-black fw-bold">4 : 5</span>
                         </div>
                     </div>
                 </div>
@@ -42,7 +42,7 @@
             <!-- Team 2 Info -->
             <div class="col-5 row row-cols-2 flex-row justify-content-center align-items-center">
                 <div class="col w-auto order-2 order-lg-1 d-flex justify-content-end">
-                    <span id="m-team2-name" class="m-team-name fw-semibold text-black text-truncate text-end d-block">Portman Kunis United</span>
+                    <span id="m-team2-name" class="m-team-name fw-semibold text-black text-wrap text-center text-end d-block">Portman Kunis United</span>
                 </div>
                 <div class="col-auto order-1 order-lg-2 m-team-img-wrapper position-relative d-flex justify-content-center overflow-hidden border border-2 rounded-circle">
                     <img class="m-team-img position-absolute img-fluid w-100 h-100" src="https://pbs.twimg.com/profile_images/1362499407/patch_400x400.jpg" alt="">
@@ -51,7 +51,7 @@
         </section>
 
         <!-- Detalhes da Partida -->
-        <section id="match-details-wrapper" class="mt-5 mx-lg-5">
+        <section id="match-details-wrapper" class="mt-4 mt-md-5 mx-lg-5">
             <div id="match-details" class="p-4 pt-2 position-relative">
                 <div id="match-details-options-wrapper" class="z-2 rounded-5 position-relative">
                     <ul class="list-group list-group-horizontal list-group-flush d-flex justify-content-center align-items-center" id="match-details-options">
@@ -83,8 +83,17 @@
                         </div>
 
                         <!-- Jogadores -->
-                        <div id="match-details-content-players" class="d-none menu-config" menu="1">
+                        <div id="match-details-content-players" class="row d-none menu-config justify-content-center mx-md-5 mt-3" menu="1">
+                            <!-- Jogadores time 1 -->
+                            <div id="match-details-content-players-team1" class="col-5"></div>
 
+                            <!-- Linha divisória -->
+                            <div class="col-1 d-flex justify-content-center">
+                                <div id="vertical-line" class="rounded-5"></div>
+                            </div>
+
+                            <!-- Jogadores time 2 -->
+                            <div id="match-details-content-players-team2" class="col-5"></div>
                         </div>
 
                         <!-- Administrar -->
