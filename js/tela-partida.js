@@ -248,13 +248,13 @@ const init = async () => {
 					</div>
 					<div class="row col justify-content-center align-items-center flex-column w-auto m-player-info">
 						<div class="col p-0 text-center text-md-start">
-							<span class="m-player-name m-player-info-text fw-semibold text-black text-truncate d-block">${player.name}</span>
+							<span class="m-player-name m-truncated-text-width fw-semibold text-black text-truncate d-block">${player.name}</span>
 						</div>
 						<div class="col p-0 text-center text-md-start">
-							<span class="m-player-position m-player-info-text text-muted text-truncate d-block">${playerPosition}</span>
+							<span class="m-player-position m-truncated-text-width text-muted text-truncate d-block">${playerPosition}</span>
 						</div>
 						<div class="col p-0 text-center text-md-start">
-							<span class="m-player-number m-player-info-text text-muted text-truncate d-block">${player.number}</span>
+							<span class="m-player-number m-truncated-text-width text-muted text-truncate d-block">${player.number}</span>
 						</div>
 					</div>
 				</div>
@@ -269,13 +269,13 @@ const init = async () => {
 					</div>
 					<div class="row col order-2 order-md-1 justify-content-center align-items-center flex-column w-auto m-player-info">
 						<div class="col p-0 text-center text-md-end">
-							<span class="m-player-name m-player-info-text fw-semibold text-black text-truncate d-block">${player.name}</span>
+							<span class="m-player-name m-truncated-text-width fw-semibold text-black text-truncate d-block">${player.name}</span>
 						</div>
 						<div class="col p-0 text-center text-md-end">
-							<span class="m-player-position m-player-info-text text-muted text-truncate d-block">${playerPosition}</span>
+							<span class="m-player-position m-truncated-text-width text-muted text-truncate d-block">${playerPosition}</span>
 						</div>
 						<div class="col p-0 text-center text-md-end">
-							<span class="m-player-number m-player-info-text text-muted text-truncate d-block">${player.number}</span>
+							<span class="m-player-number m-truncated-text-width text-muted text-truncate d-block">${player.number}</span>
 						</div>
 					</div>
 				</div>
@@ -453,10 +453,21 @@ const init = async () => {
 				return a.time - b.time
 			})
 
+			const isTeam1 = teamId => {
+				return teamId == matchTeam1Id
+			}
+
+			const isTeam2 = teamId => {
+				return teamId == matchTeam2Id
+			}
+
 			// Loop through the array
 			matchEvents.forEach(event => {		
 				let eventData = ''	
 				let eventIllustration = ''	
+
+				let playerName = ''
+				let assisterPlayerName = ''
 
 				if (matchSport == 1) {
 					if (event.type == 'goal') {
@@ -511,13 +522,9 @@ const init = async () => {
 						}
 					}
 				}
+
 				// Verify if the event is from team 1 or team 2
-
-				// If it's a team 1 event, add the event to the team 1 eventsWrapper and add a blank space on the team 2 eventsWrapper
-				if (event.teamId == match[0].id) {	
-					let playerName = ''
-					let assisterPlayerName = ''
-
+				if (isTeam1(event.teamId)) {	
 					playersTeam1.forEach(player => {
 						if (player.id == event.PlayerTempId) {
 							playerName = player.name
@@ -526,33 +533,7 @@ const init = async () => {
 							assisterPlayerName = player.name
 						}
 					})
-									
-					eventsWrapperTeam1.insertAdjacentHTML('beforeend', `
-						<div class="row flex-column p-3 my-2 match-details-content-event rounded-5 position-relative">
-							<div class="col event-player-name"><span class="fw-semibold text-black text-truncate fs-5 d-block">${playerName}</span></div>
-							${(event.type == 'goal') ?
-								(event.AssisterPlayerTempId) ? `
-									<div class="col event-player-name"><span class="fw-semibold text-black text-truncate d-block">${assisterPlayerName}</span></div>
-								` : ''
-							: ''}
-							<div class="col d-flex flex-row event-data">
-								${eventData}
-							</div>
-							<div class="col position-absolute w-auto h-auto event-illustration">
-								${eventIllustration}
-							</div>
-						</div>
-					`)
-
-					eventsWrapperTeam2.insertAdjacentHTML('beforeend', `
-						<div class="row blank-space"></div>
-					`)
-				
-				// If it's a team 2 event, add the event to the team 2 eventsWrapper and add a blank space on the team 1 eventsWrapper
-				} else if (event.teamId == match[1].id) {
-					let playerName = ''
-					let assisterPlayerName = ''
-
+				} else if (isTeam2(event.teamId)) {
 					playersTeam2.forEach(player => {
 						if (player.id == event.PlayerTempId) {
 							playerName = player.name
@@ -561,26 +542,40 @@ const init = async () => {
 							assisterPlayerName = player.name
 						}
 					})
+				}
 
-					eventsWrapperTeam2.insertAdjacentHTML('beforeend', `
-						<div class="row flex-column p-3 my-2 match-details-content-event rounded-5 position-relative">
-							<div class="col event-player-name"><span class="fw-semibold text-black text-truncate fs-5 d-block">${playerName}</span></div>
-							${(event.type == 'goal') ?
-								(event.AssisterPlayerTempId) ? `
-									<div class="col event-player-name"><span class="fw-semibold text-black text-truncate d-block">${assisterPlayerName}</span></div>
-								` : ''
-							: ''}
-							<div class="col d-flex flex-row event-data">
-								${eventData}
-							</div>
-							<div class="col position-absolute w-auto h-auto event-illustration">
-								${eventIllustration}
+				let eventTemplate = `
+					<div class="row row-cols-md-2 row-cols-1 p-3 my-2 match-details-content-event align-items-center rounded-5">
+						<div class="col">
+							<div class="row flex-column">
+								<div class="col event-player-name"><span class="fw-semibold text-black text-truncate text-center text-md-start m-truncated-text-width d-block">${playerName}</span></div>
+								${(event.type == 'goal') ?
+									(event.AssisterPlayerTempId) ? `
+										<div class="col event-player-name"><span class="fw-semibold text-black text-center text-md-start m-truncated-text-width text-truncate d-block">${assisterPlayerName}</span></div>
+									` : ''
+								: ''}
+								<div class="col d-flex flex-row event-data">
+									${eventData}
+								</div>
 							</div>
 						</div>
+						<div class="col d-flex align-items-center pe-0 event-illustration">
+							${eventIllustration}
+						</div>
+					</div>
+				`
+
+				if (isTeam1(event.teamId)) {					
+					eventsWrapperTeam1.insertAdjacentHTML('beforeend', eventTemplate)
+
+					eventsWrapperTeam2.insertAdjacentHTML('beforeend', `
+						<div class="row w-auto blank-space"></div>
 					`)
+				} else if (isTeam2(event.teamId)) {
+					eventsWrapperTeam2.insertAdjacentHTML('beforeend', eventTemplate)
 
 					eventsWrapperTeam1.insertAdjacentHTML('beforeend', `
-						<div class="row blank-space"></div>
+						<div class="row w-auto blank-space"></div>
 					`)
 				}
 			})
@@ -605,28 +600,31 @@ const init = async () => {
 		manageMatchBtn = document.getElementById('manage-match-btn'),
 		matchManagementForm = document.getElementById('match-management-form')
 
-	// loader.show()
-	// const 
-	// 	dataMatch = await executarFetch(`matches/${matchId}`, configuracaoFetch('GET')),
-	// 	match = dataMatch.results
+	loader.show()
+	const 
+		dataMatch = await executarFetch(`matches/${matchId}`, configuracaoFetch('GET')),
+		match = dataMatch.results
 	
-	// const 
-	// 	dataPlayersTeam1 = await executarFetch(`teams/${match[0].id}/players`, configuracaoFetch('GET')),
-	// 	playersTeam1 = dataPlayersTeam1.results
+	const 
+		dataPlayersTeam1 = await executarFetch(`teams/${match[0].id}/players`, configuracaoFetch('GET')),
+		playersTeam1 = dataPlayersTeam1.results
 	
-	// const 
-	// 	dataPlayersTeam2 = await executarFetch(`teams/${match[1].id}/players`, configuracaoFetch('GET')),
-	// 	playersTeam2 = dataPlayersTeam2.results
+	const 
+		dataPlayersTeam2 = await executarFetch(`teams/${match[1].id}/players`, configuracaoFetch('GET')),
+		playersTeam2 = dataPlayersTeam2.results
 
-	// const
-	// 	matchStartConditions = await executarFetch(`matches/${matchId}/start-conditions`, configuracaoFetch('GET')),
-	// 	matchStartConditionsResults = matchStartConditions.results
+	const
+		matchStartConditions = await executarFetch(`matches/${matchId}/start-conditions`, configuracaoFetch('GET')),
+		matchStartConditionsResults = matchStartConditions.results
 
-	// const
-	// 	teamFetch = await executarFetch(`teams/${match[0].id}`, configuracaoFetch('GET')),
-	// 	matchSport = teamFetch.results.sportId
-	// console.log(match)
-	// loader.hide()
+	const
+		teamFetch = await executarFetch(`teams/${match[0].id}`, configuracaoFetch('GET')),
+		matchSport = teamFetch.results.sportId
+	console.log(match)
+	loader.hide()
+
+	const matchTeam1Id = match[0].id
+	const matchTeam2Id = match[1].id
 
 	for(const blankSpace of blankSpaces) {
 		blankSpace.style.height = `${matchDetailsOptions.offsetHeight + 35}px`
@@ -640,7 +638,7 @@ const init = async () => {
 	}
 
     changeConfigOptionsContext(0)
-	// await carregarPartida()
+	await carregarPartida()
 	console.log(sessionUserInfo);
 }
 

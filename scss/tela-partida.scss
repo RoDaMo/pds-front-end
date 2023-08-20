@@ -1,6 +1,7 @@
 // @import "bootstrap-config.scss";
 @import "variables.scss";
 
+// general/generic things
 body {
     background-color: $gray-200 !important;
 }
@@ -18,6 +19,25 @@ body {
         min-width: 100%;
     }
 }
+
+@include media-breakpoint-up(md) {
+    .m-truncated-text-width {
+        width: 8rem;
+    }
+}
+
+@include media-breakpoint-up(lg) {
+    .m-truncated-text-width {
+        width: 11rem;
+    }
+}
+
+@include media-breakpoint-up(xl) {
+    .m-truncated-text-width {
+        width: 17rem;
+    }
+}
+
 
 @include media-breakpoint-down(sm) {
     .m-team-name {
@@ -47,32 +67,51 @@ body {
     height: 100%;
 }
 
-#score-wrapper {
-    background-color: $white;
-    box-shadow: 0px 0px 90px 20px rgba(0, 0, 0, 0.1);
+#score-board {
+    #m-team2-name-wrapper {
+        justify-content: flex-end;
+    }
 
-    #aggregate-score-wrapper {
-        margin-bottom: -0.7rem;
-
-        #aggregate-score {
-            font-size: 1.2rem;
-        }
-
-        @include media-breakpoint-down(sm) {
-            #aggregate-score {
-                font-size: 1rem;
-            }
+    @include media-breakpoint-down(lg) {
+        #m-team1-name-wrapper,
+        #m-team2-name-wrapper {
+            justify-content: center;
         }
     }
 
-    #match-score-wrapper {
-        #match-score {
-            font-size: 2.5rem;
-        }
+    #score-wrapper {
+        background-color: $white;
+        box-shadow: 0px 0px 90px 20px rgba(0, 0, 0, 0.1);
+    
+        #aggregate-score-wrapper {
+            margin-bottom: -0.6rem;
 
-        @include media-breakpoint-down(sm) {
+            @include media-breakpoint-down(sm) {
+                & {
+                    margin-bottom: -0.4rem;
+                }
+            }
+    
+            #aggregate-score {
+                font-size: 1.2rem;
+    
+                @include media-breakpoint-down(sm) {
+                    & {
+                        font-size: 0.8rem;
+                    }
+                }
+            }
+        }
+    
+        #match-score-wrapper {
             #match-score {
-                font-size: 1.5rem;
+                font-size: 2.5rem;
+    
+                @include media-breakpoint-down(sm) {
+                    & {
+                        font-size: 1.5rem;
+                    }
+                }
             }
         }
     }
@@ -119,12 +158,13 @@ body {
                         }
                     }
                 }
-            }
 
-            @include media-breakpoint-down(sm) {
-                #match-details-options {
-                    button {
-                        font-size: 0.8rem;
+                @include media-breakpoint-down(sm) {
+                    & {
+                        button {
+                            font-size: 0.8rem;
+                            padding: 0.5rem 0.6rem;
+                        }
                     }
                 }
             }
@@ -159,11 +199,54 @@ body {
                     .match-details-content-event {
                         background-color: $gray-300;
 
+                        .event-player-name {
+                            span {
+                                font-size: 1.1rem;
+                            }
+
+                            @include media-breakpoint-down(sm) {
+                                span {
+                                    font-size: 0.8rem;
+                                }
+
+                                & {
+                                    padding: 0 !important;
+                                }
+                            }
+                        }
+
+                        .event-data {
+                            @include media-breakpoint-down(sm) {
+                                & {
+                                    padding: 0 !important;
+                                    justify-content: center;
+                                }
+                            }
+
+                            .event-type, 
+                            .event-time {
+                                span {
+                                    font-size: 0.9rem;
+                                }
+
+                                @include media-breakpoint-down(sm) {
+                                    span {
+                                        font-size: 0.7rem;
+                                    }
+                                }
+                            }
+                        }
+
                         .event-illustration {
-                            width: 2rem;
-                            height: 2rem;
-                            
-                            right: 0;
+                            justify-content: end;
+
+                            @include media-breakpoint-down(sm) {
+                                & {
+                                    padding: 0 !important;
+                                    justify-content: center;
+                                }
+                            }
+                        
                         }
                     }
                 }
@@ -189,24 +272,6 @@ body {
                         }
 
                         .m-player-info {
-                            @include media-breakpoint-up(lg) {
-                                .m-player-info-text {
-                                    width: 11rem;
-                                }
-                            }
-
-                            @include media-breakpoint-up(xl) {
-                                .m-player-info-text {
-                                    width: 17rem;
-                                }
-                            }
-                            
-                            @include media-breakpoint-only(md) {
-                                .m-player-info-text {
-                                    width: 8rem;
-                                }
-                            }
-
                             @include media-breakpoint-down(sm) {
                                 .m-player-name {
                                     font-size: 0.8rem;

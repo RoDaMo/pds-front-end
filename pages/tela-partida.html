@@ -20,7 +20,7 @@
                 <div class="col-auto m-team-img-wrapper position-relative d-flex justify-content-center overflow-hidden border border-2 rounded-circle">
                     <img class="m-team-img position-absolute img-fluid w-100 h-100" src="https://static01.nyt.com/images/2023/06/01/multimedia/01MUSTACHE-01-mtlv-esp/01MUSTACHE-01-mtlv-articleLarge.jpg?quality=75&auto=webp&disable=upscale" alt="">
                 </div>
-                <div class="col w-auto">
+                <div id="m-team1-name-wrapper" class="col d-flex w-auto">
                     <span id="m-team1-name" class="m-team-name fw-semibold text-black text-wrap text-center d-block">Independiente Bigote</span>
                 </div>
             </div>
@@ -41,7 +41,7 @@
 
             <!-- Team 2 Info -->
             <div class="col-5 row row-cols-2 flex-row justify-content-center align-items-center">
-                <div class="col w-auto order-2 order-lg-1 d-flex justify-content-end">
+                <div id="m-team2-name-wrapper" class="col w-auto order-2 order-lg-1 d-flex">
                     <span id="m-team2-name" class="m-team-name fw-semibold text-black text-wrap text-center text-end d-block">Portman Kunis United</span>
                 </div>
                 <div class="col-auto order-1 order-lg-2 m-team-img-wrapper position-relative d-flex justify-content-center overflow-hidden border border-2 rounded-circle">
@@ -55,23 +55,23 @@
             <div id="match-details" class="p-4 pt-2 position-relative">
                 <div id="match-details-options-wrapper" class="z-2 rounded-5 position-relative">
                     <ul class="list-group list-group-horizontal list-group-flush d-flex justify-content-center align-items-center" id="match-details-options">
-                        <button class="list-group-item list-group-item-action m-2 w-auto border-0 rounded-pill active" menu="0"><span class="i18" key="Eventos">Eventos</span> </button>
-                        <button class="list-group-item list-group-item-action m-2 w-auto border-0 rounded-pill" menu="1"><span class="i18" key="Jogadores">Jogadores</span> </button>
-                        <button id="manage-match-btn" class=" list-group-item list-group-item-action m-2 w-auto border-0 rounded-pill" menu="2"><span class="i18" key="Administrar">Administrar</span> </button>
+                        <button class="list-group-item list-group-item-action m-2 w-auto border-0 rounded-pill active" menu="0"><span class="i18" key="Eventos">Eventos</span></button>
+                        <button class="list-group-item list-group-item-action m-2 w-auto border-0 rounded-pill" menu="1"><span class="i18" key="Jogadores">Jogadores</span></button>
+                        <button id="manage-match-btn" class=" list-group-item list-group-item-action m-2 w-auto border-0 rounded-pill" menu="2"><span class="i18" key="Administrar">Administrar</span></button>
                     </ul>
                 </div>
 
-                <div id="blurwall-events" class="d-none blurwall w-100 start-0 top-0 position-absolute h-100 d-flex justify-content-center align-items-center"></div>
+                <!-- <div id="blurwall-events" class="d-none blurwall w-100 start-0 top-0 position-absolute h-100 d-flex justify-content-center align-items-center"></div> -->
 
                 <div id="match-details-content-wrapper">
 
                     <div id="match-details-content">
 
                         <!-- Eventos -->
-                        <div data-lenis-prevent id="match-details-content-events" class="d-none menu-config row mx-md-5 mt-3" menu="0">
+                        <div data-lenis-prevent id="match-details-content-events" class="d-none justify-content-center menu-config row mx-md-5 mt-3" menu="0">
 
                             <!-- Eventos time 1 -->
-                            <div id="match-details-content-events-team1" class="col"></div>
+                            <div id="match-details-content-events-team1" class="col-5"></div>
 
                             <!-- Linha divisória -->
                             <div class="col-1 d-flex justify-content-center">
@@ -79,7 +79,7 @@
                             </div>
 
                             <!-- Eventos time 2 -->
-                            <div id="match-details-content-events-team2" class="col"></div>
+                            <div id="match-details-content-events-team2" class="col-5"></div>
                         </div>
 
                         <!-- Jogadores -->
