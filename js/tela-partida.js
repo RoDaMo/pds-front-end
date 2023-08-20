@@ -430,11 +430,11 @@ const init = async () => {
 
 						if (event.cardType == 'red') {
 							eventIllustration = `
-								<img src="../public/icons/red-card.svg" alt="">
+								<img src="../public/icons/red_card.svg" alt="">
 							`
 						} else if (event.cardType == 'yellow') {
 							eventIllustration = `
-								<img src="../public/icons/yellow-card.svg" alt="">
+								<img src="../public/icons/yellow_card.svg" alt="">
 							`
 						}
 					}
@@ -454,11 +454,11 @@ const init = async () => {
 
 						if (event.cardType == 'red') {
 							eventIllustration = `
-								<img src="../public/icons/red-card.svg" alt="">
+								<img src="../public/icons/red_card.svg" alt="">
 							`
 						} else if (event.cardType == 'yellow') {
 							eventIllustration = `
-								<img src="../public/icons/yellow-card.svg" alt="">
+								<img src="../public/icons/yellow_card.svg" alt="">
 							`
 						}
 					}
@@ -466,13 +466,25 @@ const init = async () => {
 				// Verify if the event is from team 1 or team 2
 
 				// If it's a team 1 event, add the event to the team 1 eventsWrapper and add a blank space on the team 2 eventsWrapper
-				if (event.teamId == match[0].id) {					
+				if (event.teamId == match[0].id) {	
+					let playerName = ''
+					let assisterPlayerName = ''
+
+					playersTeam1.forEach(player => {
+						if (player.id == event.PlayerTempId) {
+							playerName = player.name
+						}
+						if (player.id == event.AssisterPlayerTempId) {
+							assisterPlayerName = player.name
+						}
+					})
+									
 					eventsWrapperTeam1.insertAdjacentHTML('beforeend', `
 						<div class="row flex-column p-3 my-2 match-details-content-event rounded-5 position-relative">
-							<div class="col event-player-name"><span class="fw-semibold text-black text-truncate fs-5 d-block">${event.PlayerTempId}</span></div>
+							<div class="col event-player-name"><span class="fw-semibold text-black text-truncate fs-5 d-block">${playerName}</span></div>
 							${(event.type == 'goal') ?
 								(event.AssisterPlayerTempId) ? `
-									<div class="col event-player-name"><span class="fw-semibold text-black text-truncate d-block">${event.AssisterPlayerTempId}</span></div>
+									<div class="col event-player-name"><span class="fw-semibold text-black text-truncate d-block">${assisterPlayerName}</span></div>
 								` : ''
 							: ''}
 							<div class="col d-flex flex-row event-data">
@@ -490,12 +502,24 @@ const init = async () => {
 				
 				// If it's a team 2 event, add the event to the team 2 eventsWrapper and add a blank space on the team 1 eventsWrapper
 				} else if (event.teamId == match[1].id) {
+					let playerName = ''
+					let assisterPlayerName = ''
+
+					playersTeam2.forEach(player => {
+						if (player.id == event.PlayerTempId) {
+							playerName = player.name
+						}
+						if (player.id == event.AssisterPlayerTempId) {
+							assisterPlayerName = player.name
+						}
+					})
+
 					eventsWrapperTeam2.insertAdjacentHTML('beforeend', `
 						<div class="row flex-column p-3 my-2 match-details-content-event rounded-5 position-relative">
-							<div class="col event-player-name"><span class="fw-semibold text-black text-truncate fs-5 d-block">${event.PlayerTempId}</span></div>
+							<div class="col event-player-name"><span class="fw-semibold text-black text-truncate fs-5 d-block">${playerName}</span></div>
 							${(event.type == 'goal') ?
 								(event.AssisterPlayerTempId) ? `
-									<div class="col event-player-name"><span class="fw-semibold text-black text-truncate d-block">${event.AssisterPlayerTempId}</span></div>
+									<div class="col event-player-name"><span class="fw-semibold text-black text-truncate d-block">${assisterPlayerName}</span></div>
 								` : ''
 							: ''}
 							<div class="col d-flex flex-row event-data">
