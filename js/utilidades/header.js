@@ -257,7 +257,7 @@ export class header extends HTMLElement {
         const info = /* html */`
             <li class="nav-item d-none d-lg-inline-flex me-5 navbar-user-img-wrapper navbar-clicavel" data-bs-toggle="offcanvas" data-bs-target="#offcanvasUser" aria-controls="offcanvasUser" aria-label="Toggle navigation">
                 <i class="bi bi-caret-left-fill mt-1 text-black"></i>
-                <img src="${user.picture ? user.picture : defaultImg}" class="foto-usuario ms-2 h-100 w-100">
+                <img src="${user.picture ? user.picture : defaultImg}" width="32" height="32" class="rounded-circle ms-2">
             </li>
             <!--
             <li class="nav-item mx-4 d-none d-lg-block">
@@ -305,7 +305,7 @@ export class header extends HTMLElement {
         offcanvasUser.innerHTML = /* html */`
             <div class="offcanvas-header">
                 <div class="d-flex flex-row gap-3">
-                    <img src="${user.picture ? user.picture : defaultImg}" class="foto-usuario">
+                    <img src="${user.picture ? user.picture : defaultImg}" width="32" height="32" class="rounded-circle">
                     <h5 class="offcanvas-title" id="offcanvasUserName">${user.userName}</h5>
                     <p id="usernameChampionshipId" class="d-none">${user.championshipId}</p>
                     <p id="usernameTeamManagementId" class="d-none">${user.teamManagementId}</p>
