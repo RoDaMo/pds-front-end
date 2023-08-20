@@ -260,10 +260,6 @@ const init = async () => {
 			}
 		}
 
-		nacao.value = campeonato.nation
-		estado.value = campeonato.state
-		cidade.value = campeonato.city
-		bairro.value = campeonato.neighborhood
 		quantidadeJogadores.value = campeonato.numberOfPlayers
 		esporte.selectedIndex = campeonato.sportsId - 1
 
@@ -454,70 +450,6 @@ const init = async () => {
 						errorMessage: `<span class="i18" key="ImagemTamanho">${i18next.t("PdfInvalido")}</span>`,
 					}
 				])
-				.addField(nacao, [
-					{
-						rule: 'required',
-						errorMessage: `<span class="i18" key="PaisObrigatorio">${i18next.t("PaisObrigatorio")}</span>`,
-					},
-					{
-						rule: 'minLength',
-						value: 4,
-						errorMessage: `<span class="i18" key="PaisMinimo">${i18next.t("PaisMinimo")}</span>`,
-					},
-					{
-						rule: 'maxLength',
-						value: 40,
-						errorMessage: `<span class="i18" key="PaisMaximo">${i18next.t("PaisMaximo")}</span>`,
-					},
-				])
-				.addField(estado, [
-					{
-						rule: 'required',
-						errorMessage: `<span class="i18" key="EstadoObrigatorio">${i18next.t("EstadoObrigatorio")}</span>`,
-					},
-					{
-						rule: 'minLength',
-						value: 4,
-						errorMessage: `<span class="i18" key="EstadoMinimo">${i18next.t("EstadoMinimo")}</span>`,
-					},
-					{
-						rule: 'maxLength',
-						value: 40,
-						errorMessage: `<span class="i18" key="EstadoMaximo">${i18next.t("EstadoMaximo")}</span>`,
-					},
-				])
-				.addField(cidade, [
-					{
-						rule: 'required',
-						errorMessage: `<span class="i18" key="CidadeObrigatoria">${i18next.t("CidadeObrigatoria")}</span>`,
-					},
-					{
-						rule: 'minLength',
-						value: 4,
-						errorMessage: `<span class="i18" key="CidadeMinimo">${i18next.t("CidadeMinimo")}</span>`,
-					},
-					{
-						rule: 'maxLength',
-						value: 40,
-						errorMessage: `<span class="i18" key="CidadeMaximo">${i18next.t("CidadeMaximo")}</span>`,
-					},
-				])
-				.addField(bairro, [
-					{
-						rule: 'required',
-						errorMessage: `<span class="i18" key="BairroObrigaorio">${i18next.t("BairroObrigaorio")}</span>`,
-					},
-					{
-						rule: 'minLength',
-						value: 4,
-						errorMessage: `<span class="i18" key="BairroMinimo">${i18next.t("BairroMinimo")}</span>`,
-					},
-					{
-						rule: 'maxLength',
-						value: 40,
-						errorMessage: `<span class="i18" key="BairroMaximo">${i18next.t("BairroMaximo")}</span>`,
-					},
-				])
 				.addField(descricao, [
 					{
 						rule: 'required',
@@ -598,10 +530,6 @@ const init = async () => {
 						"logo": imageInput.value,
 						"description": descricao.value,
 						"Format": parseInt(formato.value),
-						"Nation": nacao.value,
-						"State": estado.value,
-						"City": cidade.value,
-						"Neighborhood": bairro.value,
 						'id': championshipId,
 						'sportsId': campeonato.sportsId,
 						'rules': linkRegulamento.href,

@@ -134,10 +134,6 @@ let formulario = document.getElementById("formulario")
 const mensagemErro = document.getElementById("mensagem-erro")
 const escudo = document.getElementById('escudo')
 
-const pais = document.getElementById('pais')
-const estado = document.getElementById('estado')
-const cidade = document.getElementById('cidade')
-const bairro = document.getElementById('bairro')
 const descricao = document.getElementById('descricao')
 const dataInicial = document.getElementById("data-inicial")
 const dataFinal = document.getElementById("data-final")
@@ -525,70 +521,6 @@ function criarValidacao() {
             errorMessage: `<span class="i18" key="ImagemTamanho">${i18next.t("ImagemTamanho")}</span>`,
         }
     ])
-    .addField(pais, [
-        {
-            rule: 'required',
-            errorMessage: `<span class="i18" key="PaisObrigatorio">${i18next.t("PaisObrigatorio")}</span>`,
-        },
-        {
-            rule: 'minLength',
-            value: 4,
-            errorMessage: `<span class="i18" key="PaisMinimo">${i18next.t("PaisMinimo")}</span>`,
-        },
-        {
-            rule: 'maxLength',
-            value: 40,
-            errorMessage: `<span class="i18" key="PaisMaximo">${i18next.t("PaisMaximo")}</span>`,
-        },
-    ])
-    .addField(estado, [
-        {
-            rule: 'required',
-            errorMessage: `<span class="i18" key="EstadoObrigatorio">${i18next.t("EstadoObrigatorio")}</span>`,
-        },
-        {
-            rule: 'minLength',
-            value: 4,
-            errorMessage: `<span class="i18" key="EstadoMinimo">${i18next.t("EstadoMinimo")}</span>`,
-        },
-        {
-            rule: 'maxLength',
-            value: 40,
-            errorMessage: `<span class="i18" key="EstadoMaximo">${i18next.t("EstadoMaximo")}</span>`,
-        },
-    ])
-    .addField(cidade, [
-        {
-            rule: 'required',
-            errorMessage: `<span class="i18" key="CidadeObrigatoria">${i18next.t("CidadeObrigatoria")}</span>`,
-        },
-        {
-            rule: 'minLength',
-            value: 4,
-            errorMessage: `<span class="i18" key="CidadeMinimo">${i18next.t("CidadeMinimo")}</span>`,
-        },
-        {
-            rule: 'maxLength',
-            value: 40,
-            errorMessage: `<span class="i18" key="CidadeMaximo">${i18next.t("CidadeMaximo")}</span>`,
-        },
-    ])
-    .addField(bairro, [
-        {
-            rule: 'required',
-            errorMessage: `<span class="i18" key="BairroObrigatorio">${i18next.t("BairroObrigatorio")}</span>`,
-        },
-        {
-            rule: 'minLength',
-            value: 4,
-            errorMessage: `<span class="i18" key="BairroMinimo">${i18next.t("BairroMinimo")}</span>`,
-        },
-        {
-            rule: 'maxLength',
-            value: 40,
-            errorMessage: `<span class="i18" key="BairroMaximo">${i18next.t("BairroMaximo")}</span>`,
-        },
-    ])
     .addField(descricao, [
         {
             rule: 'required',
@@ -653,10 +585,6 @@ function criarValidacao() {
             "logo": emblema.value,
             "description": descricao.value,
             "Format": parseInt(formato.value),
-            "Nation": pais.value,
-            "State": estado.value,
-            "City": cidade.value,
-            "Neighborhood": bairro.value,
             "NumberOfPlayers": quantidadeJogadores.value,
             "DoubleStartLeagueSystem": PCCheckboxElem?.checked,
             "DoubleMatchEliminations": eliminatoriasCheckboxElem?.checked,
