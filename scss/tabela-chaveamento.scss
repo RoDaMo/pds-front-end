@@ -97,6 +97,10 @@
 }
 
 @media (max-width: 715px) {
+    .ida-volta{
+        flex-direction: column;
+    }
+
     .custom-container {
         // background: none;
         // padding: 0;
