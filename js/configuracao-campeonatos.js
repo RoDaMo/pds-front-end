@@ -618,6 +618,10 @@ const init = async () => {
 
 			modalCreateSuccessBracketBT.show()
 
+			if (document.getElementById('botao-vincular-time').querySelector('span').getAttribute('key') == "Cancelar") {
+				document.getElementById('botao-vincular-time').click()
+			}
+
 			bracketExists(championshipId)
 		}
 	}
@@ -628,15 +632,18 @@ const init = async () => {
 		}
 
 		loader.show()
-		const configFetch = configuracaoFetch('DELETE', parseInt(championshipId)),
-			response = await executarFetch('bracketing/delete', configFetch, callbackStatus)
+		const configFetch = configuracaoFetch('DELETE'),
+			response = await executarFetch(`bracketing/delete/${championshipId}`, configFetch, callbackStatus)
 
 		loader.hide()
 
 		if (response.succeed) {
 			notificacaoSucesso(i18next.t("SucessoExclusaoChaveamento"))
 
-			bracketExists(championshipId)
+			modalDeleteBracketBT.hide()
+
+			await bracketExists(championshipId)
+			await checkBracketCreationAvailability()
 		}
 	}
 
@@ -646,6 +653,16 @@ const init = async () => {
 		for (let i = 0; i < formElements.length; i++) {
 			formElements[i].disabled = true;
 		}
+	}
+
+	const disableTeamsManipulation = () => {
+		document.getElementById('botao-vincular-time').disabled = true
+		document.querySelectorAll('.delete-listed-thing').forEach(btn => btn.disabled = true)
+	}
+
+	const enableTeamsManipulation = () => {
+		document.getElementById('botao-vincular-time').disabled = false
+		document.querySelectorAll('.delete-listed-thing').forEach(btn => btn.disabled = false)
 	}
 
 	const enableForm = () => {
@@ -671,6 +688,7 @@ const init = async () => {
 			if (response.results) {
 				// se estiver criado, bloquear a edição do campeonado 
 				disableForm()
+				disableTeamsManipulation()
 
 				bracketBtnWrapper.innerHTML = `
 					<button data-bs-toggle="modal" data-bs-target="#bracketDeleteModal" id="delete-bracket-btn" class="btn btn-danger border-0 d-flex justify-content-center align-items-center">
@@ -684,6 +702,7 @@ const init = async () => {
 			} else {
 				// se não estiver criado, permitir a edição do campeonato
 				enableForm()
+				enableTeamsManipulation()
 				
 				bracketBtnWrapper.innerHTML = `
 					<button disabled data-bs-toggle="modal" data-bs-target="#bracketCreateModal" id="create-bracket-btn" class="btn border-0 d-flex justify-content-center align-items-center chaveamento-btn">
@@ -786,7 +805,7 @@ const init = async () => {
 			newOption.appendChild(botaoDesvincularWrapper)
 			timesVinculadosWrapper.appendChild(newOption)
 
-			botaoDesvincularWrapper.addEventListener('click', async () => {
+			botaoDesvincularWrapper.firstElementChild.addEventListener('click', async () => {
 				await desvincularTime(time.id)
 				await listarTimesVinculados(configFetch)
 			})
@@ -932,11 +951,14 @@ const init = async () => {
 		confirmCreateBracketBtn = document.getElementById('confirm-create-bracket-btn'),
 		confirmDeleteBracketBtn = document.getElementById('confirm-delete-bracket-btn'),
 		modalCreateSuccessBracket = document.getElementById('modalCriacaoChaveamentoSucesso'),
+		modalDeleteBracket = document.getElementById('bracketDeleteModal'),
 		bracketCreateModal = document.getElementById('bracketCreateModal'),
 		bracketBtnWrapper = document.getElementById('bracket-btn-wrapper'),
 		form = document.getElementById('update-profile-form')
 		
         let modalCreateSuccessBracketBT = new bootstrap.Modal(modalCreateSuccessBracket, {keyboard: false})
+
+		let modalDeleteBracketBT = new bootstrap.Modal(modalDeleteBracket, {keyboard: false})
 
 		let bracketCreateModalBT = new bootstrap.Modal(bracketCreateModal, {keyboard: false})
 
@@ -963,11 +985,13 @@ const init = async () => {
 		const dados = await executarFetch(`championships/${championshipId}`, configuracaoFetch('GET')),
 		campeonato = dados.results
 
-		if (campeonato.teamQuantity == campeonato.teams.length) {
-			createBracketBtn.disabled = false
-		} else {
-			createBracketBtn.disabled = true
-			mensagemErro.innerHTML = `<span class="i18" key="QuantidadeTimesInsuficiente">${i18next.t("QuantidadeTimesInsuficiente")}</span>`
+		if (createBracketBtn) {
+			if (campeonato.teamQuantity == campeonato.teams.length) {
+				createBracketBtn.disabled = false
+			} else {
+				createBracketBtn.disabled = true
+				mensagemErro.innerHTML = `<span class="i18" key="QuantidadeTimesInsuficiente">${i18next.t("QuantidadeTimesInsuficiente")}</span>`
+			}
 		}
 	}
 
@@ -979,10 +1003,11 @@ const init = async () => {
 
 	changeConfigOptionsContext(0)
 	inicializarCampos()
-	await inicializarPaginaTimes()
+	await inicializarPaginaTimes().then(async () => {
+		await bracketExists(campeonato.id)
+	})
 	await inicializarPaginaExclusao()
-	await bracketExists(campeonato.id)
-	checkBracketCreationAvailability()
+	await checkBracketCreationAvailability()
 	//#endregion
 }
 
