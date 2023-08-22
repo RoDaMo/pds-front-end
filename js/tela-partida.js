@@ -89,8 +89,8 @@ const init = async () => {
 					<label for="select-event-team" class="i18 form-label mt-3 mb-0" key="SelectEventTeamLabel">${i18next.t("SelectEventTeamLabel")}</label>
 					<select id="select-event-team" class="form-select">
 						<option value="" selected class="i18" key="SelectEventTeamPlaceholder">${i18next.t("SelectEventTeamPlaceholder")}</option>
-						<option value="${match.team1.id}">${match.team1.name}</option>
-						<option value="${match.team1.id}">${match.team2.name}</option>
+						<option value="${match.homeId}">${match.homeName}</option>
+						<option value="${match.visitorId}">${match.VisitorName}</option>
 					</select>
 				`)
 
@@ -132,7 +132,7 @@ const init = async () => {
 										<label class="form-check-label i18 mb-0" key="CheckboxEventAssisterPlayerLabel" for="checkbox-event-assister-player">${i18next.t("CheckboxEventAssisterPlayerLabel")}</label>
 									</div>
 
-									${(match.sportId == 1) ? `
+									${(match.isSoccer) ? `
 										<div class="input-event-time-wrapper form-group mt-3">
 											<label for="input-event-time" class="i18 form-label mb-0" key="InputEventTimeLabel">${i18next.t("InputEventTimeLabel")}</label>
 											<input type="number" class="form-control" id="input-event-time">
@@ -270,7 +270,7 @@ const init = async () => {
 										</select>
 									</div>
 
-									${(match.sportId == 1) ? `
+									${(match.isSoccer) ? `
 										<div class="input-event-time-wrapper form-group mt-3">
 											<label for="input-event-time" class="i18 form-label mb-0" key="InputEventTimeLabel">${i18next.t("InputEventTimeLabel")}</label>
 											<input type="number" class="form-control" id="input-event-time">
@@ -600,10 +600,10 @@ const init = async () => {
 				let eventData = ''	
 				let eventIllustration = ''	
 
-				let playerName = ''
-				let assisterPlayerName = ''
+				let eventPlayer
+				let eventAssisterPlayer
 
-				if (matchSport == 1) {
+				if (match.isSoccer) {
 					if (event.type == 'goal') {
 						eventData = `
 							<div class="event-type"><span class="text-muted i18" key="Gol">${i18next.t("Gol")}</span></div>
@@ -631,7 +631,7 @@ const init = async () => {
 							`
 						}
 					}
-				} else if (matchSport == 2) {
+				} else if (!match.isSoccer) {
 					if (event.type == 'goal') {
 						eventData = `
 							<div class="event-type"><span class="text-muted i18" key="Ponto">${i18next.t("Ponto")}</span></div>
@@ -658,34 +658,23 @@ const init = async () => {
 				}
 
 				// Verify if the event is from team 1 or team 2
-				if (isTeam1(event.teamId)) {	
-					playersTeam1.forEach(player => {
-						if (player.id == event.PlayerTempId) {
-							playerName = player.name
-						}
-						if (player.id == event.AssisterPlayerTempId) {
-							assisterPlayerName = player.name
-						}
-					})
+				if (isTeam1(event.teamId)) {						
+					eventPlayer = playersTeam1.find(player => player.id == event.PlayerTempId)
+					eventAssisterPlayer = playersTeam1.find(player => player.id == event.AssisterPlayerTempId)
+
 				} else if (isTeam2(event.teamId)) {
-					playersTeam2.forEach(player => {
-						if (player.id == event.PlayerTempId) {
-							playerName = player.name
-						}
-						if (player.id == event.AssisterPlayerTempId) {
-							assisterPlayerName = player.name
-						}
-					})
+					eventPlayer = playersTeam2.find(player => player.id == event.PlayerTempId)
+					eventAssisterPlayer = playersTeam2.find(player => player.id == event.AssisterPlayerTempId)
 				}
 
 				let eventTemplate = `
 					<div class="row row-cols-md-2 row-cols-1 p-3 my-2 match-details-content-event align-items-center rounded-5">
 						<div class="col">
 							<div class="row flex-column">
-								<div class="col event-player-name"><span class="fw-semibold text-black text-truncate text-center text-md-start m-truncated-text-width d-block">${playerName}</span></div>
+								<div class="col event-player-name"><span class="fw-semibold text-black text-truncate text-center text-md-start m-truncated-text-width d-block">${eventPlayer.name}</span></div>
 								${(event.type == 'goal') ?
 									(event.AssisterPlayerTempId) ? `
-										<div class="col event-player-name"><span class="fw-semibold text-black text-center text-md-start m-truncated-text-width text-truncate d-block">${assisterPlayerName}</span></div>
+										<div class="col event-player-name"><span class="fw-semibold text-black text-center text-md-start m-truncated-text-width text-truncate d-block">${eventAssisterPlayer.name}</span></div>
 									` : ''
 								: ''}
 								<div class="col d-flex flex-row event-data">
@@ -740,25 +729,18 @@ const init = async () => {
 		match = dataMatch.results
 	
 	const 
-		dataPlayersTeam1 = await executarFetch(`teams/${match[0].id}/players`, configuracaoFetch('GET')),
+		dataPlayersTeam1 = await executarFetch(`teams/${match.homeId}/players`, configuracaoFetch('GET')),
 		playersTeam1 = dataPlayersTeam1.results
 	
 	const 
-		dataPlayersTeam2 = await executarFetch(`teams/${match[1].id}/players`, configuracaoFetch('GET')),
+		dataPlayersTeam2 = await executarFetch(`teams/${match.visitorId}/players`, configuracaoFetch('GET')),
 		playersTeam2 = dataPlayersTeam2.results
 
 	const
 		matchStartConditions = await executarFetch(`matches/${matchId}/start-conditions`, configuracaoFetch('GET')),
 		matchStartConditionsResults = matchStartConditions.results
-
-	const
-		teamFetch = await executarFetch(`teams/${match[0].id}`, configuracaoFetch('GET')),
-		matchSport = teamFetch.results.sportId
 	console.log(match)
 	loader.hide()
-
-	const matchTeam1Id = match[0].id
-	const matchTeam2Id = match[1].id
 
 	for(const blankSpace of blankSpaces) {
 		blankSpace.style.height = `${matchDetailsOptions.offsetHeight + 35}px`
