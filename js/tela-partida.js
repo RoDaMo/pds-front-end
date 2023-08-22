@@ -38,21 +38,59 @@ const init = async () => {
 	const matchManagementSystem = () => {
 		const selectEventType = matchManagementForm.querySelector('select#select-event-type')
 
-		let eventEndpoint = ''
+		// reset form fields and remove them from DOM if they exist already
+		const resetAllFormFields = () => {
+			matchManagementForm.querySelector('label[for="select-event-team"]')?.remove()
+			matchManagementForm.querySelector('select#select-event-team')?.remove()
+			matchManagementForm.querySelector('label[for="select-event-player"]')?.remove()
+			matchManagementForm.querySelector('select#select-event-player')?.remove()
+			matchManagementForm.querySelector('label[for="select-event-assister-player"]')?.remove()
+			matchManagementForm.querySelector('select#select-event-assister-player')?.remove()
+			matchManagementForm.querySelector('div.input-event-time-wrapper')?.remove()
+			matchManagementForm.querySelector('div.form-check')?.remove()
+			matchManagementForm.querySelector('div.btn-post-event-wrapper')?.remove()
+			matchManagementForm.querySelector('select#select-event-card-type')?.remove()
+			matchManagementForm.querySelector('label[for="select-event-card-type"]')?.remove()
+		}
+
+		const resetSomeFormFields = () => {
+			matchManagementForm.querySelector('label[for="select-event-player"]')?.remove()
+			matchManagementForm.querySelector('select#select-event-player')?.remove()
+			matchManagementForm.querySelector('label[for="select-event-assister-player"]')?.remove()
+			matchManagementForm.querySelector('select#select-event-assister-player')?.remove()
+			matchManagementForm.querySelector('div.form-check')?.remove()
+			matchManagementForm.querySelector('div.btn-post-event-wrapper')?.remove()
+			matchManagementForm.querySelector('select#select-event-card-type')?.remove()
+			matchManagementForm.querySelector('label[for="select-event-card-type"]')?.remove()
+			matchManagementForm.querySelector('div.input-event-time-wrapper')?.remove()
+		}
+
+		const resetSomeLessFormFields = () => {
+			matchManagementForm.querySelector('div.btn-post-event-wrapper')?.remove()
+			matchManagementForm.querySelector('label[for="select-event-card-type"]')?.remove()
+			matchManagementForm.querySelector('select#select-event-card-type')?.remove()
+			matchManagementForm.querySelector('div.input-event-time-wrapper')?.remove()
+
+		}
+
+		// let eventEndpoint = ''
 
 		selectEventType.addEventListener('change', () => {
+			resetAllFormFields()
 			// eventEndpoint = (selectEventType.value == 1) ? 'matches/goals' 
 			// 	: (selectEventType.value == 2 || selectEventType == 3) ? 'matches/cards'
 			// 	: (selectEventType.value == 4) ? 'matches/substitutions'
 			// 	: ''
 
+			// reset form fields and remove them from DOM if they exist already
+
 			if (selectEventType.value) {
 				matchManagementForm.insertAdjacentHTML('beforeend', `
-					<label for="select-event-team" class="i18 form-label" key="SelectEventTeamLabel">${i18next.t("SelectEventTeamLabel")}</label>
+					<label for="select-event-team" class="i18 form-label mt-3 mb-0" key="SelectEventTeamLabel">${i18next.t("SelectEventTeamLabel")}</label>
 					<select id="select-event-team" class="form-select">
 						<option value="" selected class="i18" key="SelectEventTeamPlaceholder">${i18next.t("SelectEventTeamPlaceholder")}</option>
-						<option value="1">${match.team1.name}</option>
-						<option value="2">${match.team2.name}</option>
+						<option value="${match.team1.id}">${match.team1.name}</option>
+						<option value="${match.team1.id}">${match.team2.name}</option>
 					</select>
 				`)
 
@@ -60,110 +98,204 @@ const init = async () => {
 
 				let players = []
 
-				selectEventTeam.addEventListener('change', () => {
-					players = (selectEventTeam.value == 1) ? playersTeam1 : playersTeam2
-				})
-
 				switch (selectEventType.value) {
 					// Goal
-					case 1:
-						if (selectEventTeam.value) {
-							matchManagementForm.insertAdjacentHTML('beforeend', `
-								<label for="select-event-player" class="i18 form-label" key="SelectEventPlayerLabel">${i18next.t("SelectEventPlayerLabel")}</label>
-								<select id="select-event-player" class="form-select">
-									<option value="" selected class="i18" key="SelectEventPlayerPlaceholder">${i18next.t("SelectEventPlayerPlaceholder")}</option>
-									${players.map(player => `<option value="${player.id}">${player.name}</option>`)}
-								</select>
+					case "1":
+						let postGoalValidator = new JustValidate(matchManagementForm, {
+							validateBeforeSubmitting: true,
+						})
 
-								${(match.sportId == 1) ? `
-									<div class="form-group">
-										<label for="input-event-time" class="i18" key="InputEventTimeLabel">${i18next.t("InputEventTimeLabel")}</label>
-										<input type="number" class="form-control" id="input-event-time">
-									</div>
-								` : ''}
+						selectEventTeam.addEventListener('change', () => {
+						// reset player fields and remove them from DOM if they exist already
+							postGoalValidator.destroy()
 
-								<div class="form-check">
-									<input class="form-check-input" type="checkbox" value="" id="checkbox-event-assister-player">
-									<label class="form-check-label i18" key="CheckboxEventAssisterPlayerLabel" for="checkbox-event-assister-player">${i18next.t("CheckboxEventAssisterPlayerLabel")}</label>
-								</div>
-							`)
-
-							const checkboxEventAssisterPlayer = matchManagementForm.querySelector('input#checkbox-event-assister-player')
-
-							if (checkboxEventAssisterPlayer.checked) {
-								matchManagementForm.insertAdjacentHTML('beforeend', `
-									<label for="select-event-assister-player" class="i18 form-label" key="SelectEventAssisterPlayerLabel">${i18next.t("SelectEventAssisterPlayerLabel")}</label>
-									<select id="select-event-assister-player" class="form-select">
-										<option value="" selected class="i18" key="SelectEventAssisterPlayerPlaceholder">${i18next.t("SelectEventAssisterPlayerPlaceholder")}</option>
-										${players.map(player => `<option value="${player.id}">${player.name}</option>`)}
-									</select>
-								`)
-							} else {
-								matchManagementForm.querySelector('label[for="select-event-assister-player"]').remove()
-								matchManagementForm.querySelector('select#select-event-assister-player').remove()
-							}
-
-							const selectEventPlayer = matchManagementForm.querySelector('select#select-event-player')
-							const selectEventAssisterPlayer = matchManagementForm.querySelector('select#select-event-assister-player')
-
-							const postGoalValidator = new JustValidate(matchManagementForm, {
+							postGoalValidator = new JustValidate(matchManagementForm, {
 								validateBeforeSubmitting: true,
 							})
 
-							postGoalValidator
-								.addField(selectEventPlayer, [
-									{
-										rule: 'required',
-										errorMessage: `<span class="i18" key="JogadorObrigatorio">${i18next.t("JogadorObrigatorio")}</span>`,
-									},
-									{
-										validator: (value, item) => {
-											return selectEventPlayer.value != selectEventAssisterPlayer.value
-										},
-										errorMessage: `<span class="i18" key="JogadoresDiferentes">${i18next.t("JogadoresDiferentes")}</span>`
-									}
-
-								])
-								.onSuccess(async e => {
-									e.preventDefault()
-
-									loader.show()
-									await postGoal({
-										"MatchId": match.id,
-										"PlayerTempId": selectEventPlayer.value,
-										"TeamId": selectEventTeam.value,
-										"AssisterPlayerTempId": selectEventAssisterPlayer?.value
-									})
-									loader.hide()
-								})
-						}
-						break;
-					// Card 
-					case 2 || 3:
 							if (selectEventTeam.value) {
-								// true = yellowCard, false = redCard
-								let cardType = (selectEventType.value == 2) ? true : (selectEventType.value == 3) ? false : ''
+								resetSomeFormFields()
+
+								players = (selectEventTeam.value == 1) ? playersTeam1 : playersTeam2
 
 								matchManagementForm.insertAdjacentHTML('beforeend', `
-									<label for="select-event-player" class="i18 form-label" key="SelectEventPlayerLabel">${i18next.t("SelectEventPlayerLabel")}</label>
-									<select id="select-event-player" class="form-select">
-										<option value="" selected class="i18" key="SelectEventPlayerPlaceholder">${i18next.t("SelectEventPlayerPlaceholder")}</option>
-										${players.map(player => `<option value="${player.id}">${player.name}</option>`)}
-									</select>
+									<div>
+										<label for="select-event-player" class="i18 form-label mb-0 mt-3" key="SelectEventPlayerLabel">${i18next.t("SelectEventPlayerLabel")}</label>
+										<select id="select-event-player" class="form-select">
+											<option value="" selected class="i18" key="SelectEventPlayerPlaceholder">${i18next.t("SelectEventPlayerPlaceholder")}</option>
+											${players.map(player => `<option value="${player.id}">${player.name}</option>`)}
+										</select>
+									</div>
+
+									<div class="form-check mt-2">
+										<input class="form-check-input" type="checkbox" value="" id="checkbox-event-assister-player">
+										<label class="form-check-label i18 mb-0" key="CheckboxEventAssisterPlayerLabel" for="checkbox-event-assister-player">${i18next.t("CheckboxEventAssisterPlayerLabel")}</label>
+									</div>
+
 									${(match.sportId == 1) ? `
-										<div class="form-group">
-											<label for="input-event-time" class="i18" key="InputEventTimeLabel">${i18next.t("InputEventTimeLabel")}</label>
-											<input min="0" type="number" class="form-control" id="input-event-time">
+										<div class="input-event-time-wrapper form-group mt-3">
+											<label for="input-event-time" class="i18 form-label mb-0" key="InputEventTimeLabel">${i18next.t("InputEventTimeLabel")}</label>
+											<input type="number" class="form-control" id="input-event-time">
 										</div>
 									` : ''}
+
+									<div class="btn-post-event-wrapper d-flex justify-content-center">
+										<button type="submit" class="btn-post-event btn btn-primary mt-3 i18" key="AdicionarEvento">${i18next.t("AdicionarEvento")}</button>
+									</div>
+								`)
+
+								const selectEventPlayer = matchManagementForm.querySelector('select#select-event-player')
+
+								const checkboxEventAssisterPlayer = matchManagementForm.querySelector('input#checkbox-event-assister-player')
+
+								checkboxEventAssisterPlayer.addEventListener('change', () => {
+									if (checkboxEventAssisterPlayer.checked) {
+										matchManagementForm.querySelector('div.form-check').insertAdjacentHTML('beforebegin', `
+											<div>
+												<label for="select-event-assister-player" class="i18 form-label mb-0 mt-2" key="SelectEventAssisterPlayerLabel">${i18next.t("SelectEventAssisterPlayerLabel")}</label>
+												<select id="select-event-assister-player" class="form-select">
+													<option value="" selected class="i18" key="SelectEventAssisterPlayerPlaceholder">${i18next.t("SelectEventAssisterPlayerPlaceholder")}</option>
+													${players.map(player => `<option value="${player.id}">${player.name}</option>`)}
+												</select>
+											</div>
+										`)
+
+										postGoalValidator
+												.addField(matchManagementForm.querySelector("select#select-event-assister-player"), [
+													{
+														validator: (value) => {
+															return value != selectEventPlayer.value
+														},
+														errorMessage: `<span class="i18" key="JogadoresDiferentes">${i18next.t("JogadoresDiferentes")}</span>`
+													},
+													{
+														rule: 'required',
+														errorMessage: `<span class="i18" key="JogadorAssistenteObrigatorio">${i18next.t("JogadorAssistenteObrigatorio")}</span>`
+													}
+												])
+									} else {
+										postGoalValidator.removeField(matchManagementForm.querySelector('select#select-event-assister-player'))
+
+										matchManagementForm.querySelector('label[for="select-event-assister-player"]').remove()
+										matchManagementForm.querySelector('select#select-event-assister-player').remove()
+									}
+								})
+
+								const selectEventAssisterPlayer = matchManagementForm.querySelector('select#select-event-assister-player')
+								const inputEventTime = matchManagementForm.querySelector('input#input-event-time')
+
+								selectEventAssisterPlayer?.addEventListener('change', () => {
+									postGoalValidator.revalidate()
+								})
+
+								// selectEventPlayer.addEventListener('change', () => {
+								// 	postGoalValidator.revalidate()
+								// })
+
+								if (inputEventTime) {
+									postGoalValidator
+										.addField(inputEventTime, [
+											{
+												rule: 'required',
+												errorMessage: `<span class="i18" key="TempoObrigatorio">${i18next.t("TempoObrigatorio")}</span>`,
+											}
+										])
+								} 
+
+								postGoalValidator
+									.addField(selectEventPlayer, [
+										{
+											rule: 'required',
+											errorMessage: `<span class="i18" key="JogadorObrigatorio">${i18next.t("JogadorObrigatorio")}</span>`,
+										},
+										{
+											validator: (value) => {
+												return value != selectEventAssisterPlayer?.value
+											},
+											errorMessage: `<span class="i18" key="JogadoresDiferentes">${i18next.t("JogadoresDiferentes")}</span>`
+										},
+									])
+									.onSuccess(async e => {
+										e.preventDefault()
+
+										loader.show()
+										await postGoal({
+											"MatchId": match.id,
+											"PlayerTempId": selectEventPlayer.value,
+											"TeamId": selectEventTeam.value,
+											"AssisterPlayerTempId": selectEventAssisterPlayer?.value
+										})
+										loader.hide()
+									})
+							} else {
+								resetSomeFormFields()
+							}
+						})
+						break;
+					// Card 
+					case "2":
+						let postCardValidator = new JustValidate(matchManagementForm, {
+							validateBeforeSubmitting: true,
+						})
+
+						selectEventTeam.addEventListener('change', () => {
+							// reset player fields and remove them from DOM if they exist already
+							postCardValidator.destroy()
+
+							postCardValidator = new JustValidate(matchManagementForm, {
+								validateBeforeSubmitting: true,
+							})
+
+							resetSomeFormFields()
+
+							if (selectEventTeam.value) {
+								// true = yellowCard, false = redCard
+								// let cardType = (selectEventType.value == 2) ? true : (selectEventType.value == 3) ? false : ''
+
+								matchManagementForm.insertAdjacentHTML('beforeend', `
+									<div>
+										<label for="select-event-player" class="i18 form-label mb-0 mt-3" key="SelectEventPlayerLabel">${i18next.t("SelectEventPlayerLabel")}</label>
+										<select id="select-event-player" class="form-select">
+											<option value="" selected class="i18" key="SelectEventPlayerPlaceholder">${i18next.t("SelectEventPlayerPlaceholder")}</option>
+											${players.map(player => `<option value="${player.id}">${player.name}</option>`)}
+										</select>
+									</div>
+
+									<div>
+										<label for="select-event-card-type" class="i18 form-label mb-0 mt-3" key="SelectEventCardTypeLabel">${i18next.t("SelectEventCardTypeLabel")}</label>
+										<select id="select-event-card-type" class="form-select">
+											<option value="" selected class="i18" key="SelectEventCardTypePlaceholder">${i18next.t("SelectEventCardTypePlaceholder")}</option>
+											<option value="true" class="i18" key="SelectEventCardTypeYellow">${i18next.t("SelectEventCardTypeYellow")}</option>
+											<option value="false" class="i18" key="SelectEventCardTypeRed">${i18next.t("SelectEventCardTypeRed")}</option>
+										</select>
+									</div>
+
+									${(match.sportId == 1) ? `
+										<div class="input-event-time-wrapper form-group mt-3">
+											<label for="input-event-time" class="i18 form-label mb-0" key="InputEventTimeLabel">${i18next.t("InputEventTimeLabel")}</label>
+											<input type="number" class="form-control" id="input-event-time">
+										</div>
+									` : ''}
+
+									<div class="btn-post-event-wrapper d-flex justify-content-center">
+										<button type="submit" class="btn-post-event btn btn-primary mt-3 i18" key="AdicionarEvento">${i18next.t("AdicionarEvento")}</button>
+									</div>
+									
 								`)
 
 								const selectEventPlayer = matchManagementForm.querySelector('select#select-event-player')
 								const inputEventTime = matchManagementForm.querySelector('input#input-event-time')
+								const selectEventCardType = matchManagementForm.querySelector('select#select-event-card-type')
 
-								const postCardValidator = new JustValidate(matchManagementForm, {
-									validateBeforeSubmitting: true,
-								})
+								if (inputEventTime) {
+									postCardValidator
+										.addField(inputEventTime, [
+											{
+												rule: 'required',
+												errorMessage: `<span class="i18" key="TempoObrigatorio">${i18next.t("TempoObrigatorio")}</span>`,
+											}
+										])
+								}
 
 								postCardValidator
 									.addField(selectEventPlayer, [
@@ -172,10 +304,10 @@ const init = async () => {
 											errorMessage: `<span class="i18" key="JogadorObrigatorio">${i18next.t("JogadorObrigatorio")}</span>`,
 										}
 									])
-									.addField(inputEventTime, [
+									.addField(selectEventCardType, [
 										{
 											rule: 'required',
-											errorMessage: `<span class="i18" key="TempoObrigatorio">${i18next.t("TempoObrigatorio")}</span>`,
+											errorMessage: `<span class="i18" key="CartaoObrigatorio">${i18next.t("CartaoObrigatorio")}</span>`,
 										}
 									])
 									.onSuccess(async e => {
@@ -186,17 +318,19 @@ const init = async () => {
 											"MatchId": match.id,
 											"PlayerTempId": selectEventPlayer.value,
 											"TeamId": selectEventTeam.value,
-											"CardType": cardType
+											"CardType": selectEventCardType.value,
 										})
 										loader.hide()
 									})
+							} else {
+								resetSomeLessFormFields()
 							}
+						})
 					default:
 						break;
 				}
 			} else {
-				matchManagementForm.querySelector('label[for="select-event-team"]').remove()
-				matchManagementForm.querySelector('select#select-event-team').remove()
+				resetAllFormFields()
 			}
 		})
 	}
@@ -207,9 +341,9 @@ const init = async () => {
 		}
 
 		if (menuSelecionado != 0) {
-			blurWallEvents.classList.add('d-none')
+			blurWallEvents?.classList.add('d-none')
 		} else {
-			blurWallEvents.classList.remove('d-none')
+			blurWallEvents?.classList.remove('d-none')
 		}
 	} 
 

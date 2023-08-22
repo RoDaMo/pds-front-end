@@ -16,15 +16,22 @@
     "SelectEventTeamPlaceholder": "Selecione o time...",
     "SelectEventPlayerLabel": "Selecione o jogador",
     "SelectEventPlayerPlaceholder": "Selecione o jogador...",
+    "SelectEventCardTypeLabel": "Selecione o tipo de cartão",
+    "SelectEventCardTypePlaceholder": "Selecione o tipo de cartão...",
+    "SelectEventCardTypeYellow": "Amarelo",
+    "SelectEventCardTypeRed": "Vermelho",
     "CheckboxEventAssisterPlayerLabel": "Houve assistência?",
     "SelectEventAssisterPlayerLabel": "Selecione o jogador que deu a assistência",
     "SelectEventAssisterPlayerPlaceholder": "Selecione o jogador...",
     "BlurwallMessageUserText": "A partida ainda não foi iniciada. Aguarde o início da partida para ver os eventos.",
     "BlurwallMessageOrganizerText": "A partida não pode ser iniciada sem configuração. Por favor, configure a partida antes de iniciar.",
     "JogadorObrigatorio": "O jogador é obrigatório.",
+    "CartaoObrigatorio": "O tipo de cartão é obrigatório.",
+    "JogadorAssistenteObrigatorio": "O jogador assistente é obrigatório.",
     "JogadoresDiferentes": "Os jogadores devem ser diferentes.",
     "SucessoPostGol": "Gol registrado com sucesso.",
     "DataPartidaNaoChegou": "A data da partida ainda não chegou.",
     "TempoObrigatorio": "O tempo do evento é obrigatório.",
-    "InputEventTimeLabel": "Tempo do evento (minutos)"
+    "InputEventTimeLabel": "Tempo do evento (minutos)",
+    "AdicionarEvento": "Adicionar Evento"
 }
