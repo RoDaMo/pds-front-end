@@ -290,6 +290,15 @@ body {
                 }
 
                 #match-details-content-admin {
+                    #event-admin-label {
+                        width: 50%;
+
+                        @include media-breakpoint-down(sm) {
+                            & {
+                                width: 100%;
+                            }
+                        }
+                    }
                     #match-management-form {
                         width: 50%;
 

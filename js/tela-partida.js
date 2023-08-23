@@ -36,6 +36,15 @@ const init = async () => {
 	}
 
 	const matchManagementSystem = () => {
+		matchManagementForm.insertAdjacentHTML('beforeend', `
+			<label for="select-event-type" class="form-label i18 mb-0" key="SelectEventTypeLabel">${i18next.t("SelectEventTypeLabel")}</label>
+			<select id="select-event-type" class="form-select">
+				<option selected value="" class="i18" key="SelectEventTypePlaceholder">${i18next.t("SelectEventTypePlaceholder")}</option>
+				<option value="1" class="i18" key="Goal">${i18next.t("Goal")}</option>
+				${(match.isSoccer) ? `<option value="2" class="i18" key="Falta">${i18next.t("Falta")}</option>` : ''}
+			</select>  
+		`)
+		
 		const selectEventType = matchManagementForm.querySelector('select#select-event-type')
 
 		// reset form fields and remove them from DOM if they exist already
@@ -374,6 +383,24 @@ const init = async () => {
 		}
 	}
 
+	const loadScoreboard = () => {
+		matchScoreWrapper.insertAdjacentHTML('beforeend', `
+			<span id="match-score" class="text-black fw-bold">${match.homeGoals} : ${match.visitorGoals}</span>
+		`)
+		mTeam1NameWrapper.insertAdjacentHTML('beforeend', `
+			<span id="m-team1-name" class="m-team-name fw-semibold text-black text-wrap text-center d-block">${match.homeName}</span>
+		`)
+		mTeam1ImgWrapper.insertAdjacentHTML('beforeend', `
+			<img class="m-team-img position-absolute img-fluid w-100 h-100" src="${match.homeEmblem}" alt="">
+		`)
+		mTeam2NameWrapper.insertAdjacentHTML('beforeend', `
+			<span id="m-team2-name" class="m-team-name fw-semibold text-black text-wrap text-center text-end d-block">${match.visitorName}</span>
+		`)
+		mTeam2ImgWrapper.insertAdjacentHTML('beforeend', `
+			<img class="m-team-img position-absolute img-fluid w-100 h-100" src="${match.visitorEmblem}" alt="">
+		`)
+	}
+
 	const listPlayers = async () => {
 		const team1PlayersList = document.querySelector('#match-details-content-players-team1')
 		const team2PlayersList = document.querySelector('#match-details-content-players-team2')
@@ -422,31 +449,29 @@ const init = async () => {
 	}
 
 	const endMatch = async () => {
-		// const callbackStatus = (data) => {
-		// 	notificacaoErro(data.results)
-		// }
+		const callbackStatus = (data) => {
+			notificacaoErro(data.results)
+		}
 
-		// let endpoint = ''
+		let endpoint = ''
 
-		// loader.show()
-		// const championshipData = await executarFetch(`championships/${match.championshipId}`, configuracaoFetch('GET')),
-		// 	campeonato = championshipData.results
+		loader.show()
+		const championshipData = await executarFetch(`championships/${match.championshipId}`, configuracaoFetch('GET')),
+			campeonato = championshipData.results
 
-		// endpoint = (campeonato.format == 3) ? 'end-game-league-system' 
-		// : (campeonato.format == 1) ? 'end-game-knockout' 
-		// : (campeonato.format == 4) ? 'end-game-group-stage' 
-		// : ''
+		endpoint = (campeonato.format == 3) ? 'end-game-league-system' 
+		: (campeonato.format == 1) ? 'end-game-knockout' 
+		: (campeonato.format == 4) ? 'end-game-group-stage' 
+		: ''
 
-		// const configFetch = configuracaoFetch('PUT'),
-		// 	response = await executarFetch(`matches/${match.id}/${endpoint}`, configFetch, callbackStatus)
+		const configFetch = configuracaoFetch('PUT'),
+			response = await executarFetch(`matches/${match.id}/${endpoint}`, configFetch, callbackStatus)
 
-		// loader.hide()
+		loader.hide()
 
-		// if (response.succeed) {
-		// 	notificacaoSucesso(i18next.t("SucessoFinalizarPartida"))
-		// }
-
-		console.log('Partida finalizada');
+		if (response.succeed) {
+			notificacaoSucesso(i18next.t("SucessoFinalizarPartida"))
+		}
 	}
 
 
@@ -736,6 +761,8 @@ const init = async () => {
 			})
 
 			listPlayers()
+
+			loadScoreboard()
 		}
 	}
 
@@ -753,26 +780,31 @@ const init = async () => {
 		matchDetails = document.getElementById('match-details'),
 		blurWallEvents = document.getElementById('blurwall-events'),
 		manageMatchBtn = document.getElementById('manage-match-btn'),
-		matchManagementForm = document.getElementById('match-management-form')
+		matchManagementForm = document.getElementById('match-management-form'),
+		matchScoreWrapper = document.getElementById('match-score-wrapper'),
+		mTeam1NameWrapper = document.getElementById('m-team1-name-wrapper'),
+		mTeam2NameWrapper = document.getElementById('m-team2-name-wrapper'),
+		mTeam1ImgWrapper = document.getElementById('m-team1-img-wrapper'),
+		mTeam2ImgWrapper = document.getElementById('m-team2-img-wrapper')
 
-	loader.show()
-	const 
-		dataMatch = await executarFetch(`matches/${matchId}`, configuracaoFetch('GET')),
-		match = dataMatch.results
+	// loader.show()
+	// const 
+	// 	dataMatch = await executarFetch(`matches/${matchId}`, configuracaoFetch('GET')),
+	// 	match = dataMatch.results
 	
-	const 
-		dataPlayersTeam1 = await executarFetch(`teams/${match.homeId}/players`, configuracaoFetch('GET')),
-		playersTeam1 = dataPlayersTeam1.results
+	// const 
+	// 	dataPlayersTeam1 = await executarFetch(`teams/${match.homeId}/players`, configuracaoFetch('GET')),
+	// 	playersTeam1 = dataPlayersTeam1.results
 	
-	const 
-		dataPlayersTeam2 = await executarFetch(`teams/${match.visitorId}/players`, configuracaoFetch('GET')),
-		playersTeam2 = dataPlayersTeam2.results
+	// const 
+	// 	dataPlayersTeam2 = await executarFetch(`teams/${match.visitorId}/players`, configuracaoFetch('GET')),
+	// 	playersTeam2 = dataPlayersTeam2.results
 
-	const
-		matchStartConditions = await executarFetch(`matches/${matchId}/start-conditions`, configuracaoFetch('GET')),
-		matchStartConditionsResults = matchStartConditions.results
-	console.log(match)
-	loader.hide()
+	// const
+	// 	matchStartConditions = await executarFetch(`matches/${matchId}/start-conditions`, configuracaoFetch('GET')),
+	// 	matchStartConditionsResults = matchStartConditions.results
+	// console.log(match)
+	// loader.hide()
 
 	for(const blankSpace of blankSpaces) {
 		blankSpace.style.height = `${matchDetailsOptions.offsetHeight + 35}px`
@@ -786,7 +818,7 @@ const init = async () => {
 	}
 
     changeConfigOptionsContext(0)
-	await carregarPartida()
+	// await carregarPartida()
 	console.log(sessionUserInfo);
 }
 
