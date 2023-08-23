@@ -40,10 +40,19 @@ const init = async () => {
 			<label for="select-event-type" class="form-label i18 mb-0" key="SelectEventTypeLabel">${i18next.t("SelectEventTypeLabel")}</label>
 			<select id="select-event-type" class="form-select">
 				<option selected value="" class="i18" key="SelectEventTypePlaceholder">${i18next.t("SelectEventTypePlaceholder")}</option>
-				<option value="1" class="i18" key="Goal">${i18next.t("Goal")}</option>
+				<option value="1" class="i18" key=${(match.isSoccer) ? "Goal" : "Ponto"}>${(match.isSoccer) ? i18next.t("Goal") : i18next.t("Ponto")}</option>
 				${(match.isSoccer) ? `<option value="2" class="i18" key="Falta">${i18next.t("Falta")}</option>` : ''}
 			</select>  
 		`)
+
+		if (match.isSoccer) {
+			matchManagementForm.insertAdjacentHTML('afterend', `
+				<hr class="w-75">
+				<div id="end-match-wrapper" class="d-flex justify-content-center">
+					<button id="end-match-btn" data-bs-toggle="modal" data-bs-target="#endMatchModal" class="btn btn-danger w-auto"><span class="i18" key="EndMatch">${i18next.t("EndMatch")}</span></button>
+				</div>
+			`)
+		}
 		
 		const selectEventType = matchManagementForm.querySelector('select#select-event-type')
 
@@ -84,13 +93,9 @@ const init = async () => {
 
 		const confirmEndMatchBtn = document.querySelector('#confirm-end-match-btn')
 
-		if (!match.isSoccer) {
-			confirmEndMatchBtn.classList.add('d-none')
-		} else {
-			confirmEndMatchBtn.addEventListener('click', async () => {
-				await endMatch()
-			})
-		}
+		confirmEndMatchBtn.addEventListener('click', async () => {
+			await endMatch()
+		})
 
 		selectEventType.addEventListener('change', () => {
 			resetAllFormFields()
