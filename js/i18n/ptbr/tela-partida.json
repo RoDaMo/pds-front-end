@@ -33,5 +33,9 @@
     "DataPartidaNaoChegou": "A data da partida ainda não chegou.",
     "TempoObrigatorio": "O tempo do evento é obrigatório.",
     "InputEventTimeLabel": "Tempo do evento (minutos)",
-    "AdicionarEvento": "Adicionar Evento"
+    "AdicionarEvento": "Adicionar Evento",
+    "Certeza": "Tem certeza?",
+    "TextoFinalizarPartida": "Você está prestes a finalizar a partida. Tem certeza que deseja prosseguir?",
+    "EndMatch": "Finalizar Partida",
+    "SucessoFinalizarPartida": "Partida finalizada com sucesso."
 }

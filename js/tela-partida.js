@@ -73,14 +73,18 @@ const init = async () => {
 
 		}
 
-		// let eventEndpoint = ''
+		const confirmEndMatchBtn = document.querySelector('#confirm-end-match-btn')
+
+		if (!match.isSoccer) {
+			confirmEndMatchBtn.classList.add('d-none')
+		} else {
+			confirmEndMatchBtn.addEventListener('click', async () => {
+				await endMatch()
+			})
+		}
 
 		selectEventType.addEventListener('change', () => {
 			resetAllFormFields()
-			// eventEndpoint = (selectEventType.value == 1) ? 'matches/goals' 
-			// 	: (selectEventType.value == 2 || selectEventType == 3) ? 'matches/cards'
-			// 	: (selectEventType.value == 4) ? 'matches/substitutions'
-			// 	: ''
 
 			// reset form fields and remove them from DOM if they exist already
 
@@ -415,6 +419,34 @@ const init = async () => {
 				</div>
 			`)
 		})
+	}
+
+	const endMatch = async () => {
+		// const callbackStatus = (data) => {
+		// 	notificacaoErro(data.results)
+		// }
+
+		// let endpoint = ''
+
+		// loader.show()
+		// const championshipData = await executarFetch(`championships/${match.championshipId}`, configuracaoFetch('GET')),
+		// 	campeonato = championshipData.results
+
+		// endpoint = (campeonato.format == 3) ? 'end-game-league-system' 
+		// : (campeonato.format == 1) ? 'end-game-knockout' 
+		// : (campeonato.format == 4) ? 'end-game-group-stage' 
+		// : ''
+
+		// const configFetch = configuracaoFetch('PUT'),
+		// 	response = await executarFetch(`matches/${match.id}/${endpoint}`, configFetch, callbackStatus)
+
+		// loader.hide()
+
+		// if (response.succeed) {
+		// 	notificacaoSucesso(i18next.t("SucessoFinalizarPartida"))
+		// }
+
+		console.log('Partida finalizada');
 	}
 
 

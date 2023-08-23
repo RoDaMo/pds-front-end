@@ -33,5 +33,9 @@
     "DataPartidaNaoChegou": "The match date has not yet arrived.",
     "TempoObrigatorio": "The event time is required.",
     "InputEventTimeLabel": "Event time (min)",
-    "AdicionarEvento": "Add Event"
+    "AdicionarEvento": "Add Event",
+    "Certeza": "Are you sure?",
+    "TextoFinalizarPartida": "You are about to end the match. Are you sure you want to proceed?",
+    "EndMatch": "End Match",
+    "SucessoFinalizarPartida": "Match successfully finished."
 }
