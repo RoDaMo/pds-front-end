@@ -189,7 +189,7 @@ const configProximo = async () => {
 
     usarObjeto()
 
-    const endpoint = `organizer/championship${params.toString() ? '?' + params.toString() : ''}`
+    const endpoint = `championship${params.toString() ? '?' + params.toString() : ''}`
 
     return await executarFetch(endpoint, configPaginacao, null, callbackServidor)
 }
