@@ -25,6 +25,7 @@
     "SelectEventCardTypeYellow": "Yellow",
     "SelectEventCardTypeRed": "Red",
     "CheckboxEventAssisterPlayerLabel": "Was there assistance?",
+    "CheckboxEventOwnGoalLabel": "Was it an own goal?",
     "SelectEventAssisterPlayerLabel": "Select the assister player",
     "SelectEventAssisterPlayerPlaceholder": "Select the assister player...",
     "BlurwallMessageUserText": "The match has not yet started. Wait for the start of the match to see the events.",
@@ -38,10 +39,15 @@
     "SucessoPostCartao": "Card successfully registered.",
     "DataPartidaNaoChegou": "The match date has not yet arrived.",
     "TempoObrigatorio": "The event time is required.",
+    "TempoMaximoPartida": "The event time cannot be greater than the match time.",
+    "TempoMaximoOvertime": "The event time cannot be greater than the overtime time.",
     "InputEventTimeLabel": "Event time (min)",
     "AdicionarEvento": "Add Event",
     "Certeza": "Are you sure?",
     "TextoFinalizarPartida": "You are about to end the match. Are you sure you want to proceed?",
+    "TextoIniciarProrrogacao": "You are about to start the overtime. Are you sure you want to proceed?",
     "EndMatch": "End Match",
-    "SucessoFinalizarPartida": "Match successfully finished."
+    "SucessoFinalizarPartida": "Match successfully finished.",
+    "StartOvertime": "Start Overtime",
+    "SucessoStartOvertime": "Overtime successfully started."
 }

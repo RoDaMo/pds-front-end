@@ -25,6 +25,7 @@
     "SelectEventCardTypeYellow": "Amarelo",
     "SelectEventCardTypeRed": "Vermelho",
     "CheckboxEventAssisterPlayerLabel": "Houve assistência?",
+    "CheckboxEventOwnGoalLabel": "O gol foi contra?",
     "SelectEventAssisterPlayerLabel": "Selecione o jogador que deu a assistência",
     "SelectEventAssisterPlayerPlaceholder": "Selecione o jogador...",
     "BlurwallMessageUserText": "A partida ainda não foi iniciada. Aguarde o início da partida para ver os eventos.",
@@ -38,10 +39,15 @@
     "SucessoPostCartao": "Cartão registrado com sucesso.",
     "DataPartidaNaoChegou": "A data da partida ainda não chegou.",
     "TempoObrigatorio": "O tempo do evento é obrigatório.",
+    "TempoMaximoPartida": "O tempo do evento não pode ser maior que o tempo da partida.",
+    "TempoMaximoOvertime": "O tempo do evento não pode ser maior que o tempo da prorrogação.",
     "InputEventTimeLabel": "Tempo do evento (minutos)",
     "AdicionarEvento": "Adicionar Evento",
     "Certeza": "Tem certeza?",
     "TextoFinalizarPartida": "Você está prestes a finalizar a partida. Tem certeza que deseja prosseguir?",
+    "TextoIniciarProrrogacao": "Você está prestes a iniciar a prorrogação. Tem certeza que deseja prosseguir?",
     "EndMatch": "Finalizar Partida",
-    "SucessoFinalizarPartida": "Partida finalizada com sucesso."
+    "SucessoFinalizarPartida": "Partida finalizada com sucesso.",
+    "StartOvertime": "Iniciar Prorrogação",
+    "SucessoStartOvertime": "Prorrogação iniciada com sucesso."
 }

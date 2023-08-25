@@ -71,19 +71,29 @@ const init = async () => {
 			<label for="select-event-type" class="form-label i18 mb-0" key="SelectEventTypeLabel">${i18next.t("SelectEventTypeLabel")}</label>
 			<select id="select-event-type" class="form-select">
 				<option selected value="" class="i18" key="SelectEventTypePlaceholder">${i18next.t("SelectEventTypePlaceholder")}</option>
-				<option value="1" class="i18" key=${(match.isSoccer) ? "Gol" : "Ponto"}>${(match.isSoccer) ? i18next.t("Gol") : i18next.t("Ponto")}</option>
-				${(match.isSoccer) ? `<option value="2" class="i18" key="Falta">${i18next.t("Falta")}</option>` : ''}
-				${(isMatchTied && match.isSoccer) ? `<option value="3" class="i18" key="Penalti">${i18next.t("Penalti")}</option>` : ''}
+				${(!isPenaltyShootout) ? `<option value="1" class="i18" key=${(match.isSoccer) ? "Gol" : "Ponto"}>${(match.isSoccer) ? i18next.t("Gol") : i18next.t("Ponto")}</option>` : ''}
+				${(match.isSoccer && !isPenaltyShootout) ? `<option value="2" class="i18" key="Falta">${i18next.t("Falta")}</option>` : ''}
+				${(isPenaltyElegible) ? `<option value="3" class="i18" key="Penalti">${i18next.t("Penalti")}</option>` : ''}
 			</select>  
 		`)
 
 		if (match.isSoccer) {
-			matchManagementForm.insertAdjacentHTML('afterend', `
-				<hr class="w-75">
-				<div id="end-match-wrapper" class="d-flex justify-content-center">
-					<button id="end-match-btn" data-bs-toggle="modal" data-bs-target="#endMatchModal" class="btn btn-danger w-auto"><span class="i18" key="EndMatch">${i18next.t("EndMatch")}</span></button>
-				</div>
-			`)
+			if (isOvertimeElegible && !isPenaltyShootout) {
+				matchManagementForm.insertAdjacentHTML('afterend', `
+					<div id="start-overtime-wrapper" class="d-flex my-1 justify-content-center">
+						<button id="start-overtime-btn" data-bs-toggle="modal" data-bs-target="#startOvertimeModal" class="btn btn-danger w-auto"><span class="i18" key="StartOvertime">${i18next.t("StartOvertime")}</span></button>
+					</div>
+				`)
+			}
+			
+			if (!isPenaltyShootout) {
+				matchManagementForm.insertAdjacentHTML('afterend', `
+					<hr class="w-75">
+					<div id="end-match-wrapper" class="d-flex my-1 justify-content-center">
+						<button id="end-match-btn" data-bs-toggle="modal" data-bs-target="#endMatchModal" class="btn btn-danger w-auto"><span class="i18" key="EndMatch">${i18next.t("EndMatch")}</span></button>
+					</div>
+				`)
+			}
 		}
 		
 		const selectEventType = matchManagementForm.querySelector('select#select-event-type')
@@ -122,6 +132,12 @@ const init = async () => {
 			matchManagementForm.querySelector('div.input-event-time-wrapper')?.remove()
 
 		}
+
+		const confirmStartOvertimeBtn = document.querySelector('#confirm-start-overtime-btn')
+
+		confirmStartOvertimeBtn.addEventListener('click', async () => {
+			await startOvertime()
+		})
 
 		const confirmEndMatchBtn = document.querySelector('#confirm-end-match-btn')
 
@@ -177,9 +193,17 @@ const init = async () => {
 										</select>
 									</div>
 
+									${(match.isSoccer) ? `
+										<div class="form-check mt-2">
+											<input class="form-check-input" type="checkbox" value="" id="checkbox-event-assister-player">
+											<label class="form-check-label i18 mb-0" key="CheckboxEventAssisterPlayerLabel" for="checkbox-event-assister-player">${i18next.t("CheckboxEventAssisterPlayerLabel")}</label>
+										</div>
+									` : ''}
+
+
 									<div class="form-check mt-2">
-										<input class="form-check-input" type="checkbox" value="" id="checkbox-event-assister-player">
-										<label class="form-check-label i18 mb-0" key="CheckboxEventAssisterPlayerLabel" for="checkbox-event-assister-player">${i18next.t("CheckboxEventAssisterPlayerLabel")}</label>
+										<input class="form-check-input" type="checkbox" value="" id="checkbox-event-own-goal">
+										<label class="form-check-label i18 mb-0" key="CheckboxEventOwnGoalLabel" for="checkbox-event-own-goal">${i18next.t("CheckboxEventOwnGoalLabel")}</label>
 									</div>
 
 									${(match.isSoccer) ? `
@@ -195,7 +219,7 @@ const init = async () => {
 								`)
 
 								const selectEventPlayer = matchManagementForm.querySelector('select#select-event-player')
-
+								const checkboxEventOwnGoal = matchManagementForm.querySelector('input#checkbox-event-own-goal')
 								const checkboxEventAssisterPlayer = matchManagementForm.querySelector('input#checkbox-event-assister-player')
 
 								checkboxEventAssisterPlayer.addEventListener('change', () => {
@@ -253,6 +277,27 @@ const init = async () => {
 												errorMessage: `<span class="i18" key="TempoObrigatorio">${i18next.t("TempoObrigatorio")}</span>`,
 											}
 										])
+									if (isOvertime) {
+										postGoalValidator
+											.addField(inputEventTime, [
+												{
+													validator: (value) => {
+														return value <= 120
+													},
+													errorMessage: `<span class="i18" key="TempoMaximoOvertime">${i18next.t("TempoMaximoOvertime")}</span>`
+												}
+											])
+									} else {
+										postGoalValidator
+											.addField(inputEventTime, [
+												{
+													validator: (value) => {
+														return value <= 90
+													},
+													errorMessage: `<span class="i18" key="TempoMaximoPartida">${i18next.t("TempoMaximoPartida")}</span>`
+												}
+											])
+									}
 								} 
 
 								postGoalValidator
@@ -280,9 +325,14 @@ const init = async () => {
 										}
 
 										body[playerKey] = selectEventPlayer.value
-										
-										if (checkboxEventAssisterPlayer.checked) {
-											body[assisterPlayerKey] = selectEventAssisterPlayer.value
+
+										if (match.isSoccer) {
+											body["OwnGoal"] = checkboxEventOwnGoal.checked
+											body["Minutes"] = inputEventTime.value
+
+											if (checkboxEventAssisterPlayer.checked) {
+												body[assisterPlayerKey] = selectEventAssisterPlayer.value
+											}
 										}
 
 										loader.show()
@@ -311,9 +361,6 @@ const init = async () => {
 							resetSomeFormFields()
 
 							if (selectEventTeam.value) {
-								// true = yellowCard, false = redCard
-								// let cardType = (selectEventType.value == 2) ? true : (selectEventType.value == 3) ? false : ''
-
 								matchManagementForm.insertAdjacentHTML('beforeend', `
 									<div>
 										<label for="select-event-player" class="i18 form-label mb-0 mt-3" key="SelectEventPlayerLabel">${i18next.t("SelectEventPlayerLabel")}</label>
@@ -352,14 +399,35 @@ const init = async () => {
 								const selectedPlayer = players.find(player => player.id == selectEventPlayer.value)
 
 								if (inputEventTime) {
-									postCardValidator
+									postGoalValidator
 										.addField(inputEventTime, [
 											{
 												rule: 'required',
 												errorMessage: `<span class="i18" key="TempoObrigatorio">${i18next.t("TempoObrigatorio")}</span>`,
 											}
 										])
-								}
+									if (isOvertime) {
+										postGoalValidator
+											.addField(inputEventTime, [
+												{
+													validator: (value) => {
+														return value <= 120
+													},
+													errorMessage: `<span class="i18" key="TempoMaximoOvertime">${i18next.t("TempoMaximoOvertime")}</span>`
+												}
+											])
+									} else {
+										postGoalValidator
+											.addField(inputEventTime, [
+												{
+													validator: (value) => {
+														return value <= 90
+													},
+													errorMessage: `<span class="i18" key="TempoMaximoPartida">${i18next.t("TempoMaximoPartida")}</span>`
+												}
+											])
+									}
+								} 
 
 								postCardValidator
 									.addField(selectEventPlayer, [
@@ -383,6 +451,7 @@ const init = async () => {
 											"MatchId": match.id,
 											"TeamId": selectEventTeam.value,
 											"CardType": selectEventCardType.value,
+											"Minutes": inputEventTime.value
 										}
 
 										body[playerKey] = selectEventPlayer.value
@@ -603,6 +672,22 @@ const init = async () => {
 			notificacaoSucesso(i18next.t("SucessoFinalizarPartida"))
 		}
 	}
+
+	const startOvertime = async () => {
+		const callbackStatus = (data) => {
+			notificacaoErro(data.results)
+		}
+
+		loader.show()
+		const configFetch = configuracaoFetch('PUT'),
+			response = await executarFetch(`matches/${match.id}/prorrogation`, configFetch, callbackStatus)
+
+		loader.hide()
+
+		if (response.succeed) {
+			notificacaoSucesso(i18next.t("SucessoStartOvertime"))
+		}
+	}
 	
 	// To do:
 	// Function to check in the events endpoint if there is any penalty goals
@@ -615,11 +700,46 @@ const init = async () => {
 
 	// Change event timing validations (soccer only) if overtime has started
 
-	const isMatchTied = () => {
-		if (match.homeGoals == match.visitorGoals) {
-			return true
-		} else {
-			return false
+	const isPenaltyElegible = () => {
+		if (match.isSoccer) {
+			if (campeonato.format == 1) {
+				const isKnockoutDoubleMatch = () => {
+					return (campeonato.doubleMatchEliminations) ? true : false
+				}
+	
+				if (!isKnockoutDoubleMatch) {
+					return (match.homeGoals == match.visitorGoals) ? true : false
+				} else {
+					return (match.homeAggregatedGoals == match.visitorAggregatedGoals) ? true : false
+				}
+			}
+		}
+	}
+
+	const isPenaltyShootout = () => {
+		if (match.isSoccer) {
+			return (allEvents.penalties.length > 0) ? true : false
+		}
+	}
+
+	const isOvertimeElegible = () => {
+		if (match.isSoccer) {
+			const isDoubleMatch = () => {
+				return (campeonato.doubleStartLeagueSystem || campeonato.doubleMatchEliminations || campeonato.doubleMatchGroupStage || campeonato.finalDoubleMatch) ? true : false
+			}
+
+			if (isDoubleMatch) {
+				return (match.homeAggregatedGoals == match.visitorAggregatedGoals) ? true : false
+			} else {
+				return (match.homeGoals == match.visitorGoals) ? true : false
+			}
+
+		}
+	}
+
+	const isOvertime = () => {
+		if (match.isSoccer) {
+			return (match.overtime) ? true : false
 		}
 	}
 
@@ -959,6 +1079,10 @@ const init = async () => {
 	// const
 	// 	matchStartConditions = await executarFetch(`matches/${matchId}/start-conditions`, configuracaoFetch('GET')),
 	// 	matchStartConditionsResults = matchStartConditions.results
+
+	// const
+	// 	dataCampeonato = await executarFetch(`championships/${match.championshipId}`, configuracaoFetch('GET')),
+	// 	campeonato = dataCampeonato.results
 	// console.log(match)
 	// loader.hide()
 
