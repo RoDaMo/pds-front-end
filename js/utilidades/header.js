@@ -254,10 +254,11 @@ export class header extends HTMLElement {
 
         const defaultImg = 'https://cdn-icons-png.flaticon.com/512/17/17004.png'
         const user = JSON.parse(localStorage.getItem('user-info'))
+        const navbarToggler = document.querySelector('.navbar-toggler')
         const info = /* html */`
             <li class="nav-item d-none d-lg-inline-flex me-5 navbar-user-img-wrapper navbar-clicavel" data-bs-toggle="offcanvas" data-bs-target="#offcanvasUser" aria-controls="offcanvasUser" aria-label="Toggle navigation">
                 <i class="bi bi-caret-left-fill mt-1 text-black"></i>
-                <img src="${user.picture ? user.picture : defaultImg}" class="foto-usuario ms-2 h-100 w-100">
+                <img src="${user.picture ? user.picture : defaultImg}" width="32" height="32" class="rounded-circle border border-2 ms-2">
             </li>
             <!--
             <li class="nav-item mx-4 d-none d-lg-block">
@@ -297,6 +298,11 @@ export class header extends HTMLElement {
         `
         const status = document.getElementById('status-usuario')
         status.innerHTML = info
+
+        navbarToggler.innerHTML = /* html */`
+            <img src="${user.picture ? user.picture : defaultImg}" class="foto-usuario-mobile border border-2 ms-2 h-100 w-100">
+        `
+
         const offcanvasUser = document.createElement('div')
         offcanvasUser.classList.add('offcanvas', 'offcanvas-end')
         offcanvasUser.id = 'offcanvasUser'
@@ -305,7 +311,7 @@ export class header extends HTMLElement {
         offcanvasUser.innerHTML = /* html */`
             <div class="offcanvas-header">
                 <div class="d-flex flex-row gap-3">
-                    <img src="${user.picture ? user.picture : defaultImg}" class="foto-usuario">
+                    <img src="${user.picture ? user.picture : defaultImg}" width="32" height="32" class="rounded-circle border border-2">
                     <h5 class="offcanvas-title" id="offcanvasUserName">${user.userName}</h5>
                     <p id="usernameChampionshipId" class="d-none">${user.championshipId}</p>
                     <p id="usernameTeamManagementId" class="d-none">${user.teamManagementId}</p>

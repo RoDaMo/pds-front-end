@@ -23,9 +23,7 @@ const validator = new JustValidate(formulario, {
     validateBeforeSubmitting: true,
 })
 criarValidacao()
-
 visualizarSenha()
-
 redirecionamento(nomeUsuario)
 
 document.getElementById("continuar").addEventListener("click", async(e) => {
@@ -59,6 +57,7 @@ async function postUsuarioExiste(body) {
 }
 
 async function postToken(body) {
+    console.log('hahaha')
     const config = configuracaoFetch("POST", body)
 
     if (!window.location.href.includes('netlify'))
@@ -68,6 +67,7 @@ async function postToken(body) {
     const res = await fetch(`${api}auth`, config)
     const data = await res.json()
     loader.hide()
+    console.log('hahaha 2')
 
     if(!data.succeed){
         mensagemErro.textContent = data.message
@@ -85,9 +85,28 @@ document.addEventListener('nova-lingua', criarValidacao)
 const opcao1 = document.getElementById("1")
 const opcao2 = document.getElementById("2")
 const lng = localStorage.getItem('lng');
-lng === 'ptbr' ? opcao1.selected = 'true' : opcao2.selected = 'true'
+lng === 'ptbr' ? opcao1.selected == 'true' : opcao2.selected == 'true'
 document.addEventListener('DOMContentLoaded', () => document.dispatchEvent(new Event('header-carregado', { bubbles: true })))
+document.getElementById('formulario').addEventListener('submit', (e) => e.preventDefault())
 
+async function callbackValidation(e) {
+    e.preventDefault()
+    if (!validator.isFormValid())
+        validator.refresh()
+
+    limparMensagem(mensagemErro)
+
+    loader.show();
+    const formData = new FormData(formulario)
+
+    await postToken({
+        "Username": nomeUsuario.value,
+        "Password": senha.value,
+        "RememberMe": lembrar.checked ? true : false,
+        "CaptchaToken": formData.get('g-recaptcha-response')
+    })
+    loader.hide();
+}
 
 function criarValidacao() {
     validator
@@ -124,19 +143,7 @@ function criarValidacao() {
             },
             
         ])
-        .onSuccess(async(e) => {
-            e.preventDefault()
-            limparMensagem(mensagemErro)
-    
-            loader.show();
-            const formData = new FormData(formulario)
-    
-            await postToken({
-                "Username": nomeUsuario.value,
-                "Password": senha.value,
-                "RememberMe": lembrar.checked ? true : false,
-                "CaptchaToken": formData.get('g-recaptcha-response')
-            })
-            loader.hide();
-        })
+        .onSuccess(callbackValidation)
 }
+
+document.getElementById('formulario').addEventListener('submit-firefox', callbackValidation)
