@@ -3,9 +3,8 @@
   "appName": "PlayOffs",
   "webDir": "app",
   "bundledWebRuntime": false,
-  "plugins": {
-    "CapacitorHttp": {
-      "enabled": true
-    }
+  "server": {
+    "hostname": "www.playoffs.app.br",
+    "androidScheme": "https"
   }
 }

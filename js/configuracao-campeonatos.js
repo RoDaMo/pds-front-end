@@ -694,6 +694,7 @@ const init = async () => {
 		loader.hide()
 
 		if (response.succeed) {
+			const linkChaveamento = document.getElementById('link-bracket-btn-wrapper');
 			if (response.results) {
 				// se estiver criado, bloquear a edição do campeonado 
 				disableForm()
@@ -708,20 +709,26 @@ const init = async () => {
 				confirmDeleteBracketBtn.addEventListener('click', async () => {
 					await deleteBracket(campeonato.id)
 				})
+
+				linkChaveamento.href = '/pages/tabela-chaveamento.html?id=' + campeonato.id
 			} else {
 				// se não estiver criado, permitir a edição do campeonato
 				enableForm()
 				enableTeamsManipulation()
 				
 				bracketBtnWrapper.innerHTML = `
-					<button disabled data-bs-toggle="modal" data-bs-target="#bracketCreateModal" id="create-bracket-btn" class="btn border-0 d-flex justify-content-center align-items-center chaveamento-btn">
-						<i class="bi bi-diagram-2 me-2"></i>
-						<span class="i18 fw-semibold" key="CriarChaveamento">${i18next.t("CriarChaveamento")}</span>
-					</button> 
+				<button disabled data-bs-toggle="modal" data-bs-target="#bracketCreateModal" id="create-bracket-btn" class="btn border-0 d-flex justify-content-center align-items-center chaveamento-btn">
+				<i class="bi bi-diagram-2 me-2"></i>
+				<span class="i18 fw-semibold" key="CriarChaveamento">${i18next.t("CriarChaveamento")}</span>
+				</button> 
 				`
 				confirmCreateBracketBtn.addEventListener('click', async () => {
 					await createBracket(campeonato.id)
-				})
+
+					bracketCreateModalBT.hide()
+				}, { once: true })
+				
+				linkChaveamento.classList.add('d-none')
 			}
 		}
 	}
@@ -1124,11 +1131,11 @@ const init = async () => {
 		}
 	}
 
-	confirmCreateBracketBtn.addEventListener('click', async () => {
-		await createBracket(campeonato.id)
+	// confirmCreateBracketBtn.addEventListener('click', async () => {
+	// 	await createBracket(campeonato.id)
 
-		bracketCreateModalBT.hide()
-	})
+	// 	bracketCreateModalBT.hide()
+	// })
 
 	changeConfigOptionsContext(0)
 	inicializarCampos()
