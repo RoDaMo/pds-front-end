@@ -371,9 +371,9 @@ export class header extends HTMLElement {
         if (campeonatoId) {
             // TODO: remover essa limitação e adicionar pagina para listar campeonatos do usuário
             return /* html */`
-            <a href="/pages/configuracao-campeonato.html" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
-                <i class="bi bi-calendar-plus fs-4"></i>
-                <span class="i18" key="ConfigurarCampeonato">${i18next.t("ConfigurarCampeonato")}</span>
+            <a href="/pages/listagem-campeo-usuario.html" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
+            <i class="bi bi-list-ul fs-4"></i>
+                <span class="i18" key="Campeonatos gerenciados">${i18next.t("Campeonatos gerenciados")}</span>
             </a>
             `
         }

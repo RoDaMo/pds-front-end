@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script type="module" src="../js/utilidades/preloader.js"></script>
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <title>Listagem de campeonato</title>
+</head>
+<body>
+  <componente-preloader></componente-preloader>
+  <componente-header></componente-header>
+  <main class="container">
+
+
+    <div class="mt-4">
+      <p class="text-dark" id="mensagem-erro"></p>
+    </div>  
+    
+    <div class="row align-items-start mt-5 gap-0">
+      
+      <div class="col-md-2 mb-2">
+        <select id="esportes" class="form-select" aria-label="Default select example"  placeholder="Filtrar a partir de...">
+            <option class="i18" key="Esportes" value="" selected>Esportes</option>
+            <option class="i18" key="Futebol" value="1">Futebol</option>
+            <option class="i18" key="Volei" value="2">Vôlei</option>  
+          </select>
+      </div>
+
+      <div class="col-md-2 mb-2">
+            <div class="input-group ">
+              <input id="data-inicio" type="text" class="form-control" placeholder="Filtrar a partir de..." aria-label="Filtrar a partir de..." aria-describedby="basic-addon2">
+                
+            </div>
+      </div>
+
+      <div class="col-md-2 mb-2">
+            <div class="input-group">
+              <input id="data-fim" type="text" class="form-control" placeholder="Filtrar até..." aria-label="Filtrar até..." aria-describedby="basic-addon2">
+                
+            </div>
+      </div>
+
+      <div class="col-md-2 mb-2">
+        <select id="status" class="form-select">
+            <option class="i18" key="Status" value="" selected>Status</option>
+            <option class="i18" key="Ativo" value="0">Ativo</option>
+            <option class="i18" key="Finalizado" value="1">Finalizado</option>  
+            <option class="i18" key="Inativo" value="2">Inativo</option>
+            <option class="i18" key="Pendente" value="3">Pendente</option>  
+          </select>
+      </div>
+
+      <div class="col-md-3 mb-2 border-start">
+        <button id="limpar" type="button" class="btn btn-outline-primary i18" key="LimparFiltros">Limpar filtros</button>
+      </div>
+
+      
+    </div>
+
+  
+
+
+    <div id="conteudo">
+
+    </div>
+    
+    <div class="mt-4 mb-4 d-flex justify-content-center gap-4">
+      <button id="anterior" class="btn btn-success"><i class="bi bi-caret-left"></i></button>
+      <button id="proximo" class="btn btn-success"><i class="bi bi-caret-right"></i></button>
+    </div>
+  </main>
+
+  <componente-footer></componente-footer>
+  <script type="module" src="../main.js"></script>
+  <script type="module" src="../js/utilidades/header.js"></script>
+  <script type="module" src="../js/listagem-campeo-usuario.js"></script>
+  <script type="module" src="../js/utilidades/footer.js"></script>
+</body>
+</html>
