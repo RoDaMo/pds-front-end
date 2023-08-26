@@ -22,7 +22,8 @@
 				<ul class="list-group list-group-flush config-menu-list" id="config-menu-list">
 					<button class="list-group-item list-group-item-action my-1 border-0 rounded-4 active" menu="0"><i class="bi bi-gear me-2"></i> <span class="i18" key="Editar">Editar informações</span> </button>
 					<button class="list-group-item list-group-item-action my-1 border-0 rounded-4" menu="1"><i class="bi bi-people me-2"></i><span class="i18" key="Times">Times</span> </button>
-					<button class="list-group-item list-group-item-action my-1 border-0 rounded-4" menu="2"><i class="bi bi-trash me-2"></i><span class="i18" key="Exclusao">Exclusão</span></button>
+					<button id="btn-suborg" class="list-group-item list-group-item-action my-1 border-0 rounded-4" menu="2"><i class="bi bi-people me-2"></i><span class="i18" key="SubOrganizadores">Sub-Organizadores</span> </button>
+					<button id="exclusao-campeonato" class="list-group-item list-group-item-action my-1 border-0 rounded-4" menu="3"><i class="bi bi-trash me-2"></i><span class="i18" key="Exclusao">Exclusão</span></button>
 					<!-- <button class="list-group-item list-group-item-action my-1 border-0 mb-2 rounded-4"><i class="bi bi-envelope me-2"></i>Emails/Sessões</button> -->
 				</ul>
 
@@ -270,11 +271,37 @@
 
 					</div>
 
-					<!-- Exclusão -->
 					<div class="d-none menu-config" menu="2">
+						<h5 class="i18" key="VincularSubOrganizadores">Vincular sub organizadores</h5>
+						<hr>
+						<p class="text-danger fs-6">
+							<span class="i18" key="avisoSubOrg">Por favor, esteja ciente de que os sub-organizadores não possuem permissão para excluir o campeonato e também não têm a capacidade de adicionar ou remover outros sub-organizadores.</span>
+						</p>
+				
+						  <button type="button" class="btn btn-primary mb-3" id="botao-vincular-suborg"><i class="bi bi-plus-circle px-2"></i> <span class="i18" key="AdicionarSubOrg">Adicionar sub-organizadores</span> </button>
+						<form class="form-group mt-3 d-none" id="pesquisa-suborg">
+						  <div>
+							<label for="pesquisa-suborg-input" class="i18" key="PesquiseSuborg"></label>
+							<input  name="query" id="pesquisa-suborg-input" class="form-control i18-placeholder" key="PesquiseSubOrgPlaceholder" placeholder="Escreva o nome de um usuário para pesquisar...">
+						  </div>
+						</form>
+						<div id="addedSubOrg" class="mt-5">
+							<div data-lenis-prevent id="suborg-vinculados" class="p-3 rounded-5"></div>
+							<h6 class="i18" key="SubOrgVinculados">Sub-organizadores vinculados</h6>
+							<div id="suborganizadores-ja-vinculados">
+
+							</div>
+						</div>
+					  </div>
+
+
+
+
+
+					  
+					<div class="d-none menu-config" menu="3">
 						<h5 class="text-danger text-center i18" key="ExcluirCampeonato">Excluir Campeonato</h5>
-						<hr class="my-2">
-						
+						<hr class="my-2">				
 						<div class="mt-4">
 								<p class="text-danger fs-6">
 									<span class="i18" key="Ao">Ao clicar no botão de excluir campeonato, você estará dando início ao processo de </span>
