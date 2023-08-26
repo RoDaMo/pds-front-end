@@ -33,7 +33,8 @@ const init = async () => {
 
 		if (response.succeed) {
 			notificacaoSucesso(i18next.t("SucessoPostGol"))
-			updateScoreboard()
+			await updateScoreboard()
+			await loadEvents()
 		}
 	}
 
@@ -49,6 +50,7 @@ const init = async () => {
 
 		if (response.succeed) {
 			notificacaoSucesso(i18next.t("SucessoPostCartao"))
+			await loadEvents()
 		}
 	}
 
@@ -64,6 +66,7 @@ const init = async () => {
 
 		if (response.succeed) {
 			notificacaoSucesso(i18next.t("SucessoPostPenalty"))
+			await loadEvents()
 		}
 	}
 
@@ -612,7 +615,11 @@ const init = async () => {
 
 	const loadScoreboard = () => {
 		matchScoreWrapper.insertAdjacentHTML('beforeend', `
-			<span id="match-score" class="text-black fw-bold">${match.homeGoals} : ${match.visitorGoals}</span>
+			${match.isSoccer ? `
+				<span id="match-score" class="text-black fw-bold">${match.homeGoals} : ${match.visitorGoals}</span>
+			` : `
+				<span id="match-score" class="text-black fw-bold">${match.homeWinnigSets} : ${match.visitorWinnigSets}</span>
+			`}
 		`)
 		mTeam1NameWrapper.insertAdjacentHTML('beforeend', `
 			<span id="m-team1-name" class="m-team-name fw-semibold text-black text-wrap text-center d-block">${match.homeName}</span>
@@ -628,8 +635,12 @@ const init = async () => {
 		`)
 	}
 
-	const updateScoreboard = () => {
+	const updateScoreboard = async () => {
 		const matchScore = document.querySelector('#match-score')
+
+		const 
+			dataMatch = await executarFetch(`matches/${matchId}`, configuracaoFetch('GET')),
+			match = dataMatch.results
 
 		matchScore.textContent = `${match.homeGoals} : ${match.visitorGoals}`
 	}
@@ -771,6 +782,181 @@ const init = async () => {
 		}
 	}
 
+	const loadEvents = async () => {
+		// Clear blurwall 
+		eventsWrapperTeam1.innerHTML = ''
+		eventsWrapperTeam2.innerHTML = ''
+
+		// How to order all the events?
+		// Time Marking
+		// 1. Get all goals
+		// 2. Get all cards
+		// 3. Put them in the same array
+		// 4. Order the array by time (earliest to latest)
+		// 5. Loop through the array
+		// 6. Verify if the event is from team 1 or team 2
+			// 6.1. If it's a team 1 event, add the event to the team 1 eventsWrapper and add a blank space on the team 2 eventsWrapper
+				// 6.1.1. If it's a goal, insert the goal event template
+				// 6.1.2. If it's a card, insert the card event template
+					// 6.1.2.1. If it's a red card, insert the red card event icon
+					// 6.1.2.2. If it's a yellow card, insert the yellow card event icon
+			// 6.2. If it's a team 2 event, add the event to the team 2 eventsWrapper and add a blank space on the team 1 eventsWrapper
+				// 6.2.1. If it's a goal, insert the goal event template
+				// 6.2.2. If it's a card, insert the card event template
+					// 6.2.2.1. If it's a red card, insert the red card event icon
+					// 6.2.2.2. If it's a yellow card, insert the yellow card event icon
+					
+		// Get all goals
+		const
+			matchGoals = await executarFetch(`matches/${matchId}/goals`, configuracaoFetch('GET')),
+			matchGoalsResults = matchGoals.results
+
+		// Get all cards
+		const
+			matchCards = await executarFetch(`matches/${matchId}/cards`, configuracaoFetch('GET')),
+			matchCardsResults = matchCards.results
+		
+		// Put them in the same array
+		let matchEvents = []
+		matchGoalsResults.forEach(goal => {
+			goal.type = 'goal'
+			matchEvents.push(goal)
+		})
+		matchCardsResults.forEach(card => {
+			card.type = 'card'
+			matchEvents.push(card)
+		})
+		
+		// Order the array by time (earliest to latest)
+		matchEvents.sort((a, b) => {
+			return a.time - b.time
+		})
+
+		const isTeam1 = teamId => {
+			return teamId == matchTeam1Id
+		}
+
+		const isTeam2 = teamId => {
+			return teamId == matchTeam2Id
+		}
+
+		// Loop through the array
+		matchEvents.forEach(event => {		
+			let eventData = ''	
+			let eventIllustration = ''	
+
+			let eventPlayer
+			let eventAssisterPlayer
+
+			if (match.isSoccer) {
+				if (event.type == 'goal') {
+					eventData = `
+						<div class="event-type"><span class="text-muted i18" key="Gol">${i18next.t("Gol")}</span></div>
+						<i class="bi bi-dot"></i>
+						<div class="event-time"><span class="text-muted">${event.Time}</span></div>
+					`
+
+					eventIllustration = `
+						<img src="../public/icons/sports_soccer.svg" alt="">
+					`
+				} else if (event.type == 'card') {
+					eventData = `
+						<div class="event-type"><span class="text-muted i18" key="Falta">${i18next.t("Falta")}</span></div>
+						<i class="bi bi-dot"></i>
+						<div class="event-time"><span class="text-muted">${event.Time}</span></div>
+					`
+
+					if (event.cardType == 'red') {
+						eventIllustration = `
+							<img src="../public/icons/red_card.svg" alt="">
+						`
+					} else if (event.cardType == 'yellow') {
+						eventIllustration = `
+							<img src="../public/icons/yellow_card.svg" alt="">
+						`
+					}
+				} else if (event.type == 'penalty') {
+					if(event.converted) {
+						eventData = `							
+							<div class="event-type"><span class="text-muted i18" key="Penalti">${i18next.t("Penalti")}</span></div>
+							<i class="bi bi-dot"></i>
+							<div class="event-desc"><span class="text-muted">${i18next.t("ScoredPenalty")}</span></div>
+						`
+
+						eventIllustration = `
+							<img src="../public/icons/sports_penalty.svg" alt="">
+						`
+					} else {
+						eventData = `
+							<div class="event-type"><span class="text-muted i18" key="Penalti">${i18next.t("Penalti")}</span></div>
+							<i class="bi bi-dot"></i>
+							<div class="event-desc"><span class="text-muted">${i18next.t("MissedPenalty")}</span></div>
+						`
+
+						eventIllustration = `
+							<img src="../public/icons/sports_missed_penalty.svg" alt="">
+						`
+					}
+				}
+			} else if (!match.isSoccer) {
+				if (event.type == 'goal') {
+					eventData = `
+						<div class="event-type"><span class="text-muted i18" key="Ponto">${i18next.t("Ponto")}</span></div>
+					`
+
+					eventIllustration = `
+						<img src="../public/icons/sports_volleyball.svg" alt="">
+					`
+				}
+			}
+
+			// Verify if the event is from team 1 or team 2
+			if (isTeam1(event.teamId)) {						
+				eventPlayer = playersTeam1.find(player => player.id == event.PlayerTempId)
+				eventAssisterPlayer = playersTeam1.find(player => player.id == event.AssisterPlayerTempId)
+
+			} else if (isTeam2(event.teamId)) {
+				eventPlayer = playersTeam2.find(player => player.id == event.PlayerTempId)
+				eventAssisterPlayer = playersTeam2.find(player => player.id == event.AssisterPlayerTempId)
+			}
+
+			let eventTemplate = `
+				<div class="row row-cols-md-2 row-cols-1 p-3 my-2 match-details-content-event align-items-center rounded-5">
+					<div class="col">
+						<div class="row flex-column">
+							<div class="col event-player-name"><span class="fw-semibold text-black text-truncate text-center text-md-start m-truncated-text-width d-block">${eventPlayer.name}</span></div>
+							${(event.type == 'goal') ?
+								(event.AssisterPlayerTempId) ? `
+									<div class="col event-player-name"><span class="fw-semibold text-black text-center text-md-start m-truncated-text-width text-truncate d-block">${eventAssisterPlayer.name}</span></div>
+								` : ''
+							: ''}
+							<div class="col d-flex flex-row event-data">
+								${eventData}
+							</div>
+						</div>
+					</div>
+					<div class="col d-flex align-items-center pe-0 event-illustration">
+						${eventIllustration}
+					</div>
+				</div>
+			`
+
+			if (isTeam1(event.teamId)) {					
+				eventsWrapperTeam1.insertAdjacentHTML('beforeend', eventTemplate)
+
+				eventsWrapperTeam2.insertAdjacentHTML('beforeend', `
+					<div class="row w-auto blank-space"></div>
+				`)
+			} else if (isTeam2(event.teamId)) {
+				eventsWrapperTeam2.insertAdjacentHTML('beforeend', eventTemplate)
+
+				eventsWrapperTeam1.insertAdjacentHTML('beforeend', `
+					<div class="row w-auto blank-space"></div>
+				`)
+			}
+		})
+	}
+
 	async function carregarPartida() {
 		if (!isMatchConfigured) {
 			blurWallEvents.classList.remove('d-none')
@@ -891,181 +1077,8 @@ const init = async () => {
 				matchManagementSystem()
 			}
 
-			// Clear blurwall 
-			eventsWrapperTeam1.innerHTML = ''
-			eventsWrapperTeam2.innerHTML = ''
-
-			// How to order all the events?
-			// Time Marking
-			// 1. Get all goals
-			// 2. Get all cards
-			// 3. Put them in the same array
-			// 4. Order the array by time (earliest to latest)
-			// 5. Loop through the array
-			// 6. Verify if the event is from team 1 or team 2
-				// 6.1. If it's a team 1 event, add the event to the team 1 eventsWrapper and add a blank space on the team 2 eventsWrapper
-					// 6.1.1. If it's a goal, insert the goal event template
-					// 6.1.2. If it's a card, insert the card event template
-						// 6.1.2.1. If it's a red card, insert the red card event icon
-						// 6.1.2.2. If it's a yellow card, insert the yellow card event icon
-				// 6.2. If it's a team 2 event, add the event to the team 2 eventsWrapper and add a blank space on the team 1 eventsWrapper
-					// 6.2.1. If it's a goal, insert the goal event template
-					// 6.2.2. If it's a card, insert the card event template
-						// 6.2.2.1. If it's a red card, insert the red card event icon
-						// 6.2.2.2. If it's a yellow card, insert the yellow card event icon
-						
-			// Get all goals
-			const
-				matchGoals = await executarFetch(`matches/${matchId}/goals`, configuracaoFetch('GET')),
-				matchGoalsResults = matchGoals.results
-
-			// Get all cards
-			const
-				matchCards = await executarFetch(`matches/${matchId}/cards`, configuracaoFetch('GET')),
-				matchCardsResults = matchCards.results
-			
-			// Put them in the same array
-			let matchEvents = []
-			matchGoalsResults.forEach(goal => {
-				goal.type = 'goal'
-				matchEvents.push(goal)
-			})
-			matchCardsResults.forEach(card => {
-				card.type = 'card'
-				matchEvents.push(card)
-			})
-			
-			// Order the array by time (earliest to latest)
-			matchEvents.sort((a, b) => {
-				return a.time - b.time
-			})
-
-			const isTeam1 = teamId => {
-				return teamId == matchTeam1Id
-			}
-
-			const isTeam2 = teamId => {
-				return teamId == matchTeam2Id
-			}
-
-			// Loop through the array
-			matchEvents.forEach(event => {		
-				let eventData = ''	
-				let eventIllustration = ''	
-
-				let eventPlayer
-				let eventAssisterPlayer
-
-				if (match.isSoccer) {
-					if (event.type == 'goal') {
-						eventData = `
-							<div class="event-type"><span class="text-muted i18" key="Gol">${i18next.t("Gol")}</span></div>
-							<i class="bi bi-dot"></i>
-							<div class="event-time"><span class="text-muted">${event.Time}</span></div>
-						`
-
-						eventIllustration = `
-							<img src="../public/icons/sports_soccer.svg" alt="">
-						`
-					} else if (event.type == 'card') {
-						eventData = `
-							<div class="event-type"><span class="text-muted i18" key="Falta">${i18next.t("Falta")}</span></div>
-							<i class="bi bi-dot"></i>
-							<div class="event-time"><span class="text-muted">${event.Time}</span></div>
-						`
-
-						if (event.cardType == 'red') {
-							eventIllustration = `
-								<img src="../public/icons/red_card.svg" alt="">
-							`
-						} else if (event.cardType == 'yellow') {
-							eventIllustration = `
-								<img src="../public/icons/yellow_card.svg" alt="">
-							`
-						}
-					} else if (event.type == 'penalty') {
-						if(event.converted) {
-							eventData = `							
-								<div class="event-type"><span class="text-muted i18" key="Penalti">${i18next.t("Penalti")}</span></div>
-								<i class="bi bi-dot"></i>
-								<div class="event-desc"><span class="text-muted">${i18next.t("ScoredPenalty")}</span></div>
-							`
-
-							eventIllustration = `
-								<img src="../public/icons/sports_penalty.svg" alt="">
-							`
-						} else {
-							eventData = `
-								<div class="event-type"><span class="text-muted i18" key="Penalti">${i18next.t("Penalti")}</span></div>
-								<i class="bi bi-dot"></i>
-								<div class="event-desc"><span class="text-muted">${i18next.t("MissedPenalty")}</span></div>
-							`
-
-							eventIllustration = `
-								<img src="../public/icons/sports_missed_penalty.svg" alt="">
-							`
-						}
-					}
-				} else if (!match.isSoccer) {
-					if (event.type == 'goal') {
-						eventData = `
-							<div class="event-type"><span class="text-muted i18" key="Ponto">${i18next.t("Ponto")}</span></div>
-						`
-
-						eventIllustration = `
-							<img src="../public/icons/sports_volleyball.svg" alt="">
-						`
-					}
-				}
-
-				// Verify if the event is from team 1 or team 2
-				if (isTeam1(event.teamId)) {						
-					eventPlayer = playersTeam1.find(player => player.id == event.PlayerTempId)
-					eventAssisterPlayer = playersTeam1.find(player => player.id == event.AssisterPlayerTempId)
-
-				} else if (isTeam2(event.teamId)) {
-					eventPlayer = playersTeam2.find(player => player.id == event.PlayerTempId)
-					eventAssisterPlayer = playersTeam2.find(player => player.id == event.AssisterPlayerTempId)
-				}
-
-				let eventTemplate = `
-					<div class="row row-cols-md-2 row-cols-1 p-3 my-2 match-details-content-event align-items-center rounded-5">
-						<div class="col">
-							<div class="row flex-column">
-								<div class="col event-player-name"><span class="fw-semibold text-black text-truncate text-center text-md-start m-truncated-text-width d-block">${eventPlayer.name}</span></div>
-								${(event.type == 'goal') ?
-									(event.AssisterPlayerTempId) ? `
-										<div class="col event-player-name"><span class="fw-semibold text-black text-center text-md-start m-truncated-text-width text-truncate d-block">${eventAssisterPlayer.name}</span></div>
-									` : ''
-								: ''}
-								<div class="col d-flex flex-row event-data">
-									${eventData}
-								</div>
-							</div>
-						</div>
-						<div class="col d-flex align-items-center pe-0 event-illustration">
-							${eventIllustration}
-						</div>
-					</div>
-				`
-
-				if (isTeam1(event.teamId)) {					
-					eventsWrapperTeam1.insertAdjacentHTML('beforeend', eventTemplate)
-
-					eventsWrapperTeam2.insertAdjacentHTML('beforeend', `
-						<div class="row w-auto blank-space"></div>
-					`)
-				} else if (isTeam2(event.teamId)) {
-					eventsWrapperTeam2.insertAdjacentHTML('beforeend', eventTemplate)
-
-					eventsWrapperTeam1.insertAdjacentHTML('beforeend', `
-						<div class="row w-auto blank-space"></div>
-					`)
-				}
-			})
-
+			loadEvents()
 			listPlayers()
-
 			loadScoreboard()
 		}
 	}
