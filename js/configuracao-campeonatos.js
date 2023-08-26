@@ -14,12 +14,40 @@ import portugues from './i18n/ptbr/configuracao-campeonato.json' assert { type: 
 import ingles from './i18n/en/configuracao-campeonato.json' assert { type: 'JSON' }
 import i18next from "i18next";
 import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
+import * as bootstrap from 'bootstrap'
 
 inicializarInternacionalizacao(ingles, portugues);
 
 
 const loader = document.createElement('app-loader');
 document.body.appendChild(loader);
+
+const doubleMatchWrapper = document.getElementById('double-match-wrapper')
+
+const dropZones = document.querySelectorAll(".upload-drop-zone")
+
+for	(const dropZone of dropZones) {
+	dropZone.addEventListener("dragover", e => {
+		e.preventDefault()
+		dropZone.classList.add("dragover")
+	})
+
+	dropZone.addEventListener("dragleave", e => {
+		e.preventDefault()
+		dropZone.classList.remove("dragover")
+	})
+
+	dropZone.addEventListener("drop", async e => {
+		e.preventDefault()
+		dropZone.classList.remove("dragover")
+	})	
+}
+
+function genericExibition(input, data, image) {
+	input.value = `${api}img/${data.results}`
+	exibidorImagem(image, input.value)
+}
+
 
 const init = async () => {
 
@@ -60,13 +88,64 @@ const init = async () => {
 			bairro = document.getElementById('config-championship-bairro-input'),
 			linkRegulamento = document.getElementById('regulamento-existente'),
 			esporte = document.getElementById('config-championship-esporte-input'),
-			form = document.getElementById('update-profile-form'),
-			quantidadeJogadores = document.getElementById('quantidade-jogadores')
+			quantidadeJogadores = document.getElementById('quantidade-jogadores'),
+			configChampionshipDropZone = document.getElementById('config-championship-drop-zone')
+
+		// Double Match Checkboxes
+		const doubleMatchPontosCorridos = document.createElement('div')
+		doubleMatchPontosCorridos.classList.add('form-check', 'mt-2')
+		doubleMatchPontosCorridos.innerHTML = `
+			<label class="form-check-label" for="double-match-pc">
+				<span class="i18 text-black" key="DoubleMatchPC">${i18next.t("DoubleMatchPC")}</span>
+			</label>
+
+			<input class="form-check-input" type="checkbox" value="" id="double-match-pc">
+		`
+
+		let PCCheckboxElem = null
+
+		const doubleMatchEliminatorias = document.createElement('div')
+		doubleMatchEliminatorias.classList.add('form-check', 'mt-2')
+		doubleMatchEliminatorias.innerHTML = `
+			<label class="form-check-label" for="double-match-eliminatorias">
+				<span class="i18 text-black" key="DoubleMatchEliminatorias">${i18next.t("DoubleMatchEliminatorias")}</span>
+			</label>
+			
+			<input class="form-check-input" type="checkbox" value="" id="double-match-eliminatorias">
+		`
+
+		let eliminatoriasCheckboxElem = null
+
+		const doubleMatchFinal = document.createElement('div')
+		doubleMatchFinal.classList.add('form-check', 'mt-2')
+		doubleMatchFinal.innerHTML = `
+			<label class="form-check-label" for="double-match-final">
+				<span class="i18 text-black" key="DoubleMatchFinal">${i18next.t("DoubleMatchFinal")}</span>
+			</label>
+
+			<input class="form-check-input" type="checkbox" value="" id="double-match-final">
+		`
+
+		let finalCheckboxElem = null
+
+		const doubleMatchFaseDeGrupos = document.createElement('div')
+		doubleMatchFaseDeGrupos.classList.add('form-check', 'mt-2')
+		doubleMatchFaseDeGrupos.innerHTML = `
+			<label class="form-check-label" for="double-match-FG">
+				<span class="i18 text-black" key="DoubleMatchFG">${i18next.t("DoubleMatchFG")}</span>
+			</label>
+
+			<input class="form-check-input" type="checkbox" value="" id="double-match-FG">
+		`
+
+		let FGCheckboxElem = null
 
 		const optionDefault = () => {
 			const optionDefault = document.createElement('option')
 			optionDefault.value = ""
-			optionDefault.innerHTML = `<span class="i18" key="SelecioneOpcao">${i18next.t("SelecioneOpcao")}</span>`
+			optionDefault.classList.add('i18')
+			optionDefault.text = i18next.t("SelecioneOpcao")
+			optionDefault.setAttribute("key", "SelecioneOpcao")
 			numero.appendChild(optionDefault)
 		}
 
@@ -83,7 +162,7 @@ const init = async () => {
 		}
 
 		formato.addEventListener("change", () => {
-			if (formato.value === "1") {
+			if (formato.value === "3") {
 				resetQuantidade()
 				for (let i = 1; i <= 18; i++) {
 					if (i % 2 === 0) {
@@ -97,7 +176,82 @@ const init = async () => {
 					adicionarOpcao(2 ** i)
 				}
 			}
+
+			doubleMatchWrapper.innerHTML = ""
+
+			changeTeamQTDStatus()
+
+			verifyDoubleMatch()
 		})
+
+		function changeTeamQTDStatus() {
+			if (esporte.value && formato.value) {
+				numero.value = ""
+				numero.disabled = false;
+				numero.setAttribute("key", "QuantidadePlaceholder")
+				numero.setAttribute("placeholder", i18next.t("QuantidadePlaceholder"))
+				numero.classList.remove("text-muted")
+			} else {
+				numero.value = ""
+				numero.disabled = true;
+				numero.firstElementChild.textContent = i18next.t("QuantidadePlaceholderDisabled")
+				numero.classList.add("text-muted")
+			}
+		}
+		
+		function verifyDoubleMatch() {
+			
+			if (formato.value === "3") {
+				doubleMatchWrapper.appendChild(doubleMatchPontosCorridos)
+				PCCheckboxElem = document.getElementById('double-match-pc')
+				
+				if (campeonato.doubleStartLeagueSystem) {
+					PCCheckboxElem.checked = true
+				}
+
+			} else if (formato.value === "1") {
+				if (esporte.value === "1") {
+					doubleMatchWrapper.appendChild(doubleMatchEliminatorias)
+					eliminatoriasCheckboxElem = document.getElementById('double-match-eliminatorias')
+
+					doubleMatchWrapper.appendChild(doubleMatchFinal)
+					finalCheckboxElem = document.getElementById('double-match-final')
+					
+
+					if (campeonato.doubleMatchEliminations) {
+						eliminatoriasCheckboxElem.checked = true
+					}
+
+					if (campeonato.finalDoubleMatch) {
+						finalCheckboxElem.checked = true
+					}
+				}
+			} else if (formato.value === "4") {
+				doubleMatchWrapper.appendChild(doubleMatchFaseDeGrupos)
+				FGCheckboxElem = document.getElementById('double-match-FG')
+
+				if (campeonato.doubleMatchGroupStage) {
+					FGCheckboxElem.checked = true
+				}
+		
+				if (esporte.value === "1") {
+					doubleMatchWrapper.appendChild(doubleMatchEliminatorias)
+					eliminatoriasCheckboxElem = document.getElementById('double-match-eliminatorias')
+
+					doubleMatchWrapper.appendChild(doubleMatchFinal)
+					finalCheckboxElem = document.getElementById('double-match-final')
+
+					if (campeonato.doubleMatchEliminations) {
+						eliminatoriasCheckboxElem.checked = true
+					}
+
+					if (campeonato.finalDoubleMatch) {
+						finalCheckboxElem.checked = true
+					}
+				}
+				
+			}
+		}
 
 		image.src = campeonato.logo
 		imageInput.value = campeonato.logo
@@ -105,7 +259,7 @@ const init = async () => {
 		descricao.value = campeonato.description
 		dataInicial.value = campeonato.initialDate
 		dataFinal.value = campeonato.finalDate
-		formato.selectedIndex = campeonato.format
+		formato.value = campeonato.format
 		formato.dispatchEvent(new Event('change'))
 
 		for (const option of numero.options) {
@@ -115,12 +269,14 @@ const init = async () => {
 			}
 		}
 
-		nacao.value = campeonato.nation
-		estado.value = campeonato.state
-		cidade.value = campeonato.city
-		bairro.value = campeonato.neighborhood
 		quantidadeJogadores.value = campeonato.numberOfPlayers
 		esporte.selectedIndex = campeonato.sportsId - 1
+
+
+		checkBracketCreationAvailability()
+
+		console.log(campeonato.teams.length);
+		console.log(campeonato.teamQuantity);
 
 		if (campeonato.rules) {
 			linkRegulamento.classList.remove('d-none')
@@ -163,6 +319,11 @@ const init = async () => {
 		})
 
 		esporte.addEventListener("change", () => {
+
+			doubleMatchWrapper.innerHTML = ""
+
+    		changeTeamQTDStatus()
+
 			if (esporte.value === "1") {
 				quantidadeJogadores.value = ""
 				quantidadeJogadores.setAttribute("min", 11)
@@ -178,11 +339,23 @@ const init = async () => {
 				quantidadeJogadores.disabled = false;
 				quantidadeJogadores.setAttribute("key", "QuantidadeJogadoresPlaceholder")
 				quantidadeJogadores.setAttribute("placeholder", i18next.t("QuantidadeJogadoresPlaceholder"))
+
+				formato.disabled = false;
+				formato.value = ""
+				formato.firstElementChild.textContent = i18next.t("FormatoPlaceholder")
+				formato.classList.remove("text-muted")
 			} else {
+				doubleMatchWrapper.innerHTML = ""
+
 				quantidadeJogadores.value = ""
 				quantidadeJogadores.disabled = true;
 				quantidadeJogadores.setAttribute("key", "QuantidadeJogadoresPlaceholderDisabled")
 				quantidadeJogadores.setAttribute("placeholder", i18next.t("QuantidadeJogadoresPlaceholderDisabled"))
+
+				formato.disabled = true;
+				formato.value = ""
+				formato.firstElementChild.textContent = i18next.t("FormatoPlaceholderDisabled")
+				formato.classList.add("text-muted")
 			}
 		})
 
@@ -286,70 +459,6 @@ const init = async () => {
 						errorMessage: `<span class="i18" key="ImagemTamanho">${i18next.t("PdfInvalido")}</span>`,
 					}
 				])
-				.addField(nacao, [
-					{
-						rule: 'required',
-						errorMessage: `<span class="i18" key="PaisObrigatorio">${i18next.t("PaisObrigatorio")}</span>`,
-					},
-					{
-						rule: 'minLength',
-						value: 4,
-						errorMessage: `<span class="i18" key="PaisMinimo">${i18next.t("PaisMinimo")}</span>`,
-					},
-					{
-						rule: 'maxLength',
-						value: 40,
-						errorMessage: `<span class="i18" key="PaisMaximo">${i18next.t("PaisMaximo")}</span>`,
-					},
-				])
-				.addField(estado, [
-					{
-						rule: 'required',
-						errorMessage: `<span class="i18" key="EstadoObrigatorio">${i18next.t("EstadoObrigatorio")}</span>`,
-					},
-					{
-						rule: 'minLength',
-						value: 4,
-						errorMessage: `<span class="i18" key="EstadoMinimo">${i18next.t("EstadoMinimo")}</span>`,
-					},
-					{
-						rule: 'maxLength',
-						value: 40,
-						errorMessage: `<span class="i18" key="EstadoMaximo">${i18next.t("EstadoMaximo")}</span>`,
-					},
-				])
-				.addField(cidade, [
-					{
-						rule: 'required',
-						errorMessage: `<span class="i18" key="CidadeObrigatoria">${i18next.t("CidadeObrigatoria")}</span>`,
-					},
-					{
-						rule: 'minLength',
-						value: 4,
-						errorMessage: `<span class="i18" key="CidadeMinimo">${i18next.t("CidadeMinimo")}</span>`,
-					},
-					{
-						rule: 'maxLength',
-						value: 40,
-						errorMessage: `<span class="i18" key="CidadeMaximo">${i18next.t("CidadeMaximo")}</span>`,
-					},
-				])
-				.addField(bairro, [
-					{
-						rule: 'required',
-						errorMessage: `<span class="i18" key="BairroObrigaorio">${i18next.t("BairroObrigaorio")}</span>`,
-					},
-					{
-						rule: 'minLength',
-						value: 4,
-						errorMessage: `<span class="i18" key="BairroMinimo">${i18next.t("BairroMinimo")}</span>`,
-					},
-					{
-						rule: 'maxLength',
-						value: 40,
-						errorMessage: `<span class="i18" key="BairroMaximo">${i18next.t("BairroMaximo")}</span>`,
-					},
-				])
 				.addField(descricao, [
 					{
 						rule: 'required',
@@ -387,6 +496,40 @@ const init = async () => {
 					// console.log('hello world')
 					// limparMensagem(mensagemErro)
 
+					let PCStatus = false
+					let eliminatoriasStatus = false
+					let finalStatus = false
+					let FGStatus = false
+
+					if (formato.value == "3") {
+						if (PCCheckboxElem.checked) {
+							PCStatus = true
+						}
+					} else if (formato.value == "1") {
+						if(esporte.value == "1") {
+							if (eliminatoriasCheckboxElem.checked) {
+								eliminatoriasStatus = true
+							}
+							if (finalCheckboxElem.checked) {
+								finalStatus = true
+							}
+						}
+					} else if (formato.value == "4") {
+						if (FGCheckboxElem.checked) {
+							FGStatus = true
+						}
+
+						if (esporte.value == "1") {
+							if (eliminatoriasCheckboxElem.checked) {
+								eliminatoriasStatus = true
+							}
+							if (finalCheckboxElem.checked) {
+								finalStatus = true
+							}
+						}
+					}
+
+
 					loader.show()
 					await putCampeonato({
 						"name": name.value,
@@ -396,18 +539,31 @@ const init = async () => {
 						"logo": imageInput.value,
 						"description": descricao.value,
 						"Format": parseInt(formato.value),
-						"Nation": nacao.value,
-						"State": estado.value,
-						"City": cidade.value,
-						"Neighborhood": bairro.value,
 						'id': championshipId,
 						'sportsId': campeonato.sportsId,
 						'rules': linkRegulamento.href,
-						"NumberOfPlayers": parseInt(quantidadeJogadores.value)
+						"NumberOfPlayers": parseInt(quantidadeJogadores.value),
+						"DoubleStartLeagueSystem": PCStatus,
+						"DoubleMatchEliminations": eliminatoriasStatus,
+						"FinalDoubleMatch": finalStatus,
+						"DoubleMatchGroupStage": FGStatus,
 					})
 					loader.hide()
 					// mensagemErro.textContent = ''
+
+					checkBracketCreationAvailability()
 				})
+
+			configChampionshipDropZone.addEventListener("drop", async e => {
+				loader.show()
+				const data = await uploadImagem(e.dataTransfer, 3, mensagemErro)
+				loader.hide()
+	
+				if (Array.isArray(data.results))
+					return;
+	
+				genericExibition(imageInput, data, image)
+			})
 
 			imageFile.addEventListener("change", async () => {
 				const isValid = await validator.revalidateField(imageFile)
@@ -447,6 +603,129 @@ const init = async () => {
 		validator1()
 	}
 
+	const createBracket = async championshipId => {
+		const callbackStatus = (data) => {
+			notificacaoErro(data.results)
+		}
+
+		let endpoint = ''
+
+		// a elegância
+		endpoint = (campeonato.format == 3) ? 'bracketing/league-system' 
+			: (campeonato.format == 1) ? 'bracketing/knockout' 
+			: (campeonato.format == 4) ? 'bracketing/group-stage' 
+			: ''
+
+		loader.show()
+		const configFetch = configuracaoFetch('POST', parseInt(championshipId)),
+			response = await executarFetch(endpoint, configFetch, callbackStatus)
+
+		loader.hide()
+
+		if (response.succeed) {
+			notificacaoSucesso(i18next.t("SucessoCriacaoChaveamento"))
+
+			modalCreateSuccessBracketBT.show()
+
+			if (document.getElementById('botao-vincular-time').querySelector('span').getAttribute('key') == "Cancelar") {
+				document.getElementById('botao-vincular-time').click()
+			}
+
+			bracketExists(championshipId)
+		}
+	}
+
+	const deleteBracket = async championshipId => {
+		const callbackStatus = (data) => {
+			notificacaoErro(data.results)
+		}
+
+		loader.show()
+		const configFetch = configuracaoFetch('DELETE'),
+			response = await executarFetch(`bracketing/delete/${championshipId}`, configFetch, callbackStatus)
+
+		loader.hide()
+
+		if (response.succeed) {
+			notificacaoSucesso(i18next.t("SucessoExclusaoChaveamento"))
+
+			modalDeleteBracketBT.hide()
+
+			await bracketExists(championshipId)
+			await checkBracketCreationAvailability()
+		}
+	}
+
+	const disableForm = () => {
+		let formElements = form.elements;
+		
+		for (let i = 0; i < formElements.length; i++) {
+			formElements[i].disabled = true;
+		}
+	}
+
+	const disableTeamsManipulation = () => {
+		document.getElementById('botao-vincular-time').disabled = true
+		document.querySelectorAll('.delete-listed-thing').forEach(btn => btn.disabled = true)
+	}
+
+	const enableTeamsManipulation = () => {
+		document.getElementById('botao-vincular-time').disabled = false
+		document.querySelectorAll('.delete-listed-thing').forEach(btn => btn.disabled = false)
+	}
+
+	const enableForm = () => {
+		let formElements = form.elements;
+		
+		for (let i = 0; i < formElements.length; i++) {
+			formElements[i].disabled = false;
+		}
+	}
+
+	const bracketExists = async championshipId => {
+		const configFetch = configuracaoFetch('GET')
+
+		const callbackStatus = (data) => {
+			notificacaoErro(data.results)
+		}
+
+		loader.show()
+			const response = await executarFetch(`bracketing/exists/${championshipId}`, configFetch, callbackStatus)
+		loader.hide()
+
+		if (response.succeed) {
+			if (response.results) {
+				// se estiver criado, bloquear a edição do campeonado 
+				disableForm()
+				disableTeamsManipulation()
+
+				bracketBtnWrapper.innerHTML = `
+					<button data-bs-toggle="modal" data-bs-target="#bracketDeleteModal" id="delete-bracket-btn" class="btn btn-danger border-0 d-flex justify-content-center align-items-center">
+						<i class="bi bi-trash me-2"></i>
+						<span class="i18 fw-semibold" key="ExcluirChaveamento">${i18next.t("ExcluirChaveamento")}</span>
+					</button>
+				` 
+				confirmDeleteBracketBtn.addEventListener('click', async () => {
+					await deleteBracket(campeonato.id)
+				})
+			} else {
+				// se não estiver criado, permitir a edição do campeonato
+				enableForm()
+				enableTeamsManipulation()
+				
+				bracketBtnWrapper.innerHTML = `
+					<button disabled data-bs-toggle="modal" data-bs-target="#bracketCreateModal" id="create-bracket-btn" class="btn border-0 d-flex justify-content-center align-items-center chaveamento-btn">
+						<i class="bi bi-diagram-2 me-2"></i>
+						<span class="i18 fw-semibold" key="CriarChaveamento">${i18next.t("CriarChaveamento")}</span>
+					</button> 
+				`
+				confirmCreateBracketBtn.addEventListener('click', async () => {
+					await createBracket(campeonato.id)
+				})
+			}
+		}
+	}
+
 	const putCampeonato = async body => {
 		const callbackServidor = data => {
 			mensagemErro.classList.add("text-danger")
@@ -468,7 +747,11 @@ const init = async () => {
 		const configFetch = configuracaoFetch('POST', { 'teamId': teamId, 'championshipId': parseInt(championshipId) }),
 			response = await executarFetch('teams/championship', configFetch, callbackStatus)
 
-		if (response.succeed) notificacaoSucesso(i18next.t("VinculadoSucesso"))
+		if (response.succeed) { 
+			notificacaoSucesso(i18next.t("VinculadoSucesso"))
+
+			checkBracketCreationAvailability()
+		}
 	}
 
 	const desvincularTime = async teamId => {
@@ -481,6 +764,8 @@ const init = async () => {
 
 		if (response.succeed) {
 			notificacaoSucesso(i18next.t("DesvinculadoSucesso"))
+
+			checkBracketCreationAvailability()
 		}
 	}
 
@@ -498,34 +783,48 @@ const init = async () => {
 			return;
 		}
 
-		const keySport = timesVinculados.results.sportsId == 1 ? "Futebol" : "Volei"
 
 		for (const time of timesVinculados.results) {
 			const newOption = document.createElement('div');
 			newOption.classList.add('row', 'rounded-5', 'mx-1', 'px-0', 'py-3', 'mb-2', 'ss-list-player-content')
 			newOption.innerHTML = `
-				<div class="col-auto my-auto position-relative mx-auto ms-md-3 p-0 overflow-hidden rounded-circle me-md-2 ss-player-image">
+				<div class="col-auto my-auto position-relative mx-auto border border-2 ms-md-3 p-0 overflow-hidden rounded-circle me-md-2 ss-player-image">
 					<img src="${time.emblem}" alt="teamImage" class="img-fluid position-absolute mw-100 h-100">
 				</div>
 
-				<div class="col-auto ss-player-info-wrapper text-center text-md-start ms-md-1 my-auto d-flex flex-column">
-					<p class="ss-player-name w-auto text-center text-md-start text-nowrap text-truncate d-block">${time.name}</p>
-					<div class="ss-player-data d-flex flex-row mt-2 bg-primary px-2 py-1 rounded-pill mx-md-auto ms-md-0">
-						<p class="fs-6 mb-0 text-white text-opacity-75">${keySport}</p>
+                <span class="d-none team-id">${time.id}</span>
+
+				<div class="col-auto ss-player-info-wrapper text-center mb-0 text-md-start ms-md-1 mt-auto mt-md-0 d-flex flex-column">
+					<p class="ss-player-name text-center text-md-start text-nowrap text-truncate d-block">${time.name}</p>
+					<div class="ss-player-data2 row justify-content-center align-items-center d-flex flex-column flex-md-row mt-2 mx-md-auto ms-md-0">
+						<button class="col link-ss-list-team py-1 px-4 mb-2 mb-md-0 me-md-2 btn border-0"><i class="bi text-white bi-box-arrow-up-right"></i></button>
 					</div>
 				</div>
+
+				<div class="col-auto d-flex justify-content-center w-100 d-md-none">
+					<hr class="w-50 opacity-25 m-0 mb-2"></hr>
+				</div>
+
 			`
 
 			const botaoDesvincularWrapper = document.createElement('div')
-			botaoDesvincularWrapper.classList.add('col-auto', 'd-flex', 'mt-3', 'mt-md-auto', 'my-auto', 'mx-auto', 'ms-md-auto', 'me-md-2')
+			botaoDesvincularWrapper.classList.add('col-auto', 'd-flex', 'my-auto', 'mx-auto', 'ms-md-auto', 'me-md-2')
 			botaoDesvincularWrapper.innerHTML = `<button type="button" class="delete-listed-thing justify-content-center align-items-center rounded-4 remover-vinculo-campeonato btn btn-danger d-flex"><i class="bi bi-trash text-light fs-5"></i></button>`
 
 			newOption.appendChild(botaoDesvincularWrapper)
 			timesVinculadosWrapper.appendChild(newOption)
 
-			botaoDesvincularWrapper.addEventListener('click', async () => {
+			botaoDesvincularWrapper.firstElementChild.addEventListener('click', async () => {
 				await desvincularTime(time.id)
 				await listarTimesVinculados(configFetch)
+			})
+
+			const linkSSListTeam = document.querySelectorAll('.link-ss-list-team')
+			linkSSListTeam.forEach(content => {
+				content.addEventListener('click', () => {
+					const teamId = content.parentElement.parentElement.parentElement.querySelector('.team-id').textContent
+					window.location.href = `pagina-times.html?id=${teamId}`
+				})
 			})
 		}
 	}
@@ -777,7 +1076,20 @@ const init = async () => {
 		mediaQueryMobile = window.matchMedia('(max-width: 575px)'),
 		menuConfig = document.getElementsByClassName('menu-config'),
 		mensagemErro = document.getElementById('mensagem-erro'),
-		championshipId = document.getElementById('usernameChampionshipId').textContent
+		championshipId = document.getElementById('usernameChampionshipId').textContent,
+		confirmCreateBracketBtn = document.getElementById('confirm-create-bracket-btn'),
+		confirmDeleteBracketBtn = document.getElementById('confirm-delete-bracket-btn'),
+		modalCreateSuccessBracket = document.getElementById('modalCriacaoChaveamentoSucesso'),
+		modalDeleteBracket = document.getElementById('bracketDeleteModal'),
+		bracketCreateModal = document.getElementById('bracketCreateModal'),
+		bracketBtnWrapper = document.getElementById('bracket-btn-wrapper'),
+		form = document.getElementById('update-profile-form')
+		
+        let modalCreateSuccessBracketBT = new bootstrap.Modal(modalCreateSuccessBracket, {keyboard: false})
+
+		let modalDeleteBracketBT = new bootstrap.Modal(modalDeleteBracket, {keyboard: false})
+
+		let bracketCreateModalBT = new bootstrap.Modal(bracketCreateModal, {keyboard: false})
 
 	loader.show()
 	const dados = await executarFetch(`championships/${championshipId}`, configuracaoFetch('GET')),
@@ -796,10 +1108,35 @@ const init = async () => {
 		})
 	}
 
+	const checkBracketCreationAvailability = async () => {
+		const createBracketBtn = document.getElementById('create-bracket-btn')
+
+		const dados = await executarFetch(`championships/${championshipId}`, configuracaoFetch('GET')),
+		campeonato = dados.results
+
+		if (createBracketBtn) {
+			if (campeonato.teamQuantity == campeonato.teams.length) {
+				createBracketBtn.disabled = false
+			} else {
+				createBracketBtn.disabled = true
+				mensagemErro.innerHTML = `<span class="i18" key="QuantidadeTimesInsuficiente">${i18next.t("QuantidadeTimesInsuficiente")}</span>`
+			}
+		}
+	}
+
+	confirmCreateBracketBtn.addEventListener('click', async () => {
+		await createBracket(campeonato.id)
+
+		bracketCreateModalBT.hide()
+	})
+
 	changeConfigOptionsContext(0)
 	inicializarCampos()
-	await inicializarPaginaTimes()
+	await inicializarPaginaTimes().then(async () => {
+		await bracketExists(campeonato.id)
+	})
 	await inicializarPaginaExclusao()
+	await checkBracketCreationAvailability()
 	//#endregion
 
 

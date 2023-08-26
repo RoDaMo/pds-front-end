@@ -45,3 +45,7 @@ export const mudarLinguagem = () => {
     elemento.setAttribute('placeholder', i18next.t(elemento.getAttribute('key')))
   }
 }
+
+export const getLinguaAtual = () => {
+  return i18next.language
+}

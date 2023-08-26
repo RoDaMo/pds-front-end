@@ -155,7 +155,7 @@ const obterInfo = async () => {
     sport.setAttribute('key', keySport)
 
     let iconSrc = (data.results.sportsId === 1) ? '../icons/sports_soccer.svg' : '../icons/sports_volleyball.svg'
-    // championshipChar.insertAdjacentHTML("afterbegin", 'championshipSportIcon" src="'+ iconSrc +'" alt="sport-icon" class="sports-icon me-1">')
+    championshipChar.insertAdjacentHTML("afterbegin", '<img id="championshipSportIcon" src="'+ iconSrc +'" alt="sport-icon" class="sports-icon me-1">')
 
     document.getElementById("championship-pic").src = !data.results.logo ? '../default-championship-image.png' : data.results.logo
     document.getElementById("championship-desc").textContent = data.results.description
@@ -166,7 +166,7 @@ const obterInfo = async () => {
     if(data.results.rules){
         document.getElementById("conteudo").innerHTML += `
             <button class="btn download-btn rounded-pill fw-semibold card-bg" id="botao-baixar-regulamento">
-                <a href="${data.results.rules}" id="regulamento" class="text-center fs-6 i18 text-decoration-none" key="BaixarRegulamento">Baixar Regulamento</a>
+                <a href="${data.results.rules}" id="regulamento" class="text-center fs-6 i18 text-decoration-none" key="BaixarRegulamento">${i18next.t("BaixarRegulamento")}</a>
             </button>
         `
     }
@@ -182,14 +182,13 @@ const obterInfo = async () => {
 
                 <span class="d-flex flex-column justify-content-center align-items-center">
 
-                    <p class="mb-0 ss-team-name w-100 fs-5 text-nowrap text-truncate d-block">${e.name}</p>
+                    <p class="mb-0 ss-team-name fs-5 text-nowrap text-truncate d-block">${e.name}</p>
 
                 </span>
                 
             </div>
         `
 
-        // Ao clicar em cada time da lista, redireciona para a página desse time
         const ssTeamContent = document.querySelectorAll('.ss-team-content')
         ssTeamContent.forEach(content => {
             content.addEventListener('click', () => {

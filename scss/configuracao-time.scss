@@ -20,6 +20,29 @@
   background-color: $play-cor-fundos-secundaria;
 }
 
+.ss-player-data-number {
+  background-color: $play-cor-primaria;
+  border-radius: 0.6rem;
+}
+
+.ss-player-data-position {
+  background-color: $black;
+  border-radius: 0.8rem;
+}
+
+.ss-player-name {
+  width: 16rem !important;
+}
+
+.ss-player-username {
+  width: 17rem !important;
+}
+
+.temp-player-pic-mod-wrapper {
+  height: 9rem;
+  width: 9rem;
+}
+
 .delete-listed-thing {
   width: 3.5rem;
   height: 3.5rem;
@@ -67,16 +90,48 @@
   width: 100%;
 }
 
+#formulario-jogador-temporario {
+  width: 100%;
+}
+
 // Color
 body {
   background-color: $gray-200 !important;
 }
 
 // Media Queries
+@include media-breakpoint-up(lg) {
+  #vinculo-jogador {
+    justify-content: flex-start;
+  }
+}
 
 @include media-breakpoint-only(md) {
   #uniform-wrapper {
     width: 90%;
+  }
+
+  .ss-player-info-wrapper {
+    margin-bottom: 1rem;
+  }
+
+  #submit-formulario-jogador-temporario {
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+
+    display: flex;
+    justify-content: center;
+  }
+
+  #formulario-jogador-temporario {
+    width: 50%;
+  }
+}
+
+@include media-breakpoint-down(md) {
+  #vinculo-jogador {
+    justify-content: center;
   }
 }
 
@@ -86,8 +141,30 @@ body {
     height: 3rem;
   }
 
+  #submit-formulario-jogador-temporario {
+    width: 100%;
+  }
+
   #botoes-vinculo {
     width: 100%;
+  }
+
+  #jogadores-vinculados {
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  #campeonatos-vinculados {
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 
   #uniform-wrapper {
@@ -99,14 +176,25 @@ body {
 
   .ss-player-name {
     font-size: 1rem !important;
+    width: 8rem !important;
   }
 
   .ss-player-username {
     font-size: 0.8rem !important;
+    width: 9rem !important;
   }
 
-  .ss-player-data {
+  .ss-player-data2 {
     scale: 0.8;
+    width: 100%;
+
+    .ss-player-data-number {
+      width: 35%;
+    }
+
+    .ss-player-data-hr {
+      width: 35%;
+    }
   }
 
   .ss-player-info-wrapper {
