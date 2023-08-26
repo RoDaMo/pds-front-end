@@ -626,6 +626,7 @@ const init = async () => {
 			notificacaoSucesso(i18next.t("SucessoCriacaoChaveamento"))
 
 			modalCreateSuccessBracketBT.show()
+			modalCreateSuccessBracket.querySelector('#modal-link-chaveamento').href = '/pages/tabela-chaveamento.html?id=' + championshipId
 
 			if (document.getElementById('botao-vincular-time').querySelector('span').getAttribute('key') == "Cancelar") {
 				document.getElementById('botao-vincular-time').click()

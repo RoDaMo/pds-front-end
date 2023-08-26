@@ -119,7 +119,7 @@ const chaveamento = {
     
     this.inicializarArtilharia(formato, idCampeonato)
     
-    const limiteRodadas = championship.teamQuantity - 1
+    const limiteRodadas = championship.doubleStartLeagueSystem ? (championship.teamQuantity - 1) * 2 : championship.teamQuantity - 1
     this.inicializarRodadas(idCampeonato, formato, 1, limiteRodadas)
 
     tbody.innerHTML = ''
