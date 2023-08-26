@@ -46,6 +46,10 @@ body {
   z-index: 1;
 }
 
+.z-2 {
+  z-index: 2;
+}
+
 .z-3 {
   z-index: 3;
 }
@@ -122,10 +126,21 @@ body {
   background-color: $gray-400 !important;
 }
 
-.navbar-blur {
-  backdrop-filter: blur( 15px );
-  -webkit-backdrop-filter: blur( 15px );
-  border-bottom: 1px solid rgba(98, 98, 98, 0.121) !important;
+
+
+@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+  .navbar-blur {
+    backdrop-filter: blur( 15px );
+    -webkit-backdrop-filter: blur( 15px );
+    border-bottom: 1px solid rgba(98, 98, 98, 0.121) !important;
+  }
+}
+
+/* slightly transparent fallback for Firefox (not supporting backdrop-filter) */
+@supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+  .navbar-blur {
+    background-color: rgba(255, 255, 255, .8);
+  }
 }
 
 // -- Outras Classes
@@ -133,6 +148,24 @@ body {
 .link-unstyled {
     text-decoration: none !important;
     color: inherit !important;
+}
+
+.dragover {
+  border: 2px dashed $play-cor-efeitos !important;
+}
+
+.upload-image-drop-label {
+  justify-content: center;
+}
+
+.upload-container {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.upload-drop-zone {
+  border: 2px dashed #ccc;
+  padding: 20px;
 }
   
 // Conteúdo Principal
@@ -336,6 +369,10 @@ button.navbar-toggler {
       height: 400vh;
     }
   }
+
+  .upload-image-drop-label {
+    justify-content: start;
+  }
 }
 
 #lingua {
@@ -349,9 +386,15 @@ button.navbar-toggler {
 }
 
 .foto-usuario {
-  max-width: 32px;
-  max-height: 32px;
+  min-width: 32px;
+  height: 32px;
   border-radius: 50%;
+}
+
+.foto-usuario-mobile {
+  @extend .foto-usuario;
+
+  max-width: 40px !important;
 }
 
 #offcanvasUser {

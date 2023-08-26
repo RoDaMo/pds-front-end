@@ -14,12 +14,12 @@ class footer extends HTMLElement {
                 <div class="row mb-auto mt-2 justify-content-center">
                     <div class="col-auto mb-3">
                         <ul class="list-group list-group-horizontal list-group-flush">
-                            <li class="list-group-item border-0 opacity-75 me-5 bg-transparent"><a href="#" class="i18" key="Politica">Política</a></li>
-                            <li class="list-group-item border-0 opacity-75 bg-transparent"><a href="#" class="i18" key="Termos">Termos</a></li>
+                            <li class="list-group-item border-0 opacity-75 me-5 bg-transparent"><a href="/pages/termos-de-privacidade.html" class="i18" key="Politica">Política</a></li>
+                            <li class="list-group-item border-0 opacity-75 bg-transparent"><a href="/pages/termos-de-uso.html" class="i18" key="Termos">Termos</a></li>
                         </ul>
                         <ul class="list-group list-group-horizontal list-group-flush">
-                            <li class="list-group-item border-0 opacity-75 me-5 bg-transparent"><a href="#" class="i18" key="Sobre">Sobre</a></li>
-                            <li class="list-group-item border-0 opacity-75 bg-transparent"><a href="#">Cookies</a></li>
+                            <li class="list-group-item border-0 opacity-75 me-5 bg-transparent"><a href="/pages/sobre-nos.html" class="i18" key="Sobre">Sobre</a></li>
+                            <li class="list-group-item border-0 opacity-75 bg-transparent"><a href="/pages/cookies.html">Cookies</a></li>
                         </ul>
                     </div>
                 </div>

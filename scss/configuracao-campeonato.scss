@@ -11,12 +11,57 @@
   max-height: 60px;
 }
 
+.chaveamento-btn {
+  background-color: $gray-300;
+  color: $black;
+
+  width: auto;
+
+  transition: all $transition;
+
+  &:disabled {
+    background-color: $gray-200 !important;
+    color: $gray-600 !important;
+  }
+
+  &:hover {
+    background-color: $gray-400;
+    box-shadow: 0px 0px 17px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  &:active {
+    background-color: $gray-500 !important;
+  }
+}
+
+.ss-player-data-number {
+  background-color: $play-cor-primaria;
+  border-radius: 0.6rem;
+}
+
+.ss-player-data-position {
+  background-color: $black;
+  border-radius: 0.8rem;
+}
+
+.ss-player-name {
+  width: 16rem !important;
+}
+
+.ss-player-username {
+  width: 17rem !important;
+}
+
 #times-vinculados {
   max-height: 30rem;
   overflow-y: auto;
   overflow-x: hidden;
 
   background-color: $play-cor-fundos;
+}
+
+#link-bracket-btn-wrapper {
+  width: auto;
 }
 
 .delete-listed-thing {
@@ -34,8 +79,26 @@
   }
 }
 
+.link-ss-list-team {
+  background-color: $play-cor-secundaria;
+
+  transition: all $transition;
+
+  &:hover {
+    filter: brightness(0.9);
+    background-color: $play-cor-primaria !important;
+  }
+
+  &:active {
+    filter: brightness(0.8);
+    background-color: $play-cor-primaria !important;
+  }
+}
+
 .ss-list-player-content {
   background-color: $play-cor-fundos-secundaria;
+
+  transition: all $transition;
 }
 
 // Color
@@ -44,6 +107,25 @@ body {
 }
 
 // media queries
+@include media-breakpoint-only(md) {
+  .ss-player-info-wrapper {
+    margin-bottom: 1rem;
+  }
+}
+
+@include media-breakpoint-down(lg) {
+  .chaveamento-btn {
+    width: 60%;
+  }
+
+  #delete-bracket-btn {
+    width: 60%;
+  }
+
+  #link-bracket-btn-wrapper {
+    width: 60%;
+  }
+}
 
 @include media-breakpoint-down(sm) {
   .delete-listed-thing {
@@ -51,16 +133,66 @@ body {
     height: 3rem;
   }
 
+  #times-vinculados {
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .link-ss-list-team {
+    width: 50%;
+  }
+
+  #delete-bracket-btn {
+    width: 100%;
+  }
+
+  .chaveamento-btn {
+    width: 100%;
+  }
+
+  #texto-modal-bracket {
+    font: 0.9rem sans-serif;
+  }
+
+  #texto-modal-bracket-success {
+    font: 0.9rem sans-serif;
+  }
+
+  #link-bracket-btn-wrapper {
+    width: 100%;
+  }
+
+  #double-match-wrapper {
+    span {
+      font-size: 0.8rem;
+    }
+  }
+
   .ss-player-name {
     font-size: 1rem !important;
+    width: 8rem !important;
   }
 
   .ss-player-username {
     font-size: 0.8rem !important;
+    width: 9rem !important;
   }
 
-  .ss-player-data {
+  .ss-player-data2 {
     scale: 0.8;
+    width: 100%;
+
+    .ss-player-data-number {
+      width: 35%;
+    }
+
+    .ss-player-data-hr {
+      width: 35%;
+    }
   }
 
   .ss-player-info-wrapper {
