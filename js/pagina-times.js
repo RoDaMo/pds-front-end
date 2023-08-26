@@ -30,6 +30,7 @@ const ssPlayerName = document.querySelectorAll('.ss-player-name')
 
 const teamSport = document.getElementById('teamSport')
 const teamSportIcon = document.getElementById('teamSportIcon')
+const conteudoInicial = document.querySelector('#conteudo')
 
 const teamInfo = document.querySelector('.team-info')
 const teamDesc = document.querySelector('.team-desc')
@@ -131,29 +132,106 @@ const obterInfo = async () => {
     document.getElementById("team-desc").textContent = data.results.description
     document.getElementById("name").textContent = data.results.name
 
+    const coach = data.results.technician
+
+    // Técnico do time
+
+    conteudoInicial.insertAdjacentHTML("beforeend", `
+        <div id="coach-board-wrapper" class="d-flex">
+            <div class="row coach-board flex-row align-content-center px-3 p-2">
+
+                <div class="col-auto p-0 d-flex justify-content-center align-items-center">
+                    <div class="position-relative overflow-hidden rounded-circle ss-player-image">
+                        <img src="${coach.picture}" alt="coachImage" class="img-fluid position-absolute mw-100 h-100">
+                    </div>
+                </div>
+
+                <div class="col row justify-content-center flex-column">
+                    <div class="col-auto">
+                        <span class="ss-player-name fs-5 text-nowrap text-truncate mb-1 mb-md-0 d-block">${coach.name}</span>
+                    </div>
+
+                    <div class="col-auto d-flex coach-badge align-items-center w-auto">
+                        <span class="i18 coach-badge-text p-1 px-2 w-auto text-white text-opacity-75" key="Tecnico">${i18next.t("Tecnico")}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `)
+
     // Jogadores do time
     const jogadores = document.getElementById("jogadores")
     const jogadoresVinculados = await executarFetch(`teams/${id}/players`, configuracaoFetch("GET"))
     const campeonatosVinculados = await executarFetch(`teams/championship/${id}`, configuracaoFetch("GET"))
     console.log(campeonatosVinculados)
     jogadoresVinculados.results.forEach((e) => {
+        switch (e.playerPosition) {
+            case 1:
+                e.playerPos = `<span class="i18" key="Goleiro">${i18next.t("Goleiro")}</span>`
+                break;
+            case 2:
+                e.playerPos = `<span class="i18" key="Zagueiro">${i18next.t("Zagueiro")}</span>`
+                break;
+            case 3:
+                e.playerPos = `<span class="i18" key="Lateral">${i18next.t("Lateral")}</span>`
+                break;
+            case 4:
+                e.playerPos = `<span class="i18" key="Volante">${i18next.t("Volante")}</span>`
+                break;
+            case 5:
+                e.playerPos = `<span class="i18" key="MeioCampista">${i18next.t("MeioCampista")}</span>`
+                break;
+            case 6:
+                e.playerPos = `<span class="i18" key="MeiaAtacante">${i18next.t("MeiaAtacante")}</span>`
+                break;
+            case 7:
+                e.playerPos = `<span class="i18" key="Ala">${i18next.t("Ala")}</span>`
+                break;
+            case 8:
+                e.playerPos = `<span class="i18" key="Ponta">${i18next.t("Ponta")}</span>`
+                break;
+            case 9:
+                e.playerPos = `<span class="i18" key="Centroavante">${i18next.t("Centroavante")}</span>`
+                break;
+            case 10:
+                e.playerPos = `<span class="i18" key="Levantador">${i18next.t("Levantador")}</span>`
+                break;
+            case 11:
+                e.playerPos = `<span class="i18" key="Central">${i18next.t("Central")}</span>`
+                break;
+            case 12:
+                e.playerPos = `<span class="i18" key="Libero">${i18next.t("Libero")}</span>`
+                break;
+            case 13:
+                e.playerPos = `<span class="i18" key="Ponteiro">${i18next.t("Ponteiro")}</span>`
+                break;
+            case 14:
+                e.playerPos = `<span class="i18" key="Oposto">${i18next.t("Oposto")}</span>`
+                break;
+            default:
+                e.playerPos = `<span class="i18" key="SemPosicao">${i18next.t("SemPosicao")}</span>`
+                break;
+        }
+
+        // mostrar icone de capitao se for capitao
+
         jogadores.innerHTML += `
             <div class="d-flex w-100 rounded-5 mb-3 p-2 mt-5 mt-md-0 ss-player-content">
 
-                <section class="position-relative m-3 overflow-hidden rounded-circle ss-player-image">
+                <section class="position-relative border border-2 m-3 overflow-hidden rounded-circle ss-player-image">
                     <img src="${e.picture}" alt="playerImage" class="img-fluid position-absolute mw-100 h-100">
                 </section>
 
-                <span class="d-flex flex-column justify-content-center align-items-center">
+                <span class="d-flex flex-column justify-content-center align-items-start">
 
-                    <p class="ss-player-name w-100 fs-5 text-nowrap text-truncate d-block">${e.name}</p>
-                    <p class="mb-0 ss-player-username w-100 fs-6 opacity-75 text-nowrap text-truncate d-block">${e.artisticName}</p>
+                    <p class="ss-player-name fs-5 text-nowrap text-truncate d-block">${e.name}</p>
+                    <p class="mb-0 ss-player-username fs-6 opacity-75 text-nowrap text-truncate d-block">${e.artisticName}</p>
 
-                    <div class="ss-player-data d-flex flex-row mt-1 bg-primary px-2 py-1 rounded-pill ms-md-0">
-						<p class="fs-6 mb-0 text-white text-opacity-75">${e.number}</p>
-						<i class="bi bi-dot mx-1"></i>
-						<p class="fs-6 mb-0 text-white text-opacity-75">${e.position}</p>
-					</div>
+                    <section class="ss-player-data row justify-content-center align-items-center flex-row mt-1 mx-md-auto ms-md-0">
+						<p class="col-auto w-auto ss-player-data-number px-2 py-1 mb-0 text-white text-opacity-75">${e.number}</p>
+						<i class="col-auto col-md-auto bi bi-dot p-0 mx-auto"></i>
+						<p class="col col-md-auto w-auto ss-player-data-position px-2 py-1 mb-0 text-white text-opacity-75">${e.playerPos}</p>
+					</section>
 
                 </span>
             </div>
@@ -204,10 +282,6 @@ async function waitInfo() {
                 <span class="i18" key="NenhumJogador">${i18next.t("NenhumJogador")}</span>
             </div>
         `
-    }
-
-    if (ssPlayerContent.length <= 3) {
-        ssFirstContent.removeAttribute('data-lenis-prevent')
     }
 
     if (!champStuff.hasChildNodes()) {

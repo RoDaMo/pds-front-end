@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="module" src="../js/utilidades/preloader.js"></script>
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <title>Página de Usuário</title>
+</head>
+<body>
+    <componente-preloader></componente-preloader>
+    <componente-header></componente-header>
+    <main class="container">
+        <!-- Scoreboard -->
+        <section id="score-board" class="row row-cols-3 mx-auto mt-lg-4 flex-row justify-content-center align-items-center">
+
+            <!-- Team 1 Info -->
+            <div class="col-5 row row-cols-2 flex-row justify-content-center align-items-center">
+                <div id="m-team1-img-wrapper" class="col-auto m-team-img-wrapper position-relative d-flex justify-content-center overflow-hidden border border-2 rounded-circle"></div>
+                <div id="m-team1-name-wrapper" class="col d-flex w-auto"></div>
+            </div>
+
+            <!-- Score -->
+            <div class="col-2 p-0 d-flex justify-content-center w-auto align-items-center">
+                <div id="score-wrapper" class="h-auto rounded-4 p-md-3 p-2">
+                    <div class="row flex-column justify-content-center align-items-center">
+                        <!-- <div id="aggregate-score-wrapper" class="col d-flex justify-content-center align-items-center">
+                            <span id="aggregate-score" class="text-muted text-center">(1 : 2)</span>
+                        </div> -->
+                        <div id="match-score-wrapper" class="col d-flex justify-content-center align-items-center"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team 2 Info -->
+            <div class="col-5 row row-cols-2 flex-row justify-content-center align-items-center">
+                <div id="m-team2-name-wrapper" class="col w-auto order-2 order-lg-1 d-flex"></div>
+                <div id="m-team2-img-wrapper" class="col-auto order-1 order-lg-2 m-team-img-wrapper position-relative d-flex justify-content-center overflow-hidden border border-2 rounded-circle"></div>
+            </div>
+        </section>
+
+        <!-- Detalhes da Partida -->
+        <section id="match-details-wrapper" class="mt-4 mt-md-5 mx-lg-5">
+            <div id="match-details" class="p-4 pt-2 position-relative">
+                <div id="match-details-options-wrapper" class="z-2 rounded-5 position-relative">
+                    <ul class="list-group list-group-horizontal list-group-flush d-flex justify-content-center align-items-center" id="match-details-options">
+                        <button class="list-group-item list-group-item-action m-2 w-auto border-0 rounded-pill active" menu="0"><span class="i18" key="Eventos">Eventos</span></button>
+                        <button class="list-group-item list-group-item-action m-2 w-auto border-0 rounded-pill" menu="1"><span class="i18" key="Jogadores">Jogadores</span></button>
+                        <button id="manage-match-btn" class=" list-group-item list-group-item-action m-2 w-auto border-0 rounded-pill" menu="2"><span class="i18" key="Administrar">Administrar</span></button>
+                    </ul>
+                </div>
+
+                <div id="blurwall-events" class="d-none blurwall w-100 start-0 top-0 position-absolute h-100 d-flex justify-content-center align-items-center"></div>
+
+                <div id="match-details-content-wrapper">
+
+                    <div id="match-details-content">
+
+                        <!-- Eventos -->
+                        <div data-lenis-prevent id="match-details-content-events" class="d-none justify-content-center menu-config row mx-md-5 mt-3" menu="0">
+
+                            <!-- Eventos time 1 -->
+                            <div id="match-details-content-events-team1" class="col-5"></div>
+
+                            <!-- Linha divisória -->
+                            <div class="col-1 d-flex justify-content-center">
+                                <div id="vertical-line" class="rounded-5"></div>
+                            </div>
+
+                            <!-- Eventos time 2 -->
+                            <div id="match-details-content-events-team2" class="col-5"></div>
+                        </div>
+
+                        <!-- Jogadores -->
+                        <div id="match-details-content-players" class="row d-none menu-config justify-content-center mx-md-5 mt-3" menu="1">
+                            <!-- Jogadores time 1 -->
+                            <div id="match-details-content-players-team1" class="col-5"></div>
+
+                            <!-- Linha divisória -->
+                            <div class="col-1 d-flex justify-content-center">
+                                <div id="vertical-line" class="rounded-5"></div>
+                            </div>
+
+                            <!-- Jogadores time 2 -->
+                            <div id="match-details-content-players-team2" class="col-5"></div>
+                        </div>
+
+                        <!-- Administrar -->
+                        <div id="match-details-content-admin" class="d-none menu-config menu-config d-flex flex-column align-items-center mt-4" menu="2">
+                            <div id="event-admin-label" class="d-flex justify-content-center bg-gray-400 rounded-4 py-1 px-3 mb-2">
+                                <span class="i18" key="Eventos">Eventos</span>
+                            </div>
+                            <form id="match-management-form"></form>
+
+                            <!-- Modal Confirmação - Finalização de Partida -->
+                            <div class="modal fade" id="endMatchModal" tabindex="-1" aria-labelledby="endMatchModalLabel" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content p-3">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title text-danger fs-5 i18" id="endMatchModalLabel" key="Certeza">Tem certeza?</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p id="texto-modal-bracket" class="text-black text-center">
+                                                <span class="i18" key="TextoFinalizarPartida"></span>
+                                            </p>
+                                        </div>
+                                        <div class="modal-footer d-flex justify-content-center">
+                                            <button id="confirm-end-match-btn" class="btn btn-danger"><span class="i18 fw-semibold" key="EndMatch">Finalizar Partida</span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Modal Confirmação - Iniciar Prorrogação -->
+                            <div class="modal fade" id="startOvertimeModal" tabindex="-1" aria-labelledby="startOvertimeModalLabel" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content p-3">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title text-danger fs-5 i18" id="startOvertimeModalLabel" key="Certeza">Tem certeza?</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p id="texto-modal-bracket" class="text-black text-center">
+                                                <span class="i18" key="TextoIniciarProrrogacao"></span>
+                                            </p>
+                                        </div>
+                                        <div class="modal-footer d-flex justify-content-center">
+                                            <button id="confirm-start-overtime-btn" class="btn"><span class="i18 fw-semibold" key="StartOvertime">Iniciar Prorrogação</span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <componente-footer></componente-footer>
+    <script type="module" src="../main.js"></script>
+    <script type="module" src="../js/utilidades/header.js"></script>
+    <script type="module" src="../js/utilidades/footer.js"></script>
+    <script type="module" src="../js/tela-partida.js"></script>
+</body>
+</html>
