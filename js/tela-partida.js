@@ -33,6 +33,7 @@ const init = async () => {
 
 		if (response.succeed) {
 			notificacaoSucesso(i18next.t("SucessoPostGol"))
+			updateScoreboard()
 		}
 	}
 
@@ -88,7 +89,6 @@ const init = async () => {
 			
 			if (!isPenaltyShootout) {
 				matchManagementForm.insertAdjacentHTML('afterend', `
-					<hr class="w-75">
 					<div id="end-match-wrapper" class="d-flex my-1 justify-content-center">
 						<button id="end-match-btn" data-bs-toggle="modal" data-bs-target="#endMatchModal" class="btn btn-danger w-auto"><span class="i18" key="EndMatch">${i18next.t("EndMatch")}</span></button>
 					</div>
@@ -198,18 +198,22 @@ const init = async () => {
 											<input class="form-check-input" type="checkbox" value="" id="checkbox-event-assister-player">
 											<label class="form-check-label i18 mb-0" key="CheckboxEventAssisterPlayerLabel" for="checkbox-event-assister-player">${i18next.t("CheckboxEventAssisterPlayerLabel")}</label>
 										</div>
-									` : ''}
 
-
-									<div class="form-check mt-2">
-										<input class="form-check-input" type="checkbox" value="" id="checkbox-event-own-goal">
-										<label class="form-check-label i18 mb-0" key="CheckboxEventOwnGoalLabel" for="checkbox-event-own-goal">${i18next.t("CheckboxEventOwnGoalLabel")}</label>
-									</div>
-
-									${(match.isSoccer) ? `
+										<div class="form-check mt-2">
+											<input class="form-check-input" type="checkbox" value="" id="checkbox-event-own-goal">
+											<label class="form-check-label i18 mb-0" key="CheckboxEventOwnGoalLabel" for="checkbox-event-own-goal">${i18next.t("CheckboxEventOwnGoalLabel")}</label>
+										</div>
+							
 										<div class="input-event-time-wrapper form-group mt-3">
 											<label for="input-event-time" class="i18 form-label mb-0" key="InputEventTimeLabel">${i18next.t("InputEventTimeLabel")}</label>
 											<input type="number" class="form-control" id="input-event-time">
+										</div>
+									` : ''}
+
+									${(!match.isSoccer) ? `
+										<div class="input-event-point-set-wrapper form-group mt-3">
+											<label for="input-event-point-set" class="i18 form-label mb-0" key="InputEventPointSetLabel">${i18next.t("InputEventPointSetLabel")}</label>
+											<input min="0" type="number" class="form-control" id="input-event-point-set">
 										</div>
 									` : ''}
 
@@ -285,6 +289,12 @@ const init = async () => {
 														return value <= 120
 													},
 													errorMessage: `<span class="i18" key="TempoMaximoOvertime">${i18next.t("TempoMaximoOvertime")}</span>`
+												},
+												{
+													validator: (value) => {
+														return value >= 90
+													},
+													errorMessage: `<span class="i18" key="TempoMinimoOvertime">${i18next.t("TempoMinimoOvertime")}</span>`
 												}
 											])
 									} else {
@@ -295,6 +305,12 @@ const init = async () => {
 														return value <= 90
 													},
 													errorMessage: `<span class="i18" key="TempoMaximoPartida">${i18next.t("TempoMaximoPartida")}</span>`
+												},
+												{
+													validator: (value) => {
+														return value >= 0
+													},
+													errorMessage: `<span class="i18" key="TempoMinimoPartida">${i18next.t("TempoMinimoPartida")}</span>`
 												}
 											])
 									}
@@ -333,6 +349,8 @@ const init = async () => {
 											if (checkboxEventAssisterPlayer.checked) {
 												body[assisterPlayerKey] = selectEventAssisterPlayer.value
 											}
+										} else {
+											body["Set"] = inputEventPointSet.value
 										}
 
 										loader.show()
@@ -382,7 +400,7 @@ const init = async () => {
 									${(match.isSoccer) ? `
 										<div class="input-event-time-wrapper form-group mt-3">
 											<label for="input-event-time" class="i18 form-label mb-0" key="InputEventTimeLabel">${i18next.t("InputEventTimeLabel")}</label>
-											<input type="number" class="form-control" id="input-event-time">
+											<input min="0" type="number" class="form-control" id="input-event-time">
 										</div>
 									` : ''}
 
@@ -414,6 +432,12 @@ const init = async () => {
 														return value <= 120
 													},
 													errorMessage: `<span class="i18" key="TempoMaximoOvertime">${i18next.t("TempoMaximoOvertime")}</span>`
+												},
+												{
+													validator: (value) => {
+														return value >= 90
+													},
+													errorMessage: `<span class="i18" key="TempoMinimoOvertime">${i18next.t("TempoMinimoOvertime")}</span>`
 												}
 											])
 									} else {
@@ -424,6 +448,12 @@ const init = async () => {
 														return value <= 90
 													},
 													errorMessage: `<span class="i18" key="TempoMaximoPartida">${i18next.t("TempoMaximoPartida")}</span>`
+												},
+												{
+													validator: (value) => {
+														return value >= 0
+													},
+													errorMessage: `<span class="i18" key="TempoMinimoPartida">${i18next.t("TempoMinimoPartida")}</span>`
 												}
 											])
 									}
@@ -506,8 +536,6 @@ const init = async () => {
 								const checkboxEventPenaltyGoal = matchManagementForm.querySelector('input#checkbox-event-penalty-goal')
 
 								const selectedPlayer = players.find(player => player.id == selectEventPlayer.value)
-
-								isTempPlayer(selectEventPlayer.value)
 
 								postGoalValidator
 									.addField(selectEventPlayer, [
@@ -600,6 +628,12 @@ const init = async () => {
 		`)
 	}
 
+	const updateScoreboard = () => {
+		const matchScore = document.querySelector('#match-score')
+
+		matchScore.textContent = `${match.homeGoals} : ${match.visitorGoals}`
+	}
+
 	const listPlayers = async () => {
 		const team1PlayersList = document.querySelector('#match-details-content-players-team1')
 		const team2PlayersList = document.querySelector('#match-details-content-players-team2')
@@ -688,17 +722,6 @@ const init = async () => {
 			notificacaoSucesso(i18next.t("SucessoStartOvertime"))
 		}
 	}
-	
-	// To do:
-	// Function to check in the events endpoint if there is any penalty goals
-		// True: 
-			// remove "end match" button from the match management system
-			// remove "add goal" option on the match management system
-			// remove "add card" option on the match management system
-			// show "add penalty goal" option on the match management system
-		// False: nothing happens
-
-	// Change event timing validations (soccer only) if overtime has started
 
 	const isPenaltyElegible = () => {
 		if (match.isSoccer) {
@@ -722,18 +745,23 @@ const init = async () => {
 		}
 	}
 
-	const isOvertimeElegible = () => {
-		if (match.isSoccer) {
-			const isDoubleMatch = () => {
-				return (campeonato.doubleStartLeagueSystem || campeonato.doubleMatchEliminations || campeonato.doubleMatchGroupStage || campeonato.finalDoubleMatch) ? true : false
-			}
+	const isOvertimeElegible = async () => {
+		const callbackStatus = (data) => {
+			notificacaoErro(data.results)
+		}
 
-			if (isDoubleMatch) {
-				return (match.homeAggregatedGoals == match.visitorAggregatedGoals) ? true : false
+		loader.show()
+		const configFetch = configuracaoFetch('GET'),
+			response = await executarFetch(`matches/${match.id}/penalties`, configFetch, callbackStatus)
+
+		loader.hide()
+
+		if (response.succeed) {
+			if (response.results) {
+				return true
 			} else {
-				return (match.homeGoals == match.visitorGoals) ? true : false
+				return false
 			}
-
 		}
 	}
 
