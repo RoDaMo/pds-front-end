@@ -1117,9 +1117,10 @@ const init = async () => {
 		if (createBracketBtn) {
 			if (campeonato.teamQuantity == campeonato.teams.length) {
 				createBracketBtn.disabled = false
+				bracketBtnWrapper.querySelector("#qtd-teams-not-enough").remove()
 			} else {
 				createBracketBtn.disabled = true
-				mensagemErro.innerHTML = `<span class="i18" key="QuantidadeTimesInsuficiente">${i18next.t("QuantidadeTimesInsuficiente")}</span>`
+				bracketBtnWrapper.insertAdjacentHTML('beforeend', `<span id="qtd-teams-not-enough" class="i18 tiny-text" key="QuantidadeTimesInsuficiente">${i18next.t("QuantidadeTimesInsuficiente")}</span>`)
 			}
 		}
 	}
