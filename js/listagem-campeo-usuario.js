@@ -225,23 +225,11 @@ const exibirDados = async (data) => {
 
                         <div class="col-md-9 d-flex flex-column justify-content-center  ">
                             <h3 id="nome" class="card-title text-success">${e.name}</h3>
-                            <div class="row gap-0">      
-                                <p class="col-md-12 text-success"><i class="bi bi-calendar-event-fill m-1 text-success"></i> <span class="i18" key="De">${i18next.t("De")}</span> ${new Date(e.initialDate).toLocaleDateString('pt-BR')}  <span class="i18" key="Ate">${i18next.t("Ate")}</span> ${new Date(e.finalDate).toLocaleDateString('pt-BR')} -<i class="bi bi-geo-alt-fill m-1 text-success"></i> ${e.nation}, ${e.city}</p>
-                            </div>
                         </div>
 
                         <div class="col-md-1 d-flex justify-content-center align-items-center">
                             <img src="/icons/right.svg" width="60">
                         </div> 
-                        ${
-                            (data.results[data.results.length - 1] === e) ?
-                            `
-                                <p id="pitId" class="d-none">${e.pitId}</p>
-                                <p id="sort" class="d-none">${e.sort}</p>
-
-                            ` :
-                            ""
-                        }
                     </div>
                 </a>
             </div>
@@ -249,7 +237,7 @@ const exibirDados = async (data) => {
     });
     paginasAnteriores.push(data)
     anterior.disabled = data === paginasAnteriores[0];
-    await reqBotaoProximo()
+    // await reqBotaoProximo()
     window.scrollTo(0, 0);
 }
 
