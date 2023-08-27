@@ -1,4 +1,4 @@
-import { configuracaoFetch, executarFetch, api } from './utilidades/configFetch'
+import { configuracaoFetch, executarFetch } from './utilidades/configFetch'
 
 const logs = async () => {
   const callbackSucesso = (data) => {
@@ -19,9 +19,9 @@ const logs = async () => {
       </div>`
     }
   }
-  
+
   const config = configuracaoFetch('GET'),
-        logs = await executarFetch('error', config)
+    logs = await executarFetch('error', config)
   callbackSucesso(logs)
 }
 logs()
