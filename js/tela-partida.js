@@ -45,7 +45,7 @@ const init = async () => {
 
 		loader.show()
 		const configFetch = configuracaoFetch('POST', body),
-			response = await executarFetch('matches/cards', configFetch, callbackStatus)
+			response = await executarFetch('matches/fouls', configFetch, callbackStatus)
 		loader.hide()
 
 		if (response.succeed) {
@@ -1110,11 +1110,11 @@ const init = async () => {
 	// 	match = dataMatch.results
 	
 	// const 
-	// 	dataPlayersTeam1 = await executarFetch(`teams/${match.homeId}/players`, configuracaoFetch('GET')),
+	// 	dataPlayersTeam1 = await executarFetch(`matches/{match.id}/teams/{match.homeId}/players`, configuracaoFetch('GET')),
 	// 	playersTeam1 = dataPlayersTeam1.results
 	
 	// const 
-	// 	dataPlayersTeam2 = await executarFetch(`teams/${match.visitorId}/players`, configuracaoFetch('GET')),
+	// 	dataPlayersTeam2 = await executarFetch(`matches/{match.id}/teams/{match.visitorId}/players`, configuracaoFetch('GET')),
 	// 	playersTeam2 = dataPlayersTeam2.results
 
 	// const
