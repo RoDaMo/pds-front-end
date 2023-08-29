@@ -1019,16 +1019,6 @@ const init = async () => {
 
 	}
 
-	//
-	
-
-
-
-
-
-	
-
-
 	const inicializarPaginaExclusao = async () => {
 		const formDeletarCampeonato = document.getElementById('delete-championship-form'),
 			deleteAccountValidator = new JustValidate(formDeletarCampeonato, { validateBeforeSubmitting: true }),
@@ -1083,7 +1073,8 @@ const init = async () => {
 		modalDeleteBracket = document.getElementById('bracketDeleteModal'),
 		bracketCreateModal = document.getElementById('bracketCreateModal'),
 		bracketBtnWrapper = document.getElementById('bracket-btn-wrapper'),
-		form = document.getElementById('update-profile-form')
+		form = document.getElementById('update-profile-form'),
+		linkBracketBtnWrappers = document.querySelectorAll('.link-bracket-btn-wrapper')
 		
         let modalCreateSuccessBracketBT = new bootstrap.Modal(modalCreateSuccessBracket, {keyboard: false})
 
@@ -1120,6 +1111,10 @@ const init = async () => {
 				bracketBtnWrapper.querySelector("#qtd-teams-not-enough").remove()
 			} else {
 				createBracketBtn.disabled = true
+				// clear error message
+				if (bracketBtnWrapper.querySelector("#qtd-teams-not-enough")) {
+					bracketBtnWrapper.querySelector("#qtd-teams-not-enough").remove()
+				}
 				bracketBtnWrapper.insertAdjacentHTML('beforeend', `<span id="qtd-teams-not-enough" class="i18 tiny-text" key="QuantidadeTimesInsuficiente">${i18next.t("QuantidadeTimesInsuficiente")}</span>`)
 			}
 		}
@@ -1130,6 +1125,10 @@ const init = async () => {
 
 		bracketCreateModalBT.hide()
 	})
+
+	for (const linkBracketBtnWrapper of linkBracketBtnWrappers) {
+		linkBracketBtnWrapper.setAttribute('href', `tabela-chaveamento.html?id=${campeonato.id}`)
+	}
 
 	changeConfigOptionsContext(0)
 	inicializarCampos()

@@ -3,6 +3,7 @@
     "Eventos": "Events",
     "Jogadores": "Players",
     "Administrar": "Manage",
+    "Administracao": "Administration",
     "ConfigurarPartida": "Configure Match",
     "SelectEventTypeLabel": "Select the event type",
     "SelectEventTypePlaceholder": "Select the event type...",
@@ -52,5 +53,13 @@
     "EndMatch": "End Match",
     "SucessoFinalizarPartida": "Match successfully finished.",
     "StartOvertime": "Start Overtime",
-    "SucessoStartOvertime": "Overtime successfully started."
+    "SucessoStartOvertime": "Overtime successfully started.",
+    "Sumula": "Match Report",
+    "InputSummaryLabel": "Match Report",
+    "AdicionarSumula": "Add Match Report",
+    "SumulaObrigatoria": "The match report is required.",
+    "DownloadMatchReport": "Download Match Report",
+    "SucessoPostSumula": "Match report successfully registered.",
+    "PdfInvalido": "Invalid file! The file must contain up to 20mb and be a pdf file.",
+    "MatchEnded": "Match Ended"
 }

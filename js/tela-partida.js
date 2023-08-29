@@ -70,7 +70,92 @@ const init = async () => {
 		}
 	}
 
+	const postMatchReport = async (body) => {
+		const callbackStatus = (data) => {
+			notificacaoErro(data.results)
+		}
+
+		loader.show()
+		const configFetch = configuracaoFetch('POST', body),
+			response = await executarFetch('matches/match-report', configFetch, callbackStatus)
+		loader.hide()
+
+		if (response.succeed) {
+			notificacaoSucesso(i18next.t("SucessoPostSumula"))
+			setTimeout(() => {
+				window.location.reload()
+			}, 2000)
+		}
+	}
+
+	const endMatchManagementSystem = async () => {
+		matchManagementForm.insertAdjacentHTML('beforebegin', `
+			<div id="event-admin-label" class="d-flex justify-content-center bg-gray-400 rounded-4 py-1 px-3 mb-2">
+				<span class="i18" key="Sumula">${i18next.t("Sumula")}</span>
+			</div>
+		`)
+
+		const matchReportLink = (match.isSoccer) ? `https://drive.google.com/file/d/19qAP64jlw6MROV6yBN84oX1yBVrkPK1_/view?usp=drivesdk` : ``
+
+		matchManagementForm.insertAdjacentHTML('beforeend', `
+			<div class="ex-match-report-wrapper d-flex justify-content-center">
+				<a href="${matchReportLink}" class="btn btn-primary mt-3 i18" key="DownloadSumula">${i18next.t("DownloadSumula")}</a>
+			</div> 
+		
+			<hr class="w-75">
+
+			<div class="form-group mt-3">
+				<label for="input-match-report" class="i18 form-label mb-0" key="InputMatchReportLabel">${i18next.t("InputMatchReportLabel")}</label>
+				<input type="file" class="form-control" id="input-match-report">
+			</div>
+
+			<div class="btn-post-match-report-wrapper d-flex justify-content-center">
+				<button type="submit" class="btn-post-match-report btn btn-primary mt-3 i18" key="AdicionarSumula">${i18next.t("AdicionarSumula")}</button>
+			</div>
+		`)
+		const inputMatchReport = matchManagementForm.querySelector('input#input-match-report')
+
+		const postMatchReportValidator = new JustValidate(matchManagementForm, {
+			validateBeforeSubmitting: true,
+		})
+
+		postMatchReportValidator
+			.addField(inputMatchReport, [
+				{
+					rule: 'required',
+					errorMessage: `<span class="i18" key="SumulaObrigatoria">${i18next.t("SumulaObrigatoria")}</span>`,
+				},
+				{
+					rule: 'files',
+					value: {
+						files: {
+							extensions: ['pdf'],
+							maxSize: 20000000,
+							types: ['application/pdf'],
+						},
+					},
+					errorMessage: `<span class="i18" key="PdfInvalido">${i18next.t("PdfInvalido")}</span>`,
+				}
+			])
+			.onSuccess(async e => {
+				e.preventDefault()
+
+				const body = {
+					"MatchId": match.id,
+					"MatchReport": inputMatchReport.files[0]
+				}
+
+				await postMatchReport(body)
+			})	
+	}
+
 	const matchManagementSystem = () => {
+		matchManagementForm.insertAdjacentHTML('beforebegin', `
+			<div id="event-admin-label" class="d-flex justify-content-center bg-gray-400 rounded-4 py-1 px-3 mb-2">
+				<span class="i18" key="Eventos">${i18next.t("Eventos")}</span>
+			</div>
+		`)
+
 		matchManagementForm.insertAdjacentHTML('beforeend', `
 			<label for="select-event-type" class="form-label i18 mb-0" key="SelectEventTypeLabel">${i18next.t("SelectEventTypeLabel")}</label>
 			<select id="select-event-type" class="form-select">
@@ -335,8 +420,8 @@ const init = async () => {
 									.onSuccess(async e => {
 										e.preventDefault()
 
-										const playerKey = (selectedPlayer.username == null) ? "PlayerTempId" : "PlayerId"
-										const assisterPlayerKey = (selectedAssisterPlayer.username == null) ? "AssisterPlayerTempId" : "AssisterPlayerId"
+										const playerKey = (selectedPlayer.username == null || selectedPlayer.username == "") ? "PlayerTempId" : "PlayerId"
+										const assisterPlayerKey = (selectedAssisterPlayer.username == null || selectedAssisterPlayer.username == "") ? "AssisterPlayerTempId" : "AssisterPlayerId"
 										
 										const body = {
 											"MatchId": match.id,
@@ -478,7 +563,7 @@ const init = async () => {
 									.onSuccess(async e => {
 										e.preventDefault()
 
-										const playerKey = (selectedPlayer.username == null) ? "PlayerTempId" : "PlayerId"
+										const playerKey = (selectedPlayer.username == null || selectedPlayer.username == "") ? "PlayerTempId" : "PlayerId"
 
 										const body = {
 											"MatchId": match.id,
@@ -550,7 +635,7 @@ const init = async () => {
 									.onSuccess(async e => {
 										e.preventDefault()
 
-										const playerKey = (selectedPlayer.username == null) ? "PlayerTempId" : "PlayerId"
+										const playerKey = (selectedPlayer.username == null || selectedPlayer.username == "") ? "PlayerTempId" : "PlayerId"
 
 										const body = {
 											"MatchId": match.id,
@@ -1067,14 +1152,52 @@ const init = async () => {
 				const configureMatchBtn = document.getElementById('configure-match-btn')
 
 				configureMatchBtn.addEventListener('click', () => {
-					// window.location.href = `../link-tabela`
+					window.location.href = `../pages/tabela-chaveamento.html?id=${match.championshipId}`
 				})
 			}
 		} else {
 			if (isMatchOrganizer) {
 				manageMatchBtn.classList.remove('d-none')
 
-				matchManagementSystem()
+				(match.finished) ? matchManagementSystem() : endMatchManagementSystem()
+			}
+
+			if (match.finished) {
+				matchReportAccess.insertAdjacentHTML('afterbegin', `
+					<div id="match-ended-alert" class="text-center">
+						<span class="i18" key="MatchEnded">${i18next.t("MatchEnded")}</span>
+					</div>
+				`)
+			}
+
+			// verify if the match is over and if the match has a match report
+			if (match.finished && match.matchReport) {
+				matchReportAccess.insertAdjacentHTML('beforeend', `
+					<div class="row justify-content-center align-items-center">
+						<div class="col-auto">
+							<button id="download-match-report-btn" class="btn btn-outline-dark rounded-pill"><span class="i18" key="DownloadMatchReport">${i18next.t("DownloadMatchReport")}</span></button>
+						</div>
+					</div>
+				`)
+
+				const downloadMatchReportBtn = document.getElementById('download-match-report-btn')
+				
+				// download match report
+				downloadMatchReportBtn.addEventListener('click', async () => {
+					loader.show()
+					const 
+						configFetch = configuracaoFetch('GET'),
+						response = await executarFetch(`matches/${match.id}/match-report`, configFetch)
+					
+					loader.hide()
+
+					if (response.succeed) {
+						const matchReport = response.results
+						const matchReportBlob = new Blob([matchReport], { type: 'application/pdf' })
+						const matchReportUrl = URL.createObjectURL(matchReportBlob)
+						window.open(matchReportUrl)
+					}
+				})
 			}
 
 			loadEvents()
@@ -1102,30 +1225,32 @@ const init = async () => {
 		mTeam1NameWrapper = document.getElementById('m-team1-name-wrapper'),
 		mTeam2NameWrapper = document.getElementById('m-team2-name-wrapper'),
 		mTeam1ImgWrapper = document.getElementById('m-team1-img-wrapper'),
-		mTeam2ImgWrapper = document.getElementById('m-team2-img-wrapper')
+		mTeam2ImgWrapper = document.getElementById('m-team2-img-wrapper'),
+		matchReportAccess = document.getElementById('match-report-access')
 
-	// loader.show()
-	// const 
-	// 	dataMatch = await executarFetch(`matches/${matchId}`, configuracaoFetch('GET')),
-	// 	match = dataMatch.results
+
+	loader.show()
+	const 
+		dataMatch = await executarFetch(`matches/${matchId}`, configuracaoFetch('GET')),
+		match = dataMatch.results
 	
-	// const 
-	// 	dataPlayersTeam1 = await executarFetch(`matches/{match.id}/teams/{match.homeId}/players`, configuracaoFetch('GET')),
-	// 	playersTeam1 = dataPlayersTeam1.results
+	const 
+		dataPlayersTeam1 = await executarFetch(`matches/{match.id}/teams/{match.homeId}/players`, configuracaoFetch('GET')),
+		playersTeam1 = dataPlayersTeam1.results
 	
-	// const 
-	// 	dataPlayersTeam2 = await executarFetch(`matches/{match.id}/teams/{match.visitorId}/players`, configuracaoFetch('GET')),
-	// 	playersTeam2 = dataPlayersTeam2.results
+	const 
+		dataPlayersTeam2 = await executarFetch(`matches/{match.id}/teams/{match.visitorId}/players`, configuracaoFetch('GET')),
+		playersTeam2 = dataPlayersTeam2.results
 
-	// const
-	// 	matchStartConditions = await executarFetch(`matches/${matchId}/start-conditions`, configuracaoFetch('GET')),
-	// 	matchStartConditionsResults = matchStartConditions.results
+	const
+		matchStartConditions = await executarFetch(`matches/${matchId}/start-conditions`, configuracaoFetch('GET')),
+		matchStartConditionsResults = matchStartConditions.results
 
-	// const
-	// 	dataCampeonato = await executarFetch(`championships/${match.championshipId}`, configuracaoFetch('GET')),
-	// 	campeonato = dataCampeonato.results
-	// console.log(match)
-	// loader.hide()
+	const
+		dataCampeonato = await executarFetch(`championships/${match.championshipId}`, configuracaoFetch('GET')),
+		campeonato = dataCampeonato.results
+	console.log(match)
+	loader.hide()
 
 	for(const blankSpace of blankSpaces) {
 		blankSpace.style.height = `${matchDetailsOptions.offsetHeight + 35}px`
@@ -1139,7 +1264,7 @@ const init = async () => {
 	}
 
     changeConfigOptionsContext(0)
-	// await carregarPartida()
+	await carregarPartida()
 	console.log(sessionUserInfo);
 }
 
