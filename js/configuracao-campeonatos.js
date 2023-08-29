@@ -909,10 +909,6 @@ const init = async () => {
 		})
 	}
 
-
-
-
-
 	const botaoVincularSuborg = document.getElementById('botao-vincular-suborg');
 	const pesquisaSuborg = document.getElementById('pesquisa-suborg');
 

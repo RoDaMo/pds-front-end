@@ -1159,7 +1159,7 @@ const init = async () => {
 			if (isMatchOrganizer) {
 				manageMatchBtn.classList.remove('d-none')
 
-				(match.finished) ? matchManagementSystem() : endMatchManagementSystem()
+				(!match.finished) ? matchManagementSystem() : endMatchManagementSystem()
 			}
 
 			if (match.finished) {
@@ -1228,18 +1228,17 @@ const init = async () => {
 		mTeam2ImgWrapper = document.getElementById('m-team2-img-wrapper'),
 		matchReportAccess = document.getElementById('match-report-access')
 
-
 	loader.show()
 	const 
 		dataMatch = await executarFetch(`matches/${matchId}`, configuracaoFetch('GET')),
 		match = dataMatch.results
 	
 	const 
-		dataPlayersTeam1 = await executarFetch(`matches/{match.id}/teams/{match.homeId}/players`, configuracaoFetch('GET')),
+		dataPlayersTeam1 = await executarFetch(`matches/${match.id}/teams/${match.homeId}/players`, configuracaoFetch('GET')),
 		playersTeam1 = dataPlayersTeam1.results
 	
 	const 
-		dataPlayersTeam2 = await executarFetch(`matches/{match.id}/teams/{match.visitorId}/players`, configuracaoFetch('GET')),
+		dataPlayersTeam2 = await executarFetch(`matches/${match.id}/teams/${match.visitorId}/players`, configuracaoFetch('GET')),
 		playersTeam2 = dataPlayersTeam2.results
 
 	const
