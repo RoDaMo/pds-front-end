@@ -40,6 +40,7 @@
 
 .partida-rodada {
     border-radius: 10px;
+    transition: background-color .3s;
 }
 
 .badge-ultima-partida {
@@ -96,6 +97,19 @@
 .borda-leve {
     border-radius: 20px;
 }
+
+.partida-rodada:hover {
+    background-color: mix($play-cor-fundos-secundaria, $play-cor-primaria)!important;
+    // transition: background-color 1s;
+}
+
+.eliminatorias-link {
+    transition: color .1s;
+}
+.eliminatorias-link:hover {
+    color: mix($play-cor-efeitos, $gray-400)!important;
+}
+
 
 @media (max-width: 715px) {
     .ida-volta{
