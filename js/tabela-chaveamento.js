@@ -5,7 +5,7 @@ const loader = document.createElement('app-loader');
 document.body.appendChild(loader);
 
 const chaveamento = {
-  inicializarRodadas(idCampeonato, formato, rodada, limiteRodadas) {
+  inicializarRodadas(idCampeonato, formato, classesCustom, limiteRodadas) {
     const listarRodadas = async (rodada) => {
       const partidasWrapper = formato.querySelector('#wrapper-partidas'),
             responsePartidas = await executarFetch(`championships/${idCampeonato}/matches?round=${rodada}`),
@@ -15,7 +15,7 @@ const chaveamento = {
   
       for (const partida of partidas) {
         partidasWrapper.innerHTML += /*html*/`
-          <div class="bg-verde-limao px-4 py-2 partida-rodada">
+          <div class="bg-verde-limao px-4 py-2 partida-rodada ${classesCustom}">
             <div class="text-center py-1">
               <small>${this.convertDateFormat(partida.date)}</small>
             </div>
@@ -167,14 +167,13 @@ const chaveamento = {
           formatos = document.getElementsByClassName('formato-chaveamento'),
           formato = championship.format == 3 ? formatos.item(1) : formatos.item(0)
     
-    if (championship.format == 3) formatos.item(0).remove()
-    else formatos.item(1).remove()
-
     await this.inicializarArtilharia(formato, idCampeonato)
     if (championship.format == 3) {
+      formatos.item(0).remove()
       await this.inicializarTabelas(formato, championship, idCampeonato)
       return
     }
+    else formatos.item(1).remove()
 
     const faseAtualWrapper = formato.querySelector('#fase-atual')
 
@@ -187,7 +186,7 @@ const chaveamento = {
     let faseAtualIsDupla = faseAtual > 0 && faseAtual != 6 ? championship.doubleMatchEliminations : faseAtual == 0 ? true : faseAtual == 6 ? championship.finalDoubleMatch : false
 
     faseAtualWrapper.textContent = fases[faseInicial]
-    this.inicializarEliminatorias(formato, idCampeonato, faseInicial, fases, faseAtualIsDupla)
+    this.inicializarEliminatorias(formato, idCampeonato, faseInicial, fases, faseAtualIsDupla, championship)
     
     if (faseAtual - 1 == 0 || faseAtual == faseInicial)
       anteriorBotao.classList.add('invisible')
@@ -205,13 +204,13 @@ const chaveamento = {
       faseAtualWrapper.textContent = fases[faseAtual]
 
       loader.show();
-      await this.inicializarEliminatorias(formato, idCampeonato, faseAtual, fases, faseAtualIsDupla)
+      await this.inicializarEliminatorias(formato, idCampeonato, faseAtual, fases, faseAtualIsDupla, championship)
       loader.hide();
     })
 
     anteriorBotao.addEventListener('click', async () => {
       faseAtual--
-      if (faseAtual - 1 == 0 || faseAtual == faseInicial)
+      if (faseAtual == faseInicial)
         anteriorBotao.classList.add('invisible')
       
       faseAtualIsDupla = faseAtual > 0 && faseAtual != 6 ? championship.doubleMatchEliminations : faseAtual == 0 ? true : faseAtual == 6 ? championship.finalDoubleMatch : false
@@ -220,18 +219,195 @@ const chaveamento = {
       faseAtualWrapper.textContent = fases[faseAtual]
 
       loader.show();
-      await this.inicializarEliminatorias(formato, idCampeonato, faseAtual, fases, faseAtualIsDupla)
+      await this.inicializarEliminatorias(formato, idCampeonato, faseAtual, fases, faseAtualIsDupla, championship)
       loader.hide();
     })
   },
-  async inicializarEliminatorias(formato, idCampeonato, faseAtual, fases, faseAtualIsDupla) {
-    const responseEliminatorias = await executarFetch(`championships/${idCampeonato}/matches?phase=${faseAtual + 1}`),
+  inicializarFaseGrupos(partidas, partidasWrapper, campeonato) {
+    partidasWrapper.classList.remove('bg-verde-limao')
+    partidasWrapper.classList.add('gap-3', 'd-flex', 'flex-column')
+
+    const grupos = [];
+
+    for (let i = 0; i < partidas.length; i += 4) {
+      const grupo = [
+        partidas[i],
+        partidas[i + 1],
+        partidas[i + 2],
+        partidas[i + 3]
+      ];
+      grupos.push(grupo);
+    }
+
+    const containerGrupos = document.createElement('div')
+    containerGrupos.classList.add('container')
+    const rowGrupos = document.createElement('div')
+    rowGrupos.classList.add('row', 'gap-4')
+
+    let count = 0;
+    for (const grupo of grupos) {
+      count++;
+      rowGrupos.innerHTML += /*html*/`
+      <div class="col d-flex flex-column-reverse flex-lg-column gap-3 px-0">
+        <div class="bg-verde-limao p-3 borda-leve table-responsive tabela-customizada-wrapper col">
+          <h3>Grupo ${count}</h3>
+          <table class="table table-hover table-bordered tabela-customizada">
+            <thead>
+                <tr class="border-bottom-0 border-top-0">
+                    <th scope="col" class="col border-0 d-none d-lg-table-cell"></th>
+                    <th scope="col" class="col-1 border-0 coluna-fixa"></th>
+                    <th scope="col" class="col-2 border-0 d-none d-lg-table-cell"></th>
+                    <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado">P</th>
+                    <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado">V</th>
+                    <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado">J</th>
+                    <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado">SG</th>
+                    <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado">GP</th>
+                    <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado">CA</th>
+                    <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado">CV</th>
+                    <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado">Ult. Jogos</th>
+                </tr>
+            </thead>
+            <tbody id="tbody-${count}">
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="bg-secondary col-lg-3 col-12 borda-leve borda-top-lg p-3">
+      <div class="d-flex flex-row justify-content-between texto-verde-limao">
+          <button id="anterior-rodada" class="seta-botao-rodada btn btn-secondary px-2 rounded-circle invisible"><i class="bi bi-caret-left"></i></button>
+          <h3 id="rodada-text"><span id="rodada-atual">1</span>º Rodada</h3>
+          <button id="proxima-rodada" class="seta-botao-rodada btn btn-secondary px-2 rounded-circle"><i class="bi bi-caret-right"></i></button>
+      </div>
+      <div id="wrapper-partidas" class="mt-3 d-flex flex-column gap-4">
+          <div class="bg-verde-limao px-4 py-2 partida-rodada">
+              <div class="text-center py-1">
+                  <small>24/11/2023</small>
+              </div>
+              <div class="row">
+                  <div class="col-4 text-center">
+                      <div class="d-flex align-items-center justify-content-center">
+                          <img src="https://playoffs-api.up.railway.app/img/ffc82e3d-4002-4fe1-bcbd-62fc78bcb880" rel="preconnect" alt="Imagem 1" width="50" height="50" class="img-fluid rounded-circle">
+                          <p class="my-0 ms-2 fs-4">0</p>
+                      </div>
+                  </div>
+                  <div class="col-4 text-center">
+                      <i class="bi bi-x-lg fs-2"></i>
+                  </div>
+                  <div class="col-4 text-center">
+                      <div class="d-flex align-items-center justify-content-center">
+                          <p class="my-0 me-2 fs-4">0</p>
+                          <img src="https://playoffs-api.up.railway.app/img/ffc82e3d-4002-4fe1-bcbd-62fc78bcb880" rel="preconnect" alt="Imagem 2" width="50" height="50" class="img-fluid rounded-circle">
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="bg-verde-limao px-4 py-2 partida-rodada">
+              <div class="text-center py-1">
+                  <small>24/11/2023</small>
+              </div>
+              <div class="row">
+                  <div class="col-4 text-center">
+                      <div class="d-flex align-items-center justify-content-center">
+                          <img src="https://playoffs-api.up.railway.app/img/ffc82e3d-4002-4fe1-bcbd-62fc78bcb880" rel="preconnect" alt="Imagem 1" width="50" height="50" class="img-fluid rounded-circle">
+                          <p class="my-0 ms-2 fs-4">0</p>
+                      </div>
+                  </div>
+                  <div class="col-4 text-center">
+                      <i class="bi bi-x-lg fs-2"></i>
+                  </div>
+                  <div class="col-4 text-center">
+                      <div class="d-flex align-items-center justify-content-center">
+                          <p class="my-0 me-2 fs-4">0</p>
+                          <img src="https://playoffs-api.up.railway.app/img/ffc82e3d-4002-4fe1-bcbd-62fc78bcb880" rel="preconnect" alt="Imagem 2" width="50" height="50" class="img-fluid rounded-circle">
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+      </div>
+      `
+      const tbody = rowGrupos.querySelector(`#tbody-${count}`)
+      let countTimes = 0
+      for (const time of grupo) {
+        countTimes++
+        const estatisticas = [[time.goalBalance,time.proGoals,time.yellowCard,time.redCard], [time.winningSets,time.losingSets,time.proPoints,time.pointsAgainst], time.points,time.wins, time.amountOfMatches]
+
+        tbody.innerHTML += /*html*/`
+          <tr class="border-top-0">
+            <th scope="row" class="border-end-0 border-start-0 d-none d-lg-table-cell">${countTimes}</th>
+            <td class="border-start-0 border-end-0 coluna-fixa">
+              <img src="${time.emblem}" width="40" height="40" class="rounded-circle">
+            </td>
+            <td class="d-none d-lg-table-cell border-start-0 align-content-center">${time.name}</td>
+            <td>${estatisticas[2]}</td>
+            <td>${estatisticas[3]}</td>
+            <td>${estatisticas[4]}</td>
+            <td>${estatisticas[campeonato.sportsId - 1][0]}</td>
+            <td>${estatisticas[campeonato.sportsId - 1][1]}</td>
+            <td>${estatisticas[campeonato.sportsId - 1][2]}</td>
+            <td>${estatisticas[campeonato.sportsId - 1][3]}</td>
+            <td>
+              <small class="badge rounded-pill text-bg-secondary badge-ultima-partida d-inline-flex gap-3">
+                <div 
+                  class="vencedor partida-pilula col-2" 
+                  data-bs-toggle="tooltip" 
+                  data-bs-html="true"
+                  data-bs-title="<div class='align-items-center'><img src='https://playoffs-api.up.railway.app/img/ffc82e3d-4002-4fe1-bcbd-62fc78bcb880' rel='preconnect' width='40' height='40' class='time-vencedor rounded-circle'> 3 <i class='bi bi-x-lg'></i> 1 <img src='https://playoffs-api.up.railway.app/img/ffc82e3d-4002-4fe1-bcbd-62fc78bcb880' rel='preconnect' width='40' height='40' class='time-vencedor rounded-circle'></div>"
+                ></div>
+                <div class="perdedor partida-pilula col-2" data-bs-toggle="tooltip" data-bs-title="Default tooltip"></div>
+                <div class="neutro partida-pilula col-2" data-bs-toggle="tooltip" data-bs-title="Default tooltip"></div>
+              </small>
+            </td>
+          </tr>
+        `
+      }
+    }
+
+    containerGrupos.appendChild(rowGrupos)
+    partidasWrapper.appendChild(containerGrupos)
+    partidasWrapper.innerHTML += /*html*/`
+      <div class="container p-3 borda-leve bg-verde-limao">
+        <div class="legenda me-2 d-inline-block">
+          <div class="d-inline-block vencedor" style="width: 10px; height: 10px;"></div>
+          Derrota
+        </div>
+        <div class="legenda me-2 d-inline-block">
+          <div class="d-inline-block perdedor" style="width: 10px; height: 10px;"></div>
+          Vitória
+        </div>
+        <div class="legenda d-inline-block">
+          <div class="d-inline-block neutro" style="width: 10px; height: 10px;"></div>
+          Empate/Ainda não ocorreu
+        </div>
+        <div class="d-block" id="legendas-estatisticas-esportes">
+
+        </div>
+      </div>
+    `
+    const estatisticas = [
+      [['P', 'Pontos'],['V', 'Vitórias'],['J', 'Jogos'],['SG','Saldo de Gols'],['GP','Gols Pró'],['CA','Cartões Amarelos'],['CV','Cartões Vermelhos'],['Ult. Jogos','Últimos Jogos']],
+      [['P', 'Pontos'],['V', 'Vitórias'],['J', 'Jogos'],['SV','Sets Vencidos'],['SD','Sets Derrotados'],['PP','Pontos Pró'],['PC','Pontos Contra'],['Ult. Jogos','Últimos Jogos']]
+    ]
+
+    this.inicializarLegendas(estatisticas[campeonato.sportsId - 1])
+
+    const colunasEstatisticas = document.getElementsByClassName('cabecalho-customizado')
+    for (let i = 0; i < 8; i++) {
+      const element = estatisticas[campeonato.sportsId - 1][i][0];
+      colunasEstatisticas.item(i).textContent = element;
+    }
+
+    // this.inicializarRodadas(campeonato.id, partidasWrapper, 'col', campeonato.doubleMatchGroupStage ? (campeonato.teamQuantity - 1) * 2 : campeonato.teamQuantity - 1)
+  },
+  async inicializarEliminatorias(formato, idCampeonato, faseAtual, fases, faseAtualIsDupla, campeonato) {
+    const endpoint = faseAtual == 0 ? `statistics/${idCampeonato}/classifications` : `championships/${idCampeonato}/matches?phase=${faseAtual + 1}`,
+          responseEliminatorias = await executarFetch(endpoint),
           partidas = responseEliminatorias.results,
           partidasWrapper = formato.querySelector('#partida-rodada-eliminatorias')
           
-
-    console.log(partidas)
     let count = 0;
+    partidasWrapper.innerHTML = ''
     if (partidas.length == 0) {
       partidasWrapper.innerHTML = `
         <div class="bg-verde-limao col-12 text-center rounded-custom">
@@ -240,7 +416,11 @@ const chaveamento = {
       `
       return
     }
-    partidasWrapper.innerHTML = ''
+    if (faseAtual == 0) {
+      this.inicializarFaseGrupos(partidas, partidasWrapper, campeonato)
+      return;
+    }
+
     if (faseAtualIsDupla) {
       const partidasDuplas = [];
       
