@@ -283,6 +283,7 @@ const init = async () => {
 
 		console.log(campeonato.teams.length);
 		console.log(campeonato.teamQuantity);
+		console.log(campeonato)
 
 		if (campeonato.rules) {
 			linkRegulamento.classList.remove('d-none')
@@ -537,6 +538,7 @@ const init = async () => {
 
 
 					loader.show()
+					console.log(linkRegulamento.href)
 					await putCampeonato({
 						"name": name.value,
 						"initialDate": dataInicial.value,
@@ -590,7 +592,7 @@ const init = async () => {
 				const isValid = await validator.revalidateField(regulamento)
 				if (!isValid) return;
 
-				if (regulamento.files.length == 0) return;
+				
 
 				loader.show()
 				const data = await uploadImagem(regulamento, 2, mensagemErro)
@@ -599,9 +601,11 @@ const init = async () => {
 				if (Array.isArray(data.results))
 					return;
 
-				regulamento.value = `${api}img/${data.results}`
+				console.log(regulamento.value)
 
-				linkRegulamento.href = imageInput.value;
+				linkRegulamento.value = `${api}img/${data.results}`
+
+				linkRegulamento.href = linkRegulamento.value;
 				linkRegulamento.classList.toggle('d-none', false)
 			})
 		}
