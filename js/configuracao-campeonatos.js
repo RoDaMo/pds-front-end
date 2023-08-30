@@ -170,6 +170,12 @@ const init = async () => {
 					}
 				}
 			}
+			else if(formato.value === "4"){
+				resetQuantidade()
+				for (let i = 2; i <= 6; i++) {
+					adicionarOpcao(2 ** i)
+				}
+			}
 			else {
 				resetQuantidade()
 				for (let i = 1; i <= 6; i++) {
