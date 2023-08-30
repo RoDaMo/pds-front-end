@@ -72,7 +72,7 @@ const chaveamento = {
   },
   gerarHtmlPartidaFaseGrupos(partida, rodada) {
     return /*html*/`
-    <div class="bg-verde-limao px-4 py-2 partida-rodada partida-rodada-${rodada} d-none">
+    <a href="/pages/tela-partida.html?id=${partida.id}" class="bg-verde-limao px-4 py-2 partida-rodada partida-rodada-${rodada} d-none text-decoration-none">
       <div class="text-center py-1">
         <small>${this.convertDateFormat(partida.date)}</small>
       </div>
@@ -93,7 +93,7 @@ const chaveamento = {
           </div>
         </div>
       </div>
-    </div>
+    </a>
     `
   },
   async carregarRodadasFasesGrupos(limiteRodadas, idCampeonato) {
