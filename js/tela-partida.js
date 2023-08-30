@@ -1192,7 +1192,7 @@ const init = async () => {
 				matchReportAccess.insertAdjacentHTML('beforeend', `
 					<div class="row justify-content-center align-items-center">
 						<div class="col-auto">
-							<a href="javascript:void(0)" class="d-none i18" id="download-match-report-link">
+							<a href="javascript:void(0)" class="d-none text-decoration-none" id="download-match-report-link">
 								<button id="download-match-report-btn" class="btn btn-outline-dark rounded-pill"><span class="i18" key="DownloadMatchReport">${i18next.t("DownloadMatchReport")}</span></button>
 							</a>
 						</div>
@@ -1287,5 +1287,12 @@ const init = async () => {
 	await carregarPartida()
 	console.log(sessionUserInfo);
 }
+
+// Precaução
+	// d-none:
+		// hiddenInput
+		// inputMatchReport
+		// downloadMatchReportBtn
+		// downloadMatchReportLink
 
 document.addEventListener('header-carregado', init)
