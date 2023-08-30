@@ -70,6 +70,92 @@ const chaveamento = {
       loader.hide();
     })
   },
+  gerarHtmlPartidaFaseGrupos(partida, rodada) {
+    return /*html*/`
+    <div class="bg-verde-limao px-4 py-2 partida-rodada partida-rodada-${rodada} d-none">
+      <div class="text-center py-1">
+        <small>${this.convertDateFormat(partida.date)}</small>
+      </div>
+      <div class="row">
+        <div class="col-4 text-center">
+          <div class="d-flex align-items-center justify-content-center">
+            <img src="${partida.homeEmblem}" rel="preconnect" alt="${partida.homeName}" width="50" height="50" class="img-fluid rounded-circle">
+            <p class="my-0 ms-2 fs-4">${partida.homeGoals}</p>
+          </div>
+        </div>
+        <div class="col-4 text-center">
+          <i class="bi bi-x-lg fs-2"></i>
+        </div>
+        <div class="col-4 text-center">
+          <div class="d-flex align-items-center justify-content-center">
+            <p class="my-0 me-2 fs-4">${partida.visitorGoals}</p>
+            <img src="${partida.visitorEmblem}" rel="preconnect" alt="${partida.visitorName}" width="50" height="50" class="img-fluid rounded-circle">
+          </div>
+        </div>
+      </div>
+    </div>
+    `
+  },
+  async carregarRodadasFasesGrupos(limiteRodadas, idCampeonato) {
+    const fetchPromises = Array.from({ length: limiteRodadas }, (_, i) => executarFetch(`championships/${idCampeonato}/matches?round=${i + 1}`))
+
+    const responses = await Promise.all(fetchPromises)
+    const rodadas = responses.map(response => response.results)
+    console.log(rodadas)
+    const gruposWrappers = document.getElementsByClassName('fase-grupos-rodadas')
+    let count = 0
+    for (const partidas of rodadas) {
+      count++
+      const htmls = [];
+      for (let i = 0; i < partidas.length; i += 2) {
+        const primeiraPartida = partidas[i]
+        const segundaPartida = partidas[i + 1]
+        htmls.push({ primeiraPartida: this.gerarHtmlPartidaFaseGrupos(primeiraPartida, count), segundaPartida: this.gerarHtmlPartidaFaseGrupos(segundaPartida, count) }) 
+      }
+
+      for (let i = 0; i < gruposWrappers.length; i++) {
+        const grupo = gruposWrappers[i]
+        grupo.innerHTML += htmls[i].primeiraPartida
+        grupo.innerHTML += htmls[i].segundaPartida
+      }
+    }
+
+    for (const partida of document.getElementsByClassName('partida-rodada-1')) {
+      partida.classList.remove('d-none');
+    }
+
+    count = 0;
+    for (const grupo of gruposWrappers) {
+      count++;
+      const proximaPartida = document.getElementById(`proxima-rodada-${count}`),
+            rodadaAnterior = document.getElementById(`anterior-rodada-${count}`),
+            rodadaAtual = document.getElementById(`rodada-atual-${count}`)
+
+      const updateUI = (novoValor) => {
+        proximaPartida.classList[novoValor == limiteRodadas ? 'add' : 'remove']('invisible');
+        rodadaAnterior.classList[novoValor != 1 ? 'remove' : 'add']('invisible');
+        rodadaAtual.textContent = novoValor;
+      }
+
+      proximaPartida.addEventListener('click', () => {
+        const valorAntigo = parseInt(rodadaAtual.textContent)
+        const novoValor = valorAntigo + 1;
+        updateUI(novoValor);
+    
+        grupo.querySelectorAll(`.partida-rodada-${valorAntigo}`).forEach(el => el.classList.add('d-none'))
+        grupo.querySelectorAll(`.partida-rodada-${novoValor}`).forEach(el => el.classList.remove('d-none'))
+      })
+
+      rodadaAnterior.addEventListener('click', () => {
+        const valorAntigo = parseInt(rodadaAtual.textContent)
+        const novoValor = valorAntigo - 1;
+        updateUI(novoValor);
+    
+        grupo.querySelectorAll(`.partida-rodada-${valorAntigo}`).forEach(el => el.classList.add('d-none'))
+        grupo.querySelectorAll(`.partida-rodada-${novoValor}`).forEach(el => el.classList.remove('d-none'))
+      })
+    }
+  },
   inicializarLegendas(estatisticas) {
     const legendasEsportes = document.getElementById('legendas-estatisticas-esportes')
     for (const legenda of estatisticas) {
@@ -223,7 +309,7 @@ const chaveamento = {
       loader.hide();
     })
   },
-  inicializarFaseGrupos(partidas, partidasWrapper, campeonato) {
+  async inicializarFaseGrupos(partidas, partidasWrapper, campeonato) {
     partidasWrapper.classList.remove('bg-verde-limao')
     partidasWrapper.classList.add('gap-3', 'd-flex', 'flex-column')
 
@@ -242,7 +328,7 @@ const chaveamento = {
     const containerGrupos = document.createElement('div')
     containerGrupos.classList.add('container')
     const rowGrupos = document.createElement('div')
-    rowGrupos.classList.add('row', 'gap-4')
+    rowGrupos.classList.add('row', 'gap-lg-4')
 
     let count = 0;
     for (const grupo of grupos) {
@@ -272,59 +358,15 @@ const chaveamento = {
           </table>
         </div>
       </div>
-      <div class="bg-secondary col-lg-3 col-12 borda-leve borda-top-lg p-3">
-      <div class="d-flex flex-row justify-content-between texto-verde-limao">
-          <button id="anterior-rodada" class="seta-botao-rodada btn btn-secondary px-2 rounded-circle invisible"><i class="bi bi-caret-left"></i></button>
-          <h3 id="rodada-text"><span id="rodada-atual">1</span>º Rodada</h3>
-          <button id="proxima-rodada" class="seta-botao-rodada btn btn-secondary px-2 rounded-circle"><i class="bi bi-caret-right"></i></button>
-      </div>
-      <div id="wrapper-partidas" class="mt-3 d-flex flex-column gap-4">
-          <div class="bg-verde-limao px-4 py-2 partida-rodada">
-              <div class="text-center py-1">
-                  <small>24/11/2023</small>
-              </div>
-              <div class="row">
-                  <div class="col-4 text-center">
-                      <div class="d-flex align-items-center justify-content-center">
-                          <img src="https://playoffs-api.up.railway.app/img/ffc82e3d-4002-4fe1-bcbd-62fc78bcb880" rel="preconnect" alt="Imagem 1" width="50" height="50" class="img-fluid rounded-circle">
-                          <p class="my-0 ms-2 fs-4">0</p>
-                      </div>
-                  </div>
-                  <div class="col-4 text-center">
-                      <i class="bi bi-x-lg fs-2"></i>
-                  </div>
-                  <div class="col-4 text-center">
-                      <div class="d-flex align-items-center justify-content-center">
-                          <p class="my-0 me-2 fs-4">0</p>
-                          <img src="https://playoffs-api.up.railway.app/img/ffc82e3d-4002-4fe1-bcbd-62fc78bcb880" rel="preconnect" alt="Imagem 2" width="50" height="50" class="img-fluid rounded-circle">
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <div class="bg-verde-limao px-4 py-2 partida-rodada">
-              <div class="text-center py-1">
-                  <small>24/11/2023</small>
-              </div>
-              <div class="row">
-                  <div class="col-4 text-center">
-                      <div class="d-flex align-items-center justify-content-center">
-                          <img src="https://playoffs-api.up.railway.app/img/ffc82e3d-4002-4fe1-bcbd-62fc78bcb880" rel="preconnect" alt="Imagem 1" width="50" height="50" class="img-fluid rounded-circle">
-                          <p class="my-0 ms-2 fs-4">0</p>
-                      </div>
-                  </div>
-                  <div class="col-4 text-center">
-                      <i class="bi bi-x-lg fs-2"></i>
-                  </div>
-                  <div class="col-4 text-center">
-                      <div class="d-flex align-items-center justify-content-center">
-                          <p class="my-0 me-2 fs-4">0</p>
-                          <img src="https://playoffs-api.up.railway.app/img/ffc82e3d-4002-4fe1-bcbd-62fc78bcb880" rel="preconnect" alt="Imagem 2" width="50" height="50" class="img-fluid rounded-circle">
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
+      <div class="bg-secondary col-lg-3 col-12 borda-leve borda-top-lg p-3 mb-lg-0 mb-3">
+        <div class="d-flex flex-row justify-content-between texto-verde-limao">
+            <button id="anterior-rodada-${count}" class="seta-botao-rodada btn btn-secondary px-2 rounded-circle invisible"><i class="bi bi-caret-left"></i></button>
+            <h3 id="rodada-text-${count}"><span id="rodada-atual-${count}">1</span>º Rodada</h3>
+            <button id="proxima-rodada-${count}" class="seta-botao-rodada btn btn-secondary px-2 rounded-circle"><i class="bi bi-caret-right"></i></button>
+        </div>
+        <div class="mt-3 d-flex flex-column gap-4 fase-grupos-rodadas">
+            
+        </div>
       </div>
       `
       const tbody = rowGrupos.querySelector(`#tbody-${count}`)
@@ -397,7 +439,7 @@ const chaveamento = {
       const element = estatisticas[campeonato.sportsId - 1][i][0];
       colunasEstatisticas.item(i).textContent = element;
     }
-
+    await this.carregarRodadasFasesGrupos(campeonato.doubleMatchGroupStage ? 6 : 3, campeonato.id)
     // this.inicializarRodadas(campeonato.id, partidasWrapper, 'col', campeonato.doubleMatchGroupStage ? (campeonato.teamQuantity - 1) * 2 : campeonato.teamQuantity - 1)
   },
   async inicializarEliminatorias(formato, idCampeonato, faseAtual, fases, faseAtualIsDupla, campeonato) {
