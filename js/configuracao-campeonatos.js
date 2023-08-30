@@ -371,6 +371,53 @@ const init = async () => {
 			}
 		})
 		function validator1() {
+			configChampionshipDropZone.addEventListener("drop", async e => {
+				loader.show()
+				const data = await uploadImagem(e.dataTransfer, 3, mensagemErro)
+				loader.hide()
+	
+				if (Array.isArray(data.results))
+					return;
+	
+				genericExibition(imageInput, data, image)
+			})
+
+			imageFile.addEventListener("change", async () => {
+				const isValid = await validator.revalidateField(imageFile)
+				if (!isValid) return;
+
+				loader.show()
+				const data = await uploadImagem(imageFile, 0, mensagemErro)
+				loader.hide()
+
+				if (Array.isArray(data.results))
+					return;
+
+				imageInput.value = `${api}img/${data.results}`
+				exibidorImagem(image, imageInput.value)
+			})
+
+			regulamento.addEventListener("change", async () => {
+				const isValid = await validator.revalidateField(regulamento)
+				if (!isValid) return;
+
+				if (regulamento.files.length == 0) return;
+
+				loader.show()
+				const data = await uploadImagem(regulamento, 2, mensagemErro)
+				loader.hide()
+
+				if (Array.isArray(data.results))
+					return;
+
+				imageInput.value = `${api}img/${data.results}`
+
+				console.log(imageInput.value);
+
+				linkRegulamento.href = imageInput.value;
+				linkRegulamento.classList.toggle('d-none', false)
+			})
+
 			validator
 				.addField(name, [
 					{
@@ -553,51 +600,6 @@ const init = async () => {
 
 					checkBracketCreationAvailability()
 				})
-
-			configChampionshipDropZone.addEventListener("drop", async e => {
-				loader.show()
-				const data = await uploadImagem(e.dataTransfer, 3, mensagemErro)
-				loader.hide()
-	
-				if (Array.isArray(data.results))
-					return;
-	
-				genericExibition(imageInput, data, image)
-			})
-
-			imageFile.addEventListener("change", async () => {
-				const isValid = await validator.revalidateField(imageFile)
-				if (!isValid) return;
-
-				loader.show()
-				const data = await uploadImagem(imageFile, 0, mensagemErro)
-				loader.hide()
-
-				if (Array.isArray(data.results))
-					return;
-
-				imageInput.value = `${api}img/${data.results}`
-				exibidorImagem(image, imageInput.value)
-			})
-
-			regulamento.addEventListener("change", async () => {
-				const isValid = await validator.revalidateField(regulamento)
-				if (!isValid) return;
-
-				if (regulamento.files.length == 0) return;
-
-				loader.show()
-				const data = await uploadImagem(regulamento, 2, mensagemErro)
-				loader.hide()
-
-				if (Array.isArray(data.results))
-					return;
-
-				regulamento.value = `${api}img/${data.results}`
-
-				linkRegulamento.href = imageInput.value;
-				linkRegulamento.classList.toggle('d-none', false)
-			})
 		}
 		document.addEventListener('nova-lingua', validator1)
 		validator1()

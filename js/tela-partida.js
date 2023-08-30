@@ -270,7 +270,7 @@ const init = async () => {
 							if (selectEventTeam.value) {
 								resetSomeFormFields()
 
-								players = (selectEventTeam.value == 1) ? playersTeam1 : playersTeam2
+								players = (selectEventTeam.value == 1) ? validPlayersTeam1 : validPlayersTeam2
 
 								matchManagementForm.insertAdjacentHTML('beforeend', `
 									<div>
@@ -599,7 +599,7 @@ const init = async () => {
 							if (selectEventTeam.value) {
 								resetSomeFormFields()
 
-								players = (selectEventTeam.value == 1) ? playersTeam1 : playersTeam2
+								players = (selectEventTeam.value == 1) ? validPlayersTeam1 : validPlayersTeam2
 
 								matchManagementForm.insertAdjacentHTML('beforeend', `
 									<div>
@@ -734,7 +734,7 @@ const init = async () => {
 		const team1PlayersList = document.querySelector('#match-details-content-players-team1')
 		const team2PlayersList = document.querySelector('#match-details-content-players-team2')
 
-		playersTeam1.forEach(player => {
+		allPlayersTeam1.forEach(player => {
 			team1PlayersList.insertAdjacentHTML('beforeend', `
 				<div class="row row-cols-1 row-cols-md-2 align-items-center p-2 flex-column flex-md-row my-2 rounded-5 match-details-content-player">
 					<div class="col m-player-img-wrapper me-md-2 me-0 position-relative d-flex justify-content-center overflow-hidden border border-2 rounded-circle">
@@ -755,7 +755,7 @@ const init = async () => {
 			`)
 		})
 
-		playersTeam2.forEach(player => {
+		allPlayersTeam2.forEach(player => {
 			team2PlayersList.insertAdjacentHTML('beforeend', `
 				<div class="row row-cols-1 row-cols-md-2 align-items-center p-2 flex-column flex-md-row my-2 rounded-5 match-details-content-player">
 					<div class="col m-player-img-wrapper order-1 order-md-2 ms-md-2 ms-0 position-relative d-flex justify-content-center overflow-hidden border border-2 rounded-circle">
@@ -997,12 +997,12 @@ const init = async () => {
 
 			// Verify if the event is from team 1 or team 2
 			if (isTeam1(event.teamId)) {						
-				eventPlayer = playersTeam1.find(player => player.id == event.PlayerTempId)
-				eventAssisterPlayer = playersTeam1.find(player => player.id == event.AssisterPlayerTempId)
+				eventPlayer = validPlayersTeam1.find(player => player.id == event.PlayerTempId)
+				eventAssisterPlayer = validPlayersTeam1.find(player => player.id == event.AssisterPlayerTempId)
 
 			} else if (isTeam2(event.teamId)) {
-				eventPlayer = playersTeam2.find(player => player.id == event.PlayerTempId)
-				eventAssisterPlayer = playersTeam2.find(player => player.id == event.AssisterPlayerTempId)
+				eventPlayer = validPlayersTeam2.find(player => player.id == event.PlayerTempId)
+				eventAssisterPlayer = validPlayersTeam2.find(player => player.id == event.AssisterPlayerTempId)
 			}
 
 			let eventTemplate = `
@@ -1234,12 +1234,20 @@ const init = async () => {
 		match = dataMatch.results
 	
 	const 
-		dataPlayersTeam1 = await executarFetch(`matches/${match.id}/teams/${match.homeId}/players`, configuracaoFetch('GET')),
-		playersTeam1 = dataPlayersTeam1.results
+		dataValidPlayersTeam1 = await executarFetch(`matches/${match.id}/teams/${match.homeId}/players`, configuracaoFetch('GET')),
+		validPlayersTeam1 = dataValidPlayersTeam1.results
+
+	const
+		dataAllPlayersTeam1 = await executarFetch(`teams/${match.homeId}/players`, configuracaoFetch('GET')),
+		allPlayersTeam1 = dataAllPlayersTeam1.results
 	
 	const 
-		dataPlayersTeam2 = await executarFetch(`matches/${match.id}/teams/${match.visitorId}/players`, configuracaoFetch('GET')),
-		playersTeam2 = dataPlayersTeam2.results
+		dataValidPlayersTeam2 = await executarFetch(`matches/${match.id}/teams/${match.visitorId}/players`, configuracaoFetch('GET')),
+		validPlayersTeam2 = dataValidPlayersTeam2.results
+
+	const 
+		dataAllPlayersTeam2 = await executarFetch(`teams/${match.visitorId}/players`, configuracaoFetch('GET')),
+		allPlayersTeam2 = dataAllPlayersTeam2.results
 
 	const
 		matchStartConditions = await executarFetch(`matches/${matchId}/start-conditions`, configuracaoFetch('GET')),
