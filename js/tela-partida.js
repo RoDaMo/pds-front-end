@@ -89,32 +89,6 @@ const init = async () => {
 	}
 
 	const endMatchManagementSystem = async () => {
-		matchManagementForm.insertAdjacentHTML('beforebegin', `
-			<div id="event-admin-label" class="d-flex justify-content-center bg-gray-400 rounded-4 py-1 px-3 mb-2">
-				<span class="i18" key="Sumula">${i18next.t("Sumula")}</span>
-			</div>
-		`)
-
-		const matchReportLink = (match.isSoccer) ? `https://drive.google.com/file/d/19qAP64jlw6MROV6yBN84oX1yBVrkPK1_/view?usp=drivesdk` : ``
-
-		matchManagementForm.insertAdjacentHTML('beforeend', `
-			<div class="ex-match-report-wrapper d-flex justify-content-center">
-				<a href="${matchReportLink}" class="btn btn-primary mt-3 i18" key="DownloadSumula">${i18next.t("DownloadSumula")}</a>
-			</div> 
-		
-			<hr class="w-75">
-
-			<div class="form-group mt-3">
-				<label for="input-match-report" class="i18 form-label mb-0" key="InputMatchReportLabel">${i18next.t("InputMatchReportLabel")}</label>
-				<input type="file" class="form-control" id="input-match-report">
-			</div>
-
-			<div class="btn-post-match-report-wrapper d-flex justify-content-center">
-				<button type="submit" class="btn-post-match-report btn btn-primary mt-3 i18" key="AdicionarSumula">${i18next.t("AdicionarSumula")}</button>
-			</div>
-		`)
-		const inputMatchReport = matchManagementForm.querySelector('input#input-match-report')
-
 		const postMatchReportValidator = new JustValidate(matchManagementForm, {
 			validateBeforeSubmitting: true,
 		})
@@ -142,11 +116,60 @@ const init = async () => {
 
 				const body = {
 					"MatchId": match.id,
-					"MatchReport": inputMatchReport.files[0]
+					"MatchReport": hiddenInput.value
 				}
 
 				await postMatchReport(body)
 			})	
+
+
+		matchManagementForm.insertAdjacentHTML('beforebegin', `
+			<div id="event-admin-label" class="d-flex justify-content-center bg-gray-400 rounded-4 py-1 px-3 mb-2">
+				<span class="i18" key="Sumula">${i18next.t("Sumula")}</span>
+			</div>
+		`)
+
+		const matchReportLink = (match.isSoccer) ? `https://drive.google.com/file/d/19qAP64jlw6MROV6yBN84oX1yBVrkPK1_/view?usp=drivesdk` : ``
+
+		matchManagementForm.insertAdjacentHTML('beforeend', `
+			<div class="ex-match-report-wrapper d-flex justify-content-center">
+				<a href="${matchReportLink}" class="btn btn-primary mt-3 i18" key="DownloadExampleSumula">${i18next.t("DownloadExampleSumula")}</a>
+			</div> 
+		
+			<hr class="w-75">
+
+			<div class="form-group mt-3">
+				<label for="input-match-report" class="i18 form-label mb-0" key="InputMatchReportLabel">${i18next.t("InputMatchReportLabel")}</label>
+				<input type="file" class="form-control" id="input-match-report">
+			</div>
+
+			<input type="hidden" id="match-report-hidden-input">
+
+			<div class="btn-post-match-report-wrapper d-flex justify-content-center">
+				<button type="submit" class="btn-post-match-report btn btn-primary mt-3 i18" key="AdicionarSumula">${i18next.t("AdicionarSumula")}</button>
+			</div>
+		`)
+
+		const inputMatchReport = matchManagementForm.querySelector('input#input-match-report')
+		const hiddenInput = matchManagementForm.querySelector('input#match-report-hidden-input')
+
+		inputMatchReport.addEventListener('change', async () => {
+			const isValid = await postMatchReportValidator.revalidateField(inputMatchReport)
+			if (!isValid) return;
+
+			if (inputMatchReport.files.length == 0) return;
+
+			loader.show()
+			const data = await uploadImagem(inputMatchReport, 2, mensagemErro)
+			loader.hide()
+
+			if (Array.isArray(data.results))
+				return;
+
+			hiddenInput.value = `${api}img/${data.results}`
+
+			downloadMatchReportLink.href = hiddenInput.value
+		})
 	}
 
 	const matchManagementSystem = () => {
@@ -1156,12 +1179,6 @@ const init = async () => {
 				})
 			}
 		} else {
-			if (isMatchOrganizer) {
-				manageMatchBtn.classList.remove('d-none')
-
-				(!match.finished) ? matchManagementSystem() : endMatchManagementSystem()
-			}
-
 			if (match.finished) {
 				matchReportAccess.insertAdjacentHTML('afterbegin', `
 					<div id="match-ended-alert" class="text-center">
@@ -1175,29 +1192,21 @@ const init = async () => {
 				matchReportAccess.insertAdjacentHTML('beforeend', `
 					<div class="row justify-content-center align-items-center">
 						<div class="col-auto">
-							<button id="download-match-report-btn" class="btn btn-outline-dark rounded-pill"><span class="i18" key="DownloadMatchReport">${i18next.t("DownloadMatchReport")}</span></button>
+							<a href="javascript:void(0)" class="d-none i18" id="download-match-report-link">
+								<button id="download-match-report-btn" class="btn btn-outline-dark rounded-pill"><span class="i18" key="DownloadMatchReport">${i18next.t("DownloadMatchReport")}</span></button>
+							</a>
 						</div>
 					</div>
 				`)
 
-				const downloadMatchReportBtn = document.getElementById('download-match-report-btn')
-				
-				// download match report
-				downloadMatchReportBtn.addEventListener('click', async () => {
-					loader.show()
-					const 
-						configFetch = configuracaoFetch('GET'),
-						response = await executarFetch(`matches/${match.id}/match-report`, configFetch)
-					
-					loader.hide()
+				downloadMatchReportBtn = document.getElementById('download-match-report-btn')
+				downloadMatchReportLink = document.getElementById('download-match-report-link')
+			}
 
-					if (response.succeed) {
-						const matchReport = response.results
-						const matchReportBlob = new Blob([matchReport], { type: 'application/pdf' })
-						const matchReportUrl = URL.createObjectURL(matchReportBlob)
-						window.open(matchReportUrl)
-					}
-				})
+			if (isMatchOrganizer) {
+				manageMatchBtn.classList.remove('d-none')
+
+				(!match.finished) ? matchManagementSystem() : endMatchManagementSystem()
 			}
 
 			loadEvents()
@@ -1227,6 +1236,10 @@ const init = async () => {
 		mTeam1ImgWrapper = document.getElementById('m-team1-img-wrapper'),
 		mTeam2ImgWrapper = document.getElementById('m-team2-img-wrapper'),
 		matchReportAccess = document.getElementById('match-report-access')
+	
+	let
+		downloadMatchReportBtn = null,
+		downloadMatchReportLink = null
 
 	loader.show()
 	const 

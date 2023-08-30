@@ -58,7 +58,7 @@
     "InputSummaryLabel": "Match Report",
     "AdicionarSumula": "Add Match Report",
     "SumulaObrigatoria": "The match report is required.",
-    "DownloadMatchReport": "Download Match Report",
+    "DownloadExampleSumula": "Download Example Match Report",
     "SucessoPostSumula": "Match report successfully registered.",
     "PdfInvalido": "Invalid file! The file must contain up to 20mb and be a pdf file.",
     "MatchEnded": "Match Ended"
