@@ -263,8 +263,8 @@ const chaveamento = {
 
     const faseAtualWrapper = formato.querySelector('#fase-atual')
 
-    const fases = ['Fase de grupos', 'Trinta e dois avos de final', 'Dezesseis avos de final', 'Oitavas de final', 'Quartas de final', 'Semi-finais', 'Finais'],
-          faseInicial = championship.format == 4 ? 0 : 6 - Math.log2(championship.teamQuantity),
+    const fases = ['Fase de grupos', 'Trinta e dois avos de final', 'Dezesseis avos de final', 'Oitavas de final', 'Quartas de final', 'Semi-finais', 'Final'],
+          faseInicial = championship.format == 4 ? 0 : 7 - Math.log2(championship.teamQuantity),
           proximoBotao = formato.querySelector('#proximo'),
           anteriorBotao = formato.querySelector('#anterior')
     
@@ -280,7 +280,30 @@ const chaveamento = {
       proximoBotao.classList.add('invisible') 
     
     proximoBotao.addEventListener('click', async () => {
-      faseAtual++
+      if(faseAtual === 0){
+        switch(championship.teamQuantity){
+          case 64: 
+            faseAtual += 2
+            break
+          case 32: 
+            faseAtual += 3
+            break
+          case 16: 
+            faseAtual += 4
+            break
+          case 8: 
+            faseAtual += 5
+            break
+          case 4: 
+            faseAtual += 6
+            break
+          default: 
+            console.log('default')
+        }
+      }
+      else{
+        faseAtual++
+      }
       if (faseAtual + 1 > 6)
         proximoBotao.classList.add('invisible')
       
@@ -295,7 +318,30 @@ const chaveamento = {
     })
 
     anteriorBotao.addEventListener('click', async () => {
-      faseAtual--
+      if(championship.format === 4){
+        switch(championship.teamQuantity){
+          case 64:
+            (faseAtual === 2) ? faseAtual = 0 : faseAtual--
+            break
+          case 32:
+            (faseAtual === 3) ? faseAtual = 0 : faseAtual--
+            break
+          case 16: 
+            (faseAtual === 4) ? faseAtual = 0 : faseAtual--
+            break
+          case 8: 
+            (faseAtual === 5) ? faseAtual = 0 : faseAtual--
+            break
+          case 4: 
+            (faseAtual === 6) ? faseAtual = 0 : faseAtual--
+            break
+          default:
+            console.log('default')
+        }
+      }
+      else{
+        faseAtual--
+      }
       if (faseAtual == faseInicial)
         anteriorBotao.classList.add('invisible')
       
@@ -443,7 +489,7 @@ const chaveamento = {
     // this.inicializarRodadas(campeonato.id, partidasWrapper, 'col', campeonato.doubleMatchGroupStage ? (campeonato.teamQuantity - 1) * 2 : campeonato.teamQuantity - 1)
   },
   async inicializarEliminatorias(formato, idCampeonato, faseAtual, fases, faseAtualIsDupla, campeonato) {
-    const endpoint = faseAtual == 0 ? `statistics/${idCampeonato}/classifications` : `championships/${idCampeonato}/matches?phase=${faseAtual + 1}`,
+    const endpoint = faseAtual == 0 ? `statistics/${idCampeonato}/classifications` : `championships/${idCampeonato}/matches?phase=${faseAtual}`,
           responseEliminatorias = await executarFetch(endpoint),
           partidas = responseEliminatorias.results,
           partidasWrapper = formato.querySelector('#partida-rodada-eliminatorias')

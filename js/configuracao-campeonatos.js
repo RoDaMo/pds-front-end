@@ -552,12 +552,13 @@ const init = async () => {
 						'rules': linkRegulamento.href,
 						"NumberOfPlayers": parseInt(quantidadeJogadores.value),
 						"DoubleStartLeagueSystem": PCStatus,
-						"DoubleMatchEliminations": eliminatoriasStatus,
+						"DoubleMatchEliminations": (parseInt(numero.value) === 2 || (parseInt(formato.value) === 4 && parseInt(numero.value) === 4)) ? false : eliminatoriasStatus,
 						"FinalDoubleMatch": finalStatus,
 						"DoubleMatchGroupStage": FGStatus,
 					})
 					loader.hide()
 					// mensagemErro.textContent = ''
+					location.reload()
 
 					checkBracketCreationAvailability()
 				})
