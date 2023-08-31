@@ -140,7 +140,6 @@ const listagem = async () => {
     const endpoint = `championships${params.toString() ? '?' + params.toString() : ''}`
     loader.show()
     const data = await executarFetch(endpoint, config, null, callbackServidor)
-    console.log(data)
     loader.hide()
 
     exibirDados(data)
@@ -209,6 +208,7 @@ const exibirDados = async (data) => {
             <h1 class="i18 text-primary" key="Erro">${i18next.t("Erro")}</h1>
         </div>
         `
+        return;
     }
 
     data.results.forEach(e => {

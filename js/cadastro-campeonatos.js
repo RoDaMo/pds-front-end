@@ -237,8 +237,14 @@ formato.addEventListener("change", () => {
                 adicionarOpcao(i + 2)
             }
         }
-
-    } else {
+    } 
+    else if(formato.value === "4"){
+        resetQuantidade()
+        for (let i = 2; i <= 6; i++) {
+            adicionarOpcao(2 ** i)
+        }
+    }
+    else {
         resetQuantidade()
         for(let i = 1; i <= 6; i++) {
             adicionarOpcao(2 ** i)
@@ -587,7 +593,7 @@ function criarValidacao() {
             "Format": parseInt(formato.value),
             "NumberOfPlayers": quantidadeJogadores.value,
             "DoubleStartLeagueSystem": PCCheckboxElem?.checked,
-            "DoubleMatchEliminations": eliminatoriasCheckboxElem?.checked,
+            "DoubleMatchEliminations": (parseInt(quantidade.value) === 2 || (parseInt(formato.value) === 4 && parseInt(quantidade.value) === 4)) ? false : eliminatoriasStatus,
             "FinalDoubleMatch": finalCheckboxElem?.checked,
             "DoubleMatchGroupStage": FGCheckboxElem?.checked,
         })

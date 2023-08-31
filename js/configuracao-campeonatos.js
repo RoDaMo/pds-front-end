@@ -171,6 +171,12 @@ const init = async () => {
 					}
 				}
 			}
+			else if(formato.value === "4"){
+				resetQuantidade()
+				for (let i = 2; i <= 6; i++) {
+					adicionarOpcao(2 ** i)
+				}
+			}
 			else {
 				resetQuantidade()
 				for (let i = 1; i <= 6; i++) {
@@ -278,6 +284,7 @@ const init = async () => {
 
 		console.log(campeonato.teams.length);
 		console.log(campeonato.teamQuantity);
+		console.log(campeonato)
 
 		if (campeonato.rules) {
 			linkRegulamento.classList.remove('d-none')
@@ -532,6 +539,7 @@ const init = async () => {
 
 
 					loader.show()
+					console.log(linkRegulamento.href)
 					await putCampeonato({
 						"name": name.value,
 						"initialDate": dataInicial.value,
@@ -545,12 +553,13 @@ const init = async () => {
 						'rules': linkRegulamento.href,
 						"NumberOfPlayers": parseInt(quantidadeJogadores.value),
 						"DoubleStartLeagueSystem": PCStatus,
-						"DoubleMatchEliminations": eliminatoriasStatus,
+						"DoubleMatchEliminations": (parseInt(numero.value) === 2 || (parseInt(formato.value) === 4 && parseInt(numero.value) === 4)) ? false : eliminatoriasStatus,
 						"FinalDoubleMatch": finalStatus,
 						"DoubleMatchGroupStage": FGStatus,
 					})
 					loader.hide()
 					// mensagemErro.textContent = ''
+					location.reload()
 
 					checkBracketCreationAvailability()
 				})
@@ -585,7 +594,7 @@ const init = async () => {
 				const isValid = await validator.revalidateField(regulamento)
 				if (!isValid) return;
 
-				if (regulamento.files.length == 0) return;
+				
 
 				loader.show()
 				const data = await uploadImagem(regulamento, 2, mensagemErro)
@@ -629,6 +638,7 @@ const init = async () => {
 			notificacaoSucesso(i18next.t("SucessoCriacaoChaveamento"))
 
 			modalCreateSuccessBracketBT.show()
+			modalCreateSuccessBracket.querySelector('#modal-link-chaveamento').href = '/pages/tabela-chaveamento.html?id=' + championshipId
 
 			if (document.getElementById('botao-vincular-time').querySelector('span').getAttribute('key') == "Cancelar") {
 				document.getElementById('botao-vincular-time').click()
@@ -697,6 +707,7 @@ const init = async () => {
 		loader.hide()
 
 		if (response.succeed) {
+			const linkChaveamento = document.getElementById('link-bracket-btn-wrapper');
 			if (response.results) {
 				// se estiver criado, bloquear a edição do campeonado 
 				disableForm()
@@ -711,20 +722,26 @@ const init = async () => {
 				confirmDeleteBracketBtn.addEventListener('click', async () => {
 					await deleteBracket(campeonato.id)
 				})
+
+				linkChaveamento.href = '/pages/tabela-chaveamento.html?id=' + campeonato.id
 			} else {
 				// se não estiver criado, permitir a edição do campeonato
 				enableForm()
 				enableTeamsManipulation()
 				
 				bracketBtnWrapper.innerHTML = `
-					<button disabled data-bs-toggle="modal" data-bs-target="#bracketCreateModal" id="create-bracket-btn" class="btn border-0 d-flex justify-content-center align-items-center chaveamento-btn">
-						<i class="bi bi-diagram-2 me-2"></i>
-						<span class="i18 fw-semibold" key="CriarChaveamento">${i18next.t("CriarChaveamento")}</span>
-					</button> 
+				<button disabled data-bs-toggle="modal" data-bs-target="#bracketCreateModal" id="create-bracket-btn" class="btn border-0 d-flex justify-content-center align-items-center chaveamento-btn">
+				<i class="bi bi-diagram-2 me-2"></i>
+				<span class="i18 fw-semibold" key="CriarChaveamento">${i18next.t("CriarChaveamento")}</span>
+				</button> 
 				`
 				confirmCreateBracketBtn.addEventListener('click', async () => {
 					await createBracket(campeonato.id)
-				})
+
+					bracketCreateModalBT.hide()
+				}, { once: true })
+				
+				linkChaveamento.classList.add('d-none')
 			}
 		}
 	}
@@ -1119,11 +1136,11 @@ const init = async () => {
 		}
 	}
 
-	confirmCreateBracketBtn.addEventListener('click', async () => {
-		await createBracket(campeonato.id)
+	// confirmCreateBracketBtn.addEventListener('click', async () => {
+	// 	await createBracket(campeonato.id)
 
-		bracketCreateModalBT.hide()
-	})
+	// 	bracketCreateModalBT.hide()
+	// })
 
 	for (const linkBracketBtnWrapper of linkBracketBtnWrappers) {
 		linkBracketBtnWrapper.setAttribute('href', `tabela-chaveamento.html?id=${campeonato.id}`)

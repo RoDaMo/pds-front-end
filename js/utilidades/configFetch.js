@@ -40,26 +40,42 @@ export const executarFetch = async (endpoint, config, callbackStatus, callbackSe
     }
 
     if (!res.ok) {
-        const text = await res.text(); 
+        const texto = await res.text(); 
         try {
-            const data = JSON.parse(text);
-            callbackStatus(data);
+            const data = JSON.parse(texto)
+            try {
+                if (!data.succeed) {
+                    if (callbackStatus)
+                        throw new Error('Teste')
+
+                    callbackStatus(data);
+                    return
+                }
+                return data
+            } catch (err) {
+                notificacaoErro(data.message.length > 0 ? data.message : typeof data.results == 'object' && data.results != null ? data.results[0] : data.results)
+            }
         } catch (err) {
-            notificacaoErro();
+            notificacaoErro()
         }
-        return;
+        return
     }
 
     const texto = await res.text(); 
     try {
         const data = JSON.parse(texto)
-        if (!data.succeed) {
-            callbackServidor(data);
-            return;
-        }   
-        return data;
+        
+        try {
+            if (!data.succeed) {
+                callbackServidor(data);
+                return
+            }   
+            return data
+        } catch (err) {
+            notificacaoErro(data.message.length > 0 ? data.message : typeof data.results == 'object' && data.results != null ? data.results[0] : data.results)
+        }
     } catch (err) {
-        notificacaoErro();
+        notificacaoErro()
     }
 }
 

@@ -233,15 +233,6 @@ const exibirDados = async (data) => {
                         <div class="col-md-1 d-flex justify-content-center align-items-center">
                             <img src="/icons/right.svg" width="60">
                         </div> 
-                        ${
-                            (data.results[data.results.length - 1] === e) ?
-                            `
-                                <p id="pitId" class="d-none">${e.pitId}</p>
-                                <p id="sort" class="d-none">${e.sort}</p>
-
-                            ` :
-                            ""
-                        }
                     </div>
                 </a>
             </div>
@@ -249,7 +240,7 @@ const exibirDados = async (data) => {
     });
     paginasAnteriores.push(data)
     anterior.disabled = data === paginasAnteriores[0];
-    await reqBotaoProximo()
+    // await reqBotaoProximo()
     window.scrollTo(0, 0);
 }
 

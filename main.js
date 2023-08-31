@@ -13,7 +13,6 @@ if (!localStorage.getItem('lng')) {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-  console.log(document.cookie)
   if (!document.cookie.includes('aceitou-cookies')) {
     const cookieTooltip = new cookie()
     document.body.appendChild(cookieTooltip)
