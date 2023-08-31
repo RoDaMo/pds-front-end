@@ -80,7 +80,7 @@ const init = async () => {
 
 		loader.show()
 		const configFetch = configuracaoFetch('POST', body),
-			response = await executarFetch('matches/match-report', configFetch, callbackStatus)
+			response = await executarFetch('matches/add-match-report', configFetch, callbackStatus)
 		loader.hide()
 
 		if (response.succeed) {
@@ -118,7 +118,7 @@ const init = async () => {
 				e.preventDefault()
 
 				const body = {
-					"MatchId": match.id,
+					"Id": match.id,
 					"MatchReport": hiddenInput.value
 				}
 
@@ -176,6 +176,9 @@ const init = async () => {
 	}
 
 	const matchManagementSystem = () => {
+		// clear everything (WIP)
+		// matchManagementForm.innerHTML = ''
+
 		matchManagementForm.insertAdjacentHTML('beforebegin', `
 			<div id="event-admin-label" class="d-flex justify-content-center bg-gray-400 rounded-4 py-1 px-3 mb-2">
 				<span class="i18" key="Eventos">${i18next.t("Eventos")}</span>
