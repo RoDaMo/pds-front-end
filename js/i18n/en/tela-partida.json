@@ -61,5 +61,19 @@
     "DownloadExampleSumula": "Download Example Match Report",
     "SucessoPostSumula": "Match report successfully registered.",
     "PdfInvalido": "Invalid file! The file must contain up to 20mb and be a pdf file.",
-    "MatchEnded": "Match Ended"
+    "MatchEnded": "Match Ended",
+    "Goleiro": "Goalkeeper",
+    "Zagueiro": "Defender",
+    "Lateral": "Full-Back",
+    "Volante": "Defensive Midfielder",
+    "MeioCampista": "Midfielder",
+    "MeiaAtacante": "Attacking Midfielder",
+    "Ala": "Wingback",
+    "Ponta": "Winger",
+    "Centroavante": "Center Forward",
+    "Levantador": "Setter",
+    "Central": "Middle Blocker",
+    "Libero": "Líbero",
+    "Ponteiro": "Outside Hitter",
+    "Oposto": "Opposite Hitter"
 }

@@ -61,5 +61,19 @@
     "DownloadMatchReport": "Baixar Súmula",
     "SucessoPostSumula": "Súmula registrada com sucesso.",
     "PdfInvalido": "Arquivo inválido! O arquivo deve conter até 20mb e ser um arquivo pdf.",
-    "MatchEnded": "Partida Finalizada"
+    "MatchEnded": "Partida Finalizada",
+    "Goleiro": "Goleiro",
+    "Zagueiro": "Zagueiro",
+    "Lateral": "Lateral",
+    "Volante": "Volante",
+    "MeioCampista": "Meio-Campista",
+    "MeiaAtacante": "Meia-Atacante",
+    "Ala": "Ala",
+    "Ponta": "Ponta",
+    "Centroavante": "Centroavante",
+    "Levantador": "Levantador",
+    "Central": "Central",
+    "Libero": "Líbero",
+    "Ponteiro": "Ponteiro",
+    "Oposto": "Oposto"
 }

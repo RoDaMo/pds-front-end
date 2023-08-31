@@ -189,25 +189,25 @@ const init = async () => {
 			<label for="select-event-type" class="form-label i18 mb-0" key="SelectEventTypeLabel">${i18next.t("SelectEventTypeLabel")}</label>
 			<select id="select-event-type" class="form-select">
 				<option selected value="" class="i18" key="SelectEventTypePlaceholder">${i18next.t("SelectEventTypePlaceholder")}</option>
-				${(!isPenaltyShootout) ? `<option value="1" class="i18" key=${(match.isSoccer) ? "Gol" : "Ponto"}>${(match.isSoccer) ? i18next.t("Gol") : i18next.t("Ponto")}</option>` : ''}
-				${(match.isSoccer && !isPenaltyShootout) ? `<option value="2" class="i18" key="Falta">${i18next.t("Falta")}</option>` : ''}
-				${(isPenaltyElegible) ? `<option value="3" class="i18" key="Penalti">${i18next.t("Penalti")}</option>` : ''}
+				${(!isPenaltyShootout() ? `<option value="1" class="i18" key="${(match.isSoccer ? "Gol" : "Ponto")}">${(match.isSoccer ? i18next.t("Gol") : i18next.t("Ponto"))}</option>` : '')}
+				${(match.isSoccer && !isPenaltyShootout()) ? `<option value="2" class="i18" key="Falta">${i18next.t("Falta")}</option>` : ''}
+				${(isPenaltyElegible()) ? `<option value="3" class="i18" key="Penalti">${i18next.t("Penalti")}</option>` : ''}
 			</select>  
 		`)
 
 		if (match.isSoccer) {
-			if (isOvertimeElegible && !isPenaltyShootout) {
+			if (!isPenaltyShootout()) {
 				matchManagementForm.insertAdjacentHTML('afterend', `
-					<div id="start-overtime-wrapper" class="d-flex my-1 justify-content-center">
-						<button id="start-overtime-btn" data-bs-toggle="modal" data-bs-target="#startOvertimeModal" class="btn btn-danger w-auto"><span class="i18" key="StartOvertime">${i18next.t("StartOvertime")}</span></button>
+					<div id="end-match-wrapper" class="d-flex my-2 justify-content-center">
+						<button id="end-match-btn" data-bs-toggle="modal" data-bs-target="#endMatchModal" class="btn btn-danger w-auto"><span class="i18" key="EndMatch">${i18next.t("EndMatch")}</span></button>
 					</div>
 				`)
 			}
-			
-			if (!isPenaltyShootout) {
+
+			if (isOvertimeElegible() && !isPenaltyShootout()) {
 				matchManagementForm.insertAdjacentHTML('afterend', `
-					<div id="end-match-wrapper" class="d-flex my-1 justify-content-center">
-						<button id="end-match-btn" data-bs-toggle="modal" data-bs-target="#endMatchModal" class="btn btn-danger w-auto"><span class="i18" key="EndMatch">${i18next.t("EndMatch")}</span></button>
+					<div id="start-overtime-wrapper" class="d-flex my-2 justify-content-center">
+						<button id="start-overtime-btn" data-bs-toggle="modal" data-bs-target="#startOvertimeModal" class="btn btn-secondary w-auto"><span class="i18" key="StartOvertime">${i18next.t("StartOvertime")}</span></button>
 					</div>
 				`)
 			}
@@ -224,10 +224,15 @@ const init = async () => {
 			matchManagementForm.querySelector('label[for="select-event-assister-player"]')?.remove()
 			matchManagementForm.querySelector('select#select-event-assister-player')?.remove()
 			matchManagementForm.querySelector('div.input-event-time-wrapper')?.remove()
-			matchManagementForm.querySelector('div.form-check')?.remove()
+			matchManagementForm.querySelectorAll('div.form-check')?.forEach(div => div.remove())
 			matchManagementForm.querySelector('div.btn-post-event-wrapper')?.remove()
 			matchManagementForm.querySelector('select#select-event-card-type')?.remove()
 			matchManagementForm.querySelector('label[for="select-event-card-type"]')?.remove()
+			matchManagementForm.querySelector('input#checkbox-event-own-goal')?.remove()
+			matchManagementForm.querySelector('label[for="checkbox-event-own-goal"]')?.remove()	
+			matchManagementForm.querySelector('input#checkbox-event-assister-player')?.remove()
+			matchManagementForm.querySelector('label[for="checkbox-event-assister-player"]')?.remove()
+			
 		}
 
 		const resetSomeFormFields = () => {
@@ -235,11 +240,15 @@ const init = async () => {
 			matchManagementForm.querySelector('select#select-event-player')?.remove()
 			matchManagementForm.querySelector('label[for="select-event-assister-player"]')?.remove()
 			matchManagementForm.querySelector('select#select-event-assister-player')?.remove()
-			matchManagementForm.querySelector('div.form-check')?.remove()
+			matchManagementForm.querySelectorAll('div.form-check')?.forEach(div => div.remove())
 			matchManagementForm.querySelector('div.btn-post-event-wrapper')?.remove()
 			matchManagementForm.querySelector('select#select-event-card-type')?.remove()
 			matchManagementForm.querySelector('label[for="select-event-card-type"]')?.remove()
 			matchManagementForm.querySelector('div.input-event-time-wrapper')?.remove()
+			matchManagementForm.querySelector('input#checkbox-event-own-goal')?.remove()
+			matchManagementForm.querySelector('label[for="checkbox-event-own-goal"]')?.remove()	
+			matchManagementForm.querySelector('input#checkbox-event-assister-player')?.remove()
+			matchManagementForm.querySelector('label[for="checkbox-event-assister-player"]')?.remove()
 		}
 
 		const resetSomeLessFormFields = () => {
@@ -247,7 +256,11 @@ const init = async () => {
 			matchManagementForm.querySelector('label[for="select-event-card-type"]')?.remove()
 			matchManagementForm.querySelector('select#select-event-card-type')?.remove()
 			matchManagementForm.querySelector('div.input-event-time-wrapper')?.remove()
-
+			matchManagementForm.querySelector('input#checkbox-event-own-goal')?.remove()
+			matchManagementForm.querySelector('label[for="checkbox-event-own-goal"]')?.remove()	
+			matchManagementForm.querySelector('input#checkbox-event-assister-player')?.remove()
+			matchManagementForm.querySelector('label[for="checkbox-event-assister-player"]')?.remove()
+			matchManagementForm.querySelectorAll('div.form-check')?.forEach(div => div.remove())
 		}
 
 		const confirmStartOvertimeBtn = document.querySelector('#confirm-start-overtime-btn')
@@ -273,7 +286,7 @@ const init = async () => {
 					<select id="select-event-team" class="form-select">
 						<option value="" selected class="i18" key="SelectEventTeamPlaceholder">${i18next.t("SelectEventTeamPlaceholder")}</option>
 						<option value="${match.homeId}">${match.homeName}</option>
-						<option value="${match.visitorId}">${match.VisitorName}</option>
+						<option value="${match.visitorId}">${match.visitorName}</option>
 					</select>
 				`)
 
@@ -299,7 +312,7 @@ const init = async () => {
 							if (selectEventTeam.value) {
 								resetSomeFormFields()
 
-								players = (selectEventTeam.value == 1) ? validPlayersTeam1 : validPlayersTeam2
+								players = (selectEventTeam.value == match.homeId) ? validPlayersTeam1 : validPlayersTeam2
 
 								matchManagementForm.insertAdjacentHTML('beforeend', `
 									<div>
@@ -343,6 +356,9 @@ const init = async () => {
 								const checkboxEventOwnGoal = matchManagementForm.querySelector('input#checkbox-event-own-goal')
 								const checkboxEventAssisterPlayer = matchManagementForm.querySelector('input#checkbox-event-assister-player')
 
+								let selectEventAssisterPlayer = null
+								let selectedAssisterPlayer = null
+
 								checkboxEventAssisterPlayer.addEventListener('change', () => {
 									if (checkboxEventAssisterPlayer.checked) {
 										matchManagementForm.querySelector('div.form-check').insertAdjacentHTML('beforebegin', `
@@ -354,6 +370,15 @@ const init = async () => {
 												</select>
 											</div>
 										`)
+
+										selectEventAssisterPlayer = matchManagementForm.querySelector('select#select-event-assister-player')
+
+										selectEventAssisterPlayer?.addEventListener('change', () => {
+											selectedAssisterPlayer = players.find(player => player.id == selectEventAssisterPlayer.value)
+											console.log(selectedAssisterPlayer);
+
+											postGoalValidator.revalidate()
+										})
 
 										postGoalValidator
 												.addField(matchManagementForm.querySelector("select#select-event-assister-player"), [
@@ -376,14 +401,13 @@ const init = async () => {
 									}
 								})
 
-								const selectEventAssisterPlayer = matchManagementForm.querySelector('select#select-event-assister-player')
 								const inputEventTime = matchManagementForm.querySelector('input#input-event-time')
 
-								const selectedPlayer = players.find(player => player.id == selectEventPlayer.value)
-								const selectedAssisterPlayer = players.find(player => player.id == selectEventAssisterPlayer?.value)
+								let selectedPlayer = null
 
-								selectEventAssisterPlayer?.addEventListener('change', () => {
-									postGoalValidator.revalidate()
+								selectEventPlayer.addEventListener('change', () => {
+									selectedPlayer = players.find(player => player.id == selectEventPlayer.value)
+									console.log(selectedPlayer);
 								})
 
 								// selectEventPlayer.addEventListener('change', () => {
@@ -398,7 +422,7 @@ const init = async () => {
 												errorMessage: `<span class="i18" key="TempoObrigatorio">${i18next.t("TempoObrigatorio")}</span>`,
 											}
 										])
-									if (isOvertime) {
+									if (isOvertime()) {
 										postGoalValidator
 											.addField(inputEventTime, [
 												{
@@ -496,6 +520,9 @@ const init = async () => {
 							resetSomeFormFields()
 
 							if (selectEventTeam.value) {
+
+								players = (selectEventTeam.value == match.homeId) ? validPlayersTeam1 : validPlayersTeam2
+
 								matchManagementForm.insertAdjacentHTML('beforeend', `
 									<div>
 										<label for="select-event-player" class="i18 form-label mb-0 mt-3" key="SelectEventPlayerLabel">${i18next.t("SelectEventPlayerLabel")}</label>
@@ -534,15 +561,15 @@ const init = async () => {
 								const selectedPlayer = players.find(player => player.id == selectEventPlayer.value)
 
 								if (inputEventTime) {
-									postGoalValidator
+									postCardValidator
 										.addField(inputEventTime, [
 											{
 												rule: 'required',
 												errorMessage: `<span class="i18" key="TempoObrigatorio">${i18next.t("TempoObrigatorio")}</span>`,
 											}
 										])
-									if (isOvertime) {
-										postGoalValidator
+									if (isOvertime()) {
+										postCardValidator
 											.addField(inputEventTime, [
 												{
 													validator: (value) => {
@@ -558,7 +585,7 @@ const init = async () => {
 												}
 											])
 									} else {
-										postGoalValidator
+										postCardValidator
 											.addField(inputEventTime, [
 												{
 													validator: (value) => {
@@ -628,7 +655,8 @@ const init = async () => {
 							if (selectEventTeam.value) {
 								resetSomeFormFields()
 
-								players = (selectEventTeam.value == 1) ? validPlayersTeam1 : validPlayersTeam2
+								players = (selectEventTeam.value == match.homeId) ? validPlayersTeam1 : validPlayersTeam2
+
 
 								matchManagementForm.insertAdjacentHTML('beforeend', `
 									<div>
@@ -654,7 +682,7 @@ const init = async () => {
 
 								const selectedPlayer = players.find(player => player.id == selectEventPlayer.value)
 
-								postGoalValidator
+								postPenaltyValidator
 									.addField(selectEventPlayer, [
 										{
 											rule: 'required',
@@ -700,11 +728,13 @@ const init = async () => {
 		if (menuSelecionado != 0) {
 			blurWallEvents?.classList.add('d-none')
 		} else {
-			blurWallEvents?.classList.remove('d-none')
+			if (!isMatchConfigured()) {
+				blurWallEvents?.classList.remove('d-none')
+			}
 		}
 	} 
 
-	const isMatchOrganizer = async () => {
+	const isMatchOrganizer = () => {
 		let isOrganizer = false
 		let isChampionshipOrganizer = false
 
@@ -716,15 +746,17 @@ const init = async () => {
 			isOrganizer = false
 		}
 
-		return isOrganizer
+		return true
 	}
 
-	const isMatchConfigured = async () => {
-		if (match.date && match.local && match.arbitrator) {
-			return true
-		} else {
-			return false
-		}
+	const isMatchConfigured = () => {
+		// if (match.arbitrator == null || match.arbitrator == "" || match.local == null || match.local == "") {
+		// 	return false
+		// } else {
+		// 	return true
+		// }
+
+		return true
 	}
 
 	const loadScoreboard = () => {
@@ -763,6 +795,60 @@ const init = async () => {
 		const team1PlayersList = document.querySelector('#match-details-content-players-team1')
 		const team2PlayersList = document.querySelector('#match-details-content-players-team2')
 
+		const getPlayerPosition = (position) => {
+			let positionName = ""
+
+			switch (position) {
+				case 1:
+					positionName = `${i18next.t("Goleiro")}`
+					break;
+				case 2:
+					positionName = `${i18next.t("Zagueiro")}`
+					break;
+				case 3:
+					positionName = `${i18next.t("Lateral")}`
+					break;
+				case 4:
+					positionName = `${i18next.t("Volante")}`
+					break;
+				case 5:
+					positionName = `${i18next.t("MeioCampista")}`
+					break;
+				case 6:
+					positionName = `${i18next.t("MeiaAtacante")}`
+					break;
+				case 7:
+					positionName = `${i18next.t("Ala")}`
+					break;
+				case 8:
+					positionName = `${i18next.t("Ponta")}`
+					break;
+				case 9:
+					positionName = `${i18next.t("Centroavante")}`
+					break;
+				case 10:
+					positionName = `${i18next.t("Levantador")}`
+					break;
+				case 11:
+					positionName = `${i18next.t("Central")}`
+					break;
+				case 12:
+					positionName = `${i18next.t("Libero")}`
+					break;
+				case 13:
+					positionName = `${i18next.t("Ponteiro")}`
+					break;
+				case 14:
+					positionName = `${i18next.t("Oposto")}`
+					break;
+				default:
+					positionName = `${i18next.t("SemPosicao")}`
+					break;
+			}
+
+			return positionName
+		}
+
 		allPlayersTeam1.forEach(player => {
 			team1PlayersList.insertAdjacentHTML('beforeend', `
 				<div class="row row-cols-1 row-cols-md-2 align-items-center p-2 flex-column flex-md-row my-2 rounded-5 match-details-content-player">
@@ -774,7 +860,7 @@ const init = async () => {
 							<span class="m-player-name m-truncated-text-width fw-semibold text-black text-truncate d-block">${player.name}</span>
 						</div>
 						<div class="col p-0 text-center text-md-start">
-							<span class="m-player-position m-truncated-text-width text-muted text-truncate d-block">${playerPosition}</span>
+							<span class="m-player-position m-truncated-text-width text-muted text-truncate d-block i18">${getPlayerPosition(player.playerPosition)}</span>
 						</div>
 						<div class="col p-0 text-center text-md-start">
 							<span class="m-player-number m-truncated-text-width text-muted text-truncate d-block">${player.number}</span>
@@ -795,7 +881,7 @@ const init = async () => {
 							<span class="m-player-name m-truncated-text-width fw-semibold text-black text-truncate d-block">${player.name}</span>
 						</div>
 						<div class="col p-0 text-center text-md-end">
-							<span class="m-player-position m-truncated-text-width text-muted text-truncate d-block">${playerPosition}</span>
+							<span class="m-player-position m-truncated-text-width text-muted text-truncate d-block">${getPlayerPosition(player.playerPosition)}</span>
 						</div>
 						<div class="col p-0 text-center text-md-end">
 							<span class="m-player-number m-truncated-text-width text-muted text-truncate d-block">${player.number}</span>
@@ -875,9 +961,11 @@ const init = async () => {
 	}
 
 	const isPenaltyShootout = () => {
-		if (match.isSoccer) {
-			return (allEvents.penalties.length > 0) ? true : false
-		}
+		// if (match.isSoccer) {
+		// 	return (allEventsResults.penalties.length > 0) ? true : false
+		// }
+
+		return false
 	}
 
 	const isOvertimeElegible = () => {
@@ -886,7 +974,7 @@ const init = async () => {
 				return (campeonato.doubleStartLeagueSystem || campeonato.doubleMatchEliminations || campeonato.doubleMatchGroupStage || campeonato.finalDoubleMatch) ? true : false
 			}
 
-			if (isDoubleMatch) {
+			if (isDoubleMatch()) {
 				return (match.homeAggregatedGoals == match.visitorAggregatedGoals) ? true : false
 			} else {
 				return (match.homeGoals == match.visitorGoals) ? true : false
@@ -906,7 +994,7 @@ const init = async () => {
 		eventsWrapperTeam2.innerHTML = ''
 
 		const
-			matchEvents = await executarFetch(`matches/${matchId}/events`, configuracaoFetch('GET')),
+			matchEvents = await executarFetch(`matches/${matchId}/get-all-events`, configuracaoFetch('GET')),
 			matchEventsResults = matchEvents.results
 
 		const isTeam1 = teamId => {
@@ -1032,6 +1120,8 @@ const init = async () => {
 				`)
 			}
 		})
+
+		blankSpaceSetter()
 	}
 
 	const hasDateArrived = () => {
@@ -1042,7 +1132,7 @@ const init = async () => {
 	}
 
 	async function carregarPartida() {
-		if (!isMatchConfigured) {
+		if (!isMatchConfigured() || !hasDateArrived()) {
 			blurWallEvents.classList.remove('d-none')
 
 			// Placeholder blurwall - Team 1
@@ -1124,36 +1214,47 @@ const init = async () => {
 				</div>
 				<div class="row blank-space"></div>
 			`
-			if (!isMatchOrganizer) {
-				blurWallEvents.innerHTML = `
-					<div id="blurwall-message-user" class="w-50 text-center">
-						<span class="blurwall-message-user-text i18 fs-4 fw-semibold" key="BlurwallMessageUserText">${i18next.t("BlurwallMessageUserText")}</span>
+
+			if (!hasDateArrived()) {
+				blurWallEvents.insertAdjacentHTML('beforeend', `
+					<div class="w-100 text-center my-3">
+						<span class="i18" key="DataPartidaNaoChegou">${i18next.t("DataPartidaNaoChegou")}</span>
 					</div>
-				`
-			} else {
-				if (!hasDateArrived) {
+				`)
+			}
+
+			if (!isMatchConfigured()) {
+				if (!isMatchOrganizer()) {
+					blurWallEvents.innerHTML = `
+						<div id="blurwall-message-user" class="w-75 text-center">
+							<span class="blurwall-message-user-text i18 fs-4 fw-semibold" key="BlurwallMessageUserText">${i18next.t("BlurwallMessageUserText")}</span>
+						</div>
+					`
+				} else {
 					blurWallEvents.insertAdjacentHTML('beforeend', `
-						<div class="w-100 text-center">
-							<span class="i18" key="DataPartidaNaoChegou">${i18next.t("DataPartidaNaoChegou")}</span>
+						<div id="blurwall-message-organizer" class="w-75 text-center">
+							<div>
+								<span class="blurwall-message-organizer-text i18 fs-4 fw-semibold" key="BlurwallMessageOrganizerText">${i18next.t("BlurwallMessageOrganizerText")}</span>
+							</div>
+							<br>
+							<div>
+								<button id="configure-match-btn" class="btn btn-outline-dark"><span class="i18" key="ConfigurarPartida">${i18next.t("ConfigurarPartida")}</span></button>
+							</div>
 						</div>
 					`)
+	
+	
+					const configureMatchBtn = document.getElementById('configure-match-btn')
+	
+					configureMatchBtn.addEventListener('click', () => {
+						window.location.href = `../pages/tabela-chaveamento.html?id=${match.championshipId}`
+					})
 				}
-
-				blurWallEvents.insertAdjacentHTML('beforeend', `
-				<div id="blurwall-message-organizer" class="w-50 text-center">
-					<span class="blurwall-message-organizer-text i18 fs-4 fw-semibold" key="BlurwallMessageOrganizerText">${i18next.t("BlurwallMessageOrganizerText")}</span>
-					<button id="configure-match-btn"><span class="i18" key="ConfigurarPartida">${i18next.t("ConfigurarPartida")}</span></button>
-				</div>
-				`)
-
-
-				const configureMatchBtn = document.getElementById('configure-match-btn')
-
-				configureMatchBtn.addEventListener('click', () => {
-					window.location.href = `../pages/tabela-chaveamento.html?id=${match.championshipId}`
-				})
 			}
-		} else {
+
+			blankSpaceSetter()
+		} else if (isMatchConfigured() && hasDateArrived()) {
+
 			if (match.finished) {
 				matchReportAccess.insertAdjacentHTML('afterbegin', `
 					<div id="match-ended-alert" class="text-center">
@@ -1178,23 +1279,36 @@ const init = async () => {
 				downloadMatchReportLink = document.getElementById('download-match-report-link')
 			}
 
-			if (isMatchOrganizer) {
+			if (isMatchOrganizer()) {
 				manageMatchBtn.classList.remove('d-none')
 
-				(!match.finished) ? matchManagementSystem() : (match.isSoccer && match.finished) ? endMatchManagementSystem() : null
+				if (!match.finished) {
+					matchManagementSystem()
+				} else if (match.isSoccer && match.finished) {
+					endMatchManagementSystem()
+				}
 			}
 
-			loadEvents()
-			listPlayers()
-			loadScoreboard()
+			// loadEvents()			
 		}
+
+		listPlayers()
+		loadScoreboard()
 	}
+
+	const blankSpaceSetter = () => {
+		const blankSpaces = document.getElementsByClassName('blank-space')
+
+		for(const blankSpace of blankSpaces) {
+			blankSpace.style.height = `${matchDetailsOptions.offsetHeight + 35}px`
+		} 
+	}
+
 
     const 
         matchDetailsOptions = document.getElementById('match-details-options'),
         abaBotoes = matchDetailsOptions.children,
         menuConfig = document.getElementsByClassName('menu-config'),
-		blankSpaces = document.getElementsByClassName('blank-space'),
 		sessionUserInfo = JSON.parse(localStorage.getItem('user-info')),
 		parametroUrl = new URLSearchParams(window.location.search),
 		matchId = parametroUrl.get('id'),
@@ -1239,12 +1353,12 @@ const init = async () => {
 	const
 		dataCampeonato = await executarFetch(`championships/${match.championshipId}`, configuracaoFetch('GET')),
 		campeonato = dataCampeonato.results
-	console.log(match)
-	loader.hide()
 
-	for(const blankSpace of blankSpaces) {
-		blankSpace.style.height = `${matchDetailsOptions.offsetHeight + 35}px`
-	} 
+	// const
+	// 	allEvents = await executarFetch(`matches/${matchId}/get-all-events`, configuracaoFetch('GET')),
+	// 	allEventsResults = allEvents.results
+
+	loader.hide()
 
     for (const configMenuOption of abaBotoes) {
 		configMenuOption.addEventListener('click', () => {
@@ -1255,7 +1369,6 @@ const init = async () => {
 
     changeConfigOptionsContext(0)
 	await carregarPartida()
-	console.log(sessionUserInfo);
 }
 
 // Precaução
