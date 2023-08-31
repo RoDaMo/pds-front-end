@@ -905,61 +905,20 @@ const init = async () => {
 		eventsWrapperTeam1.innerHTML = ''
 		eventsWrapperTeam2.innerHTML = ''
 
-		// How to order all the events?
-		// Time Marking
-		// 1. Get all goals
-		// 2. Get all cards
-		// 3. Put them in the same array
-		// 4. Order the array by time (earliest to latest)
-		// 5. Loop through the array
-		// 6. Verify if the event is from team 1 or team 2
-			// 6.1. If it's a team 1 event, add the event to the team 1 eventsWrapper and add a blank space on the team 2 eventsWrapper
-				// 6.1.1. If it's a goal, insert the goal event template
-				// 6.1.2. If it's a card, insert the card event template
-					// 6.1.2.1. If it's a red card, insert the red card event icon
-					// 6.1.2.2. If it's a yellow card, insert the yellow card event icon
-			// 6.2. If it's a team 2 event, add the event to the team 2 eventsWrapper and add a blank space on the team 1 eventsWrapper
-				// 6.2.1. If it's a goal, insert the goal event template
-				// 6.2.2. If it's a card, insert the card event template
-					// 6.2.2.1. If it's a red card, insert the red card event icon
-					// 6.2.2.2. If it's a yellow card, insert the yellow card event icon
-					
-		// Get all goals
 		const
-			matchGoals = await executarFetch(`matches/${matchId}/goals`, configuracaoFetch('GET')),
-			matchGoalsResults = matchGoals.results
-
-		// Get all cards
-		const
-			matchCards = await executarFetch(`matches/${matchId}/cards`, configuracaoFetch('GET')),
-			matchCardsResults = matchCards.results
-		
-		// Put them in the same array
-		let matchEvents = []
-		matchGoalsResults.forEach(goal => {
-			goal.type = 'goal'
-			matchEvents.push(goal)
-		})
-		matchCardsResults.forEach(card => {
-			card.type = 'card'
-			matchEvents.push(card)
-		})
-		
-		// Order the array by time (earliest to latest)
-		matchEvents.sort((a, b) => {
-			return a.time - b.time
-		})
+			matchEvents = await executarFetch(`matches/${matchId}/events`, configuracaoFetch('GET')),
+			matchEventsResults = matchEvents.results
 
 		const isTeam1 = teamId => {
-			return teamId == matchTeam1Id
+			return teamId == match.homeId
 		}
 
 		const isTeam2 = teamId => {
-			return teamId == matchTeam2Id
+			return teamId == match.visitorId
 		}
 
 		// Loop through the array
-		matchEvents.forEach(event => {		
+		matchEventsResults.forEach(event => {		
 			let eventData = ''	
 			let eventIllustration = ''	
 
