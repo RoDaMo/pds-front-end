@@ -127,5 +127,6 @@
     "TextoExcluirModalChaveamento3": "Do you still wish to proceed and delete the bracket?",
     "TextoModalChaveamentoSucesso": "Congratulations! Your bracket has been successfully created.",
     "SucessoCriacaoChaveamento": "Bracket created successfully!",
-    "SucessoExclusaoChaveamento": "Bracket deleted successfully!"
+    "SucessoExclusaoChaveamento": "Bracket deleted successfully!",
+    "QuantidadeTimesInsuficiente": "The number of teams is insufficient"
 }

@@ -33,7 +33,8 @@ const init = async () => {
 
 		if (response.succeed) {
 			notificacaoSucesso(i18next.t("SucessoPostGol"))
-			updateScoreboard()
+			await updateScoreboard()
+			await loadEvents()
 		}
 	}
 
@@ -44,11 +45,12 @@ const init = async () => {
 
 		loader.show()
 		const configFetch = configuracaoFetch('POST', body),
-			response = await executarFetch('matches/cards', configFetch, callbackStatus)
+			response = await executarFetch('matches/fouls', configFetch, callbackStatus)
 		loader.hide()
 
 		if (response.succeed) {
 			notificacaoSucesso(i18next.t("SucessoPostCartao"))
+			await loadEvents()
 		}
 	}
 
@@ -64,10 +66,125 @@ const init = async () => {
 
 		if (response.succeed) {
 			notificacaoSucesso(i18next.t("SucessoPostPenalty"))
+			await loadEvents()
+			setTimeout(() => {
+				window.location.reload()
+			}, 2000)
 		}
 	}
 
+	const postMatchReport = async (body) => {
+		const callbackStatus = (data) => {
+			notificacaoErro(data.results)
+		}
+
+		loader.show()
+		const configFetch = configuracaoFetch('POST', body),
+			response = await executarFetch('matches/add-match-report', configFetch, callbackStatus)
+		loader.hide()
+
+		if (response.succeed) {
+			notificacaoSucesso(i18next.t("SucessoPostSumula"))
+			setTimeout(() => {
+				window.location.reload()
+			}, 2000)
+		}
+	}
+
+	const endMatchManagementSystem = async () => {
+		const postMatchReportValidator = new JustValidate(matchManagementForm, {
+			validateBeforeSubmitting: true,
+		})
+
+		postMatchReportValidator
+			.addField(inputMatchReport, [
+				{
+					rule: 'required',
+					errorMessage: `<span class="i18" key="SumulaObrigatoria">${i18next.t("SumulaObrigatoria")}</span>`,
+				},
+				{
+					rule: 'files',
+					value: {
+						files: {
+							extensions: ['pdf'],
+							maxSize: 20000000,
+							types: ['application/pdf'],
+						},
+					},
+					errorMessage: `<span class="i18" key="PdfInvalido">${i18next.t("PdfInvalido")}</span>`,
+				}
+			])
+			.onSuccess(async e => {
+				e.preventDefault()
+
+				const body = {
+					"Id": match.id,
+					"MatchReport": hiddenInput.value
+				}
+
+				await postMatchReport(body)
+			})	
+
+
+		matchManagementForm.insertAdjacentHTML('beforebegin', `
+			<div id="event-admin-label" class="d-flex justify-content-center bg-gray-400 rounded-4 py-1 px-3 mb-2">
+				<span class="i18" key="Sumula">${i18next.t("Sumula")}</span>
+			</div>
+		`)
+
+		const matchReportLink = (match.isSoccer) ? `https://drive.google.com/file/d/19qAP64jlw6MROV6yBN84oX1yBVrkPK1_/view?usp=drivesdk` : ``
+
+		matchManagementForm.insertAdjacentHTML('beforeend', `
+			<div class="ex-match-report-wrapper d-flex justify-content-center">
+				<a href="${matchReportLink}" class="btn btn-primary mt-3 i18" key="DownloadExampleSumula">${i18next.t("DownloadExampleSumula")}</a>
+			</div> 
+		
+			<hr class="w-75">
+
+			<div class="form-group mt-3">
+				<label for="input-match-report" class="i18 form-label mb-0" key="InputMatchReportLabel">${i18next.t("InputMatchReportLabel")}</label>
+				<input type="file" class="form-control" id="input-match-report">
+			</div>
+
+			<input type="hidden" id="match-report-hidden-input">
+
+			<div class="btn-post-match-report-wrapper d-flex justify-content-center">
+				<button type="submit" class="btn-post-match-report btn btn-primary mt-3 i18" key="AdicionarSumula">${i18next.t("AdicionarSumula")}</button>
+			</div>
+		`)
+
+		const inputMatchReport = matchManagementForm.querySelector('input#input-match-report')
+		const hiddenInput = matchManagementForm.querySelector('input#match-report-hidden-input')
+
+		inputMatchReport.addEventListener('change', async () => {
+			const isValid = await postMatchReportValidator.revalidateField(inputMatchReport)
+			if (!isValid) return;
+
+			if (inputMatchReport.files.length == 0) return;
+
+			loader.show()
+			const data = await uploadImagem(inputMatchReport, 2, mensagemErro)
+			loader.hide()
+
+			if (Array.isArray(data.results))
+				return;
+
+			hiddenInput.value = `${api}img/${data.results}`
+
+			downloadMatchReportLink.href = hiddenInput.value
+		})
+	}
+
 	const matchManagementSystem = () => {
+		// clear everything (WIP)
+		// matchManagementForm.innerHTML = ''
+
+		matchManagementForm.insertAdjacentHTML('beforebegin', `
+			<div id="event-admin-label" class="d-flex justify-content-center bg-gray-400 rounded-4 py-1 px-3 mb-2">
+				<span class="i18" key="Eventos">${i18next.t("Eventos")}</span>
+			</div>
+		`)
+
 		matchManagementForm.insertAdjacentHTML('beforeend', `
 			<label for="select-event-type" class="form-label i18 mb-0" key="SelectEventTypeLabel">${i18next.t("SelectEventTypeLabel")}</label>
 			<select id="select-event-type" class="form-select">
@@ -182,7 +299,7 @@ const init = async () => {
 							if (selectEventTeam.value) {
 								resetSomeFormFields()
 
-								players = (selectEventTeam.value == 1) ? playersTeam1 : playersTeam2
+								players = (selectEventTeam.value == 1) ? validPlayersTeam1 : validPlayersTeam2
 
 								matchManagementForm.insertAdjacentHTML('beforeend', `
 									<div>
@@ -332,8 +449,8 @@ const init = async () => {
 									.onSuccess(async e => {
 										e.preventDefault()
 
-										const playerKey = (selectedPlayer.username == null) ? "PlayerTempId" : "PlayerId"
-										const assisterPlayerKey = (selectedAssisterPlayer.username == null) ? "AssisterPlayerTempId" : "AssisterPlayerId"
+										const playerKey = (selectedPlayer.username == null || selectedPlayer.username == "") ? "PlayerTempId" : "PlayerId"
+										const assisterPlayerKey = (selectedAssisterPlayer.username == null || selectedAssisterPlayer.username == "") ? "AssisterPlayerTempId" : "AssisterPlayerId"
 										
 										const body = {
 											"MatchId": match.id,
@@ -475,7 +592,7 @@ const init = async () => {
 									.onSuccess(async e => {
 										e.preventDefault()
 
-										const playerKey = (selectedPlayer.username == null) ? "PlayerTempId" : "PlayerId"
+										const playerKey = (selectedPlayer.username == null || selectedPlayer.username == "") ? "PlayerTempId" : "PlayerId"
 
 										const body = {
 											"MatchId": match.id,
@@ -511,7 +628,7 @@ const init = async () => {
 							if (selectEventTeam.value) {
 								resetSomeFormFields()
 
-								players = (selectEventTeam.value == 1) ? playersTeam1 : playersTeam2
+								players = (selectEventTeam.value == 1) ? validPlayersTeam1 : validPlayersTeam2
 
 								matchManagementForm.insertAdjacentHTML('beforeend', `
 									<div>
@@ -547,7 +664,7 @@ const init = async () => {
 									.onSuccess(async e => {
 										e.preventDefault()
 
-										const playerKey = (selectedPlayer.username == null) ? "PlayerTempId" : "PlayerId"
+										const playerKey = (selectedPlayer.username == null || selectedPlayer.username == "") ? "PlayerTempId" : "PlayerId"
 
 										const body = {
 											"MatchId": match.id,
@@ -603,7 +720,7 @@ const init = async () => {
 	}
 
 	const isMatchConfigured = async () => {
-		if (matchStartConditionsResults.date && matchStartConditionsResults.configured) {
+		if (match.date && match.local && match.arbitrator) {
 			return true
 		} else {
 			return false
@@ -612,7 +729,11 @@ const init = async () => {
 
 	const loadScoreboard = () => {
 		matchScoreWrapper.insertAdjacentHTML('beforeend', `
-			<span id="match-score" class="text-black fw-bold">${match.homeGoals} : ${match.visitorGoals}</span>
+			${match.isSoccer ? `
+				<span id="match-score" class="text-black fw-bold">${match.homeGoals} : ${match.visitorGoals}</span>
+			` : `
+				<span id="match-score" class="text-black fw-bold">${match.homeWinnigSets} : ${match.visitorWinnigSets}</span>
+			`}
 		`)
 		mTeam1NameWrapper.insertAdjacentHTML('beforeend', `
 			<span id="m-team1-name" class="m-team-name fw-semibold text-black text-wrap text-center d-block">${match.homeName}</span>
@@ -628,8 +749,12 @@ const init = async () => {
 		`)
 	}
 
-	const updateScoreboard = () => {
+	const updateScoreboard = async () => {
 		const matchScore = document.querySelector('#match-score')
+
+		const 
+			dataMatch = await executarFetch(`matches/${matchId}`, configuracaoFetch('GET')),
+			match = dataMatch.results
 
 		matchScore.textContent = `${match.homeGoals} : ${match.visitorGoals}`
 	}
@@ -638,7 +763,7 @@ const init = async () => {
 		const team1PlayersList = document.querySelector('#match-details-content-players-team1')
 		const team2PlayersList = document.querySelector('#match-details-content-players-team2')
 
-		playersTeam1.forEach(player => {
+		allPlayersTeam1.forEach(player => {
 			team1PlayersList.insertAdjacentHTML('beforeend', `
 				<div class="row row-cols-1 row-cols-md-2 align-items-center p-2 flex-column flex-md-row my-2 rounded-5 match-details-content-player">
 					<div class="col m-player-img-wrapper me-md-2 me-0 position-relative d-flex justify-content-center overflow-hidden border border-2 rounded-circle">
@@ -659,7 +784,7 @@ const init = async () => {
 			`)
 		})
 
-		playersTeam2.forEach(player => {
+		allPlayersTeam2.forEach(player => {
 			team2PlayersList.insertAdjacentHTML('beforeend', `
 				<div class="row row-cols-1 row-cols-md-2 align-items-center p-2 flex-column flex-md-row my-2 rounded-5 match-details-content-player">
 					<div class="col m-player-img-wrapper order-1 order-md-2 ms-md-2 ms-0 position-relative d-flex justify-content-center overflow-hidden border border-2 rounded-circle">
@@ -704,6 +829,9 @@ const init = async () => {
 
 		if (response.succeed) {
 			notificacaoSucesso(i18next.t("SucessoFinalizarPartida"))
+			setTimeout(() => {
+				window.location.reload()
+			}, 2000)
 		}
 	}
 
@@ -720,32 +848,13 @@ const init = async () => {
 
 		if (response.succeed) {
 			notificacaoSucesso(i18next.t("SucessoStartOvertime"))
+			setTimeout(() => {
+				window.location.reload()
+			}, 2000)
 		}
 	}
 
-	const isPenaltyElegible = () => {
-		if (match.isSoccer) {
-			if (campeonato.format == 1) {
-				const isKnockoutDoubleMatch = () => {
-					return (campeonato.doubleMatchEliminations) ? true : false
-				}
-	
-				if (!isKnockoutDoubleMatch) {
-					return (match.homeGoals == match.visitorGoals) ? true : false
-				} else {
-					return (match.homeAggregatedGoals == match.visitorAggregatedGoals) ? true : false
-				}
-			}
-		}
-	}
-
-	const isPenaltyShootout = () => {
-		if (match.isSoccer) {
-			return (allEvents.penalties.length > 0) ? true : false
-		}
-	}
-
-	const isOvertimeElegible = async () => {
+	const isPenaltyElegible = async () => {
 		const callbackStatus = (data) => {
 			notificacaoErro(data.results)
 		}
@@ -765,10 +874,171 @@ const init = async () => {
 		}
 	}
 
+	const isPenaltyShootout = () => {
+		if (match.isSoccer) {
+			return (allEvents.penalties.length > 0) ? true : false
+		}
+	}
+
+	const isOvertimeElegible = () => {
+		if (match.isSoccer) {
+			const isDoubleMatch = () => {
+				return (campeonato.doubleStartLeagueSystem || campeonato.doubleMatchEliminations || campeonato.doubleMatchGroupStage || campeonato.finalDoubleMatch) ? true : false
+			}
+
+			if (isDoubleMatch) {
+				return (match.homeAggregatedGoals == match.visitorAggregatedGoals) ? true : false
+			} else {
+				return (match.homeGoals == match.visitorGoals) ? true : false
+			}
+		}
+	}
+
 	const isOvertime = () => {
 		if (match.isSoccer) {
 			return (match.overtime) ? true : false
 		}
+	}
+
+	const loadEvents = async () => {
+		// Clear blurwall 
+		eventsWrapperTeam1.innerHTML = ''
+		eventsWrapperTeam2.innerHTML = ''
+
+		const
+			matchEvents = await executarFetch(`matches/${matchId}/events`, configuracaoFetch('GET')),
+			matchEventsResults = matchEvents.results
+
+		const isTeam1 = teamId => {
+			return teamId == match.homeId
+		}
+
+		const isTeam2 = teamId => {
+			return teamId == match.visitorId
+		}
+
+		// Loop through the array
+		matchEventsResults.forEach(event => {		
+			let eventData = ''	
+			let eventIllustration = ''	
+
+			let eventPlayer
+			let eventAssisterPlayer
+
+			if (match.isSoccer) {
+				if (event.type == 'goal') {
+					eventData = `
+						<div class="event-type"><span class="text-muted i18" key="Gol">${i18next.t("Gol")}</span></div>
+						<i class="bi bi-dot"></i>
+						<div class="event-time"><span class="text-muted">${event.Time}</span></div>
+					`
+
+					eventIllustration = `
+						<img src="../public/icons/sports_soccer.svg" alt="">
+					`
+				} else if (event.type == 'card') {
+					eventData = `
+						<div class="event-type"><span class="text-muted i18" key="Falta">${i18next.t("Falta")}</span></div>
+						<i class="bi bi-dot"></i>
+						<div class="event-time"><span class="text-muted">${event.Time}</span></div>
+					`
+
+					if (event.cardType == 'red') {
+						eventIllustration = `
+							<img src="../public/icons/red_card.svg" alt="">
+						`
+					} else if (event.cardType == 'yellow') {
+						eventIllustration = `
+							<img src="../public/icons/yellow_card.svg" alt="">
+						`
+					}
+				} else if (event.type == 'penalty') {
+					if(event.converted) {
+						eventData = `							
+							<div class="event-type"><span class="text-muted i18" key="Penalti">${i18next.t("Penalti")}</span></div>
+							<i class="bi bi-dot"></i>
+							<div class="event-desc"><span class="text-muted">${i18next.t("ScoredPenalty")}</span></div>
+						`
+
+						eventIllustration = `
+							<img src="../public/icons/sports_penalty.png" alt="">
+						`
+					} else {
+						eventData = `
+							<div class="event-type"><span class="text-muted i18" key="Penalti">${i18next.t("Penalti")}</span></div>
+							<i class="bi bi-dot"></i>
+							<div class="event-desc"><span class="text-muted">${i18next.t("MissedPenalty")}</span></div>
+						`
+
+						eventIllustration = `
+							<img src="../public/icons/sports_missed_penalty.png" alt="">
+						`
+					}
+				}
+			} else if (!match.isSoccer) {
+				if (event.type == 'goal') {
+					eventData = `
+						<div class="event-type"><span class="text-muted i18" key="Ponto">${i18next.t("Ponto")}</span></div>
+					`
+
+					eventIllustration = `
+						<img src="../public/icons/sports_volleyball.svg" alt="">
+					`
+				}
+			}
+
+			// Verify if the event is from team 1 or team 2
+			if (isTeam1(event.teamId)) {						
+				eventPlayer = validPlayersTeam1.find(player => player.id == event.PlayerTempId)
+				eventAssisterPlayer = validPlayersTeam1.find(player => player.id == event.AssisterPlayerTempId)
+
+			} else if (isTeam2(event.teamId)) {
+				eventPlayer = validPlayersTeam2.find(player => player.id == event.PlayerTempId)
+				eventAssisterPlayer = validPlayersTeam2.find(player => player.id == event.AssisterPlayerTempId)
+			}
+
+			let eventTemplate = `
+				<div class="row row-cols-md-2 row-cols-1 p-3 my-2 match-details-content-event align-items-center rounded-5">
+					<div class="col">
+						<div class="row flex-column">
+							<div class="col event-player-name"><span class="fw-semibold text-black text-truncate text-center text-md-start m-truncated-text-width d-block">${eventPlayer.name}</span></div>
+							${(event.type == 'goal') ?
+								(event.AssisterPlayerTempId) ? `
+									<div class="col event-player-name"><span class="fw-semibold text-black text-center text-md-start m-truncated-text-width text-truncate d-block">${eventAssisterPlayer.name}</span></div>
+								` : ''
+							: ''}
+							<div class="col d-flex flex-row event-data">
+								${eventData}
+							</div>
+						</div>
+					</div>
+					<div class="col d-flex align-items-center pe-0 event-illustration">
+						${eventIllustration}
+					</div>
+				</div>
+			`
+
+			if (isTeam1(event.teamId)) {					
+				eventsWrapperTeam1.insertAdjacentHTML('beforeend', eventTemplate)
+
+				eventsWrapperTeam2.insertAdjacentHTML('beforeend', `
+					<div class="row w-auto blank-space"></div>
+				`)
+			} else if (isTeam2(event.teamId)) {
+				eventsWrapperTeam2.insertAdjacentHTML('beforeend', eventTemplate)
+
+				eventsWrapperTeam1.insertAdjacentHTML('beforeend', `
+					<div class="row w-auto blank-space"></div>
+				`)
+			}
+		})
+	}
+
+	const hasDateArrived = () => {
+		const matchDate = new Date(match.date)
+		const currentDate = new Date()
+
+		return (matchDate < currentDate) ? true : false
 	}
 
 	async function carregarPartida() {
@@ -861,7 +1131,7 @@ const init = async () => {
 					</div>
 				`
 			} else {
-				if (!matchStartConditionsResults.date) {
+				if (!hasDateArrived) {
 					blurWallEvents.insertAdjacentHTML('beforeend', `
 						<div class="w-100 text-center">
 							<span class="i18" key="DataPartidaNaoChegou">${i18next.t("DataPartidaNaoChegou")}</span>
@@ -869,203 +1139,53 @@ const init = async () => {
 					`)
 				}
 
-				if (!matchStartConditionsResults.configured) {
-					blurWallEvents.insertAdjacentHTML('beforeend', `
-					<div id="blurwall-message-organizer" class="w-50 text-center">
-						<span class="blurwall-message-organizer-text i18 fs-4 fw-semibold" key="BlurwallMessageOrganizerText">${i18next.t("BlurwallMessageOrganizerText")}</span>
-						<button id="configure-match-btn"><span class="i18" key="ConfigurarPartida">${i18next.t("ConfigurarPartida")}</span></button>
-					</div>
-					`)
-				}
+				blurWallEvents.insertAdjacentHTML('beforeend', `
+				<div id="blurwall-message-organizer" class="w-50 text-center">
+					<span class="blurwall-message-organizer-text i18 fs-4 fw-semibold" key="BlurwallMessageOrganizerText">${i18next.t("BlurwallMessageOrganizerText")}</span>
+					<button id="configure-match-btn"><span class="i18" key="ConfigurarPartida">${i18next.t("ConfigurarPartida")}</span></button>
+				</div>
+				`)
+
 
 				const configureMatchBtn = document.getElementById('configure-match-btn')
 
 				configureMatchBtn.addEventListener('click', () => {
-					// window.location.href = `../link-tabela`
+					window.location.href = `../pages/tabela-chaveamento.html?id=${match.championshipId}`
 				})
 			}
 		} else {
+			if (match.finished) {
+				matchReportAccess.insertAdjacentHTML('afterbegin', `
+					<div id="match-ended-alert" class="text-center">
+						<span class="i18" key="MatchEnded">${i18next.t("MatchEnded")}</span>
+					</div>
+				`)
+			}
+
+			// verify if the match is over and if the match has a match report
+			if (match.finished && match.matchReport) {
+				matchReportAccess.insertAdjacentHTML('beforeend', `
+					<div class="row justify-content-center align-items-center">
+						<div class="col-auto">
+							<a href="javascript:void(0)" class="d-none text-decoration-none" id="download-match-report-link">
+								<button id="download-match-report-btn" class="btn btn-outline-dark rounded-pill"><span class="i18" key="DownloadMatchReport">${i18next.t("DownloadMatchReport")}</span></button>
+							</a>
+						</div>
+					</div>
+				`)
+
+				downloadMatchReportBtn = document.getElementById('download-match-report-btn')
+				downloadMatchReportLink = document.getElementById('download-match-report-link')
+			}
+
 			if (isMatchOrganizer) {
 				manageMatchBtn.classList.remove('d-none')
 
-				matchManagementSystem()
+				(!match.finished) ? matchManagementSystem() : (match.isSoccer && match.finished) ? endMatchManagementSystem() : null
 			}
 
-			// Clear blurwall 
-			eventsWrapperTeam1.innerHTML = ''
-			eventsWrapperTeam2.innerHTML = ''
-
-			// How to order all the events?
-			// Time Marking
-			// 1. Get all goals
-			// 2. Get all cards
-			// 3. Put them in the same array
-			// 4. Order the array by time (earliest to latest)
-			// 5. Loop through the array
-			// 6. Verify if the event is from team 1 or team 2
-				// 6.1. If it's a team 1 event, add the event to the team 1 eventsWrapper and add a blank space on the team 2 eventsWrapper
-					// 6.1.1. If it's a goal, insert the goal event template
-					// 6.1.2. If it's a card, insert the card event template
-						// 6.1.2.1. If it's a red card, insert the red card event icon
-						// 6.1.2.2. If it's a yellow card, insert the yellow card event icon
-				// 6.2. If it's a team 2 event, add the event to the team 2 eventsWrapper and add a blank space on the team 1 eventsWrapper
-					// 6.2.1. If it's a goal, insert the goal event template
-					// 6.2.2. If it's a card, insert the card event template
-						// 6.2.2.1. If it's a red card, insert the red card event icon
-						// 6.2.2.2. If it's a yellow card, insert the yellow card event icon
-						
-			// Get all goals
-			const
-				matchGoals = await executarFetch(`matches/${matchId}/goals`, configuracaoFetch('GET')),
-				matchGoalsResults = matchGoals.results
-
-			// Get all cards
-			const
-				matchCards = await executarFetch(`matches/${matchId}/cards`, configuracaoFetch('GET')),
-				matchCardsResults = matchCards.results
-			
-			// Put them in the same array
-			let matchEvents = []
-			matchGoalsResults.forEach(goal => {
-				goal.type = 'goal'
-				matchEvents.push(goal)
-			})
-			matchCardsResults.forEach(card => {
-				card.type = 'card'
-				matchEvents.push(card)
-			})
-			
-			// Order the array by time (earliest to latest)
-			matchEvents.sort((a, b) => {
-				return a.time - b.time
-			})
-
-			const isTeam1 = teamId => {
-				return teamId == matchTeam1Id
-			}
-
-			const isTeam2 = teamId => {
-				return teamId == matchTeam2Id
-			}
-
-			// Loop through the array
-			matchEvents.forEach(event => {		
-				let eventData = ''	
-				let eventIllustration = ''	
-
-				let eventPlayer
-				let eventAssisterPlayer
-
-				if (match.isSoccer) {
-					if (event.type == 'goal') {
-						eventData = `
-							<div class="event-type"><span class="text-muted i18" key="Gol">${i18next.t("Gol")}</span></div>
-							<i class="bi bi-dot"></i>
-							<div class="event-time"><span class="text-muted">${event.Time}</span></div>
-						`
-
-						eventIllustration = `
-							<img src="../public/icons/sports_soccer.svg" alt="">
-						`
-					} else if (event.type == 'card') {
-						eventData = `
-							<div class="event-type"><span class="text-muted i18" key="Falta">${i18next.t("Falta")}</span></div>
-							<i class="bi bi-dot"></i>
-							<div class="event-time"><span class="text-muted">${event.Time}</span></div>
-						`
-
-						if (event.cardType == 'red') {
-							eventIllustration = `
-								<img src="../public/icons/red_card.svg" alt="">
-							`
-						} else if (event.cardType == 'yellow') {
-							eventIllustration = `
-								<img src="../public/icons/yellow_card.svg" alt="">
-							`
-						}
-					} else if (event.type == 'penalty') {
-						if(event.converted) {
-							eventData = `							
-								<div class="event-type"><span class="text-muted i18" key="Penalti">${i18next.t("Penalti")}</span></div>
-								<i class="bi bi-dot"></i>
-								<div class="event-desc"><span class="text-muted">${i18next.t("ScoredPenalty")}</span></div>
-							`
-
-							eventIllustration = `
-								<img src="../public/icons/sports_penalty.svg" alt="">
-							`
-						} else {
-							eventData = `
-								<div class="event-type"><span class="text-muted i18" key="Penalti">${i18next.t("Penalti")}</span></div>
-								<i class="bi bi-dot"></i>
-								<div class="event-desc"><span class="text-muted">${i18next.t("MissedPenalty")}</span></div>
-							`
-
-							eventIllustration = `
-								<img src="../public/icons/sports_missed_penalty.svg" alt="">
-							`
-						}
-					}
-				} else if (!match.isSoccer) {
-					if (event.type == 'goal') {
-						eventData = `
-							<div class="event-type"><span class="text-muted i18" key="Ponto">${i18next.t("Ponto")}</span></div>
-						`
-
-						eventIllustration = `
-							<img src="../public/icons/sports_volleyball.svg" alt="">
-						`
-					}
-				}
-
-				// Verify if the event is from team 1 or team 2
-				if (isTeam1(event.teamId)) {						
-					eventPlayer = playersTeam1.find(player => player.id == event.PlayerTempId)
-					eventAssisterPlayer = playersTeam1.find(player => player.id == event.AssisterPlayerTempId)
-
-				} else if (isTeam2(event.teamId)) {
-					eventPlayer = playersTeam2.find(player => player.id == event.PlayerTempId)
-					eventAssisterPlayer = playersTeam2.find(player => player.id == event.AssisterPlayerTempId)
-				}
-
-				let eventTemplate = `
-					<div class="row row-cols-md-2 row-cols-1 p-3 my-2 match-details-content-event align-items-center rounded-5">
-						<div class="col">
-							<div class="row flex-column">
-								<div class="col event-player-name"><span class="fw-semibold text-black text-truncate text-center text-md-start m-truncated-text-width d-block">${eventPlayer.name}</span></div>
-								${(event.type == 'goal') ?
-									(event.AssisterPlayerTempId) ? `
-										<div class="col event-player-name"><span class="fw-semibold text-black text-center text-md-start m-truncated-text-width text-truncate d-block">${eventAssisterPlayer.name}</span></div>
-									` : ''
-								: ''}
-								<div class="col d-flex flex-row event-data">
-									${eventData}
-								</div>
-							</div>
-						</div>
-						<div class="col d-flex align-items-center pe-0 event-illustration">
-							${eventIllustration}
-						</div>
-					</div>
-				`
-
-				if (isTeam1(event.teamId)) {					
-					eventsWrapperTeam1.insertAdjacentHTML('beforeend', eventTemplate)
-
-					eventsWrapperTeam2.insertAdjacentHTML('beforeend', `
-						<div class="row w-auto blank-space"></div>
-					`)
-				} else if (isTeam2(event.teamId)) {
-					eventsWrapperTeam2.insertAdjacentHTML('beforeend', eventTemplate)
-
-					eventsWrapperTeam1.insertAdjacentHTML('beforeend', `
-						<div class="row w-auto blank-space"></div>
-					`)
-				}
-			})
-
+			loadEvents()
 			listPlayers()
-
 			loadScoreboard()
 		}
 	}
@@ -1089,30 +1209,38 @@ const init = async () => {
 		mTeam1NameWrapper = document.getElementById('m-team1-name-wrapper'),
 		mTeam2NameWrapper = document.getElementById('m-team2-name-wrapper'),
 		mTeam1ImgWrapper = document.getElementById('m-team1-img-wrapper'),
-		mTeam2ImgWrapper = document.getElementById('m-team2-img-wrapper')
-
-	// loader.show()
-	// const 
-	// 	dataMatch = await executarFetch(`matches/${matchId}`, configuracaoFetch('GET')),
-	// 	match = dataMatch.results
+		mTeam2ImgWrapper = document.getElementById('m-team2-img-wrapper'),
+		matchReportAccess = document.getElementById('match-report-access')
 	
-	// const 
-	// 	dataPlayersTeam1 = await executarFetch(`teams/${match.homeId}/players`, configuracaoFetch('GET')),
-	// 	playersTeam1 = dataPlayersTeam1.results
+	let downloadMatchReportBtn = null
+	let downloadMatchReportLink = null
+
+	loader.show()
+	const 
+		dataMatch = await executarFetch(`matches/${matchId}`, configuracaoFetch('GET')),
+		match = dataMatch.results
 	
-	// const 
-	// 	dataPlayersTeam2 = await executarFetch(`teams/${match.visitorId}/players`, configuracaoFetch('GET')),
-	// 	playersTeam2 = dataPlayersTeam2.results
+	const 
+		dataValidPlayersTeam1 = await executarFetch(`matches/${match.id}/teams/${match.homeId}/players`, configuracaoFetch('GET')),
+		validPlayersTeam1 = dataValidPlayersTeam1.results
 
-	// const
-	// 	matchStartConditions = await executarFetch(`matches/${matchId}/start-conditions`, configuracaoFetch('GET')),
-	// 	matchStartConditionsResults = matchStartConditions.results
+	const
+		dataAllPlayersTeam1 = await executarFetch(`teams/${match.homeId}/players`, configuracaoFetch('GET')),
+		allPlayersTeam1 = dataAllPlayersTeam1.results
+	
+	const 
+		dataValidPlayersTeam2 = await executarFetch(`matches/${match.id}/teams/${match.visitorId}/players`, configuracaoFetch('GET')),
+		validPlayersTeam2 = dataValidPlayersTeam2.results
 
-	// const
-	// 	dataCampeonato = await executarFetch(`championships/${match.championshipId}`, configuracaoFetch('GET')),
-	// 	campeonato = dataCampeonato.results
-	// console.log(match)
-	// loader.hide()
+	const 
+		dataAllPlayersTeam2 = await executarFetch(`teams/${match.visitorId}/players`, configuracaoFetch('GET')),
+		allPlayersTeam2 = dataAllPlayersTeam2.results
+
+	const
+		dataCampeonato = await executarFetch(`championships/${match.championshipId}`, configuracaoFetch('GET')),
+		campeonato = dataCampeonato.results
+	console.log(match)
+	loader.hide()
 
 	for(const blankSpace of blankSpaces) {
 		blankSpace.style.height = `${matchDetailsOptions.offsetHeight + 35}px`
@@ -1126,8 +1254,15 @@ const init = async () => {
 	}
 
     changeConfigOptionsContext(0)
-	// await carregarPartida()
+	await carregarPartida()
 	console.log(sessionUserInfo);
 }
+
+// Precaução
+	// d-none:
+		// hiddenInput
+		// inputMatchReport
+		// downloadMatchReportBtn
+		// downloadMatchReportLink
 
 document.addEventListener('header-carregado', init)

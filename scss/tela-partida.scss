@@ -253,6 +253,10 @@ body {
                 }
 
                 #match-details-content-players {
+                    min-height: 39rem;
+                    max-height: 39rem;
+                    overflow-y: auto;
+
                     #match-details-content-players-team2 {
                         .match-details-content-player {
                             justify-content: flex-end;

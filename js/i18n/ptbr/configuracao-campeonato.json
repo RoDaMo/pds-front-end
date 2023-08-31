@@ -127,5 +127,6 @@
     "TextoExcluirModalChaveamento3": "Ainda deseja continuar e excluir o chaveamento?",
     "TextoModalChaveamentoSucesso": "Parabéns! Seu chaveamento foi criado com sucesso.",
     "SucessoCriacaoChaveamento": "Chaveamento criado com sucesso!",
-    "SucessoExclusaoChaveamento": "Chaveamento excluído com sucesso!"
+    "SucessoExclusaoChaveamento": "Chaveamento excluído com sucesso!",
+    "QuantidadeTimesInsuficiente": "A quantidade de times insuficiente"
 }

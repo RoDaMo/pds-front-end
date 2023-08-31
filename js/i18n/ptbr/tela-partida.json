@@ -3,6 +3,7 @@
     "Eventos": "Eventos",
     "Jogadores": "Jogadores",
     "Administrar": "Administrar",
+    "Administracao": "Administração",
     "ConfigurarPartida": "Configurar Partida",
     "SelectEventTypeLabel": "Selecione o tipo de evento",
     "SelectEventTypePlaceholder": "Selecione o tipo de evento...",
@@ -52,5 +53,13 @@
     "EndMatch": "Finalizar Partida",
     "SucessoFinalizarPartida": "Partida finalizada com sucesso.",
     "StartOvertime": "Iniciar Prorrogação",
-    "SucessoStartOvertime": "Prorrogação iniciada com sucesso."
+    "SucessoStartOvertime": "Prorrogação iniciada com sucesso.",
+    "Sumula": "Súmula",
+    "InputMatchReportLabel": "Súmula",
+    "AdicionarSumula": "Adicionar Súmula",
+    "SumulaObrigatoria": "A súmula é obrigatória.",
+    "DownloadMatchReport": "Baixar Súmula",
+    "SucessoPostSumula": "Súmula registrada com sucesso.",
+    "PdfInvalido": "Arquivo inválido! O arquivo deve conter até 20mb e ser um arquivo pdf.",
+    "MatchEnded": "Partida Finalizada"
 }

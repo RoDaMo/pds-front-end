@@ -46,6 +46,8 @@
             </div>
         </section>
 
+        <section id="match-report-access" class="mt-4"></section>
+
         <!-- Detalhes da Partida -->
         <section id="match-details-wrapper" class="mt-4 mt-md-5 mx-lg-5">
             <div id="match-details" class="p-4 pt-2 position-relative">
@@ -53,7 +55,7 @@
                     <ul class="list-group list-group-horizontal list-group-flush d-flex justify-content-center align-items-center" id="match-details-options">
                         <button class="list-group-item list-group-item-action m-2 w-auto border-0 rounded-pill active" menu="0"><span class="i18" key="Eventos">Eventos</span></button>
                         <button class="list-group-item list-group-item-action m-2 w-auto border-0 rounded-pill" menu="1"><span class="i18" key="Jogadores">Jogadores</span></button>
-                        <button id="manage-match-btn" class=" list-group-item list-group-item-action m-2 w-auto border-0 rounded-pill" menu="2"><span class="i18" key="Administrar">Administrar</span></button>
+                        <button id="manage-match-btn" class="d-none list-group-item list-group-item-action m-2 w-auto border-0 rounded-pill" menu="2"><span class="i18" key="Administrar">Administrar</span></button>
                     </ul>
                 </div>
 
@@ -94,9 +96,6 @@
 
                         <!-- Administrar -->
                         <div id="match-details-content-admin" class="d-none menu-config menu-config d-flex flex-column align-items-center mt-4" menu="2">
-                            <div id="event-admin-label" class="d-flex justify-content-center bg-gray-400 rounded-4 py-1 px-3 mb-2">
-                                <span class="i18" key="Eventos">Eventos</span>
-                            </div>
                             <form id="match-management-form"></form>
 
                             <!-- Modal Confirmação - Finalização de Partida -->

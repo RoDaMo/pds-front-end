@@ -75,6 +75,7 @@ const init = async () => {
 		const image = document.getElementById('config-championship-pic-mod'),
 			imageFile = document.getElementById('config-championship-image-input'),
 			imageInput = document.getElementById('config-imagem-input-hidden'),
+			hiddenRegulamento = document.getElementById('config-regulamento-input-hidden'),
 			name = document.getElementById('config-championship-name-input'),
 			descricao = document.getElementById('config-championship-descricao-input'),
 			regulamento = document.getElementById('config-championship-regulamento-input'),
@@ -602,11 +603,11 @@ const init = async () => {
 				if (Array.isArray(data.results))
 					return;
 
-				console.log(regulamento.value)
+				hiddenRegulamento.value = `${api}img/${data.results}`
 
-				linkRegulamento.value = `${api}img/${data.results}`
+				console.log(hiddenRegulamento.value);
 
-				linkRegulamento.href = linkRegulamento.value;
+				linkRegulamento.href = hiddenRegulamento.value;
 				linkRegulamento.classList.toggle('d-none', false)
 			})
 		}
@@ -928,10 +929,6 @@ const init = async () => {
 		})
 	}
 
-
-
-
-
 	const botaoVincularSuborg = document.getElementById('botao-vincular-suborg');
 	const pesquisaSuborg = document.getElementById('pesquisa-suborg');
 
@@ -1038,16 +1035,6 @@ const init = async () => {
 
 	}
 
-	//
-	
-
-
-
-
-
-	
-
-
 	const inicializarPaginaExclusao = async () => {
 		const formDeletarCampeonato = document.getElementById('delete-championship-form'),
 			deleteAccountValidator = new JustValidate(formDeletarCampeonato, { validateBeforeSubmitting: true }),
@@ -1102,7 +1089,8 @@ const init = async () => {
 		modalDeleteBracket = document.getElementById('bracketDeleteModal'),
 		bracketCreateModal = document.getElementById('bracketCreateModal'),
 		bracketBtnWrapper = document.getElementById('bracket-btn-wrapper'),
-		form = document.getElementById('update-profile-form')
+		form = document.getElementById('update-profile-form'),
+		linkBracketBtnWrappers = document.querySelectorAll('.link-bracket-btn-wrapper')
 		
         let modalCreateSuccessBracketBT = new bootstrap.Modal(modalCreateSuccessBracket, {keyboard: false})
 
@@ -1136,9 +1124,14 @@ const init = async () => {
 		if (createBracketBtn) {
 			if (campeonato.teamQuantity == campeonato.teams.length) {
 				createBracketBtn.disabled = false
+				bracketBtnWrapper.querySelector("#qtd-teams-not-enough").remove()
 			} else {
 				createBracketBtn.disabled = true
-				mensagemErro.innerHTML = `<span class="i18" key="QuantidadeTimesInsuficiente">${i18next.t("QuantidadeTimesInsuficiente")}</span>`
+				// clear error message
+				if (bracketBtnWrapper.querySelector("#qtd-teams-not-enough")) {
+					bracketBtnWrapper.querySelector("#qtd-teams-not-enough").remove()
+				}
+				bracketBtnWrapper.insertAdjacentHTML('beforeend', `<span id="qtd-teams-not-enough" class="i18 tiny-text" key="QuantidadeTimesInsuficiente">${i18next.t("QuantidadeTimesInsuficiente")}</span>`)
 			}
 		}
 	}
@@ -1148,6 +1141,10 @@ const init = async () => {
 
 	// 	bracketCreateModalBT.hide()
 	// })
+
+	for (const linkBracketBtnWrapper of linkBracketBtnWrappers) {
+		linkBracketBtnWrapper.setAttribute('href', `tabela-chaveamento.html?id=${campeonato.id}`)
+	}
 
 	changeConfigOptionsContext(0)
 	inicializarCampos()
