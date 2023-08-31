@@ -67,6 +67,9 @@ const init = async () => {
 		if (response.succeed) {
 			notificacaoSucesso(i18next.t("SucessoPostPenalty"))
 			await loadEvents()
+			setTimeout(() => {
+				window.location.reload()
+			}, 2000)
 		}
 	}
 
@@ -714,7 +717,7 @@ const init = async () => {
 	}
 
 	const isMatchConfigured = async () => {
-		if (matchStartConditionsResults.date && matchStartConditionsResults.configured) {
+		if (match.date && match.local && match.arbitrator) {
 			return true
 		} else {
 			return false
@@ -823,6 +826,9 @@ const init = async () => {
 
 		if (response.succeed) {
 			notificacaoSucesso(i18next.t("SucessoFinalizarPartida"))
+			setTimeout(() => {
+				window.location.reload()
+			}, 2000)
 		}
 	}
 
@@ -839,32 +845,13 @@ const init = async () => {
 
 		if (response.succeed) {
 			notificacaoSucesso(i18next.t("SucessoStartOvertime"))
+			setTimeout(() => {
+				window.location.reload()
+			}, 2000)
 		}
 	}
 
-	const isPenaltyElegible = () => {
-		if (match.isSoccer) {
-			if (campeonato.format == 1) {
-				const isKnockoutDoubleMatch = () => {
-					return (campeonato.doubleMatchEliminations) ? true : false
-				}
-	
-				if (!isKnockoutDoubleMatch) {
-					return (match.homeGoals == match.visitorGoals) ? true : false
-				} else {
-					return (match.homeAggregatedGoals == match.visitorAggregatedGoals) ? true : false
-				}
-			}
-		}
-	}
-
-	const isPenaltyShootout = () => {
-		if (match.isSoccer) {
-			return (allEvents.penalties.length > 0) ? true : false
-		}
-	}
-
-	const isOvertimeElegible = async () => {
+	const isPenaltyElegible = async () => {
 		const callbackStatus = (data) => {
 			notificacaoErro(data.results)
 		}
@@ -880,6 +867,26 @@ const init = async () => {
 				return true
 			} else {
 				return false
+			}
+		}
+	}
+
+	const isPenaltyShootout = () => {
+		if (match.isSoccer) {
+			return (allEvents.penalties.length > 0) ? true : false
+		}
+	}
+
+	const isOvertimeElegible = () => {
+		if (match.isSoccer) {
+			const isDoubleMatch = () => {
+				return (campeonato.doubleStartLeagueSystem || campeonato.doubleMatchEliminations || campeonato.doubleMatchGroupStage || campeonato.finalDoubleMatch) ? true : false
+			}
+
+			if (isDoubleMatch) {
+				return (match.homeAggregatedGoals == match.visitorAggregatedGoals) ? true : false
+			} else {
+				return (match.homeGoals == match.visitorGoals) ? true : false
 			}
 		}
 	}
@@ -992,7 +999,7 @@ const init = async () => {
 						`
 
 						eventIllustration = `
-							<img src="../public/icons/sports_penalty.svg" alt="">
+							<img src="../public/icons/sports_penalty.png" alt="">
 						`
 					} else {
 						eventData = `
@@ -1002,7 +1009,7 @@ const init = async () => {
 						`
 
 						eventIllustration = `
-							<img src="../public/icons/sports_missed_penalty.svg" alt="">
+							<img src="../public/icons/sports_missed_penalty.png" alt="">
 						`
 					}
 				}
@@ -1063,6 +1070,13 @@ const init = async () => {
 				`)
 			}
 		})
+	}
+
+	const hasDateArrived = () => {
+		const matchDate = new Date(match.date)
+		const currentDate = new Date()
+
+		return (matchDate < currentDate) ? true : false
 	}
 
 	async function carregarPartida() {
@@ -1155,7 +1169,7 @@ const init = async () => {
 					</div>
 				`
 			} else {
-				if (!matchStartConditionsResults.date) {
+				if (!hasDateArrived) {
 					blurWallEvents.insertAdjacentHTML('beforeend', `
 						<div class="w-100 text-center">
 							<span class="i18" key="DataPartidaNaoChegou">${i18next.t("DataPartidaNaoChegou")}</span>
@@ -1163,14 +1177,13 @@ const init = async () => {
 					`)
 				}
 
-				if (!matchStartConditionsResults.configured) {
-					blurWallEvents.insertAdjacentHTML('beforeend', `
-					<div id="blurwall-message-organizer" class="w-50 text-center">
-						<span class="blurwall-message-organizer-text i18 fs-4 fw-semibold" key="BlurwallMessageOrganizerText">${i18next.t("BlurwallMessageOrganizerText")}</span>
-						<button id="configure-match-btn"><span class="i18" key="ConfigurarPartida">${i18next.t("ConfigurarPartida")}</span></button>
-					</div>
-					`)
-				}
+				blurWallEvents.insertAdjacentHTML('beforeend', `
+				<div id="blurwall-message-organizer" class="w-50 text-center">
+					<span class="blurwall-message-organizer-text i18 fs-4 fw-semibold" key="BlurwallMessageOrganizerText">${i18next.t("BlurwallMessageOrganizerText")}</span>
+					<button id="configure-match-btn"><span class="i18" key="ConfigurarPartida">${i18next.t("ConfigurarPartida")}</span></button>
+				</div>
+				`)
+
 
 				const configureMatchBtn = document.getElementById('configure-match-btn')
 
@@ -1206,7 +1219,7 @@ const init = async () => {
 			if (isMatchOrganizer) {
 				manageMatchBtn.classList.remove('d-none')
 
-				(!match.finished) ? matchManagementSystem() : endMatchManagementSystem()
+				(!match.finished) ? matchManagementSystem() : (match.isSoccer && match.finished) ? endMatchManagementSystem() : null
 			}
 
 			loadEvents()
@@ -1237,9 +1250,8 @@ const init = async () => {
 		mTeam2ImgWrapper = document.getElementById('m-team2-img-wrapper'),
 		matchReportAccess = document.getElementById('match-report-access')
 	
-	let
-		downloadMatchReportBtn = null,
-		downloadMatchReportLink = null
+	let downloadMatchReportBtn = null
+	let downloadMatchReportLink = null
 
 	loader.show()
 	const 
@@ -1261,10 +1273,6 @@ const init = async () => {
 	const 
 		dataAllPlayersTeam2 = await executarFetch(`teams/${match.visitorId}/players`, configuracaoFetch('GET')),
 		allPlayersTeam2 = dataAllPlayersTeam2.results
-
-	const
-		matchStartConditions = await executarFetch(`matches/${matchId}/start-conditions`, configuracaoFetch('GET')),
-		matchStartConditionsResults = matchStartConditions.results
 
 	const
 		dataCampeonato = await executarFetch(`championships/${match.championshipId}`, configuracaoFetch('GET')),
