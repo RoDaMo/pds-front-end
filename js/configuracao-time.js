@@ -84,42 +84,6 @@ const init = async () => {
             validateBeforeSubmitting: true,
         })
 
-        // esporte.addEventListener("change", () => {
-        //  if (esporte.value === "1") {
-        //      quantidadeJogadores.value = ""
-        //      quantidadeJogadores.setAttribute("min", 11)
-        //      quantidadeJogadores.setAttribute("max", 25)
-        //  } else if (esporte.value === "2") {
-        //      quantidadeJogadores.value = ""
-        //      quantidadeJogadores.setAttribute("min", 6)
-        //      quantidadeJogadores.setAttribute("max", 15)
-        //  }
-
-        //  if (esporte.value) {
-        //      quantidadeJogadores.value = ""
-        //      quantidadeJogadores.disabled = false;
-        //      quantidadeJogadores.setAttribute("key", "QuantidadeJogadoresPlaceholder")
-        //      quantidadeJogadores.setAttribute("placeholder", i18next.t("QuantidadeJogadoresPlaceholder"))
-        //  } else {
-        //      quantidadeJogadores.value = ""
-        //      quantidadeJogadores.disabled = true;
-        //      quantidadeJogadores.setAttribute("key", "QuantidadeJogadoresPlaceholderDisabled")
-        //      quantidadeJogadores.setAttribute("placeholder", i18next.t("QuantidadeJogadoresPlaceholderDisabled"))
-        //  }
-        // })
-
-        // quantidadeJogadores.addEventListener("change", () => {
-        //  if (esporte.value === "1") {
-        //      if (quantidadeJogadores.value < 11 || quantidadeJogadores.value > 25) {
-        //          quantidadeJogadores.value = 11
-        //      }
-        //  } else if (esporte.value === "2") {
-        //      if (quantidadeJogadores.value < 6 || quantidadeJogadores.value > 15) {
-        //          quantidadeJogadores.value = 6
-        //      }
-        //  }
-        // })
-
         function validator1() {
             validator
                 .addField(name, [

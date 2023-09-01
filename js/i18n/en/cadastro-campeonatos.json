@@ -75,11 +75,6 @@
   "CpfObrigatorio": "Please insert CPF",
   "CpfTamanho": "CPF must have 11 characters.",
   "CpfInvalido": "invalid CPF",
-  "QuantidadeJogadores": "Number of players per team:",
-  "QuantidadeJogadoresPlaceholderDisabled": "Select a sport first...",
-  "QuantidadeJogadoresPlaceholder": "Number of players per team...",
-  "QuantidadeJogadoresObrigatorio": "Please enter number of players per team",
-  "QuantidadeJogadoresInvalido": "Invalid number of players per team",
   "CpfErro": "Error",
   "CpfErroMensagem": "There was a problem checking if he is eligible to use this feature. Try again later...",
   "CpfErroBotao": "Go to home page"

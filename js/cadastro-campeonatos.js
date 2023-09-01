@@ -143,7 +143,6 @@ const formato = document.getElementById('formato')
 const quantidade = document.getElementById('quantidade')
 const imagem = document.getElementById('logo')
 const emblema = document.getElementById('emblema')
-const quantidadeJogadores = document.getElementById('quantidade-jogadores')
 const inputFormato = document.getElementById('input-formato')
 
 const doubleMatchWrapper = document.getElementById('double-match-wrapper')
@@ -356,23 +355,8 @@ esporte.addEventListener("change", () => {
     doubleMatchWrapper.innerHTML = ""
 
     changeTeamQTDStatus()
-    
-    if(esporte.value === "1") {
-        quantidadeJogadores.value = ""
-        quantidadeJogadores.setAttribute("min", 11)
-        quantidadeJogadores.setAttribute("max", 25)
-    } else if(esporte.value === "2") {
-        quantidadeJogadores.value = ""
-        quantidadeJogadores.setAttribute("min", 6)
-        quantidadeJogadores.setAttribute("max", 15)
-    }
 
     if (esporte.value) {
-        quantidadeJogadores.value = ""
-        quantidadeJogadores.disabled = false;
-        quantidadeJogadores.setAttribute("key", "QuantidadeJogadoresPlaceholder")
-        quantidadeJogadores.setAttribute("placeholder", i18next.t("QuantidadeJogadoresPlaceholder"))
-
         formato.disabled = false;
         formato.value = ""
         formato.firstElementChild.textContent = i18next.t("FormatoPlaceholder")
@@ -380,31 +364,10 @@ esporte.addEventListener("change", () => {
     } else {
         doubleMatchWrapper.innerHTML = ""
 
-        quantidadeJogadores.value = ""
-        quantidadeJogadores.disabled = true;
-        quantidadeJogadores.setAttribute("key", "QuantidadeJogadoresPlaceholderDisabled")
-        quantidadeJogadores.setAttribute("placeholder", i18next.t("QuantidadeJogadoresPlaceholderDisabled"))
-
         formato.disabled = true;
         formato.value = ""
         formato.firstElementChild.textContent = i18next.t("FormatoPlaceholderDisabled")
         formato.classList.add("text-muted")
-    }
-})
-
-quantidadeJogadores.addEventListener("change", () => {
-    if(esporte.value === "1") {
-        if(quantidadeJogadores.value < 11) {
-            quantidadeJogadores.value = 11
-        } else if (quantidadeJogadores.value > 25) {
-            quantidadeJogadores.value = 25
-        }
-    } else if(esporte.value === "2") {
-        if(quantidadeJogadores.value < 6) {
-            quantidadeJogadores.value = 6
-        } else if (quantidadeJogadores.value > 15) {
-            quantidadeJogadores.value = 15
-        }
     }
 })
 
@@ -543,22 +506,6 @@ function criarValidacao() {
             errorMessage: `<span class="i18" key="DescricaoMaximo">${i18next.t("DescricaoMaximo")}</span>`,
         },
     ])
-    .addField(quantidadeJogadores, [
-        {
-            rule: 'required',
-            errorMessage: `<span class="i18" key="QuantidadeJogadoresObrigatorio">${i18next.t("QuantidadeJogadoresObrigatorio")}</span>`,
-        },  
-        {
-            validator: (value) => {
-                if (esporte.value == "2") {
-                    return value >= 6 && value <= 15
-                } else if (esporte.value == "1") { 
-                    return value >= 11 && value <= 25
-                }
-            },
-            errorMessage: `<span class="i18" key="QuantidadeJogadoresInvalido">${i18next.t("QuantidadeJogadoresInvalido")}</span>`,
-        },
-    ])
     .addField(emblema, [
         {
             rule: 'required',
@@ -591,7 +538,6 @@ function criarValidacao() {
             "logo": emblema.value,
             "description": descricao.value,
             "Format": parseInt(formato.value),
-            "NumberOfPlayers": quantidadeJogadores.value,
             "DoubleStartLeagueSystem": PCCheckboxElem?.checked,
             "DoubleMatchEliminations": (parseInt(quantidade.value) === 2 || (parseInt(formato.value) === 4 && parseInt(quantidade.value) === 4)) ? false : eliminatoriasStatus,
             "FinalDoubleMatch": finalCheckboxElem?.checked,
