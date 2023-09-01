@@ -209,9 +209,11 @@ const init = async () => {
 							<button id="end-match-btn" data-bs-toggle="modal" data-bs-target="#endMatchModal" class="btn btn-danger w-auto"><span class="i18" key="EndMatch">${i18next.t("EndMatch")}</span></button>
 						</div>
 
-						<div class="m-2">
-							<button id="wo-end-match-btn" data-bs-toggle="modal" data-bs-target="#woEndMatchModal" class="btn btn-danger w-auto"><span class="i18" key="EndMatchWO">${i18next.t("EndMatchWO")}</span></button>
-						</div>
+						${match.isSoccer ? `
+							<div class="m-2">
+								<button id="wo-end-match-btn" data-bs-toggle="modal" data-bs-target="#woEndMatchModal" class="btn btn-danger w-auto"><span class="i18" key="EndMatchWO">${i18next.t("EndMatchWO")}</span></button>
+							</div>
+						` : ''}
 					</div>
 				`)
 
