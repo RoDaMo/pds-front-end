@@ -15,12 +15,12 @@ const chaveamento = {
   
       for (const partida of partidas) {
         partidasWrapper.innerHTML += /*html*/`
-          <a href="/pages/tela-partida.html?id=${partida.id}" class="bg-verde-limao text-decoration-none px-4 py-2 partida-rodada ${classesCustom}">
+          <div class="row justify-content-center align-items-center mx-2 bg-white px-3 rounded-5">
             <div class="text-center py-1">
               <small>${this.convertDateFormat(partida.date)}</small>
             </div>
-            <a href="/pages/tela-partida.html?id=${partida.id}" class="bg-verde-limao text-decoration-none px-4 py-2 partida-rodada">
-              <div class="row match-link-wrapper p-2 rounded-5 my-1">
+            <a href="/pages/tela-partida.html?id=${partida.id}" class="text-decoration-none match-link-wrapper p-2 rounded-5 my-1 d-flex justify-content-center align-items-center ${classesCustom}">
+              <div class="row justify-content-center align-items-center">
                 <div class="col-4 text-center">
                   <div class="d-flex align-items-center justify-content-center">
                     <img src="${partida.homeEmblem}" rel="preconnect" alt="${partida.homeName}" title="${partida.homeName}" width="50" height="50" class="img-fluid border border-2 rounded-circle">
@@ -38,12 +38,12 @@ const chaveamento = {
                 </div>
               </div>
             </a>
-            <div class="row">
-              <button data-bs-toggle="modal" data-bs-target="#configMatchModal" class="btn border-0 d-flex justify-content-center align-items-center config-match-btn">
+            <div class="row justify-content-center align-items-center">
+              <button data-bs-toggle="modal" data-bs-target="#configMatchModal" class="btn w-auto border-0 d-flex justify-content-center align-items-center config-match-btn">
                 <i class="bi bi-pencil-square px-4 py-1 text-white rounded-pill"></i>
               </button> 
             </div>
-          </a>
+          </div>
         `
       }
     }
