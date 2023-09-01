@@ -185,15 +185,19 @@ const init = async () => {
 			</div>
 		`)
 
-		matchManagementForm.insertAdjacentHTML('beforeend', `
-			<label for="select-event-type" class="form-label i18 mb-0" key="SelectEventTypeLabel">${i18next.t("SelectEventTypeLabel")}</label>
-			<select id="select-event-type" class="form-select">
-				<option selected value="" class="i18" key="SelectEventTypePlaceholder">${i18next.t("SelectEventTypePlaceholder")}</option>
-				${(!isPenaltyShootout() ? `<option value="1" class="i18" key="${(match.isSoccer ? "Gol" : "Ponto")}">${(match.isSoccer ? i18next.t("Gol") : i18next.t("Ponto"))}</option>` : '')}
-				${(match.isSoccer && !isPenaltyShootout()) ? `<option value="2" class="i18" key="Falta">${i18next.t("Falta")}</option>` : ''}
-				${(isPenaltyElegible()) ? `<option value="3" class="i18" key="Penalti">${i18next.t("Penalti")}</option>` : ''}
-			</select>  
+		matchManagementForm.insertAdjacentHTML('beforebegin', `
+			<div id="match-management-form-type">
+				<label for="select-event-type" class="form-label i18 mb-0" key="SelectEventTypeLabel">${i18next.t("SelectEventTypeLabel")}</label>
+				<select id="select-event-type" class="form-select">
+					<option selected value="" class="i18" key="SelectEventTypePlaceholder">${i18next.t("SelectEventTypePlaceholder")}</option>
+					${(!isPenaltyShootout() ? `<option value="1" class="i18" key="${(match.isSoccer ? "Gol" : "Ponto")}">${(match.isSoccer ? i18next.t("Gol") : i18next.t("Ponto"))}</option>` : '')}
+					${(match.isSoccer && !isPenaltyShootout()) ? `<option value="2" class="i18" key="Falta">${i18next.t("Falta")}</option>` : ''}
+					${(isPenaltyElegible()) ? `<option value="3" class="i18" key="Penalti">${i18next.t("Penalti")}</option>` : ''}
+				</select>  
+			</div>
 		`)
+
+		const matchManagementFormType = document.querySelector('#match-management-form-type')
 
 		if (match.isSoccer) {
 			let thereIsAnything = false
@@ -227,7 +231,7 @@ const init = async () => {
 			}
 		}
 		
-		const selectEventType = matchManagementForm.querySelector('select#select-event-type')
+		const selectEventType = matchManagementFormType.querySelector('select#select-event-type')
 
 		// reset form fields and remove them from DOM if they exist already
 		const resetAllFormFields = () => {
@@ -292,42 +296,35 @@ const init = async () => {
 		selectEventType.addEventListener('change', () => {
 			resetAllFormFields()
 
-			let postGoalValidator = new JustValidate(matchManagementForm, {
-				validateBeforeSubmitting: true,
-			})
-
-			let postCardValidator = new JustValidate(matchManagementForm, {
-				validateBeforeSubmitting: true,
-			})
-
-			let postPenaltyValidator = new JustValidate(matchManagementForm, {
-				validateBeforeSubmitting: true,	
-			})
-
-			// destroy all validators
-			postGoalValidator.destroy()
-			postCardValidator.destroy()
-			postPenaltyValidator.destroy()
+			document.querySelector('#goal-management-form')?.remove()
+			document.querySelector('#card-management-form')?.remove()
+			document.querySelector('#penalty-management-form')?.remove()
 
 			if (selectEventType.value) {
-				matchManagementForm.insertAdjacentHTML('beforeend', `
-					<label for="select-event-team" class="i18 form-label mt-3 mb-0" key="SelectEventTeamLabel">${i18next.t("SelectEventTeamLabel")}</label>
-					<select id="select-event-team" class="form-select">
-						<option value="" selected class="i18" key="SelectEventTeamPlaceholder">${i18next.t("SelectEventTeamPlaceholder")}</option>
-						<option value="${match.homeId}">${match.homeName}</option>
-						<option value="${match.visitorId}">${match.visitorName}</option>
-					</select>
-				`)
-
-				const selectEventTeam = matchManagementForm.querySelector('select#select-event-team')
-
 				let players = []
 				
 				switch (selectEventType.value) {
 					// Goal
 					case "1":
 
-						postGoalValidator = new JustValidate(matchManagementForm, {
+						matchManagementForm.insertAdjacentHTML('beforeend', `
+							<form id="goal-management-form"></form>
+						`)
+
+						const goalManagementForm = matchManagementForm.querySelector('#goal-management-form')
+
+						goalManagementForm.insertAdjacentHTML('beforeend', `
+							<label for="select-event-team" class="i18 form-label mt-3 mb-0" key="SelectEventTeamLabel">${i18next.t("SelectEventTeamLabel")}</label>
+							<select id="select-event-team" class="form-select">
+								<option value="" selected class="i18" key="SelectEventTeamPlaceholder">${i18next.t("SelectEventTeamPlaceholder")}</option>
+								<option value="${match.homeId}">${match.homeName}</option>
+								<option value="${match.visitorId}">${match.visitorName}</option>
+							</select>
+						`)
+
+						const selectEventTeam = goalManagementForm.querySelector('select#select-event-team')
+
+						let postGoalValidator = new JustValidate(goalManagementForm, {
 							validateBeforeSubmitting: true,
 						})
 
@@ -335,7 +332,7 @@ const init = async () => {
 						// reset player fields and remove them from DOM if they exist already
 							postGoalValidator.destroy()
 
-							postGoalValidator = new JustValidate(matchManagementForm, {
+							postGoalValidator = new JustValidate(goalManagementForm, {
 								validateBeforeSubmitting: true,
 							})
 
@@ -344,7 +341,7 @@ const init = async () => {
 
 								players = (selectEventTeam.value == match.homeId) ? validPlayersTeam1 : validPlayersTeam2
 
-								matchManagementForm.insertAdjacentHTML('beforeend', `
+								goalManagementForm.insertAdjacentHTML('beforeend', `
 									<div>
 										<label for="select-event-player" class="i18 form-label mb-0 mt-3" key="SelectEventPlayerLabel">${i18next.t("SelectEventPlayerLabel")}</label>
 										<select id="select-event-player" class="form-select">
@@ -366,7 +363,7 @@ const init = async () => {
 							
 										<div class="input-event-time-wrapper form-group mt-3">
 											<label for="input-event-time" class="i18 form-label mb-0" key="InputEventTimeLabel">${i18next.t("InputEventTimeLabel")}</label>
-											<input type="number" class="form-control" id="input-event-time">
+											<input min="0" type="number" class="form-control" id="input-event-time">
 										</div>
 									` : ''}
 
@@ -533,25 +530,42 @@ const init = async () => {
 					// Card 
 					case "2":
 
-						postCardValidator = new JustValidate(matchManagementForm, {
+						matchManagementForm.insertAdjacentHTML('beforeend', `
+							<form id="card-management-form"></form>
+						`)
+
+						const cardManagementForm = matchManagementForm.querySelector('#card-management-form')
+
+						cardManagementForm.insertAdjacentHTML('beforeend', `
+							<label for="select-event-team" class="i18 form-label mt-3 mb-0" key="SelectEventTeamLabel">${i18next.t("SelectEventTeamLabel")}</label>
+							<select id="select-event-team" class="form-select">
+								<option value="" selected class="i18" key="SelectEventTeamPlaceholder">${i18next.t("SelectEventTeamPlaceholder")}</option>
+								<option value="${match.homeId}">${match.homeName}</option>
+								<option value="${match.visitorId}">${match.visitorName}</option>
+							</select>
+						`)
+
+						const selectEventTeamCard = cardManagementForm.querySelector('select#select-event-team')
+
+						let postCardValidator = new JustValidate(cardManagementForm, {
 							validateBeforeSubmitting: true,
 						})
 
-						selectEventTeam.addEventListener('change', () => {
+						selectEventTeamCard.addEventListener('change', () => {
 							// reset player fields and remove them from DOM if they exist already
 							postCardValidator.destroy()
 
-							postCardValidator = new JustValidate(matchManagementForm, {
+							postCardValidator = new JustValidate(cardManagementForm, {
 								validateBeforeSubmitting: true,
 							})
 
 							resetSomeFormFields()
 
-							if (selectEventTeam.value) {
+							if (selectEventTeamCard.value) {
 
-								players = (selectEventTeam.value == match.homeId) ? validPlayersTeam1 : validPlayersTeam2
+								players = (selectEventTeamCard.value == match.homeId) ? validPlayersTeam1 : validPlayersTeam2
 
-								matchManagementForm.insertAdjacentHTML('beforeend', `
+								cardManagementForm.insertAdjacentHTML('beforeend', `
 									<div>
 										<label for="select-event-player" class="i18 form-label mb-0 mt-3" key="SelectEventPlayerLabel">${i18next.t("SelectEventPlayerLabel")}</label>
 										<select id="select-event-player" class="form-select">
@@ -655,7 +669,7 @@ const init = async () => {
 
 										const body = {
 											"MatchId": match.id,
-											"TeamId": selectEventTeam.value,
+											"TeamId": selectEventTeamCard.value,
 											"CardType": selectEventCardType.value,
 											"Minutes": inputEventTime.value
 										}
@@ -674,25 +688,42 @@ const init = async () => {
 					// Penalty
 					case "3":
 
-						postPenaltyValidator = new JustValidate(matchManagementForm, {
+						matchManagementForm.insertAdjacentHTML('beforeend', `
+							<form id="penalty-management-form"></form>
+						`)
+
+						const penaltyManagementForm = matchManagementForm.querySelector('#penalty-management-form')
+
+						penaltyManagementForm.insertAdjacentHTML('beforeend', `
+							<label for="select-event-team" class="i18 form-label mt-3 mb-0" key="SelectEventTeamLabel">${i18next.t("SelectEventTeamLabel")}</label>
+							<select id="select-event-team" class="form-select">
+								<option value="" selected class="i18" key="SelectEventTeamPlaceholder">${i18next.t("SelectEventTeamPlaceholder")}</option>
+								<option value="${match.homeId}">${match.homeName}</option>
+								<option value="${match.visitorId}">${match.visitorName}</option>
+							</select>
+						`)
+
+						const selectEventTeamPenalty = penaltyManagementForm.querySelector('select#select-event-team')
+
+						let postPenaltyValidator = new JustValidate(penaltyManagementForm, {
 							validateBeforeSubmitting: true,
 						})
 
-						selectEventTeam.addEventListener('change', () => {
+						selectEventTeamPenalty.addEventListener('change', () => {
 						// reset player fields and remove them from DOM if they exist already
 							postPenaltyValidator.destroy()
 
-							postPenaltyValidator = new JustValidate(matchManagementForm, {
+							postPenaltyValidator = new JustValidate(penaltyManagementForm, {
 								validateBeforeSubmitting: true,
 							})
 
-							if (selectEventTeam.value) {
+							if (selectEventTeamPenalty.value) {
 								resetSomeFormFields()
 
-								players = (selectEventTeam.value == match.homeId) ? validPlayersTeam1 : validPlayersTeam2
+								players = (selectEventTeamPenalty.value == match.homeId) ? validPlayersTeam1 : validPlayersTeam2
 
 
-								matchManagementForm.insertAdjacentHTML('beforeend', `
+								penaltyManagementForm.insertAdjacentHTML('beforeend', `
 									<div>
 										<label for="select-event-player" class="i18 form-label mb-0 mt-3" key="SelectEventPlayerLabel">${i18next.t("SelectEventPlayerLabel")}</label>
 										<select id="select-event-player" class="form-select">
@@ -734,7 +765,7 @@ const init = async () => {
 
 										const body = {
 											"MatchId": match.id,
-											"TeamId": selectEventTeam.value,
+											"TeamId": selectEventTeamPenalty.value,
 											"Converted": checkboxEventPenaltyGoal.checked
 										}
 
@@ -784,17 +815,15 @@ const init = async () => {
 			isOrganizer = false
 		}
 
-		return true
+		return isOrganizer
 	}
 
 	const isMatchConfigured = () => {
-		// if (match.arbitrator == null || match.arbitrator == "" || match.local == null || match.local == "") {
-		// 	return false
-		// } else {
-		// 	return true
-		// }
-
-		return true
+		if (match.arbitrator == null || match.arbitrator == "" || match.local == null || match.local == "") {
+			return false
+		} else {
+			return true
+		}
 	}
 
 	const loadScoreboard = () => {
@@ -999,11 +1028,9 @@ const init = async () => {
 	}
 
 	const isPenaltyShootout = () => {
-		// if (match.isSoccer) {
-		// 	return (allEventsResults.penalties.length > 0) ? true : false
-		// }
-
-		return false
+		if (match.isSoccer) {
+			return (allEventsResults.penalties.length > 0) ? true : false
+		}
 	}
 
 	const isOvertimeElegible = () => {
@@ -1393,9 +1420,9 @@ const init = async () => {
 		dataCampeonato = await executarFetch(`championships/${match.championshipId}`, configuracaoFetch('GET')),
 		campeonato = dataCampeonato.results
 
-	// const
-	// 	allEvents = await executarFetch(`matches/${matchId}/get-all-events`, configuracaoFetch('GET')),
-	// 	allEventsResults = allEvents.results
+	const
+		allEvents = await executarFetch(`matches/${matchId}/get-all-events`, configuracaoFetch('GET')),
+		allEventsResults = allEvents.results
 
 	loader.hide()
 
