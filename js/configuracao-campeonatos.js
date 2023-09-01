@@ -1119,6 +1119,7 @@ const init = async () => {
 
 	const checkBracketCreationAvailability = async () => {
 		const createBracketBtn = document.getElementById('create-bracket-btn')
+		
 
 		const dados = await executarFetch(`championships/${championshipId}`, configuracaoFetch('GET')),
 		campeonato = dados.results
