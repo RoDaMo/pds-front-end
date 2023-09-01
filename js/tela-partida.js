@@ -1418,6 +1418,8 @@ const init = async () => {
 
 				downloadMatchReportBtn = document.getElementById('download-match-report-btn')
 				downloadMatchReportLink = document.getElementById('download-match-report-link')
+
+				downloadMatchReportLink.setAttribute('href', match.matchReport)
 			}
 
 			if (isMatchOrganizer()) {
