@@ -3,7 +3,7 @@ import { configuracaoFetch, executarFetch, limparMensagem } from "./utilidades/c
 import './utilidades/loader'
 import portugues from './i18n/ptbr/tela-partida.json' assert { type: 'JSON' }
 import ingles from './i18n/en/tela-partida.json' assert { type: 'JSON' }
-import i18next from "i18next";
+import i18next, { t } from "i18next";
 import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
 import JustValidate from 'just-validate'
 
@@ -196,18 +196,32 @@ const init = async () => {
 		`)
 
 		if (match.isSoccer) {
+			let thereIsAnything = false
+
 			if (!isPenaltyShootout()) {
-				matchManagementForm.insertAdjacentHTML('afterend', `
+				extraManagement.insertAdjacentHTML('beforeend', `
 					<div id="end-match-wrapper" class="d-flex my-2 justify-content-center">
 						<button id="end-match-btn" data-bs-toggle="modal" data-bs-target="#endMatchModal" class="btn btn-danger w-auto"><span class="i18" key="EndMatch">${i18next.t("EndMatch")}</span></button>
 					</div>
 				`)
+
+				thereIsAnything = true
 			}
 
 			if (isOvertimeElegible() && !isPenaltyShootout()) {
-				matchManagementForm.insertAdjacentHTML('afterend', `
+				extraManagement.insertAdjacentHTML('afterbegin', `
 					<div id="start-overtime-wrapper" class="d-flex my-2 justify-content-center">
 						<button id="start-overtime-btn" data-bs-toggle="modal" data-bs-target="#startOvertimeModal" class="btn btn-secondary w-auto"><span class="i18" key="StartOvertime">${i18next.t("StartOvertime")}</span></button>
+					</div>
+				`)
+
+				thereIsAnything = true
+			}
+
+			if (thereIsAnything) {
+				extraManagement.insertAdjacentHTML('beforebegin', `
+					<div id="extra-admin-label" class="d-flex mt-4 justify-content-center bg-gray-400 rounded-4 py-1 px-3 mb-2">
+						<span class="i18" key="OtherOptions">${i18next.t("OtherOptions")}</span>
 					</div>
 				`)
 			}
@@ -278,7 +292,22 @@ const init = async () => {
 		selectEventType.addEventListener('change', () => {
 			resetAllFormFields()
 
-			// reset form fields and remove them from DOM if they exist already
+			let postGoalValidator = new JustValidate(matchManagementForm, {
+				validateBeforeSubmitting: true,
+			})
+
+			let postCardValidator = new JustValidate(matchManagementForm, {
+				validateBeforeSubmitting: true,
+			})
+
+			let postPenaltyValidator = new JustValidate(matchManagementForm, {
+				validateBeforeSubmitting: true,	
+			})
+
+			// destroy all validators
+			postGoalValidator.destroy()
+			postCardValidator.destroy()
+			postPenaltyValidator.destroy()
 
 			if (selectEventType.value) {
 				matchManagementForm.insertAdjacentHTML('beforeend', `
@@ -293,11 +322,12 @@ const init = async () => {
 				const selectEventTeam = matchManagementForm.querySelector('select#select-event-team')
 
 				let players = []
-
+				
 				switch (selectEventType.value) {
 					// Goal
 					case "1":
-						let postGoalValidator = new JustValidate(matchManagementForm, {
+
+						postGoalValidator = new JustValidate(matchManagementForm, {
 							validateBeforeSubmitting: true,
 						})
 
@@ -375,8 +405,6 @@ const init = async () => {
 
 										selectEventAssisterPlayer?.addEventListener('change', () => {
 											selectedAssisterPlayer = players.find(player => player.id == selectEventAssisterPlayer.value)
-											console.log(selectedAssisterPlayer);
-
 											postGoalValidator.revalidate()
 										})
 
@@ -407,7 +435,6 @@ const init = async () => {
 
 								selectEventPlayer.addEventListener('change', () => {
 									selectedPlayer = players.find(player => player.id == selectEventPlayer.value)
-									console.log(selectedPlayer);
 								})
 
 								// selectEventPlayer.addEventListener('change', () => {
@@ -474,7 +501,7 @@ const init = async () => {
 										e.preventDefault()
 
 										const playerKey = (selectedPlayer.username == null || selectedPlayer.username == "") ? "PlayerTempId" : "PlayerId"
-										const assisterPlayerKey = (selectedAssisterPlayer.username == null || selectedAssisterPlayer.username == "") ? "AssisterPlayerTempId" : "AssisterPlayerId"
+										const assisterPlayerKey = (selectedAssisterPlayer?.username == null || selectedAssisterPlayer?.username == "") ? "AssisterPlayerTempId" : "AssisterPlayerId"
 										
 										const body = {
 											"MatchId": match.id,
@@ -505,7 +532,8 @@ const init = async () => {
 						break;
 					// Card 
 					case "2":
-						let postCardValidator = new JustValidate(matchManagementForm, {
+
+						postCardValidator = new JustValidate(matchManagementForm, {
 							validateBeforeSubmitting: true,
 						})
 
@@ -558,7 +586,11 @@ const init = async () => {
 								const inputEventTime = matchManagementForm.querySelector('input#input-event-time')
 								const selectEventCardType = matchManagementForm.querySelector('select#select-event-card-type')
 
-								const selectedPlayer = players.find(player => player.id == selectEventPlayer.value)
+								let selectedPlayer = null
+
+								selectEventPlayer.addEventListener('change', () => {
+									selectedPlayer = players.find(player => player.id == selectEventPlayer.value)
+								})
 
 								if (inputEventTime) {
 									postCardValidator
@@ -638,9 +670,11 @@ const init = async () => {
 								resetSomeLessFormFields()
 							}
 						})
+						break;
 					// Penalty
 					case "3":
-						let postPenaltyValidator = new JustValidate(matchManagementForm, {
+
+						postPenaltyValidator = new JustValidate(matchManagementForm, {
 							validateBeforeSubmitting: true,
 						})
 
@@ -680,7 +714,11 @@ const init = async () => {
 								const selectEventPlayer = matchManagementForm.querySelector('select#select-event-player')
 								const checkboxEventPenaltyGoal = matchManagementForm.querySelector('input#checkbox-event-penalty-goal')
 
-								const selectedPlayer = players.find(player => player.id == selectEventPlayer.value)
+								let selectedPlayer = null
+
+								selectEventPlayer.addEventListener('change', () => {
+									selectedPlayer = players.find(player => player.id == selectEventPlayer.value)
+								})
 
 								postPenaltyValidator
 									.addField(selectEventPlayer, [
@@ -1324,7 +1362,8 @@ const init = async () => {
 		mTeam2NameWrapper = document.getElementById('m-team2-name-wrapper'),
 		mTeam1ImgWrapper = document.getElementById('m-team1-img-wrapper'),
 		mTeam2ImgWrapper = document.getElementById('m-team2-img-wrapper'),
-		matchReportAccess = document.getElementById('match-report-access')
+		matchReportAccess = document.getElementById('match-report-access'),
+		extraManagement = document.getElementById('extra-management')
 	
 	let downloadMatchReportBtn = null
 	let downloadMatchReportLink = null
