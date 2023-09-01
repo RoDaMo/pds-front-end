@@ -1405,7 +1405,7 @@ const init = async () => {
 			}
 
 			// verify if the match is over and if the match has a match report
-			if (match.finished && match.matchReport) {
+			if (match.finished && (match.matchReport != null)) {
 				matchReportAccess.insertAdjacentHTML('beforeend', `
 					<div class="row justify-content-center align-items-center">
 						<div class="col-auto">
