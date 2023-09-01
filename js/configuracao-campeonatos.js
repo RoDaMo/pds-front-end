@@ -53,8 +53,6 @@ const init = async () => {
 
 	const usuarioAtual = await executarFetch('auth/user', configuracaoFetch('GET'))
 
-	document.getElementById('reload-ficar-aqui').addEventListener('click', () => location.reload())
-
 	if(usuarioAtual.results.isSubOrganizer){
 		document.getElementById('exclusao-campeonato').classList.add('d-none')
 		document.getElementById('btn-suborg').classList.add('d-none')
@@ -646,6 +644,8 @@ const init = async () => {
 				document.getElementById('botao-vincular-time').click()
 			}
 
+			document.getElementById('reload-ficar-aqui').addEventListener('click', () => location.reload())
+
 			bracketExists(championshipId)
 		}
 	}
@@ -1119,7 +1119,6 @@ const init = async () => {
 
 	const checkBracketCreationAvailability = async () => {
 		const createBracketBtn = document.getElementById('create-bracket-btn')
-		
 
 		const dados = await executarFetch(`championships/${championshipId}`, configuracaoFetch('GET')),
 		campeonato = dados.results
