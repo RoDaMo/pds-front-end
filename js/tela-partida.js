@@ -1,11 +1,15 @@
 import '../scss/tela-partida.scss'
-import { configuracaoFetch, executarFetch, limparMensagem } from "./utilidades/configFetch"
+import { executarFetch, configuracaoFetch, limparMensagem, api } from './utilidades/configFetch'
 import './utilidades/loader'
 import portugues from './i18n/ptbr/tela-partida.json' assert { type: 'JSON' }
 import ingles from './i18n/en/tela-partida.json' assert { type: 'JSON' }
 import i18next, { t } from "i18next";
 import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
 import JustValidate from 'just-validate'
+import { uploadImagem } from './utilidades/uploadImagem'
+import { notificacaoErro, notificacaoSucesso } from "./utilidades/notificacoes"
+
+
 
 
 inicializarInternacionalizacao(ingles, portugues);
@@ -73,13 +77,13 @@ const init = async () => {
 		}
 	}
 
-	const postMatchReport = async (body) => {
+	const putMatchReport = async (body) => {
 		const callbackStatus = (data) => {
 			notificacaoErro(data.results)
 		}
 
 		loader.show()
-		const configFetch = configuracaoFetch('POST', body),
+		const configFetch = configuracaoFetch('PUT', body),
 			response = await executarFetch('matches/add-match-report', configFetch, callbackStatus)
 		loader.hide()
 
@@ -92,7 +96,65 @@ const init = async () => {
 	}
 
 	const endMatchManagementSystem = async () => {
-		const postMatchReportValidator = new JustValidate(matchManagementForm, {
+		matchManagementForm.insertAdjacentHTML('beforeend', `
+			<form id="match-report-management-form"></form>
+		`)
+
+		const matchReportManagementForm = matchManagementForm.querySelector('#match-report-management-form')
+
+		matchManagementForm.insertAdjacentHTML('beforebegin', `
+			<div id="event-admin-label" class="d-flex justify-content-center bg-gray-400 rounded-4 py-1 px-3 mb-2">
+				<span class="i18" key="Sumula">${i18next.t("Sumula")}</span>
+			</div>
+		`)
+
+		const matchReportLink = (match.isSoccer) ? `https://drive.google.com/file/d/19qAP64jlw6MROV6yBN84oX1yBVrkPK1_/view?usp=drivesdk` : ``
+
+		matchReportManagementForm.insertAdjacentHTML('beforeend', `
+			<div class="ex-match-report-wrapper d-flex justify-content-center">
+				<a href="${matchReportLink}" class="btn btn-primary mt-3 i18" key="DownloadExampleSumula">${i18next.t("DownloadExampleSumula")}</a>
+			</div> 
+		
+			<hr class="w-75 mx-auto">
+
+			<div class="form-group mt-3">
+				<label for="input-match-report" class="i18 form-label mb-0" key="InputMatchReportLabel">${i18next.t("InputMatchReportLabel")}</label>
+				<input type="file" class="form-control" id="input-match-report">
+			</div>
+
+			<input type="hidden" id="match-report-hidden-input">
+
+			<div class="btn-post-match-report-wrapper d-flex justify-content-center">
+				<button type="submit" class="btn-post-match-report btn btn-primary mt-3 i18" key="AdicionarSumula">${i18next.t("AdicionarSumula")}</button>
+			</div>
+		`)
+
+		const inputMatchReport = matchReportManagementForm.querySelector('input#input-match-report')
+		const hiddenInput = matchReportManagementForm.querySelector('input#match-report-hidden-input')
+
+		inputMatchReport.addEventListener('change', async () => {
+			const isValid = await postMatchReportValidator.revalidateField(inputMatchReport)
+			if (!isValid) return;
+
+			if (inputMatchReport.files.length == 0) return;
+
+			loader.show()
+			const data = await uploadImagem(inputMatchReport, 2, mensagemErro)
+			loader.hide()
+
+			if (Array.isArray(data.results))
+				return;
+
+			hiddenInput.value = `${api}img/${data.results}`
+
+			if (downloadMatchReportLink) [
+				downloadMatchReportLink.href = hiddenInput.value
+			]
+
+			console.log(hiddenInput.value);
+		})
+
+		const postMatchReportValidator = new JustValidate(matchReportManagementForm, {
 			validateBeforeSubmitting: true,
 		})
 
@@ -122,57 +184,8 @@ const init = async () => {
 					"MatchReport": hiddenInput.value
 				}
 
-				await postMatchReport(body)
+				await putMatchReport(body)
 			})	
-
-
-		matchManagementForm.insertAdjacentHTML('beforebegin', `
-			<div id="event-admin-label" class="d-flex justify-content-center bg-gray-400 rounded-4 py-1 px-3 mb-2">
-				<span class="i18" key="Sumula">${i18next.t("Sumula")}</span>
-			</div>
-		`)
-
-		const matchReportLink = (match.isSoccer) ? `https://drive.google.com/file/d/19qAP64jlw6MROV6yBN84oX1yBVrkPK1_/view?usp=drivesdk` : ``
-
-		matchManagementForm.insertAdjacentHTML('beforeend', `
-			<div class="ex-match-report-wrapper d-flex justify-content-center">
-				<a href="${matchReportLink}" class="btn btn-primary mt-3 i18" key="DownloadExampleSumula">${i18next.t("DownloadExampleSumula")}</a>
-			</div> 
-		
-			<hr class="w-75">
-
-			<div class="form-group mt-3">
-				<label for="input-match-report" class="i18 form-label mb-0" key="InputMatchReportLabel">${i18next.t("InputMatchReportLabel")}</label>
-				<input type="file" class="form-control" id="input-match-report">
-			</div>
-
-			<input type="hidden" id="match-report-hidden-input">
-
-			<div class="btn-post-match-report-wrapper d-flex justify-content-center">
-				<button type="submit" class="btn-post-match-report btn btn-primary mt-3 i18" key="AdicionarSumula">${i18next.t("AdicionarSumula")}</button>
-			</div>
-		`)
-
-		const inputMatchReport = matchManagementForm.querySelector('input#input-match-report')
-		const hiddenInput = matchManagementForm.querySelector('input#match-report-hidden-input')
-
-		inputMatchReport.addEventListener('change', async () => {
-			const isValid = await postMatchReportValidator.revalidateField(inputMatchReport)
-			if (!isValid) return;
-
-			if (inputMatchReport.files.length == 0) return;
-
-			loader.show()
-			const data = await uploadImagem(inputMatchReport, 2, mensagemErro)
-			loader.hide()
-
-			if (Array.isArray(data.results))
-				return;
-
-			hiddenInput.value = `${api}img/${data.results}`
-
-			downloadMatchReportLink.href = hiddenInput.value
-		})
 	}
 
 	const matchManagementSystem = () => {
@@ -1417,7 +1430,7 @@ const init = async () => {
 				}
 			}
 
-			// loadEvents()			
+			loadEvents()			
 		}
 
 		listPlayers()
@@ -1454,7 +1467,9 @@ const init = async () => {
 		mTeam2ImgWrapper = document.getElementById('m-team2-img-wrapper'),
 		matchReportAccess = document.getElementById('match-report-access'),
 		extraManagement = document.getElementById('extra-management'),
-		woTeamForm = document.getElementById('wo-team-form')
+		woTeamForm = document.getElementById('wo-team-form'),
+		mensagemErro = document.getElementById("mensagem-erro")
+
 	
 	let downloadMatchReportBtn = null
 	let downloadMatchReportLink = null
@@ -1487,7 +1502,6 @@ const init = async () => {
 	const
 		allEvents = await executarFetch(`matches/${matchId}/get-all-events`, configuracaoFetch('GET')),
 		allEventsResults = allEvents.results
-
 	loader.hide()
 
     for (const configMenuOption of abaBotoes) {
