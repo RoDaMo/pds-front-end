@@ -529,7 +529,7 @@ async function changeConfigOptionsContext(t) {
                         })
 
                         if (resultado) {
-                            form.reset()
+                            document.getElementById('change-password-form').reset()
                         }
                     })
             }
