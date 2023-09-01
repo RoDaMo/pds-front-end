@@ -204,8 +204,14 @@ const init = async () => {
 
 			if (!isPenaltyShootout()) {
 				extraManagement.insertAdjacentHTML('beforeend', `
-					<div id="end-match-wrapper" class="d-flex my-2 justify-content-center">
-						<button id="end-match-btn" data-bs-toggle="modal" data-bs-target="#endMatchModal" class="btn btn-danger w-auto"><span class="i18" key="EndMatch">${i18next.t("EndMatch")}</span></button>
+					<div id="end-match-wrapper" class="d-flex flex-column align-items-center flex-md-row my-2 justify-content-center">
+						<div class="m-2">
+							<button id="end-match-btn" data-bs-toggle="modal" data-bs-target="#endMatchModal" class="btn btn-danger w-auto"><span class="i18" key="EndMatch">${i18next.t("EndMatch")}</span></button>
+						</div>
+
+						<div class="m-2">
+							<button id="wo-end-match-btn" data-bs-toggle="modal" data-bs-target="#woEndMatchModal" class="btn btn-danger w-auto"><span class="i18" key="EndMatchWO">${i18next.t("EndMatchWO")}</span></button>
+						</div>
 					</div>
 				`)
 
@@ -292,6 +298,35 @@ const init = async () => {
 		confirmEndMatchBtn.addEventListener('click', async () => {
 			await endMatch()
 		})
+
+		woTeamForm.insertAdjacentHTML('beforeend', `
+			<label for="select-wo-team" class="i18 form-label mt-3 mb-0" key="SelectWOTeamLabel">${i18next.t("SelectWOTeamLabel")}</label>
+			<select id="select-wo-team" class="form-select">
+				<option value="" selected class="i18" key="SelectWOTeamPlaceholder">${i18next.t("SelectWOTeamPlaceholder")}</option>
+				<option value="${match.homeId}">${match.homeName}</option>
+				<option value="${match.visitorId}">${match.visitorName}</option>
+			</select>
+		`)
+
+		const selectWOTeam = woTeamForm.querySelector('select#select-wo-team')
+
+		const woEndMatchValidator = new JustValidate(woTeamForm, {
+			validateBeforeSubmitting: true,
+		})
+
+		woEndMatchValidator
+			.addField(selectWOTeam, [
+				{
+					rule: 'required',
+					errorMessage: `<span class="i18" key="TeamWORequired">${i18next.t("TeamWORequired")}</span>`,
+				}
+			])
+			.onSuccess(async e => {
+				e.preventDefault()
+
+				await woEndMatch(selectWOTeam.value)
+			})
+
 
 		selectEventType.addEventListener('change', () => {
 			resetAllFormFields()
@@ -988,6 +1023,25 @@ const init = async () => {
 		}
 	}
 
+	const woEndMatch = async teamId => {
+		const callbackStatus = (data) => {
+			notificacaoErro(data.results)
+		}
+
+		loader.show()
+		const configFetch = configuracaoFetch('PUT'),
+			response = await executarFetch(`matches/${match.id}/teams/${teamId}/wo`, configFetch, callbackStatus)
+
+		loader.hide()
+
+		if (response.succeed) {
+			notificacaoSucesso(i18next.t("SucessoWO"))
+			setTimeout(() => {
+				window.location.reload()
+			}, 2000)
+		}
+	}
+
 	const startOvertime = async () => {
 		const callbackStatus = (data) => {
 			notificacaoErro(data.results)
@@ -1029,7 +1083,13 @@ const init = async () => {
 
 	const isPenaltyShootout = () => {
 		if (match.isSoccer) {
-			return (allEventsResults.penalties.length > 0) ? true : false
+			const penaltyEvent = allEventsResults.find(event => event.penalty == true)
+
+			if (penaltyEvent) {
+				return true
+			} else {
+				return false
+			}
 		}
 	}
 
@@ -1079,33 +1139,33 @@ const init = async () => {
 			let eventAssisterPlayer
 
 			if (match.isSoccer) {
-				if (event.type == 'goal') {
+				if (event.goal) {
 					eventData = `
 						<div class="event-type"><span class="text-muted i18" key="Gol">${i18next.t("Gol")}</span></div>
 						<i class="bi bi-dot"></i>
-						<div class="event-time"><span class="text-muted">${event.Time}</span></div>
+						<div class="event-time"><span class="text-muted">${event.minutes}</span></div>
 					`
 
 					eventIllustration = `
 						<img src="../public/icons/sports_soccer.svg" alt="">
 					`
-				} else if (event.type == 'card') {
+				} else if (event.foul) {
 					eventData = `
 						<div class="event-type"><span class="text-muted i18" key="Falta">${i18next.t("Falta")}</span></div>
 						<i class="bi bi-dot"></i>
-						<div class="event-time"><span class="text-muted">${event.Time}</span></div>
+						<div class="event-time"><span class="text-muted">${event.minutes}</span></div>
 					`
 
-					if (event.cardType == 'red') {
+					if (!event.yellowCard) {
 						eventIllustration = `
 							<img src="../public/icons/red_card.svg" alt="">
 						`
-					} else if (event.cardType == 'yellow') {
+					} else if (event.yellowCard) {
 						eventIllustration = `
 							<img src="../public/icons/yellow_card.svg" alt="">
 						`
 					}
-				} else if (event.type == 'penalty') {
+				} else if (event.penalty) {
 					if(event.converted) {
 						eventData = `							
 							<div class="event-type"><span class="text-muted i18" key="Penalti">${i18next.t("Penalti")}</span></div>
@@ -1129,7 +1189,7 @@ const init = async () => {
 					}
 				}
 			} else if (!match.isSoccer) {
-				if (event.type == 'goal') {
+				if (event.goal) {
 					eventData = `
 						<div class="event-type"><span class="text-muted i18" key="Ponto">${i18next.t("Ponto")}</span></div>
 					`
@@ -1142,20 +1202,20 @@ const init = async () => {
 
 			// Verify if the event is from team 1 or team 2
 			if (isTeam1(event.teamId)) {						
-				eventPlayer = validPlayersTeam1.find(player => player.id == event.PlayerTempId)
-				eventAssisterPlayer = validPlayersTeam1.find(player => player.id == event.AssisterPlayerTempId)
+				// eventPlayer = allPlayersTeam1.find(player => player.id == event.PlayerTempId)
+				eventAssisterPlayer = allPlayersTeam1.find(player => player.id == event.AssisterPlayerTempId)
 
 			} else if (isTeam2(event.teamId)) {
-				eventPlayer = validPlayersTeam2.find(player => player.id == event.PlayerTempId)
-				eventAssisterPlayer = validPlayersTeam2.find(player => player.id == event.AssisterPlayerTempId)
+				// eventPlayer = allPlayersTeam2.find(player => player.id == event.PlayerTempId)
+				eventAssisterPlayer = allPlayersTeam2.find(player => player.id == event.AssisterPlayerTempId)
 			}
 
 			let eventTemplate = `
 				<div class="row row-cols-md-2 row-cols-1 p-3 my-2 match-details-content-event align-items-center rounded-5">
 					<div class="col">
 						<div class="row flex-column">
-							<div class="col event-player-name"><span class="fw-semibold text-black text-truncate text-center text-md-start m-truncated-text-width d-block">${eventPlayer.name}</span></div>
-							${(event.type == 'goal') ?
+							<div class="col event-player-name"><span class="fw-semibold text-black text-truncate text-center text-md-start m-truncated-text-width d-block">${event.name}</span></div>
+							${(event.goal) ?
 								(event.AssisterPlayerTempId) ? `
 									<div class="col event-player-name"><span class="fw-semibold text-black text-center text-md-start m-truncated-text-width text-truncate d-block">${eventAssisterPlayer.name}</span></div>
 								` : ''
@@ -1184,9 +1244,10 @@ const init = async () => {
 					<div class="row w-auto blank-space"></div>
 				`)
 			}
-		})
 
-		blankSpaceSetter()
+			blankSpaceSetter()
+
+		})
 	}
 
 	const hasDateArrived = () => {
@@ -1197,7 +1258,7 @@ const init = async () => {
 	}
 
 	async function carregarPartida() {
-		if (!isMatchConfigured() || !hasDateArrived()) {
+		if (!(isMatchConfigured()) || !(hasDateArrived())) {
 			blurWallEvents.classList.remove('d-none')
 
 			// Placeholder blurwall - Team 1
@@ -1390,7 +1451,8 @@ const init = async () => {
 		mTeam1ImgWrapper = document.getElementById('m-team1-img-wrapper'),
 		mTeam2ImgWrapper = document.getElementById('m-team2-img-wrapper'),
 		matchReportAccess = document.getElementById('match-report-access'),
-		extraManagement = document.getElementById('extra-management')
+		extraManagement = document.getElementById('extra-management'),
+		woTeamForm = document.getElementById('wo-team-form')
 	
 	let downloadMatchReportBtn = null
 	let downloadMatchReportLink = null

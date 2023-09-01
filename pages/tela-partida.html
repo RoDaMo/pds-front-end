@@ -119,6 +119,28 @@
                                 </div>
                             </div>
 
+                            <!-- Modal Confirmação - Finalização de Partida por WO -->
+                            <div class="modal fade" id="woEndMatchModal" tabindex="-1" aria-labelledby="woEndMatchModalLabel" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content p-3">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title text-danger fs-5 i18" id="woEndMatchModalLabel" key="Certeza">Tem certeza?</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p id="texto-modal-bracket" class="text-black text-center">
+                                                <span class="i18" key="TextoFinalizarPartidaWO"></span>
+                                            </p>
+                                            <br>
+                                            <form id="wo-team-form"></form>
+                                        </div>
+                                        <div class="modal-footer d-flex justify-content-center">
+                                            <button type="submit" form="wo-team-form" id="confirm-wo-end-match-btn" class="btn btn-danger"><span class="i18 fw-semibold" key="EndMatchWO">Finalizar Partida por WO</span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <!-- Modal Confirmação - Iniciar Prorrogação -->
                             <div class="modal fade" id="startOvertimeModal" tabindex="-1" aria-labelledby="startOvertimeModalLabel" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
                                 <div class="modal-dialog">
