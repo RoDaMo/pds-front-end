@@ -34,7 +34,6 @@
     "CpfInvalido": "invalid CPF",
     "Uniforme1Obrigatorio": "Enter the home uniform",
     "Uniforme2Obrigatorio": "Enter the away uniform",
-    "QuantidadeJogadores": "Number of Players per team",
     "CpfErro": "Error",
     "CpfErroMensagem": "There was a problem checking if he is eligible to use this feature. Try again later...",
     "CpfErroBotao": "Go to home page"

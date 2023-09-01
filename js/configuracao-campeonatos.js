@@ -89,7 +89,7 @@ const init = async () => {
 			bairro = document.getElementById('config-championship-bairro-input'),
 			linkRegulamento = document.getElementById('regulamento-existente'),
 			esporte = document.getElementById('config-championship-esporte-input'),
-			quantidadeJogadores = document.getElementById('quantidade-jogadores'),
+
 			configChampionshipDropZone = document.getElementById('config-championship-drop-zone')
 
 		// Double Match Checkboxes
@@ -276,7 +276,6 @@ const init = async () => {
 			}
 		}
 
-		quantidadeJogadores.value = campeonato.numberOfPlayers
 		esporte.selectedIndex = campeonato.sportsId - 1
 
 
@@ -332,21 +331,7 @@ const init = async () => {
 
     		changeTeamQTDStatus()
 
-			if (esporte.value === "1") {
-				quantidadeJogadores.value = ""
-				quantidadeJogadores.setAttribute("min", 11)
-				quantidadeJogadores.setAttribute("max", 25)
-			} else if (esporte.value === "2") {
-				quantidadeJogadores.value = ""
-				quantidadeJogadores.setAttribute("min", 6)
-				quantidadeJogadores.setAttribute("max", 15)
-			}
-
 			if (esporte.value) {
-				quantidadeJogadores.value = ""
-				quantidadeJogadores.disabled = false;
-				quantidadeJogadores.setAttribute("key", "QuantidadeJogadoresPlaceholder")
-				quantidadeJogadores.setAttribute("placeholder", i18next.t("QuantidadeJogadoresPlaceholder"))
 
 				formato.disabled = false;
 				formato.value = ""
@@ -355,11 +340,6 @@ const init = async () => {
 			} else {
 				doubleMatchWrapper.innerHTML = ""
 
-				quantidadeJogadores.value = ""
-				quantidadeJogadores.disabled = true;
-				quantidadeJogadores.setAttribute("key", "QuantidadeJogadoresPlaceholderDisabled")
-				quantidadeJogadores.setAttribute("placeholder", i18next.t("QuantidadeJogadoresPlaceholderDisabled"))
-
 				formato.disabled = true;
 				formato.value = ""
 				formato.firstElementChild.textContent = i18next.t("FormatoPlaceholderDisabled")
@@ -367,17 +347,6 @@ const init = async () => {
 			}
 		})
 
-		quantidadeJogadores.addEventListener("change", () => {
-			if (esporte.value === "1") {
-				if (quantidadeJogadores.value < 11 || quantidadeJogadores.value > 25) {
-					quantidadeJogadores.value = 11
-				}
-			} else if (esporte.value === "2") {
-				if (quantidadeJogadores.value < 6 || quantidadeJogadores.value > 15) {
-					quantidadeJogadores.value = 6
-				}
-			}
-		})
 		function validator1() {
 			validator
 				.addField(name, [
@@ -483,22 +452,6 @@ const init = async () => {
 						errorMessage: `<span class="i18" key="DescricaoMaximo">${i18next.t("DescricaoMaximo")}</span>`,
 					},
 				])
-				.addField(quantidadeJogadores, [
-					{
-						rule: 'required',
-						errorMessage: `<span class="i18" key="QuantidadeJogadoresObrigatorio">${i18next.t("QuantidadeJogadoresObrigatorio")}</span>`,
-					},
-					{
-						validator: (value) => {
-							if (esporte.value == "2") {
-								return value >= 6 && value <= 15
-							} else if (esporte.value == "1") {
-								return value >= 11 && value <= 25
-							}
-						},
-						errorMessage: `<span class="i18" key="QuantidadeJogadoresInvalido">${i18next.t("QuantidadeJogadoresInvalido")}</span>`,
-					},
-				])
 				.onSuccess(async (e) => {
 					e.preventDefault()
 					// console.log('hello world')
@@ -551,7 +504,6 @@ const init = async () => {
 						'id': championshipId,
 						'sportsId': campeonato.sportsId,
 						'rules': linkRegulamento.href,
-						"NumberOfPlayers": parseInt(quantidadeJogadores.value),
 						"DoubleStartLeagueSystem": PCStatus,
 						"DoubleMatchEliminations": (parseInt(numero.value) === 2 || (parseInt(formato.value) === 4 && parseInt(numero.value) === 4)) ? false : eliminatoriasStatus,
 						"FinalDoubleMatch": finalStatus,

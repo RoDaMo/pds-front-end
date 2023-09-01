@@ -75,11 +75,6 @@
   "CpfTamanho": "CPF deve possuir 11 caracteres.",
   "CpfInvalido": "CPF inválido",
   "Cancelar": "Cancelar",
-  "QuantidadeJogadores": "Quantidade de Jogadores por time:",
-  "QuantidadeJogadoresPlaceholderDisabled": "Selecione um esporte antes...",
-  "QuantidadeJogadoresPlaceholder": "Quantidade de Jogadores por time...",
-  "QuantidadeJogadoresObrigatorio": "Favor inserir número de jogadores por time",
-  "QuantidadeJogadoresInvalido": "Quantidade de jogadores por time inválido",
   "CpfErro": "Erro",
   "CpfErroMensagem": "Houve um problema ao verificar se está elegível para usar esse recurso. Tente novamente mais tarde...",
   "CpfErroBotao": "Ir para página inicial"
