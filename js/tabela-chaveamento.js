@@ -19,22 +19,29 @@ const chaveamento = {
             <div class="text-center py-1">
               <small>${this.convertDateFormat(partida.date)}</small>
             </div>
-            <div class="row">
-              <div class="col-4 text-center">
-                <div class="d-flex align-items-center justify-content-center">
-                  <img src="${partida.homeEmblem}" rel="preconnect" alt="${partida.homeName}" title="${partida.homeName}" width="50" height="50" class="img-fluid rounded-circle">
-                  <p class="my-0 ms-2 fs-4">${partida.homeGoals}</p>
+            <a href="/pages/tela-partida.html?id=${partida.id}" class="bg-verde-limao text-decoration-none px-4 py-2 partida-rodada">
+              <div class="row match-link-wrapper p-2 rounded-5 my-1">
+                <div class="col-4 text-center">
+                  <div class="d-flex align-items-center justify-content-center">
+                    <img src="${partida.homeEmblem}" rel="preconnect" alt="${partida.homeName}" title="${partida.homeName}" width="50" height="50" class="img-fluid border border-2 rounded-circle">
+                    <p class="my-0 ms-2 fs-4">${partida.homeGoals}</p>
+                  </div>
                 </div>
-              </div>
-              <div class="col-4 text-center">
+                <div class="col-4 text-center">
                   <i class="bi bi-x-lg fs-2"></i>
-              </div>
-              <div class="col-4 text-center">
-                <div class="d-flex align-items-center justify-content-center">
-                  <p class="my-0 me-2 fs-4">${partida.visitorGoals}</p>
-                  <img src="${partida.visitorEmblem}" rel="preconnect" alt="${partida.visitorName}" title="${partida.visitorName}" width="50" height="50" class="img-fluid rounded-circle">
+                </div>
+                <div class="col-4 text-center">
+                  <div class="d-flex align-items-center justify-content-center">
+                    <p class="my-0 me-2 fs-4">${partida.visitorGoals}</p>
+                    <img src="${partida.visitorEmblem}" rel="preconnect" alt="${partida.visitorName}" title="${partida.visitorName}" width="50" height="50" class="img-fluid border border-2 rounded-circle">
+                  </div>
                 </div>
               </div>
+            </a>
+            <div class="row">
+              <button data-bs-toggle="modal" data-bs-target="#configMatchModal" class="btn border-0 d-flex justify-content-center align-items-center config-match-btn">
+                <i class="bi bi-pencil-square px-4 py-1 text-white rounded-pill"></i>
+              </button> 
             </div>
           </a>
         `

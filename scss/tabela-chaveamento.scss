@@ -30,6 +30,20 @@
     align-items: center;
 }
 
+.config-match-btn {
+    i {
+        background-color: $black;
+    }
+}
+
+.match-link-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background-color: $play-cor-fundos-secundaria;
+}
+
 .seta-botao, .seta-botao-rodada{
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);
 }

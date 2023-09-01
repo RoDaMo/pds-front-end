@@ -869,7 +869,7 @@ const init = async () => {
 	}
 
 	const isMatchConfigured = () => {
-		if (match.arbitrator == null || match.arbitrator == "" || match.local == null || match.local == "") {
+		if (match.arbitrator == null || match.arbitrator == "" || match.cep == null || match.cep == "" || match.city == null || match.city == "") {
 			return false
 		} else {
 			return true
@@ -1419,7 +1419,7 @@ const init = async () => {
 				downloadMatchReportBtn = document.getElementById('download-match-report-btn')
 				downloadMatchReportLink = document.getElementById('download-match-report-link')
 
-				downloadMatchReportLink.setAttribute('href', match.matchReport)
+				downloadMatchReportLink.setAttribute('href', match.matchReport)	
 			}
 
 			if (isMatchOrganizer()) {
