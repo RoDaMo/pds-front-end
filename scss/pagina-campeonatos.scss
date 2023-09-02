@@ -27,6 +27,26 @@ body, html {
     margin-bottom: -0.4rem;
 }
 
+.championship-options-btn {
+    background: $play-cor-fundos;
+    transition: all $transition;
+
+    a {
+        text-decoration: none;
+        color: $play-cor-texto;
+    }
+
+    &:hover {
+        background-color: $play-cor-fundos-secundaria;
+        filter: brightness(0.9) !important;
+    }
+
+    &:active {
+        background-color: $play-cor-fundos-secundaria;
+        filter: brightness(0.8) !important;
+    }
+}
+
 // .championship-config-btn {
 //     background: $play-cor-fundos;
 //     transition: all $transition;
@@ -199,6 +219,11 @@ body, html {
 }
 
 .download-btn {
+    a {
+        text-decoration: none;
+        color: $play-cor-texto;
+    }
+    
     &:hover {
         background: $play-cor-fundos-secundaria;
     }
