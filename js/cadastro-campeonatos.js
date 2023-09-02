@@ -539,7 +539,7 @@ function criarValidacao() {
             "description": descricao.value,
             "Format": parseInt(formato.value),
             "DoubleStartLeagueSystem": PCCheckboxElem?.checked,
-            "DoubleMatchEliminations": (parseInt(quantidade.value) === 2 || (parseInt(formato.value) === 4 && parseInt(quantidade.value) === 4)) ? false : eliminatoriasStatus,
+            "DoubleMatchEliminations": (parseInt(quantidade.value) === 2 || (parseInt(formato.value) === 4 && parseInt(quantidade.value) === 4)) ? false : eliminatoriasCheckboxElem?.checked,
             "FinalDoubleMatch": finalCheckboxElem?.checked,
             "DoubleMatchGroupStage": FGCheckboxElem?.checked,
         })
