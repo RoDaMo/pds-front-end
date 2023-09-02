@@ -1,4 +1,4 @@
-export const api = "https://www.api.playoffs.app.br/"
+export const api = "https://localhost:7282/"
 export const configuracaoFetch = (method, data = null, uploadArquivo = false, body = true) => {
     const lng = localStorage.getItem('lng')
     const config = {
