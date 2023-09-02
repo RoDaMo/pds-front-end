@@ -1,12 +1,13 @@
 {
     "TituloPagina": "Championship Page",
     "Times": "Teams",
-    "BaixarRegulamento": "Download regulation",
+    "BaixarRegulamento": "Download Rules",
     "Politica": "Policy",
     "Sobre": "About",
     "Termos": "Terms",
     "NenhumTime": "No team here...",
     "SemDescricao": "No description",
     "Volei": "Volleyball",
-    "Futebol": "Soccer"
+    "Futebol": "Soccer",
+    "EditarCampeonato": "Edit Championship"
 }

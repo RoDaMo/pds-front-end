@@ -28,6 +28,7 @@ const loader = document.createElement('app-loader');
 document.body.appendChild(loader);
 
 const mediaQueryMobile = window.matchMedia('(max-width: 575px)')
+const sessionUserInfo = JSON.parse(localStorage.getItem('user-info'))
 
 const sportsSection = document.querySelector('.sports-section')
 const ssSlider = document.querySelector('.ss-slider')
@@ -40,6 +41,8 @@ const championshipSport = document.getElementById('championshipSport')
 const championshipSportIcon = document.getElementById('championshipSportIcon')
 
 const teamsSportIcon = document.querySelectorAll('.teams-sport-icon')
+
+const botaoCampeonatoEditar = document.getElementById('botao-campeonato-editar')
 
 const championshipInfo = document.querySelector('.championship-info')
 const championshipDesc = document.querySelector('.championship-desc')
@@ -80,6 +83,32 @@ function ssTeamContentMobile() {
                 <span class="i18" key="NenhumTime">${i18next.t("NenhumTime")}</span>
             </div>
         `
+    }
+}
+
+const isChampionshipOwner = (urlId, userChampionshipId) => {
+    if (urlId == userChampionshipId) {
+        return true
+    } else {
+        return false
+    }
+}
+
+const bracketExists = async championshipId => {
+    const configFetch = configuracaoFetch('GET')
+
+    const callbackStatus = (data) => {
+        notificacaoErro(data.results)
+    }
+
+    loader.show()
+        const response = await executarFetch(`bracketing/exists/${championshipId}`, configFetch, callbackStatus)
+    loader.hide()
+
+    if (response.succeed) {
+        return true
+    } else {
+        return false
     }
 }
 
@@ -164,11 +193,19 @@ const obterInfo = async () => {
     document.getElementById("name").textContent = data.results.name
 
     if(data.results.rules){
-        document.getElementById("conteudo").innerHTML += `
+        document.getElementById("conteudo").insertAdjacentHTML('beforeend', `
             <button class="btn download-btn rounded-pill fw-semibold card-bg" id="botao-baixar-regulamento">
                 <a href="${data.results.rules}" id="regulamento" class="text-center fs-6 i18 text-decoration-none" key="BaixarRegulamento">${i18next.t("BaixarRegulamento")}</a>
             </button>
-        `
+        `)
+    }
+
+    if(bracketExists(id)) {
+        document.getElementById("conteudo").insertAdjacentHTML('beforeend', `
+            <button class="btn championship-options-btn rounded-pill fw-semibold card-bg" id="botao-link-bracket">
+                <a href="/pages/tabela-chaveamento.html?id=${id}" id="link-bracket" class="text-center fs-6 i18 text-decoration-none" key="Bracket">${i18next.t("Bracket")}</a>
+            </button>
+        `)
     }
 
     const times = document.getElementById("times")
@@ -199,8 +236,9 @@ const obterInfo = async () => {
 
     })
 
-    
-        
+    if(isChampionshipOwner(id, sessionUserInfo.championshipId)) {
+        botaoCampeonatoEditar.classList.remove('d-none')
+    }
 }
 
 async function validacaoTimes() {

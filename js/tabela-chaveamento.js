@@ -24,6 +24,20 @@ const config = configuracaoFetch('GET'),
 
 const sessionUserInfo = JSON.parse(localStorage.getItem('user-info'))
 
+const configMatchModal = document.getElementById('configMatchModal')
+
+let configMatchModalBT = new bootstrap.Modal(configMatchModal, {keyboard: false})
+
+configMatchModal.addEventListener('shown.bs.modal', async () => {
+  // set data-lenis-prevent to html
+  document.documentElement.setAttribute('data-lenis-prevent', 'true')
+})
+
+configMatchModal.addEventListener('hidden.bs.modal', async () => {
+  // set data-lenis-prevent to html
+  document.documentElement.removeAttribute('data-lenis-prevent')
+})
+
 const isOrganizer = () => {
   let isOrganizer = false
   let isChampionshipOrganizer = false
@@ -282,12 +296,12 @@ const configureMatch = async (matchId, championshipData) => {
       }
 
       loader.show()
-      await putMatch(matchId, body)
+      await putMatch(body)
       loader.hide()
     })
 }
 
-const putMatch = async (matchId, body) => {
+const putMatch = async (body) => {
   const callbackStatus = (data) => {
     notificacaoErro(data.results)
   }
@@ -300,6 +314,8 @@ const putMatch = async (matchId, body) => {
 
   if (response.succeed) {
     notificacaoSucesso(i18next.t("SucessoConfigurarPartida"))
+
+    configMatchModalBT.hide()
   }
 }
 
@@ -1017,20 +1033,6 @@ const chaveamento = {
     console.log(tabela);
   },
   async init() {
-
-    const configMatchModal = document.getElementById('configMatchModal')
-
-
-    configMatchModal.addEventListener('shown.bs.modal', async () => {
-      // set data-lenis-prevent to html
-      document.documentElement.setAttribute('data-lenis-prevent', 'true')
-    })
-
-    configMatchModal.addEventListener('hidden.bs.modal', async () => {
-      // set data-lenis-prevent to html
-      document.documentElement.removeAttribute('data-lenis-prevent')
-    })
-
     this.inicializarTabela(idCampeonato)
   }
 }

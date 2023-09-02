@@ -1,12 +1,13 @@
 {
     "TituloPagina": "Página de Campeonato",
     "Times": "Times",
-    "BaixarRegulamento": "Baixar regulamento",
+    "BaixarRegulamento": "Baixar Regulamento",
     "Politica": "Política",
     "Sobre": "Sobre",
     "Termos": "Termos",
     "NenhumTime": "Nenhum time por aqui...",
     "SemDescricao": "Sem descrição",
     "Volei": "Vôlei",
-    "Futebol": "Futebol"
+    "Futebol": "Futebol",
+    "EditarCampeonato": "Editar Campeonato"
 }
