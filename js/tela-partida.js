@@ -9,9 +9,6 @@ import JustValidate from 'just-validate'
 import { uploadImagem } from './utilidades/uploadImagem'
 import { notificacaoErro, notificacaoSucesso } from "./utilidades/notificacoes"
 
-
-
-
 inicializarInternacionalizacao(ingles, portugues);
 const loader = document.createElement('app-loader');
 document.body.appendChild(loader);

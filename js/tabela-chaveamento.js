@@ -1,6 +1,15 @@
 import { Tooltip } from "bootstrap"
-import { configuracaoFetch, executarFetch } from "./utilidades/configFetch"
+import { executarFetch, configuracaoFetch, limparMensagem, api } from './utilidades/configFetch'
+import { notificacaoErro, notificacaoSucesso } from "./utilidades/notificacoes"
+import './utilidades/loader'
+import JustValidate from 'just-validate'
+import i18next, { t } from "i18next";
+import portugues from './i18n/ptbr/tabela-chaveamento.json' assert { type: 'JSON' }
+import ingles from './i18n/en/tabela-chaveamento.json' assert { type: 'JSON' }
+import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
+import * as bootstrap from 'bootstrap'
 
+inicializarInternacionalizacao(ingles, portugues);
 const loader = document.createElement('app-loader');
 document.body.appendChild(loader);
 
@@ -15,7 +24,7 @@ const chaveamento = {
   
       for (const partida of partidas) {
         partidasWrapper.innerHTML += /*html*/`
-          <div class="row justify-content-center align-items-center mx-2 bg-white px-3 rounded-5">
+          <div class="row justify-content-center align-items-center mx-2 bg-primary px-3 rounded-5">
             <div class="text-center py-1">
               <small>${this.convertDateFormat(partida.date)}</small>
             </div>
@@ -38,13 +47,223 @@ const chaveamento = {
                 </div>
               </div>
             </a>
-            <div class="row justify-content-center align-items-center">
+            <span class="d-none match-id">${partida.id}</span>
+            <div class="row justify-content-center align-items-center config-match-btn-wrapper">
               <button data-bs-toggle="modal" data-bs-target="#configMatchModal" class="btn w-auto border-0 d-flex justify-content-center align-items-center config-match-btn">
                 <i class="bi bi-pencil-square px-4 py-1 text-white rounded-pill"></i>
               </button> 
             </div>
           </div>
         `
+      }
+
+      const configMatchBtns = document.getElementsByClassName('config-match-btn')
+      for (const configMatchBtn of configMatchBtns) {
+        configMatchBtn.addEventListener('click', () => {
+          const matchId = configMatchBtn.parentElement.parentElement.querySelector('.match-id').textContent
+          configureMatch(matchId)
+        })
+      }
+    }
+
+    const configureMatch = async matchId => {
+      const callbackStatus = (data) => {
+        notificacaoErro(data.results)
+      }
+
+      const configMatchForm = document.querySelector('#config-match-form')
+
+      const configMatchValidator = new JustValidate(configMatchForm, {
+        validateBeforeSubmitting: true,
+      })
+
+      // get match data
+      const matchData = await executarFetch(`matches/${matchId}`, configuracaoFetch('GET')),
+        match = matchData.results
+
+      // get match team 1
+      const team1Data = await executarFetch(`teams/${match.homeId}`, configuracaoFetch('GET')),
+        team1 = team1Data.results
+        
+      // get match team 2
+      const team2Data = await executarFetch(`teams/${match.visitorId}`, configuracaoFetch('GET')),
+        team2 = team2Data.results
+
+      console.log(team1);
+
+      configMatchForm.innerHTML = ''
+
+      configMatchForm.insertAdjacentHTML('beforeend', `
+        <div class="row">
+          <div class="col">
+            <label for="match-arbitrator" class="i18 form-label mb-0 text-black" key="MatchArbitratorLabel">${i18next.t("MatchArbitratorLabel")}</label>
+            <input type="text" id="match-arbitrator" class="form-control" placeholder="${i18next.t("MatchArbitratorPlaceholder")}">
+          </div>
+        </div>
+
+        <div class="row mt-3">
+          <span class="i18 mb-0 text-black text-center" key="MatchHomeUniformLabel">${i18next.t("MatchHomeUniformLabel")}</span>
+          <div class="col-12 text-center text-black"><span>${team1.name}</span></div>
+          <div class="col-6 form-check d-flex flex-column justify-content-center align-items-center">
+            <img class="img-fluid border border-2 mb-2 rounded-5 team-uniform-img" src="${team1.uniformHome}" alt="">
+            <input value="${team1.uniformHome}" class="form-check-input m-auto" type="radio" id="check-team1-home-uniform" name="team1-uniform-radio" checked>
+          </div>
+          <div class="col-6 form-check d-flex flex-column justify-content-center align-items-center">
+            <img class="img-fluid border border-2 rounded-5 mb-2 team-uniform-img" src="${team1.uniformAway}" alt="">
+            <input value="${team1.uniformAway}" class="form-check-input m-auto" type="radio" id="check-team1-away-uniform" name="team1-uniform-radio">
+          </div>
+        </div>
+
+        <div class="row mt-3">
+          <span class="i18 mb-0 text-black text-center" key="MatchAwayUniformLabel">${i18next.t("MatchAwayUniformLabel")}</span>
+          <div class="col-12 text-center text-black"><span>${team2.name}</span></div>
+          <div class="col-6 form-check d-flex flex-column justify-content-center align-items-center">
+            <img class="img-fluid border border-2 rounded-5 mb-2 team-uniform-img" src="${team2.uniformHome}" alt="">
+            <input value="${team2.uniformHome}" class="form-check-input m-auto" type="radio" id="check-team2-home-uniform" name="team2-uniform-radio">
+          </div>
+          <div class="col-6 form-check d-flex flex-column justify-content-center align-items-center">
+            <img class="img-fluid border border-2 rounded-5 mb-2 team-uniform-img" src="${team2.uniformAway}" alt="">
+            <input value="${team2.uniformAway}" class="form-check-input m-auto" type="radio" id="check-team2-away-uniform" name="team2-uniform-radio" checked>
+          </div>
+        </div>
+
+        <div class="row mt-3">
+          <div class="col-12 col-md">
+            <label for="match-date" class="i18 form-label mb-0 text-black" key="MatchDateLabel">${i18next.t("MatchDateLabel")}</label>
+            <input type="date" id="match-date" class="form-control" placeholder="${i18next.t("MatchDatePlaceholder")}">
+          </div>
+          <div class="col-12 col-md">
+            <label for="match-time" class="i18 form-label mb-0 text-black" key="MatchTimeLabel">${i18next.t("MatchTimeLabel")}</label>
+            <input type="time" id="match-time" class="form-control" placeholder="${i18next.t("MatchTimePlaceholder")}">
+          </div>
+        </div>
+
+        <div class="row mt-3">
+          <div class="col-12 col-md">
+            <label for="match-zipcode" class="i18 form-label mb-0 text-black" key="MatchZipcodeLabel">${i18next.t("MatchZipcodeLabel")}</label>
+            <input type="text" id="match-zipcode" class="form-control" placeholder="${i18next.t("MatchZipcodePlaceholder")}">
+          </div>
+          <div class="col-12 col-md">
+            <label for="match-city" class="i18 form-label mb-0 text-black" key="MatchCityLabel">${i18next.t("MatchCityLabel")}</label>
+            <input type="text" id="match-city" class="form-control" placeholder="${i18next.t("MatchCityPlaceholder")}">
+          </div>
+        </div>
+
+        <div class="row mt-3">
+          <div class="col-12 col-md">
+            <label for="match-road" class="i18 form-label mb-0 text-black" key="MatchStreetLabel">${i18next.t("MatchStreetLabel")}</label>
+            <input type="text" id="match-road" class="form-control" placeholder="${i18next.t("MatchStreetPlaceholder")}">
+          </div>
+          <div class="col-12 col-md">
+            <label for="match-location-number" class="i18 form-label mb-0 text-black" key="MatchLocationNumberLabel">${i18next.t("MatchLocationNumberLabel")}</label>
+            <input type="text" id="match-location-number" class="form-control" placeholder="${i18next.t("MatchLocationNumberPlaceholder")}">
+        </div>
+      `)
+
+      const checkTeam1HomeUniform = configMatchForm.querySelector('#check-team1-home-uniform')
+      const checkTeam1AwayUniform = configMatchForm.querySelector('#check-team1-away-uniform')
+      const checkTeam2HomeUniform = configMatchForm.querySelector('#check-team2-home-uniform')
+      const checkTeam2AwayUniform = configMatchForm.querySelector('#check-team2-away-uniform')
+
+      const matchHomeUniform = (checkTeam1HomeUniform.checked || checkTeam1AwayUniform.checked) ? (checkTeam1HomeUniform.checked ? checkTeam1HomeUniform.value : checkTeam1AwayUniform.value) : null
+      const matchVisitorUniform = (checkTeam2HomeUniform.checked || checkTeam2AwayUniform.checked) ? (checkTeam2HomeUniform.checked ? checkTeam2HomeUniform.value : checkTeam2AwayUniform.value) : null
+
+      const matchArbitrator = configMatchForm.querySelector('#match-arbitrator')
+      const matchDate = configMatchForm.querySelector('#match-date')
+      const matchTime = configMatchForm.querySelector('#match-time')
+      const matchZipcode = configMatchForm.querySelector('#match-zipcode')
+      const matchCity = configMatchForm.querySelector('#match-city')
+      const matchRoad = configMatchForm.querySelector('#match-road')
+      const matchLocationNumber = configMatchForm.querySelector('#match-location-number')
+
+      configMatchValidator
+        .addField(matchArbitrator, [
+          {
+            rule: 'required',
+            errorMessage: `<span class="i18" key="ArbitroObrigatorio">${i18next.t("ArbitroObrigatorio")}</span>`,
+          },
+        ])
+        .addField(matchDate, [
+          {
+            rule: 'required',
+            errorMessage: `<span class="i18" key="DataObrigatoria">${i18next.t("DataObrigatoria")}</span>`,
+          },
+          {
+            validator: (value) => {
+              const matchDate = new Date(value)
+              const dataAtual = new Date()
+              dataAtual.setDate(dataAtual.getDate() - 1)
+              return matchDate >= dataAtual
+            },
+            errorMessage: `<span class="i18" key="DataInicialMaiorIgual">${i18next.t("DataInicialMaiorIgual")}</span>`
+          }
+        ])
+        .addField(matchTime, [
+          {
+            rule: 'required',
+            errorMessage: `<span class="i18" key="HoraObrigatoria">${i18next.t("HoraObrigatoria")}</span>`,
+          },
+        ])
+        .addField(matchZipcode, [
+          {
+            rule: 'required',
+            errorMessage: `<span class="i18" key="CEPObrigatorio">${i18next.t("CEPObrigatorio")}</span>`,
+          },
+        ])
+        .addField(matchCity, [
+          {
+            rule: 'required',
+            errorMessage: `<span class="i18" key="CidadeObrigatoria">${i18next.t("CidadeObrigatoria")}</span>`,
+          },
+        ])
+        .addField(matchRoad, [
+          {
+            rule: 'required',
+            errorMessage: `<span class="i18" key="RuaObrigatoria">${i18next.t("RuaObrigatoria")}</span>`,
+          },
+        ])
+        .addField(matchLocationNumber, [
+          {
+            rule: 'required',
+            errorMessage: `<span class="i18" key="NumeroObrigatorio">${i18next.t("NumeroObrigatorio")}</span>`,
+          },
+        ])
+        .onSuccess(async e => {
+          e.preventDefault()
+
+          const matchDateTime = `${matchDate.value}T${matchTime.value}:00Z`
+
+          const body = {
+            "Id": matchId,
+            "Arbitrator": matchArbitrator.value,
+            "HomeUniform": matchHomeUniform.value,
+            "VisitorUniform": matchVisitorUniform.value,
+            "Date": matchDateTime,
+            "Cep": matchZipcode.value,
+            "City": matchCity.value,
+            "Road": matchRoad.value,
+            "Number": matchLocationNumber.value
+          }
+
+          loader.show()
+          await putMatch(matchId, body)
+          loader.hide()
+        })
+    }
+
+    const putMatch = async (matchId, body) => {
+      const callbackStatus = (data) => {
+        notificacaoErro(data.results)
+      }
+    
+      loader.show()
+      const configFetch = configuracaoFetch('PUT', body),
+        response = await executarFetch(`matches/${matchId}`, configFetch, callbackStatus)
+        
+      loader.hide()
+    
+      if (response.succeed) {
+        notificacaoSucesso(i18next.t("SucessoConfigurarPartida"))
       }
     }
 
@@ -646,7 +865,21 @@ const chaveamento = {
   },
   init() {
     const urlParams = new URLSearchParams(window.location.search),
-          idCampeonato = urlParams.get('id')
+          idCampeonato = urlParams.get('id'),
+          configMatchModal = document.getElementById('configMatchModal')
+
+    configMatchModal.addEventListener('shown.bs.modal', async () => {
+      // set data-lenis-prevent to html
+      document.documentElement.setAttribute('data-lenis-prevent', 'true')
+    })
+
+    configMatchModal.addEventListener('hidden.bs.modal', async () => {
+      // set data-lenis-prevent to html
+      document.documentElement.removeAttribute('data-lenis-prevent')
+    })
+
+
+        
 
     this.inicializarTabela(idCampeonato)
   }
