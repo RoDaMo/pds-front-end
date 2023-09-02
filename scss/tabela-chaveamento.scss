@@ -36,6 +36,16 @@
     }
 }
 
+.config-match-section-label {
+    width: 50%;
+
+    @include media-breakpoint-down(sm) {
+        & {
+            width: 100%;
+        }
+    }
+}
+
 .team-uniform-img {
     max-width: 15rem;
     max-height: 15rem;
