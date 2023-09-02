@@ -8,10 +8,302 @@ import portugues from './i18n/ptbr/tabela-chaveamento.json' assert { type: 'JSON
 import ingles from './i18n/en/tabela-chaveamento.json' assert { type: 'JSON' }
 import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
 import * as bootstrap from 'bootstrap'
+import flatpickr from "flatpickr"
+import { Portuguese } from "flatpickr/dist/l10n/pt.js"
 
 inicializarInternacionalizacao(ingles, portugues);
 const loader = document.createElement('app-loader');
 document.body.appendChild(loader);
+
+const urlParams = new URLSearchParams(window.location.search),
+      idCampeonato = urlParams.get('id')
+
+const config = configuracaoFetch('GET'),
+  response = await executarFetch(`championships/${idCampeonato}`, config),
+  championshipData = response.results
+
+const sessionUserInfo = JSON.parse(localStorage.getItem('user-info'))
+
+const isOrganizer = () => {
+  let isOrganizer = false
+  let isChampionshipOrganizer = false
+
+  isChampionshipOrganizer = (idCampeonato == sessionUserInfo.championshipId) ? true : false
+
+  if (sessionUserInfo.isOrganizer && isChampionshipOrganizer) {
+    isOrganizer = true
+  } else {
+    isOrganizer = false
+  }
+
+  return true
+}
+
+console.log(championshipData);
+
+const configureMatch = async (matchId, championshipData) => {
+  const callbackStatus = (data) => {
+    notificacaoErro(data.results)
+  }
+
+  const configMatchForm = document.querySelector('#config-match-form')
+
+  const configMatchValidator = new JustValidate(configMatchForm, {
+    validateBeforeSubmitting: true,
+  })
+
+  // get match data
+  const matchData = await executarFetch(`matches/${matchId}`, configuracaoFetch('GET')),
+    match = matchData.results
+
+  // get match team 1
+  const team1Data = await executarFetch(`teams/${match.homeId}`, configuracaoFetch('GET')),
+    team1 = team1Data.results
+    
+  // get match team 2
+  const team2Data = await executarFetch(`teams/${match.visitorId}`, configuracaoFetch('GET')),
+    team2 = team2Data.results
+
+  console.log(team1);
+
+  configMatchForm.innerHTML = ''
+
+  configMatchForm.insertAdjacentHTML('beforeend', `
+    <div class="row mt-3 justify-content-center">
+      <h4 class="text-center rounded-4 text-bg-dark fw-normal config-match-section-label i18" key="Uniformes">${i18next.t("Uniformes")}</h4>
+      <span class="i18 mb-0 text-black text-center" key="MatchHomeUniformLabel">${i18next.t("MatchHomeUniformLabel")}</span>
+      <div class="col-12 text-center text-black"><span>${team1.name}</span></div>
+      <div class="col-6 form-check d-flex flex-column justify-content-center align-items-center">
+        <img class="img-fluid border border-2 mb-2 rounded-5 team-uniform-img" src="${team1.uniformHome}" alt="">
+        <input value="${team1.uniformHome}" class="rounded-pill w-25 form-check-input m-auto" type="radio" id="check-team1-home-uniform" name="team1-uniform-radio" checked>
+      </div>
+      <div class="col-6 form-check d-flex flex-column justify-content-center align-items-center">
+        <img class="img-fluid border border-2 rounded-5 mb-2 team-uniform-img" src="${team1.uniformAway}" alt="">
+        <input value="${team1.uniformAway}" class="rounded-pill w-25 form-check-input m-auto" type="radio" id="check-team1-away-uniform" name="team1-uniform-radio">
+      </div>
+    </div>
+    <hr class="rounded-pill opacity-50 text-black mx-auto w-50">
+    <div class="row mt-3">
+      <span class="i18 mb-0 text-black text-center" key="MatchAwayUniformLabel">${i18next.t("MatchAwayUniformLabel")}</span>
+      <div class="col-12 text-center text-black"><span>${team2.name}</span></div>
+      <div class="col-6 form-check d-flex flex-column justify-content-center align-items-center">
+        <img class="img-fluid border border-2 rounded-5 mb-2 team-uniform-img" src="${team2.uniformHome}" alt="">
+        <input value="${team2.uniformHome}" class="rounded-pill w-25 form-check-input m-auto" type="radio" id="check-team2-home-uniform" name="team2-uniform-radio">
+      </div>
+      <div class="col-6 form-check d-flex flex-column justify-content-center align-items-center">
+        <img class="img-fluid border border-2 rounded-5 mb-2 team-uniform-img" src="${team2.uniformAway}" alt="">
+        <input value="${team2.uniformAway}" class="rounded-pill w-25 form-check-input m-auto" type="radio" id="check-team2-away-uniform" name="team2-uniform-radio" checked>
+      </div>
+    </div>
+
+    <div class="row justify-content-center mt-5"><h4 class="text-center config-match-section-label rounded-3 text-bg-dark fw-normal i18" key="InfosPartida">${i18next.t("InfosPartida")}</h4></div>
+    <div class="row">
+      <div class="col">
+        <label for="match-arbitrator" class="i18 form-label mb-0 text-black" key="MatchArbitratorLabel">${i18next.t("MatchArbitratorLabel")}</label>
+        <input type="text" id="match-arbitrator" class="form-control" placeholder="${i18next.t("MatchArbitratorPlaceholder")}">
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-12 col-md">
+        <label for="match-date" class="i18 form-label mb-0 text-black" key="MatchDateLabel">${i18next.t("MatchDateLabel")}</label>
+        <input type="text" id="match-date" class="form-control" placeholder="${i18next.t("MatchDatePlaceholder")}">
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-12 col-md">
+        <label for="match-zipcode" class="i18 form-label mb-0 text-black" key="MatchZipcodeLabel">${i18next.t("MatchZipcodeLabel")}</label>
+        <input type="text" id="match-zipcode" max="" class="form-control" placeholder="${i18next.t("MatchZipcodePlaceholder")}">
+      </div>
+      <div class="col-12 col-md">
+        <label for="match-city" class="i18 form-label mb-0 text-black" key="MatchCityLabel">${i18next.t("MatchCityLabel")}</label>
+        <input type="text" id="match-city" class="form-control" placeholder="${i18next.t("MatchCityPlaceholder")}">
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-12 col-md">
+        <label for="match-road" class="i18 form-label mb-0 text-black" key="MatchStreetLabel">${i18next.t("MatchStreetLabel")}</label>
+        <input type="text" id="match-road" class="form-control" placeholder="${i18next.t("MatchStreetPlaceholder")}">
+      </div>
+      <div class="col-12 col-md">
+        <label for="match-location-number" class="i18 form-label mb-0 text-black" key="MatchLocationNumberLabel">${i18next.t("MatchLocationNumberLabel")}</label>
+        <input type="text" id="match-location-number" class="form-control" placeholder="${i18next.t("MatchLocationNumberPlaceholder")}">
+    </div>
+  `)
+
+  const checkTeam1HomeUniform = configMatchForm.querySelector('#check-team1-home-uniform')
+  const checkTeam1AwayUniform = configMatchForm.querySelector('#check-team1-away-uniform')
+  const checkTeam2HomeUniform = configMatchForm.querySelector('#check-team2-home-uniform')
+  const checkTeam2AwayUniform = configMatchForm.querySelector('#check-team2-away-uniform')
+
+  const matchHomeUniform = (checkTeam1HomeUniform.checked || checkTeam1AwayUniform.checked) ? (checkTeam1HomeUniform.checked ? checkTeam1HomeUniform.value : checkTeam1AwayUniform.value) : null
+  const matchVisitorUniform = (checkTeam2HomeUniform.checked || checkTeam2AwayUniform.checked) ? (checkTeam2HomeUniform.checked ? checkTeam2HomeUniform.value : checkTeam2AwayUniform.value) : null
+
+  const matchArbitrator = configMatchForm.querySelector('#match-arbitrator')
+  const matchDate = configMatchForm.querySelector('#match-date')
+  const matchZipcode = configMatchForm.querySelector('#match-zipcode')
+  const matchCity = configMatchForm.querySelector('#match-city')
+  const matchRoad = configMatchForm.querySelector('#match-road')
+  const matchLocationNumber = configMatchForm.querySelector('#match-location-number')
+
+  matchZipcode.addEventListener('keyup', () => {        
+    if (matchZipcode.value.length > 8) {
+      matchZipcode.value = matchZipcode.value.slice(0, 8)
+    }
+  }) 
+
+  let cepURL = 'https://viacep.com.br/ws/'
+  let cepType = '/json/'
+
+  matchZipcode.addEventListener('blur', async () => {
+    let cep = matchZipcode.value
+    cep = cep.replace(/\D/g, "")
+    
+    if (cep != "") {
+      let validacep = /^[0-9]{8}$/
+      if (validacep.test(cep)) {
+        matchCity.value = "...";
+        matchRoad.value = "...";
+        matchCity.disabled = true;
+        matchRoad.disabled = true;
+        const response = await fetch(cepURL + cep + cepType)
+        const data = await response.json()
+        if (!("erro" in data)) {
+          matchCity.value = data.localidade;
+          matchRoad.value = data.logradouro;
+          matchCity.disabled = false;
+          matchRoad.disabled = false;
+        }
+        else {
+          matchCity.value = "";
+          matchRoad.value = "";
+          matchCity.disabled = false;
+          matchRoad.disabled = false;
+          notificacaoErro(i18next.t("CEPInvalido"))
+        }
+      }
+      else {
+        matchCity.value = "";
+        matchRoad.value = "";
+        matchCity.disabled = false;
+        matchRoad.disabled = false;
+        notificacaoErro(i18next.t("CEPInvalido"))
+      }
+    }
+    else {
+      matchCity.value = "";
+      matchRoad.value = "";
+      matchCity.disabled = false;
+      matchRoad.disabled = false;
+    }
+  })
+
+  let lng = localStorage.getItem('lng')
+
+  flatpickr(matchDate, {
+      dateFormat: "Z",
+      altFormat: "d/m/Y H:i",
+      time_24hr: true,
+      locale: lng === 'ptbr' ? Portuguese : ingles,
+      altInput: true,
+      enableTime: true,
+      minDate: championshipData.initialDate,
+      maxDate: championshipData.finalDate
+  })
+
+  document.addEventListener('nova-lingua', event => {
+      let lng = localStorage.getItem('lng')
+
+      flatpickr(matchDate, {
+        dateFormat: "Z",
+        altFormat: "d/m/Y H:i",
+        time_24hr: true,
+        locale: lng === 'ptbr' ? Portuguese : ingles,
+        altInput: true,
+        enableTime: true,
+        minDate: championshipData.initialDate,
+        maxDate: championshipData.finalDate
+      })
+      
+      configMatchValidator.revalidate()
+
+  })
+
+  configMatchValidator
+    .addField(matchArbitrator, [
+      {
+        rule: 'required',
+        errorMessage: `<span class="i18" key="ArbitroObrigatorio">${i18next.t("ArbitroObrigatorio")}</span>`,
+      },
+    ])
+    .addField(matchDate, [
+      {
+        rule: 'required',
+        errorMessage: `<span class="i18" key="DataObrigatoria">${i18next.t("DataObrigatoria")}</span>`,
+      },
+    ])
+    .addField(matchZipcode, [
+      {
+        rule: 'required',
+        errorMessage: `<span class="i18" key="CEPObrigatorio">${i18next.t("CEPObrigatorio")}</span>`,
+      },
+    ])
+    .addField(matchCity, [
+      {
+        rule: 'required',
+        errorMessage: `<span class="i18" key="CidadeObrigatoria">${i18next.t("CidadeObrigatoria")}</span>`,
+      },
+    ])
+    .addField(matchRoad, [
+      {
+        rule: 'required',
+        errorMessage: `<span class="i18" key="RuaObrigatoria">${i18next.t("RuaObrigatoria")}</span>`,
+      },
+    ])
+    .addField(matchLocationNumber, [
+      {
+        rule: 'required',
+        errorMessage: `<span class="i18" key="NumeroObrigatorio">${i18next.t("NumeroObrigatorio")}</span>`,
+      },
+    ])
+    .onSuccess(async e => {
+      e.preventDefault()
+
+      const body = {
+        "Id": matchId,
+        "Cep": matchZipcode.value,
+        "City": matchCity.value,
+        "Road": matchRoad.value,
+        "Number": matchLocationNumber.value,
+        "HomeUniform": matchHomeUniform.value,
+        "VisitorUniform": matchVisitorUniform.value,
+        "Date": matchDate.value,
+        "Arbitrator": matchArbitrator.value,
+      }
+
+      loader.show()
+      await putMatch(matchId, body)
+      loader.hide()
+    })
+}
+
+const putMatch = async (matchId, body) => {
+  const callbackStatus = (data) => {
+    notificacaoErro(data.results)
+  }
+
+  loader.show()
+  const configFetch = configuracaoFetch('PUT', body),
+    response = await executarFetch(`matches`, configFetch, callbackStatus)
+    
+  loader.hide()
+
+  if (response.succeed) {
+    notificacaoSucesso(i18next.t("SucessoConfigurarPartida"))
+  }
+}
 
 const chaveamento = {
   inicializarRodadas(idCampeonato, formato, classesCustom, limiteRodadas) {
@@ -48,11 +340,13 @@ const chaveamento = {
               </div>
             </a>
             <span class="d-none match-id">${partida.id}</span>
-            <div class="row justify-content-center align-items-center config-match-btn-wrapper">
-              <button data-bs-toggle="modal" data-bs-target="#configMatchModal" class="btn w-auto border-0 d-flex justify-content-center align-items-center config-match-btn">
-                <i class="bi bi-pencil-square px-4 py-1 text-white rounded-pill"></i>
-              </button> 
-            </div>
+            ${(isOrganizer() && (championshipData.status == 0 || championshipData.status == 3)) ? `
+              <div class="row justify-content-center align-items-center config-match-btn-wrapper">
+                <button data-bs-toggle="modal" data-bs-target="#configMatchModal" class="btn w-auto border-0 d-flex justify-content-center align-items-center config-match-btn">
+                  <i class="bi bi-pencil-square px-4 py-1 text-white rounded-pill"></i>
+                </button> 
+              </div>
+            ` : ''}
           </div>
         `
       }
@@ -61,209 +355,8 @@ const chaveamento = {
       for (const configMatchBtn of configMatchBtns) {
         configMatchBtn.addEventListener('click', () => {
           const matchId = configMatchBtn.parentElement.parentElement.querySelector('.match-id').textContent
-          configureMatch(matchId)
+          configureMatch(matchId, championshipData)
         })
-      }
-    }
-
-    const configureMatch = async matchId => {
-      const callbackStatus = (data) => {
-        notificacaoErro(data.results)
-      }
-
-      const configMatchForm = document.querySelector('#config-match-form')
-
-      const configMatchValidator = new JustValidate(configMatchForm, {
-        validateBeforeSubmitting: true,
-      })
-
-      // get match data
-      const matchData = await executarFetch(`matches/${matchId}`, configuracaoFetch('GET')),
-        match = matchData.results
-
-      // get match team 1
-      const team1Data = await executarFetch(`teams/${match.homeId}`, configuracaoFetch('GET')),
-        team1 = team1Data.results
-        
-      // get match team 2
-      const team2Data = await executarFetch(`teams/${match.visitorId}`, configuracaoFetch('GET')),
-        team2 = team2Data.results
-
-      console.log(team1);
-
-      configMatchForm.innerHTML = ''
-
-      configMatchForm.insertAdjacentHTML('beforeend', `
-        <div class="row">
-          <div class="col">
-            <label for="match-arbitrator" class="i18 form-label mb-0 text-black" key="MatchArbitratorLabel">${i18next.t("MatchArbitratorLabel")}</label>
-            <input type="text" id="match-arbitrator" class="form-control" placeholder="${i18next.t("MatchArbitratorPlaceholder")}">
-          </div>
-        </div>
-
-        <div class="row mt-3">
-          <span class="i18 mb-0 text-black text-center" key="MatchHomeUniformLabel">${i18next.t("MatchHomeUniformLabel")}</span>
-          <div class="col-12 text-center text-black"><span>${team1.name}</span></div>
-          <div class="col-6 form-check d-flex flex-column justify-content-center align-items-center">
-            <img class="img-fluid border border-2 mb-2 rounded-5 team-uniform-img" src="${team1.uniformHome}" alt="">
-            <input value="${team1.uniformHome}" class="form-check-input m-auto" type="radio" id="check-team1-home-uniform" name="team1-uniform-radio" checked>
-          </div>
-          <div class="col-6 form-check d-flex flex-column justify-content-center align-items-center">
-            <img class="img-fluid border border-2 rounded-5 mb-2 team-uniform-img" src="${team1.uniformAway}" alt="">
-            <input value="${team1.uniformAway}" class="form-check-input m-auto" type="radio" id="check-team1-away-uniform" name="team1-uniform-radio">
-          </div>
-        </div>
-
-        <div class="row mt-3">
-          <span class="i18 mb-0 text-black text-center" key="MatchAwayUniformLabel">${i18next.t("MatchAwayUniformLabel")}</span>
-          <div class="col-12 text-center text-black"><span>${team2.name}</span></div>
-          <div class="col-6 form-check d-flex flex-column justify-content-center align-items-center">
-            <img class="img-fluid border border-2 rounded-5 mb-2 team-uniform-img" src="${team2.uniformHome}" alt="">
-            <input value="${team2.uniformHome}" class="form-check-input m-auto" type="radio" id="check-team2-home-uniform" name="team2-uniform-radio">
-          </div>
-          <div class="col-6 form-check d-flex flex-column justify-content-center align-items-center">
-            <img class="img-fluid border border-2 rounded-5 mb-2 team-uniform-img" src="${team2.uniformAway}" alt="">
-            <input value="${team2.uniformAway}" class="form-check-input m-auto" type="radio" id="check-team2-away-uniform" name="team2-uniform-radio" checked>
-          </div>
-        </div>
-
-        <div class="row mt-3">
-          <div class="col-12 col-md">
-            <label for="match-date" class="i18 form-label mb-0 text-black" key="MatchDateLabel">${i18next.t("MatchDateLabel")}</label>
-            <input type="date" id="match-date" class="form-control" placeholder="${i18next.t("MatchDatePlaceholder")}">
-          </div>
-          <div class="col-12 col-md">
-            <label for="match-time" class="i18 form-label mb-0 text-black" key="MatchTimeLabel">${i18next.t("MatchTimeLabel")}</label>
-            <input type="time" id="match-time" class="form-control" placeholder="${i18next.t("MatchTimePlaceholder")}">
-          </div>
-        </div>
-
-        <div class="row mt-3">
-          <div class="col-12 col-md">
-            <label for="match-zipcode" class="i18 form-label mb-0 text-black" key="MatchZipcodeLabel">${i18next.t("MatchZipcodeLabel")}</label>
-            <input type="text" id="match-zipcode" class="form-control" placeholder="${i18next.t("MatchZipcodePlaceholder")}">
-          </div>
-          <div class="col-12 col-md">
-            <label for="match-city" class="i18 form-label mb-0 text-black" key="MatchCityLabel">${i18next.t("MatchCityLabel")}</label>
-            <input type="text" id="match-city" class="form-control" placeholder="${i18next.t("MatchCityPlaceholder")}">
-          </div>
-        </div>
-
-        <div class="row mt-3">
-          <div class="col-12 col-md">
-            <label for="match-road" class="i18 form-label mb-0 text-black" key="MatchStreetLabel">${i18next.t("MatchStreetLabel")}</label>
-            <input type="text" id="match-road" class="form-control" placeholder="${i18next.t("MatchStreetPlaceholder")}">
-          </div>
-          <div class="col-12 col-md">
-            <label for="match-location-number" class="i18 form-label mb-0 text-black" key="MatchLocationNumberLabel">${i18next.t("MatchLocationNumberLabel")}</label>
-            <input type="text" id="match-location-number" class="form-control" placeholder="${i18next.t("MatchLocationNumberPlaceholder")}">
-        </div>
-      `)
-
-      const checkTeam1HomeUniform = configMatchForm.querySelector('#check-team1-home-uniform')
-      const checkTeam1AwayUniform = configMatchForm.querySelector('#check-team1-away-uniform')
-      const checkTeam2HomeUniform = configMatchForm.querySelector('#check-team2-home-uniform')
-      const checkTeam2AwayUniform = configMatchForm.querySelector('#check-team2-away-uniform')
-
-      const matchHomeUniform = (checkTeam1HomeUniform.checked || checkTeam1AwayUniform.checked) ? (checkTeam1HomeUniform.checked ? checkTeam1HomeUniform.value : checkTeam1AwayUniform.value) : null
-      const matchVisitorUniform = (checkTeam2HomeUniform.checked || checkTeam2AwayUniform.checked) ? (checkTeam2HomeUniform.checked ? checkTeam2HomeUniform.value : checkTeam2AwayUniform.value) : null
-
-      const matchArbitrator = configMatchForm.querySelector('#match-arbitrator')
-      const matchDate = configMatchForm.querySelector('#match-date')
-      const matchTime = configMatchForm.querySelector('#match-time')
-      const matchZipcode = configMatchForm.querySelector('#match-zipcode')
-      const matchCity = configMatchForm.querySelector('#match-city')
-      const matchRoad = configMatchForm.querySelector('#match-road')
-      const matchLocationNumber = configMatchForm.querySelector('#match-location-number')
-
-      configMatchValidator
-        .addField(matchArbitrator, [
-          {
-            rule: 'required',
-            errorMessage: `<span class="i18" key="ArbitroObrigatorio">${i18next.t("ArbitroObrigatorio")}</span>`,
-          },
-        ])
-        .addField(matchDate, [
-          {
-            rule: 'required',
-            errorMessage: `<span class="i18" key="DataObrigatoria">${i18next.t("DataObrigatoria")}</span>`,
-          },
-          {
-            validator: (value) => {
-              const matchDate = new Date(value)
-              const dataAtual = new Date()
-              dataAtual.setDate(dataAtual.getDate() - 1)
-              return matchDate >= dataAtual
-            },
-            errorMessage: `<span class="i18" key="DataInicialMaiorIgual">${i18next.t("DataInicialMaiorIgual")}</span>`
-          }
-        ])
-        .addField(matchTime, [
-          {
-            rule: 'required',
-            errorMessage: `<span class="i18" key="HoraObrigatoria">${i18next.t("HoraObrigatoria")}</span>`,
-          },
-        ])
-        .addField(matchZipcode, [
-          {
-            rule: 'required',
-            errorMessage: `<span class="i18" key="CEPObrigatorio">${i18next.t("CEPObrigatorio")}</span>`,
-          },
-        ])
-        .addField(matchCity, [
-          {
-            rule: 'required',
-            errorMessage: `<span class="i18" key="CidadeObrigatoria">${i18next.t("CidadeObrigatoria")}</span>`,
-          },
-        ])
-        .addField(matchRoad, [
-          {
-            rule: 'required',
-            errorMessage: `<span class="i18" key="RuaObrigatoria">${i18next.t("RuaObrigatoria")}</span>`,
-          },
-        ])
-        .addField(matchLocationNumber, [
-          {
-            rule: 'required',
-            errorMessage: `<span class="i18" key="NumeroObrigatorio">${i18next.t("NumeroObrigatorio")}</span>`,
-          },
-        ])
-        .onSuccess(async e => {
-          e.preventDefault()
-
-          const matchDateTime = `${matchDate.value}T${matchTime.value}:00Z`
-
-          const body = {
-            "Id": matchId,
-            "Arbitrator": matchArbitrator.value,
-            "HomeUniform": matchHomeUniform.value,
-            "VisitorUniform": matchVisitorUniform.value,
-            "Date": matchDateTime,
-            "Cep": matchZipcode.value,
-            "City": matchCity.value,
-            "Road": matchRoad.value,
-            "Number": matchLocationNumber.value
-          }
-
-          loader.show()
-          await putMatch(matchId, body)
-          loader.hide()
-        })
-    }
-
-    const putMatch = async (matchId, body) => {
-      const callbackStatus = (data) => {
-        notificacaoErro(data.results)
-      }
-    
-      loader.show()
-      const configFetch = configuracaoFetch('PUT', body),
-        response = await executarFetch(`matches/${matchId}`, configFetch, callbackStatus)
-        
-      loader.hide()
-    
-      if (response.succeed) {
-        notificacaoSucesso(i18next.t("SucessoConfigurarPartida"))
       }
     }
 
@@ -298,28 +391,38 @@ const chaveamento = {
   },
   gerarHtmlPartidaFaseGrupos(partida, rodada) {
     return /*html*/`
-    <a href="/pages/tela-partida.html?id=${partida.id}" class="bg-verde-limao px-4 py-2 partida-rodada partida-rodada-${rodada} d-none text-decoration-none">
-      <div class="text-center py-1">
-        <small>${this.convertDateFormat(partida.date)}</small>
-      </div>
-      <div class="row">
-        <div class="col-4 text-center">
-          <div class="d-flex align-items-center justify-content-center">
-            <img src="${partida.homeEmblem}" rel="preconnect" alt="${partida.homeName}" width="50" height="50" class="img-fluid rounded-circle">
-            <p class="my-0 ms-2 fs-4">${partida.homeGoals}</p>
+      <div class="row justify-content-center align-items-center mx-2 bg-primary px-3 rounded-5 partida-rodada-${rodada}">
+        <div class="text-center py-1">
+          <small>${this.convertDateFormat(partida.date)}</small>
+        </div>
+        <a href="/pages/tela-partida.html?id=${partida.id}" class="text-decoration-none match-link-wrapper p-2 rounded-5 my-1 d-flex justify-content-center align-items-center">
+          <div class="row justify-content-center align-items-center">
+            <div class="col-4 text-center">
+              <div class="d-flex align-items-center justify-content-center">
+                <img src="${partida.homeEmblem}" rel="preconnect" alt="${partida.homeName}" title="${partida.homeName}" width="50" height="50" class="img-fluid border border-2 rounded-circle">
+                <p class="my-0 ms-2 fs-4">${partida.homeGoals}</p>
+              </div>
+            </div>
+            <div class="col-4 text-center">
+              <i class="bi bi-x-lg fs-2"></i>
+            </div>
+            <div class="col-4 text-center">
+              <div class="d-flex align-items-center justify-content-center">
+                <p class="my-0 me-2 fs-4">${partida.visitorGoals}</p>
+                <img src="${partida.visitorEmblem}" rel="preconnect" alt="${partida.visitorName}" title="${partida.visitorName}" width="50" height="50" class="img-fluid border border-2 rounded-circle">
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="col-4 text-center">
-          <i class="bi bi-x-lg fs-2"></i>
-        </div>
-        <div class="col-4 text-center">
-          <div class="d-flex align-items-center justify-content-center">
-            <p class="my-0 me-2 fs-4">${partida.visitorGoals}</p>
-            <img src="${partida.visitorEmblem}" rel="preconnect" alt="${partida.visitorName}" width="50" height="50" class="img-fluid rounded-circle">
+        </a>
+        <span class="d-none match-id">${partida.id}</span>
+        ${(isOrganizer() && (championshipData.status == 0 || championshipData.status == 3)) ? `
+          <div class="row justify-content-center align-items-center config-match-btn-wrapper">
+            <button data-bs-toggle="modal" data-bs-target="#configMatchModal" class="btn w-auto border-0 d-flex justify-content-center align-items-center config-match-btn">
+              <i class="bi bi-pencil-square px-4 py-1 text-white rounded-pill"></i>
+            </button> 
           </div>
-        </div>
+        ` : ''}
       </div>
-    </a>
     `
   },
   async carregarRodadasFasesGrupos(limiteRodadas, idCampeonato) {
@@ -344,6 +447,14 @@ const chaveamento = {
         grupo.innerHTML += htmls[i].primeiraPartida
         grupo.innerHTML += htmls[i].segundaPartida
       }
+    }
+
+    const configMatchBtns = document.getElementsByClassName('config-match-btn')
+    for (const configMatchBtn of configMatchBtns) {
+      configMatchBtn.addEventListener('click', () => {
+        const matchId = configMatchBtn.parentElement.parentElement.querySelector('.match-id').textContent
+        configureMatch(matchId, championshipData)
+      })
     }
 
     for (const partida of document.getElementsByClassName('partida-rodada-1')) {
@@ -749,90 +860,136 @@ const chaveamento = {
         partidasWrapper.innerHTML += /*html*/`
           <div class="bg-verde-limao p-2 m-2 rounded-custom">
             <div class="d-flex gap-3 justify-content-evenly align-items-center bg-secondary texto-verde-limao p-3 rounded ida-volta">
-                <a href="/pages/tela-partida.html?id=${partidaDupla.jogoAtual.id}" class="mx-2 mx-lg-5 text-decoration-none texto-verde-limao eliminatorias-link">
+                <div class="row justify-content-center align-items-center mx-2 bg-primary px-3 rounded-5">
                   <div class="text-center py-1">
-                    <small>${this.convertDateFormat(partidaDupla.jogoAtual.date)}</small><small class="d-block d-lg-inline"> <span class="d-none d-lg-inline">-</span> ${partidaDupla.jogoAtual.local ? partidaDupla.jogoAtual.local : 'Localização não definida'}</small>
+                    <small>${this.convertDateFormat(partidaDupla.jogoAtual.date)}</small><small class="d-block d-lg-inline"><span class="d-none d-lg-inline">-</span> ${partidaDupla.jogoAtual.local ? partidaDupla.jogoAtual.local : 'Localização não definida'}</small>
                   </div>
-                  <div class="row d-flex justify-content-center">
-                    <div class="col-5 text-center d-flex justify-content-end">
-                      <div class="d-flex align-items-center justify-content-center gap-3">
-                        <img src="${partidaDupla.jogoAtual.homeEmblem}" rel="preconnect" alt="${partidaDupla.jogoAtual.homeName}" title="${partidaDupla.jogoAtual.homeName}" width="50" height="50" class="img-fluid rounded-circle">
-                        <p class="my-0 fs-4">${partidaDupla.jogoAtual.homeGoals}</p>
+                  <a href="/pages/tela-partida.html?id=${partidaDupla.jogoAtual.id}" class="text-decoration-none match-link-wrapper p-2 rounded-5 my-1 d-flex justify-content-center align-items-center">
+                    <div class="row justify-content-center align-items-center">
+                      <div class="col-4 text-center">
+                        <div class="d-flex align-items-center justify-content-center">
+                          <img src="${partidaDupla.jogoAtual.homeEmblem}" rel="preconnect" alt="${partidaDupla.jogoAtual.homeName}" title="${partidaDupla.jogoAtual.homeName}" width="50" height="50" class="img-fluid border border-2 rounded-circle">
+                          <p class="my-0 ms-2 fs-4">${partidaDupla.jogoAtual.homeGoals}</p>
+                        </div>
+                      </div>
+                      <div class="col-4 text-center">
+                        <i class="bi bi-x-lg fs-2"></i>
+                      </div>
+                      <div class="col-4 text-center">
+                        <div class="d-flex align-items-center justify-content-center">
+                          <p class="my-0 me-2 fs-4">${partidaDupla.jogoAtual.visitorGoals}</p>
+                          <img src="${partidaDupla.jogoAtual.visitorEmblem}" rel="preconnect" alt="${partidaDupla.jogoAtual.visitorName}" title="${partidaDupla.jogoAtual.visitorName}" width="50" height="50" class="img-fluid border border-2 rounded-circle">
+                        </div>
                       </div>
                     </div>
-                    <div class="col-2 text-center d-flex justify-content-center align-items-center">
-                      <i class="bi bi-x-lg fs-2"></i>
+                  </a>
+                  <span class="d-none match-id">${partidaDupla.jogoAtual.id}</span>
+                  ${(isOrganizer() && (championshipData.status == 0 || championshipData.status == 3)) ? `
+                    <div class="row justify-content-center align-items-center config-match-btn-wrapper">
+                      <button data-bs-toggle="modal" data-bs-target="#configMatchModal" class="btn w-auto border-0 d-flex justify-content-center align-items-center config-match-btn">
+                        <i class="bi bi-pencil-square px-4 py-1 text-white rounded-pill"></i>
+                      </button> 
                     </div>
-                    <div class="col-5 text-center d-flex justify-content-start">
-                      <div class="d-flex align-items-center justify-content-center gap-3">
-                        <p class="my-0 fs-4">${partidaDupla.jogoAtual.visitorGoals}</p>
-                        <img src="${partidaDupla.jogoAtual.visitorEmblem}" rel="preconnect" alt="${partidaDupla.jogoAtual.visitorName}" title="${partidaDupla.jogoAtual.visitorName}" width="50" height="50" class="img-fluid rounded-circle">
-                      </div>
-                    </div>
-                  </div>
-                </a>
+                  ` : ''}
+                </div>
+
                 <div class="d-flex align-items-center justify-content-center bg-verde-limao px-3 py-2 rounded">
                     <small class="text-nowrap">${fases[faseAtual]} ${count}</small>
                 </div>
-                <a href="/pages/tela-partida.html?id=${partidaDupla.proximoJogo.id}" class="mx-2 mx-lg-5 text-decoration-none texto-verde-limao eliminatorias-link">
+
+                <div class="row justify-content-center align-items-center mx-2 bg-primary px-3 rounded-5">
                   <div class="text-center py-1">
-                    <small>${this.convertDateFormat(partidaDupla.proximoJogo.date)}</small><small class="d-block d-lg-inline"> <span class="d-none d-lg-inline">-</span> ${partidaDupla.proximoJogo.local ? partidaDupla.proximoJogo.local : 'Localização não definida'}</small>
+                    <small>${this.convertDateFormat(partidaDupla.proximoJogo.date)}</small><small class="d-block d-lg-inline"><span class="d-none d-lg-inline">-</span> ${partidaDupla.jogoAtual.local ? partidaDupla.jogoAtual.local : 'Localização não definida'}</small>
                   </div>
-                  <div class="row d-flex justify-content-center">
-                    <div class="col-5 text-center d-flex justify-content-end">
-                      <div class="d-flex align-items-center justify-content-center gap-3">
-                        <img src="${partidaDupla.proximoJogo.homeEmblem}" rel="preconnect" alt="${partidaDupla.proximoJogo.homeName}" title="${partidaDupla.proximoJogo.homeName}" width="50" height="50" class="img-fluid rounded-circle">
-                        <p class="my-0 fs-4">${partidaDupla.proximoJogo.homeGoals}</p>
+                  <a href="/pages/tela-partida.html?id=${partidaDupla.proximoJogo.id}" class="text-decoration-none match-link-wrapper p-2 rounded-5 my-1 d-flex justify-content-center align-items-center">
+                    <div class="row justify-content-center align-items-center">
+                      <div class="col-4 text-center">
+                        <div class="d-flex align-items-center justify-content-center">
+                          <img src="${partidaDupla.proximoJogo.homeEmblem}" rel="preconnect" alt="${partidaDupla.proximoJogo.homeName}" title="${partidaDupla.proximoJogo.homeName}" width="50" height="50" class="img-fluid border border-2 rounded-circle">
+                          <p class="my-0 ms-2 fs-4">${partidaDupla.proximoJogo.homeGoals}</p>
+                        </div>
+                      </div>
+                      <div class="col-4 text-center">
+                        <i class="bi bi-x-lg fs-2"></i>
+                      </div>
+                      <div class="col-4 text-center">
+                        <div class="d-flex align-items-center justify-content-center">
+                          <p class="my-0 me-2 fs-4">${partidaDupla.proximoJogo.visitorGoals}</p>
+                          <img src="${partidaDupla.proximoJogo.visitorEmblem}" rel="preconnect" alt="${partidaDupla.proximoJogo.visitorName}" title="${partidaDupla.proximoJogo.visitorName}" width="50" height="50" class="img-fluid border border-2 rounded-circle">
+                        </div>
                       </div>
                     </div>
-                    <div class="col-2 text-center d-flex justify-content-center align-items-center">
-                      <i class="bi bi-x-lg fs-2"></i>
+                  </a>
+                  <span class="d-none match-id">${partidaDupla.proximoJogo.id}</span>
+                  ${(isOrganizer() && (championshipData.status == 0 || championshipData.status == 3)) ? `
+                    <div class="row justify-content-center align-items-center config-match-btn-wrapper">
+                      <button data-bs-toggle="modal" data-bs-target="#configMatchModal" class="btn w-auto border-0 d-flex justify-content-center align-items-center config-match-btn">
+                        <i class="bi bi-pencil-square px-4 py-1 text-white rounded-pill"></i>
+                      </button> 
                     </div>
-                    <div class="col-5 text-center d-flex justify-content-start">
-                      <div class="d-flex align-items-center justify-content-center gap-3">
-                        <p class="my-0 fs-4">${partidaDupla.proximoJogo.visitorGoals}</p>
-                        <img src="${partidaDupla.proximoJogo.visitorEmblem}" rel="preconnect" alt="${partidaDupla.proximoJogo.visitorName}" title="${partidaDupla.proximoJogo.visitorName}" width="50" height="50" class="img-fluid rounded-circle">
-                      </div>
-                    </div>
-                  </div>
-                </a>
+                  ` : ''}
+                </div>
+
             </div>
         </div>
         `
       }
+
+      const configMatchBtns = document.getElementsByClassName('config-match-btn')
+      for (const configMatchBtn of configMatchBtns) {
+        configMatchBtn.addEventListener('click', () => {
+          const matchId = configMatchBtn.parentElement.parentElement.querySelector('.match-id').textContent
+          configureMatch(matchId, championshipData)
+        })
+      }
+
       return
     }
+
     for (const partida of partidas) {
       count++;
       partidasWrapper.innerHTML += /*html*/`
-        <div class="bg-verde-limao p-2 m-2">
-          <a href="/pages/tela-partida.html?id=${partida.id}" class="d-block bg-secondary texto-verde-limao text-center p-3 rounded text-decoration-none texto-verde-limao eliminatorias-link">
-              <small class="d-inline justify-content-center bg-verde-limao px-3 py-2 rounded">${fases[faseAtual]} ${count}</small>
-              <div class="text-center py-1 mt-2">
-                  <small>${this.convertDateFormat(partida.date)}</small><small class="d-block d-lg-inline"> <span class="d-none d-lg-inline">-</span> ${partida.local ? partida.local : 'Localização não definida'}</small>
+        <div class="row justify-content-center align-items-center mx-2 bg-primary px-3 rounded-5">
+          <div class="text-center py-1">
+            <small>${this.convertDateFormat(partida.date)}</small>
+          </div>
+          <a href="/pages/tela-partida.html?id=${partida.id}" class="text-decoration-none match-link-wrapper p-2 rounded-5 my-1 d-flex justify-content-center align-items-center">
+            <div class="row justify-content-center align-items-center">
+              <div class="col-4 text-center">
+                <div class="d-flex align-items-center justify-content-center">
+                  <img src="${partida.homeEmblem}" rel="preconnect" alt="${partida.homeName}" title="${partida.homeName}" width="50" height="50" class="img-fluid border border-2 rounded-circle">
+                  <p class="my-0 ms-2 fs-4">${partida.homeGoals}</p>
+                </div>
               </div>
-              <div class="row d-flex justify-content-center">
-                  <div class="col-5 text-center d-flex justify-content-end">
-                      <div class="d-flex align-items-center justify-content-center gap-3">
-                          <p class="my-0 d-none d-lg-block">${partida.homeName}</p>
-                          <img src="${partida.homeEmblem}" rel="preconnect" alt="${partida.homeName}" width="50" height="50" class="img-fluid rounded-circle">
-                          <p class="my-0 ms-2 fs-4">${partida.homeGoals}</p>
-                      </div>
-                  </div>
-                  <div class="col-2 text-center d-flex justify-content-center align-items-center">
-                      <i class="bi bi-x-lg fs-2"></i>
-                  </div>
-                  <div class="col-5 text-center d-flex justify-content-start">
-                      <div class="d-flex align-items-center justify-content-center gap-3">
-                          <p class="my-0 me-2 fs-4">${partida.visitorGoals}</p>
-                          <img src="${partida.visitorEmblem}" rel="preconnect" alt="${partida.visitorName}" width="50" height="50" class="img-fluid rounded-circle">
-                          <p class="my-0 d-none d-lg-block">${partida.visitorName}</p>
-                      </div>
-                  </div>
+              <div class="col-4 text-center">
+                <i class="bi bi-x-lg fs-2"></i>
               </div>
+              <div class="col-4 text-center">
+                <div class="d-flex align-items-center justify-content-center">
+                  <p class="my-0 me-2 fs-4">${partida.visitorGoals}</p>
+                  <img src="${partida.visitorEmblem}" rel="preconnect" alt="${partida.visitorName}" title="${partida.visitorName}" width="50" height="50" class="img-fluid border border-2 rounded-circle">
+                </div>
+              </div>
+            </div>
           </a>
-      </div>
+          <span class="d-none match-id">${partida.id}</span>
+          ${(isOrganizer() && (championshipData.status == 0 || championshipData.status == 3)) ? `
+            <div class="row justify-content-center align-items-center config-match-btn-wrapper">
+              <button data-bs-toggle="modal" data-bs-target="#configMatchModal" class="btn w-auto border-0 d-flex justify-content-center align-items-center config-match-btn">
+                <i class="bi bi-pencil-square px-4 py-1 text-white rounded-pill"></i>
+              </button> 
+            </div>
+          ` : ''}
+        </div>
       `
+    }
+
+    const configMatchBtns = document.getElementsByClassName('config-match-btn')
+    for (const configMatchBtn of configMatchBtns) {
+      configMatchBtn.addEventListener('click', () => {
+        const matchId = configMatchBtn.parentElement.parentElement.querySelector('.match-id').textContent
+        configureMatch(matchId, championshipData)
+      })
     }
   },
   async inicializarArtilharia(formato, idCampeonato) {
@@ -863,10 +1020,10 @@ const chaveamento = {
 
     console.log(tabela);
   },
-  init() {
-    const urlParams = new URLSearchParams(window.location.search),
-          idCampeonato = urlParams.get('id'),
-          configMatchModal = document.getElementById('configMatchModal')
+  async init() {
+
+    const configMatchModal = document.getElementById('configMatchModal')
+
 
     configMatchModal.addEventListener('shown.bs.modal', async () => {
       // set data-lenis-prevent to html
@@ -877,9 +1034,6 @@ const chaveamento = {
       // set data-lenis-prevent to html
       document.documentElement.removeAttribute('data-lenis-prevent')
     })
-
-
-        
 
     this.inicializarTabela(idCampeonato)
   }

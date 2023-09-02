@@ -24,6 +24,8 @@
     "CidadeObrigatoria": "City is required",
     "RuaObrigatoria": "Street is required",
     "NumeroObrigatorio": "Number is required",
-    "DataPartidaMaiorIgual": "Match date must be greater than or equal to today",
-    "SucessoConfigurarPartida": "Match configured successfully"
+    "SucessoConfigurarPartida": "Match configured successfully",
+    "Uniformes": "Uniforms",
+    "InfosPartida": "Match Information",
+    "CEPInvalido": "Invalid Zipcode"
 }

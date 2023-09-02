@@ -1363,11 +1363,11 @@ const init = async () => {
 
 			if (!isMatchConfigured()) {
 				if (!isMatchOrganizer()) {
-					blurWallEvents.innerHTML = `
+					blurWallEvents.insertAdjacentHTML('beforeend', `
 						<div id="blurwall-message-user" class="w-75 text-center">
 							<span class="blurwall-message-user-text i18 fs-4 fw-semibold" key="BlurwallMessageUserText">${i18next.t("BlurwallMessageUserText")}</span>
 						</div>
-					`
+					`)
 				} else {
 					blurWallEvents.insertAdjacentHTML('beforeend', `
 						<div id="blurwall-message-organizer" class="w-75 text-center">
@@ -1501,6 +1501,8 @@ const init = async () => {
 	const
 		allEvents = await executarFetch(`matches/${matchId}/get-all-events`, configuracaoFetch('GET')),
 		allEventsResults = allEvents.results
+
+		console.log(match);
 	loader.hide()
 
     for (const configMenuOption of abaBotoes) {

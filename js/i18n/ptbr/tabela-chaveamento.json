@@ -24,6 +24,8 @@
     "CidadeObrigatoria": "Cidade é obrigatória",
     "RuaObrigatoria": "Rua é obrigatória",
     "NumeroObrigatorio": "Número é obrigatório",
-    "DataPartidaMaiorIgual": "A data da partida deve ser maior ou igual a data atual",
-    "SucessoConfigurarPartida": "Partida configurada com sucesso"
+    "SucessoConfigurarPartida": "Partida configurada com sucesso",
+    "Uniformes": "Uniformes",
+    "InfosPartida": "Informações da Partida",
+    "CEPInvalido": "CEP inválido"
 }
