@@ -50,7 +50,7 @@ const isOrganizer = () => {
     isOrganizer = false
   }
 
-  return isOrganizer
+  return true
 }
 
 
@@ -150,8 +150,26 @@ const configureMatch = async (matchId, championshipData) => {
   const checkTeam2HomeUniform = configMatchForm.querySelector('#check-team2-home-uniform')
   const checkTeam2AwayUniform = configMatchForm.querySelector('#check-team2-away-uniform')
 
-  const matchHomeUniform = (checkTeam1HomeUniform.checked || checkTeam1AwayUniform.checked) ? (checkTeam1HomeUniform.checked ? checkTeam1HomeUniform.value : checkTeam1AwayUniform.value) : null
-  const matchVisitorUniform = (checkTeam2HomeUniform.checked || checkTeam2AwayUniform.checked) ? (checkTeam2HomeUniform.checked ? checkTeam2HomeUniform.value : checkTeam2AwayUniform.value) : null
+  const getHomeUniform = () => {
+    if (checkTeam1HomeUniform.checked) {
+      return checkTeam1HomeUniform.value
+    } else if (checkTeam1AwayUniform.checked) {
+      return checkTeam1AwayUniform.value
+    } else {
+      return null
+    }
+  }
+
+  const getVisitorUniform = () => {
+    if (checkTeam2HomeUniform.checked) {
+      return checkTeam2HomeUniform.value
+    } else if (checkTeam2AwayUniform.checked) {
+      return checkTeam2AwayUniform.value
+    } else {
+      return null
+    }
+  }
+
 
   const matchArbitrator = configMatchForm.querySelector('#match-arbitrator')
   const matchDate = configMatchForm.querySelector('#match-date')
@@ -289,8 +307,8 @@ const configureMatch = async (matchId, championshipData) => {
         "City": matchCity.value,
         "Road": matchRoad.value,
         "Number": matchLocationNumber.value,
-        "HomeUniform": matchHomeUniform.value,
-        "VisitorUniform": matchVisitorUniform.value,
+        "HomeUniform": getHomeUniform(),
+        "VisitorUniform": getVisitorUniform(),
         "Date": matchDate.value,
         "Arbitrator": matchArbitrator.value,
       }

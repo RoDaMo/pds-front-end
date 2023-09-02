@@ -995,7 +995,7 @@ const init = async () => {
 							<span class="m-player-name m-truncated-text-width fw-semibold text-black text-truncate d-block">${player.name}</span>
 						</div>
 						<div class="col p-0 text-center text-md-end">
-							<span class="m-player-position m-truncated-text-width text-muted text-truncate d-block">${getPlayerPosition(player.playerPosition)}</span>
+							<span class="m-player-position m-truncated-text-width text-muted text-truncate d-block i18">${getPlayerPosition(player.playerPosition)}</span>
 						</div>
 						<div class="col p-0 text-center text-md-end">
 							<span class="m-player-number m-truncated-text-width text-muted text-truncate d-block">${player.number}</span>
