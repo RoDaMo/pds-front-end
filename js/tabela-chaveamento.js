@@ -50,9 +50,8 @@ const isOrganizer = () => {
     isOrganizer = false
   }
 
-  return isOrganizer
+  return true
 }
-
 
 const configureMatch = async (matchId, championshipData) => {
   const callbackStatus = (data) => {
@@ -170,13 +169,22 @@ const configureMatch = async (matchId, championshipData) => {
     }
   }
 
-
   const matchArbitrator = configMatchForm.querySelector('#match-arbitrator')
   const matchDate = configMatchForm.querySelector('#match-date')
   const matchZipcode = configMatchForm.querySelector('#match-zipcode')
   const matchCity = configMatchForm.querySelector('#match-city')
   const matchRoad = configMatchForm.querySelector('#match-road')
   const matchLocationNumber = configMatchForm.querySelector('#match-location-number')
+
+  // fill inputs with match data
+  if (match.arbitrator) {
+    matchArbitrator.value = match.arbitrator
+    matchDate.value = match.date
+    matchZipcode.value = match.cep
+    matchCity.value = match.city
+    matchRoad.value = match.road
+    matchLocationNumber.value = match.number
+  }
 
   matchZipcode.addEventListener('keyup', () => {        
     if (matchZipcode.value.length > 8) {
