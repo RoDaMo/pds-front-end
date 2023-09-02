@@ -36,10 +36,9 @@ const isOrganizer = () => {
     isOrganizer = false
   }
 
-  return true
+  return isOrganizer
 }
 
-console.log(championshipData);
 
 const configureMatch = async (matchId, championshipData) => {
   const callbackStatus = (data) => {
@@ -64,7 +63,6 @@ const configureMatch = async (matchId, championshipData) => {
   const team2Data = await executarFetch(`teams/${match.visitorId}`, configuracaoFetch('GET')),
     team2 = team2Data.results
 
-  console.log(team1);
 
   configMatchForm.innerHTML = ''
 
@@ -430,7 +428,6 @@ const chaveamento = {
 
     const responses = await Promise.all(fetchPromises)
     const rodadas = responses.map(response => response.results)
-    console.log(rodadas)
     const gruposWrappers = document.getElementsByClassName('fase-grupos-rodadas')
     let count = 0
     for (const partidas of rodadas) {
@@ -535,7 +532,6 @@ const chaveamento = {
 
     tbody.innerHTML = ''
     let count = 0;
-    console.log(times)
     for (const time of times) {
       count++
       const estatisticas = [[time.goalBalance,time.proGoals,time.yellowCard,time.redCard], [time.winningSets,time.losingSets,time.proPoints,time.pointsAgainst], time.points,time.wins, time.amountOfMatches]
