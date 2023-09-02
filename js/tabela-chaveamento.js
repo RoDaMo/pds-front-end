@@ -50,7 +50,7 @@ const isOrganizer = () => {
     isOrganizer = false
   }
 
-  return true
+  return isOrganizer
 }
 
 
