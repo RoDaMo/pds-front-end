@@ -12,6 +12,7 @@ document.body.appendChild(loader);
 
 const mediaQueryMobile = window.matchMedia('(max-width: 575px)')
 const mediaQueryTablet = window.matchMedia('(max-width: 992px)')
+const sessionUserInfo = JSON.parse(localStorage.getItem('user-info'))
 
 const sportsSection = document.querySelector('.sports-section')
 const ssSlider = document.querySelector('.ss-slider')
@@ -31,6 +32,8 @@ const ssPlayerName = document.querySelectorAll('.ss-player-name')
 const teamSport = document.getElementById('teamSport')
 const teamSportIcon = document.getElementById('teamSportIcon')
 const conteudoInicial = document.querySelector('#conteudo')
+
+const botaoTimeEditar = document.getElementById('botao-time-editar')
 
 const teamInfo = document.querySelector('.team-info')
 const teamDesc = document.querySelector('.team-desc')
@@ -105,7 +108,6 @@ const mensagemErro = document.getElementById("mensagem-erro")
 const parametroUrl = new URLSearchParams(window.location.search);
 const obterInfo = async () => {
     const id = parametroUrl.get('id')
-    console.log(id)
 
     const config = configuracaoFetch("GET")
     
@@ -116,7 +118,6 @@ const obterInfo = async () => {
     
     loader.show()
     const data = await executarFetch(`teams/${id}`, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
-    console.log(data)
     loader.hide()
     
     const sport = document.getElementById("teamSport"),
@@ -163,7 +164,6 @@ const obterInfo = async () => {
     const jogadores = document.getElementById("jogadores")
     const jogadoresVinculados = await executarFetch(`teams/${id}/players`, configuracaoFetch("GET"))
     const campeonatosVinculados = await executarFetch(`teams/championship/${id}`, configuracaoFetch("GET"))
-    console.log(campeonatosVinculados)
     jogadoresVinculados.results.forEach((e) => {
         switch (e.playerPosition) {
             case 1:
@@ -261,6 +261,18 @@ const obterInfo = async () => {
             </div>
         `
     })  
+
+    if(isTeamOwner(id, sessionUserInfo.teamManagementId)) {
+        botaoTimeEditar.classList.remove('d-none')
+    }
+}
+
+const isTeamOwner = (urlId, userTeamId) => {
+    if (urlId == userTeamId) {
+        return true
+    } else {
+        return false
+    }
 }
 
 async function waitInfo() {

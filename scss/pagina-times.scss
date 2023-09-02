@@ -17,6 +17,26 @@ body, html {
     top: 6rem;
 }
 
+.team-config-btn {
+    background: $play-cor-fundos;
+    transition: all $transition;
+
+    a {
+        text-decoration: none;
+        color: $play-cor-texto;
+    }
+
+    &:hover {
+        background-color: $play-cor-fundos-secundaria;
+        filter: brightness(0.9) !important;
+    }
+
+    &:active {
+        background-color: $play-cor-fundos-secundaria;
+        filter: brightness(0.8) !important;
+    }
+}
+
 .coach-board {
     background-color: $play-cor-fundos-secundaria;
     border-radius: 1.5rem;
