@@ -53,10 +53,10 @@ const validator2 = new JustValidate(formularioCpf, {
     validateBeforeSubmitting: true,
 })
 
-var cpfInput = document.getElementById('cpf');
+const cpfLabel = document.getElementById('cpf-label');
 
-cpfInput.addEventListener('input', function(event) {
-    var v = event.target.value
+cpf.addEventListener('input', function(event) {
+    let v = event.target.value
     v=v.replace(/\D/g,"")
     v=v.replace(/(\d{3})(\d)/,"$1.$2")
     v=v.replace(/(\d{3})(\d)/,"$1.$2")
@@ -64,12 +64,35 @@ cpfInput.addEventListener('input', function(event) {
     event.target.value = v;
 });
 
+let selecionado = 'cpf'
+const cnpjInput = document.getElementById('cnpj')
+cnpjInput.addEventListener('input', (e) => {
+    const x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,3})(\d{0,3})(\d{0,4})(\d{0,2})/);
+    e.target.value = !x[2] ? x[1] : x[1] + '.' + x[2] + '.' + x[3] + '/' + x[4] + (x[5] ? '-' + x[5] : '');
+});
+
+const cnpjLabel = document.getElementById('cnpj-label')
+
+document.getElementById('cnpj-radio').addEventListener('change', () => {
+    selecionado = 'cnpj'
+    cpf.classList.add('d-none')
+    cpfLabel.classList.add('d-none')
+    cnpjInput.classList.remove('d-none')
+    cnpjLabel.classList.remove('d-none')
+    cpf.value = null
+})
+
+document.getElementById('cpf-radio').addEventListener('change', () => {
+    selecionado = 'cpf'
+    cpf.classList.remove('d-none')
+    cpfLabel.classList.remove('d-none')
+    cnpjInput.classList.add('d-none')
+    cnpjLabel.classList.add('d-none')
+    cnpjInput.value = null
+})
+
 validator2
     .addField(cpf, [
-        {
-            rule: 'required',
-            errorMessage:  `<span class="i18" key="CpfObrigatorio">${i18next.t("CpfObrigatorio")}</span>`,
-        },
         {
             rule: 'minLength',
             value: 14,
@@ -82,9 +105,15 @@ validator2
         },
         {
             validator: (value, context) => {
+                if (cnpjInput.value)
+                    return true
+
                 const numberCpf = new Array(11)
                 let test = value
                 test =  test.replace(/[.-]/g, "")
+                if (/^(.)\1*$/.test(test))
+                    return false
+
                 for (var i = 0; i < 11; i++)
                     numberCpf[i] = parseInt(test[i])
 
@@ -107,6 +136,30 @@ validator2
                 return !(firstVerifierDigit !== numberCpf[9] || secondVerifierDigit !== numberCpf[10]);
             },
             errorMessage: `<span class="i18" key="CpfInvalido">${i18next.t("CpfInvalido")}</span>`,
+        },
+        {
+            validator: (value, context) => value ? true : cnpjInput.value ? true : false,
+            errorMessage:  `<span class="i18" key="CpfObrigatorio">${i18next.t("CpfObrigatorio")}</span>`,
+        }
+    ])
+    .addField(cnpjInput, [
+        {
+            rule: 'minLength',
+            value: 18,
+            errorMessage: `<span class="i18" key="CpfTamanho">${i18next.t("CnpjTamanho")}</span>`,
+        },
+        {
+            rule: 'maxLength',
+            value: 18,
+            errorMessage: `<span class="i18" key="CpfTamanho">${i18next.t("CnpjTamanho")}</span>`,
+        },
+        {
+            validator: validarCNPJ,
+            errorMessage: `<span class="i18" key="CpfInvalido">${i18next.t("CnpjInvalido")}</span>`,
+        },
+        {
+            validator: (value, context) => value ? true : cpf.value ? true : false,
+            errorMessage:  `<span class="i18" key="CpfObrigatorio">${i18next.t("CnpjObrigatorio")}</span>`,
         }
     ])
     .onSuccess(async(e) => {
@@ -114,9 +167,10 @@ validator2
         limparMensagem(mensagemErro)
 
         loader.show();
+        const valor = cpf.value ? cpf.value.replace(/[.-]/g, "") : cnpjInput.value.trim().replace(/\D/g, '')
 
         const resultado = await postCpf("auth/cpf", 
-            cpf.value.replace(/[.-]/g, "")
+            valor
         )
 
         if (resultado) {
@@ -128,6 +182,41 @@ validator2
         loader.hide();
     })
 
+function validarCNPJ(cnpj, context) {
+    if (cpf.value)
+        return true
+
+    const multiplicador1 = [5,4,3,2,9,8,7,6,5,4,3,2];
+    const multiplicador2 = [6,5,4,3,2,9,8,7,6,5,4,3,2];
+
+    cnpj = cnpj.trim().replace(/\D/g, ''); // Remove todos os caracteres que não são dígitos
+
+    if (cnpj.length !== 14 || /^0+$/.test(cnpj)) 
+        return false;
+
+    let tempCnpj = cnpj.substring(0, 12);
+
+    let digito = calcularDigito(tempCnpj, multiplicador1);
+    digito += calcularDigito(tempCnpj + digito, multiplicador2);
+
+    return cnpj.endsWith(digito);
+}
+
+function calcularDigito(valor, multiplicadores) {
+    let soma = 0;
+
+    for (let i = 0; i < valor.length; i++) {
+        soma += (valor.charAt(i) - '0') * multiplicadores[i];
+    }
+
+    let resto = soma % 11;
+    if (resto < 2) 
+        resto = 0;
+    else 
+        resto = 11 - resto;
+
+    return String(resto);
+}
 
 
 let formulario = document.getElementById("formulario")

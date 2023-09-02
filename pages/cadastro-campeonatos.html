@@ -115,12 +115,30 @@
 
                     
                     <div class="modal-body">
-                        <p class="text-body i18"  key="ModalTexto">Insira seu CPF para prosseguir com a criação do campeonato. Caso feche o modal, será redirecionado para a página inicial.</p>
+                        <p class="text-body i18"  key="ModalTexto">
+                            Para garantir a segurança e a integridade das transações em nossa plataforma, solicitamos o seu CPF (para indivíduos) ou CNPJ (para empresas). 
+                            Estes dados são coletados com o propósito exclusivo de manter um histórico detalhado de nossas interações, o que nos permite ter uma referência clara em eventuais disputas legais ou para esclarecimentos necessários.
+                            Garantimos que essas informações são armazenadas de forma segura e que não serão utilizadas para nenhum outro propósito sem o seu consentimento explícito. 
+                            Valorizamos sua privacidade e estamos comprometidos em proteger seus dados.
+                        </p>
+                        <p class="text-body i18" key="ModalTextoUltimato"></p>
                         <form id="formCpf" method="post">
-                            <label for="cpf" class="form-label text-success">CPF:</label>
+                            <label for="cpf" id="cpf-label" class="form-label text-success">CPF:</label>
                             <input type="text" class="form-control rounded-4" id="cpf" name="cpf" placeholder="CPF...">
+                            <label for="cnpj" id="cnpj-label" class="form-label text-success d-none">CNPJ:</label>
+                            <input type="text" class="form-control rounded-4 d-none" id="cnpj" name="cnpj" placeholder="CNPJ...">
                             <div class="mt-4">
                                 <p class="text-danger" id="mensagem-erro2"></p>
+                            </div>
+                            <div class="d-flex gap-4">
+                                <div class="form-check">
+                                    <input type="radio" class="form-check-input" id="cpf-radio" name="tipo-validacao" value="cpf" checked>
+                                    <label class="text-body form-check-label" for="cpf-radio">CPF</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="radio" class="form-check-input" id="cnpj-radio" name="tipo-validacao" value="cnpj">
+                                    <label class="text-body form-check-label" for="cnpj-radio">CNPJ</label>
+                                </div>
                             </div>
                         </form>
                     </div>
