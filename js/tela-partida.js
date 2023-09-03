@@ -996,6 +996,8 @@ const init = async () => {
 		mTeam2ImgWrapper.insertAdjacentHTML('beforeend', `
 			<img class="m-team-img position-absolute img-fluid w-100 h-100" src="${match.visitorEmblem}" alt="">
 		`)
+
+		document.dispatchEvent(new Event('scoreboard-carregado', { bubbles: true }))
 	}
 
 	const updateScoreboard = async () => {
