@@ -368,11 +368,11 @@ const chaveamento = {
   
       for (const partida of partidas) {
         partidasWrapper.innerHTML += /*html*/`
-          <div class="row justify-content-center align-items-center mx-2 bg-primary px-3 rounded-5">
-            <div class="text-center py-1">
+          <div class="row justify-content-center align-items-center match-details-wrapper px-3 mx-0 rounded-5">
+            <div class="text-center text-black py-1">
               <small>${this.convertDateFormat(partida.date)}</small>
             </div>
-            <a href="/pages/tela-partida.html?id=${partida.id}" class="text-decoration-none match-link-wrapper p-2 rounded-5 my-1 d-flex justify-content-center align-items-center ${classesCustom}">
+            <a href="/pages/tela-partida.html?id=${partida.id}" class="text-decoration-none match-link-wrapper p-2 rounded-5 my-1 mb-3 d-flex justify-content-center align-items-center ${classesCustom}">
               <div class="row justify-content-center align-items-center">
                 <div class="col-4 text-center">
                   <div class="d-flex align-items-center justify-content-center">
@@ -381,7 +381,7 @@ const chaveamento = {
                   </div>
                 </div>
                 <div class="col-4 text-center">
-                  <i class="bi bi-x-lg fs-2"></i>
+                  <i class="bi bi-x-lg fs-6"></i>
                 </div>
                 <div class="col-4 text-center">
                   <div class="d-flex align-items-center justify-content-center">
@@ -443,11 +443,11 @@ const chaveamento = {
   },
   gerarHtmlPartidaFaseGrupos(partida, rodada) {
     return /*html*/`
-      <div class="row justify-content-center align-items-center mx-2 bg-primary px-3 rounded-5 partida-rodada-${rodada}">
-        <div class="text-center py-1">
+      <div class="row justify-content-center align-items-center match-details-wrapper bg-primary px-3 mx-0 rounded-5 partida-rodada-${rodada}">
+        <div class="text-center py-1 text-black">
           <small>${this.convertDateFormat(partida.date)}</small>
         </div>
-        <a href="/pages/tela-partida.html?id=${partida.id}" class="text-decoration-none match-link-wrapper p-2 rounded-5 my-1 d-flex justify-content-center align-items-center">
+        <a href="/pages/tela-partida.html?id=${partida.id}" class="text-decoration-none match-link-wrapper p-2 rounded-5 my-1 mb-3 d-flex justify-content-center align-items-center">
           <div class="row justify-content-center align-items-center">
             <div class="col-4 text-center">
               <div class="d-flex align-items-center justify-content-center">
@@ -456,7 +456,7 @@ const chaveamento = {
               </div>
             </div>
             <div class="col-4 text-center">
-              <i class="bi bi-x-lg fs-2"></i>
+              <i class="bi bi-x-lg fs-6"></i>
             </div>
             <div class="col-4 text-center">
               <div class="d-flex align-items-center justify-content-center">
@@ -597,13 +597,13 @@ const chaveamento = {
             <img src="${time.emblem}" width="40" height="40" class="rounded-circle">
         </td>
         <td class=" d-none d-lg-table-cell border-start-0 align-content-center">${time.name}</td>
-        <td>${estatisticas[2]}</td>
-        <td>${estatisticas[3]}</td>
-        <td>${estatisticas[4]}</td>
-        <td>${estatisticas[championship.sportsId - 1][0]}</td>
-        <td>${estatisticas[championship.sportsId - 1][1]}</td>
-        <td>${estatisticas[championship.sportsId - 1][2]}</td>
-        <td>${estatisticas[championship.sportsId - 1][3]}</td>
+        <td class="text-center fs-5 fw-semibold">${estatisticas[2]}</td>
+        <td class="text-center fs-5 fw-semibold">${estatisticas[3]}</td>
+        <td class="text-center fs-5 fw-semibold">${estatisticas[4]}</td>
+        <td class="text-center fs-5 fw-semibold">${estatisticas[championship.sportsId - 1][0]}</td>
+        <td class="text-center fs-5 fw-semibold">${estatisticas[championship.sportsId - 1][1]}</td>
+        <td class="text-center fs-5 fw-semibold">${estatisticas[championship.sportsId - 1][2]}</td>
+        <td class="text-center fs-5 fw-semibold">${estatisticas[championship.sportsId - 1][3]}</td>
         <td>
           <small class="badge rounded-pill text-bg-secondary badge-ultima-partida d-inline-flex gap-3">
             <div 
