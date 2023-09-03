@@ -1099,8 +1099,6 @@ const init = async () => {
 	}
 
 	const isExtraElegible = async () => {
-		let bool = false
-
 		const callbackStatus = (data) => {
 			notificacaoErro(data.results)
 		}
@@ -1113,13 +1111,11 @@ const init = async () => {
 
 		if (response.succeed) {
 			if (response.results) {
-				bool = true
+				return true
 			} else {
-				bool = false
+				return false
 			}
 		}
-
-		return bool
 	}
 
 	const isPenaltyShootout = () => {
@@ -1215,7 +1211,7 @@ const init = async () => {
 						`
 					}
 				}
-			} else if (!match.isSoccer) {
+			} else {
 				if (event.goal) {
 					eventData = `
 						<div class="event-type"><span class="text-muted i18" key="Ponto">${i18next.t("Ponto")}</span></div>
