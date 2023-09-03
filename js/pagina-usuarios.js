@@ -80,11 +80,44 @@ const obterInfo = async () => {
     loader.show()
     const data = await executarFetch(`auth/${id}`, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
     loader.hide()
-    
-    document.getElementById("user-pic").src = !data.results.picture ? '../default-user-image.png' : data.results.picture
-    document.getElementById("user-bio").textContent = data.results.bio
-    document.getElementById("user-name").textContent = data.results.username
-    document.getElementById("name").textContent = data.results.name
+
+
+
+    if (!data.results.username) {
+        console.log("É um jogador temporário");
+        document.getElementById("user-pic").src = !data.results.picture ? '../default-user-image.png' : data.results.picture
+        document.getElementById("name").textContent = data.results.name
+        document.getElementById("artistic-name").textContent = data.results.artisticName
+        document.getElementById("number").textContent = data.results.number
+        document.getElementById("position").textContent = data.results.playerPosition
+
+
+    } else if (data.results.number || data.results.artisticName) {
+        console.log(data);
+        console.log("É um usuário jogador");
+        document.getElementById("user-pic").src = !data.results.picture ? '../default-user-image.png' : data.results.picture
+        document.getElementById("user-bio").textContent = data.results.bio
+        document.getElementById("user-name").textContent = data.results.username
+        document.getElementById("name").textContent = data.results.name
+        document.getElementById("artistic-name").textContent = data.results.artisticName
+        document.getElementById("number").textContent = data.results.number
+        document.getElementById("position").textContent = data.results.playerPosition
+
+
+
+    } else {
+        console.log(data);
+        console.log("É um usuário normal");
+        document.getElementById("user-pic").src = !data.results.picture ? '../default-user-image.png' : data.results.picture
+        document.getElementById("user-bio").textContent = data.results.bio
+        document.getElementById("user-name").textContent = data.results.username
+        document.getElementById("name").textContent = data.results.name
+    }
+
+
+
+
 }
+
 
 document.addEventListener('header-carregado', obterInfo)
