@@ -56,6 +56,7 @@
                         <button class="list-group-item list-group-item-action m-2 w-auto border-0 rounded-pill active" menu="0"><span class="i18" key="Eventos">Eventos</span></button>
                         <button class="list-group-item list-group-item-action m-2 w-auto border-0 rounded-pill" menu="1"><span class="i18" key="Jogadores">Jogadores</span></button>
                         <button id="manage-match-btn" class="d-none list-group-item list-group-item-action m-2 w-auto border-0 rounded-pill" menu="2"><span class="i18" key="Administrar">Administrar</span></button>
+                        <button class="list-group-item list-group-item-action m-2 w-auto border-0 rounded-pill" menu="3"><span class="i18" key="Taticas">Táticas</span></button>
                     </ul>
                 </div>
 
@@ -161,6 +162,60 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div id="match-details-tatics" class="d-none menu-config menu-config d-flex flex-column align-items-center mt-4" menu="3">
+                            <ul class="list-group list-group-horizontal list-group-flush d-flex justify-content-center align-items-center">
+                                <button class="list-group-item list-group-item-action m-2 w-auto border-0 rounded-pill active botao-aba-times" id="botao-aba-1">Time 1</button>
+                                <button class="list-group-item list-group-item-action m-2 w-auto border-0 rounded-pill botao-aba-times" id="botao-aba-2">Time 2</button>
+                            </ul>
+                            <section class="aba-time d-flex flex-column align-items-center mt-2" id="aba-time-1">
+                                <div class="d-flex justify-content-center mb-2 align-items-center">
+                                    <input type="number" class="botao-esquema-tatico form-control d-inline" id="fundo" min="0" max="6" value="4"/>
+                                    <span>-</span>
+                                    <input type="number" class="botao-esquema-tatico form-control d-inline" id="meio" min="0" max="6" value="3"/>
+                                    <span>-</span>
+                                    <input type="number" class="botao-esquema-tatico form-control d-inline" id="meio-avante" min="0" max="6" value="3"/>
+                                    <span>-</span>
+                                    <input type="number" class="botao-esquema-tatico form-control d-inline" id="avante" min="0" max="6"/>
+                                </div>
+                                <div class="text-danger d-none mb-2" id="container-erro-esquema-tatico"></div>
+                                <div class="container">
+                                    <div class="row justify-content-center gap-3">
+                                        <div class="col-9" id="campo-futebol">
+                                            <div class="container h-100 d-flex flex-column-reverse justify-content-evenly" id="campo-futebol-container">
+                                                <div class="row justify-content-evenly linha-goleiro">
+                                                    <div class="bola jogadores" draggable="true" data-posicao="1" data-linha="0">
+                                                        <div class="sub-bola">
+                                                            <small>0</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row justify-content-evenly linha-campo">
+                                                    
+                                                </div>
+                                                <div class="row justify-content-evenly linha-campo">
+                                                   
+                                                </div>
+                                                <div class="row justify-content-evenly linha-campo">
+                                                    
+                                                </div>
+                                                <div class="row justify-content-evenly linha-campo">
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="bg-verde-limao p-2 row rounded-custom gap-3" id="jogadores-time">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <section class="aba-time d-none d-flex flex-column align-items-center" id="aba-time-2">
+                                <p>aba 2</p>
+                            </section>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -171,5 +226,6 @@
     <script type="module" src="../js/utilidades/header.js"></script>
     <script type="module" src="../js/utilidades/footer.js"></script>
     <script type="module" src="../js/tela-partida.js"></script>
+    <script type="module" src="../js/taticas.js"></script>
 </body>
 </html>
