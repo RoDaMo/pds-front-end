@@ -32,7 +32,8 @@
                                 <button id="proximo" class="seta-botao btn btn-secondary px-2 rounded-circle"><i class="bi bi-caret-right"></i></button>
                             </div>
 
-                            <div class="bg-verde-limao rounded-custom" id="partida-rodada-eliminatorias">
+                            <!-- bg-gray -->
+                            <div class="rounded-custom" id="partida-rodada-eliminatorias"> 
 
                             </div>
 
@@ -63,7 +64,7 @@
             <div class="custom-container rounded-5 p-3 d-flex flex-column gap-3"> 
                 <div class="container">
                     <div class="row gap-lg-3">
-                        <div class="col d-flex flex-column-reverse flex-lg-column gap-3 px-0">
+                        <div data-lenis-prevent class="col d-flex flex-column-reverse flex-lg-column gap-3 px-0">
                             <div class="p-3 rounded-5 borda-bottom-lg table-responsive tabela-customizada-wrapper col">
                                 <table class="table table-hover table-bordered tabela-customizada">
                                     <thead>
@@ -71,14 +72,14 @@
                                             <th scope="col" class="col border-0 d-none d-lg-table-cell"></th>
                                             <th scope="col" class="col-1 border-0 coluna-fixa"></th>
                                             <th scope="col" class="col-2 border-0 d-none d-lg-table-cell"></th>
-                                            <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado">P</th>
-                                            <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado">V</th>
-                                            <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado">J</th>
-                                            <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado">SG</th>
-                                            <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado">GP</th>
-                                            <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado">CA</th>
-                                            <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado">CV</th>
-                                            <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado">Ult. Jogos</th>
+                                            <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado text-center">P</th>
+                                            <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado text-center">V</th>
+                                            <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado text-center">J</th>
+                                            <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado text-center">SG</th>
+                                            <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado text-center">GP</th>
+                                            <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado text-center">CA</th>
+                                            <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado text-center">CV</th>
+                                            <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado text-center">Ult. Jogos</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -103,7 +104,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="rounded-5 col-lg-3 col-12 matches-round-data-wrapper p-3">
+                        <div class="rounded-5 col-lg-3 mt-3 mt-lg-0 col-12 matches-round-data-wrapper p-3">
                             <div class="row row-cols-3 flex-row justify-content-center align-items-center">
                                 <div class="col-12 d-flex justify-content-center align-items-center">
                                     <h4 id="rodada-text" class="text-black"><span id="rodada-atual">1</span>º Rodada</h4>
