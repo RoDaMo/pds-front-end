@@ -443,7 +443,7 @@ const chaveamento = {
   },
   gerarHtmlPartidaFaseGrupos(partida, rodada) {
     return /*html*/`
-      <div class="row justify-content-center align-items-center match-details-wrapper bg-primary px-3 mx-0 rounded-5 partida-rodada-${rodada}">
+      <div class="row justify-content-center align-items-center match-details-wrapper px-3 mx-0 rounded-5 partida-rodada-${rodada}">
         <div class="text-center py-1 text-black">
           <small>${this.convertDateFormat(partida.date)}</small>
         </div>
@@ -791,7 +791,7 @@ const chaveamento = {
           </table>
         </div>
       </div>
-      <div class="bg-secondary col-lg-3 col-12 borda-leve borda-top-lg p-3 mb-lg-0 mb-3">
+      <div class="col-lg-3 col-12 rounded-5 matches-round-data-wrapper borda-top-lg p-3 mb-lg-0 mb-3">
         <div class="row row-cols-3 flex-row justify-content-center align-items-center">
           <div class="col-12 d-flex justify-content-center align-items-center">
               <h4 id="rodada-text-${count}" class="text-black"><span id="rodada-atual-${count}">1</span>º Rodada</h4>
@@ -848,7 +848,7 @@ const chaveamento = {
     containerGrupos.appendChild(rowGrupos)
     partidasWrapper.appendChild(containerGrupos)
     partidasWrapper.innerHTML += /*html*/`
-      <div class="container p-3 borda-leve bg-verde-limao">
+      <div class="container p-3 rounded-5 legenda-wrapper">
         <div class="legenda me-2 d-inline-block">
           <div class="d-inline-block vencedor" style="width: 10px; height: 10px;"></div>
           Derrota
@@ -891,7 +891,7 @@ const chaveamento = {
     partidasWrapper.innerHTML = ''
     if (partidas.length == 0) {
       partidasWrapper.innerHTML = `
-        <div class="bg-verde-limao col-12 text-center rounded-custom">
+        <div class="bg-gray-lvl-2 col-12 text-center rounded-5">
           <h5 class="p-5">Por enquanto, não há partidas nessa fase do campeonato.</h5>
         </div>
       `
@@ -914,80 +914,79 @@ const chaveamento = {
       for (const partidaDupla of partidasDuplas) {
         count++;
         partidasWrapper.innerHTML += /*html*/`
-          <div class="bg-verde-limao p-2 m-2 rounded-custom">
-            <div class="d-flex gap-3 justify-content-evenly align-items-center bg-secondary texto-verde-limao p-3 rounded ida-volta">
-                <div class="row justify-content-center align-items-center mx-2 bg-primary px-3 rounded-5">
-                  <div class="text-center py-1">
-                    <small>${this.convertDateFormat(partidaDupla.jogoAtual.date)}</small><small class="d-block d-lg-inline"><span class="d-none d-lg-inline">-</span> ${partidaDupla.jogoAtual.local ? partidaDupla.jogoAtual.local : 'Localização não definida'}</small>
+          <div class="d-flex gap-3 justify-content-evenly align-items-center text-black bg-gray-lvl-2 mb-3 p-3 rounded ida-volta">
+              <div class="row justify-content-center align-items-center mx-2 bg-gray-lvl-3 px-3 pb-3 rounded-5">
+                <div class="text-center py-1">
+                  <small>${this.convertDateFormat(partidaDupla.jogoAtual.date)}</small><small class="d-block d-lg-inline"><span class="d-none d-lg-inline">-</span> ${partidaDupla.jogoAtual.local ? partidaDupla.jogoAtual.local : 'Localização não definida'}</small>
+                </div>
+                <a href="/pages/tela-partida.html?id=${partidaDupla.jogoAtual.id}" class="text-decoration-none match-link-wrapper p-2 rounded-5 my-1 d-flex justify-content-center align-items-center">
+                  <div class="row justify-content-center align-items-center">
+                    <div class="col-4 text-center">
+                      <div class="d-flex align-items-center justify-content-center">
+                        <img src="${partidaDupla.jogoAtual.homeEmblem}" rel="preconnect" alt="${partidaDupla.jogoAtual.homeName}" title="${partidaDupla.jogoAtual.homeName}" width="50" height="50" class="img-fluid rounded-circle">
+                        <p class="my-0 ms-2 fs-4">${partidaDupla.jogoAtual.homeGoals}</p>
+                      </div>
+                    </div>
+                    <div class="col-4 text-center">
+                      <i class="bi bi-x-lg fs-6"></i>
+                    </div>
+                    <div class="col-4 text-center">
+                      <div class="d-flex align-items-center justify-content-center">
+                        <p class="my-0 me-2 fs-4">${partidaDupla.jogoAtual.visitorGoals}</p>
+                        <img src="${partidaDupla.jogoAtual.visitorEmblem}" rel="preconnect" alt="${partidaDupla.jogoAtual.visitorName}" title="${partidaDupla.jogoAtual.visitorName}" width="50" height="50" class="img-fluid rounded-circle">
+                      </div>
+                    </div>
                   </div>
-                  <a href="/pages/tela-partida.html?id=${partidaDupla.jogoAtual.id}" class="text-decoration-none match-link-wrapper p-2 rounded-5 my-1 d-flex justify-content-center align-items-center">
-                    <div class="row justify-content-center align-items-center">
-                      <div class="col-4 text-center">
-                        <div class="d-flex align-items-center justify-content-center">
-                          <img src="${partidaDupla.jogoAtual.homeEmblem}" rel="preconnect" alt="${partidaDupla.jogoAtual.homeName}" title="${partidaDupla.jogoAtual.homeName}" width="50" height="50" class="img-fluid border border-2 rounded-circle">
-                          <p class="my-0 ms-2 fs-4">${partidaDupla.jogoAtual.homeGoals}</p>
-                        </div>
-                      </div>
-                      <div class="col-4 text-center">
-                        <i class="bi bi-x-lg fs-2"></i>
-                      </div>
-                      <div class="col-4 text-center">
-                        <div class="d-flex align-items-center justify-content-center">
-                          <p class="my-0 me-2 fs-4">${partidaDupla.jogoAtual.visitorGoals}</p>
-                          <img src="${partidaDupla.jogoAtual.visitorEmblem}" rel="preconnect" alt="${partidaDupla.jogoAtual.visitorName}" title="${partidaDupla.jogoAtual.visitorName}" width="50" height="50" class="img-fluid border border-2 rounded-circle">
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                  <span class="d-none match-id">${partidaDupla.jogoAtual.id}</span>
-                  ${(isOrganizer() && (championshipData.status == 0 || championshipData.status == 3)) ? `
-                    <div class="row justify-content-center align-items-center config-match-btn-wrapper">
-                      <button data-bs-toggle="modal" data-bs-target="#configMatchModal" class="btn w-auto border-0 d-flex justify-content-center align-items-center config-match-btn">
-                        <i class="bi bi-pencil-square px-4 py-1 text-white rounded-pill"></i>
-                      </button> 
-                    </div>
-                  ` : ''}
-                </div>
-
-                <div class="d-flex align-items-center justify-content-center bg-verde-limao px-3 py-2 rounded">
-                    <small class="text-nowrap">${fases[faseAtual]} ${count}</small>
-                </div>
-
-                <div class="row justify-content-center align-items-center mx-2 bg-primary px-3 rounded-5">
-                  <div class="text-center py-1">
-                    <small>${this.convertDateFormat(partidaDupla.proximoJogo.date)}</small><small class="d-block d-lg-inline"><span class="d-none d-lg-inline">-</span> ${partidaDupla.jogoAtual.local ? partidaDupla.jogoAtual.local : 'Localização não definida'}</small>
+                </a>
+                <span class="d-none match-id">${partidaDupla.jogoAtual.id}</span>
+                ${(isOrganizer() && (championshipData.status == 0 || championshipData.status == 3)) ? `
+                  <div class="row justify-content-center align-items-center config-match-btn-wrapper">
+                    <button data-bs-toggle="modal" data-bs-target="#configMatchModal" class="btn w-auto border-0 d-flex justify-content-center align-items-center config-match-btn">
+                      <i class="bi bi-pencil-square px-4 py-1 text-white rounded-pill"></i>
+                    </button> 
                   </div>
-                  <a href="/pages/tela-partida.html?id=${partidaDupla.proximoJogo.id}" class="text-decoration-none match-link-wrapper p-2 rounded-5 my-1 d-flex justify-content-center align-items-center">
-                    <div class="row justify-content-center align-items-center">
-                      <div class="col-4 text-center">
-                        <div class="d-flex align-items-center justify-content-center">
-                          <img src="${partidaDupla.proximoJogo.homeEmblem}" rel="preconnect" alt="${partidaDupla.proximoJogo.homeName}" title="${partidaDupla.proximoJogo.homeName}" width="50" height="50" class="img-fluid border border-2 rounded-circle">
-                          <p class="my-0 ms-2 fs-4">${partidaDupla.proximoJogo.homeGoals}</p>
-                        </div>
-                      </div>
-                      <div class="col-4 text-center">
-                        <i class="bi bi-x-lg fs-2"></i>
-                      </div>
-                      <div class="col-4 text-center">
-                        <div class="d-flex align-items-center justify-content-center">
-                          <p class="my-0 me-2 fs-4">${partidaDupla.proximoJogo.visitorGoals}</p>
-                          <img src="${partidaDupla.proximoJogo.visitorEmblem}" rel="preconnect" alt="${partidaDupla.proximoJogo.visitorName}" title="${partidaDupla.proximoJogo.visitorName}" width="50" height="50" class="img-fluid border border-2 rounded-circle">
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                  <span class="d-none match-id">${partidaDupla.proximoJogo.id}</span>
-                  ${(isOrganizer() && (championshipData.status == 0 || championshipData.status == 3)) ? `
-                    <div class="row justify-content-center align-items-center config-match-btn-wrapper">
-                      <button data-bs-toggle="modal" data-bs-target="#configMatchModal" class="btn w-auto border-0 d-flex justify-content-center align-items-center config-match-btn">
-                        <i class="bi bi-pencil-square px-4 py-1 text-white rounded-pill"></i>
-                      </button> 
-                    </div>
-                  ` : ''}
-                </div>
+                ` : ''}
+              </div>
 
-            </div>
-        </div>
+              <div class="d-flex align-items-center justify-content-center bg-gray-lvl-3 mb-3 px-3 py-2 rounded">
+                  <small class="text-nowrap text-black">${fases[faseAtual]} ${count}</small>
+              </div>
+
+              <div class="row justify-content-center align-items-center mx-2 bg-gray-lvl-3 px-3 pb-3 rounded-5">
+                <div class="text-center py-1">
+                  <small>${this.convertDateFormat(partidaDupla.proximoJogo.date)}</small><small class="d-block d-lg-inline"><span class="d-none d-lg-inline">-</span> ${partidaDupla.jogoAtual.local ? partidaDupla.jogoAtual.local : 'Localização não definida'}</small>
+                </div>
+                <a href="/pages/tela-partida.html?id=${partidaDupla.proximoJogo.id}" class="text-decoration-none match-link-wrapper p-2 rounded-5 my-1 d-flex justify-content-center align-items-center">
+                  <div class="row justify-content-center align-items-center">
+                    <div class="col-4 text-center">
+                      <div class="d-flex align-items-center justify-content-center">
+                        <img src="${partidaDupla.proximoJogo.homeEmblem}" rel="preconnect" alt="${partidaDupla.proximoJogo.homeName}" title="${partidaDupla.proximoJogo.homeName}" width="50" height="50" class="img-fluid rounded-circle">
+                        <p class="my-0 ms-2 fs-4">${partidaDupla.proximoJogo.homeGoals}</p>
+                      </div>
+                    </div>
+                    <div class="col-4 text-center">
+                      <i class="bi bi-x-lg fs-6"></i>
+                    </div>
+                    <div class="col-4 text-center">
+                      <div class="d-flex align-items-center justify-content-center">
+                        <p class="my-0 me-2 fs-4">${partidaDupla.proximoJogo.visitorGoals}</p>
+                        <img src="${partidaDupla.proximoJogo.visitorEmblem}" rel="preconnect" alt="${partidaDupla.proximoJogo.visitorName}" title="${partidaDupla.proximoJogo.visitorName}" width="50" height="50" class="img-fluid rounded-circle">
+                      </div>
+                    </div>
+                  </div>
+                </a>
+                <span class="d-none match-id">${partidaDupla.proximoJogo.id}</span>
+                ${(isOrganizer() && (championshipData.status == 0 || championshipData.status == 3)) ? `
+                  <div class="row justify-content-center align-items-center config-match-btn-wrapper">
+                    <button data-bs-toggle="modal" data-bs-target="#configMatchModal" class="btn w-auto border-0 d-flex justify-content-center align-items-center config-match-btn">
+                      <i class="bi bi-pencil-square px-4 py-1 text-white rounded-pill"></i>
+                    </button> 
+                  </div>
+                ` : ''}
+              </div>
+
+          </div>
+
         `
       }
 
@@ -1005,7 +1004,7 @@ const chaveamento = {
     for (const partida of partidas) {
       count++;
       partidasWrapper.innerHTML += /*html*/`
-        <div class="row justify-content-center align-items-center mx-2 bg-primary px-3 rounded-5">
+        <div class="row justify-content-center align-items-center mx-2 bg-gray-lvl-2 px-3 pb-3 mb-3 rounded-5">
           <div class="text-center py-1">
             <small>${this.convertDateFormat(partida.date)}</small>
           </div>
@@ -1013,17 +1012,17 @@ const chaveamento = {
             <div class="row justify-content-center align-items-center">
               <div class="col-4 text-center">
                 <div class="d-flex align-items-center justify-content-center">
-                  <img src="${partida.homeEmblem}" rel="preconnect" alt="${partida.homeName}" title="${partida.homeName}" width="50" height="50" class="img-fluid border border-2 rounded-circle">
+                  <img src="${partida.homeEmblem}" rel="preconnect" alt="${partida.homeName}" title="${partida.homeName}" width="50" height="50" class="img-fluid rounded-circle">
                   <p class="my-0 ms-2 fs-4">${partida.homeGoals}</p>
                 </div>
               </div>
               <div class="col-4 text-center">
-                <i class="bi bi-x-lg fs-2"></i>
+                <i class="bi bi-x-lg fs-6"></i>
               </div>
               <div class="col-4 text-center">
                 <div class="d-flex align-items-center justify-content-center">
                   <p class="my-0 me-2 fs-4">${partida.visitorGoals}</p>
-                  <img src="${partida.visitorEmblem}" rel="preconnect" alt="${partida.visitorName}" title="${partida.visitorName}" width="50" height="50" class="img-fluid border border-2 rounded-circle">
+                  <img src="${partida.visitorEmblem}" rel="preconnect" alt="${partida.visitorName}" title="${partida.visitorName}" width="50" height="50" class="img-fluid rounded-circle">
                 </div>
               </div>
             </div>
