@@ -586,11 +586,12 @@ const chaveamento = {
 
     tbody.innerHTML = ''
     let count = 0;
+    let html = ``
     for (const time of times) {
       count++
       const estatisticas = [[time.goalBalance,time.proGoals,time.yellowCard,time.redCard], [time.winningSets,time.losingSets,time.proPoints,time.pointsAgainst], time.points,time.wins, time.amountOfMatches]
       
-      tbody.innerHTML += /* html */`
+      html += /* html */`
       <tr class="border-top-0"> <!-- 1 -->
         <th scope="row" class="border-end-0 border-start-0 d-none d-lg-table-cell">${count}</th>
         <td class="border-start-0 border-end-0 coluna-fixa">
@@ -605,30 +606,33 @@ const chaveamento = {
         <td class="text-center fs-5 fw-semibold">${estatisticas[championship.sportsId - 1][2]}</td>
         <td class="text-center fs-5 fw-semibold">${estatisticas[championship.sportsId - 1][3]}</td>
         <td>
-          <small class="badge rounded-pill text-bg-secondary badge-ultima-partida d-inline-flex gap-3">
+          <small class="badge rounded-pill text-bg-secondary badge-ultima-partida d-inline-flex gap-3">`
+          
+        console.log(time)
+        for (let i = 0; i < time.lastMatches.length; i++) {
+          const partida = time.lastMatches[i];
+          const resultado = time.lastResults[i]
+          const classe = resultado.won ? 'vencedor' : resultado.lose ? 'perdedor' : 'neutro'
+          const classeOposta = resultado.won ? 'perdedor' : resultado.lose ? 'vencedor' : 'neutro'
+
+          html += /*html*/ `
             <div 
-              class="vencedor partida-pilula col-2" 
+              class="${classe} partida-pilula col-2" 
               data-bs-toggle="tooltip" 
               data-bs-html="true"
-              data-bs-title="<div class='align-items-center'><img src='https://playoffs-api.up.railway.app/img/ffc82e3d-4002-4fe1-bcbd-62fc78bcb880' rel='preconnect' width='40' height='40' class='time-vencedor rounded-circle'> 3 <i class='bi bi-x-lg'></i> 1 <img src='https://playoffs-api.up.railway.app/img/ffc82e3d-4002-4fe1-bcbd-62fc78bcb880' rel='preconnect' width='40' height='40' class='time-vencedor rounded-circle'></div>"
+              data-bs-title="<div class='align-items-center'><img src='${partida.homeEmblem}' alt='${partida.homeName}' rel='preconnect' width='40' height='40' class='time-${partida.homeId == time.teamId ? classe : classeOposta} rounded-circle'> ${partida.finished ? partida.homeGoals : ""} <i class='bi bi-x-lg'></i> ${partida.finished ? partida.visitorGoals : ""} <img src='${partida.visitorEmblem}' alt='${partida.visitorName}' rel='preconnect' width='40' height='40' class='time-${partida.visitorId == time.teamId ? classe : classeOposta} rounded-circle'></div>"
             ></div>
-            <div 
-              class="perdedor partida-pilula col-2" 
-              data-bs-toggle="tooltip" 
-              data-bs-html="true"
-              data-bs-title="<div class='align-items-center'><img src='https://playoffs-api.up.railway.app/img/ffc82e3d-4002-4fe1-bcbd-62fc78bcb880' rel='preconnect' width='40' height='40' class='time-vencedor rounded-circle'> 3 <i class='bi bi-x-lg'></i> 1 <img src='https://playoffs-api.up.railway.app/img/ffc82e3d-4002-4fe1-bcbd-62fc78bcb880' rel='preconnect' width='40' height='40' class='time-vencedor rounded-circle'></div>"
-            ></div>
-            <div 
-              class="neutro partida-pilula col-2" 
-              data-bs-toggle="tooltip" 
-              data-bs-html="true"
-              data-bs-title="<div class='align-items-center'><img src='https://playoffs-api.up.railway.app/img/ffc82e3d-4002-4fe1-bcbd-62fc78bcb880' rel='preconnect' width='40' height='40' class='time-vencedor rounded-circle'> 3 <i class='bi bi-x-lg'></i> 1 <img src='https://playoffs-api.up.railway.app/img/ffc82e3d-4002-4fe1-bcbd-62fc78bcb880' rel='preconnect' width='40' height='40' class='time-vencedor rounded-circle'></div>"
-            ></div>
+          `
+        }
+        
+        html +=
+        `
           </small>
         </td>
       </tr>
       `
     }
+    tbody.innerHTML = html;
 
     const tooltips = document.getElementsByClassName('partida-pilula'),
           tooltipBootstrap = [...tooltips].map(tooltip => new Tooltip(tooltip))
