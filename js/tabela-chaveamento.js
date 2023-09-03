@@ -761,14 +761,14 @@ const chaveamento = {
     const containerGrupos = document.createElement('div')
     containerGrupos.classList.add('container')
     const rowGrupos = document.createElement('div')
-    rowGrupos.classList.add('row', 'gap-lg-4')
+    rowGrupos.classList.add('row', 'gap-lg-3')
 
     let count = 0;
     for (const grupo of grupos) {
       count++;
       rowGrupos.innerHTML += /*html*/`
       <div class="col d-flex flex-column-reverse flex-lg-column gap-3 px-0">
-        <div class="bg-verde-limao p-3 borda-leve table-responsive tabela-customizada-wrapper col">
+        <div class="p-3 rounded-5 table-responsive tabela-customizada-wrapper col">
           <h3>Grupo ${count}</h3>
           <table class="table table-hover table-bordered tabela-customizada">
             <thead>

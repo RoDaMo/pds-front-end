@@ -31,113 +31,12 @@ const callbackServidor = data => {
     data.results.forEach(element => erro.innerHTML += `${element}<br>`);
 }
 
-let filtros = {
-    name: null,
-    sport: null,
-    start: null,
-    finish: null,
-    status: null
-}
-
 let lng = localStorage.getItem('lng')
-
-
-flatpickr(filtroInicio, {
-    dateFormat: "Y-m-d",
-    locale:  lng === 'ptbr' ? Portuguese : ingles,
-    altInput: true,
-    onChange: async (selectedDates, dateStr, instance) => {
-        paginasAnteriores = []
-        filtros.start = dateStr;
-        await listagem();
-    }
-})
-
-flatpickr(filtroFim, {
-    dateFormat: "Y-m-d",
-    locale:  lng === 'ptbr' ? Portuguese : ingles,
-    altInput: true,
-    onChange: async (selectedDates, dateStr, instance) => {
-        paginasAnteriores = []
-        filtros.finish = dateStr;
-        await listagem();
-    }
-})
-
-document.addEventListener('nova-lingua', event => {
-    let lng = localStorage.getItem('lng');
-    flatpickr(filtroInicio, {
-        dateFormat: "Y-m-d",
-        locale:  lng === 'ptbr' ? Portuguese : ingles,
-        altInput: true,
-        onChange: (selectedDates, dateStr, instance) => {
-            paginasAnteriores = []
-            filtros.finish = dateStr;
-            console.log('filtroInicio')
-            listagem();
-        }
-    })
-    flatpickr(filtroFim, {
-        dateFormat: "Y-m-d",
-        locale:  lng === 'ptbr' ? Portuguese : ingles,
-        altInput: true,
-        onChange: (selectedDates, dateStr, instance) => {
-            paginasAnteriores = []
-            filtros.finish = dateStr;
-            console.log('filtroFim')
-            listagem();
-        }
-    })
-
-    let inputData1 = document.querySelectorAll('[tabindex]')[1]
-    inputData1.placeholder = i18next.t("FiltrarApartir")
-    inputData1.setAttribute('key', 'FiltrarApartir')
-    inputData1.classList.add("i18-placeholder")
-
-    let inputData2 = document.querySelectorAll('[tabindex]')[2]
-    inputData2.placeholder = i18next.t("FiltrarAte")
-    inputData2.setAttribute('key', 'FiltrarAte')
-    inputData2.classList.add("i18-placeholder")
-})
-
-filtroEsporte.addEventListener("change", async () => {
-    paginasAnteriores = []
-    filtros.sport = filtroEsporte.value ? filtroEsporte.value : null;
-    if(filtroEsporte.value === "") params = new URLSearchParams();
-    await listagem();
-})
-
-filtroStatus.addEventListener("change", async () => {
-    paginasAnteriores = []
-    filtros.status = filtroStatus.value ? filtroStatus.value : null;
-    if(filtroStatus.value === "") params = new URLSearchParams();
-    await listagem();
-})
-
-limpar.addEventListener("click", async(e) => {
-    paginasAnteriores = []
-    e.preventDefault()
-
-    parametroUrl.delete('name');
-    window.location.search = parametroUrl.toString()
-
-    Object.keys(filtros).forEach((key) => {
-        params.set(key, null)
-    })
-
-    loader.show()
-    const data = await executarFetch('organizer/championship', config, null, callbackServidor)
-    loader.hide()
-
-    exibirDados(data)
-})
 
 const listagem = async () => {
     limparMensagem(erro)
 
-    usarObjeto()
-
-    const endpoint = `organizer/championship${params.toString() ? '?' + params.toString() : ''}`
+    const endpoint = `organizer/championship`
     loader.show()
     const data = await executarFetch(endpoint, config, null, callbackServidor)
     console.log(data)
@@ -146,58 +45,20 @@ const listagem = async () => {
     exibirDados(data)
 }
 
-proximo.addEventListener('click', async () => {
-    const data = await configProximo()
-
-    if(data.results.length !== 0) {
-        exibirDados(data)
+const exibirStatus = (status) => {
+    switch(status){
+        case 0:
+            return 'Ativo'
+            break
+        case 1:
+            return 'Finalizado'
+            break
+        case 3:
+            return 'Pendente'
+            break
+        default:
+            return 'Sem Status'
     }
-})
-
-anterior.addEventListener("click", async () => {
-    exibirDados(elementoAnterior(paginasAnteriores, paginasAnteriores[paginasAnteriores.length-1]))
-});
-
-const usarObjeto = () => {
-    filtros.name = parametroUrl.get("name") ? parametroUrl.get("name") : null
-
-    Object.keys(filtros).forEach((key) => {
-        if(filtros[key]) {
-            params.set(key, filtros[key])
-        }
-    })
-}
-
-const elementoAnterior = (vetor, elemento) => {
-    const indice = vetor.indexOf(elemento);
-    
-    if (indice === -1 || indice === 0) {
-        return vetor[vetor.length-1];
-    }
-    
-    return vetor[indice - 1];
-}
-
-const configProximo = async () => {
-    const configPaginacao = configuracaoFetch("GET")
-
-    configPaginacao.headers = {
-        'Accept-Language': localStorage.getItem('lng'),
-        'pitId': document.getElementById('pitId') ? document.getElementById('pitId').textContent : null,
-        'sort': document.getElementById('sort') ? document.getElementById('sort').textContent.split(",") : null
-    }
-
-    usarObjeto()
-
-    const endpoint = `championship${params.toString() ? '?' + params.toString() : ''}`
-
-    return await executarFetch(endpoint, configPaginacao, null, callbackServidor)
-}
-
-const reqBotaoProximo = async() => {
-    const data = await configProximo()
-
-    proximo.disabled = (data !== undefined) ? (data.results.length === 0) : true
 }
 
 const exibirDados = async (data) => {
@@ -213,7 +74,7 @@ const exibirDados = async (data) => {
 
     data.results.forEach(e => {
         conteudo.innerHTML += 
-        /*html*/`
+        /html/`
             <div class="card card-body mt-5 border border-2 rounded-custom text-black">
                 <a href="/pages/configuracao-campeonato.html?id=${e.id}" class="text-decoration-none">
                     <div class="row gap-0">
@@ -226,7 +87,7 @@ const exibirDados = async (data) => {
                         <div class="col-md-9 d-flex flex-column justify-content-center  ">
                             <h3 id="nome" class="card-title text-success">${e.name}</h3>
                             <div class="row gap-0">      
-                                <p class="col-md-12 text-success"><i class="bi bi-calendar-event-fill m-1 text-success"></i> <span class="i18" key="De">${i18next.t("De")}</span> ${new Date(e.initialDate).toLocaleDateString('pt-BR')}  <span class="i18" key="Ate">${i18next.t("Ate")}</span> ${new Date(e.finalDate).toLocaleDateString('pt-BR')}</p>
+                                <p class="col-md-12 text-success"><i class="bi bi-calendar-event-fill m-1 text-success"></i> <span class="i18" key="De">${i18next.t("De")}</span> ${new Date(e.initialDate).toLocaleDateString('pt-BR')}  <span class="i18" key="Ate">${i18next.t("Ate")}</span> ${new Date(e.finalDate).toLocaleDateString('pt-BR')} <small><i class="bi bi-dash"></i></small>${exibirStatus(e.status)}</p>
                             </div>
                         </div>
 
@@ -238,20 +99,6 @@ const exibirDados = async (data) => {
             </div>
         `;
     });
-    paginasAnteriores.push(data)
-    anterior.disabled = data === paginasAnteriores[0];
-    // await reqBotaoProximo()
-    window.scrollTo(0, 0);
 }
 
 listagem();
-
-let inputData1 = document.querySelectorAll('[tabindex]')[1]
-inputData1.placeholder = i18next.t("FiltrarApartir")
-inputData1.setAttribute('key', 'FiltrarApartir')
-inputData1.classList.add("i18-placeholder")
-
-let inputData2 = document.querySelectorAll('[tabindex]')[2]
-inputData2.placeholder = i18next.t("FiltrarAte")
-inputData2.setAttribute('key', 'FiltrarAte')
-inputData2.classList.add("i18-placeholder")
