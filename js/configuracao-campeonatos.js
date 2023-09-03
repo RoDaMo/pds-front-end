@@ -372,9 +372,8 @@ const init = async () => {
 					},
 					{
 						validator: (value) => {
-							const dataInicial = new Date(value)
 							const dataAtual = new Date()
-							dataAtual.setDate(dataAtual.getDate() - 1)
+							const dataInicial = new Date(value)
 							return dataInicial >= dataAtual
 						},
 						errorMessage: `<span class="i18" key="DataInicialMaiorIgual">${i18next.t("DataInicialMaiorIgual")}</span>`

@@ -82,5 +82,9 @@
     "Libero": "Líbero",
     "Ponteiro": "Outside Hitter",
     "Oposto": "Opposite Hitter",
-    "OtherOptions": "Other Options"
+    "OtherOptions": "Other Options",
+    "StartPenaltyShootout": "Start Penalty Shootout",
+    "InputMatchReportLabel": "Match Report",
+    "DownloadMatchReport": "Download Match Report",
+    "TextoIniciarDisputaPenaltis": "You are about to start the penalty shootout. Are you sure you want to proceed?"
 }
