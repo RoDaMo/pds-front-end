@@ -376,17 +376,17 @@ const chaveamento = {
               <div class="row justify-content-center align-items-center">
                 <div class="col-4 text-center">
                   <div class="d-flex align-items-center justify-content-center">
-                    <img src="${partida.homeEmblem}" rel="preconnect" alt="${partida.homeName}" title="${partida.homeName}" width="50" height="50" class="img-fluid border border-2 rounded-circle">
+                    <img src="${partida.homeEmblem}" rel="preconnect" alt="${partida.homeName}" title="${partida.homeName}" width="50" height="50" class="img-fluid rounded-circle">
                     <p class="my-0 ms-2 fs-4">${partida.homeGoals}</p>
                   </div>
                 </div>
-                <div class="col-4 text-center">
+                <div class="col-auto text-center">
                   <i class="bi bi-x-lg fs-6"></i>
                 </div>
                 <div class="col-4 text-center">
                   <div class="d-flex align-items-center justify-content-center">
                     <p class="my-0 me-2 fs-4">${partida.visitorGoals}</p>
-                    <img src="${partida.visitorEmblem}" rel="preconnect" alt="${partida.visitorName}" title="${partida.visitorName}" width="50" height="50" class="img-fluid border border-2 rounded-circle">
+                    <img src="${partida.visitorEmblem}" rel="preconnect" alt="${partida.visitorName}" title="${partida.visitorName}" width="50" height="50" class="img-fluid rounded-circle">
                   </div>
                 </div>
               </div>
@@ -451,17 +451,17 @@ const chaveamento = {
           <div class="row justify-content-center align-items-center">
             <div class="col-4 text-center">
               <div class="d-flex align-items-center justify-content-center">
-                <img src="${partida.homeEmblem}" rel="preconnect" alt="${partida.homeName}" title="${partida.homeName}" width="50" height="50" class="img-fluid border border-2 rounded-circle">
+                <img src="${partida.homeEmblem}" rel="preconnect" alt="${partida.homeName}" title="${partida.homeName}" width="50" height="50" class="img-fluid rounded-circle">
                 <p class="my-0 ms-2 fs-4">${partida.homeGoals}</p>
               </div>
             </div>
-            <div class="col-4 text-center">
+            <div class="col-auto text-center">
               <i class="bi bi-x-lg fs-6"></i>
             </div>
             <div class="col-4 text-center">
               <div class="d-flex align-items-center justify-content-center">
                 <p class="my-0 me-2 fs-4">${partida.visitorGoals}</p>
-                <img src="${partida.visitorEmblem}" rel="preconnect" alt="${partida.visitorName}" title="${partida.visitorName}" width="50" height="50" class="img-fluid border border-2 rounded-circle">
+                <img src="${partida.visitorEmblem}" rel="preconnect" alt="${partida.visitorName}" title="${partida.visitorName}" width="50" height="50" class="img-fluid rounded-circle">
               </div>
             </div>
           </div>
@@ -776,14 +776,14 @@ const chaveamento = {
                     <th scope="col" class="col border-0 d-none d-lg-table-cell"></th>
                     <th scope="col" class="col-1 border-0 coluna-fixa"></th>
                     <th scope="col" class="col-2 border-0 d-none d-lg-table-cell"></th>
-                    <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado">P</th>
-                    <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado">V</th>
-                    <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado">J</th>
-                    <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado">SG</th>
-                    <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado">GP</th>
-                    <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado">CA</th>
-                    <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado">CV</th>
-                    <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado">Ult. Jogos</th>
+                    <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado text-center">P</th>
+                    <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado text-center">V</th>
+                    <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado text-center">J</th>
+                    <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado text-center">SG</th>
+                    <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado text-center">GP</th>
+                    <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado text-center">CA</th>
+                    <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado text-center">CV</th>
+                    <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado text-center">Ult. Jogos</th>
                 </tr>
             </thead>
             <tbody id="tbody-${count}">
@@ -792,10 +792,16 @@ const chaveamento = {
         </div>
       </div>
       <div class="bg-secondary col-lg-3 col-12 borda-leve borda-top-lg p-3 mb-lg-0 mb-3">
-        <div class="d-flex flex-row justify-content-between texto-verde-limao">
-            <button id="anterior-rodada-${count}" class="seta-botao-rodada btn btn-secondary px-2 rounded-circle invisible"><i class="bi bi-caret-left"></i></button>
-            <h3 id="rodada-text-${count}"><span id="rodada-atual-${count}">1</span>º Rodada</h3>
-            <button id="proxima-rodada-${count}" class="seta-botao-rodada btn btn-secondary px-2 rounded-circle"><i class="bi bi-caret-right"></i></button>
+        <div class="row row-cols-3 flex-row justify-content-center align-items-center">
+          <div class="col-12 d-flex justify-content-center align-items-center">
+              <h4 id="rodada-text-${count}" class="text-black"><span id="rodada-atual-${count}">1</span>º Rodada</h4>
+          </div>
+          <div class="col-6 d-flex justify-content-center align-items-center">
+              <button id="anterior-rodada-${count}" class="seta-botao-rodada btn px-3 py-2 w-100 invisible"><i class="bi bi-caret-left"></i></button>
+          </div>
+          <div class="col-6 d-flex justify-content-center align-items-center">
+              <button id="proxima-rodada-${count}" class="seta-botao-rodada btn px-3 py-2 w-100"><i class="bi bi-caret-right"></i></button>
+          </div>
         </div>
         <div class="mt-3 d-flex flex-column gap-4 fase-grupos-rodadas">
             
@@ -815,13 +821,13 @@ const chaveamento = {
               <img src="${time.emblem}" width="40" height="40" class="rounded-circle">
             </td>
             <td class="d-none d-lg-table-cell border-start-0 align-content-center">${time.name}</td>
-            <td>${estatisticas[2]}</td>
-            <td>${estatisticas[3]}</td>
-            <td>${estatisticas[4]}</td>
-            <td>${estatisticas[campeonato.sportsId - 1][0]}</td>
-            <td>${estatisticas[campeonato.sportsId - 1][1]}</td>
-            <td>${estatisticas[campeonato.sportsId - 1][2]}</td>
-            <td>${estatisticas[campeonato.sportsId - 1][3]}</td>
+            <td class="text-center fs-5 fw-semibold">${estatisticas[2]}</td>
+            <td class="text-center fs-5 fw-semibold">${estatisticas[3]}</td>
+            <td class="text-center fs-5 fw-semibold">${estatisticas[4]}</td>
+            <td class="text-center fs-5 fw-semibold">${estatisticas[campeonato.sportsId - 1][0]}</td>
+            <td class="text-center fs-5 fw-semibold">${estatisticas[campeonato.sportsId - 1][1]}</td>
+            <td class="text-center fs-5 fw-semibold">${estatisticas[campeonato.sportsId - 1][2]}</td>
+            <td class="text-center fs-5 fw-semibold">${estatisticas[campeonato.sportsId - 1][3]}</td>
             <td>
               <small class="badge rounded-pill text-bg-secondary badge-ultima-partida d-inline-flex gap-3">
                 <div 
@@ -1053,7 +1059,7 @@ const chaveamento = {
       count++
       tbody.innerHTML += /*html*/`
       <tr>
-        <th scope="row">${count}</th>
+        <th scope="row" class="text-center">${count}</th>
         <td>
             <img src="${artilheiro.teamEmblem}" alt="Imagem do time" width="50" height="50" class="rounded-circle">
         </td>
@@ -1061,7 +1067,7 @@ const chaveamento = {
             <img src="${artilheiro.picture}" alt="Imagem do Jogador" width="50" height="50" class="rounded-circle">
         </td>
         <td class="d-none d-lg-table-cell">${artilheiro.name}</td>
-        <td>${artilheiro.goals}</td>
+        <td class="text-center fs-5 fw-semibold">${artilheiro.goals}</td>
       </tr>
       `
     }
