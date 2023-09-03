@@ -99,6 +99,8 @@ const exibirDados = async (data) => {
             </div>
         `;
     });
+
+    window.dispatchEvent(new Event('pagina-load'))
 }
 
 listagem();

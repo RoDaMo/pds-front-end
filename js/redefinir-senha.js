@@ -156,3 +156,4 @@ const validacoes = () => {
 }
 
 document.addEventListener('DOMContentLoaded', () => document.dispatchEvent(new Event('header-carregado', { bubbles: true })))
+window.dispatchEvent(new Event('pagina-load'))

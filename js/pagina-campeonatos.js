@@ -258,6 +258,8 @@ async function validacaoTimes() {
             `
         }
     }
+
+    window.dispatchEvent(new Event('pagina-load'))
 }
 
 validacaoTimes()

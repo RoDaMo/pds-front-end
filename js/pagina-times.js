@@ -310,7 +310,7 @@ async function waitInfo() {
         ssThirdContent.removeAttribute('data-lenis-prevent')
     }
 
-
+    window.dispatchEvent(new Event('pagina-load'))
 }
 
 waitInfo()

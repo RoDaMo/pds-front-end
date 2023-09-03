@@ -1639,6 +1639,7 @@ const init = async () => {
 
     changeConfigOptionsContext(0)
 	await carregarPartida()
+	window.dispatchEvent(new Event('pagina-load'))
 }
 
 // Precaução

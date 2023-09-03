@@ -333,7 +333,7 @@ async function changeConfigOptionsContext(t) {
                 exibidorImagem(document.getElementById("config-user-pic-mod"), emblema.value)
             })
 
-
+            window.dispatchEvent(new Event('pagina-load'))
             break
 
         case 2:

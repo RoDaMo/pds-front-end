@@ -497,3 +497,5 @@ function criarValidacao() {
         loader.hide();
     })
 }
+
+window.dispatchEvent(new Event('pagina-load'))

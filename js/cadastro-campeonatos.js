@@ -642,3 +642,5 @@ function criarValidacao() {
         window.location.assign(`/pages/configuracao-campeonato.html`)
     })
 }
+
+window.dispatchEvent(new Event('pagina-load'))

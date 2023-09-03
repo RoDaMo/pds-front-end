@@ -1015,6 +1015,7 @@ const init = async () => {
     await inicializarPaginaCampeonatos()
     await inicializarPaginaExclusao()
     //#endregion
+    window.dispatchEvent(new Event('pagina-load'))
 }
 
 document.addEventListener('header-carregado', init)

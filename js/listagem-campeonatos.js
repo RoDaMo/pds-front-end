@@ -254,6 +254,7 @@ const exibirDados = async (data) => {
 }
 
 listagem();
+window.dispatchEvent(new Event('pagina-load'))
 
 let inputData1 = document.querySelectorAll('[tabindex]')[1]
 inputData1.placeholder = i18next.t("FiltrarApartir")

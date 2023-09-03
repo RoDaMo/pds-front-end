@@ -3,3 +3,4 @@ import ingles from './i18n/en/termos-de-privacidade.json' assert { type: 'JSON' 
 import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
 
 inicializarInternacionalizacao(ingles, portugues)
+window.dispatchEvent(new Event('pagina-load'))
