@@ -202,7 +202,7 @@ const init = async () => {
 					<option selected value="" class="i18" key="SelectEventTypePlaceholder">${i18next.t("SelectEventTypePlaceholder")}</option>
 					${(!isPenaltyShootout() ? `<option value="1" class="i18" key="${(match.isSoccer ? "Gol" : "Ponto")}">${(match.isSoccer ? i18next.t("Gol") : i18next.t("Ponto"))}</option>` : '')}
 					${(match.isSoccer && !isPenaltyShootout()) ? `<option value="2" class="i18" key="Falta">${i18next.t("Falta")}</option>` : ''}
-					${(isPenaltyElegible()) ? `<option value="3" class="i18" key="Penalti">${i18next.t("Penalti")}</option>` : ''}
+					${(isPenaltyShootout()) ? `<option value="3" class="i18" key="Penalti">${i18next.t("Penalti")}</option>` : ''}
 				</select>  
 			</div>
 		`)
@@ -230,15 +230,30 @@ const init = async () => {
 				thereIsAnything = true
 			}
 
-			if (isOvertimeElegible() && !isPenaltyShootout()) {
-				extraManagement.insertAdjacentHTML('afterbegin', `
-					<div id="start-overtime-wrapper" class="d-flex my-2 justify-content-center">
-						<button id="start-overtime-btn" data-bs-toggle="modal" data-bs-target="#startOvertimeModal" class="btn btn-secondary w-auto"><span class="i18" key="StartOvertime">${i18next.t("StartOvertime")}</span></button>
-					</div>
-				`)
-
-				thereIsAnything = true
+			const insertOvertimeBtn = async () => {
+				if (await isExtraElegible() && !isPenaltyShootout() && !isOvertime()) {
+					extraManagement.insertAdjacentHTML('afterbegin', `
+						<div id="start-overtime-wrapper" class="d-flex my-2 justify-content-center">
+							<button id="start-overtime-btn" data-bs-toggle="modal" data-bs-target="#startOvertimeModal" class="btn btn-secondary w-auto"><span class="i18" key="StartOvertime">${i18next.t("StartOvertime")}</span></button>
+						</div>
+					`)
+	
+					thereIsAnything = true
+				}
 			}
+
+			const insertPenaltyShootoutBtn = async () => {
+				if (await isExtraElegible() && isOvertime() && !isPenaltyShootout()) {
+					extraManagement.insertAdjacentHTML('afterbegin', `
+						<div id="start-penalty-shootout-wrapper" class="d-flex my-2 justify-content-center">
+							<button id="start-penalty-shootout-btn" data-bs-toggle="modal" data-bs-target="#startPenaltyShootoutModal" class="btn btn-secondary w-auto"><span class="i18" key="StartPenaltyShootout">${i18next.t("StartPenaltyShootout")}</span></button>
+						</div>
+					`)
+				}
+			}
+
+			insertOvertimeBtn()
+			insertPenaltyShootoutBtn()
 
 			if (thereIsAnything) {
 				extraManagement.insertAdjacentHTML('beforebegin', `
@@ -303,6 +318,12 @@ const init = async () => {
 
 		confirmStartOvertimeBtn.addEventListener('click', async () => {
 			await startOvertime()
+		})
+
+		const confirmStartPenaltyShootoutBtn = document.querySelector('#confirm-start-penalty-shootout-btn')
+
+		confirmStartPenaltyShootoutBtn.addEventListener('click', async () => {
+			await startPenaltyShootout()
 		})
 
 		const confirmEndMatchBtn = document.querySelector('#confirm-end-match-btn')
@@ -1073,7 +1094,13 @@ const init = async () => {
 		}
 	}
 
-	const isPenaltyElegible = async () => {
+	const startPenaltyShootout = async () => {
+		
+	}
+
+	const isExtraElegible = async () => {
+		let bool = false
+
 		const callbackStatus = (data) => {
 			notificacaoErro(data.results)
 		}
@@ -1086,11 +1113,13 @@ const init = async () => {
 
 		if (response.succeed) {
 			if (response.results) {
-				return true
+				bool = true
 			} else {
-				return false
+				bool = false
 			}
 		}
+
+		return bool
 	}
 
 	const isPenaltyShootout = () => {
@@ -1105,23 +1134,9 @@ const init = async () => {
 		}
 	}
 
-	const isOvertimeElegible = () => {
-		if (match.isSoccer) {
-			const isDoubleMatch = () => {
-				return (campeonato.doubleStartLeagueSystem || campeonato.doubleMatchEliminations || campeonato.doubleMatchGroupStage || campeonato.finalDoubleMatch) ? true : false
-			}
-
-			if (isDoubleMatch()) {
-				return (match.homeAggregatedGoals == match.visitorAggregatedGoals) ? true : false
-			} else {
-				return (match.homeGoals == match.visitorGoals) ? true : false
-			}
-		}
-	}
-
 	const isOvertime = () => {
 		if (match.isSoccer) {
-			return (match.overtime) ? true : false
+			return (match.prorrogation) ? true : false
 		}
 	}
 
@@ -1417,6 +1432,8 @@ const init = async () => {
 				downloadMatchReportLink = document.getElementById('download-match-report-link')
 
 				downloadMatchReportLink.setAttribute('href', match.matchReport)	
+
+				downloadMatchReportLink.classList.remove('d-none')
 			}
 
 			if (isMatchOrganizer()) {
@@ -1443,7 +1460,6 @@ const init = async () => {
 			blankSpace.style.height = `${matchDetailsOptions.offsetHeight + 35}px`
 		} 
 	}
-
 
     const 
         matchDetailsOptions = document.getElementById('match-details-options'),
@@ -1501,8 +1517,6 @@ const init = async () => {
 	const
 		allEvents = await executarFetch(`matches/${matchId}/get-all-events`, configuracaoFetch('GET')),
 		allEventsResults = allEvents.results
-
-		console.log(match);
 	loader.hide()
 
     for (const configMenuOption of abaBotoes) {

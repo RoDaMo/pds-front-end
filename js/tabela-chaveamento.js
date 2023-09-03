@@ -18,9 +18,11 @@ document.body.appendChild(loader);
 const urlParams = new URLSearchParams(window.location.search),
       idCampeonato = urlParams.get('id')
 
-const config = configuracaoFetch('GET'),
-  response = await executarFetch(`championships/${idCampeonato}`, config),
+let championshipData = null
+;(async () => {
+  const response = await executarFetch(`championships/${idCampeonato}`, configuracaoFetch('GET'))
   championshipData = response.results
+})()
 
 const sessionUserInfo = JSON.parse(localStorage.getItem('user-info'))
 
@@ -184,6 +186,18 @@ const configureMatch = async (matchId, championshipData) => {
     matchCity.value = match.city
     matchRoad.value = match.road
     matchLocationNumber.value = match.number
+
+    if (match.homeUniform == team1.uniformHome) {
+      checkTeam1HomeUniform.checked = true
+    } else if (match.homeUniform == team1.uniformAway) {
+      checkTeam1AwayUniform.checked = true
+    }
+
+    if (match.visitorUniform == team2.uniformHome) {
+      checkTeam2HomeUniform.checked = true
+    } else if (match.visitorUniform == team2.uniformAway) {
+      checkTeam2AwayUniform.checked = true
+    }
   }
 
   matchZipcode.addEventListener('keyup', () => {        
@@ -246,7 +260,6 @@ const configureMatch = async (matchId, championshipData) => {
       time_24hr: true,
       locale: lng === 'ptbr' ? Portuguese : ingles,
       altInput: true,
-      enableTime: true,
       minDate: championshipData.initialDate,
       maxDate: championshipData.finalDate
   })
@@ -260,7 +273,6 @@ const configureMatch = async (matchId, championshipData) => {
         time_24hr: true,
         locale: lng === 'ptbr' ? Portuguese : ingles,
         altInput: true,
-        enableTime: true,
         minDate: championshipData.initialDate,
         maxDate: championshipData.finalDate
       })
