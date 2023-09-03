@@ -22,6 +22,19 @@ const init = async () => {
 		li.classList.add('active')
 	}
 
+	const getValidPlayers = async teamId => {
+		const callbackStatus = (data) => {
+			notificacaoErro(data.results)
+		}
+
+		const configFetch = configuracaoFetch('GET'),
+			response = await executarFetch(`matches/${match.id}/teams/${teamId}/players`, configFetch, callbackStatus)
+
+		if (response.succeed) {
+			return response.results
+		}
+	}
+
 	const postGoal = async body => {
 		const callbackStatus = (data) => {
 			notificacaoErro(data.results)
@@ -39,6 +52,7 @@ const init = async () => {
 		}
 	}
 
+
 	const postCard = async body => {
 		const callbackStatus = (data) => {
 			notificacaoErro(data.results)
@@ -51,6 +65,10 @@ const init = async () => {
 
 		if (response.succeed) {
 			notificacaoSucesso(i18next.t("SucessoPostCartao"))
+
+			validPlayersTeam1 = await getValidPlayers(match.homeId)
+			validPlayersTeam2 = await getValidPlayers(match.visitorId)
+
 			await loadEvents()
 		}
 	}
@@ -1451,10 +1469,14 @@ const init = async () => {
 
 	const blankSpaceSetter = () => {
 		const blankSpaces = document.getElementsByClassName('blank-space')
+		const matchDetailsContentEvent = document.querySelector('.match-details-content-event')
+		const eventHeight = matchDetailsContentEvent.getBoundingClientRect().width
 
 		for(const blankSpace of blankSpaces) {
-			blankSpace.style.height = `${matchDetailsOptions.offsetHeight + 35}px`
+			blankSpace.style.height = `${eventHeight + 35}px`
 		} 
+
+		console.log(eventHeight);
 	}
 
     const 
@@ -1490,17 +1512,13 @@ const init = async () => {
 		dataMatch = await executarFetch(`matches/${matchId}`, configuracaoFetch('GET')),
 		match = dataMatch.results
 	
-	const 
-		dataValidPlayersTeam1 = await executarFetch(`matches/${match.id}/teams/${match.homeId}/players`, configuracaoFetch('GET')),
-		validPlayersTeam1 = dataValidPlayersTeam1.results
+	let validPlayersTeam1 = await getValidPlayers(match.homeId)
+	let validPlayersTeam2 = await getValidPlayers(match.visitorId)
 
 	const
 		dataAllPlayersTeam1 = await executarFetch(`teams/${match.homeId}/players`, configuracaoFetch('GET')),
 		allPlayersTeam1 = dataAllPlayersTeam1.results
-	
-	const 
-		dataValidPlayersTeam2 = await executarFetch(`matches/${match.id}/teams/${match.visitorId}/players`, configuracaoFetch('GET')),
-		validPlayersTeam2 = dataValidPlayersTeam2.results
+
 
 	const 
 		dataAllPlayersTeam2 = await executarFetch(`teams/${match.visitorId}/players`, configuracaoFetch('GET')),
