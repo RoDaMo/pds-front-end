@@ -35,6 +35,32 @@ const init = async () => {
 		}
 	}
 
+	const insertOvertimeBtn = async () => {
+		if (await isExtraElegible() && !isPenaltyShootout() && !isOvertime()) {
+			document.querySelector('#start-overtime-wrapper')?.remove()
+
+			extraManagement.insertAdjacentHTML('afterbegin', `
+				<div id="start-overtime-wrapper" class="d-flex my-2 justify-content-center">
+					<button id="start-overtime-btn" data-bs-toggle="modal" data-bs-target="#startOvertimeModal" class="btn btn-secondary w-auto"><span class="i18" key="StartOvertime">${i18next.t("StartOvertime")}</span></button>
+				</div>
+			`)
+
+			thereIsAnything = true
+		}
+	}
+
+	const insertPenaltyShootoutBtn = async () => {
+		if (await isExtraElegible() && isOvertime() && !isPenaltyShootout()) {
+			document.querySelector('#start-penalty-shootout-wrapper')?.remove()
+
+			extraManagement.insertAdjacentHTML('afterbegin', `
+				<div id="start-penalty-shootout-wrapper" class="d-flex my-2 justify-content-center">
+					<button id="start-penalty-shootout-btn" data-bs-toggle="modal" data-bs-target="#startPenaltyShootoutModal" class="btn btn-secondary w-auto"><span class="i18" key="StartPenaltyShootout">${i18next.t("StartPenaltyShootout")}</span></button>
+				</div>
+			`)
+		}
+	}
+
 	const postGoal = async body => {
 		const callbackStatus = (data) => {
 			notificacaoErro(data.results)
@@ -47,11 +73,13 @@ const init = async () => {
 
 		if (response.succeed) {
 			notificacaoSucesso(i18next.t("SucessoPostGol"))
+			await insertOvertimeBtn()
+			await insertPenaltyShootoutBtn()
+
 			await updateScoreboard()
 			await loadEvents()
 		}
 	}
-
 
 	const postCard = async body => {
 		const callbackStatus = (data) => {
@@ -246,28 +274,6 @@ const init = async () => {
 				`)
 
 				thereIsAnything = true
-			}
-
-			const insertOvertimeBtn = async () => {
-				if (await isExtraElegible() && !isPenaltyShootout() && !isOvertime()) {
-					extraManagement.insertAdjacentHTML('afterbegin', `
-						<div id="start-overtime-wrapper" class="d-flex my-2 justify-content-center">
-							<button id="start-overtime-btn" data-bs-toggle="modal" data-bs-target="#startOvertimeModal" class="btn btn-secondary w-auto"><span class="i18" key="StartOvertime">${i18next.t("StartOvertime")}</span></button>
-						</div>
-					`)
-	
-					thereIsAnything = true
-				}
-			}
-
-			const insertPenaltyShootoutBtn = async () => {
-				if (await isExtraElegible() && isOvertime() && !isPenaltyShootout()) {
-					extraManagement.insertAdjacentHTML('afterbegin', `
-						<div id="start-penalty-shootout-wrapper" class="d-flex my-2 justify-content-center">
-							<button id="start-penalty-shootout-btn" data-bs-toggle="modal" data-bs-target="#startPenaltyShootoutModal" class="btn btn-secondary w-auto"><span class="i18" key="StartPenaltyShootout">${i18next.t("StartPenaltyShootout")}</span></button>
-						</div>
-					`)
-				}
 			}
 
 			insertOvertimeBtn()
@@ -1470,13 +1476,19 @@ const init = async () => {
 	const blankSpaceSetter = () => {
 		const blankSpaces = document.getElementsByClassName('blank-space')
 		const matchDetailsContentEvent = document.querySelector('.match-details-content-event')
-		const eventHeight = matchDetailsContentEvent.getBoundingClientRect().width
+		
+		const eventHeight = matchDetailsContentEvent.offsetHeight
+		const eventWidth = matchDetailsContentEvent.offsetWidth
 
-		for(const blankSpace of blankSpaces) {
-			blankSpace.style.height = `${eventHeight + 35}px`
-		} 
-
-		console.log(eventHeight);
+		if (window.innerWidth < 768) {
+			for(const blankSpace of blankSpaces) {
+				blankSpace.style.height = `${eventWidth + 35}px`
+			} 
+		} else {
+			for(const blankSpace of blankSpaces) {
+				blankSpace.style.height = `${eventHeight + 35}px`
+			}
+		}
 	}
 
     const 

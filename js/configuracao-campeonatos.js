@@ -932,7 +932,7 @@ const init = async () => {
 					`
 				
 				document.getElementById('suborg-vinculados').appendChild(newOption)
-				document.getElementById("vincular-suborg").addEventListener('click', async() => {
+				newOption.addEventListener('click', async() => {
 					const config = configuracaoFetch("POST", {
 						'organizerId': result.id,
 						'championshipId': championshipId

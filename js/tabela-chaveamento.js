@@ -52,7 +52,7 @@ const isOrganizer = () => {
     isOrganizer = false
   }
 
-  return true
+  return isOrganizer
 }
 
 const configureMatch = async (matchId, championshipData) => {
