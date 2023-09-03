@@ -217,6 +217,7 @@ const obterInfo = async () => {
 
         jogadores.innerHTML += `
             <div class="d-flex w-100 rounded-5 mb-3 p-2 mt-5 mt-md-0 ss-player-content">
+                 <span class="d-none player-id">${e.id}</span>
 
                 <section class="position-relative border border-2 m-3 overflow-hidden rounded-circle ss-player-image">
                     <img src="${e.picture}" alt="playerImage" class="img-fluid position-absolute mw-100 h-100">
@@ -236,6 +237,14 @@ const obterInfo = async () => {
                 </span>
             </div>
         `
+
+        const ssPlayerContent = document.querySelectorAll('.ss-player-content')
+        ssPlayerContent.forEach(content => {
+            content.addEventListener('click', () => {
+                const playerId = content.querySelector('.player-id').textContent
+                window.location.href = `pagina-usuarios.html?id=${playerId}`
+            })
+        })
     })
 
     // Uniformes do time

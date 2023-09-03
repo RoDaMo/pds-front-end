@@ -37,6 +37,16 @@ body, html {
     }
 }
 
+.ss-player-content {
+    &:hover {
+        filter: brightness(0.9);
+    }
+
+    &:active {
+        filter: brightness(0.8);
+    }
+}
+
 .coach-board {
     background-color: $play-cor-fundos-secundaria;
     border-radius: 1.5rem;
@@ -247,6 +257,8 @@ body, html {
 .ss-slider {
     div {
         background: $play-cor-fundos-secundaria;
+
+        cursor: pointer;
     }
 }
 

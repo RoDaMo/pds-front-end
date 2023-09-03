@@ -58,6 +58,20 @@ body {
   z-index: 4;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.list-hover-darken {
+  transition: all $transition;
+  &:hover {
+    filter: brightness(0.9);
+  }
+  &:active {
+    filter: brightness(0.8);
+  }
+}
+
 // o suficiente para nao ficar estranho com o offcanvas aberto
 .z-1039 {
   z-index: 1039;

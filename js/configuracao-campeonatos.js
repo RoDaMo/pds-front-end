@@ -590,13 +590,14 @@ const init = async () => {
 			notificacaoSucesso(i18next.t("SucessoCriacaoChaveamento"))
 
 			modalCreateSuccessBracketBT.show()
-			modalCreateSuccessBracket.querySelector('#modal-link-chaveamento').href = '/pages/tabela-chaveamento.html?id=' + championshipId
 
 			if (document.getElementById('botao-vincular-time').querySelector('span').getAttribute('key') == "Cancelar") {
 				document.getElementById('botao-vincular-time').click()
 			}
 
-			document.getElementById('reload-ficar-aqui').addEventListener('click', () => location.reload())
+			bracketCreateModalBT.hide()
+
+			// document.getElementById('reload-ficar-aqui').addEventListener('click', () => location.reload())
 
 			bracketExists(championshipId)
 		}
@@ -617,6 +618,7 @@ const init = async () => {
 			notificacaoSucesso(i18next.t("SucessoExclusaoChaveamento"))
 
 			modalDeleteBracketBT.hide()
+			
 
 			await bracketExists(championshipId)
 			await checkBracketCreationAvailability()
@@ -668,7 +670,7 @@ const init = async () => {
 				disableTeamsManipulation()
 
 				bracketBtnWrapper.innerHTML = `
-					<button data-bs-toggle="modal" data-bs-target="#bracketDeleteModal" id="delete-bracket-btn" class="btn btn-danger border-0 d-flex justify-content-center align-items-center">
+					<button data-bs-toggle="modal" data-bs-target="#bracketDeleteModal" id="delete-bracket-btn" class="btn btn-danger w-100 border-0 d-flex justify-content-center align-items-center">
 						<i class="bi bi-trash me-2"></i>
 						<span class="i18 fw-semibold" key="ExcluirChaveamento">${i18next.t("ExcluirChaveamento")}</span>
 					</button>
@@ -684,7 +686,7 @@ const init = async () => {
 				enableTeamsManipulation()
 				
 				bracketBtnWrapper.innerHTML = `
-				<button disabled data-bs-toggle="modal" data-bs-target="#bracketCreateModal" id="create-bracket-btn" class="btn border-0 d-flex justify-content-center align-items-center chaveamento-btn">
+				<button disabled data-bs-toggle="modal" data-bs-target="#bracketCreateModal" id="create-bracket-btn" class="btn w-100 border-0 d-flex justify-content-center align-items-center chaveamento-btn">
 				<i class="bi bi-diagram-2 me-2"></i>
 				<span class="i18 fw-semibold" key="CriarChaveamento">${i18next.t("CriarChaveamento")}</span>
 				</button> 

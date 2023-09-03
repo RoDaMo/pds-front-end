@@ -86,6 +86,9 @@ const init = async () => {
 
 			await updateScoreboard()
 			await loadEvents()
+			setTimeout(() => {
+				window.location.reload()
+			}, 2000)
 		}
 	}
 
@@ -105,9 +108,10 @@ const init = async () => {
 			validPlayersTeam1 = await getValidPlayers(match.homeId)
 			validPlayersTeam2 = await getValidPlayers(match.visitorId)
 
-			selectEventType.value = ''
-
 			await loadEvents()
+			setTimeout(() => {
+				window.location.reload()
+			}, 2000)
 		}
 	}
 
@@ -242,8 +246,6 @@ const init = async () => {
 	}
 
 	const matchManagementSystem = () => {
-		// clear everything (WIP)
-		// matchManagementForm.innerHTML = ''
 
 		matchManagementForm.insertAdjacentHTML('beforebegin', `
 			<div id="event-admin-label" class="d-flex justify-content-center bg-gray-400 rounded-4 py-1 px-3 mb-2">
@@ -1628,6 +1630,7 @@ const init = async () => {
 		allEvents = await executarFetch(`matches/${matchId}/get-all-events`, configuracaoFetch('GET')),
 		allEventsResults = allEvents.results
 
+		console.log(match);
 	loader.hide()
 
     for (const configMenuOption of abaBotoes) {
