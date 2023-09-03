@@ -962,6 +962,9 @@ const init = async () => {
 		const team1PlayersList = document.querySelector('#match-details-content-players-team1')
 		const team2PlayersList = document.querySelector('#match-details-content-players-team2')
 
+		const coachTeam1Content = document.querySelector('#match-details-content-coach-team1')
+		const coachTeam2Content = document.querySelector('#match-details-content-coach-team2')
+
 		const getPlayerPosition = (position) => {
 			let positionName = ""
 
@@ -1037,6 +1040,8 @@ const init = async () => {
 			`)
 		})
 
+
+
 		allPlayersTeam2.forEach(player => {
 			team2PlayersList.insertAdjacentHTML('beforeend', `
 				<div class="row row-cols-1 row-cols-md-2 align-items-center p-2 flex-column flex-md-row my-2 rounded-5 match-details-content-player">
@@ -1057,6 +1062,39 @@ const init = async () => {
 				</div>
 			`)
 		})
+
+		coachTeam1Content.insertAdjacentHTML('beforeend', `
+			<div class="row row-cols-1 row-cols-md-2 align-items-center p-2 flex-column flex-md-row my-2 rounded-5 match-details-content-coach">
+				<div class="col m-player-img-wrapper me-md-2 me-0 position-relative d-flex justify-content-center overflow-hidden border border-2 rounded-circle">
+					<img class="m-player-img position-absolute img-fluid w-100 h-100" src="${coachTeam1.picture}" alt="">
+				</div>
+				<div class="row col justify-content-center align-items-center flex-column w-auto m-player-info">
+					<div class="col p-0 text-center text-md-start">
+						<span class="m-player-name m-truncated-text-width fw-semibold text-black text-truncate d-block">${coachTeam1.name}</span>
+					</div>
+					<div class="col p-0 text-center text-md-start">
+						<span class="m-player-position m-truncated-text-width text-muted text-truncate d-block i18">${i18next.t("Tecnico")}</span>
+					</div>
+				</div>
+			</div>
+		`)
+
+		coachTeam2Content.insertAdjacentHTML('beforeend', `
+			<div class="row row-cols-1 row-cols-md-2 align-items-center p-2 flex-column flex-md-row my-2 rounded-5 match-details-content-coach">
+				<div class="col m-player-img-wrapper order-1 order-md-2  me-md-2 me-0 position-relative d-flex justify-content-center overflow-hidden border border-2 rounded-circle">
+					<img class="m-player-img position-absolute img-fluid w-100 h-100" src="${coachTeam2.picture}" alt="">
+				</div>
+				<div class="row col order-2 order-md-1 justify-content-center align-items-center flex-column w-auto m-player-info">
+					<div class="col p-0 text-center text-md-end">
+						<span class="m-player-name m-truncated-text-width fw-semibold text-black text-truncate d-block">${coachTeam2.name}</span>
+					</div>
+					<div class="col p-0 text-center text-md-end">
+						<span class="m-player-position m-truncated-text-width text-muted text-truncate d-block i18">${i18next.t("Tecnico")}</span>
+					</div>
+				</div>
+			</div>
+		`)
+				
 	}
 
 	const endMatch = async () => {
@@ -1127,7 +1165,22 @@ const init = async () => {
 	}
 
 	const startPenaltyShootout = async () => {
-		
+		const callbackStatus = (data) => {
+			notificacaoErro(data.results)
+		}
+
+		loader.show()
+		const configFetch = configuracaoFetch('PUT'),
+			response = await executarFetch(`matches/${match.id}/penalties`, configFetch, callbackStatus)
+
+		loader.hide()
+
+		if (response.succeed) {
+			notificacaoSucesso(i18next.t("SucessoStartPenaltyShootout"))
+			setTimeout(() => {
+				window.location.reload()
+			}, 2000)
+		}
 	}
 
 	const isExtraElegible = async () => {
@@ -1152,13 +1205,7 @@ const init = async () => {
 
 	const isPenaltyShootout = () => {
 		if (match.isSoccer) {
-			const penaltyEvent = allEventsResults.find(event => event.penalty == true)
-
-			if (penaltyEvent) {
-				return true
-			} else {
-				return false
-			}
+			return (match.penalties) ? true : false
 		}
 	}
 
@@ -1266,54 +1313,27 @@ const init = async () => {
 				}
 			}
 
-			const getEventAssisterPlayer = async () => {
-				if (isTeam1(event.teamId)) {						
-					if (match.assisterPlayerId) {
-						return allPlayersTeam2.find(player => player.id == event.assisterPlayerId)
-					}
-	
-				} else if (isTeam2(event.teamId)) {
-					if (match.assisterPlayerId) {
-						return allPlayersTeam2.find(player => player.id == event.assisterPlayerId)
-					}
-				}
-			}
-
-			const isAssistanceElegible = () => {
-				if (match.isSoccer) {
-					if (event.assisterPlayerId != "00000000-0000-0000-0000-000000000000") {
-						return true
-					} else {
-						return false
-					}
-				}
-			}
-
-			// const buildEventTemplate = async () => {
-			// 	let assisterPlayer = await getEventAssisterPlayer() 
-			// 	let template = ''
-
-			// 	return  
-				
-			// }
 
 			let eventTemplate = `
-					<div class="row row-cols-md-2 row-cols-1 p-3 my-2 match-details-content-event align-items-center rounded-5">
-						<div class="col">
-							<div class="row flex-column">
-								<div class="col event-player-name"><span class="fw-semibold text-black text-truncate text-center text-md-start m-truncated-text-width d-block">${event.name}</span></div>
-								<div class="col d-flex flex-row event-data">
-									${eventData}
-								</div>
+				<div class="row row-cols-md-2 row-cols-1 p-3 my-2 match-details-content-event align-items-center rounded-5">
+					<div class="col">
+						<div class="row flex-column">
+							<div class="col event-player-name"><span class="fw-semibold text-black text-truncate text-center text-md-start m-truncated-text-width d-block">${event.name}</span></div>
+							${(event.goal) ?
+								(event.assisterName != null) ? `
+									<div class="col event-player-name"><span class="fw-semibold text-black text-center opacity-75 text-md-start m-truncated-text-width text-truncate fs-6 d-block">${event.assisterName}</span></div>
+								` : ''
+							: ''}
+							<div class="col d-flex flex-row event-data">
+								${eventData}
 							</div>
 						</div>
-						<div class="col d-flex align-items-center pe-0 event-illustration">
-							${eventIllustration}
-						</div>
 					</div>
-				`
-
-			// let eventTemplate = buildEventTemplate()
+					<div class="col d-flex align-items-center pe-0 event-illustration">
+						${eventIllustration}
+					</div>
+				</div>
+			`
 
 			if (isTeam1(event.teamId)) {	
 				if (match.isSoccer && event.goal && event.ownGoal) {
@@ -1331,9 +1351,9 @@ const init = async () => {
 				}
 			} else if (isTeam2(event.teamId)) {
 				if (match.isSoccer && event.goal && event.ownGoal) {
-					eventsWrapperTeam2.insertAdjacentHTML('beforeend', eventTemplate)
+					eventsWrapperTeam1.insertAdjacentHTML('beforeend', eventTemplate)
 
-					eventsWrapperTeam1.insertAdjacentHTML('beforeend', `
+					eventsWrapperTeam2.insertAdjacentHTML('beforeend', `
 						<div class="row w-auto blank-space"></div>
 					`)
 				} else {
@@ -1583,10 +1603,18 @@ const init = async () => {
 	let validPlayersTeam1 = await getValidPlayers(match.homeId)
 	let validPlayersTeam2 = await getValidPlayers(match.visitorId)
 
+	const dataTeam1 = await executarFetch(`teams/${match.homeId}`, configuracaoFetch('GET')),
+		team1 = dataTeam1.results
+
+	const dataTeam2 = await executarFetch(`teams/${match.visitorId}`, configuracaoFetch('GET')),
+		team2 = dataTeam2.results
+
+	const coachTeam1 = team1.technician
+	const coachTeam2 = team2.technician
+
 	const
 		dataAllPlayersTeam1 = await executarFetch(`teams/${match.homeId}/players`, configuracaoFetch('GET')),
 		allPlayersTeam1 = dataAllPlayersTeam1.results
-
 
 	const 
 		dataAllPlayersTeam2 = await executarFetch(`teams/${match.visitorId}/players`, configuracaoFetch('GET')),
@@ -1599,6 +1627,7 @@ const init = async () => {
 	const
 		allEvents = await executarFetch(`matches/${matchId}/get-all-events`, configuracaoFetch('GET')),
 		allEventsResults = allEvents.results
+
 	loader.hide()
 
     for (const configMenuOption of abaBotoes) {
