@@ -435,6 +435,7 @@ function criarValidacao() {
             validator: (value) => {
                 const dataInicial = new Date(value)
                 const dataAtual = new Date()
+                dataAtual.setDate(dataAtual.getDate() - 1)
                 return dataInicial >= dataAtual
             },
             errorMessage: `<span class="i18" key="DataInicialMaiorIgual">${i18next.t("DataInicialMaiorIgual")}</span>`
@@ -538,7 +539,7 @@ function criarValidacao() {
             "description": descricao.value,
             "Format": parseInt(formato.value),
             "DoubleStartLeagueSystem": PCCheckboxElem?.checked,
-            "DoubleMatchEliminations": (parseInt(quantidade.value) === 2 || (parseInt(formato.value) === 4 && parseInt(quantidade.value) === 4)) ? false : eliminatoriasStatus,
+            "DoubleMatchEliminations": (parseInt(quantidade.value) === 2 || (parseInt(formato.value) === 4 && parseInt(quantidade.value) === 4)) ? false : eliminatoriasCheckboxElem?.checked,
             "FinalDoubleMatch": finalCheckboxElem?.checked,
             "DoubleMatchGroupStage": FGCheckboxElem?.checked,
         })
