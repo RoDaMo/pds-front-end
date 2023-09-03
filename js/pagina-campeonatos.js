@@ -203,72 +203,6 @@ const obterInfo = async () => {
         
 }
 
-document.addEventListener('header-carregado', () => {
-    const userRoleElement = document.getElementById("userRole");
-
-    if (userRoleElement) {
-        const userRole = userRoleElement.textContent.trim();
-
-        if (userRole !== "admin") {
-            const botaoExcluirCampeonato = document.getElementById("botaoExcluirCampeonato");
-
-            if (botaoExcluirCampeonato) {
-                botaoExcluirCampeonato.remove();
-            }
-        }
-    }
-    
-  
-});
-
-
-
-    const inicializarPaginaExclusao = async () => {
-    const formDeletarCampeonato = document.getElementById('delete-championship-form'),
-        deleteAccountValidator = new JustValidate(formDeletarCampeonato, { validateBeforeSubmitting: true }),
-        usernameInput = document.getElementById('delete-user-name-input'),
-        username = document.getElementById('offcanvasUserName')
-
-    function validor2() {
-        deleteAccountValidator
-            .addField(usernameInput, [
-                {
-                    rule: 'required',
-                    errorMessage: `<span class="i18" key="NomeUsuarioObrigatorio">${i18next.t("NomeUsuarioObrigatorio")}</span>`,
-                },
-                {
-                    validator: (value) => username.textContent == value,
-                    errorMessage: `<span class="i18" key="NomeUsuarioIncorreto">${i18next.t("NomeUsuarioIncorreto")}</span>`
-                }
-            ])
-            // submit
-            .onSuccess(async (e) => {
-                e.preventDefault()
-                loader.show()
-                const configFetch = configuracaoFetch('DELETE'),
-                    response = await executarFetch(`moderation/championships/${championshipId}`, configFetch)
-
-                loader.hide()
-
-                if (response.succeed) {
-                    window.location.assign('/index.html');
-                }
-            })
-    }
-
-    document.addEventListener('nova-lingua', validor2)
-    validor2()
-
-}
-
-
-
-
-
-
-
-
-
 
 async function validacaoTimes() {
     await obterInfo()
@@ -290,3 +224,47 @@ async function validacaoTimes() {
 }
 
 validacaoTimes()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+document.addEventListener('header-carregado', () => {
+    const userRoleElement = document.getElementById("userRole");
+
+    if (userRoleElement) {
+        const userRole = userRoleElement.textContent.trim()
+
+        if (userRole !== "admin") {
+            const botaoExcluirCampeonato = document.getElementById("botaoExcluirCampeonato");
+
+            if (botaoExcluirCampeonato) {
+                botaoExcluirCampeonato.remove()
+            }
+        }
+    }
+
+})
+
+    const botaoExcluirCampeonato = document.getElementById("botaoExcluirCampeonato");
+
+botaoExcluirCampeonato.addEventListener('click', async () => {
+    loader.show(); // Mostrar o loader, se necessário
+    const configFetch = configuracaoFetch('DELETE')
+    const response = await executarFetch(`moderation/championships/${championshipId}`, configFetch); 
+    loader.hide(); // Esconder o loader após a conclusão da solicitação
+
+    if (response.succeed) {
+        window.location.assign('/index.html')
+    }
+
+})

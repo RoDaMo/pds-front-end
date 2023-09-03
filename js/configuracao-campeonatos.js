@@ -75,7 +75,6 @@ const init = async () => {
 		const image = document.getElementById('config-championship-pic-mod'),
 			imageFile = document.getElementById('config-championship-image-input'),
 			imageInput = document.getElementById('config-imagem-input-hidden'),
-			hiddenRegulamento = document.getElementById('config-regulamento-input-hidden'),
 			name = document.getElementById('config-championship-name-input'),
 			descricao = document.getElementById('config-championship-descricao-input'),
 			regulamento = document.getElementById('config-championship-regulamento-input'),
@@ -89,7 +88,7 @@ const init = async () => {
 			bairro = document.getElementById('config-championship-bairro-input'),
 			linkRegulamento = document.getElementById('regulamento-existente'),
 			esporte = document.getElementById('config-championship-esporte-input'),
-
+			quantidadeJogadores = document.getElementById('quantidade-jogadores'),
 			configChampionshipDropZone = document.getElementById('config-championship-drop-zone')
 
 		// Double Match Checkboxes
@@ -169,12 +168,6 @@ const init = async () => {
 					if (i % 2 === 0) {
 						adicionarOpcao(i + 2)
 					}
-				}
-			}
-			else if(formato.value === "4"){
-				resetQuantidade()
-				for (let i = 2; i <= 6; i++) {
-					adicionarOpcao(2 ** i)
 				}
 			}
 			else {
@@ -276,6 +269,7 @@ const init = async () => {
 			}
 		}
 
+		quantidadeJogadores.value = campeonato.numberOfPlayers
 		esporte.selectedIndex = campeonato.sportsId - 1
 
 
@@ -283,7 +277,6 @@ const init = async () => {
 
 		console.log(campeonato.teams.length);
 		console.log(campeonato.teamQuantity);
-		console.log(campeonato)
 
 		if (campeonato.rules) {
 			linkRegulamento.classList.remove('d-none')
@@ -331,7 +324,21 @@ const init = async () => {
 
     		changeTeamQTDStatus()
 
+			if (esporte.value === "1") {
+				quantidadeJogadores.value = ""
+				quantidadeJogadores.setAttribute("min", 11)
+				quantidadeJogadores.setAttribute("max", 25)
+			} else if (esporte.value === "2") {
+				quantidadeJogadores.value = ""
+				quantidadeJogadores.setAttribute("min", 6)
+				quantidadeJogadores.setAttribute("max", 15)
+			}
+
 			if (esporte.value) {
+				quantidadeJogadores.value = ""
+				quantidadeJogadores.disabled = false;
+				quantidadeJogadores.setAttribute("key", "QuantidadeJogadoresPlaceholder")
+				quantidadeJogadores.setAttribute("placeholder", i18next.t("QuantidadeJogadoresPlaceholder"))
 
 				formato.disabled = false;
 				formato.value = ""
@@ -340,6 +347,11 @@ const init = async () => {
 			} else {
 				doubleMatchWrapper.innerHTML = ""
 
+				quantidadeJogadores.value = ""
+				quantidadeJogadores.disabled = true;
+				quantidadeJogadores.setAttribute("key", "QuantidadeJogadoresPlaceholderDisabled")
+				quantidadeJogadores.setAttribute("placeholder", i18next.t("QuantidadeJogadoresPlaceholderDisabled"))
+
 				formato.disabled = true;
 				formato.value = ""
 				formato.firstElementChild.textContent = i18next.t("FormatoPlaceholderDisabled")
@@ -347,6 +359,17 @@ const init = async () => {
 			}
 		})
 
+		quantidadeJogadores.addEventListener("change", () => {
+			if (esporte.value === "1") {
+				if (quantidadeJogadores.value < 11 || quantidadeJogadores.value > 25) {
+					quantidadeJogadores.value = 11
+				}
+			} else if (esporte.value === "2") {
+				if (quantidadeJogadores.value < 6 || quantidadeJogadores.value > 15) {
+					quantidadeJogadores.value = 6
+				}
+			}
+		})
 		function validator1() {
 			validator
 				.addField(name, [
@@ -452,6 +475,22 @@ const init = async () => {
 						errorMessage: `<span class="i18" key="DescricaoMaximo">${i18next.t("DescricaoMaximo")}</span>`,
 					},
 				])
+				.addField(quantidadeJogadores, [
+					{
+						rule: 'required',
+						errorMessage: `<span class="i18" key="QuantidadeJogadoresObrigatorio">${i18next.t("QuantidadeJogadoresObrigatorio")}</span>`,
+					},
+					{
+						validator: (value) => {
+							if (esporte.value == "2") {
+								return value >= 6 && value <= 15
+							} else if (esporte.value == "1") {
+								return value >= 11 && value <= 25
+							}
+						},
+						errorMessage: `<span class="i18" key="QuantidadeJogadoresInvalido">${i18next.t("QuantidadeJogadoresInvalido")}</span>`,
+					},
+				])
 				.onSuccess(async (e) => {
 					e.preventDefault()
 					// console.log('hello world')
@@ -492,7 +531,6 @@ const init = async () => {
 
 
 					loader.show()
-					console.log(linkRegulamento.href)
 					await putCampeonato({
 						"name": name.value,
 						"initialDate": dataInicial.value,
@@ -504,14 +542,14 @@ const init = async () => {
 						'id': championshipId,
 						'sportsId': campeonato.sportsId,
 						'rules': linkRegulamento.href,
+						"NumberOfPlayers": parseInt(quantidadeJogadores.value),
 						"DoubleStartLeagueSystem": PCStatus,
-						"DoubleMatchEliminations": (parseInt(numero.value) === 2 || (parseInt(formato.value) === 4 && parseInt(numero.value) === 4)) ? false : eliminatoriasStatus,
+						"DoubleMatchEliminations": eliminatoriasStatus,
 						"FinalDoubleMatch": finalStatus,
 						"DoubleMatchGroupStage": FGStatus,
 					})
 					loader.hide()
 					// mensagemErro.textContent = ''
-					location.reload()
 
 					checkBracketCreationAvailability()
 				})
@@ -546,7 +584,7 @@ const init = async () => {
 				const isValid = await validator.revalidateField(regulamento)
 				if (!isValid) return;
 
-				
+				if (regulamento.files.length == 0) return;
 
 				loader.show()
 				const data = await uploadImagem(regulamento, 2, mensagemErro)
@@ -555,11 +593,9 @@ const init = async () => {
 				if (Array.isArray(data.results))
 					return;
 
-				hiddenRegulamento.value = `${api}img/${data.results}`
+				regulamento.value = `${api}img/${data.results}`
 
-				console.log(hiddenRegulamento.value);
-
-				linkRegulamento.href = hiddenRegulamento.value;
+				linkRegulamento.href = imageInput.value;
 				linkRegulamento.classList.toggle('d-none', false)
 			})
 		}
@@ -590,13 +626,10 @@ const init = async () => {
 			notificacaoSucesso(i18next.t("SucessoCriacaoChaveamento"))
 
 			modalCreateSuccessBracketBT.show()
-			modalCreateSuccessBracket.querySelector('#modal-link-chaveamento').href = '/pages/tabela-chaveamento.html?id=' + championshipId
 
 			if (document.getElementById('botao-vincular-time').querySelector('span').getAttribute('key') == "Cancelar") {
 				document.getElementById('botao-vincular-time').click()
 			}
-
-			document.getElementById('reload-ficar-aqui').addEventListener('click', () => location.reload())
 
 			bracketExists(championshipId)
 		}
@@ -661,7 +694,6 @@ const init = async () => {
 		loader.hide()
 
 		if (response.succeed) {
-			const linkChaveamento = document.getElementById('link-bracket-btn-wrapper');
 			if (response.results) {
 				// se estiver criado, bloquear a edição do campeonado 
 				disableForm()
@@ -676,26 +708,20 @@ const init = async () => {
 				confirmDeleteBracketBtn.addEventListener('click', async () => {
 					await deleteBracket(campeonato.id)
 				})
-
-				linkChaveamento.href = '/pages/tabela-chaveamento.html?id=' + campeonato.id
 			} else {
 				// se não estiver criado, permitir a edição do campeonato
 				enableForm()
 				enableTeamsManipulation()
 				
 				bracketBtnWrapper.innerHTML = `
-				<button disabled data-bs-toggle="modal" data-bs-target="#bracketCreateModal" id="create-bracket-btn" class="btn border-0 d-flex justify-content-center align-items-center chaveamento-btn">
-				<i class="bi bi-diagram-2 me-2"></i>
-				<span class="i18 fw-semibold" key="CriarChaveamento">${i18next.t("CriarChaveamento")}</span>
-				</button> 
+					<button disabled data-bs-toggle="modal" data-bs-target="#bracketCreateModal" id="create-bracket-btn" class="btn border-0 d-flex justify-content-center align-items-center chaveamento-btn">
+						<i class="bi bi-diagram-2 me-2"></i>
+						<span class="i18 fw-semibold" key="CriarChaveamento">${i18next.t("CriarChaveamento")}</span>
+					</button> 
 				`
 				confirmCreateBracketBtn.addEventListener('click', async () => {
 					await createBracket(campeonato.id)
-
-					bracketCreateModalBT.hide()
-				}, { once: true })
-				
-				linkChaveamento.classList.add('d-none')
+				})
 			}
 		}
 	}
@@ -883,6 +909,10 @@ const init = async () => {
 		})
 	}
 
+
+
+
+
 	const botaoVincularSuborg = document.getElementById('botao-vincular-suborg');
 	const pesquisaSuborg = document.getElementById('pesquisa-suborg');
 
@@ -989,6 +1019,16 @@ const init = async () => {
 
 	}
 
+	//
+	
+
+
+
+
+
+	
+
+
 	const inicializarPaginaExclusao = async () => {
 		const formDeletarCampeonato = document.getElementById('delete-championship-form'),
 			deleteAccountValidator = new JustValidate(formDeletarCampeonato, { validateBeforeSubmitting: true }),
@@ -1043,8 +1083,7 @@ const init = async () => {
 		modalDeleteBracket = document.getElementById('bracketDeleteModal'),
 		bracketCreateModal = document.getElementById('bracketCreateModal'),
 		bracketBtnWrapper = document.getElementById('bracket-btn-wrapper'),
-		form = document.getElementById('update-profile-form'),
-		linkBracketBtnWrappers = document.querySelectorAll('.link-bracket-btn-wrapper')
+		form = document.getElementById('update-profile-form')
 		
         let modalCreateSuccessBracketBT = new bootstrap.Modal(modalCreateSuccessBracket, {keyboard: false})
 
@@ -1078,27 +1117,18 @@ const init = async () => {
 		if (createBracketBtn) {
 			if (campeonato.teamQuantity == campeonato.teams.length) {
 				createBracketBtn.disabled = false
-				bracketBtnWrapper.querySelector("#qtd-teams-not-enough").remove()
 			} else {
 				createBracketBtn.disabled = true
-				// clear error message
-				if (bracketBtnWrapper.querySelector("#qtd-teams-not-enough")) {
-					bracketBtnWrapper.querySelector("#qtd-teams-not-enough").remove()
-				}
-				bracketBtnWrapper.insertAdjacentHTML('beforeend', `<span id="qtd-teams-not-enough" class="i18 tiny-text" key="QuantidadeTimesInsuficiente">${i18next.t("QuantidadeTimesInsuficiente")}</span>`)
+				mensagemErro.innerHTML = `<span class="i18" key="QuantidadeTimesInsuficiente">${i18next.t("QuantidadeTimesInsuficiente")}</span>`
 			}
 		}
 	}
 
-	// confirmCreateBracketBtn.addEventListener('click', async () => {
-	// 	await createBracket(campeonato.id)
+	confirmCreateBracketBtn.addEventListener('click', async () => {
+		await createBracket(campeonato.id)
 
-	// 	bracketCreateModalBT.hide()
-	// })
-
-	for (const linkBracketBtnWrapper of linkBracketBtnWrappers) {
-		linkBracketBtnWrapper.setAttribute('href', `tabela-chaveamento.html?id=${campeonato.id}`)
-	}
+		bracketCreateModalBT.hide()
+	})
 
 	changeConfigOptionsContext(0)
 	inicializarCampos()

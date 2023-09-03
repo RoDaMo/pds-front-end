@@ -42,37 +42,12 @@
                     <!-- $ Descrição do Campeonato -->
                     <p id="championship-desc" class="align-text-bottom championship-desc text-break"></p>
 
-                    <button id="botaoExcluirCampeonato" data-bs-toggle="modal" data-bs-target="#deleteChampionship" class="btn btn-danger">Excluir Campeonato</button>
-                   
-                    <div class="modal fade" id="deleteChampionship" tabindex="-1" aria-labelledby="deleteChampionshipLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content p-3">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5 i18" id="deleteChampionshipLabel" key="Certeza">Você tem certeza?</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <!-- form -->
-                                <form id="delete-championship-form" class="row" method="">
-                                    <div class="modal-body">
-                                        <p class="text-danger">
-                                            <span class="i18" key="CasoVoce">Caso você decida </span>
-                                            <span class="fw-bold i18" key="excluir"> excluir </span> 
-                                            <span class="i18" key="TextoExclusao">este campeonato, ele será removido de visualização e não será possível recuperá-lo. 
-                                                Você deve avaliar cuidadosamente se é isso que realmente deseja fazer.</span>
-                                            
-                                        </p>
-                                        <div class="col-12 mt-3">
-                                            <label for="delete-account-user-name-input" class="form-label i18" key="NomeUsuario">Nome de Usuário</label>
-                                            <input type="text" class="form-control i18-placeholder" id="delete-user-name-input" key="NomeUsuarioPlaceholder" placeholder="Nome de Usuário">
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer justify-content-center">
-                                        <button type="submit" class="btn btn-danger i18" key="ExcluirCampeonato">Excluir Campeonato</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+
+                    <!-- Modal de confirmação -->
+                    <button type="button" id="botaoExcluirCampeonato" class="btn btn-danger">Excluir Campeonato</button>
+
+                    
+                    
                 </div>
                 <div class="col me-4">
                     <div class="position-relative overflow-hidden rounded-circle border border-2 championship-pic-wrapper mx-auto me-0">

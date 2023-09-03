@@ -81,7 +81,7 @@ const obterInfo = async () => {
     const data = await executarFetch(`auth/${id}`, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
     loader.hide()
 
-
+    
 
     if (!data.results.username) {
         console.log("É um jogador temporário");
