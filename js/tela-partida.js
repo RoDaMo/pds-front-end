@@ -81,6 +81,9 @@ const init = async () => {
 			await insertOvertimeBtn()
 			await insertPenaltyShootoutBtn()
 
+			validPlayersTeam1 = await getValidPlayers(match.homeId)
+			validPlayersTeam2 = await getValidPlayers(match.visitorId)
+
 			await updateScoreboard()
 			await loadEvents()
 		}
@@ -101,6 +104,8 @@ const init = async () => {
 
 			validPlayersTeam1 = await getValidPlayers(match.homeId)
 			validPlayersTeam2 = await getValidPlayers(match.visitorId)
+
+			selectEventType.value = ''
 
 			await loadEvents()
 		}
@@ -910,7 +915,7 @@ const init = async () => {
 			isOrganizer = false
 		}
 
-		return isOrganizer
+		return true	
 	}
 
 	const isMatchConfigured = () => {
@@ -1186,24 +1191,35 @@ const init = async () => {
 			let eventIllustration = ''	
 
 			let eventPlayer
-			let eventAssisterPlayer
 
 			if (match.isSoccer) {
 				if (event.goal) {
-					eventData = `
-						<div class="event-type"><span class="text-muted i18" key="Gol">${i18next.t("Gol")}</span></div>
-						<i class="bi bi-dot"></i>
-						<div class="event-time"><span class="text-muted">${event.minutes}</span></div>
-					`
+					if (event.ownGoal) {
+						eventData = `
+							<div class="event-type"><span class="text-muted text-truncate i18" key="GolContra">${i18next.t("GolContra")}</span></div>
+							<i class="bi bi-dot"></i>
+							<div class="event-time"><span class="text-muted">${event.minutes}"</span></div>
+						`
 
-					eventIllustration = `
-						<img src="../public/icons/sports_soccer.svg" alt="">
-					`
+						eventIllustration = `
+							<img src="../public/icons/sports_soccer_red.svg" alt="">
+						`
+					} else {
+						eventData = `
+							<div class="event-type"><span class="text-muted i18" key="Gol">${i18next.t("Gol")}</span></div>
+							<i class="bi bi-dot"></i>
+							<div class="event-time"><span class="text-muted">${event.minutes}"</span></div>
+						`
+
+						eventIllustration = `
+							<img src="../public/icons/sports_soccer.svg" alt="">
+						`
+					}
 				} else if (event.foul) {
 					eventData = `
 						<div class="event-type"><span class="text-muted i18" key="Falta">${i18next.t("Falta")}</span></div>
 						<i class="bi bi-dot"></i>
-						<div class="event-time"><span class="text-muted">${event.minutes}</span></div>
+						<div class="event-time"><span class="text-muted">${event.minutes}"</span></div>
 					`
 
 					if (!event.yellowCard) {
@@ -1250,49 +1266,83 @@ const init = async () => {
 				}
 			}
 
-			// Verify if the event is from team 1 or team 2
-			if (isTeam1(event.teamId)) {						
-				// eventPlayer = allPlayersTeam1.find(player => player.id == event.PlayerTempId)
-				eventAssisterPlayer = allPlayersTeam1.find(player => player.id == event.AssisterPlayerTempId)
-
-			} else if (isTeam2(event.teamId)) {
-				// eventPlayer = allPlayersTeam2.find(player => player.id == event.PlayerTempId)
-				eventAssisterPlayer = allPlayersTeam2.find(player => player.id == event.AssisterPlayerTempId)
+			const getEventAssisterPlayer = async () => {
+				if (isTeam1(event.teamId)) {						
+					if (match.assisterPlayerId) {
+						return allPlayersTeam2.find(player => player.id == event.assisterPlayerId)
+					}
+	
+				} else if (isTeam2(event.teamId)) {
+					if (match.assisterPlayerId) {
+						return allPlayersTeam2.find(player => player.id == event.assisterPlayerId)
+					}
+				}
 			}
 
+			const isAssistanceElegible = () => {
+				if (match.isSoccer) {
+					if (event.assisterPlayerId != "00000000-0000-0000-0000-000000000000") {
+						return true
+					} else {
+						return false
+					}
+				}
+			}
+
+			// const buildEventTemplate = async () => {
+			// 	let assisterPlayer = await getEventAssisterPlayer() 
+			// 	let template = ''
+
+			// 	return  
+				
+			// }
+
 			let eventTemplate = `
-				<div class="row row-cols-md-2 row-cols-1 p-3 my-2 match-details-content-event align-items-center rounded-5">
-					<div class="col">
-						<div class="row flex-column">
-							<div class="col event-player-name"><span class="fw-semibold text-black text-truncate text-center text-md-start m-truncated-text-width d-block">${event.name}</span></div>
-							${(event.goal) ?
-								(event.AssisterPlayerTempId) ? `
-									<div class="col event-player-name"><span class="fw-semibold text-black text-center text-md-start m-truncated-text-width text-truncate d-block">${eventAssisterPlayer.name}</span></div>
-								` : ''
-							: ''}
-							<div class="col d-flex flex-row event-data">
-								${eventData}
+					<div class="row row-cols-md-2 row-cols-1 p-3 my-2 match-details-content-event align-items-center rounded-5">
+						<div class="col">
+							<div class="row flex-column">
+								<div class="col event-player-name"><span class="fw-semibold text-black text-truncate text-center text-md-start m-truncated-text-width d-block">${event.name}</span></div>
+								<div class="col d-flex flex-row event-data">
+									${eventData}
+								</div>
 							</div>
 						</div>
+						<div class="col d-flex align-items-center pe-0 event-illustration">
+							${eventIllustration}
+						</div>
 					</div>
-					<div class="col d-flex align-items-center pe-0 event-illustration">
-						${eventIllustration}
-					</div>
-				</div>
-			`
+				`
 
-			if (isTeam1(event.teamId)) {					
-				eventsWrapperTeam1.insertAdjacentHTML('beforeend', eventTemplate)
+			// let eventTemplate = buildEventTemplate()
 
-				eventsWrapperTeam2.insertAdjacentHTML('beforeend', `
-					<div class="row w-auto blank-space"></div>
-				`)
+			if (isTeam1(event.teamId)) {	
+				if (match.isSoccer && event.goal && event.ownGoal) {
+					eventsWrapperTeam2.insertAdjacentHTML('beforeend', eventTemplate)
+
+					eventsWrapperTeam1.insertAdjacentHTML('beforeend', `
+						<div class="row w-auto blank-space"></div>
+					`)
+				} else {		
+					eventsWrapperTeam1.insertAdjacentHTML('beforeend', eventTemplate)
+
+					eventsWrapperTeam2.insertAdjacentHTML('beforeend', `
+						<div class="row w-auto blank-space"></div>
+					`)
+				}
 			} else if (isTeam2(event.teamId)) {
-				eventsWrapperTeam2.insertAdjacentHTML('beforeend', eventTemplate)
+				if (match.isSoccer && event.goal && event.ownGoal) {
+					eventsWrapperTeam2.insertAdjacentHTML('beforeend', eventTemplate)
 
-				eventsWrapperTeam1.insertAdjacentHTML('beforeend', `
-					<div class="row w-auto blank-space"></div>
-				`)
+					eventsWrapperTeam1.insertAdjacentHTML('beforeend', `
+						<div class="row w-auto blank-space"></div>
+					`)
+				} else {
+					eventsWrapperTeam2.insertAdjacentHTML('beforeend', eventTemplate)
+
+					eventsWrapperTeam1.insertAdjacentHTML('beforeend', `
+						<div class="row w-auto blank-space"></div>
+					`)
+					}
 			}
 
 			blankSpaceSetter()
@@ -1485,11 +1535,11 @@ const init = async () => {
 
 		if (window.innerWidth < 768) {
 			for(const blankSpace of blankSpaces) {
-				blankSpace.style.height = `${eventWidth + 35}px`
+				blankSpace.style.height = `${eventWidth + 15}px`
 			} 
 		} else {
 			for(const blankSpace of blankSpaces) {
-				blankSpace.style.height = `${eventHeight + 35}px`
+				blankSpace.style.height = `${eventHeight + 15}px`
 			}
 		}
 	}
