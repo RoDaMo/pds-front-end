@@ -443,7 +443,7 @@ const chaveamento = {
   },
   gerarHtmlPartidaFaseGrupos(partida, rodada) {
     return /*html*/`
-      <div class="row justify-content-center align-items-center match-details-wrapper bg-primary px-3 mx-0 rounded-5 partida-rodada-${rodada}">
+      <div class="row justify-content-center align-items-center match-details-wrapper bg-primary px-3 mx-0 rounded-5 partida-rodada-${rodada} d-none">
         <div class="text-center py-1 text-black">
           <small>${this.convertDateFormat(partida.date)}</small>
         </div>
@@ -537,6 +537,9 @@ const chaveamento = {
       rodadaAnterior.addEventListener('click', () => {
         const valorAntigo = parseInt(rodadaAtual.textContent)
         const novoValor = valorAntigo - 1;
+        if (novoValor < 0)
+          return;
+        
         updateUI(novoValor);
     
         grupo.querySelectorAll(`.partida-rodada-${valorAntigo}`).forEach(el => el.classList.add('d-none'))

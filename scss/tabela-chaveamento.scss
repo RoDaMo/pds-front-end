@@ -76,7 +76,7 @@ body {
 
 .seta-botao, .seta-botao-rodada{
     background-color: $gray-500 !important;
-    transition: all $transition !important;
+    transition: box-shadow $transition, background-color $transition !important;
 
     &:hover {
         box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
