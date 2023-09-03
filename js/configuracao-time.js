@@ -381,6 +381,12 @@ const init = async () => {
             jogadoresVinculadosContent.appendChild(botaoDesvincularWrapper);
             jogadoresVinculadosWrapper.appendChild(jogadoresVinculadosContent);
 
+            jogadoresVinculadosContent.classList.add('cursor-pointer', 'list-hover-darken')
+
+            jogadoresVinculadosContent.addEventListener('click', () => {
+                window.location.href = `pagina-usuarios.html?id=${jogador.id}`
+            })
+
             const botaoDesvincular = botaoDesvincularWrapper.querySelector('.btn-desvincular');
             botaoDesvincular.addEventListener('click', async e => {
                 await desvincularJogador(jogador.id);
@@ -458,6 +464,12 @@ const init = async () => {
             
             campeonatosVinculadosContent.appendChild(botaoDesvincularWrapper)
             campeonatosVinculadosWrapper.appendChild(campeonatosVinculadosContent)
+
+            campeonatosVinculadosContent.classList.add('cursor-pointer', 'list-hover-darken')
+
+            campeonatosVinculadosContent.addEventListener('click', () => {
+                window.location.href = `pagina-campeonatos.html?id=${campeonato.id}`
+            })
 
             botaoDesvincularWrapper.addEventListener('click', async e => {
                 await desvincularCampeonato(campeonato.id)
