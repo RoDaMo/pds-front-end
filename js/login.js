@@ -147,3 +147,5 @@ function criarValidacao() {
 }
 
 document.getElementById('formulario').addEventListener('submit-firefox', callbackValidation)
+
+window.dispatchEvent(new Event('pagina-load'))

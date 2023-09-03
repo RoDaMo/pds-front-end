@@ -23,5 +23,6 @@ const logs = async () => {
   const config = configuracaoFetch('GET'),
     logs = await executarFetch('error', config)
   callbackSucesso(logs)
+  window.dispatchEvent(new Event('pagina-load'))
 }
 logs()

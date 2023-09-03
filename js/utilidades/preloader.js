@@ -1,4 +1,4 @@
- window.addEventListener('load', () => {
+ window.addEventListener('pagina-load', () => {
   document.body.classList.add('loaded');
 });
 
@@ -20,7 +20,7 @@ export class preLoader extends HTMLElement {
         transition: opacity 0.5s ease-in-out;
         opacity: 1;
         pointer-events: auto;
-        z-index: 9999;
+        z-index: 99999;
       }
 
       body.loaded .preloader {

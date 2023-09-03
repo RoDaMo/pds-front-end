@@ -85,6 +85,7 @@ const obterInfo = async () => {
     document.getElementById("user-bio").textContent = data.results.bio
     document.getElementById("user-name").textContent = data.results.username
     document.getElementById("name").textContent = data.results.name
+    window.dispatchEvent(new Event('pagina-load'))
 }
 
 document.addEventListener('header-carregado', obterInfo)

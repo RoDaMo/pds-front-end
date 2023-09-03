@@ -443,7 +443,7 @@ const chaveamento = {
   },
   gerarHtmlPartidaFaseGrupos(partida, rodada) {
     return /*html*/`
-      <div class="row justify-content-center align-items-center match-details-wrapper px-3 mx-0 rounded-5 partida-rodada-${rodada}">
+      <div class="row justify-content-center align-items-center match-details-wrapper px-3 mx-0 rounded-5 partida-rodada-${rodada} d-none">
         <div class="text-center py-1 text-black">
           <small>${this.convertDateFormat(partida.date)}</small>
         </div>
@@ -537,6 +537,9 @@ const chaveamento = {
       rodadaAnterior.addEventListener('click', () => {
         const valorAntigo = parseInt(rodadaAtual.textContent)
         const novoValor = valorAntigo - 1;
+        if (novoValor < 0)
+          return;
+        
         updateUI(novoValor);
     
         grupo.querySelectorAll(`.partida-rodada-${valorAntigo}`).forEach(el => el.classList.add('d-none'))
@@ -586,11 +589,12 @@ const chaveamento = {
 
     tbody.innerHTML = ''
     let count = 0;
+    let html = ``
     for (const time of times) {
       count++
       const estatisticas = [[time.goalBalance,time.proGoals,time.yellowCard,time.redCard], [time.winningSets,time.losingSets,time.proPoints,time.pointsAgainst], time.points,time.wins, time.amountOfMatches]
       
-      tbody.innerHTML += /* html */`
+      html += /* html */`
       <tr class="border-top-0"> <!-- 1 -->
         <th scope="row" class="border-end-0 border-start-0 d-none d-lg-table-cell">${count}</th>
         <td class="border-start-0 border-end-0 coluna-fixa">
@@ -605,30 +609,36 @@ const chaveamento = {
         <td class="text-center fs-5 fw-semibold">${estatisticas[championship.sportsId - 1][2]}</td>
         <td class="text-center fs-5 fw-semibold">${estatisticas[championship.sportsId - 1][3]}</td>
         <td>
-          <small class="badge rounded-pill text-bg-secondary badge-ultima-partida d-inline-flex gap-3">
-            <div 
-              class="vencedor partida-pilula col-2" 
-              data-bs-toggle="tooltip" 
-              data-bs-html="true"
-              data-bs-title="<div class='align-items-center'><img src='https://playoffs-api.up.railway.app/img/ffc82e3d-4002-4fe1-bcbd-62fc78bcb880' rel='preconnect' width='40' height='40' class='time-vencedor rounded-circle'> 3 <i class='bi bi-x-lg'></i> 1 <img src='https://playoffs-api.up.railway.app/img/ffc82e3d-4002-4fe1-bcbd-62fc78bcb880' rel='preconnect' width='40' height='40' class='time-vencedor rounded-circle'></div>"
-            ></div>
-            <div 
-              class="perdedor partida-pilula col-2" 
-              data-bs-toggle="tooltip" 
-              data-bs-html="true"
-              data-bs-title="<div class='align-items-center'><img src='https://playoffs-api.up.railway.app/img/ffc82e3d-4002-4fe1-bcbd-62fc78bcb880' rel='preconnect' width='40' height='40' class='time-vencedor rounded-circle'> 3 <i class='bi bi-x-lg'></i> 1 <img src='https://playoffs-api.up.railway.app/img/ffc82e3d-4002-4fe1-bcbd-62fc78bcb880' rel='preconnect' width='40' height='40' class='time-vencedor rounded-circle'></div>"
-            ></div>
-            <div 
-              class="neutro partida-pilula col-2" 
-              data-bs-toggle="tooltip" 
-              data-bs-html="true"
-              data-bs-title="<div class='align-items-center'><img src='https://playoffs-api.up.railway.app/img/ffc82e3d-4002-4fe1-bcbd-62fc78bcb880' rel='preconnect' width='40' height='40' class='time-vencedor rounded-circle'> 3 <i class='bi bi-x-lg'></i> 1 <img src='https://playoffs-api.up.railway.app/img/ffc82e3d-4002-4fe1-bcbd-62fc78bcb880' rel='preconnect' width='40' height='40' class='time-vencedor rounded-circle'></div>"
-            ></div>
+          <small class="badge rounded-pill text-bg-secondary badge-ultima-partida d-inline-flex gap-3">`
+          
+        if (time.lastMatches.length > 0) {
+          for (let i = 0; i < time.lastMatches.length; i++) {
+            const partida = time.lastMatches[i];
+            const resultado = time.lastResults[i]
+            const classe = resultado.won ? 'vencedor' : resultado.lose ? 'perdedor' : 'neutro'
+            const classeOposta = resultado.won ? 'perdedor' : resultado.lose ? 'vencedor' : 'neutro'
+  
+            html += /*html*/ `
+              <div 
+                class="${classe} partida-pilula col-2" 
+                data-bs-toggle="tooltip" 
+                data-bs-html="true"
+                data-bs-title="<div class='align-items-center'><img src='${partida.homeEmblem}' alt='${partida.homeName}' rel='preconnect' width='40' height='40' class='time-${partida.homeId == time.teamId ? classe : classeOposta} rounded-circle'> ${partida.finished ? partida.homeGoals : ""} <i class='bi bi-x-lg'></i> ${partida.finished ? partida.visitorGoals : ""} <img src='${partida.visitorEmblem}' alt='${partida.visitorName}' rel='preconnect' width='40' height='40' class='time-${partida.visitorId == time.teamId ? classe : classeOposta} rounded-circle'></div>"
+              ></div>
+            `
+          }
+        }
+        else {
+          html += `Nenhuma`
+        }
+        html +=
+        `
           </small>
         </td>
       </tr>
       `
     }
+    tbody.innerHTML = html;
 
     const tooltips = document.getElementsByClassName('partida-pilula'),
           tooltipBootstrap = [...tooltips].map(tooltip => new Tooltip(tooltip))
@@ -644,6 +654,7 @@ const chaveamento = {
     if (championship.format == 3) {
       formatos.item(0).remove()
       await this.inicializarTabelas(formato, championship, idCampeonato)
+      window.dispatchEvent(new Event('pagina-load'))
       return
     }
     else formatos.item(1).remove()
@@ -741,6 +752,8 @@ const chaveamento = {
       await this.inicializarEliminatorias(formato, idCampeonato, faseAtual, fases, faseAtualIsDupla, championship)
       loader.hide();
     })
+
+    window.dispatchEvent(new Event('pagina-load'))
   },
   async inicializarFaseGrupos(partidas, partidasWrapper, campeonato) {
     partidasWrapper.classList.remove('bg-verde-limao')
@@ -810,11 +823,12 @@ const chaveamento = {
       `
       const tbody = rowGrupos.querySelector(`#tbody-${count}`)
       let countTimes = 0
+      let html = '';
       for (const time of grupo) {
         countTimes++
         const estatisticas = [[time.goalBalance,time.proGoals,time.yellowCard,time.redCard], [time.winningSets,time.losingSets,time.proPoints,time.pointsAgainst], time.points,time.wins, time.amountOfMatches]
 
-        tbody.innerHTML += /*html*/`
+        html += /*html*/`
           <tr class="border-top-0">
             <th scope="row" class="border-end-0 border-start-0 d-none d-lg-table-cell">${countTimes}</th>
             <td class="border-start-0 border-end-0 coluna-fixa">
@@ -829,21 +843,38 @@ const chaveamento = {
             <td class="text-center fs-5 fw-semibold">${estatisticas[campeonato.sportsId - 1][2]}</td>
             <td class="text-center fs-5 fw-semibold">${estatisticas[campeonato.sportsId - 1][3]}</td>
             <td>
-              <small class="badge rounded-pill text-bg-secondary badge-ultima-partida d-inline-flex gap-3">
-                <div 
-                  class="vencedor partida-pilula col-2" 
-                  data-bs-toggle="tooltip" 
-                  data-bs-html="true"
-                  data-bs-title="<div class='align-items-center'><img src='https://playoffs-api.up.railway.app/img/ffc82e3d-4002-4fe1-bcbd-62fc78bcb880' rel='preconnect' width='40' height='40' class='time-vencedor rounded-circle'> 3 <i class='bi bi-x-lg'></i> 1 <img src='https://playoffs-api.up.railway.app/img/ffc82e3d-4002-4fe1-bcbd-62fc78bcb880' rel='preconnect' width='40' height='40' class='time-vencedor rounded-circle'></div>"
-                ></div>
-                <div class="perdedor partida-pilula col-2" data-bs-toggle="tooltip" data-bs-title="Default tooltip"></div>
-                <div class="neutro partida-pilula col-2" data-bs-toggle="tooltip" data-bs-title="Default tooltip"></div>
+              <small class="badge rounded-pill text-bg-secondary badge-ultima-partida d-inline-flex gap-3">`
+
+        if (time.lastMatches.length > 0) {
+          for (let i = 0; i < time.lastMatches.length; i++) {
+            const partida = time.lastMatches[i];
+            const resultado = time.lastResults[i]
+            const classe = resultado.won ? 'vencedor' : resultado.lose ? 'perdedor' : 'neutro'
+            const classeOposta = resultado.won ? 'perdedor' : resultado.lose ? 'vencedor' : 'neutro'
+  
+            html += /*html*/ `
+              <div 
+                class="${classe} partida-pilula col-2" 
+                data-bs-toggle="tooltip" 
+                data-bs-html="true"
+                data-bs-title="<div class='align-items-center'><img src='${partida.homeEmblem}' alt='${partida.homeName}' rel='preconnect' width='40' height='40' class='time-${partida.homeId == time.teamId ? classe : classeOposta} rounded-circle'> ${partida.finished ? partida.homeGoals : ""} <i class='bi bi-x-lg'></i> ${partida.finished ? partida.visitorGoals : ""} <img src='${partida.visitorEmblem}' alt='${partida.visitorName}' rel='preconnect' width='40' height='40' class='time-${partida.visitorId == time.teamId ? classe : classeOposta} rounded-circle'></div>"
+              ></div>
+            `
+          }
+        }
+        else {
+          html += `Nenhuma`
+        }
+        
+        html += `
               </small>
             </td>
           </tr>
         `
       }
+      tbody.innerHTML = html;
     }
+
 
     containerGrupos.appendChild(rowGrupos)
     partidasWrapper.appendChild(containerGrupos)
@@ -879,6 +910,8 @@ const chaveamento = {
       colunasEstatisticas.item(i).textContent = element;
     }
     await this.carregarRodadasFasesGrupos(campeonato.doubleMatchGroupStage ? 6 : 3, campeonato.id)
+    const tooltips = document.getElementsByClassName('partida-pilula'),
+    tooltipBootstrap = [...tooltips].map(tooltip => new Tooltip(tooltip))
     // this.inicializarRodadas(campeonato.id, partidasWrapper, 'col', campeonato.doubleMatchGroupStage ? (campeonato.teamQuantity - 1) * 2 : campeonato.teamQuantity - 1)
   },
   async inicializarEliminatorias(formato, idCampeonato, faseAtual, fases, faseAtualIsDupla, campeonato) {

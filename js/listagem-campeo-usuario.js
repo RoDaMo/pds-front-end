@@ -74,7 +74,7 @@ const exibirDados = async (data) => {
 
     data.results.forEach(e => {
         conteudo.innerHTML += 
-        /html/`
+        /* html */`
             <div class="card card-body mt-5 border border-2 rounded-custom text-black">
                 <a href="/pages/configuracao-campeonato.html?id=${e.id}" class="text-decoration-none">
                     <div class="row gap-0">
@@ -99,6 +99,8 @@ const exibirDados = async (data) => {
             </div>
         `;
     });
+
+    window.dispatchEvent(new Event('pagina-load'))
 }
 
 listagem();

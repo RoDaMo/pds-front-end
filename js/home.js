@@ -243,3 +243,5 @@ if (localStorage.getItem('autenticado') == 'true') {
     elementosParaEsconder.item(0).classList.add('invisible')
     elementosParaEsconder.item(1).classList.add('d-none')
 }
+
+window.dispatchEvent(new Event('pagina-load'))

@@ -1111,7 +1111,7 @@ const init = async () => {
 	await checkBracketCreationAvailability()
 	//#endregion
 
-
+	window.dispatchEvent(new Event('pagina-load'))
 }
 
 document.addEventListener('header-carregado', init)
