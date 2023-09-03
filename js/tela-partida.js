@@ -46,6 +46,8 @@ const init = async () => {
 			`)
 
 			thereIsAnything = true
+		} else {
+			document.querySelector('#start-overtime-wrapper')?.remove()
 		}
 	}
 
@@ -58,7 +60,10 @@ const init = async () => {
 					<button id="start-penalty-shootout-btn" data-bs-toggle="modal" data-bs-target="#startPenaltyShootoutModal" class="btn btn-secondary w-auto"><span class="i18" key="StartPenaltyShootout">${i18next.t("StartPenaltyShootout")}</span></button>
 				</div>
 			`)
+		} else {
+			document.querySelector('#start-penalty-shootout-wrapper')?.remove()
 		}
+
 	}
 
 	const postGoal = async body => {
@@ -256,8 +261,6 @@ const init = async () => {
 		const matchManagementFormType = document.querySelector('#match-management-form-type')
 
 		if (match.isSoccer) {
-			let thereIsAnything = false
-
 			if (!isPenaltyShootout()) {
 				extraManagement.insertAdjacentHTML('beforeend', `
 					<div id="end-match-wrapper" class="d-flex flex-column align-items-center flex-md-row my-2 justify-content-center">
@@ -1518,6 +1521,9 @@ const init = async () => {
 	
 	let downloadMatchReportBtn = null
 	let downloadMatchReportLink = null
+
+	let thereIsAnything = false
+
 
 	loader.show()
 	const 
