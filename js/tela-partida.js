@@ -738,8 +738,8 @@ const init = async () => {
 										const body = {
 											"MatchId": match.id,
 											"TeamId": selectEventTeamCard.value,
-											"CardType": selectEventCardType.value,
-											"Minutes": inputEventTime.value
+											"YellowCard": selectEventCardType.value === 'true',
+											"Minutes": parseInt(inputEventTime.value)
 										}
 
 										body[playerKey] = selectEventPlayer.value
