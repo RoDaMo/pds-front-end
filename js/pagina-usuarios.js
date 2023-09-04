@@ -83,7 +83,11 @@ document.addEventListener('header-carregado', async () => {
     const data = await executarFetch(`auth/${id}`, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
     loader.hide()
 
-    
+    if (data.results == null || data.succeed == false) {
+        window.dispatchEvent(new Event('pagina-load'))
+        window.location.href = '/pages/404.html'
+        return;
+    } 
 
     if (!data.results.username) {
         console.log("É um jogador temporário");
