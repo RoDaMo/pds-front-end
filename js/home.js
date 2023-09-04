@@ -1,7 +1,7 @@
 import '../scss/home.scss'
 import Aos from 'aos'
 import 'aos/dist/aos.css'
-import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
+import { getLinguaAtual, inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
 import portugues from './i18n/ptbr/home.json' assert { type: 'JSON' }
 import ingles from './i18n/en/home.json' assert { type: 'JSON' }
 import i18next from 'i18next'
@@ -137,6 +137,7 @@ if (mediaQueryMobile.matches) {
     }, {passive: "false"})
 
 } else {
+
     function noiseHandler() {
         const FTBHeight = homeCards[0].parentElement.offsetHeight + navbarComponente.offsetHeight
 
@@ -147,6 +148,9 @@ if (mediaQueryMobile.matches) {
     }
 
     noiseHandler()
+
+    window.addEventListener("resize", noiseHandler)
+    
 
     homeCards[3].classList.remove("card-bg")
     homeCards[3].classList.add("my-5")
@@ -234,18 +238,10 @@ if (mediaQueryMobile.matches) {
 }
 
 
-window.addEventListener("resize", () => {
-    if(mediaQueryDesktopDown.matches) {
-        homeTitle.classList.add("display-2")
-        homeTitle.classList.remove("display-1")
-    } else {
-        homeTitle.classList.add("display-1")
-        homeTitle.classList.remove("display-2")
-    }
-})
-
 if (localStorage.getItem('autenticado') == 'true') {
     const elementosParaEsconder =  document.getElementsByClassName('esconder-botao-logado')
     elementosParaEsconder.item(0).classList.add('invisible')
     elementosParaEsconder.item(1).classList.add('d-none')
 }
+
+window.dispatchEvent(new Event('pagina-load'))

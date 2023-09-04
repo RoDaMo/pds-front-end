@@ -15,6 +15,11 @@ inicializarInternacionalizacao(ingles, portugues);
 const loader = document.createElement('app-loader');
 document.body.appendChild(loader);
 
+function genericExibition(input, data, image) {
+	input.value = `${api}img/${data.results}`
+	exibidorImagem(image, input.value)
+}
+
 const pegarDados = async () => {
     const config = configuracaoFetch("GET")
 
@@ -124,20 +129,30 @@ async function changeConfigOptionsContext(t) {
     switch (parseInt(t)) {
         case 1:
             configOptionsWrapper.innerHTML = /*html*/`
-                <p class="position-absolute config-title fw-semibold i18" key="Perfil">${i18next.t("Perfil")}</p>
-                <h5 class="i18" key="Informacoes">${i18next.t("Informacoes")}</h5>
-                <hr>
-                <div class="row mt-3 justify-mobile-pic">
-                    <div class="col-1 position-relative p-0 overflow-hidden rounded-circle config-user-pic-mod-wrapper">
+                <h5 class="i18 text-center" key="Perfil">${i18next.t("Perfil")}</h5>
+                <hr class="my-2">
+                <div class="row mt-5 m-auto justify-mobile-pic">
+                    <div class="col-1 position-relative p-0 overflow-hidden rounded-circle border border-2 config-user-pic-mod-wrapper">
                         <!-- $ Imagem de Pefil do Usuário  ../default-user-image.png - preview? -->
                         <img src="../default-user-image.png" alt="config-user-pic-mod" class="img-fluid position-absolute w-100 h-100" id="config-user-pic-mod">
                     </div>
-                    <div class="col-12 col-md mt-2">
-                        <div class="d-flex justify-mobile-pic align-items-end h-100">
-                            <label for="config-user-pic-input" class="btn play-btn-primary i18" key="AlterarFoto">${i18next.t("AlterarFoto")}</label>
-                            <input type="file" class="d-none" id="config-user-pic-input" accept=".jpeg, .jpg, .png, .webp, .gif, .bmp, .tiff">
+                    <div class="col-12 col-md">
+
+                        <div class="row flex-column justify-mobile-pic justify-content-start align-items-center my-auto upload-container h-100">
+                            <div class="col d-flex justify-content-center d-none d-lg-flex">
+                                <div class="upload-drop-zone justify-content-center w-75 rounded-5" id="config-user-drop-zone">
+                                    <span class="i18 my-3 text-muted" key="DropZoneText">${i18next.t("DropZoneText")}</span>
+                                </div>
+                            </div>
+
+                            <span class="d-none my-2 d-lg-block i18" key="Ou">${i18next.t("Ou")}</span>
+
+                            <div class="col d-flex align-items-center my-auto upload-image-drop-label">
+                                <label for="config-user-pic-input" class="btn play-btn-primary mt-3 mt-md-0 i18" key="AlterarFoto">${i18next.t("AlterarFoto")}</label>
+                            </div>
                         </div>
                         <div class="text-danger" id="erros-imagem"></div>
+
                     </div>
                 </div>
 
@@ -151,9 +166,12 @@ async function changeConfigOptionsContext(t) {
                             <label for="config-user-bio-input" class="form-label">Bio</label>
                             <textarea maxLength="100" class="form-control rounded-4 width-config-input" id="config-user-bio-input" rows="3" placeholder="Bio"></textarea>
                         </div>
+
+                        <input type="file" class="d-none" id="config-user-pic-input" accept=".jpeg, .jpg, .png, .webp, .gif, .bmp, .tiff">
                         <input type="hidden" name="logo" id="emblema">
+
                         <div class="col-12 mt-4 justify-touch-btn">
-                            <button type="submit" class="btn play-btn-primary i18" key="AtualizarPerfil" id='salvar'>${i18next.t("AtualizarPerfil")}</button>
+                            <button type="submit" class="btn play-btn-primary i18" key="Salvar" id='salvar'>${i18next.t("Salvar")}</button>
                         </div>
                     </form>
                 </div>
@@ -163,17 +181,63 @@ async function changeConfigOptionsContext(t) {
             const updateProfileBioInput = document.querySelector('#config-user-bio-input')
             const updateProfileUserPicInput = document.querySelector('#config-user-pic-input')
             const emblema = document.getElementById("emblema")
+            const configUserDropZone = document.querySelector('#config-user-drop-zone')
 
-            updateProfileUserNameInput.value = dados.userName
-            updateProfileBioInput.value = dados.bio
-            emblema.value = dados.profileImg
+            const dropZones = document.querySelectorAll(".upload-drop-zone")
+
+            for	(const dropZone of dropZones) {
+                dropZone.addEventListener("dragover", e => {
+                    e.preventDefault()
+                    dropZone.classList.add("dragover")
+                })
+
+                dropZone.addEventListener("dragleave", e => {
+                    e.preventDefault()
+                    dropZone.classList.remove("dragover")
+                })
+
+                dropZone.addEventListener("drop", async e => {
+                    e.preventDefault()
+                    dropZone.classList.remove("dragover")
+                })	
+            }
+
+            const loadPreviewProfile = async () => {
+                const dados = await pegarDados()
+                if (dados.profileImg) {
+                    exibidorImagem(document.getElementById("config-user-pic"), dados.profileImg)
+                } else {
+                    exibidorImagem(document.getElementById("config-user-pic"), '../default-user-image.png')
+                }
+
+                if (dados.userName) {
+                    document.getElementById('nome-usuario').textContent = dados.userName
+                } 
+
+                if (dados.email) {
+                    document.getElementById('email').textContent = dados.email
+                }
+
+                if (dados.bio) {
+                    document.getElementById('biografia').textContent = dados.bio
+                }
+
+                
+            }
+
+            const loadProfileInputs = () => {
+                updateProfileUserNameInput.value = dados.userName
+                updateProfileBioInput.value = dados.bio
+                emblema.value = dados.profileImg
+            }
+
+            loadProfileInputs()
 
             if (dados.profileImg) {
                 exibidorImagem(document.getElementById("config-user-pic-mod"), dados.profileImg)
             } else {
                 exibidorImagem(document.getElementById("config-user-pic-mod"), '../default-user-image.png')
             }
-
 
             const updateProfileValidator = new JustValidate(updateProfileForm, {
                 validateBeforeSubmitting: true,
@@ -194,6 +258,8 @@ async function changeConfigOptionsContext(t) {
                     if (!data) return false
 
                     notificacaoSucesso(data.results[0])
+
+                    loadPreviewProfile()
                     return true
                 }
 
@@ -269,6 +335,17 @@ async function changeConfigOptionsContext(t) {
             document.addEventListener('nova-lingua', case1)
             case1()
 
+            configUserDropZone.addEventListener("drop", async e => {
+				loader.show()
+				const data = await uploadImagem(e.dataTransfer, 3, mensagemErro)
+				loader.hide()
+	
+				if (Array.isArray(data.results))
+					return;
+	
+                genericExibition(emblema, data, document.getElementById("config-user-pic-mod"))
+			})
+
             updateProfileUserPicInput.addEventListener("change", async () => {
                 const isValid = await updateProfileValidator.revalidateField(updateProfileUserPicInput)
                 if (!isValid) return;
@@ -284,14 +361,13 @@ async function changeConfigOptionsContext(t) {
                 exibidorImagem(document.getElementById("config-user-pic-mod"), emblema.value)
             })
 
-
+            window.dispatchEvent(new Event('pagina-load'))
             break
 
         case 2:
             configOptionsWrapper.innerHTML = /*html*/`
-                    <p class="position-absolute config-title fw-semibold i18" key="Conta">${i18next.t("Conta")}</p>
-                    <h5 class="i18" key="Informacoes">${i18next.t("Informacoes")}</h5>
-                    <hr>
+                    <h5 class="i18 text-center" key="Conta">${i18next.t("Conta")}</h5>
+                    <hr class="my-2">
                     
                     <div class="mt-1">
                         <form id="update-account-form" class="row">
@@ -301,13 +377,13 @@ async function changeConfigOptionsContext(t) {
                                 <input maxLength="100" type="text" class="form-control width-config-input i18-placeholder" key="NomeReal" id="config-user-realname-input" placeholder="${i18next.t("NomeReal")}">
                             </div>
                             <div class="col-12 mt-4 justify-touch-btn">
-                                <button type="submit" class="btn play-btn-primary i18" key="AtualizarConta">${i18next.t("AtualizarConta")}</button>
+                                <button type="submit" class="btn play-btn-primary i18" key="Salvar">${i18next.t("Salvar")}</button>
                             </div>
                         </form>
                     </div>
 
-                    <h5 class="text-danger mt-5 i18" key="ExcluirConta">${i18next.t("ExcluirConta")}</h5>
-                    <hr>
+                    <h5 class="text-danger text-center mt-5 i18" key="ExcluirConta">${i18next.t("ExcluirConta")}</h5>
+                    <hr class="my-2">
                     
                     <div class="mt-1">
                         <p class="text-danger fs-6">
@@ -359,12 +435,12 @@ async function changeConfigOptionsContext(t) {
                         },
                         {
                             rule: 'minLength',
-                            value: 1,
+                            value: 4,
                             errorMessage: `<span class="i18" key="NomeRealMinimo">${i18next.t("NomeRealMinimo")}</span>`,
                         },
                         {
                             rule: 'maxLength',
-                            value: 100,
+                            value: 200,
                             errorMessage: `<span class="i18" key="NomeRealMaximo">${i18next.t("NomeRealMaximo")}</span>`,
                         },
                     ])
@@ -386,9 +462,8 @@ async function changeConfigOptionsContext(t) {
 
         case 3:
             configOptionsWrapper.innerHTML = /*html*/`
-                    <p class="position-absolute config-title fw-semibold i18" key="Senha">${i18next.t("Senha")}</p>
-                    <h5 class="i18" key="MudarSenha">${i18next.t("MudarSenha")}</h5>
-                    <hr>
+                    <h5 class="i18 text-center" key="MudarSenha">${i18next.t("MudarSenha")}</h5>
+                    <hr class="my-2">
                     
                     <div class="mt-1">
                         <form id="change-password-form" class="row">
@@ -418,7 +493,7 @@ async function changeConfigOptionsContext(t) {
                                 </div>
                             </div>
                             <div class="col-md-5 col-lg-3 mt-4 justify-touch-btn">
-                                <button type="submit" class="btn play-btn-primary i18" key="AtualizarSenha">${i18next.t("AtualizarSenha")}</button>
+                                <button type="submit" class="btn play-btn-primary i18" key="SalvarSenha">${i18next.t("SalvarSenha")}</button>
                             </div>
                             <div class="col form-text text-success mt-auto mb-0 pb-0 justify-touch-btn">
                                 <a href="recuperar-senha.html" class="fs-6 fw-semibold i18" key="RecuperarSenha">${i18next.t("RecuperarSenha")}</a>
@@ -482,7 +557,7 @@ async function changeConfigOptionsContext(t) {
                         })
 
                         if (resultado) {
-                            form.reset()
+                            document.getElementById('change-password-form').reset()
                         }
                     })
             }

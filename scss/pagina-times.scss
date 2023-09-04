@@ -14,7 +14,60 @@ body, html {
 }
 
 .team-info {
-    top: 11rem;
+    top: 6rem;
+}
+
+.team-config-btn {
+    background: $play-cor-fundos;
+    transition: all $transition;
+
+    a {
+        text-decoration: none;
+        color: $play-cor-texto;
+    }
+
+    &:hover {
+        background-color: $play-cor-fundos-secundaria;
+        filter: brightness(0.9) !important;
+    }
+
+    &:active {
+        background-color: $play-cor-fundos-secundaria;
+        filter: brightness(0.8) !important;
+    }
+}
+
+.ss-player-content {
+    &:hover {
+        filter: brightness(0.9);
+    }
+
+    &:active {
+        filter: brightness(0.8);
+    }
+}
+
+.coach-board {
+    background-color: $play-cor-fundos-secundaria;
+    border-radius: 1.5rem;
+
+    .coach-badge {
+        span {
+            font-size: 0.7rem;
+            border-radius: 0.5rem;
+            background-color: $black;
+        }
+    }
+}
+
+.ss-player-data-number {
+    background-color: $play-cor-primaria;
+    border-radius: 0.6rem;
+}
+
+.ss-player-data-position {
+    background-color: $black;
+    border-radius: 0.8rem;
 }
 
 .team-pic-wrapper {
@@ -57,6 +110,11 @@ body, html {
 
 .ss-player-name {
     margin-bottom: -0.3rem;
+    width: 16rem !important;
+}
+
+.ss-player-username {
+    width: 17rem !important;
 }
 
 .sports-section {
@@ -124,6 +182,7 @@ body, html {
     border-radius: $border-radius-2xl $border-radius-2xl 0 0 !important;
     height: 4rem;
     box-shadow: none;
+    background-color: rgb(179 233 148 / 20%) !important;
 
     h2 {
         color: $play-cor-texto
@@ -198,6 +257,8 @@ body, html {
 .ss-slider {
     div {
         background: $play-cor-fundos-secundaria;
+
+        cursor: pointer;
     }
 }
 
@@ -240,6 +301,10 @@ body, html {
         -ms-overflow-style: none;
         scrollbar-width: none;
     }
+
+    .ss-player-name {
+        width: 10rem !important;
+    }
 }
 
 @include media-breakpoint-down(sm) {
@@ -249,10 +314,6 @@ body, html {
 
     .team-desc {
         font-size: 0.7rem;
-    }
-
-    .team-info {
-        top: 6rem;
     }
 
     .sports-section {
@@ -272,6 +333,27 @@ body, html {
         }
     }
 
+    #coach-board-wrapper {
+        justify-content: center;
+    }
+
+    .ss-player-data {
+        width: 11rem !important;
+    }
+
+    .ss-player-data-position,
+    .ss-player-data-number {
+        font-size: 0.75rem;
+    }
+
+    .ss-player-name {
+        width: 8rem !important;
+    }
+
+    .ss-player-username {
+        width: 9rem !important;
+    }
+
     .ss-test-1 {
         top: 13.5rem;
         right: 5.5rem;
@@ -285,7 +367,7 @@ body, html {
     .ss-first-content {
         flex-wrap: nowrap;
         overflow-x: auto;
-        height: 8.5rem;
+        height: 7.8rem;
 
         div {
             flex: 0 0 auto;
@@ -364,4 +446,8 @@ body, html {
 
         padding: 0 2rem;
     }
+}
+
+.coach-board:hover {
+    filter: brightness(0.9);
 }

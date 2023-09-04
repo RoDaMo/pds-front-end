@@ -49,7 +49,9 @@ export default defineConfig({
         termosDeUso: resolve(__dirname, 'pages/termos-de-uso.html'),
         paginaTimes: resolve(__dirname, 'pages/pagina-times.html'),
         configuracaoTime: resolve(__dirname, 'pages/configuracao-time.html'),
-        errorLogs: resolve(__dirname, 'pages/error-log.html')
+        errorLogs: resolve(__dirname, 'pages/error-log.html'),
+        tabelaChaveamento: resolve(__dirname, 'pages/tabela-chaveamento.html'),
+        telaPartida: resolve(__dirname, 'pages/tela-partida.html')
       }
     }
   },

@@ -14,7 +14,7 @@ body, html {
 }
 
 .championship-info {
-    top: 11rem;
+    top: 6rem;
 }
 
 .championship-pic-wrapper {
@@ -25,6 +25,26 @@ body, html {
 .championship-name {
     color: $play-cor-texto;
     margin-bottom: -0.4rem;
+}
+
+.championship-options-btn {
+    background: $play-cor-fundos;
+    transition: all $transition;
+
+    a {
+        text-decoration: none;
+        color: $play-cor-texto;
+    }
+
+    &:hover {
+        background-color: $play-cor-fundos-secundaria;
+        filter: brightness(0.9) !important;
+    }
+
+    &:active {
+        background-color: $play-cor-fundos-secundaria;
+        filter: brightness(0.8) !important;
+    }
 }
 
 // .championship-config-btn {
@@ -57,6 +77,7 @@ body, html {
 
 .ss-team-name {
     margin-bottom: -0.3rem;
+    width: 16rem !important;
 }
 
 .ss-team-content {
@@ -130,6 +151,7 @@ body, html {
     border-radius: $border-radius-2xl $border-radius-2xl 0 0 !important;
     height: 4rem;
     box-shadow: none;
+    background-color: rgb(179 233 148 / 20%) !important;
 
     h2 {
         color: $play-cor-texto
@@ -197,6 +219,11 @@ body, html {
 }
 
 .download-btn {
+    a {
+        text-decoration: none;
+        color: $play-cor-texto;
+    }
+    
     &:hover {
         background: $play-cor-fundos-secundaria;
     }
@@ -217,8 +244,8 @@ body, html {
         font-size: 0.7rem;
     }
 
-    .championship-info {
-        top: 6rem;
+    .ss-team-name {
+        width: 8rem !important;
     }
 
     .sports-section {

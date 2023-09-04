@@ -11,5 +11,21 @@
     "Volei": "Vôlei",
     "Futebol": "Futebol",
     "Uniformes": "Uniformes",
-    "Campeonatos": "Campeonatos"
+    "Campeonatos": "Campeonatos",
+    "Goleiro": "Goleiro",
+    "Zagueiro": "Zagueiro",
+    "Lateral": "Lateral",
+    "Volante": "Volante",
+    "MeioCampista": "Meio-Campista",
+    "MeiaAtacante": "Meia-Atacante",
+    "Ala": "Ala",
+    "Ponta": "Ponta",
+    "Centroavante": "Centroavante",
+    "Levantador": "Levantador",
+    "Central": "Central",
+    "Libero": "Líbero",
+    "Ponteiro": "Ponteiro",
+    "Oposto": "Oposto",
+    "Tecnico": "Técnico(a)",
+    "EditarTime": "Editar time"
 }

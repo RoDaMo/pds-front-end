@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script type="module" src="../js/utilidades/preloader.js"></script>
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="stylesheet" href="../scss/tabela-chaveamento.scss">
+  <title>Tabela Chaveamento</title>
+</head>
+
+<body>
+    <componente-preloader></componente-preloader>
+    <componente-header></componente-header>
+    <main class="container">
+        <div class="container px-0 formato-chaveamento" id="1">
+            <div class="row">
+                <div class="col">
+                    <div class="custom-container rounded-5 p-2">       
+                        <div class="inner-container pt-3 px-lg-2">
+
+                            <div class="d-flex justify-content-between align-items-center text-black mb-3">
+                                <button id="anterior" class="seta-botao btn px-2 rounded-circle"><i class="bi bi-caret-left"></i></button>
+                                <h4 id="fase-atual">Oitavas de final</h4>
+                                <button id="proximo" class="seta-botao btn px-2 rounded-circle"><i class="bi bi-caret-right"></i></button>
+                            </div>
+
+                            <div class="rounded-custom" id="partida-rodada-eliminatorias"> 
+
+                            </div>
+
+                            
+                        </div>
+                        
+                        <div class="lista-jogadores mt-0 table-responsive rounded-top-0 inner-container p-3">
+                            <table class="table table-hover tabela-customizada" id="tabela-jogadores">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="col"></th>
+                                        <th scope="col" class="col"></th>
+                                        <th scope="col" class="col"></th>
+                                        <th scope="col" class="col-10 d-none d-lg-table-cell">Jogador</th>
+                                        <th scope="col" class="col">Gols</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+        
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container px-0 formato-chaveamento" id="3">
+            <div class="custom-container rounded-5 p-3 d-flex flex-column gap-3"> 
+                <div class="container">
+                    <div class="row gap-lg-3">
+                        <div data-lenis-prevent class="col d-flex flex-column-reverse flex-lg-column gap-3 px-0">
+                            <div class="p-3 rounded-5 borda-bottom-lg table-responsive tabela-customizada-wrapper col">
+                                <table class="table table-hover table-bordered tabela-customizada">
+                                    <thead>
+                                        <tr class="border-bottom-0 border-top-0">
+                                            <th scope="col" class="col border-0 d-none d-lg-table-cell"></th>
+                                            <th scope="col" class="col-1 border-0 coluna-fixa"></th>
+                                            <th scope="col" class="col-2 border-0 d-none d-lg-table-cell"></th>
+                                            <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado text-center">P</th>
+                                            <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado text-center">V</th>
+                                            <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado text-center">J</th>
+                                            <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado text-center">SG</th>
+                                            <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado text-center">GP</th>
+                                            <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado text-center">CA</th>
+                                            <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado text-center">CV</th>
+                                            <th scope="col" class="col-1 border-start-0 border-end-0 cabecalho-customizado text-center">Ult. Jogos</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="container p-3 legenda-wrapper rounded-5">
+                                <div class="legenda me-2 d-inline-block">
+                                    <div class="d-inline-block vencedor" style="width: 10px; height: 10px;"></div>
+                                    Vitória
+                                </div>
+                                <div class="legenda me-2 d-inline-block">
+                                    <div class="d-inline-block perdedor" style="width: 10px; height: 10px;"></div>
+                                    Derrota
+                                </div>
+                                <div class="legenda d-inline-block">
+                                    <div class="d-inline-block neutro" style="width: 10px; height: 10px;"></div>
+                                    Empate/Ainda não ocorreu
+                                </div>
+                                <div class="d-block" id="legendas-estatisticas-esportes">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rounded-5 col-lg-3 mt-3 mt-lg-0 col-12 matches-round-data-wrapper p-3">
+                            <div class="row row-cols-3 flex-row justify-content-center align-items-center">
+                                <div class="col-12 d-flex justify-content-center align-items-center">
+                                    <h4 id="rodada-text" class="text-black"><span id="rodada-atual">1</span>º Rodada</h4>
+                                </div>
+                                <div class="col-6 d-flex justify-content-center align-items-center">
+                                    <button id="anterior-rodada" class="seta-botao-rodada btn px-3 py-2 w-100 invisible"><i class="bi bi-caret-left"></i></button>
+                                </div>
+                                <div class="col-6 d-flex justify-content-center align-items-center">
+                                    <button id="proxima-rodada" class="seta-botao-rodada btn px-3 py-2 w-100"><i class="bi bi-caret-right"></i></button>
+                                </div>
+                            </div>
+                            <div id="wrapper-partidas" class="mt-3 d-flex flex-column gap-4">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="lista-jogadores mt-0 table-responsive rounded-top-0 inner-container p-3">
+                    <table class="table table-hover tabela-customizada" id="tabela-jogadores">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="col"></th>
+                                <th scope="col" class="col"></th>
+                                <th scope="col" class="col"></th>
+                                <th scope="col" class="col-10 d-none d-lg-table-cell">Jogador</th>
+                                <th scope="col" class="col">Gols</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="configMatchModal" tabindex="-1" aria-labelledby="configMatchModalLabel" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                <div class="modal-content p-3">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5 i18 text-black" id="configMatchModalLabel" key="configMatch">Configurar Partida</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="config-match-form"></form>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button type="submit" form="config-match-form" id="save-config-match-btn" class="btn btn-primary"><span class="i18 fw-semibold" key="SaveConfig">Salvar Configuração</span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <componente-footer></componente-footer>
+    <script type="module" src="../main.js"></script>
+    <script type="module" src="../js/utilidades/header.js"></script>
+    <script type="module" src="../js/utilidades/footer.js"></script>
+    <script type="module" src="../js/tabela-chaveamento.js"></script>
+</body>
+</html>

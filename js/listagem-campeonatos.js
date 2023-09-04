@@ -140,7 +140,6 @@ const listagem = async () => {
     const endpoint = `championships${params.toString() ? '?' + params.toString() : ''}`
     loader.show()
     const data = await executarFetch(endpoint, config, null, callbackServidor)
-    console.log(data)
     loader.hide()
 
     exibirDados(data)
@@ -209,24 +208,25 @@ const exibirDados = async (data) => {
             <h1 class="i18 text-primary" key="Erro">${i18next.t("Erro")}</h1>
         </div>
         `
+        return;
     }
 
     data.results.forEach(e => {
         conteudo.innerHTML += 
         /*html*/`
-            <div class="card card-body mt-5 border border-2 rounded-custom text-black">
+            <div class="card card-body mt-5 border border-black border-2 rounded-5 text-black">
                 <a href="pagina-campeonatos.html?id=${e.id}" class="text-decoration-none">
                     <div class="row gap-0">
-                        <div class="col-md-2  d-flex justify-content-center ">
-                            <div>
-                                <img src="${e.logo}" style="max-height: 105px; max-width: 10rem;" id="logo" class="rounded img-fluid"  alt="Trofeu">
+                        <div class="col-md-2 d-flex justify-content-center">
+                            <div class="position-relative border border-2 m-3 overflow-hidden rounded-circle logo-image">
+                                <img src="${e.logo}" alt="Logo de ${e.name}" id="logo" class="img-fluid position-absolute mw-100 h-100">
                             </div>
                         </div>
 
                         <div class="col-md-9 d-flex flex-column justify-content-center  ">
                             <h3 id="nome" class="card-title text-success">${e.name}</h3>
                             <div class="row gap-0">      
-                                <p class="col-md-12 text-success"><i class="bi bi-calendar-event-fill m-1 text-success"></i> <span class="i18" key="De">${i18next.t("De")}</span> ${new Date(e.initialDate).toLocaleDateString('pt-BR')}  <span class="i18" key="Ate">${i18next.t("Ate")}</span> ${new Date(e.finalDate).toLocaleDateString('pt-BR')} -<i class="bi bi-geo-alt-fill m-1 text-success"></i> ${e.nation}, ${e.city}</p>
+                                <p class="col-md-12 text-success"><i class="bi bi-calendar-event-fill m-1 text-success"></i> <span class="i18" key="De">${i18next.t("De")}</span> ${new Date(e.initialDate).toLocaleDateString('pt-BR')}  <span class="i18" key="Ate">${i18next.t("Ate")}</span> ${new Date(e.finalDate).toLocaleDateString('pt-BR')}</p>
                             </div>
                         </div>
 
@@ -254,6 +254,7 @@ const exibirDados = async (data) => {
 }
 
 listagem();
+window.dispatchEvent(new Event('pagina-load'))
 
 let inputData1 = document.querySelectorAll('[tabindex]')[1]
 inputData1.placeholder = i18next.t("FiltrarApartir")

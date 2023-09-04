@@ -6,17 +6,24 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<script type="module" src="../js/utilidades/preloader.js"></script>
-	<link rel="icon" type="image/svg+xml" href="/vite.svg" />
+	<link rel="icon" href="/favicon.ico" type="image/x-icon">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+	<link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+	<link rel="manifest" href="/site.webmanifest">
 	<link rel="stylesheet" href="../scss/cadastro-times.scss">
 	<title>Configuração de Time</title>
 </head>
 
 <body requires-auth="true">
 	<app-loader></app-loader>
+	<componente-preloader></componente-preloader>
 	<componente-header></componente-header>
 	<main class="container">
-		<div class="row mb-4 mt-5 mt-md-0 h-100">
-			<section class="col-10 col-md-3 config-menu mb-md bg-white p-4 rounded-5">
+		<div class="row flex-column flex-lg-row mx-auto mb-4 h-100">
+			<section class="col-auto config-menu mb-md bg-white p-4 rounded-5">
 				<h5 class="i18" key="ConfigMenuTime">Configurações de Time</h5>
 
 				<!-- Config Menu -->
@@ -28,23 +35,36 @@
 				</ul>
 			</section>
 
-			<div class="col mt-5 mt-md-0">
-				<section class="row config-options-wrapper justify-mobile-pic p-4 rounded-5 mx-2 h-auto position-relative bg-white">
+			<div class="col mt-5 mt-md-5 mt-lg-0 mx-lg-2">
+				<section class="row config-options-wrapper justify-mobile-pic p-4 px-2 px-md-4 rounded-5 h-auto position-relative bg-white">
 
 					<!-- Time -->
 					<div class="d-none menu-config" menu="0">
-						<h5 class="i18" key="EditarInfosTime">Editar informações</h5>
-						<hr>
-						<div class="row mt-3 justify-mobile-pic">
-							<div class="col-1 position-relative p-0 overflow-hidden rounded-circle config-user-pic-mod-wrapper">
+						<h5 class="i18 text-center" key="EditarInfosTime">Editar informações</h5>
+						<hr class="my-2">
+						<div class="row mt-5 m-auto justify-mobile-pic">
+							<div class="col-1 position-relative p-0 overflow-hidden rounded-circle border border-2 config-user-pic-mod-wrapper">
 								<img src="https://playoffs-api.up.railway.app/img/fefabe2b-4038-4b8c-b719-54fbbe9095a4" alt="Imagem do time"
 									class="img-fluid position-absolute w-100 h-100" id="config-team-pic-mod">
 							</div>
-							<div class="col-12 col-md mt-2">
-								<div class="d-flex justify-mobile-pic align-items-end h-100">
-									<label for="config-team-image-input" class="btn play-btn-primary i18" key="Brasao">Alterar brasão</label>
+							<div class="col-12 col-md">
+
+								<div class="row flex-column justify-mobile-pic justify-content-start align-items-center my-auto upload-container h-100">
+									<div class="col d-flex justify-content-center d-none d-lg-flex">
+										<div class="upload-drop-zone justify-content-center w-75 rounded-5" id="config-team-drop-zone">
+											<span class="i18 my-3 text-muted" key="DropZoneText"></span>
+										</div>
+									</div>
+
+									<span class="d-none my-2 d-lg-block i18" key="Ou">ou</span>
+
+									<div class="col d-flex align-items-center my-auto upload-image-drop-label">
+										<label for="config-team-image-input" class="btn play-btn-primary mt-3 mt-md-0 i18" key="Brasao">Alterar brasão</label>
+									</div>
 								</div>
 								<div id="imagem-erro-jv"></div>
+
+
 							</div>
 						</div>
 						<div class="mt-5">
@@ -85,8 +105,10 @@
 
 						<div class="mt-4">
 							<form id="update-profile-form" class="row">
+
 								<input type="file" class="d-none" id="config-team-image-input" accept=".jpeg, .jpg, .png, .webp, .gif, .bmp, .tiff">
 								<input type="hidden" name="logo" id="config-imagem-input-hidden">
+
 								<div class="col-12 mt-3">
 									<label for="config-team-name-input" class="form-label i18" key="FormularioNomeTime">Nome do time</label>
 									<input type="text" class="form-control i18-placeholder width-config-input" key="FormularioNomeTimePlaceholder" id="config-team-name-input"
@@ -108,7 +130,7 @@
 									<p class="text-danger" id="mensagem-erro"></p>
 								</div>
 								<div class="col-12 mt-4 justify-touch-btn">
-									<button type="submit" class="btn play-btn-primary i18" key="AtualizarTime">Atualizar Time</button>
+									<button type="submit" class="btn play-btn-primary i18" key="Salvar">Salvar alterações</button>
 								</div>
 							</form>
 						</div>
@@ -116,10 +138,11 @@
 
 					<!-- Jogadores -->
 					<div class="d-none menu-config container" menu="1">
+						<h5 class="i18 text-center" key="AdicionarJogadores">Adicionar jogadores</h5>
+						<hr class="my-2">
 						<div class="row">
-							<h5 class="i18" key="AdicionarJogadores">Adicionar jogadores</h5>
-							<hr>
-							<div id="vinculo-jogador" class="col-12 col-lg-8">
+						
+							<div id="vinculo-jogador" class="col w-100 mt-4 d-flex flex-column align-items-center">
 								<div id="botoes-vinculo" class="d-flex flex-column">
 									<button type="button" class="btn btn-primary mb-3" id="botao-vincular-jogador"><i class="bi bi-plus-circle px-2"></i> <span class="i18" key="AdicionarNovoJogador">Adicionar novo jogador</span> </button>
 								
@@ -140,6 +163,32 @@
 
 								</form>
 								<form class="form-group mt-3 d-none" id="formulario-jogador-temporario">
+									<div class="row mt-3 m-auto justify-mobile-pic">
+										<div class="col-1 position-relative p-0 overflow-hidden rounded-circle border border-2 temp-player-pic-mod-wrapper">
+											<img src="../default-user-image.png" alt="Imagem do jogador temporário"
+												class="img-fluid position-absolute w-100 h-100" id="temp-player-pic-mod">
+										</div>
+										<div class="col-12 col-md">
+
+											<!-- dropzone content -->
+											<div class="row flex-column justify-mobile-pic justify-content-start align-items-center my-auto upload-container h-100">
+												<div class="col d-flex justify-content-center d-none d-lg-flex">
+													<div class="upload-drop-zone justify-content-center w-75 rounded-5" id="player-temp-drop-zone">
+														<span class="i18 my-3 text-muted" key="DropZoneText"></span>
+													</div>
+												</div>
+
+												<span class="d-none my-2 d-lg-block i18" key="Ou">ou</span>
+
+												<div class="col flex-column d-flex align-items-center justify-content-center my-auto">
+													<label for="temp-player-image-input" class="btn play-btn-primary mt-3 mt-md-0 i18" key="InserirFoto">Inserir Foto</label>
+													<input type="file" class="d-none" id="temp-player-image-input" accept=".jpeg, .jpg, .png, .webp, .gif, .bmp, .tiff">
+													<input type="hidden" name="logo" id="temp-player-input-hidden">
+												</div>
+											</div>
+
+										</div>
+									</div>
 									<div>
 										<label for="nome-jogador" class="form-label text-success mt-3"><span class="i18" key="NomeJogadorLabel">Nome do jogador:</span></label>
                             			<input type="text" class="form-control i18-placeholder" id="nome-jogador" name="nome-jogador" key="NomeJogadorPlaceholder" placeholder="Nome do jogador...">
@@ -150,7 +199,7 @@
 									</div>
 									<div>
 										<label for="numero" class="form-label text-success mt-3"><span class="i18" key="NumeroJogadorLabel">Número:</span></label>
-                            			<input type="number" class="form-control i18-placeholder" id="numero" name="numero" key="NumeroJogadorPlaceholder" placeholder="Insira o número da camisa...">
+                            			<input max="99" type="number" class="form-control i18-placeholder" id="numero" name="numero" key="NumeroJogadorPlaceholder" placeholder="Insira o número da camisa...">
 									</div>
 									<div>
 										<label for="email-jogador" class="form-label text-success mt-3"><span class="i18" key="EmailJogadorLabel">Email:</span></label>
@@ -162,11 +211,11 @@
 							
 										</select>
 									</div>
-									<button class="btn btn-primary mt-5" id="submit-formulario-jogador-temporario">Cadastrar</button>
+									<button class="btn btn-primary mt-5 i18" id="submit-formulario-jogador-temporario" key="CadastrarJogador">Cadastrar Jogador</button>
 								</form>
 		
 							</div>
-							<div class="col-12 col-lg">
+							<div class="col-12 col-lg-4 d-none mt-lg-4">
 								<div id="playerStep"></div>
 							</div>
 						</div>
@@ -174,27 +223,27 @@
 						<!-- >= 1 Jogador no time -->
 						<!-- Jogadores Vinculados -->
 						<div id="addedPlayers" class="mt-5 d-none">
-							<h6 class="i18" key="JogadoresVinculados">Jogadores vinculados</h6>
+							<h6 class="i18 text-center" key="JogadoresVinculados">Jogadores vinculados</h6>
 							<div data-lenis-prevent id="jogadores-vinculados" class="p-3 rounded-5"></div>
 						</div>
 					</div>
 
 					<!-- Campeonatos -->
 					<div class="d-none menu-config" menu="2">
-						<h5 class="i18" key="Campeonatos">Campeonatos</h5>
-						<hr>
+						<h5 class="i18 text-center" key="Campeonatos">Campeonatos</h5>
+						<hr class="my-2">
 						<div id="linkedChamps" class="mt-5">
-							<h6 class="i18" key="CampeonatosVinculados">Campeonatos vinculados</h6>
+							<h6 class="i18 text-center" key="CampeonatosVinculados">Campeonatos vinculados</h6>
 							<div data-lenis-prevent id="campeonatos-vinculados" class="p-3 rounded-5"></div>
 						</div>
 					</div>
 
 					<!-- Exclusão -->
 					<div class="d-none menu-config" menu="3">
-						<h5 class="text-danger i18" key="ExcluirTime">Excluir Time</h5>
-						<hr>
+						<h5 class="text-danger i18 text-center" key="ExcluirTime">Excluir Time</h5>
+						<hr class="my-2">
 						
-						<div class="mt-1">
+						<div class="mt-4">
 							<p class="text-danger fs-6">
 								<span class="i18" key="AoExcluirTime">Ao clicar no botão de excluir time, você estará dando início ao processo de </span>
 									

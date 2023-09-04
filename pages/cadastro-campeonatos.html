@@ -4,7 +4,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <script type="module" src="../js/utilidades/preloader.js"></script>
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="manifest" href="/site.webmanifest">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../scss/cadastro-campeonatos.scss">
     <title>Cadastro de Campeonatos</title>
@@ -43,40 +49,25 @@
                             <label for="data-final" class="form-label text-success mt-3 i18" key="FormularioDataFinal">Data final:</label>
                             <input type="text" class="form-control rounded-4" id="data-final" name="data-final" placeholder="dd/MM/yyyy">
                         </div>
-                        <div class="col-md-6 mb-3 mt-3">
-                            <label for="formato" class="form-label text-success i18" key="Formato">Formato:</label>
-                            <select name="formato" class="form-select rounded-4" id="formato">
-                                <option value="" selected class="i18" key="SelecioneFormato">Selecione um Formato</option>
-                                <option value="1" class="i18" key="PontosCorridos">Pontos Corridos</option>
-                                <option value="2" class="i18" key="MataMata">Mata-Mata</option>
-                                <option value="2" class="i18" key="GruposMataMata">Fase de Grupos e Mata-Mata</option>
-                            </select>
+                        <div id="input-formato" class="col-md-6 mb-3 mt-3">
+                            <div>
+                                <label for="formato" class="form-label text-success i18" key="Formato">Formato:</label>
+                                <select disabled name="formato" class="form-select rounded-4 text-muted" id="formato">
+                                    <option value="" selected class="i18" key="FormatoPlaceholderDisabled">Selecione um Formato</option>
+                                    <option value="3" class="i18" key="PontosCorridos">Pontos Corridos</option>
+                                    <option value="1" class="i18" key="Eliminatorias">Eliminatórias</option>
+                                    <option value="4" class="i18" key="GruposEliminatorias">Fase de Grupos com Eliminatórias</option>
+                                </select>
+                            </div>
+                            <div id="double-match-wrapper">
+
+                            </div>
                         </div>
                         <div class="col-md-6 mb-3 mt-3">
                             <label for="quantidade" class="form-label text-success i18" key="QuantidadeTimes">Quantidade de times:</label>
-                            <select name="quantidade" class="form-select rounded-4" id="quantidade">
-                                <option value="" selected class="i18" key="SelecioneFormatoAntes">Selecione o formato antes</option>
+                            <select disabled name="quantidade" class="form-select rounded-4 text-muted" id="quantidade">
+                                <option value="" selected class="i18" key="QuantidadePlaceholderDisabled">Selecione o formato antes...</option>
                             </select>
-                        </div>
-                        <div class="col-md-6 mb-3 mt-3">
-                            <label for="pais" class="form-label text-success i18" key="Pais">País:</label>
-                            <input type="text" maxlength="40" class="form-control rounded-4 i18-placeholder" key="PaisPlaceholder" id="pais" name="pais" placeholder="País...">
-                        </div>
-                        <div class="col-md-6 mb-3 mt-3">
-                            <label for="estado" class="form-label text-success i18" key="Estado">Estado:</label>
-                            <input type="text" maxlength="40" class="form-control rounded-4 i18-placeholder" key="EstadoPlaceholder" id="estado" name="estado" placeholder="Estado...">
-                        </div>
-                        <div class="col-md-6 mb-3 mt-3">
-                            <label for="cidade" class="form-label text-success i18" key="Cidade">Cidade:</label>
-                            <input type="text" maxlength="40" class="form-control rounded-4 i18-placeholder" key="CidadePlaceholder" id="cidade" name="cidade" placeholder="Cidade...">
-                        </div>
-                        <div class="col-md-6 mb-3 mt-3">
-                            <label for="bairro" class="form-label text-success i18" key="Bairro">Bairro:</label>
-                            <input type="text" maxlength="40" class="form-control rounded-4 i18-placeholder" key="BairroPlaceholder" id="bairro" name="bairro" placeholder="Bairro...">
-                        </div>
-                        <div class="col-md-6 mb-3 mt-3">
-                            <label for="quantidade-jogadores" class="form-label text-success i18" key="QuantidadeJogadores">Quantidade de Jogadores por Time:</label>
-                            <input disabled type="number" class="form-control rounded-4 i18-placeholder" key="QuantidadeJogadoresPlaceholderDisabled" id="quantidade-jogadores" name="quantidade-jogadores" placeholder="{{placeholder}}">
                         </div>
                         <div class="col-md-12 mb-3 mt-3">
                             <label for="descricao" class="form-label text-success i18" key="DescricaoCampeonato">Descrição do campeonato:</label>
@@ -124,12 +115,30 @@
 
                     
                     <div class="modal-body">
-                        <p class="text-body i18"  key="ModalTexto">Insira seu CPF para prosseguir com a criação do campeonato. Caso feche o modal, será redirecionado para a página inicial.</p>
+                        <p class="text-body i18"  key="ModalTexto">
+                            Para garantir a segurança e a integridade das transações em nossa plataforma, solicitamos o seu CPF (para indivíduos) ou CNPJ (para empresas). 
+                            Estes dados são coletados com o propósito exclusivo de manter um histórico detalhado de nossas interações, o que nos permite ter uma referência clara em eventuais disputas legais ou para esclarecimentos necessários.
+                            Garantimos que essas informações são armazenadas de forma segura e que não serão utilizadas para nenhum outro propósito sem o seu consentimento explícito. 
+                            Valorizamos sua privacidade e estamos comprometidos em proteger seus dados.
+                        </p>
+                        <p class="text-body i18" key="ModalTextoUltimato"></p>
                         <form id="formCpf" method="post">
-                            <label for="cpf" class="form-label text-success">CPF:</label>
+                            <label for="cpf" id="cpf-label" class="form-label text-success">CPF:</label>
                             <input type="text" class="form-control rounded-4" id="cpf" name="cpf" placeholder="CPF...">
+                            <label for="cnpj" id="cnpj-label" class="form-label text-success d-none">CNPJ:</label>
+                            <input type="text" class="form-control rounded-4 d-none" id="cnpj" name="cnpj" placeholder="CNPJ...">
                             <div class="mt-4">
                                 <p class="text-danger" id="mensagem-erro2"></p>
+                            </div>
+                            <div class="d-flex gap-4">
+                                <div class="form-check">
+                                    <input type="radio" class="form-check-input" id="cpf-radio" name="tipo-validacao" value="cpf" checked>
+                                    <label class="text-body form-check-label" for="cpf-radio">CPF</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="radio" class="form-check-input" id="cnpj-radio" name="tipo-validacao" value="cnpj">
+                                    <label class="text-body form-check-label" for="cnpj-radio">CNPJ</label>
+                                </div>
                             </div>
                         </form>
                     </div>

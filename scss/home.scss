@@ -86,14 +86,14 @@ html, body {
 }
 
 .noise-svg {
-  filter: blur(5px);
+  filter: blur(7px);
   width: 14rem;
   opacity: .6;
 }
 
 .n-svg1 {
   @extend .noise-svg;
-  top: 20rem;
+  top: 13rem;
   bottom: 0;
   right: 1.4rem;
   transform: rotate(-12deg);
@@ -222,6 +222,12 @@ ul.dots-list {
 }
 
 // Media Queries
+@include media-breakpoint-up(xl) {
+  #extra-options-btns {
+    width: 75%;
+  }
+}
+
 @include media-breakpoint-down(lg) {
   .rotate-wrapper {
     margin-right: 45%;
@@ -382,7 +388,7 @@ ul.dots-list {
   }
 }
 
-@media (max-height: 715px) {
+@media (max-height: 715px) and (max-width: 400px) {
   .scale-sm {
     transform: scale(0.85);
     margin-top: -2.5rem !important;
@@ -392,6 +398,7 @@ ul.dots-list {
     transform: scale(0.85);
   }
 }
+
 
 // @media screen and (orientation: landscape) {
 //   .logo-play {

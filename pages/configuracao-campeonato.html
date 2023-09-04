@@ -6,50 +6,171 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<script type="module" src="../js/utilidades/preloader.js"></script>
-	<link rel="icon" type="image/svg+xml" href="/vite.svg" />
+	<link rel="icon" href="/favicon.ico" type="image/x-icon">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+	<link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+	<link rel="manifest" href="/site.webmanifest">
 	<title>Configuração de Campeonato</title>
 </head>
 
 <body requires-auth="true">
-	<app-loader></app-loader>
+	<app-loader></app-loader>    
+	<componente-preloader></componente-preloader>
 	<componente-header></componente-header>
 	<main class="container">
-		<div class="row mb-4 mt-5 h-100">
-			<section class="col-10 col-md-3 config-menu mb-5 mb-md-0 bg-white p-4 rounded-5">
+		<div class="row flex-column flex-lg-row mx-auto mb-4 h-100">
+			<section class="col-auto config-menu mb-md mb-0 bg-white p-4 rounded-5">
 				<h5 class="i18" key="ConfigMenu">Configurações</h5>
 
 				<!-- Config Menu -->
 				<ul class="list-group list-group-flush config-menu-list" id="config-menu-list">
 					<button class="list-group-item list-group-item-action my-1 border-0 rounded-4 active" menu="0"><i class="bi bi-gear me-2"></i> <span class="i18" key="Editar">Editar informações</span> </button>
 					<button class="list-group-item list-group-item-action my-1 border-0 rounded-4" menu="1"><i class="bi bi-people me-2"></i><span class="i18" key="Times">Times</span> </button>
-					<button class="list-group-item list-group-item-action my-1 border-0 rounded-4" menu="2"><i class="bi bi-trash me-2"></i><span class="i18" key="Exclusao">Exclusão</span></button>
+					<button id="btn-suborg" class="list-group-item list-group-item-action my-1 border-0 rounded-4" menu="2"><i class="bi bi-people me-2"></i><span class="i18" key="SubOrganizadores">Sub-Organizadores</span> </button>
+					<button id="exclusao-campeonato" class="list-group-item list-group-item-action my-1 border-0 rounded-4" menu="3"><i class="bi bi-trash me-2"></i><span class="i18" key="Exclusao">Exclusão</span></button>
 					<!-- <button class="list-group-item list-group-item-action my-1 border-0 mb-2 rounded-4"><i class="bi bi-envelope me-2"></i>Emails/Sessões</button> -->
 				</ul>
+
+				<div class="d-flex justify-content-center">
+					<hr class="w-50">
+				</div>
+
+				<!-- Action Buttons -->
+				<div id="chaveamento-btnset-wrapper" class="row row-cols-1 flex-column justify-content-center">
+					<div class="col d-flex justify-content-center">
+						<!-- Link - ir para chaveamento -->
+						<a href="" id="link-bracket-btn-wrapper" class="link-bracket-btn-wrapper w-100 text-decoration-none d-flex justify-content-center">
+							<button id="link-bracket-btn" class="btn border-0 d-flex w-100 justify-content-center align-items-center mb-3 chaveamento-btn"><i class="bi bi-box-arrow-up-right me-2"></i><span class="i18 fw-semibold" key="PaginaChaveamento">Página de Chaveamento</span></button>
+						</a>
+					</div>
+					<div id="bracket-btn-wrapper" class="col d-flex flex-column w-100 align-items-center"></div>
+				</div>
+
+				<!-- Modal Confirmação - Criação Chaveamento -->
+				<div class="modal fade" id="bracketCreateModal" tabindex="-1" aria-labelledby="backetCreateModalLabel" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content p-3">
+							<div class="modal-header">
+								<h1 class="modal-title fs-5 i18" id="braketCreateModalLabel" key="Certeza">Você tem certeza?</h1>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<p id="texto-modal-bracket" class="text-black">
+									<span class="i18" key="TextoCriarModalChaveamento1"></span>
+									<br><br>
+									<span class="i18" key="TextoCriarModalChaveamento2"></span>
+									<br><br>
+									<span class="i18" key="TextoCriarModalChaveamento3"></span>
+								</p>
+							</div>
+							<div class="modal-footer d-flex justify-content-center">
+								<button id="confirm-create-bracket-btn" class="btn chaveamento-btn"><span class="i18 fw-semibold" key="CriarChaveamento">Criar Chaveamento</span></button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Modal Confirmação - Exclusão Chaveamento -->
+				<div class="modal fade" id="bracketDeleteModal" tabindex="-1" aria-labelledby="bracketDeleteModalLabel" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content p-3">
+							<div class="modal-header">
+								<h1 class="modal-title text-danger fs-5 i18" id="braketDeleteModalLabel" key="Certeza">Você tem certeza?</h1>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<p id="texto-modal-bracket" class="text-black">
+									<span class="i18" key="TextoExcluirModalChaveamento1"></span>
+									<br><br>
+									<span class="i18" key="TextoExcluirModalChaveamento2"></span>
+									<br><br>
+									<span class="i18" key="TextoExcluirModalChaveamento3"></span>
+								</p>
+							</div>
+							<div class="modal-footer d-flex justify-content-center">
+								<button id="confirm-delete-bracket-btn" class="btn btn-danger"><span class="i18 fw-semibold" key="ExcluirChaveamento">Excluir Chaveamento</span></button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Modal Sucesso - Criação Chaveamento -->
+				<div class="modal fade" id="modalCriacaoChaveamentoSucesso" tabindex="-1" aria-labelledby="modalCriacaoChaveamentoSucessoLabel" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content p-3">
+							<div class="modal-header">
+								<h1 class="modal-title fs-5 text-success text-center w-100 i18" id="modalCriacaoChaveamentoSucessoLabel" key="ChaveamentoSucesso">Chaveamento realizado com sucesso</h1>
+							</div>
+							<div class="modal-body">
+								<p id="texto-modal-bracket-success" class="text-black">
+									<span class="i18" key="TextoModalChaveamentoSucesso"></span>
+								</p>
+							</div>
+							<div class="modal-footer d-flex flex-column justify-content-center">
+								<div>
+									<span class="i18 text-muted fst-italic" key="AgoraPode">Agora você pode</span>
+								</div>
+								<div class="row w-100 d-flex flex-column flex-md-row">
+									<div class="col p-0">
+										<button id="stay-on-page" class="btn w-100 chaveamento-btn" data-bs-dismiss="modal" aria-label="Close"><span id="reload-ficar-aqui" class="i18 fw-semibold" key="ContinuarNaPagina">Continuar aqui</span></button>
+									</div>
+									<div class="col col-md-1 d-flex justify-content-center">
+										<span class="m-2 i18" key="Ou">ou</span>
+									</div>
+									<div class="col p-0" id>
+										<!-- Link - ir para chaveamento -->
+										<a href="" class="text-decoration-none link-bracket-btn-wrapper">
+											<button id="redirect-to-bracket" class="btn w-100 chaveamento-btn"><span class="i18 fw-semibold" key="IrParaChaveamento">Ir para o chaveamento</span></button>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
 			</section>
 
-			<div class="col">
+			<div class="col mt-5 mt-md-5 mt-lg-0 mx-lg-2">
 				<!-- User Info -->
 
-				<section class="row config-options-wrapper justify-mobile-pic p-4 rounded-5 mx-2 h-auto position-relative bg-white">
+				<section class="row config-options-wrapper justify-mobile-pic p-4 px-2 px-md-4 rounded-5 h-auto position-relative bg-white">
 					<div class="d-none menu-config" menu="0">
-						<h5 class="i18" key="Editar">Editar informações</h5>
-						<hr>
-						<div class="row mt-3 justify-mobile-pic">
-							<div class="col-1 position-relative p-0 overflow-hidden rounded-circle config-user-pic-mod-wrapper">
+						<h5 class="i18 text-center" key="Editar">Editar informações</h5>
+						<hr class="my-2">
+						<div class="row mt-5 m-auto justify-mobile-pic">
+							<div class="col-1 position-relative p-0 overflow-hidden border border-2 rounded-circle config-user-pic-mod-wrapper">
 								<img src="https://playoffs-api.up.railway.app/img/fefabe2b-4038-4b8c-b719-54fbbe9095a4" alt="Imagem do campeonato"
 									class="img-fluid position-absolute w-100 h-100" id="config-championship-pic-mod">
 							</div>
-							<div class="col-12 col-md mt-2">
-								<div class="d-flex justify-mobile-pic align-items-end h-100">
-									<label for="config-championship-image-input" class="btn play-btn-primary i18" key="Logo">Alterar logo</label>
+							<div class="col-12 col-md">
+
+								<div class="row flex-column justify-mobile-pic justify-content-start align-items-center my-auto upload-container h-100">
+									<div class="col d-flex justify-content-center d-none d-lg-flex">
+										<div class="upload-drop-zone justify-content-center w-75 rounded-5" id="config-championship-drop-zone">
+											<span class="i18 my-3 text-muted" key="DropZoneText"></span>
+										</div>
+									</div>
+
+									<span class="d-none my-2 d-lg-block i18" key="Ou">ou</span>
+
+									<div class="col d-flex align-items-center my-auto upload-image-drop-label">
+										<label for="config-championship-image-input" class="btn play-btn-primary mt-3 mt-md-0 i18" key="Logo">Alterar logo</label>
+									</div>
 								</div>
 								<div id="imagem-erro-jv"></div>
+
+
 							</div>
 						</div>
 
 						<div class="mt-4">
 							<form id="update-profile-form" class="row">
 								<input type="file" class="d-none" id="config-championship-image-input" accept=".jpeg, .jpg, .png, .webp, .gif, .bmp, .tiff">
+								<input type="hidden" id="config-regulamento-input-hidden">
 								<input type="hidden" name="logo" id="config-imagem-input-hidden">
 								<div class="col-12 mt-3">
 									<label for="config-championship-name-input" class="form-label i18" key="FormularioNomeCampeonato">Nome do campeonato</label>
@@ -72,33 +193,18 @@
 										placeholder="Data final"></input>
 								</div>
 								<div class="col-6 mt-3">
-									<label for="config-championship-nacao-input" class="form-label i18" key="Pais">Nação</label>
-									<input type="text" class="form-control rounded-4 i18-placeholder" key="PaisPlaceholder" id="config-championship-nacao-input"
-										placeholder="Nação"></input>
-								</div>
-								<div class="col-6 mt-3">
-									<label for="config-championship-estado-input" class="form-label i18" key="Estado">Estado</label>
-									<input type="text" class="form-control rounded-4 i18-placeholder" key="EstadoPlaceholder" id="config-championship-estado-input"
-										placeholder="Estado"></input>
-								</div>
-								<div class="col-6 mt-3">
-									<label for="config-championship-cidade-input" class="form-label i18" key="Cidade">Cidade</label>
-									<input type="text" class="form-control rounded-4 i18-placeholder" key="CidadePlaceholder" id="config-championship-cidade-input"
-										placeholder="Cidade"></input>
-								</div>
-								<div class="col-6 mt-3">
-									<label for="config-championship-bairro-input" class="form-label i18" key="Bairro">Bairro</label>
-									<input type="text" class="form-control rounded-4 i18-placeholder" key="BairroPlaceholder" id="config-championship-bairro-input"
-										placeholder="Bairro"></input>
-								</div>
-								<div class="col-6 mt-3">
-									<label for="config-championship-formato-input" class="form-label i18" key="Formato">Formato</label>
-									<select class="form-select rounded-4" id="config-championship-formato-input">
-										<option value="" class="i18" key="SelecioneFormato" selected>Selecione um Formato</option>
-										<option value="1" class="i18" key="PontosCorridos">Pontos Corridos</option>
-										<option value="2" class="i18" key="MataMata">Mata-Mata</option>
-										<option value="3" class="i18" key="GruposMataMata">Fase de Grupos e Mata-Mata</option>
-									</select>
+									<div>
+										<label for="config-championship-formato-input" class="form-label i18" key="Formato">Formato</label>
+										<select class="form-select rounded-4" id="config-championship-formato-input">
+											<option value="" class="i18" key="SelecioneFormato" selected>Selecione um Formato</option>
+											<option value="3" class="i18" key="PontosCorridos">Pontos Corridos</option>
+											<option value="1" class="i18" key="Eliminatorias">Eliminatorias</option>
+											<option value="4" class="i18" key="GruposEliminatorias">Fase de Grupos com Eliminatórias</option>
+										</select>
+									</div>
+									<div id="double-match-wrapper">
+
+									</div>
 								</div>
 								<div class="col-6 mt-3">
 									<label for="config-championship-numero-input" class="form-label i18" key="QuantidadeTimes">Número de times:</label>
@@ -113,10 +219,6 @@
 										<option value="1" class="i18" key="FormularioEsporteFutebol">Futebol</option>
 										<option value="2" class="i18" key="FormularioEsporteVolei">Vôlei</option>
 									</select>
-								</div>
-								<div class="col-md-12 mt-3">
-									<label for="quantidade-jogadores" class="form-label i18" key="QuantidadeJogadores">Quantidade de Jogadores por Time:</label>
-									<input type="number" class="form-control rounded-4 i18-placeholder" key="QuantidadeJogadoresPlaceholderDisabled" id="quantidade-jogadores" name="quantidade-jogadores" placeholder="{{placeholder}}">
 								</div>
 								<div class="col-12 mt-3">
 									<label for="config-championship-regulamento-input" class="i18" key="Regulamento">
@@ -133,15 +235,19 @@
 									<p class="text-danger" id="mensagem-erro"></p>
 								</div>
 								<div class="col-12 mt-4 justify-touch-btn">
-									<button type="submit" class="btn play-btn-primary i18" key="Atualizar">Atualizar Campeonato</button>
+									<button type="submit" class="btn play-btn-primary i18" key="Salvar">Salvar alterações</button>
 								</div>
 							</form>
 						</div>
 					</div>
+
+					<!-- Vincular Times -->
 					<div class="d-none menu-config" menu="1">
-						<h5 class="i18" key="VincularTimes">Vincular times</h5>
-						<hr>
-						<button type="button" class="btn btn-primary mb-3" id="botao-vincular-time"><i class="bi bi-plus-circle px-2"></i> <span class="i18" key="VincularNovo">Vincular novo time</span> </button>
+						<h5 class="i18 text-center" key="VincularTimes">Vincular times</h5>
+						<hr class="my-2">
+						<div class="d-flex flex-column justify-content-center align-items-center my-4">
+							<button type="button" class="btn btn-primary" id="botao-vincular-time"><i class="bi bi-plus-circle px-2"></i> <span class="i18" key="VincularNovo">Vincular novo time</span> </button>
+						</div>
 						<form class="form-group mt-3 d-none" id="pesquisa-time">
 							<div>
 								<label for="pesquisa-time-input" class="i18" key="Pesquise">Pesquise o nome do time que deseja adicionar:</label>
@@ -156,20 +262,46 @@
 
 						</form>
 
+						<div class="d-flex w-100 justify-content-center">
+							<hr class="opacity-50 w-50 rounded-pill">
+						</div>
 						<!-- Times Vinculados -->
 						<!-- <ul class="list-group list-group-flush border-2 border-primary my-3" id="times-vinculados"></ul> -->
 
-						<div id="addedTeams" class="mt-5">
-							<h6 class="i18" key="TimesVinculados">Times vinculados</h6>
+						<div id="addedTeams" class="mt-3">
+							<h6 class="i18 text-center" key="TimesVinculados">Times vinculados</h6>
 							<div data-lenis-prevent id="times-vinculados" class="p-3 rounded-5"></div>
 						</div>
 
 					</div>
+
 					<div class="d-none menu-config" menu="2">
-						<h5 class="text-danger i18" key="ExcluirCampeonato">Excluir Campeonato</h5>
+						<h5 class="i18 text-center" key="VincularSubOrganizadores">Vincular sub organizadores</h5>
 						<hr>
-						
-						<div class="mt-1">
+						<p class="text-danger fs-6">
+							<span class="i18" key="avisoSubOrg">Por favor, esteja ciente de que os sub-organizadores não possuem permissão para excluir o campeonato e também não têm a capacidade de adicionar ou remover outros sub-organizadores.</span>
+						</p>
+				
+						  <button type="button" class="btn btn-primary mb-3" id="botao-vincular-suborg"><i class="bi bi-plus-circle px-2"></i> <span class="i18" key="AdicionarSubOrg">Adicionar sub-organizadores</span> </button>
+						<form class="form-group mt-3 d-none" id="pesquisa-suborg">
+						  <div>
+							<label for="pesquisa-suborg-input" class="i18" key="PesquiseSuborg"></label>
+							<input  name="query" id="pesquisa-suborg-input" class="form-control i18-placeholder" key="PesquiseSubOrgPlaceholder" placeholder="Escreva o nome de um usuário para pesquisar...">
+						  </div>
+						</form>
+						<div id="addedSubOrg" class="mt-5">
+							<div data-lenis-prevent id="suborg-vinculados" class="p-3 rounded-5"></div>
+							<h6 class="i18" key="SubOrgVinculados">Sub-organizadores vinculados</h6>
+							<div id="suborganizadores-ja-vinculados">
+
+							</div>
+						</div>
+					  </div>
+ 
+					<div class="d-none menu-config" menu="3">
+						<h5 class="text-danger text-center i18" key="ExcluirCampeonato">Excluir Campeonato</h5>
+						<hr class="my-2">				
+						<div class="mt-4">
 								<p class="text-danger fs-6">
 									<span class="i18" key="Ao">Ao clicar no botão de excluir campeonato, você estará dando início ao processo de </span>
 										

@@ -252,3 +252,5 @@ function criarValidacao() {
         }
     });
 }
+
+window.dispatchEvent(new Event('pagina-load'))

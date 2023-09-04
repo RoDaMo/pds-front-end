@@ -28,6 +28,7 @@ const loader = document.createElement('app-loader');
 document.body.appendChild(loader);
 
 const mediaQueryMobile = window.matchMedia('(max-width: 575px)')
+const sessionUserInfo = JSON.parse(localStorage.getItem('user-info'))
 
 const sportsSection = document.querySelector('.sports-section')
 const ssSlider = document.querySelector('.ss-slider')
@@ -40,6 +41,8 @@ const championshipSport = document.getElementById('championshipSport')
 const championshipSportIcon = document.getElementById('championshipSportIcon')
 
 const teamsSportIcon = document.querySelectorAll('.teams-sport-icon')
+
+const botaoCampeonatoEditar = document.getElementById('botao-campeonato-editar')
 
 const championshipInfo = document.querySelector('.championship-info')
 const championshipDesc = document.querySelector('.championship-desc')
@@ -80,6 +83,32 @@ function ssTeamContentMobile() {
                 <span class="i18" key="NenhumTime">${i18next.t("NenhumTime")}</span>
             </div>
         `
+    }
+}
+
+const isChampionshipOwner = (urlId, userChampionshipId) => {
+    if (urlId == userChampionshipId) {
+        return true
+    } else {
+        return false
+    }
+}
+
+const bracketExists = async championshipId => {
+    const configFetch = configuracaoFetch('GET')
+
+    const callbackStatus = (data) => {
+        notificacaoErro(data.results)
+    }
+
+    loader.show()
+        const response = await executarFetch(`bracketing/exists/${championshipId}`, configFetch, callbackStatus)
+    loader.hide()
+
+    if (response.succeed) {
+        return true
+    } else {
+        return false
     }
 }
 
@@ -154,8 +183,19 @@ const obterInfo = async () => {
     sport.textContent = i18next.t(keySport)
     sport.setAttribute('key', keySport)
 
+    const status = document.getElementById("championshipStatus"),
+            keyStatus = (data.results.status == 0) ? "Active" 
+                : (data.results.status == 1) ? "Finished"
+                : (data.results.status == 2) ? "Inactive"
+                : (data.results.status == 3) ? "Pending"
+                : ''
+
+    status.textContent = i18next.t(keyStatus)
+    status.setAttribute('key', keyStatus)
+
+
     let iconSrc = (data.results.sportsId === 1) ? '../icons/sports_soccer.svg' : '../icons/sports_volleyball.svg'
-    // championshipChar.insertAdjacentHTML("afterbegin", 'championshipSportIcon" src="'+ iconSrc +'" alt="sport-icon" class="sports-icon me-1">')
+    championshipChar.insertAdjacentHTML("afterbegin", '<img id="championshipSportIcon" src="'+ iconSrc +'" alt="sport-icon" class="sports-icon me-1">')
 
     document.getElementById("championship-pic").src = !data.results.logo ? '../default-championship-image.png' : data.results.logo
     document.getElementById("championship-desc").textContent = data.results.description
@@ -164,11 +204,19 @@ const obterInfo = async () => {
     document.getElementById("name").textContent = data.results.name
 
     if(data.results.rules){
-        document.getElementById("conteudo").innerHTML += `
+        document.getElementById("conteudo").insertAdjacentHTML('beforeend', `
             <button class="btn download-btn rounded-pill fw-semibold card-bg" id="botao-baixar-regulamento">
-                <a href="${data.results.rules}" id="regulamento" class="text-center fs-6 i18 text-decoration-none" key="BaixarRegulamento">Baixar Regulamento</a>
+                <a href="${data.results.rules}" id="regulamento" class="text-center fs-6 i18 text-decoration-none" key="BaixarRegulamento">${i18next.t("BaixarRegulamento")}</a>
             </button>
-        `
+        `)
+    }
+
+    if(bracketExists(id)) {
+        document.getElementById("conteudo").insertAdjacentHTML('beforeend', `
+            <button class="btn championship-options-btn rounded-pill fw-semibold card-bg" id="botao-link-bracket">
+                <a href="/pages/tabela-chaveamento.html?id=${id}" id="link-bracket" class="text-center fs-6 i18 text-decoration-none" key="Bracket">${i18next.t("Bracket")}</a>
+            </button>
+        `)
     }
 
     const times = document.getElementById("times")
@@ -182,14 +230,13 @@ const obterInfo = async () => {
 
                 <span class="d-flex flex-column justify-content-center align-items-center">
 
-                    <p class="mb-0 ss-team-name w-100 fs-5 text-nowrap text-truncate d-block">${e.name}</p>
+                    <p class="mb-0 ss-team-name fs-5 text-nowrap text-truncate d-block">${e.name}</p>
 
                 </span>
                 
             </div>
         `
 
-        // Ao clicar em cada time da lista, redireciona para a página desse time
         const ssTeamContent = document.querySelectorAll('.ss-team-content')
         ssTeamContent.forEach(content => {
             content.addEventListener('click', () => {
@@ -200,8 +247,9 @@ const obterInfo = async () => {
 
     })
 
-    
-        
+    if(isChampionshipOwner(id, sessionUserInfo.championshipId)) {
+        botaoCampeonatoEditar.classList.remove('d-none')
+    }
 }
 
 async function validacaoTimes() {
@@ -221,6 +269,8 @@ async function validacaoTimes() {
             `
         }
     }
+
+    window.dispatchEvent(new Event('pagina-load'))
 }
 
 validacaoTimes()

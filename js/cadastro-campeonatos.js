@@ -53,10 +53,10 @@ const validator2 = new JustValidate(formularioCpf, {
     validateBeforeSubmitting: true,
 })
 
-var cpfInput = document.getElementById('cpf');
+const cpfLabel = document.getElementById('cpf-label');
 
-cpfInput.addEventListener('input', function(event) {
-    var v = event.target.value
+cpf.addEventListener('input', function(event) {
+    let v = event.target.value
     v=v.replace(/\D/g,"")
     v=v.replace(/(\d{3})(\d)/,"$1.$2")
     v=v.replace(/(\d{3})(\d)/,"$1.$2")
@@ -64,12 +64,35 @@ cpfInput.addEventListener('input', function(event) {
     event.target.value = v;
 });
 
+let selecionado = 'cpf'
+const cnpjInput = document.getElementById('cnpj')
+cnpjInput.addEventListener('input', (e) => {
+    const x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,3})(\d{0,3})(\d{0,4})(\d{0,2})/);
+    e.target.value = !x[2] ? x[1] : x[1] + '.' + x[2] + '.' + x[3] + '/' + x[4] + (x[5] ? '-' + x[5] : '');
+});
+
+const cnpjLabel = document.getElementById('cnpj-label')
+
+document.getElementById('cnpj-radio').addEventListener('change', () => {
+    selecionado = 'cnpj'
+    cpf.classList.add('d-none')
+    cpfLabel.classList.add('d-none')
+    cnpjInput.classList.remove('d-none')
+    cnpjLabel.classList.remove('d-none')
+    cpf.value = null
+})
+
+document.getElementById('cpf-radio').addEventListener('change', () => {
+    selecionado = 'cpf'
+    cpf.classList.remove('d-none')
+    cpfLabel.classList.remove('d-none')
+    cnpjInput.classList.add('d-none')
+    cnpjLabel.classList.add('d-none')
+    cnpjInput.value = null
+})
+
 validator2
     .addField(cpf, [
-        {
-            rule: 'required',
-            errorMessage:  `<span class="i18" key="CpfObrigatorio">${i18next.t("CpfObrigatorio")}</span>`,
-        },
         {
             rule: 'minLength',
             value: 14,
@@ -82,9 +105,15 @@ validator2
         },
         {
             validator: (value, context) => {
+                if (cnpjInput.value)
+                    return true
+
                 const numberCpf = new Array(11)
                 let test = value
                 test =  test.replace(/[.-]/g, "")
+                if (/^(.)\1*$/.test(test))
+                    return false
+
                 for (var i = 0; i < 11; i++)
                     numberCpf[i] = parseInt(test[i])
 
@@ -107,6 +136,30 @@ validator2
                 return !(firstVerifierDigit !== numberCpf[9] || secondVerifierDigit !== numberCpf[10]);
             },
             errorMessage: `<span class="i18" key="CpfInvalido">${i18next.t("CpfInvalido")}</span>`,
+        },
+        {
+            validator: (value, context) => value ? true : cnpjInput.value ? true : false,
+            errorMessage:  `<span class="i18" key="CpfObrigatorio">${i18next.t("CpfObrigatorio")}</span>`,
+        }
+    ])
+    .addField(cnpjInput, [
+        {
+            rule: 'minLength',
+            value: 18,
+            errorMessage: `<span class="i18" key="CpfTamanho">${i18next.t("CnpjTamanho")}</span>`,
+        },
+        {
+            rule: 'maxLength',
+            value: 18,
+            errorMessage: `<span class="i18" key="CpfTamanho">${i18next.t("CnpjTamanho")}</span>`,
+        },
+        {
+            validator: validarCNPJ,
+            errorMessage: `<span class="i18" key="CpfInvalido">${i18next.t("CnpjInvalido")}</span>`,
+        },
+        {
+            validator: (value, context) => value ? true : cpf.value ? true : false,
+            errorMessage:  `<span class="i18" key="CpfObrigatorio">${i18next.t("CnpjObrigatorio")}</span>`,
         }
     ])
     .onSuccess(async(e) => {
@@ -114,9 +167,10 @@ validator2
         limparMensagem(mensagemErro)
 
         loader.show();
+        const valor = cpf.value ? cpf.value.replace(/[.-]/g, "") : cnpjInput.value.trim().replace(/\D/g, '')
 
         const resultado = await postCpf("auth/cpf", 
-            cpf.value.replace(/[.-]/g, "")
+            valor
         )
 
         if (resultado) {
@@ -128,16 +182,47 @@ validator2
         loader.hide();
     })
 
+function validarCNPJ(cnpj, context) {
+    if (cpf.value)
+        return true
+
+    const multiplicador1 = [5,4,3,2,9,8,7,6,5,4,3,2];
+    const multiplicador2 = [6,5,4,3,2,9,8,7,6,5,4,3,2];
+
+    cnpj = cnpj.trim().replace(/\D/g, ''); // Remove todos os caracteres que não são dígitos
+
+    if (cnpj.length !== 14 || /^0+$/.test(cnpj)) 
+        return false;
+
+    let tempCnpj = cnpj.substring(0, 12);
+
+    let digito = calcularDigito(tempCnpj, multiplicador1);
+    digito += calcularDigito(tempCnpj + digito, multiplicador2);
+
+    return cnpj.endsWith(digito);
+}
+
+function calcularDigito(valor, multiplicadores) {
+    let soma = 0;
+
+    for (let i = 0; i < valor.length; i++) {
+        soma += (valor.charAt(i) - '0') * multiplicadores[i];
+    }
+
+    let resto = soma % 11;
+    if (resto < 2) 
+        resto = 0;
+    else 
+        resto = 11 - resto;
+
+    return String(resto);
+}
 
 
 let formulario = document.getElementById("formulario")
 const mensagemErro = document.getElementById("mensagem-erro")
 const escudo = document.getElementById('escudo')
 
-const pais = document.getElementById('pais')
-const estado = document.getElementById('estado')
-const cidade = document.getElementById('cidade')
-const bairro = document.getElementById('bairro')
 const descricao = document.getElementById('descricao')
 const dataInicial = document.getElementById("data-inicial")
 const dataFinal = document.getElementById("data-final")
@@ -147,7 +232,59 @@ const formato = document.getElementById('formato')
 const quantidade = document.getElementById('quantidade')
 const imagem = document.getElementById('logo')
 const emblema = document.getElementById('emblema')
-const quantidadeJogadores = document.getElementById('quantidade-jogadores')
+const inputFormato = document.getElementById('input-formato')
+
+const doubleMatchWrapper = document.getElementById('double-match-wrapper')
+
+// Double Match Checkboxes
+const doubleMatchPontosCorridos = document.createElement('div')
+doubleMatchPontosCorridos.classList.add('form-check', 'mt-2')
+doubleMatchPontosCorridos.innerHTML = `
+    <label class="form-check-label" for="double-match-pc">
+        <span class="i18 text-success " key="DoubleMatchPC">${i18next.t("DoubleMatchPC")}</span>
+    </label>
+
+    <input class="form-check-input" type="checkbox" value="" id="double-match-pc">
+`
+
+let PCCheckboxElem = null
+
+const doubleMatchEliminatorias = document.createElement('div')
+doubleMatchEliminatorias.classList.add('form-check', 'mt-2')
+doubleMatchEliminatorias.innerHTML = `
+    <label class="form-check-label" for="double-match-eliminatorias">
+        <span class="i18 text-success " key="DoubleMatchEliminatorias">${i18next.t("DoubleMatchEliminatorias")}</span>
+    </label>
+    
+    <input class="form-check-input" type="checkbox" value="" id="double-match-eliminatorias">
+`
+
+let eliminatoriasCheckboxElem = null
+
+const doubleMatchFinal = document.createElement('div')
+doubleMatchFinal.classList.add('form-check', 'mt-2')
+doubleMatchFinal.innerHTML = `
+    <label class="form-check-label" for="double-match-final">
+        <span class="i18 text-success " key="DoubleMatchFinal">${i18next.t("DoubleMatchFinal")}</span>
+    </label>
+
+    <input class="form-check-input" type="checkbox" value="" id="double-match-final">
+`
+
+let finalCheckboxElem = null
+
+const doubleMatchFaseDeGrupos = document.createElement('div')
+doubleMatchFaseDeGrupos.classList.add('form-check', 'mt-2')
+doubleMatchFaseDeGrupos.innerHTML = `
+    <label class="form-check-label" for="double-match-FG">
+        <span class="i18 text-success " key="DoubleMatchFG">${i18next.t("DoubleMatchFG")}</span>
+    </label>
+
+    <input class="form-check-input" type="checkbox" value="" id="double-match-FG">
+`
+
+let FGCheckboxElem = null
+
 
 const validator = new JustValidate(formulario, {
     validateBeforeSubmitting: true,
@@ -156,7 +293,9 @@ const validator = new JustValidate(formulario, {
 const optionDefault = () => {
     const optionDefault = document.createElement('option')
     optionDefault.value = ""
-    optionDefault.innerHTML = `<span class="i18" key="SelecioneOpcao">${i18next.t("SelecioneOpcao")}</span>`,
+    optionDefault.classList.add('i18')
+    optionDefault.text = i18next.t("SelecioneOpcao")
+    optionDefault.setAttribute("key", "SelecioneOpcao")
     quantidade.appendChild(optionDefault)
 }
 
@@ -175,22 +314,83 @@ const resetQuantidade = () => {
 const loader = document.createElement('app-loader');
 document.body.appendChild(loader);
 
+
+// Checkboxes
+// Verify sport value
 formato.addEventListener("change", () => {
-    if(formato.value === "1"){
+    if(formato.value === "3"){
         resetQuantidade()
-        for(let i = 1; i <= 18; i++){
+        for(let i = 1; i <= 18; i++ ){
             if(i % 2 === 0){
                 adicionarOpcao(i + 2)
             }
         }
-    }
-    else{
+    } 
+    else if(formato.value === "4"){
         resetQuantidade()
-        for(let i = 1; i <= 6; i++){
+        for (let i = 2; i <= 6; i++) {
             adicionarOpcao(2 ** i)
         }
     }
+    else {
+        resetQuantidade()
+        for(let i = 1; i <= 6; i++) {
+            adicionarOpcao(2 ** i)
+        }
+    }
+
+    doubleMatchWrapper.innerHTML = ""
+
+    changeTeamQTDStatus()
+
+    verifyDoubleMatch()
 })
+
+function changeTeamQTDStatus() {
+    if (esporte.value && formato.value) {
+        quantidade.value = ""
+        quantidade.disabled = false;
+        quantidade.setAttribute("key", "QuantidadePlaceholder")
+        quantidade.setAttribute("placeholder", i18next.t("QuantidadePlaceholder"))
+        quantidade.classList.remove("text-muted")
+    } else {
+        quantidade.value = ""
+        quantidade.disabled = true;
+        quantidade.firstElementChild.textContent = i18next.t("QuantidadePlaceholderDisabled")
+        quantidade.classList.add("text-muted")
+    }
+}
+
+function verifyDoubleMatch() {
+    
+    if (formato.value === "3") {
+        doubleMatchWrapper.appendChild(doubleMatchPontosCorridos)
+		PCCheckboxElem = document.getElementById('double-match-pc')
+        
+    } else if (formato.value === "1") {
+        if (esporte.value === "1") {
+            doubleMatchWrapper.appendChild(doubleMatchEliminatorias)
+			eliminatoriasCheckboxElem = document.getElementById('double-match-eliminatorias')
+
+            doubleMatchWrapper.appendChild(doubleMatchFinal)
+			finalCheckboxElem = document.getElementById('double-match-final')
+
+        }
+    } else if (formato.value === "4") {
+        doubleMatchWrapper.appendChild(doubleMatchFaseDeGrupos)
+		FGCheckboxElem = document.getElementById('double-match-FG')
+
+        if (esporte.value === "1") {
+            doubleMatchWrapper.appendChild(doubleMatchEliminatorias)
+			eliminatoriasCheckboxElem = document.getElementById('double-match-eliminatorias')
+
+            doubleMatchWrapper.appendChild(doubleMatchFinal)
+			finalCheckboxElem = document.getElementById('double-match-final')
+
+        }
+        
+    }
+}
 
 let lng = localStorage.getItem('lng')
 
@@ -240,38 +440,23 @@ imagem.addEventListener("change", async() => {
 })
 
 esporte.addEventListener("change", () => {
-    if(esporte.value === "1") {
-        quantidadeJogadores.value = ""
-        quantidadeJogadores.setAttribute("min", 11)
-        quantidadeJogadores.setAttribute("max", 25)
-    } else if(esporte.value === "2") {
-        quantidadeJogadores.value = ""
-        quantidadeJogadores.setAttribute("min", 6)
-        quantidadeJogadores.setAttribute("max", 15)
-    }
+    
+    doubleMatchWrapper.innerHTML = ""
+
+    changeTeamQTDStatus()
 
     if (esporte.value) {
-        quantidadeJogadores.value = ""
-        quantidadeJogadores.disabled = false;
-        quantidadeJogadores.setAttribute("key", "QuantidadeJogadoresPlaceholder")
-        quantidadeJogadores.setAttribute("placeholder", i18next.t("QuantidadeJogadoresPlaceholder"))
+        formato.disabled = false;
+        formato.value = ""
+        formato.firstElementChild.textContent = i18next.t("FormatoPlaceholder")
+        formato.classList.remove("text-muted")
     } else {
-        quantidadeJogadores.value = ""
-        quantidadeJogadores.disabled = true;
-        quantidadeJogadores.setAttribute("key", "QuantidadeJogadoresPlaceholderDisabled")
-        quantidadeJogadores.setAttribute("placeholder", i18next.t("QuantidadeJogadoresPlaceholderDisabled"))
-    }
-})
+        doubleMatchWrapper.innerHTML = ""
 
-quantidadeJogadores.addEventListener("change", () => {
-    if(esporte.value === "1") {
-        if(quantidadeJogadores.value < 11 || quantidadeJogadores.value > 25) {
-            quantidadeJogadores.value = 11
-        }
-    } else if(esporte.value === "2") {
-        if(quantidadeJogadores.value < 6 || quantidadeJogadores.value > 15) {
-            quantidadeJogadores.value = 6
-        }
+        formato.disabled = true;
+        formato.value = ""
+        formato.firstElementChild.textContent = i18next.t("FormatoPlaceholderDisabled")
+        formato.classList.add("text-muted")
     }
 })
 
@@ -394,70 +579,6 @@ function criarValidacao() {
             errorMessage: `<span class="i18" key="ImagemTamanho">${i18next.t("ImagemTamanho")}</span>`,
         }
     ])
-    .addField(pais, [
-        {
-            rule: 'required',
-            errorMessage: `<span class="i18" key="PaisObrigatorio">${i18next.t("PaisObrigatorio")}</span>`,
-        },
-        {
-            rule: 'minLength',
-            value: 4,
-            errorMessage: `<span class="i18" key="PaisMinimo">${i18next.t("PaisMinimo")}</span>`,
-        },
-        {
-            rule: 'maxLength',
-            value: 40,
-            errorMessage: `<span class="i18" key="PaisMaximo">${i18next.t("PaisMaximo")}</span>`,
-        },
-    ])
-    .addField(estado, [
-        {
-            rule: 'required',
-            errorMessage: `<span class="i18" key="EstadoObrigatorio">${i18next.t("EstadoObrigatorio")}</span>`,
-        },
-        {
-            rule: 'minLength',
-            value: 4,
-            errorMessage: `<span class="i18" key="EstadoMinimo">${i18next.t("EstadoMinimo")}</span>`,
-        },
-        {
-            rule: 'maxLength',
-            value: 40,
-            errorMessage: `<span class="i18" key="EstadoMaximo">${i18next.t("EstadoMaximo")}</span>`,
-        },
-    ])
-    .addField(cidade, [
-        {
-            rule: 'required',
-            errorMessage: `<span class="i18" key="CidadeObrigatoria">${i18next.t("CidadeObrigatoria")}</span>`,
-        },
-        {
-            rule: 'minLength',
-            value: 4,
-            errorMessage: `<span class="i18" key="CidadeMinimo">${i18next.t("CidadeMinimo")}</span>`,
-        },
-        {
-            rule: 'maxLength',
-            value: 40,
-            errorMessage: `<span class="i18" key="CidadeMaximo">${i18next.t("CidadeMaximo")}</span>`,
-        },
-    ])
-    .addField(bairro, [
-        {
-            rule: 'required',
-            errorMessage: `<span class="i18" key="BairroObrigatorio">${i18next.t("BairroObrigatorio")}</span>`,
-        },
-        {
-            rule: 'minLength',
-            value: 4,
-            errorMessage: `<span class="i18" key="BairroMinimo">${i18next.t("BairroMinimo")}</span>`,
-        },
-        {
-            rule: 'maxLength',
-            value: 40,
-            errorMessage: `<span class="i18" key="BairroMaximo">${i18next.t("BairroMaximo")}</span>`,
-        },
-    ])
     .addField(descricao, [
         {
             rule: 'required',
@@ -472,22 +593,6 @@ function criarValidacao() {
             rule: 'maxLength',
             value: 2000,
             errorMessage: `<span class="i18" key="DescricaoMaximo">${i18next.t("DescricaoMaximo")}</span>`,
-        },
-    ])
-    .addField(quantidadeJogadores, [
-        {
-            rule: 'required',
-            errorMessage: `<span class="i18" key="QuantidadeJogadoresObrigatorio">${i18next.t("QuantidadeJogadoresObrigatorio")}</span>`,
-        },  
-        {
-            validator: (value) => {
-                if (esporte.value == "2") {
-                    return value >= 6 && value <= 15
-                } else if (esporte.value == "1") { 
-                    return value >= 11 && value <= 25
-                }
-            },
-            errorMessage: `<span class="i18" key="QuantidadeJogadoresInvalido">${i18next.t("QuantidadeJogadoresInvalido")}</span>`,
         },
     ])
     .addField(emblema, [
@@ -522,11 +627,10 @@ function criarValidacao() {
             "logo": emblema.value,
             "description": descricao.value,
             "Format": parseInt(formato.value),
-            "Nation": pais.value,
-            "State": estado.value,
-            "City": cidade.value,
-            "Neighborhood": bairro.value,
-            "NumberOfPlayers": quantidadeJogadores.value
+            "DoubleStartLeagueSystem": PCCheckboxElem?.checked,
+            "DoubleMatchEliminations": (parseInt(quantidade.value) === 2 || (parseInt(formato.value) === 4 && parseInt(quantidade.value) === 4)) ? false : eliminatoriasCheckboxElem?.checked,
+            "FinalDoubleMatch": finalCheckboxElem?.checked,
+            "DoubleMatchGroupStage": FGCheckboxElem?.checked,
         })
 
         if (resultado) {
@@ -535,6 +639,8 @@ function criarValidacao() {
         }
         loader.hide();
         
-        window.location.assign('/pages/configuracao-campeonato.html')
+        window.location.assign(`/pages/configuracao-campeonato.html`)
     })
 }
+
+window.dispatchEvent(new Event('pagina-load'))
