@@ -80,6 +80,14 @@ const obterInfo = async () => {
     loader.show()
     const data = await executarFetch(`auth/${id}`, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
     loader.hide()
+
+    console.log(data);
+
+    if (data.results == null || data.succeed == false) {
+        window.dispatchEvent(new Event('pagina-load'))
+        window.location.href = '/pages/404.html'
+        return;
+    } 
     
     document.getElementById("user-pic").src = !data.results.picture ? '../default-user-image.png' : data.results.picture
     document.getElementById("user-bio").textContent = data.results.bio

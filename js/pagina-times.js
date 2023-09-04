@@ -271,7 +271,7 @@ const obterInfo = async () => {
         `
     })  
 
-    if(isTeamOwner(id, sessionUserInfo.teamManagementId)) {
+    if(isTeamOwner(id, sessionUserInfo?.teamManagementId)) {
         botaoTimeEditar.classList.remove('d-none')
     }
 }

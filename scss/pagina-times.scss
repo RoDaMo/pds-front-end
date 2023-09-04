@@ -108,6 +108,14 @@ body, html {
     }
 }
 
+#botao-time-editar-wrapper {
+    justify-content: flex-end;
+
+    @include media-breakpoint-down(sm) {
+        justify-content: center;
+    }
+}
+
 .ss-player-name {
     margin-bottom: -0.3rem;
     width: 16rem !important;
