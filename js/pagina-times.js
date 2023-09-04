@@ -315,10 +315,6 @@ async function waitInfo() {
         `
     }
 
-    if (ssChampionshipContent.length <= 6) {
-        ssThirdContent.removeAttribute('data-lenis-prevent')
-    }
-
     window.dispatchEvent(new Event('pagina-load'))
 }
 
