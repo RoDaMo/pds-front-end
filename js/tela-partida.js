@@ -1455,7 +1455,7 @@ const init = async () => {
 						<div class="event-time"><span class="text-muted">"32</span></div>
 					</div>
 					<div class="col position-absolute w-auto h-auto event-illustration">
-						<img src="../public/icons/sports_soccer.svg" alt="">
+						<img src="../icons/sports_soccer.svg" alt="">
 					</div>
 				</div>
 				<div class="row blank-space"></div>
@@ -1468,7 +1468,7 @@ const init = async () => {
 						<div class="event-time"><span class="text-muted">"32</span></div>
 					</div>
 					<div class="col position-absolute w-auto h-auto event-illustration">
-						<img src="../public/icons/sports_soccer.svg" alt="">
+						<img src="../icons/sports_soccer.svg" alt="">
 					</div>
 				</div>
 				<div class="row blank-space"></div>
@@ -1480,7 +1480,7 @@ const init = async () => {
 						<div class="event-time"><span class="text-muted">"32</span></div>
 					</div>
 					<div class="col position-absolute w-auto h-auto event-illustration">
-						<img src="../public/icons/sports_soccer.svg" alt="">
+						<img src="../icons/sports_soccer.svg" alt="">
 					</div>
 				</div>
 			`
@@ -1496,7 +1496,7 @@ const init = async () => {
 						<div class="event-time"><span class="text-muted">"32</span></div>
 					</div>
 					<div class="col position-absolute w-auto h-auto event-illustration">
-						<img src="../public/icons/sports_soccer.svg" alt="">
+						<img src="../icons/sports_soccer.svg" alt="">
 					</div>
 				</div>
 				<div class="row flex-column p-3 my-2 match-details-content-event rounded-5 position-relative">
@@ -1507,7 +1507,7 @@ const init = async () => {
 						<div class="event-time"><span class="text-muted">"32</span></div>
 					</div>
 					<div class="col position-absolute w-auto h-auto event-illustration">
-						<img src="../public/icons/sports_soccer.svg" alt="">
+						<img src="../icons/sports_soccer.svg" alt="">
 					</div>
 				</div>
 				<div class="row blank-space"></div>
@@ -1519,7 +1519,7 @@ const init = async () => {
 						<div class="event-time"><span class="text-muted">"32</span></div>
 					</div>
 					<div class="col position-absolute w-auto h-auto event-illustration">
-						<img src="../public/icons/sports_soccer.svg" alt="">
+						<img src="../icons/sports_soccer.svg" alt="">
 					</div>
 				</div>
 				<div class="row blank-space"></div>
