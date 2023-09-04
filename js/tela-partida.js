@@ -84,11 +84,11 @@ const init = async () => {
 			validPlayersTeam1 = await getValidPlayers(match.homeId)
 			validPlayersTeam2 = await getValidPlayers(match.visitorId)
 
+			document.querySelector('#match-management-form-type').querySelector('select#select-event-type').value = ""
+			resetMatchManagementForm()
+
 			await updateScoreboard()
 			await loadEvents()
-			setTimeout(() => {
-				window.location.reload()
-			}, 2000)
 		}
 	}
 
@@ -108,10 +108,10 @@ const init = async () => {
 			validPlayersTeam1 = await getValidPlayers(match.homeId)
 			validPlayersTeam2 = await getValidPlayers(match.visitorId)
 
+			document.querySelector('#match-management-form-type').querySelector('select#select-event-type').value = ""
+			resetMatchManagementForm()
+
 			await loadEvents()
-			setTimeout(() => {
-				window.location.reload()
-			}, 2000)
 		}
 	}
 
@@ -127,10 +127,12 @@ const init = async () => {
 
 		if (response.succeed) {
 			notificacaoSucesso(i18next.t("SucessoPostPenalty"))
+
+			document.querySelector('#match-management-form-type').querySelector('select#select-event-type').value = ""
+			resetMatchManagementForm()
+
 			await loadEvents()
-			setTimeout(() => {
-				window.location.reload()
-			}, 2000)
+			await loadPenaltiesScoreboard()
 		}
 	}
 
@@ -243,6 +245,24 @@ const init = async () => {
 
 				await putMatchReport(body)
 			})	
+	}
+
+	const resetMatchManagementForm = () => {
+		matchManagementForm.querySelector('label[for="select-event-team"]')?.remove()
+		matchManagementForm.querySelector('select#select-event-team')?.remove()
+		matchManagementForm.querySelector('label[for="select-event-player"]')?.remove()
+		matchManagementForm.querySelector('select#select-event-player')?.remove()
+		matchManagementForm.querySelector('label[for="select-event-assister-player"]')?.remove()
+		matchManagementForm.querySelector('select#select-event-assister-player')?.remove()
+		matchManagementForm.querySelector('div.input-event-time-wrapper')?.remove()
+		matchManagementForm.querySelectorAll('div.form-check')?.forEach(div => div.remove())
+		matchManagementForm.querySelector('div.btn-post-event-wrapper')?.remove()
+		matchManagementForm.querySelector('select#select-event-card-type')?.remove()
+		matchManagementForm.querySelector('label[for="select-event-card-type"]')?.remove()
+		matchManagementForm.querySelector('input#checkbox-event-own-goal')?.remove()
+		matchManagementForm.querySelector('label[for="checkbox-event-own-goal"]')?.remove()	
+		matchManagementForm.querySelector('input#checkbox-event-assister-player')?.remove()
+		matchManagementForm.querySelector('label[for="checkbox-event-assister-player"]')?.remove()
 	}
 
 	const matchManagementSystem = () => {
@@ -928,6 +948,19 @@ const init = async () => {
 		}
 	}
 
+	const loadPenaltiesScoreboard = async () => {
+		const penaltiesScore = document.querySelector('#penalties-score')
+
+		const
+			matchEvents = await executarFetch(`matches/${matchId}/get-all-events`, configuracaoFetch('GET')),
+			matchEventsResults = matchEvents.results
+
+		let team1PenaltiesScore = matchEventsResults.filter(event => event.penalty && event.teamId == match.homeId && event.converted).length
+		let team2PenaltiesScore = matchEventsResults.filter(event => event.penalty && event.teamId == match.visitorId && event.converted).length
+
+		penaltiesScore.textContent = `(${team1PenaltiesScore} : ${team2PenaltiesScore})`
+	}
+
 	const loadScoreboard = () => {
 		matchScoreWrapper.insertAdjacentHTML('beforeend', `
 			${match.isSoccer ? `
@@ -1160,9 +1193,11 @@ const init = async () => {
 
 		if (response.succeed) {
 			notificacaoSucesso(i18next.t("SucessoStartOvertime"))
+			loader.show()
 			setTimeout(() => {
 				window.location.reload()
 			}, 2000)
+			loader.hide()
 		}
 	}
 
@@ -1179,9 +1214,11 @@ const init = async () => {
 
 		if (response.succeed) {
 			notificacaoSucesso(i18next.t("SucessoStartPenaltyShootout"))
+			loader.show()
 			setTimeout(() => {
 				window.location.reload()
 			}, 2000)
+			loader.hide()
 		}
 	}
 
@@ -1216,6 +1253,7 @@ const init = async () => {
 			return (match.prorrogation) ? true : false
 		}
 	}
+
 
 	const loadEvents = async () => {
 		// Clear blurwall 
@@ -1546,6 +1584,11 @@ const init = async () => {
 
 		listPlayers()
 		loadScoreboard()
+		
+		if (match.isSoccer && isExtraElegible() && isPenaltyShootout()) {
+			penaltiesScoreWrapper.classList.remove('d-none')
+			loadPenaltiesScoreboard()
+		}
 	}
 
 	const blankSpaceSetter = () => {
@@ -1588,7 +1631,8 @@ const init = async () => {
 		matchReportAccess = document.getElementById('match-report-access'),
 		extraManagement = document.getElementById('extra-management'),
 		woTeamForm = document.getElementById('wo-team-form'),
-		mensagemErro = document.getElementById("mensagem-erro")
+		mensagemErro = document.getElementById("mensagem-erro"),
+		penaltiesScoreWrapper = document.getElementById('penalties-score-wrapper')
 
 	
 	let downloadMatchReportBtn = null

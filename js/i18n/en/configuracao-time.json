@@ -104,5 +104,7 @@
     "DropZoneText": "Drag and drop the image here",
     "PontosCorridos": "Points",
     "Eliminatorias": "Knockout",
-    "GruposEliminatorias": "Groups and knockout"
+    "GruposEliminatorias": "Groups and knockout",
+    "TextoSairCampeonato": "You are about to leave this championship, are you sure you want to proceed?",
+    "ExitChampionship": "Exit Championship"
 }
