@@ -79,6 +79,7 @@ const configureMatch = async (matchId, championshipData) => {
     team2 = team2Data.results
 
 
+
   configMatchForm.innerHTML = ''
 
   configMatchForm.insertAdjacentHTML('beforeend', `

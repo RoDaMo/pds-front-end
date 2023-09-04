@@ -627,9 +627,15 @@ const init = async () => {
 
 	const disableForm = () => {
 		let formElements = form.elements;
-		
 		for (let i = 0; i < formElements.length; i++) {
-			formElements[i].disabled = true;
+			if (formElements[i].id == 'config-championship-image-input' || formElements[i].id == 'config-championship-formato-input' || formElements[i].id == 'config-championship-numero-input' || formElements[i].id == 'config-championship-esporte-input') {
+				formElements[i].disabled = true;
+			}
+
+			// disable checkboxes
+			if (formElements[i].type == 'checkbox') {
+				formElements[i].disabled = true;
+			}
 		}
 	}
 
