@@ -85,6 +85,36 @@ const obterInfo = async () => {
     document.getElementById("user-bio").textContent = data.results.bio
     document.getElementById("user-name").textContent = data.results.username
     document.getElementById("name").textContent = data.results.name
+    
+    const player = data.results
+    if (player.playerTeamId > 0) {
+        const response = await executarFetch(`teams/${player.playerTeamId}`),
+            time = response.results
+        console.log(time);
+
+        const linkTime = `/pages/pagina-times.html?id=${time.id}`
+        document.getElementById('emblema-time').src = time.emblem
+        document.getElementById('nome-time').textContent = time.name
+        document.getElementById('artistic-name').textContent = `${player.artisticName}`
+        document.getElementById('numero-jogador').textContent = player.number
+        document.getElementById('link-time').href = linkTime
+        document.getElementById('link-time-2').href = linkTime
+        window.dispatchEvent(new Event('pagina-load'))
+        return;
+    }
+    else if (player.teamManagementId > 0) {
+        const response = await executarFetch(`teams/${player.teamManagementId}`),
+            time = response.results
+
+        document.getElementById('emblema-time').src = time.emblem
+        document.getElementById('nome-time').textContent = time.name
+        document.getElementById('numero-jogador').classList.add('d-none')
+        window.dispatchEvent(new Event('pagina-load'))
+
+        return;
+    }
+
+    document.getElementById('user-current-team').classList.add('d-none')
     window.dispatchEvent(new Event('pagina-load'))
 }
 
