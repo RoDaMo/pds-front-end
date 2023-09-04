@@ -25,6 +25,7 @@ const userConfigBtn = document.querySelector('.user-config-btn')
 const userCurrentTeam = document.querySelector('.user-current-team')
 const userPic = document.querySelector('#user-pic'),
       botaoEditar = document.getElementById('botao-perfil-editar')
+let nomeUsuario
 
 window.onload = () => {
     if (userPic.getAttribute('src') == '') {
@@ -62,9 +63,11 @@ window.onload = () => {
 
 const mensagemErro = document.getElementById("mensagem-erro")
 const parametroUrl = new URLSearchParams(window.location.search);
-const obterInfo = async () => {
-    const id = parametroUrl.get('id')
+
+document.addEventListener('header-carregado', async () => {
     const currentUserId = document.getElementById('usernameUserId')
+    const id = parametroUrl.get('id')
+
 
     if (currentUserId && id == currentUserId.textContent) {
         botaoEditar.classList.remove('d-none')
@@ -114,10 +117,45 @@ const obterInfo = async () => {
         document.getElementById("name").textContent = data.results.name
     }
 
+    const userRoleElement = document.getElementById("userRole");
+    const botaoExcluir = document.getElementById("botaoExcluirUsuario");
+    const botaoExcluir2 = document.getElementById("botaoExcluirTemp");
 
 
+    if (userRoleElement) {
+        const userRole = userRoleElement.textContent.trim()
+        console.log("oi")
+        console.log(nomeUsuario)
 
-}
-
-
-document.addEventListener('header-carregado', obterInfo)
+        if (userRole === "admin") {
+            if(data.results.username)
+            {
+                botaoExcluir.classList.remove('d-none')
+                botaoExcluir.addEventListener('click', async () => {
+                    loader.show(); // Mostrar o loader, se necessário
+                    const configFetch = configuracaoFetch('DELETE')
+                    const response = await executarFetch(`moderation/users/${id}`, configFetch); 
+                    loader.hide(); // Esconder o loader após a conclusão da solicitação
+                
+                    if (response.succeed) {
+                        window.location.assign('/index.html')
+                    }
+                })
+            }
+            else
+            {
+                botaoExcluir2.classList.remove('d-none')
+                botaoExcluir2.addEventListener('click', async () => {
+                    loader.show(); // Mostrar o loader, se necessário
+                    const configFetch = configuracaoFetch('DELETE')
+                    const response = await executarFetch(`moderation/playertempprofiles/${id}`, configFetch); 
+                    loader.hide(); // Esconder o loader após a conclusão da solicitação
+                
+                    if (response.succeed) {
+                        window.location.assign('/index.html')
+                    }
+                })
+            }
+        }
+    }
+})
