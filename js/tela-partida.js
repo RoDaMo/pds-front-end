@@ -1289,7 +1289,7 @@ const init = async () => {
 						`
 
 						eventIllustration = `
-							<img src="../public/icons/sports_soccer_red.svg" alt="">
+							<img src="../icons/sports_soccer_red.svg" alt="">
 						`
 					} else {
 						eventData = `
@@ -1299,7 +1299,7 @@ const init = async () => {
 						`
 
 						eventIllustration = `
-							<img src="../public/icons/sports_soccer.svg" alt="">
+							<img src="../icons/sports_soccer.svg" alt="">
 						`
 					}
 				} else if (event.foul) {
@@ -1311,11 +1311,11 @@ const init = async () => {
 
 					if (!event.yellowCard) {
 						eventIllustration = `
-							<img src="../public/icons/red_card.svg" alt="">
+							<img src="../icons/red_card.svg" alt="">
 						`
 					} else if (event.yellowCard) {
 						eventIllustration = `
-							<img src="../public/icons/yellow_card.svg" alt="">
+							<img src="../icons/yellow_card.svg" alt="">
 						`
 					}
 				} else if (event.penalty) {
@@ -1327,7 +1327,7 @@ const init = async () => {
 						`
 
 						eventIllustration = `
-							<img src="../public/icons/sports_penalty.png" alt="">
+							<img src="../icons/sports_penalty.png" alt="">
 						`
 					} else {
 						eventData = `
@@ -1337,7 +1337,7 @@ const init = async () => {
 						`
 
 						eventIllustration = `
-							<img src="../public/icons/sports_missed_penalty.png" alt="">
+							<img src="../icons/sports_missed_penalty.png" alt="">
 						`
 					}
 				}
@@ -1348,7 +1348,7 @@ const init = async () => {
 					`
 
 					eventIllustration = `
-						<img src="../public/icons/sports_volleyball.svg" alt="">
+						<img src="../icons/sports_volleyball.svg" alt="">
 					`
 				}
 			}
