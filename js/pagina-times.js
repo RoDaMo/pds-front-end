@@ -136,10 +136,10 @@ const obterInfo = async () => {
     const coach = data.results.technician
 
     // Técnico do time
-
+    console.log(coach)
     conteudoInicial.insertAdjacentHTML("beforeend", `
         <div id="coach-board-wrapper" class="d-flex">
-            <div class="row coach-board flex-row align-content-center px-3 p-2">
+            <a href="/pages/pagina-usuarios.html?id=${coach.id}" class="row coach-board flex-row align-content-center px-3 p-2 text-decoration-none">
 
                 <div class="col-auto p-0 d-flex justify-content-center align-items-center">
                     <div class="position-relative overflow-hidden rounded-circle ss-player-image">
@@ -156,7 +156,7 @@ const obterInfo = async () => {
                         <span class="i18 coach-badge-text p-1 px-2 w-auto text-white text-opacity-75" key="Tecnico">${i18next.t("Tecnico")}</span>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
     `)
 

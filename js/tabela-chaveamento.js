@@ -452,7 +452,7 @@ const chaveamento = {
             <div class="col-4 text-center">
               <div class="d-flex align-items-center justify-content-center">
                 <img src="${partida.homeEmblem}" rel="preconnect" alt="${partida.homeName}" title="${partida.homeName}" width="50" height="50" class="img-fluid rounded-circle">
-                <p class="my-0 ms-2 fs-4">${partida.homeGoals}</p>
+                <p class="my-0 ms-2 fs-4">${partida.finished ? partida.homeGoals : ''}</p>
               </div>
             </div>
             <div class="col-auto text-center">
@@ -460,7 +460,7 @@ const chaveamento = {
             </div>
             <div class="col-4 text-center">
               <div class="d-flex align-items-center justify-content-center">
-                <p class="my-0 me-2 fs-4">${partida.visitorGoals}</p>
+                <p class="my-0 me-2 fs-4">${partida.finished ? partida.visitorGoals : ''}</p>
                 <img src="${partida.visitorEmblem}" rel="preconnect" alt="${partida.visitorName}" title="${partida.visitorName}" width="50" height="50" class="img-fluid rounded-circle">
               </div>
             </div>
@@ -598,9 +598,15 @@ const chaveamento = {
       <tr class="border-top-0"> <!-- 1 -->
         <th scope="row" class="border-end-0 border-start-0 d-none d-lg-table-cell">${count}</th>
         <td class="border-start-0 border-end-0 coluna-fixa">
+          <a href="/pages/pagina-times.html?id=${time.teamId}">
             <img src="${time.emblem}" width="40" height="40" class="rounded-circle">
+          </a>
         </td>
-        <td class=" d-none d-lg-table-cell border-start-0 align-content-center">${time.name}</td>
+        <td class=" d-none d-lg-table-cell border-start-0 align-content-center">
+          <a href="/pages/paginas-times.html?id=${time.teamId}" class="text-decoration-none">
+            ${time.name}
+          </a>
+        </td>
         <td class="text-center fs-5 fw-semibold">${estatisticas[2]}</td>
         <td class="text-center fs-5 fw-semibold">${estatisticas[3]}</td>
         <td class="text-center fs-5 fw-semibold">${estatisticas[4]}</td>
@@ -654,7 +660,6 @@ const chaveamento = {
     if (championship.format == 3) {
       formatos.item(0).remove()
       await this.inicializarTabelas(formato, championship, idCampeonato)
-      window.dispatchEvent(new Event('pagina-load'))
       return
     }
     else formatos.item(1).remove()
@@ -670,7 +675,7 @@ const chaveamento = {
     let faseAtualIsDupla = faseAtual > 0 && faseAtual != 6 ? championship.doubleMatchEliminations : faseAtual == 0 ? true : faseAtual == 6 ? championship.finalDoubleMatch : false
 
     faseAtualWrapper.textContent = fases[faseInicial]
-    this.inicializarEliminatorias(formato, idCampeonato, faseInicial, fases, faseAtualIsDupla, championship)
+    await this.inicializarEliminatorias(formato, idCampeonato, faseInicial, fases, faseAtualIsDupla, championship)
     
     if (faseAtual - 1 == 0 || faseAtual == faseInicial)
       anteriorBotao.classList.add('invisible')
@@ -753,7 +758,6 @@ const chaveamento = {
       loader.hide();
     })
 
-    window.dispatchEvent(new Event('pagina-load'))
   },
   async inicializarFaseGrupos(partidas, partidasWrapper, campeonato) {
     partidasWrapper.classList.remove('bg-verde-limao')
@@ -832,9 +836,15 @@ const chaveamento = {
           <tr class="border-top-0">
             <th scope="row" class="border-end-0 border-start-0 d-none d-lg-table-cell">${countTimes}</th>
             <td class="border-start-0 border-end-0 coluna-fixa">
-              <img src="${time.emblem}" width="40" height="40" class="rounded-circle">
+              <a href="/pages/pagina-times.html?id=${time.teamId}">
+                <img src="${time.emblem}" width="40" height="40" class="rounded-circle">
+              </a>
             </td>
-            <td class="d-none d-lg-table-cell border-start-0 align-content-center">${time.name}</td>
+            <td class="d-none d-lg-table-cell border-start-0 align-content-center">
+              <a href="/pages/paginas-times.html?id=${time.teamId}" class="text-decoration-none">
+                ${time.name}
+              </a>
+            </td>
             <td class="text-center fs-5 fw-semibold">${estatisticas[2]}</td>
             <td class="text-center fs-5 fw-semibold">${estatisticas[3]}</td>
             <td class="text-center fs-5 fw-semibold">${estatisticas[4]}</td>
@@ -957,7 +967,7 @@ const chaveamento = {
                     <div class="col-4 text-center">
                       <div class="d-flex align-items-center justify-content-center">
                         <img src="${partidaDupla.jogoAtual.homeEmblem}" rel="preconnect" alt="${partidaDupla.jogoAtual.homeName}" title="${partidaDupla.jogoAtual.homeName}" width="50" height="50" class="img-fluid rounded-circle">
-                        <p class="my-0 ms-2 fs-4">${partidaDupla.jogoAtual.homeGoals}</p>
+                        <p class="my-0 ms-2 fs-4">${partidaDupla.jogoAtual.finished ? partidaDupla.jogoAtual.homeGoals : ''}</p>
                       </div>
                     </div>
                     <div class="col-4 text-center">
@@ -965,7 +975,7 @@ const chaveamento = {
                     </div>
                     <div class="col-4 text-center">
                       <div class="d-flex align-items-center justify-content-center">
-                        <p class="my-0 me-2 fs-4">${partidaDupla.jogoAtual.visitorGoals}</p>
+                        <p class="my-0 me-2 fs-4">${partidaDupla.jogoAtual.finished ? partidaDupla.jogoAtual.visitorGoals : ''}</p>
                         <img src="${partidaDupla.jogoAtual.visitorEmblem}" rel="preconnect" alt="${partidaDupla.jogoAtual.visitorName}" title="${partidaDupla.jogoAtual.visitorName}" width="50" height="50" class="img-fluid rounded-circle">
                       </div>
                     </div>
@@ -994,7 +1004,7 @@ const chaveamento = {
                     <div class="col-4 text-center">
                       <div class="d-flex align-items-center justify-content-center">
                         <img src="${partidaDupla.proximoJogo.homeEmblem}" rel="preconnect" alt="${partidaDupla.proximoJogo.homeName}" title="${partidaDupla.proximoJogo.homeName}" width="50" height="50" class="img-fluid rounded-circle">
-                        <p class="my-0 ms-2 fs-4">${partidaDupla.proximoJogo.homeGoals}</p>
+                        <p class="my-0 ms-2 fs-4">${partidaDupla.proximoJogo.finished ? partidaDupla.proximoJogo.homeGoals : ''}</p>
                       </div>
                     </div>
                     <div class="col-4 text-center">
@@ -1002,7 +1012,7 @@ const chaveamento = {
                     </div>
                     <div class="col-4 text-center">
                       <div class="d-flex align-items-center justify-content-center">
-                        <p class="my-0 me-2 fs-4">${partidaDupla.proximoJogo.visitorGoals}</p>
+                        <p class="my-0 me-2 fs-4">${partidaDupla.proximoJogo.finished ? partidaDupla.proximoJogo.visitorGoals : ''}</p>
                         <img src="${partidaDupla.proximoJogo.visitorEmblem}" rel="preconnect" alt="${partidaDupla.proximoJogo.visitorName}" title="${partidaDupla.proximoJogo.visitorName}" width="50" height="50" class="img-fluid rounded-circle">
                       </div>
                     </div>
@@ -1089,16 +1099,25 @@ const chaveamento = {
     let count = 0;
     for (const artilheiro of artilheiros) {
       count++
+      console.log(artilheiro)
       tbody.innerHTML += /*html*/`
       <tr>
         <th scope="row" class="text-center">${count}</th>
         <td>
+          <a href="/pages/pagina-times.html?id=${artilheiro.teamId}">
             <img src="${artilheiro.teamEmblem}" alt="Imagem do time" width="50" height="50" class="rounded-circle">
+          </a>
         </td>
         <td>
+          <a href="/pages/pagina-usuarios.html?id=${artilheiro.id}">
             <img src="${artilheiro.picture}" alt="Imagem do Jogador" width="50" height="50" class="rounded-circle">
+          </a>
         </td>
-        <td class="d-none d-lg-table-cell">${artilheiro.name}</td>
+        <td class="d-none d-lg-table-cell">
+          <a href="/pages/pagina-usuarios.html?id=${artilheiro.id}">
+            ${artilheiro.name}
+          </a>
+        </td>
         <td class="text-center fs-5 fw-semibold">${artilheiro.goals}</td>
       </tr>
       `
@@ -1109,7 +1128,8 @@ const chaveamento = {
     console.log(tabela);
   },
   async init() {
-    this.inicializarTabela(idCampeonato)
+    await this.inicializarTabela(idCampeonato)
+    window.dispatchEvent(new Event('pagina-load'))
   }
 }
 
