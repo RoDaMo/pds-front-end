@@ -202,16 +202,42 @@ async function changeConfigOptionsContext(t) {
                 })	
             }
 
-            updateProfileUserNameInput.value = dados.userName
-            updateProfileBioInput.value = dados.bio
-            emblema.value = dados.profileImg
+            const loadPreviewProfile = async () => {
+                const dados = await pegarDados()
+                if (dados.profileImg) {
+                    exibidorImagem(document.getElementById("config-user-pic"), dados.profileImg)
+                } else {
+                    exibidorImagem(document.getElementById("config-user-pic"), '../default-user-image.png')
+                }
+
+                if (dados.userName) {
+                    document.getElementById('nome-usuario').textContent = dados.userName
+                } 
+
+                if (dados.email) {
+                    document.getElementById('email').textContent = dados.email
+                }
+
+                if (dados.bio) {
+                    document.getElementById('biografia').textContent = dados.bio
+                }
+
+                
+            }
+
+            const loadProfileInputs = () => {
+                updateProfileUserNameInput.value = dados.userName
+                updateProfileBioInput.value = dados.bio
+                emblema.value = dados.profileImg
+            }
+
+            loadProfileInputs()
 
             if (dados.profileImg) {
                 exibidorImagem(document.getElementById("config-user-pic-mod"), dados.profileImg)
             } else {
                 exibidorImagem(document.getElementById("config-user-pic-mod"), '../default-user-image.png')
             }
-
 
             const updateProfileValidator = new JustValidate(updateProfileForm, {
                 validateBeforeSubmitting: true,
@@ -232,6 +258,8 @@ async function changeConfigOptionsContext(t) {
                     if (!data) return false
 
                     notificacaoSucesso(data.results[0])
+
+                    loadPreviewProfile()
                     return true
                 }
 
