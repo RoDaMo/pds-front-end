@@ -520,15 +520,16 @@ function criarValidacao() {
             rule: 'required',
             errorMessage: `<span class="i18" key="DataInicialObrigatoria">${i18next.t("DataInicialObrigatoria")}</span>`,
         },
-        {
-            validator: (value) => {
-                const dataInicial = new Date(value)
-                const dataAtual = new Date()
-                dataAtual.setDate(dataAtual.getDate() - 1)
-                return dataInicial >= dataAtual
-            },
-            errorMessage: `<span class="i18" key="DataInicialMaiorIgual">${i18next.t("DataInicialMaiorIgual")}</span>`
-        }
+        // {
+        //     validator: (value) => {
+        //         const dataInicial = new Date(value)
+        //         const dataAtual = new Date()
+        //         console.log(dataInicial.Get)
+        //         dataAtual.setDate(dataAtual.getDate() - 1)
+        //         return dataInicial >= dataAtual
+        //     },
+        //     errorMessage: `<span class="i18" key="DataInicialMaiorIgual">${i18next.t("DataInicialMaiorIgual")}</span>`
+        // }
     ])
     .addField(dataFinal, [
         {

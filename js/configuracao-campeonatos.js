@@ -370,15 +370,15 @@ const init = async () => {
 						rule: 'required',
 						errorMessage: `<span class="i18" key="DataInicialObrigatoria">${i18next.t("DataInicialObrigatoria")}</span>`,
 					},
-					{
-						validator: (value) => {
-							const dataAtual = new Date()
-							const dataInicial = new Date(value)
-							dataAtual.setDate(dataAtual.getDate() - 1)
-							return dataInicial >= dataAtual
-						},
-						errorMessage: `<span class="i18" key="DataInicialMaiorIgual">${i18next.t("DataInicialMaiorIgual")}</span>`
-					}
+					// {
+					// 	validator: (value) => {
+					// 		const dataAtual = new Date()
+					// 		const dataInicial = new Date(value)
+					// 		dataAtual.setDate(dataAtual.getDate() - 1)
+					// 		return dataInicial >= dataAtual
+					// 	},
+					// 	errorMessage: `<span class="i18" key="DataInicialMaiorIgual">${i18next.t("DataInicialMaiorIgual")}</span>`
+					// }
 				])
 				.addField(dataFinal, [
 					{
