@@ -377,7 +377,7 @@ const chaveamento = {
                 <div class="col-4 text-center">
                   <div class="d-flex align-items-center justify-content-center">
                     <img src="${partida.homeEmblem}" rel="preconnect" alt="${partida.homeName}" title="${partida.homeName}" width="50" height="50" class="img-fluid rounded-circle">
-                    <p class="my-0 ms-2 fs-4">${partida.homeGoals}</p>
+                    <p class="my-0 ms-2 fs-4">${partida.finished ? partida.homeGoals : ''}</p>
                   </div>
                 </div>
                 <div class="col-auto text-center">
@@ -385,7 +385,7 @@ const chaveamento = {
                 </div>
                 <div class="col-4 text-center">
                   <div class="d-flex align-items-center justify-content-center">
-                    <p class="my-0 me-2 fs-4">${partida.visitorGoals}</p>
+                    <p class="my-0 me-2 fs-4">${partida.finished ? partida.visitorGoals : ''}</p>
                     <img src="${partida.visitorEmblem}" rel="preconnect" alt="${partida.visitorName}" title="${partida.visitorName}" width="50" height="50" class="img-fluid rounded-circle">
                   </div>
                 </div>

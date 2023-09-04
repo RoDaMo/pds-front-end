@@ -247,7 +247,7 @@ const obterInfo = async () => {
 
     })
 
-    if(isChampionshipOwner(id, sessionUserInfo.championshipId)) {
+    if(isChampionshipOwner(id, sessionUserInfo?.championshipId)) {
         botaoCampeonatoEditar.classList.remove('d-none')
     }
 }
