@@ -10,5 +10,9 @@
     "Volei": "Vôlei",
     "Futebol": "Futebol",
     "EditarCampeonato": "Editar Campeonato",
-    "Bracket": "Chaveamento"
+    "Bracket": "Chaveamento",
+    "Active": "Ativo",
+    "Finished": "Finalizado",
+    "Inactive": "Inativo",
+    "Pending": "Pendente"
 }

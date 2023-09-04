@@ -183,6 +183,17 @@ const obterInfo = async () => {
     sport.textContent = i18next.t(keySport)
     sport.setAttribute('key', keySport)
 
+    const status = document.getElementById("championshipStatus"),
+            keyStatus = (data.results.status == 0) ? "Active" 
+                : (data.results.status == 1) ? "Finished"
+                : (data.results.status == 2) ? "Inactive"
+                : (data.results.status == 3) ? "Pending"
+                : ''
+
+    status.textContent = i18next.t(keyStatus)
+    status.setAttribute('key', keyStatus)
+
+
     let iconSrc = (data.results.sportsId === 1) ? '../icons/sports_soccer.svg' : '../icons/sports_volleyball.svg'
     championshipChar.insertAdjacentHTML("afterbegin", '<img id="championshipSportIcon" src="'+ iconSrc +'" alt="sport-icon" class="sports-icon me-1">')
 
