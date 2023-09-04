@@ -10,5 +10,9 @@
     "Volei": "Volleyball",
     "Futebol": "Soccer",
     "EditarCampeonato": "Edit Championship",
-    "Bracket": "Bracket"
+    "Bracket": "Bracket",
+    "Active": "Active",
+    "Finished": "Finished",
+    "Inactive": "Inactive",
+    "Pending": "Pending"
 }
