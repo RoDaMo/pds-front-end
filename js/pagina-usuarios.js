@@ -83,37 +83,40 @@ document.addEventListener('header-carregado', async () => {
     const data = await executarFetch(`auth/${id}`, config, (res) => mensagemErro.textContent = res.results[0], callbackServidor)
     loader.hide()
 
-    
+    if (data.results == null || data.succeed == false) {
+        window.dispatchEvent(new Event('pagina-load'))
+        window.location.href = '/pages/404.html'
+        return;
+    } 
 
-    if (!data.results.username) {
-        console.log("É um jogador temporário");
-        document.getElementById("user-pic").src = !data.results.picture ? '../default-user-image.png' : data.results.picture
-        document.getElementById("name").textContent = data.results.name
-        document.getElementById("artistic-name").textContent = data.results.artisticName
-        document.getElementById("number").textContent = data.results.number
-        document.getElementById("position").textContent = data.results.playerPosition
+    document.getElementById("user-pic").src = !data.results.picture ? '../default-user-image.png' : data.results.picture
+    document.getElementById("user-bio").textContent = data.results.bio
+    document.getElementById("user-name").textContent = data.results.username
+    document.getElementById("name").textContent = data.results.name
 
+    const player = data.results
+    if (player.playerTeamId > 0) {
+        const response = await executarFetch(`teams/${player.playerTeamId}`),
+            time = response.results
 
-    } else if (data.results.number || data.results.artisticName) {
-        console.log(data);
-        console.log("É um usuário jogador");
-        document.getElementById("user-pic").src = !data.results.picture ? '../default-user-image.png' : data.results.picture
-        document.getElementById("user-bio").textContent = data.results.bio
-        document.getElementById("user-name").textContent = data.results.username
-        document.getElementById("name").textContent = data.results.name
-        document.getElementById("artistic-name").textContent = data.results.artisticName
-        document.getElementById("number").textContent = data.results.number
-        document.getElementById("position").textContent = data.results.playerPosition
+        const linkTime = `/pages/pagina-times.html?id=${time.id}`
+        document.getElementById('emblema-time').src = time.emblem
+        document.getElementById('nome-time').textContent = time.name
+        document.getElementById('artistic-name').textContent = `${player.artisticName}`
+        document.getElementById('numero-jogador').textContent = player.number
+        document.getElementById('link-time').href = linkTime
+        document.getElementById('link-time-2').href = linkTime
+        window.dispatchEvent(new Event('pagina-load'))
+    }
+    else if (player.teamManagementId > 0) {
+        const response = await executarFetch(`teams/${player.teamManagementId}`),
+            time = response.results
 
-
-
+        document.getElementById('emblema-time').src = time.emblem
+        document.getElementById('nome-time').textContent = time.name
+        document.getElementById('numero-jogador').classList.add('d-none')
     } else {
-        console.log(data);
-        console.log("É um usuário normal");
-        document.getElementById("user-pic").src = !data.results.picture ? '../default-user-image.png' : data.results.picture
-        document.getElementById("user-bio").textContent = data.results.bio
-        document.getElementById("user-name").textContent = data.results.username
-        document.getElementById("name").textContent = data.results.name
+        document.getElementById('user-current-team').classList.add('d-none')
     }
 
     const userRoleElement = document.getElementById("userRole");
@@ -123,18 +126,16 @@ document.addEventListener('header-carregado', async () => {
 
     if (userRoleElement) {
         const userRole = userRoleElement.textContent.trim()
-        console.log("oi")
-        console.log(nomeUsuario)
 
         if (userRole === "admin") {
             if(data.results.username)
             {
                 botaoExcluir.classList.remove('d-none')
                 botaoExcluir.addEventListener('click', async () => {
-                    loader.show(); // Mostrar o loader, se necessário
+                    loader.show();
                     const configFetch = configuracaoFetch('DELETE')
                     const response = await executarFetch(`moderation/users/${id}`, configFetch); 
-                    loader.hide(); // Esconder o loader após a conclusão da solicitação
+                    loader.hide();
                 
                     if (response.succeed) {
                         window.location.assign('/index.html')
@@ -145,10 +146,10 @@ document.addEventListener('header-carregado', async () => {
             {
                 botaoExcluir2.classList.remove('d-none')
                 botaoExcluir2.addEventListener('click', async () => {
-                    loader.show(); // Mostrar o loader, se necessário
+                    loader.show();
                     const configFetch = configuracaoFetch('DELETE')
                     const response = await executarFetch(`moderation/playertempprofiles/${id}`, configFetch); 
-                    loader.hide(); // Esconder o loader após a conclusão da solicitação
+                    loader.hide();
                 
                     if (response.succeed) {
                         window.location.assign('/index.html')
@@ -157,4 +158,5 @@ document.addEventListener('header-carregado', async () => {
             }
         }
     }
+    window.dispatchEvent(new Event('pagina-load'))
 })
