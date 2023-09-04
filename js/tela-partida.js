@@ -252,6 +252,7 @@ const init = async () => {
 	}
 
 	const resetMatchManagementForm = () => {
+		matchManagementForm.querySelector('div.input-event-point-set-wrapper')?.remove()
 		matchManagementForm.querySelector('label[for="select-event-team"]')?.remove()
 		matchManagementForm.querySelector('select#select-event-team')?.remove()
 		matchManagementForm.querySelector('label[for="select-event-player"]')?.remove()
@@ -326,6 +327,7 @@ const init = async () => {
 
 		// reset form fields and remove them from DOM if they exist already
 		const resetAllFormFields = () => {
+			matchManagementForm.querySelector('div.input-event-point-set-wrapper')?.remove()
 			matchManagementForm.querySelector('label[for="select-event-team"]')?.remove()
 			matchManagementForm.querySelector('select#select-event-team')?.remove()
 			matchManagementForm.querySelector('label[for="select-event-player"]')?.remove()
@@ -345,6 +347,7 @@ const init = async () => {
 		}
 
 		const resetSomeFormFields = () => {
+			matchManagementForm.querySelector('div.input-event-point-set-wrapper')?.remove()
 			matchManagementForm.querySelector('label[for="select-event-player"]')?.remove()
 			matchManagementForm.querySelector('select#select-event-player')?.remove()
 			matchManagementForm.querySelector('label[for="select-event-assister-player"]')?.remove()
@@ -361,6 +364,7 @@ const init = async () => {
 		}
 
 		const resetSomeLessFormFields = () => {
+			matchManagementForm.querySelector('div.input-event-point-set-wrapper')?.remove()
 			matchManagementForm.querySelector('div.btn-post-event-wrapper')?.remove()
 			matchManagementForm.querySelector('label[for="select-event-card-type"]')?.remove()
 			matchManagementForm.querySelector('select#select-event-card-type')?.remove()
@@ -511,46 +515,53 @@ const init = async () => {
 
 								let selectEventAssisterPlayer = null
 								let selectedAssisterPlayer = null
+								let inputEventPointSet = document.getElementById("input-event-point-set")
 
-								checkboxEventAssisterPlayer.addEventListener('change', () => {
-									if (checkboxEventAssisterPlayer.checked) {
-										matchManagementForm.querySelector('div.form-check').insertAdjacentHTML('beforebegin', `
-											<div>
-												<label for="select-event-assister-player" class="i18 form-label mb-0 mt-2" key="SelectEventAssisterPlayerLabel">${i18next.t("SelectEventAssisterPlayerLabel")}</label>
-												<select id="select-event-assister-player" class="form-select">
-													<option value="" selected class="i18" key="SelectEventAssisterPlayerPlaceholder">${i18next.t("SelectEventAssisterPlayerPlaceholder")}</option>
-													${players.map(player => `<option value="${player.id}">${player.name}</option>`)}
-												</select>
-											</div>
-										`)
-
-										selectEventAssisterPlayer = matchManagementForm.querySelector('select#select-event-assister-player')
-
-										selectEventAssisterPlayer?.addEventListener('change', () => {
-											selectedAssisterPlayer = players.find(player => player.id == selectEventAssisterPlayer.value)
-											postGoalValidator.revalidate()
-										})
-
-										postGoalValidator
-												.addField(matchManagementForm.querySelector("select#select-event-assister-player"), [
-													{
-														validator: (value) => {
-															return value != selectEventPlayer.value
+								if(checkboxEventAssisterPlayer)
+								{
+									checkboxEventAssisterPlayer.addEventListener('change', () => {
+										if (checkboxEventAssisterPlayer.checked) {
+											matchManagementForm.querySelector('div.form-check').insertAdjacentHTML('beforebegin', `
+												<div>
+													<label for="select-event-assister-player" class="i18 form-label mb-0 mt-2" key="SelectEventAssisterPlayerLabel">${i18next.t("SelectEventAssisterPlayerLabel")}</label>
+													<select id="select-event-assister-player" class="form-select">
+														<option value="" selected class="i18" key="SelectEventAssisterPlayerPlaceholder">${i18next.t("SelectEventAssisterPlayerPlaceholder")}</option>
+														${players.map(player => `<option value="${player.id}">${player.name}</option>`)}
+													</select>
+												</div>
+											`)
+	
+											selectEventAssisterPlayer = matchManagementForm.querySelector('select#select-event-assister-player')
+	
+											selectEventAssisterPlayer?.addEventListener('change', () => {
+												selectedAssisterPlayer = players.find(player => player.id == selectEventAssisterPlayer.value)
+												postGoalValidator.revalidate()
+											})
+	
+											postGoalValidator
+													.addField(matchManagementForm.querySelector("select#select-event-assister-player"), [
+														{
+															validator: (value) => {
+																return value != selectEventPlayer.value
+															},
+															errorMessage: `<span class="i18" key="JogadoresDiferentes">${i18next.t("JogadoresDiferentes")}</span>`
 														},
-														errorMessage: `<span class="i18" key="JogadoresDiferentes">${i18next.t("JogadoresDiferentes")}</span>`
-													},
-													{
-														rule: 'required',
-														errorMessage: `<span class="i18" key="JogadorAssistenteObrigatorio">${i18next.t("JogadorAssistenteObrigatorio")}</span>`
-													}
-												])
-									} else {
-										postGoalValidator.removeField(matchManagementForm.querySelector('select#select-event-assister-player'))
+														{
+															rule: 'required',
+															errorMessage: `<span class="i18" key="JogadorAssistenteObrigatorio">${i18next.t("JogadorAssistenteObrigatorio")}</span>`
+														}
+													])
+										} else {
+											postGoalValidator.removeField(matchManagementForm.querySelector('select#select-event-assister-player'))
+	
+											matchManagementForm.querySelector('label[for="select-event-assister-player"]').remove()
+											matchManagementForm.querySelector('select#select-event-assister-player').remove()
+										}
+									})
 
-										matchManagementForm.querySelector('label[for="select-event-assister-player"]').remove()
-										matchManagementForm.querySelector('select#select-event-assister-player').remove()
-									}
-								})
+								}
+								
+								
 
 								const inputEventTime = matchManagementForm.querySelector('input#input-event-time')
 
