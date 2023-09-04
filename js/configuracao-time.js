@@ -268,7 +268,7 @@ const init = async () => {
             notificacaoErro(data.results)
         }
 
-        const configFetch = configuracaoFetch('DELETE', {'championshipId': parseInt(championshipId), 'teamId': parseInt(teamId),  }),
+        const configFetch = configuracaoFetch('DELETE', {'championshipId': parseInt(championshipId), 'teamId': parseInt(teamId)}),
             response = await executarFetch('teams/championship', configFetch, callbackStatus)
         console.log(response)
 
@@ -462,7 +462,7 @@ const init = async () => {
 
             const botaoDesvincularWrapper = document.createElement('div')
             botaoDesvincularWrapper.classList.add('col-auto', 'd-flex', 'my-auto', 'mx-auto', 'ms-md-auto', 'me-md-0')
-            botaoDesvincularWrapper.innerHTML = `<button type="button" class="delete-listed-thing justify-content-center align-items-center rounded-4 remover-vinculo-campeonato btn btn-danger d-flex"><i class="bi bi-trash text-light fs-5"></i></button>`
+            botaoDesvincularWrapper.innerHTML = `<button type="button" data-bs-toggle="modal" data-bs-target="#exitChampionshipModal" class="delete-listed-thing justify-content-center align-items-center rounded-4 remover-vinculo-campeonato btn btn-danger d-flex"><i class="bi bi-box-arrow-right text-light text-center ms-1 fs-4"></i></i></button>`
             
             campeonatosVinculadosContent.appendChild(botaoDesvincularWrapper)
             campeonatosVinculadosWrapper.appendChild(campeonatosVinculadosContent)
@@ -473,7 +473,9 @@ const init = async () => {
                 window.location.href = `pagina-campeonatos.html?id=${campeonato.id}`
             })
 
-            botaoDesvincularWrapper.addEventListener('click', async e => {
+            const confirmExitChamtionshipBtn = document.querySelector('#confirm-exit-championship-btn')
+
+            confirmExitChamtionshipBtn.addEventListener('click', async e => {
                 await desvincularCampeonato(campeonato.id)
                 await listarCampeonatosVinculados(configFetch)
             })

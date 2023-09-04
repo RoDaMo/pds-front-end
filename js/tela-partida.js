@@ -84,11 +84,11 @@ const init = async () => {
 			validPlayersTeam1 = await getValidPlayers(match.homeId)
 			validPlayersTeam2 = await getValidPlayers(match.visitorId)
 
+			document.querySelector('#match-management-form-type').querySelector('select#select-event-type').value = ""
+			resetMatchManagementForm()
+
 			await updateScoreboard()
 			await loadEvents()
-			setTimeout(() => {
-				window.location.reload()
-			}, 2000)
 		}
 	}
 
@@ -108,10 +108,10 @@ const init = async () => {
 			validPlayersTeam1 = await getValidPlayers(match.homeId)
 			validPlayersTeam2 = await getValidPlayers(match.visitorId)
 
+			document.querySelector('#match-management-form-type').querySelector('select#select-event-type').value = ""
+			resetMatchManagementForm()
+
 			await loadEvents()
-			setTimeout(() => {
-				window.location.reload()
-			}, 2000)
 		}
 	}
 
@@ -127,10 +127,16 @@ const init = async () => {
 
 		if (response.succeed) {
 			notificacaoSucesso(i18next.t("SucessoPostPenalty"))
+
+			document.querySelector('#match-management-form-type').querySelector('select#select-event-type').value = ""
+			resetMatchManagementForm()
+
 			await loadEvents()
-			setTimeout(() => {
+			await loadPenaltiesScoreboard()
+
+			if (await hasMatchEnded()) {
 				window.location.reload()
-			}, 2000)
+			}
 		}
 	}
 
@@ -245,6 +251,25 @@ const init = async () => {
 			})	
 	}
 
+	const resetMatchManagementForm = () => {
+		matchManagementForm.querySelector('div.input-event-point-set-wrapper')?.remove()
+		matchManagementForm.querySelector('label[for="select-event-team"]')?.remove()
+		matchManagementForm.querySelector('select#select-event-team')?.remove()
+		matchManagementForm.querySelector('label[for="select-event-player"]')?.remove()
+		matchManagementForm.querySelector('select#select-event-player')?.remove()
+		matchManagementForm.querySelector('label[for="select-event-assister-player"]')?.remove()
+		matchManagementForm.querySelector('select#select-event-assister-player')?.remove()
+		matchManagementForm.querySelector('div.input-event-time-wrapper')?.remove()
+		matchManagementForm.querySelectorAll('div.form-check')?.forEach(div => div.remove())
+		matchManagementForm.querySelector('div.btn-post-event-wrapper')?.remove()
+		matchManagementForm.querySelector('select#select-event-card-type')?.remove()
+		matchManagementForm.querySelector('label[for="select-event-card-type"]')?.remove()
+		matchManagementForm.querySelector('input#checkbox-event-own-goal')?.remove()
+		matchManagementForm.querySelector('label[for="checkbox-event-own-goal"]')?.remove()	
+		matchManagementForm.querySelector('input#checkbox-event-assister-player')?.remove()
+		matchManagementForm.querySelector('label[for="checkbox-event-assister-player"]')?.remove()
+	}
+
 	const matchManagementSystem = () => {
 
 		matchManagementForm.insertAdjacentHTML('beforebegin', `
@@ -302,6 +327,7 @@ const init = async () => {
 
 		// reset form fields and remove them from DOM if they exist already
 		const resetAllFormFields = () => {
+			matchManagementForm.querySelector('div.input-event-point-set-wrapper')?.remove()
 			matchManagementForm.querySelector('label[for="select-event-team"]')?.remove()
 			matchManagementForm.querySelector('select#select-event-team')?.remove()
 			matchManagementForm.querySelector('label[for="select-event-player"]')?.remove()
@@ -321,6 +347,7 @@ const init = async () => {
 		}
 
 		const resetSomeFormFields = () => {
+			matchManagementForm.querySelector('div.input-event-point-set-wrapper')?.remove()
 			matchManagementForm.querySelector('label[for="select-event-player"]')?.remove()
 			matchManagementForm.querySelector('select#select-event-player')?.remove()
 			matchManagementForm.querySelector('label[for="select-event-assister-player"]')?.remove()
@@ -337,6 +364,7 @@ const init = async () => {
 		}
 
 		const resetSomeLessFormFields = () => {
+			matchManagementForm.querySelector('div.input-event-point-set-wrapper')?.remove()
 			matchManagementForm.querySelector('div.btn-post-event-wrapper')?.remove()
 			matchManagementForm.querySelector('label[for="select-event-card-type"]')?.remove()
 			matchManagementForm.querySelector('select#select-event-card-type')?.remove()
@@ -487,46 +515,53 @@ const init = async () => {
 
 								let selectEventAssisterPlayer = null
 								let selectedAssisterPlayer = null
+								let inputEventPointSet = document.getElementById("input-event-point-set")
 
-								checkboxEventAssisterPlayer.addEventListener('change', () => {
-									if (checkboxEventAssisterPlayer.checked) {
-										matchManagementForm.querySelector('div.form-check').insertAdjacentHTML('beforebegin', `
-											<div>
-												<label for="select-event-assister-player" class="i18 form-label mb-0 mt-2" key="SelectEventAssisterPlayerLabel">${i18next.t("SelectEventAssisterPlayerLabel")}</label>
-												<select id="select-event-assister-player" class="form-select">
-													<option value="" selected class="i18" key="SelectEventAssisterPlayerPlaceholder">${i18next.t("SelectEventAssisterPlayerPlaceholder")}</option>
-													${players.map(player => `<option value="${player.id}">${player.name}</option>`)}
-												</select>
-											</div>
-										`)
-
-										selectEventAssisterPlayer = matchManagementForm.querySelector('select#select-event-assister-player')
-
-										selectEventAssisterPlayer?.addEventListener('change', () => {
-											selectedAssisterPlayer = players.find(player => player.id == selectEventAssisterPlayer.value)
-											postGoalValidator.revalidate()
-										})
-
-										postGoalValidator
-												.addField(matchManagementForm.querySelector("select#select-event-assister-player"), [
-													{
-														validator: (value) => {
-															return value != selectEventPlayer.value
+								if(checkboxEventAssisterPlayer)
+								{
+									checkboxEventAssisterPlayer.addEventListener('change', () => {
+										if (checkboxEventAssisterPlayer.checked) {
+											matchManagementForm.querySelector('div.form-check').insertAdjacentHTML('beforebegin', `
+												<div>
+													<label for="select-event-assister-player" class="i18 form-label mb-0 mt-2" key="SelectEventAssisterPlayerLabel">${i18next.t("SelectEventAssisterPlayerLabel")}</label>
+													<select id="select-event-assister-player" class="form-select">
+														<option value="" selected class="i18" key="SelectEventAssisterPlayerPlaceholder">${i18next.t("SelectEventAssisterPlayerPlaceholder")}</option>
+														${players.map(player => `<option value="${player.id}">${player.name}</option>`)}
+													</select>
+												</div>
+											`)
+	
+											selectEventAssisterPlayer = matchManagementForm.querySelector('select#select-event-assister-player')
+	
+											selectEventAssisterPlayer?.addEventListener('change', () => {
+												selectedAssisterPlayer = players.find(player => player.id == selectEventAssisterPlayer.value)
+												postGoalValidator.revalidate()
+											})
+	
+											postGoalValidator
+													.addField(matchManagementForm.querySelector("select#select-event-assister-player"), [
+														{
+															validator: (value) => {
+																return value != selectEventPlayer.value
+															},
+															errorMessage: `<span class="i18" key="JogadoresDiferentes">${i18next.t("JogadoresDiferentes")}</span>`
 														},
-														errorMessage: `<span class="i18" key="JogadoresDiferentes">${i18next.t("JogadoresDiferentes")}</span>`
-													},
-													{
-														rule: 'required',
-														errorMessage: `<span class="i18" key="JogadorAssistenteObrigatorio">${i18next.t("JogadorAssistenteObrigatorio")}</span>`
-													}
-												])
-									} else {
-										postGoalValidator.removeField(matchManagementForm.querySelector('select#select-event-assister-player'))
+														{
+															rule: 'required',
+															errorMessage: `<span class="i18" key="JogadorAssistenteObrigatorio">${i18next.t("JogadorAssistenteObrigatorio")}</span>`
+														}
+													])
+										} else {
+											postGoalValidator.removeField(matchManagementForm.querySelector('select#select-event-assister-player'))
+	
+											matchManagementForm.querySelector('label[for="select-event-assister-player"]').remove()
+											matchManagementForm.querySelector('select#select-event-assister-player').remove()
+										}
+									})
 
-										matchManagementForm.querySelector('label[for="select-event-assister-player"]').remove()
-										matchManagementForm.querySelector('select#select-event-assister-player').remove()
-									}
-								})
+								}
+								
+								
 
 								const inputEventTime = matchManagementForm.querySelector('input#input-event-time')
 
@@ -928,6 +963,19 @@ const init = async () => {
 		}
 	}
 
+	const loadPenaltiesScoreboard = async () => {
+		const penaltiesScore = document.querySelector('#penalties-score')
+
+		const
+			matchEvents = await executarFetch(`matches/${matchId}/get-all-events`, configuracaoFetch('GET')),
+			matchEventsResults = matchEvents.results
+
+		let team1PenaltiesScore = matchEventsResults.filter(event => event.penalty && event.teamId == match.homeId && event.converted).length
+		let team2PenaltiesScore = matchEventsResults.filter(event => event.penalty && event.teamId == match.visitorId && event.converted).length
+
+		penaltiesScore.textContent = `(${team1PenaltiesScore} : ${team2PenaltiesScore})`
+	}
+
 	const loadScoreboard = () => {
 		matchScoreWrapper.insertAdjacentHTML('beforeend', `
 			${match.isSoccer ? `
@@ -1160,9 +1208,9 @@ const init = async () => {
 
 		if (response.succeed) {
 			notificacaoSucesso(i18next.t("SucessoStartOvertime"))
-			setTimeout(() => {
-				window.location.reload()
-			}, 2000)
+			loader.show()
+			window.location.reload()
+			loader.hide()
 		}
 	}
 
@@ -1179,9 +1227,9 @@ const init = async () => {
 
 		if (response.succeed) {
 			notificacaoSucesso(i18next.t("SucessoStartPenaltyShootout"))
-			setTimeout(() => {
-				window.location.reload()
-			}, 2000)
+			loader.show()
+			window.location.reload()
+			loader.hide()
 		}
 	}
 
@@ -1214,6 +1262,20 @@ const init = async () => {
 	const isOvertime = () => {
 		if (match.isSoccer) {
 			return (match.prorrogation) ? true : false
+		}
+	}
+
+	const hasMatchEnded = async () => {
+		const 
+			dataMatch = await executarFetch(`matches/${matchId}`, configuracaoFetch('GET')),
+			match = dataMatch.results
+
+		if (match.isSoccer) {
+			if (match.finished) {
+				return true
+			} else {
+				return false
+			}
 		}
 	}
 
@@ -1251,7 +1313,7 @@ const init = async () => {
 						`
 
 						eventIllustration = `
-							<img src="../public/icons/sports_soccer_red.svg" alt="">
+							<img src="../icons/sports_soccer_red.svg" alt="">
 						`
 					} else {
 						eventData = `
@@ -1261,7 +1323,7 @@ const init = async () => {
 						`
 
 						eventIllustration = `
-							<img src="../public/icons/sports_soccer.svg" alt="">
+							<img src="../icons/sports_soccer.svg" alt="">
 						`
 					}
 				} else if (event.foul) {
@@ -1273,11 +1335,11 @@ const init = async () => {
 
 					if (!event.yellowCard) {
 						eventIllustration = `
-							<img src="../public/icons/red_card.svg" alt="">
+							<img src="../icons/red_card.svg" alt="">
 						`
 					} else if (event.yellowCard) {
 						eventIllustration = `
-							<img src="../public/icons/yellow_card.svg" alt="">
+							<img src="../icons/yellow_card.svg" alt="">
 						`
 					}
 				} else if (event.penalty) {
@@ -1289,7 +1351,7 @@ const init = async () => {
 						`
 
 						eventIllustration = `
-							<img src="../public/icons/sports_penalty.png" alt="">
+							<img src="../icons/sports_penalty.png" alt="">
 						`
 					} else {
 						eventData = `
@@ -1299,7 +1361,7 @@ const init = async () => {
 						`
 
 						eventIllustration = `
-							<img src="../public/icons/sports_missed_penalty.png" alt="">
+							<img src="../icons/sports_missed_penalty.png" alt="">
 						`
 					}
 				}
@@ -1310,7 +1372,7 @@ const init = async () => {
 					`
 
 					eventIllustration = `
-						<img src="../public/icons/sports_volleyball.svg" alt="">
+						<img src="../icons/sports_volleyball.svg" alt="">
 					`
 				}
 			}
@@ -1393,7 +1455,7 @@ const init = async () => {
 						<div class="event-time"><span class="text-muted">"32</span></div>
 					</div>
 					<div class="col position-absolute w-auto h-auto event-illustration">
-						<img src="../public/icons/sports_soccer.svg" alt="">
+						<img src="../icons/sports_soccer.svg" alt="">
 					</div>
 				</div>
 				<div class="row blank-space"></div>
@@ -1406,7 +1468,7 @@ const init = async () => {
 						<div class="event-time"><span class="text-muted">"32</span></div>
 					</div>
 					<div class="col position-absolute w-auto h-auto event-illustration">
-						<img src="../public/icons/sports_soccer.svg" alt="">
+						<img src="../icons/sports_soccer.svg" alt="">
 					</div>
 				</div>
 				<div class="row blank-space"></div>
@@ -1418,7 +1480,7 @@ const init = async () => {
 						<div class="event-time"><span class="text-muted">"32</span></div>
 					</div>
 					<div class="col position-absolute w-auto h-auto event-illustration">
-						<img src="../public/icons/sports_soccer.svg" alt="">
+						<img src="../icons/sports_soccer.svg" alt="">
 					</div>
 				</div>
 			`
@@ -1434,7 +1496,7 @@ const init = async () => {
 						<div class="event-time"><span class="text-muted">"32</span></div>
 					</div>
 					<div class="col position-absolute w-auto h-auto event-illustration">
-						<img src="../public/icons/sports_soccer.svg" alt="">
+						<img src="../icons/sports_soccer.svg" alt="">
 					</div>
 				</div>
 				<div class="row flex-column p-3 my-2 match-details-content-event rounded-5 position-relative">
@@ -1445,7 +1507,7 @@ const init = async () => {
 						<div class="event-time"><span class="text-muted">"32</span></div>
 					</div>
 					<div class="col position-absolute w-auto h-auto event-illustration">
-						<img src="../public/icons/sports_soccer.svg" alt="">
+						<img src="../icons/sports_soccer.svg" alt="">
 					</div>
 				</div>
 				<div class="row blank-space"></div>
@@ -1457,7 +1519,7 @@ const init = async () => {
 						<div class="event-time"><span class="text-muted">"32</span></div>
 					</div>
 					<div class="col position-absolute w-auto h-auto event-illustration">
-						<img src="../public/icons/sports_soccer.svg" alt="">
+						<img src="../icons/sports_soccer.svg" alt="">
 					</div>
 				</div>
 				<div class="row blank-space"></div>
@@ -1546,6 +1608,11 @@ const init = async () => {
 
 		listPlayers()
 		loadScoreboard()
+		
+		if (match.isSoccer && isExtraElegible() && isPenaltyShootout()) {
+			penaltiesScoreWrapper.classList.remove('d-none')
+			loadPenaltiesScoreboard()
+		}
 	}
 
 	const blankSpaceSetter = () => {
@@ -1588,7 +1655,8 @@ const init = async () => {
 		matchReportAccess = document.getElementById('match-report-access'),
 		extraManagement = document.getElementById('extra-management'),
 		woTeamForm = document.getElementById('wo-team-form'),
-		mensagemErro = document.getElementById("mensagem-erro")
+		mensagemErro = document.getElementById("mensagem-erro"),
+		penaltiesScoreWrapper = document.getElementById('penalties-score-wrapper')
 
 	
 	let downloadMatchReportBtn = null

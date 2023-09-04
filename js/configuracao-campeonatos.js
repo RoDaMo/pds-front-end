@@ -627,9 +627,15 @@ const init = async () => {
 
 	const disableForm = () => {
 		let formElements = form.elements;
-		
 		for (let i = 0; i < formElements.length; i++) {
-			formElements[i].disabled = true;
+			if (formElements[i].id == 'config-championship-image-input' || formElements[i].id == 'config-championship-formato-input' || formElements[i].id == 'config-championship-numero-input' || formElements[i].id == 'config-championship-esporte-input') {
+				formElements[i].disabled = true;
+			}
+
+			// disable checkboxes
+			if (formElements[i].type == 'checkbox') {
+				formElements[i].disabled = true;
+			}
 		}
 	}
 
@@ -677,7 +683,7 @@ const init = async () => {
 				` 
 
 				const deleteBracketBtn = document.getElementById('delete-bracket-btn')
-				if (hasBracketStarted(campeonato)) {
+				if (campeonato.status == 0 || hasBracketStarted(campeonato)) {
 					deleteBracketBtn.disabled = true
 					deleteBracketBtn.classList.add('disabled')
 				}
@@ -884,7 +890,7 @@ const init = async () => {
 					datalistPesquisa.innerHTML = ''
 					inputPesquisa.innerHTML = ''
 					await listarTimesVinculados(configFetch)
-				})
+				}, { once: true })
 
 				datalistPesquisa.appendChild(newOption)
 			}
@@ -1094,7 +1100,7 @@ const init = async () => {
 		if (createBracketBtn) {
 			if (campeonato.teamQuantity == campeonato.teams.length) {
 				createBracketBtn.disabled = false
-				bracketBtnWrapper.querySelector("#qtd-teams-not-enough").remove()
+				bracketBtnWrapper.querySelector("#qtd-teams-not-enough")?.remove()
 			} else {
 				createBracketBtn.disabled = true
 				// clear error message

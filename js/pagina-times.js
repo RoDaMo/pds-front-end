@@ -271,7 +271,7 @@ const obterInfo = async () => {
         `
     })  
 
-    if(isTeamOwner(id, sessionUserInfo.teamManagementId)) {
+    if(isTeamOwner(id, sessionUserInfo?.teamManagementId)) {
         botaoTimeEditar.classList.remove('d-none')
     }
 }
@@ -315,14 +315,34 @@ async function waitInfo() {
         `
     }
 
-    if (ssChampionshipContent.length <= 6) {
-        ssThirdContent.removeAttribute('data-lenis-prevent')
-    }
-
     window.dispatchEvent(new Event('pagina-load'))
 }
 
 waitInfo()
+
+document.addEventListener('header-carregado', () => {
+    const userRoleElement = document.getElementById("userRole");
+    const botaoExcluir = document.getElementById("botaoExcluirTime");
+    const id = parametroUrl.get('id')
+
+    if (userRoleElement) {
+        const userRole = userRoleElement.textContent.trim()
+
+        if (userRole === "admin") {
+            botaoExcluir.classList.remove('d-none')
+            botaoExcluir.addEventListener('click', async () => {
+                loader.show(); // Mostrar o loader, se necessário
+                const configFetch = configuracaoFetch('DELETE')
+                const response = await executarFetch(`moderation/teams/${id}`, configFetch); 
+                loader.hide(); // Esconder o loader após a conclusão da solicitação
+            
+                if (response.succeed) {
+                    window.location.assign('/index.html')
+                }
+            })
+        }
+    }
+})
 
 
 
