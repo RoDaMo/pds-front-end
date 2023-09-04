@@ -12,5 +12,7 @@
   "Politica": "Policy",
   "Termos": "Terms",
   "Sobre": "About",
-  "Campeonatos gerenciados": "Managed championship"
+  "Campeonatos gerenciados": "Managed championship",
+  "TextoLogout": "Are you sure you want to sign out?",
+  "Logout": "Sign out"
 }
