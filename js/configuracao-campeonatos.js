@@ -683,7 +683,7 @@ const init = async () => {
 				` 
 
 				const deleteBracketBtn = document.getElementById('delete-bracket-btn')
-				if (hasBracketStarted(campeonato) || campeonato.status == 0) {
+				if (campeonato.status == 0 || hasBracketStarted(campeonato)) {
 					deleteBracketBtn.disabled = true
 					deleteBracketBtn.classList.add('disabled')
 				}
@@ -890,7 +890,7 @@ const init = async () => {
 					datalistPesquisa.innerHTML = ''
 					inputPesquisa.innerHTML = ''
 					await listarTimesVinculados(configFetch)
-				})
+				}, { once: true })
 
 				datalistPesquisa.appendChild(newOption)
 			}
