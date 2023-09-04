@@ -85,9 +85,9 @@ const exibirDados = async (data) => {
                         </div>
 
                         <div class="col-md-9 d-flex flex-column justify-content-center  ">
-                            <h3 id="nome" class="card-title text-success">${e.name}</h3>
+                            <h3 id="nome" class="card-title text-center text-md-start text-success">${e.name}</h3>
                             <div class="row gap-0">      
-                                <p class="col-md-12 text-success"><i class="bi bi-calendar-event-fill m-1 text-success"></i> <span class="i18" key="De">${i18next.t("De")}</span> ${new Date(e.initialDate).toLocaleDateString('pt-BR')}  <span class="i18" key="Ate">${i18next.t("Ate")}</span> ${new Date(e.finalDate).toLocaleDateString('pt-BR')} <small><i class="bi bi-dash"></i></small>${exibirStatus(e.status)}</p>
+                                <p class="col-md-12 text-success text-center text-md-start"><i class="bi bi-calendar-event-fill m-1 text-success"></i> <span class="i18" key="De">${i18next.t("De")}</span> ${new Date(e.initialDate).toLocaleDateString('pt-BR')}  <span class="i18" key="Ate">${i18next.t("Ate")}</span> ${new Date(e.finalDate).toLocaleDateString('pt-BR')} <small><i class="bi bi-dash"></i></small>${exibirStatus(e.status)}</p>
                             </div>
                         </div>
 
