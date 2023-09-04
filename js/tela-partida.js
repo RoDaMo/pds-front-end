@@ -917,7 +917,7 @@ const init = async () => {
 			isOrganizer = false
 		}
 
-		return true	
+		return isOrganizer
 	}
 
 	const isMatchConfigured = () => {
