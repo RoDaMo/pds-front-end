@@ -950,7 +950,7 @@ const chaveamento = {
           <div class="d-flex gap-3 justify-content-evenly align-items-center text-black bg-gray-lvl-2 mb-3 p-3 rounded ida-volta">
               <div class="row justify-content-center align-items-center mx-2 bg-gray-lvl-3 px-3 pb-3 rounded-5">
                 <div class="text-center py-1">
-                  <small>${this.convertDateFormat(partidaDupla.jogoAtual.date)}</small><small class="d-block d-lg-inline"><span class="d-none d-lg-inline">-</span> ${partidaDupla.jogoAtual.local ? partidaDupla.jogoAtual.local : 'Localização não definida'}</small>
+                  <small>${this.convertDateFormat(partidaDupla.jogoAtual.date)}</small><small class="d-block d-lg-inline"><span class="d-none d-lg-inline">-</span> ${partidaDupla.jogoAtual.road ? partidaDupla.jogoAtual.road : 'Localização não definida'}</small>
                 </div>
                 <a href="/pages/tela-partida.html?id=${partidaDupla.jogoAtual.id}" class="text-decoration-none match-link-wrapper p-2 rounded-5 my-1 d-flex justify-content-center align-items-center">
                   <div class="row justify-content-center align-items-center">
@@ -987,7 +987,7 @@ const chaveamento = {
 
               <div class="row justify-content-center align-items-center mx-2 bg-gray-lvl-3 px-3 pb-3 rounded-5">
                 <div class="text-center py-1">
-                  <small>${this.convertDateFormat(partidaDupla.proximoJogo.date)}</small><small class="d-block d-lg-inline"><span class="d-none d-lg-inline">-</span> ${partidaDupla.jogoAtual.local ? partidaDupla.jogoAtual.local : 'Localização não definida'}</small>
+                  <small>${this.convertDateFormat(partidaDupla.proximoJogo.date)}</small><small class="d-block d-lg-inline"><span class="d-none d-lg-inline">-</span> ${partidaDupla.jogoAtual.road ? partidaDupla.jogoAtual.road : 'Localização não definida'}</small>
                 </div>
                 <a href="/pages/tela-partida.html?id=${partidaDupla.proximoJogo.id}" class="text-decoration-none match-link-wrapper p-2 rounded-5 my-1 d-flex justify-content-center align-items-center">
                   <div class="row justify-content-center align-items-center">

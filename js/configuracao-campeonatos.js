@@ -675,6 +675,13 @@ const init = async () => {
 						<span class="i18 fw-semibold" key="ExcluirChaveamento">${i18next.t("ExcluirChaveamento")}</span>
 					</button>
 				` 
+
+				const deleteBracketBtn = document.getElementById('delete-bracket-btn')
+				if (hasBracketStarted(campeonato)) {
+					deleteBracketBtn.disabled = true
+					deleteBracketBtn.classList.add('disabled')
+				}
+
 				confirmDeleteBracketBtn.addEventListener('click', async () => {
 					await deleteBracket(campeonato.id)
 				})
@@ -686,10 +693,10 @@ const init = async () => {
 				enableTeamsManipulation()
 				
 				bracketBtnWrapper.innerHTML = `
-				<button disabled data-bs-toggle="modal" data-bs-target="#bracketCreateModal" id="create-bracket-btn" class="btn w-100 border-0 d-flex justify-content-center align-items-center chaveamento-btn">
-				<i class="bi bi-diagram-2 me-2"></i>
-				<span class="i18 fw-semibold" key="CriarChaveamento">${i18next.t("CriarChaveamento")}</span>
-				</button> 
+					<button disabled data-bs-toggle="modal" data-bs-target="#bracketCreateModal" id="create-bracket-btn" class="btn w-100 border-0 d-flex justify-content-center align-items-center chaveamento-btn">
+						<i class="bi bi-diagram-2 me-2"></i>
+						<span class="i18 fw-semibold" key="CriarChaveamento">${i18next.t("CriarChaveamento")}</span>
+					</button> 
 				`
 				confirmCreateBracketBtn.addEventListener('click', async () => {
 					await createBracket(campeonato.id)
@@ -947,6 +954,13 @@ const init = async () => {
 			}
 		})
 
+	}
+
+	const hasBracketStarted = campeonato => {
+		const dataInicial = new Date(campeonato.initialDate),
+			dataAtual = new Date()
+
+		return dataInicial <= dataAtual
 	}
 
 	const exibirSuborg = async() => {
