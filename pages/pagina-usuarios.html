@@ -21,12 +21,18 @@
         <section class="position-relative bg-grad w-100 p-2 d-flex mt-3 justify-content-between rounded-5">
             <div class="row w-100 user-info position-absolute">
                 <div class="col-md-5 col-12 order-1 order-md-0 flex-column ms-3">
-                    <div class="mt-6r user-current-team d-inline-flex">
+                    <div class="mt-6r user-current-team d-inline-flex align-items-center gap-2" id="user-current-team">
                         <!-- Ícone mudar de acordo com o esporte praticado do time atual (Extra / WIP) -->
-                        <!-- <img src="../icons/sports_soccer.svg" alt="sport-icon" class="sports-icon mb-3"> -->
+                        <a id="link-time" href="javascript:void(0)">
+                            <img src="" width="70" height="70" rel="prefetch" alt="sport-icon" id="emblema-time" class="sports-icon">
+                        </a>
 
                         <!-- $ Nome do Time Atual -->
-                        <!-- <p class="current-team-name">Team Name</p> -->
+                        <a id="link-time-2" href="javascript:void(0)" class="text-decoration-none">
+                            <p class="current-team-name my-0" id="nome-time"></p>
+                        </a>
+
+                        <small class="badge bg-primary mt-1" id="numero-jogador"></small>
                     </div>
 
                     <!-- $ Bio do Usuário -->
@@ -47,6 +53,9 @@
 
                         <!-- $ Nome de Usuário do Usuário :) -->
                         <p id="user-name" class="text-end opacity-50 fs-6 user-name"></p>
+
+                        <!-- nome artistico -->
+                        <p id="artistic-name" class="text-end opacity-50 fs-6 user-name"></p>
                     </div>
                     <div class="mx-auto me-3 d-flex justify-content-end">
                         <button class="btn user-config-btn rounded-pill fw-semibold d-none" id="botao-perfil-editar">
