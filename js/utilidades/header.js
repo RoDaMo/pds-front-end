@@ -2,6 +2,7 @@ import { configuracaoFetch, api, executarFetch } from "./configFetch";
 import './loader'
 import i18next from "i18next"
 import Lenis from '@studio-freight/lenis'
+import * as bootstrap from 'bootstrap'
 
 const toTopBtn = document.getElementById("gotop")
 const navbarComponente = document.querySelector("componente-header")
@@ -28,6 +29,39 @@ document.addEventListener("DOMContentLoaded", () => {
         navbarComponente.firstElementChild.classList.remove("bg-white", "pb-1")
     }
 })
+
+const logoutModal = /* html */`
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-danger" id="logoutModalLabel">${i18next.t("Sair")}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="texto-modal-bracket" class="text-black text-center">
+                        <span class="i18" key="TextoLogout">${i18next.t("TextoLogout")}</span>
+                    </p>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button id="confirm-logout-btn" class="btn btn-danger"><span class="i18 fw-semibold" key="Logout">${i18next.t("Logout")}</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+`
+
+// insert modal into DOM
+document.body.insertAdjacentHTML('beforeend', logoutModal)
+
+const modalLogout = document.getElementById('logoutModal')
+let modalLogoutBT = new bootstrap.Modal(modalLogout, {keyboard: false})
+
+const confirmLogout = document.getElementById('confirm-logout-btn')
+
+document.querySelectorAll('.deslogar-usuario').forEach(el => el.addEventListener('click', () => {
+    modalLogoutBT.show()
+}))
 
 const loader = document.createElement('app-loader')
 document.body.appendChild(loader)
@@ -290,10 +324,10 @@ export class header extends HTMLElement {
                     <i class="bi bi-people fs-4"></i>
                     <span class="i18" key="TimeConfig">${i18next.t("TimeConfig")}</span>
                 </a>`}
-                <a href="javascript:void(0)" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3 deslogar-usuario">
+                <button data-bs-toggle="modal" data-bs-target="#logoutModal" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3 deslogar-usuario">
                     <i class="bi bi-box-arrow-right fs-4"></i>
                     <span class="i18" key="Sair">${i18next.t("Sair")}</span>
-                </a>
+                </button>
             </div>
         `
         const status = document.getElementById('status-usuario')
@@ -345,16 +379,18 @@ export class header extends HTMLElement {
                         <i class="bi bi-person-gear fs-4"></i>
                         Logs de erro
                     </a>` : ''}
-                    <a href="javascript:void(0)" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3 deslogar-usuario">
+                    <button data-bs-toggle="modal" data-bs-target="#logoutModal" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3 deslogar-usuario">
                         <i class="bi bi-box-arrow-right fs-4"></i>
                         <span class="i18" key="Sair">${i18next.t("Sair")}</span>
-                    </a>
+                    </button>
                 </div>
             </div>
         `
+
         
         document.body.appendChild(offcanvasUser)
-        document.querySelectorAll('.deslogar-usuario').forEach(el => el.addEventListener('click', async () => {
+
+        confirmLogout.addEventListener('click', async () => {
             loader.show()
             const configLogout = configuracaoFetch('DELETE', null, false, false)
             await executarFetch('auth', configLogout)
@@ -362,7 +398,7 @@ export class header extends HTMLElement {
             localStorage.setItem('autenticado', false)
             localStorage.removeItem('user-info')
             window.location.assign('/index.html')
-        }))
+        })
         
         document.dispatchEvent(new Event('header-carregado', { bubbles: true }))
     }
