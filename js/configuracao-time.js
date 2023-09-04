@@ -352,11 +352,13 @@ const init = async () => {
 
             jogadoresVinculadosContent.innerHTML = /*html*/`
                 <div class="col-auto my-auto position-relative mx-auto ms-md-3 p-0 border border-2 overflow-hidden rounded-circle me-md-2 ss-player-image">
-                    <img src="${jogador.picture}" alt="playerImage" class="img-fluid position-absolute mw-100 h-100">
+                    <a href="/pages/pagina-usuarios.html?id=${jogador.id}">
+                        <img src="${jogador.picture}" alt="playerImage" class="img-fluid position-absolute mw-100 h-100">
+                    </a>
                 </div>
 
                 <div class="col-auto ss-player-info-wrapper text-center mb-3 mb-md-0 text-md-start ms-md-1 mt-auto d-flex flex-column">
-                    <p class="ss-player-name text-center text-md-start text-nowrap text-truncate d-block">${jogador.name}</p>
+                    <a href="/pages/pagina-usuarios.html?id=${jogador.id}" class="ss-player-name text-center text-md-start text-nowrap text-truncate d-block">${jogador.name}</a>
                     <p class="mb-0 ss-player-username text-center text-md-start opacity-75 text-nowrap text-truncate d-block">${jogador.artisticName}</p>
 
                     <div class="ss-player-data2 row justify-content-center align-items-center flex-column flex-md-row mt-2 mx-md-auto ms-md-0">
@@ -381,11 +383,11 @@ const init = async () => {
             jogadoresVinculadosContent.appendChild(botaoDesvincularWrapper);
             jogadoresVinculadosWrapper.appendChild(jogadoresVinculadosContent);
 
-            jogadoresVinculadosContent.classList.add('cursor-pointer', 'list-hover-darken')
+            // jogadoresVinculadosContent.classList.add('cursor-pointer', 'list-hover-darken')
 
-            jogadoresVinculadosContent.addEventListener('click', () => {
-                window.location.href = `pagina-usuarios.html?id=${jogador.id}`
-            })
+            // jogadoresVinculadosContent.addEventListener('click', () => {
+            //     window.location.href = `pagina-usuarios.html?id=${jogador.id}`
+            // })
 
             const botaoDesvincular = botaoDesvincularWrapper.querySelector('.btn-desvincular');
             botaoDesvincular.addEventListener('click', async e => {
