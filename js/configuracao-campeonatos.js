@@ -1094,7 +1094,7 @@ const init = async () => {
 		if (createBracketBtn) {
 			if (campeonato.teamQuantity == campeonato.teams.length) {
 				createBracketBtn.disabled = false
-				bracketBtnWrapper.querySelector("#qtd-teams-not-enough").remove()
+				bracketBtnWrapper.querySelector("#qtd-teams-not-enough")?.remove()
 			} else {
 				createBracketBtn.disabled = true
 				// clear error message

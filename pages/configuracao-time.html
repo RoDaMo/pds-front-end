@@ -233,7 +233,6 @@
 						<h5 class="i18 text-center" key="Campeonatos">Campeonatos</h5>
 						<hr class="my-2">
 						<div id="linkedChamps" class="mt-5">
-							<h6 class="i18 text-center" key="CampeonatosVinculados">Campeonatos vinculados</h6>
 							<div data-lenis-prevent id="campeonatos-vinculados" class="p-3 rounded-5"></div>
 						</div>
 					</div>
@@ -286,6 +285,26 @@
 									<button type="submit" class="btn btn-danger i18" key="ExcluirTime">Excluir Time</button>
 								</div>
 							</form>
+						</div>
+					</div>
+				</div>
+
+				<!-- Modal Confirmação - Sair do Campeonato -->
+				<div class="modal fade" id="exitChampionshipModal" tabindex="-1" aria-labelledby="exitChampionshipModalLabel" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content p-3">
+							<div class="modal-header">
+								<h1 class="modal-title text-danger fs-5 i18" id="exitChampionshipModalLabel" key="Certeza">Tem certeza?</h1>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<p id="texto-modal-bracket" class="text-black text-center">
+									<span class="i18" key="TextoSairCampeonato"></span>
+								</p>
+							</div>
+							<div class="modal-footer d-flex justify-content-center">
+								<button id="confirm-exit-championship-btn" class="btn btn-outline-dark"><span class="i18 fw-semibold" key="ExitChampionship">Iniciar Prorrogação</span></button>
+							</div>
 						</div>
 					</div>
 				</div>
