@@ -62,6 +62,15 @@ body {
   cursor: pointer;
 }
 
+.logo-image {
+  height: 6.5rem;
+  min-width: 6.5rem;
+
+  img {
+      min-width: 100%;
+  }
+}
+
 .list-hover-darken {
   transition: all $transition;
   &:hover {

@@ -214,12 +214,12 @@ const exibirDados = async (data) => {
     data.results.forEach(e => {
         conteudo.innerHTML += 
         /*html*/`
-            <div class="card card-body mt-5 border border-2 rounded-custom text-black">
+            <div class="card card-body mt-5 border border-black border-2 rounded-5 text-black">
                 <a href="pagina-campeonatos.html?id=${e.id}" class="text-decoration-none">
                     <div class="row gap-0">
-                        <div class="col-md-2  d-flex justify-content-center ">
-                            <div>
-                                <img src="${e.logo}" style="max-height: 105px; max-width: 10rem;" id="logo" class="rounded img-fluid"  alt="Trofeu">
+                        <div class="col-md-2 d-flex justify-content-center">
+                            <div class="position-relative border border-2 m-3 overflow-hidden rounded-circle logo-image">
+                                <img src="${e.logo}" alt="Logo de ${e.name}" id="logo" class="img-fluid position-absolute mw-100 h-100">
                             </div>
                         </div>
 
