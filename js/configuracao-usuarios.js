@@ -148,7 +148,7 @@ async function changeConfigOptionsContext(t) {
                             <span class="d-none my-2 d-lg-block i18" key="Ou">${i18next.t("Ou")}</span>
 
                             <div class="col d-flex align-items-center my-auto upload-image-drop-label">
-                                <label for="config-team-image-input" class="btn play-btn-primary mt-3 mt-md-0 i18" key="AlterarFoto">${i18next.t("AlterarFoto")}</label>
+                                <label for="config-user-pic-input" class="btn play-btn-primary mt-3 mt-md-0 i18" key="AlterarFoto">${i18next.t("AlterarFoto")}</label>
                             </div>
                         </div>
                         <div class="text-danger" id="erros-imagem"></div>
