@@ -71,6 +71,14 @@ body {
   }
 }
 
+button[key='LimparFiltros'] {
+  @include media-breakpoint-down(sm) {
+    & {
+      width: 100%;
+    }
+  }
+}
+
 .list-hover-darken {
   transition: all $transition;
   &:hover {
