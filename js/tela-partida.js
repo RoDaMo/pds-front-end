@@ -133,6 +133,10 @@ const init = async () => {
 
 			await loadEvents()
 			await loadPenaltiesScoreboard()
+
+			if (await hasMatchEnded()) {
+				window.location.reload()
+			}
 		}
 	}
 
@@ -1194,9 +1198,7 @@ const init = async () => {
 		if (response.succeed) {
 			notificacaoSucesso(i18next.t("SucessoStartOvertime"))
 			loader.show()
-			setTimeout(() => {
-				window.location.reload()
-			}, 2000)
+			window.location.reload()
 			loader.hide()
 		}
 	}
@@ -1215,9 +1217,7 @@ const init = async () => {
 		if (response.succeed) {
 			notificacaoSucesso(i18next.t("SucessoStartPenaltyShootout"))
 			loader.show()
-			setTimeout(() => {
-				window.location.reload()
-			}, 2000)
+			window.location.reload()
 			loader.hide()
 		}
 	}
@@ -1254,6 +1254,19 @@ const init = async () => {
 		}
 	}
 
+	const hasMatchEnded = async () => {
+		const 
+			dataMatch = await executarFetch(`matches/${matchId}`, configuracaoFetch('GET')),
+			match = dataMatch.results
+
+		if (match.isSoccer) {
+			if (match.finished) {
+				return true
+			} else {
+				return false
+			}
+		}
+	}
 
 	const loadEvents = async () => {
 		// Clear blurwall 
