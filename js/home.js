@@ -12,6 +12,7 @@ Aos.init({
     disable: 'phone'
 })
 
+// 
 const navbarComponente = document.querySelector("componente-header")
 const homeCards = document.querySelectorAll(".home-card.d-flex")
 const homePill = document.querySelector("#home-pill")
