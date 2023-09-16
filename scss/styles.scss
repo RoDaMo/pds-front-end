@@ -31,7 +31,7 @@ html {
 }
 
 body {
-  color: $white;
+  color: $black;
   font-family: $font-family-sans-serif;
   margin: 0;
 }
@@ -283,7 +283,6 @@ header {
 
 // Navbar
 .pesquisar {
-  background-color: $gray-400 !important;
   box-shadow: none !important;
   border-radius: $border-radius-pill;
 }
@@ -296,7 +295,7 @@ header {
 .navbar {
   height: 60px !important;
   transition: all $transition;
-  background: transparent;
+  background: transparent !important;
 }
 
 .nav-item {

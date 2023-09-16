@@ -1,4 +1,4 @@
-import { configuracaoFetch, limparMensagem, executarFetch } from "./utilidades/configFetch"
+import { configuracaoFetch, api, limparMensagem, executarFetch } from "./utilidades/configFetch"
 import { notificacaoErro } from "./utilidades/notificacoes"
 import { visualizarSenha } from "./utilidades/visualizar-senha"
 import JustValidate from "just-validate"
@@ -102,7 +102,7 @@ async function postToken(body) {
     const config = configuracaoFetch("POST", body)
 
     loader.show()
-    const res = await fetch(`https://playoffs-api.up.railway.app/auth/reset-password`, config)
+    const res = await fetch(`${api}auth/reset-password`, config)
     loader.hide()
 
     const data = await res.json()

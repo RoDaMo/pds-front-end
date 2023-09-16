@@ -221,7 +221,7 @@ if (mediaQueryMobile.matches) {
 export class header extends HTMLElement {
     constructor() {
         super();
-        const lng = localStorage.getItem('lng');
+        let lng = localStorage.getItem('lng');
 
         let classDark = ''
         if (document.body.getAttribute('is-home')) {
@@ -231,7 +231,7 @@ export class header extends HTMLElement {
         this.innerHTML = /* html */`
             <header class="bg-white pb-1">
                 <div class="container">
-                    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                    <nav class="navbar navbar-expand-lg">
                         <div class="col col-lg-4">
                             <a class="navbar-brand m-auto" href="/"><img src="/Logo_Playoffs.png" class="logo-play img-fluid" width="180" alt="Logo Playoffs"></a>
                         </div>
@@ -251,7 +251,7 @@ export class header extends HTMLElement {
 
                             <div class="offcanvas-body" id="offcanvas">
                                 <form class="col col-md d-flex justify-content-center m-auto" id="pesquisa" role="search">
-                                    <input id="barra-pesquisa" class="form-control m-lg-auto p-1 m-sm-5 mb-sm-2 m-3 mb-2 border-0 rounded-pill h-5 pesquisar i18-placeholder" type="search" key="PesquisaPlaceholder" placeholder="Procurar" aria-label="Search">
+                                    <input id="barra-pesquisa" class="form-control m-lg-auto p-1 m-sm-5 mb-sm-2 m-3 mb-2 border-0 rounded-pill h-5 pesquisar i18-placeholder" type="search" key="PesquisaPlaceholder" placeholder="${i18next.t("PesquisaPlaceholder")}" aria-label="Search">
                                 </form>  
                                 <ul class="menu-li col col-sm-10 col-lg navbar-nav m-auto mt-lg-0 mt-3 justify-content-end align-items-center ${classDark}" id="status-usuario">
                                     <li class="nav-item mx-4">
@@ -270,6 +270,16 @@ export class header extends HTMLElement {
                 </div>
             </header>
         `
+
+        const barraPesquisa = document.getElementById('barra-pesquisa')
+        barraPesquisa.addEventListener('focus', () => {
+            barraPesquisa.removeAttribute('placeholder')
+        })
+        barraPesquisa.addEventListener('blur', () => {
+            barraPesquisa.setAttribute('placeholder', `${i18next.t("PesquisaPlaceholder")}`)
+            lng = localStorage.getItem('lng')
+            i18next.changeLanguage(lng)
+        })
 
         document.addEventListener('DOMContentLoaded', () => {
             document.addEventListener('autenticado', () => {
