@@ -52,7 +52,7 @@
     "NomeArtisticoLabel": "Player's nickname:",
     "NomeArtisticoObrigatorio": "Player's nickname is required",
     "NomeArtisticoMinimo": "Minimum 4 characters",
-    "NomeArtisticoMaximo": "Maximum 40 characters",
+    "NomeArtisticoMaximo": "Maximum 15 characters",
     "NumeroJogadorLabel": "Player's number:",
     "NumeroJogadorObrigatorio": "Player's number is required",
     "NumeroJogadorMinimo": "Minimum 1 character",

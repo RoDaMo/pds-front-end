@@ -1713,11 +1713,4 @@ const init = async () => {
 	window.dispatchEvent(new Event('pagina-load'))
 }
 
-// Precaução
-	// d-none:
-		// hiddenInput
-		// inputMatchReport
-		// downloadMatchReportBtn
-		// downloadMatchReportLink
-
 document.addEventListener('header-carregado', init)

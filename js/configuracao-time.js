@@ -720,7 +720,7 @@ const init = async () => {
                     },
                     {
                         rule: 'maxLength',
-                        value: 40,
+                        value: 15,
                         errorMessage: `<span class="i18" key="NomeArtisticoMaximo">${i18next.t("NomeArtisticoMaximo")}</span>`,
                     },
                 ])
@@ -889,12 +889,12 @@ const init = async () => {
                             },
                             {
                                 rule: 'maxLength',              
-                                value: 40,
+                                value: 15,
                                 errorMessage: `<span class="i18" key="NomeArtisticoMaximo">${i18next.t("NomeArtisticoMaximo")}</span>`,
                             },
                             {
                                 rule: 'customRegexp',
-                                value: /^[A-Za-z0-9_-]*$/,
+                                value: /^[a-zA-Z0-9 ]*$/,
                                 errorMessage: `<span class="i18" key="NomeArtisticoInvalido">${i18next.t("NomeArtisticoInvalido")}</span>`,
                             },
                         ])
