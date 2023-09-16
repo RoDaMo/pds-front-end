@@ -944,9 +944,9 @@ const init = async () => {
 		let isOrganizer = false
 		let isChampionshipOrganizer = false
 
-		isChampionshipOrganizer = (match.championshipId == sessionUserInfo.championshipId) ? true : false
+		isChampionshipOrganizer = (match.championshipId == sessionUserInfo?.championshipId) ? true : false
 
-		if (sessionUserInfo.isOrganizer && isChampionshipOrganizer) {
+		if (sessionUserInfo?.isOrganizer && isChampionshipOrganizer) {
 			isOrganizer = true
 		} else {
 			isOrganizer = false
