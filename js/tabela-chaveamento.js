@@ -26,6 +26,8 @@ let championshipData = null
 
 const sessionUserInfo = JSON.parse(localStorage.getItem('user-info'))
 
+console.log(sessionUserInfo);
+
 const configMatchModal = document.getElementById('configMatchModal')
 
 let configMatchModalBT = new bootstrap.Modal(configMatchModal, {keyboard: false})
@@ -44,9 +46,9 @@ const isOrganizer = () => {
   let isOrganizer = false
   let isChampionshipOrganizer = false
 
-  isChampionshipOrganizer = (idCampeonato == sessionUserInfo.championshipId) ? true : false
+  isChampionshipOrganizer = (idCampeonato == sessionUserInfo?.championshipId) ? true : false
 
-  if (sessionUserInfo.isOrganizer && isChampionshipOrganizer) {
+  if (sessionUserInfo?.isOrganizer && isChampionshipOrganizer) {
     isOrganizer = true
   } else {
     isOrganizer = false
