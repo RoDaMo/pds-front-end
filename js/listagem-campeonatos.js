@@ -208,6 +208,8 @@ const exibirDados = async (data) => {
             <h1 class="i18 text-primary" key="Erro">${i18next.t("Erro")}</h1>
         </div>
         `
+        anterior.disabled = true
+        proximo.disabled = true
         return;
     }
 
