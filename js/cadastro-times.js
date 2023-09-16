@@ -495,6 +495,8 @@ function criarValidacao() {
         }
 
         loader.hide();
+        window.location.assign(`/pages/configuracao-time.html`)
+
     })
 }
 

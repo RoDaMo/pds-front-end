@@ -26,10 +26,18 @@ criarValidacao()
 visualizarSenha()
 redirecionamento(nomeUsuario)
 
-document.getElementById("continuar").addEventListener("click", async(e) => {
+const verificacao = document.getElementById("continuar").addEventListener("click", async(e) => {
     e.preventDefault();
     nomeUsuario.value ? await postUsuarioExiste({"Username": nomeUsuario.value}) : mensagemErro.innerHTML = `<span class="i18" key="NomeObrigatorio">${i18next.t("NomeObrigatorio")}</span>`
 })
+
+formulario.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        if(document.getElementById("senha-formulario").classList.contains("d-none")){
+            verificacao()
+        }
+    }
+});
 
 async function postUsuarioExiste(body) {
     limparMensagem(mensagemErro)
