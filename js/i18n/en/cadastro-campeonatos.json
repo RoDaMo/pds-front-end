@@ -78,5 +78,6 @@
   "CpfInvalido": "invalid CPF",
   "CpfErro": "Error",
   "CpfErroMensagem": "There was a problem checking if he is eligible to use this feature. Try again later...",
-  "CpfErroBotao": "Go to home page"
+  "CpfErroBotao": "Go to home page",
+  "TeamChampionshipChangeWarning": "It will not possible to change the championship's sport after its registration."
 }

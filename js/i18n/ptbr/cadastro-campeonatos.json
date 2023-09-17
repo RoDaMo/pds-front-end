@@ -78,5 +78,6 @@
   "Cancelar": "Cancelar",
   "CpfErro": "Erro",
   "CpfErroMensagem": "Houve um problema ao verificar se está elegível para usar esse recurso. Tente novamente mais tarde...",
-  "CpfErroBotao": "Ir para página inicial"
+  "CpfErroBotao": "Ir para página inicial",
+  "TeamChampionshipChangeWarning": "Não será possível alterar o esporte do campeonato após seu cadastro."
 }

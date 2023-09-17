@@ -628,8 +628,8 @@ const init = async () => {
 	const disableForm = () => {
 		let formElements = form.elements;
 		for (let i = 0; i < formElements.length; i++) {
-			if (formElements[i].id == 'config-championship-image-input' || formElements[i].id == 'config-championship-formato-input' || formElements[i].id == 'config-championship-numero-input' || formElements[i].id == 'config-championship-esporte-input') {
-				formElements[i].disabled = true;
+			if (formElements[i].id == 'config-championship-image-input' || formElements[i].id == 'config-championship-formato-input' || formElements[i].id == 'config-championship-numero-input') {
+				formElements[i].disabled = false;
 			}
 
 			// disable checkboxes
@@ -653,6 +653,8 @@ const init = async () => {
 		let formElements = form.elements;
 		
 		for (let i = 0; i < formElements.length; i++) {
+			if (formElements[i].id == 'config-championship-esporte-input') continue
+
 			formElements[i].disabled = false;
 		}
 	}
@@ -692,6 +694,7 @@ const init = async () => {
 					await deleteBracket(campeonato.id)
 				})
 
+				linkChaveamento.classList.remove('d-none')
 				linkChaveamento.href = '/pages/tabela-chaveamento.html?id=' + campeonato.id
 			} else {
 				// se não estiver criado, permitir a edição do campeonato

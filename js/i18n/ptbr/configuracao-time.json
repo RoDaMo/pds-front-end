@@ -106,5 +106,6 @@
     "Eliminatorias": "Eliminatórias",
     "GruposEliminatorias": "Fase de Grupos com Eliminatórias",
     "TextoSairCampeonato": "Você está prestes a sair desse campeonato, tem certeza que deseja prosseguir?",
-    "ExitChampionship": "Sair do campeonato"
+    "ExitChampionship": "Sair do campeonato",
+    "TeamSportChangeWarning": "Não é possível alterar o esporte do time após seu cadastro."
 }

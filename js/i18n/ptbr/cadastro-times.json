@@ -37,5 +37,6 @@
     "Uniforme2Obrigatorio": "Insira o uniforme de fora",
     "CpfErro": "Erro",
     "CpfErroMensagem": "Houve um problema ao verificar se está elegível para usar esse recurso. Tente novamente mais tarde...",
-    "CpfErroBotao": "Ir para página inicial"
+    "CpfErroBotao": "Ir para página inicial",
+    "TeamSportChangeWarning": "Não será possível alterar o esporte do time após seu cadastro."
 }

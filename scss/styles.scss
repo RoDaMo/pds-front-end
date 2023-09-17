@@ -4,6 +4,20 @@ $offset: 20vw;
 $move-initial: calc(-25% + $offset);
 $move-final: calc(-50% + $offset);
 
+$color-mode-type: data;
+
+@include color-mode(dark) {
+  .pesquisar {
+    background-color: $gray-800 !important;
+  }
+}
+
+@include color-mode(light) {
+  .pesquisar {
+    background-color: $gray-300 !important;
+  }
+}
+
 html {
   &.lenis {
     height: auto;
@@ -31,7 +45,6 @@ html {
 }
 
 body {
-  color: $black;
   font-family: $font-family-sans-serif;
   margin: 0;
 }
@@ -87,6 +100,10 @@ button[key='LimparFiltros'] {
   &:active {
     filter: brightness(0.8);
   }
+}
+
+.sport-change-warning {
+  font-size: 0.8rem;
 }
 
 // o suficiente para nao ficar estranho com o offcanvas aberto
@@ -428,8 +445,6 @@ button.navbar-toggler {
 }
 
 #offcanvasUser {
-  color: $play-cor-texto;
-
   .item-offcanvas-usuario:hover {
     /* From https://css.glass */
     background: rgba(0, 143, 140, 0.28);

@@ -106,5 +106,6 @@
     "Eliminatorias": "Knockout",
     "GruposEliminatorias": "Groups and knockout",
     "TextoSairCampeonato": "You are about to leave this championship, are you sure you want to proceed?",
-    "ExitChampionship": "Exit Championship"
+    "ExitChampionship": "Exit Championship",
+    "TeamSportChangeWarning": "It is not possible to change the team's sport after its registration."
 }

@@ -123,5 +123,6 @@
     "TextoModalChaveamentoSucesso": "Parabéns! Seu chaveamento foi criado com sucesso.",
     "SucessoCriacaoChaveamento": "Chaveamento criado com sucesso!",
     "SucessoExclusaoChaveamento": "Chaveamento excluído com sucesso!",
-    "QuantidadeTimesInsuficiente": "A quantidade de times insuficiente"
+    "QuantidadeTimesInsuficiente": "A quantidade de times insuficiente",
+    "TeamChampionshipChangeWarning": "Não é possível alterar o esporte do campeonato após seu cadastro."
 }
