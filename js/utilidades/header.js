@@ -31,6 +31,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if(isHomer) {
         navbarComponente.firstElementChild.classList.remove("bg-white", "pb-1")
     }
+
+    if (document.documentElement.getAttribute("data-bs-theme") == "dark") {
+        navbarComponente.firstElementChild.classList.replace("bg-white", "lvl0-color")
+    }
 })
 
 const logoutModal = /* html */`
@@ -147,6 +151,8 @@ lenis.on("scroll", () => {
         }
     } else if (document.documentElement.getAttribute("data-bs-theme") == "dark") {
         navbarComponente.querySelector(".navbar-brand img").setAttribute('src', "/Logo_Playoffs_White.png")
+    } else if (document.documentElement.getAttribute("data-bs-theme") == "light") {
+        navbarComponente.querySelector(".navbar-brand img").setAttribute('src', '/Logo_Playoffs.png')
     }
 
     if (!menuOpen) {
@@ -253,7 +259,7 @@ export class header extends HTMLElement {
                 <div class="container">
                     <nav class="navbar navbar-expand-lg">
                         <div class="col col-lg-4">
-                            <a class="navbar-brand header-navbar-brand m-auto" href="/"><img src=${(document.documentElement.getAttribute("data-bs-theme") == "light") ? "/Logo_Playoffs.png" : "/Logo_Playoffs_White.png"} class="logo-play img-fluid" width="180" alt="Logo Playoffs"></a>
+                            <a class="navbar-brand header-navbar-brand m-auto" href="/"><img src="" class="logo-play img-fluid" width="180" alt="Logo Playoffs"></a>
                         </div>
                         
                         <button class="navbar-toggler navbar-tgg border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
@@ -290,6 +296,36 @@ export class header extends HTMLElement {
                 </div>
             </header>
         `
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (document.documentElement.getAttribute("data-bs-theme") == "dark") {
+                navbarComponente.querySelector(".navbar-brand img").setAttribute('src', "/Logo_Playoffs_White.png")
+            } else if (document.documentElement.getAttribute("data-bs-theme") == "light") {
+                navbarComponente.querySelector(".navbar-brand img").setAttribute('src', '/Logo_Playoffs.png')
+            }
+
+            document.querySelectorAll(".theme-option-btns").forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (!document.body.getAttribute('is-home')) {
+                        if(window.scrollY != 0) {
+                            // document.body.style.marginTop = "60px"
+                            navbarComponente.firstElementChild.classList.remove("bg-white", "pb-1")
+                            navbarComponente.firstElementChild.classList.remove("lvl0-color", "pb-1")
+                        } else {
+                            if (document.documentElement.getAttribute("data-bs-theme") == "light") {
+                                navbarComponente.firstElementChild.classList.remove("bg-white", "pb-1")
+                                navbarComponente.firstElementChild.classList.remove("lvl0-color", "pb-1")
+                                navbarComponente.firstElementChild.classList.add("lvl0-color", "pb-1")
+                            } else if (document.documentElement.getAttribute("data-bs-theme") == "dark") {
+                                navbarComponente.firstElementChild.classList.remove("bg-white", "pb-1")
+                                navbarComponente.firstElementChild.classList.remove("lvl0-color", "pb-1")
+                                navbarComponente.firstElementChild.classList.add("bg-white", "pb-1")
+                            }
+                        }
+                    } 
+                })
+            })
+        })
 
         const barraPesquisa = document.getElementById('barra-pesquisa')
         barraPesquisa.addEventListener('focus', () => {
