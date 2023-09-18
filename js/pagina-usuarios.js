@@ -185,11 +185,12 @@ const obterInfo = async () => {
     // Campeonatos administrados
     const admCampeonatos = document.getElementById("adm-campeonatos")
     const campeonatosAdministrados = await executarFetch(`organizer/championship/${id}`, configuracaoFetch("GET"))
+
     campeonatosAdministrados?.results.forEach((e) => {
 
         admCampeonatos.innerHTML += `
             <div class="d-flex w-100 rounded-5 mb-3 p-2 mt-5 mt-md-0 ss-championship-content">
-                 <span class="d-none championship-id">${e.id}</span>
+                    <span class="d-none championship-id">${e.id}</span>
 
                 <section class="position-relative border border-2 m-3 overflow-hidden rounded-circle ss-championship-image">
                     <img src="${e.logo}" alt="championshipImage" class="img-fluid position-absolute mw-100 h-100">
@@ -209,6 +210,8 @@ const obterInfo = async () => {
             })
         })
     })
+
+    
 }
 
 

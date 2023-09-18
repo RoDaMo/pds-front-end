@@ -10,12 +10,54 @@ $color-mode-type: data;
   .pesquisar {
     background-color: $gray-800 !important;
   }
+
+  .navbar-blur {
+    background: rgb(29 41 29 / 10%) !important;
+  }
+
+  .lvl1-color {
+    background-color: $gray-800;
+  }
+
+  .just-validate-error-label {
+    color: $play-cor-danger-dark !important;
+  }
+
+  .text-danger {
+    color: $play-cor-danger-dark !important;
+  }
+
+  .bi-eye, .bi-eye-slash {
+    color: $black;
+    background-color: $white;
+  }
+
+  .corner-babies {
+    background-color: $black !important;
+
+    i {
+      color: $white !important;
+    }
+  }
 }
 
 @include color-mode(light) {
   .pesquisar {
     background-color: $gray-300 !important;
   }
+
+  .lvl1-color {
+    background-color: $white;
+  }
+
+  .bi-eye, .bi-eye-slash {
+    color: $white;
+    background-color: $black;
+  }
+}
+
+.form-label {
+  margin-bottom: 0 !important;
 }
 
 html {
@@ -215,17 +257,26 @@ button[key='LimparFiltros'] {
   border: 2px dashed #ccc;
   padding: 20px;
 }
+
+#bd-theme {
+  height: 55px;
+  width: 55px;
+  background-color: $play-cor-efeitos;
+  opacity: .8;
+  transition: all $transition;
+}
+
+#theme-switcher-context-menu {
+  border-radius: 14px;
+}
   
 // Conteúdo Principal
 #gotop {
-  position: fixed;
-  bottom: 35px;
-  right: 25px;
   background-color: $play-cor-efeitos;
   opacity: .8;
   height: 55px;
   width: 55px;
-  transition: all 0.1s ease-in-out;
+  transition: all $transition;
 
   i {
     font-size: 1.6rem;
@@ -346,14 +397,14 @@ header {
   width: 32px !important;
 }
 
-.nav-item {
-  &:hover, &:active, &:focus {
-    a, #lingua {
-      background-color: $play-cor-fundos-secundaria !important;
-      color: $play-cor-texto !important;
-    }
-  }
-}
+// .nav-item {
+//   &:hover, &:active, &:focus {
+//     a, #lingua {
+//       background-color: $play-cor-fundos-secundaria !important;
+//       color: $play-cor-texto !important;
+//     }
+//   }
+// }
 
 input[aria-label="Search"] {
   &:focus, & {
@@ -384,11 +435,11 @@ button.navbar-toggler {
 
 // Media Queries
 @include media-breakpoint-down(lg) {
-  .nav-item {
-    a, #lingua {
-      color: $play-cor-texto !important;
-    }
-  }
+  // .nav-item {
+  //   a, #lingua {
+  //     color: $play-cor-texto !important;
+  //   }
+  // }
 }
 
 @include media-breakpoint-down(sm) {
@@ -441,7 +492,7 @@ button.navbar-toggler {
 .foto-usuario-mobile {
   @extend .foto-usuario;
 
-  max-width: 40px !important;
+  max-width: 32px !important;
 }
 
 #offcanvasUser {
@@ -477,11 +528,10 @@ button.navbar-toggler {
 *::-webkit-scrollbar-thumb {
   background-color:$play-cor-primaria;
   border-radius: 20px;
-  border: 3px solid #fff;
+  border: 3px solid $white;
 }
 
 componente-footer {
-  background-color: #fff !important;
   width: 100%;
   display: block;
   margin-top: 2rem;

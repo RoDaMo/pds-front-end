@@ -28,6 +28,24 @@ const dataAniversario = document.getElementById("data")
 const useTermsCheckbox = document.getElementById("useTermsCheckbox")
 const privacyTermsCheckbox = document.getElementById("privacyTermsCheckbox")
 
+const signInCardHeader = document.querySelector("#signin-card-header")
+
+document.addEventListener("DOMContentLoaded", () => {
+    signInCardHeader.insertAdjacentHTML('afterbegin', `
+        <a class="navbar-brand justify-content-center d-flex m-auto p-auto col-9" href="/"><img src=${(document.documentElement.getAttribute("data-bs-theme") == "light") ? "/Logo_Playoffs.png" : "/Logo_Playoffs_White.png"} class="img-fluid" width="300" alt="Logo Playoffs"></a>
+    `)    
+
+    const navbarBrandImg = document.querySelector(".navbar-brand img")
+
+    document.querySelectorAll(".theme-option-btns").forEach(btn => {
+        btn.addEventListener('click', async () => {
+            (document.documentElement.getAttribute('data-bs-theme') != "light") ?
+            navbarBrandImg.setAttribute('src', '/Logo_Playoffs.png')
+            : navbarBrandImg.setAttribute('src', "/Logo_Playoffs_White.png")
+        })
+    })
+})
+
 const validator = new JustValidate(formulario, {
     validateBeforeSubmitting: true,
 })

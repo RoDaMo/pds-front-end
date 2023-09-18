@@ -26,7 +26,7 @@ class footer extends HTMLElement {
 
                 <div class="row">
                     <div class="col">
-                        <p class="text-black text-center opacity-50">&#169; 2023 RoDaMo</p>
+                        <p class="text-center opacity-50">&#169; 2023 RoDaMo</p>
                     </div>
                 </div>
             </div>
@@ -36,7 +36,7 @@ class footer extends HTMLElement {
                     <section class="row">
                         <div class="me-auto col-auto my-auto">
                         <a class="navbar-brand" href="/">
-                            <img src="/Logo_Playoffs.png" class="logo-play img-fluid ms-2" width="180" alt="Logo Playoffs">
+                            <img src=${(document.documentElement.getAttribute("data-bs-theme") == "light") ? "/Logo_Playoffs.png" : "/Logo_Playoffs_White.png"} class="logo-play img-fluid ms-2" width="180" alt="Logo Playoffs">
                         </a>
                         </div>
                         
@@ -52,10 +52,10 @@ class footer extends HTMLElement {
                         </div>
                     </section>
 
-                    <hr class="border border-dark rounded-pill my-2 bg-dark d-flex">
+                    <hr class="border rounded-pill my-2 d-flex">
                     
                     <section class="row">
-                        <p class="col-auto ms-2 my-auto me-auto text-black opacity-50">&#169; 2023 RoDaMo</p>
+                        <p class="col-auto ms-2 my-auto me-auto opacity-50">&#169; 2023 RoDaMo</p>
                         <ul class="col-auto me-2 float-right align-self-end list-group list-group-horizontal list-group-flush">
                         <li class="list-group-item bg-transparent border-0 opacity-75"><a href="https://github.com/RoDaMo"><i class="bi bi-github fs-5"></i></a></li>
                         <li class="list-group-item bg-transparent border-0 opacity-75"><a href="https://www.youtube.com/@EquipeRodamo/featured"><i class="bi bi-youtube fs-5"></i></a></li>
@@ -67,4 +67,6 @@ class footer extends HTMLElement {
     }
 }
 
-window.customElements.define('componente-footer', footer)
+document.addEventListener("DOMContentLoaded", () => {
+    window.customElements.define('componente-footer', footer)
+})

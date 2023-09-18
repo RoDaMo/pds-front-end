@@ -1,6 +1,12 @@
 @import "variables.scss";
 
-// Color
-body {
+$color-mode-type: data;
+
+@include color-mode(dark) {
+}
+
+@include color-mode(light) {
+  body {
     background-color: $gray-200 !important;
+  }
 }

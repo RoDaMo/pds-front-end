@@ -55,5 +55,5 @@ export class preLoader extends HTMLElement {
     }
   }
   
-  window.customElements.define('componente-preloader', preLoader);
+  window.customElements.define('componente-preloader', preLoader);
 

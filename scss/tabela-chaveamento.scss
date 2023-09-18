@@ -16,6 +16,10 @@ body {
     color: $play-cor-texto;
 }
 
+.table > :not(caption) > * > * {
+    background-color: transparent !important;
+}
+
 .custom-container2 {
     background: $play-cor-secundaria;
     color: $play-cor-fundos-secundaria;

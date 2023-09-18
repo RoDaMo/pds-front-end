@@ -10,6 +10,9 @@ const mediaQueryMobile = window.matchMedia('(max-width: 575px)')
 const scrollTrigger = document.querySelectorAll(".scroll-trigger")
 const isHomer = document.querySelector("#is-homer")
 
+const minMediaQueryTablet = window.matchMedia('(min-width: 992px)')
+
+
 let mobibarLogo
 let navbar
 let offcanvasNavbar 
@@ -118,8 +121,8 @@ lenis.on("scroll", () => {
     }
 
     if (
-        document.body.scrollTop > 585 ||
-        document.documentElement.scrollTop > 585
+        document.body.scrollTop > 505 ||
+        document.documentElement.scrollTop > 505 && (document.documentElement.getAttribute("data-bs-theme") == "light")
     ) {
         navbarComponente.querySelectorAll(".nav-item").forEach(item => item.firstElementChild.classList.add("text-dark"))
         if(navbarComponente.querySelector(".bi-caret-left-fill")) {
@@ -131,6 +134,19 @@ lenis.on("scroll", () => {
         if(navbarComponente.querySelector(".bi-caret-left-fill")) {
             navbarComponente.querySelector(".bi-caret-left-fill").style.setProperty('--custom-white', "white")
         }
+    }
+
+    if (document.documentElement.getAttribute("data-bs-theme") == "light") {
+        if (
+            document.body.scrollTop > 505 ||
+            document.documentElement.scrollTop > 505 && minMediaQueryTablet.matches
+        ) {
+            navbarComponente.querySelector(".navbar-brand img").setAttribute('src', '/Logo_Playoffs.png')
+        } else {
+            navbarComponente.querySelector(".navbar-brand img").setAttribute('src', '/Logo_Playoffs_White.png')
+        }
+    } else {
+        navbarComponente.querySelector(".navbar-brand img").setAttribute('src', "/Logo_Playoffs_White.png")
     }
 
     if (!menuOpen) {
@@ -233,7 +249,7 @@ export class header extends HTMLElement {
                 <div class="container">
                     <nav class="navbar navbar-expand-lg">
                         <div class="col col-lg-4">
-                            <a class="navbar-brand m-auto" href="/"><img src="/Logo_Playoffs.png" class="logo-play img-fluid" width="180" alt="Logo Playoffs"></a>
+                            <a class="navbar-brand m-auto" href="/"><img src=${(document.documentElement.getAttribute("data-bs-theme") == "light") ? "/Logo_Playoffs.png" : "/Logo_Playoffs_White.png"} class="logo-play img-fluid" width="180" alt="Logo Playoffs"></a>
                         </div>
                         
                         <button class="navbar-toggler navbar-tgg border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
@@ -243,7 +259,7 @@ export class header extends HTMLElement {
                         <div class="offcanvas offcanvas-end mobile" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
 
                             <div class="offcanvas-header container pt-2 pb-2">
-                                <h2 class="fw-semibold mb-0 text-black">Menu</h2>
+                                <h2 class="fw-semibold mb-0">Menu</h2>
                                 <button id="close-offcanvas" type="button" class="btn-close me-1" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                             </div>
 
@@ -344,7 +360,7 @@ export class header extends HTMLElement {
         status.innerHTML = info
 
         navbarToggler.innerHTML = /* html */`
-            <img src="${user.picture ? user.picture : defaultImg}" class="foto-usuario-mobile border border-2 ms-2 h-100 w-100">
+            <img src="${user.picture ? user.picture : defaultImg}" class="foto-usuario-mobile border border-2 ms-2 img-fluid">
         `
 
         const offcanvasUser = document.createElement('div')
