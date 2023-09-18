@@ -20,7 +20,7 @@
     <componente-preloader></componente-preloader>
     <main class="container mb-5">
         <div class="row justify-content-center">
-            <div class="col-md-8 col-lg-7 mt-5 lvl1-color rounded-5 pb-3 px-5">
+            <div class="col-md-8 col-lg-6 mt-5 lvl1-color rounded-5 pb-3 px-5">
                 <div id="signin-card-header" class="mb-5 mt-5 flex-column align-items-center justify-content-center row">
                     <select class="form-select mt-2 w-50 rounded-3 ps-3 py-2 bg-transparent col" id="lingua" required>
                         <option value="ptbr" id="1">Português</option>
@@ -28,14 +28,16 @@
                     </select>
                 </div>
 
-                <h1 id="bem-vindo" class="mb-4 text-center i18" key="BemVindo">Bem Vindo!</h1>
-                <h4 id="texto-apresentacao" class="mb-4 text-center i18" key="TextoBemVindo">Você ainda não tem uma conta! Crie sua conta e junte-se a nós.</h4>
+                <h2 id="bem-vindo" class="mb-1 text-center i18" key="BemVindo">Bem Vindo!</h2>
+                <p id="texto-apresentacao" class="mb-4 text-center i18" key="TextoBemVindo">Você ainda não tem uma conta! Crie sua conta e junte-se a nós.</p>
 
                 <div id="div-reposta" class="d-none">
-                    <h4 id="texto-resposta" class="mb-4 i18" key="EmailConfirmacao">Email de confirmação de conta</h4>
-                    <p class="mb-1 i18" key="Verifique">Verifique o seu email e confirme a sua conta para poder acessá-la.</p>
-                    <p class="mb-4 i18" key="Caso">Caso não tenha recebido o email, clique no botão abaixo para reenviar a solicitação:</p>
-                    <button id="reenviar-email" class="mb-4 col-md-4 btn btn-success rounded-pill i18" key="ReenviarEmail">Reenviar email</button>
+                    <h4 id="texto-resposta" class="mb-4 i18 text-center" key="EmailConfirmacao">Email de confirmação de conta</h4>
+                    <p class="mb-1 i18 text-center" key="Verifique">Verifique o seu email e confirme a sua conta para poder acessá-la.</p>
+                    <p class="mb-4 i18 text-center" key="Caso">Caso não tenha recebido o email, clique no botão abaixo para reenviar a solicitação:</p>
+                    <div class="d-flex justify-content-center">
+                        <button id="reenviar-email" class="mb-4 col-md-4 btn btn-success rounded-pill i18" key="ReenviarEmail">Reenviar email</button>
+                    </div>
                 </div>
 
                 <form id="formulario" method="post">

@@ -1,6 +1,12 @@
 // @import "bootstrap-config.scss";
 @import "variables.scss";
 
+@include color-mode(dark) {
+  .fvar-2 {
+    color: $play-cor-fundos;
+  }
+}
+
 html, body {
   overflow-x: hidden !important;
 }

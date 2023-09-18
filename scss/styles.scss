@@ -23,6 +23,14 @@ $color-mode-type: data;
     color: $play-cor-danger-dark !important;
   }
 
+  .lvl0-color {
+    background-color: $body-tertiary-bg-dark;
+  }
+
+  .lvl1-color {
+    background-color: $gray-800;
+  }
+
   .text-danger {
     color: $play-cor-danger-dark !important;
   }
@@ -44,6 +52,10 @@ $color-mode-type: data;
 @include color-mode(light) {
   .pesquisar {
     background-color: $gray-300 !important;
+  }
+
+  body {
+    background-color: $gray-200 !important;
   }
 
   .lvl1-color {

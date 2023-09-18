@@ -19,31 +19,34 @@
     <componente-preloader></componente-preloader>
     <main class="container mt-5">
         <div class="row justify-content-center">
-            <div class="col-md-6 pb-4 mt-5 bg-white rounded-5 px-5">
-                <div class="mb-5 mt-5 row">
-                    <a class="navbar-brand m-auto p-auto col-9" href="/"><img src="/Logo_Playoffs.png" class="img-fluid" width="300" alt="Logo Playoffs"></a>
-                    <select class="form-select rounded-3 ps-3 py-2 bg-transparent col" id="lingua" required>
+            <div class="lvl1-color col-md-8 col-lg-6 pb-4 mt-5 rounded-5 px-5">
+                <div id="confirmsign-card-header" class="mb-5 mt-5 flex-column align-items-center justify-content-center row">
+                    <select class="form-select rounded-3 mt-2 w-50 ps-3 py-2 bg-transparent col" id="lingua" required>
                         <option value="ptbr">Português</option>
                         <option value="en">English</option>
                     </select>
                 </div>
 
                 <div id="div-reposta" class="d-none">
-                    <h4 id="texto-resposta" class="mb-2 text-danger i18" key="Erro">Erro</h4>
-                    <p class="text-danger mb-5 i18" key="NaoConfirmou">Não foi possível realizar a confirmação de sua conta</p>
+                    <h4 id="texto-resposta" class="mb-2 text-center text-danger i18" key="Erro">Erro</h4>
+                    <p class="text-danger mb-5 i18 text-center" key="NaoConfirmou">Não foi possível realizar a confirmação de sua conta</p>
                 </div>
 
                 <div id="div-reposta-2" class="d-none">
-                    <h4 id="texto-resposta" class="mb-2 text-danger i18" key="ErroConfirmacao">Erro ao realizar de confirmação de conta</h4>
-                    <p class="text-danger mb-4 i18" key="CliqueReenviar">Clique no botão abaixo para reenviar a solicitação:</p>
-                    <button id="reenviar-email" class="mb-5 col-md-4 btn btn-danger rounded-pill i18" key="ReenviarEmail">Reenviar email</button>
+                    <h4 id="texto-resposta" class="mb-2 text-center text-danger i18" key="ErroConfirmacao">Erro ao realizar de confirmação de conta</h4>
+                    <p class="text-danger text-center mb-4 i18" key="CliqueReenviar">Clique no botão abaixo para reenviar a solicitação:</p>
+                    <div class="d-flex justify-content-center">
+                        <button id="reenviar-email" class="mb-5 col-md-4 btn btn-danger rounded-pill i18" key="ReenviarEmail">Reenviar email</button>
+                    </div>
                 </div>
 
                 <div id="div-reposta-3" class="d-none">
-                    <h4 id="texto-resposta" class="mb-4 text-success i18" key="EmailConfirmacao">Email de confirmação de conta</h4>
-                    <p class="text-success mb-1 i18" key="VerifiqueEmail">Verifique o seu email e confirme a sua conta para poder acessá-la.</p>
-                    <p class="text-success mb-4 i18" key="CasoNao">Caso não tenha recebido o email, clique no botão abaixo para reenviar a solicitação:</p>
-                    <button id="reenviar-email2" class="mb-4 col-md-4 btn btn-success rounded-pill i18" key="ReenviarEmail">Reenviar email</button>
+                    <h4 id="texto-resposta" class="mb-4 text-success text-center i18" key="EmailConfirmacao">Email de confirmação de conta</h4>
+                    <p class="text-success mb-1 i18 text-center" key="VerifiqueEmail">Verifique o seu email e confirme a sua conta para poder acessá-la.</p>
+                    <p class="text-success mb-4 i18 text-center" key="CasoNao">Caso não tenha recebido o email, clique no botão abaixo para reenviar a solicitação:</p>
+                    <div class="d-flex justify-content-center">
+                        <button id="reenviar-email2" class="mb-4 col-md-4 btn btn-success rounded-pill i18" key="ReenviarEmail">Reenviar email</button>
+                    </div>
                 </div>
 
             </div>

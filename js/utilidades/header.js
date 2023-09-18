@@ -136,7 +136,7 @@ lenis.on("scroll", () => {
         }
     }
 
-    if (document.documentElement.getAttribute("data-bs-theme") == "light") {
+    if (document.body.getAttribute('is-home') && document.documentElement.getAttribute("data-bs-theme") == "light") {
         if (
             document.body.scrollTop > 505 ||
             document.documentElement.scrollTop > 505 && minMediaQueryTablet.matches
@@ -145,7 +145,7 @@ lenis.on("scroll", () => {
         } else {
             navbarComponente.querySelector(".navbar-brand img").setAttribute('src', '/Logo_Playoffs_White.png')
         }
-    } else {
+    } else if (document.documentElement.getAttribute("data-bs-theme") == "dark") {
         navbarComponente.querySelector(".navbar-brand img").setAttribute('src', "/Logo_Playoffs_White.png")
     }
 
@@ -163,9 +163,13 @@ lenis.on("scroll", () => {
         if(window.scrollY != 0) {
             // document.body.style.marginTop = "60px"
             navbarComponente.firstElementChild.classList.remove("bg-white", "pb-1")
+            navbarComponente.firstElementChild.classList.remove("lvl0-color", "pb-1")
         } else {
-            // document.body.style.marginTop = "0px"
-            navbarComponente.firstElementChild.classList.add("bg-white", "pb-1")
+            if (document.documentElement.getAttribute("data-bs-theme") == "light") {
+                navbarComponente.firstElementChild.classList.add("bg-white", "pb-1")
+            } else if (document.documentElement.getAttribute("data-bs-theme") == "dark") {
+                navbarComponente.firstElementChild.classList.add("lvl0-color", "pb-1")
+            }
         }
     }
 })
@@ -249,7 +253,7 @@ export class header extends HTMLElement {
                 <div class="container">
                     <nav class="navbar navbar-expand-lg">
                         <div class="col col-lg-4">
-                            <a class="navbar-brand m-auto" href="/"><img src=${(document.documentElement.getAttribute("data-bs-theme") == "light") ? "/Logo_Playoffs.png" : "/Logo_Playoffs_White.png"} class="logo-play img-fluid" width="180" alt="Logo Playoffs"></a>
+                            <a class="navbar-brand header-navbar-brand m-auto" href="/"><img src=${(document.documentElement.getAttribute("data-bs-theme") == "light") ? "/Logo_Playoffs.png" : "/Logo_Playoffs_White.png"} class="logo-play img-fluid" width="180" alt="Logo Playoffs"></a>
                         </div>
                         
                         <button class="navbar-toggler navbar-tgg border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
@@ -303,6 +307,16 @@ export class header extends HTMLElement {
                     document.dispatchEvent(new Event('header-carregado', { bubbles: true }))
                     
                 this.estaLogado(lng)
+            })
+
+            const headerNavbarBrandImg = document.querySelector(".header-navbar-brand img")
+
+            document.querySelectorAll(".theme-option-btns").forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    (document.documentElement.getAttribute('data-bs-theme') != "light") ?
+                    headerNavbarBrandImg.setAttribute('src', '/Logo_Playoffs.png')
+                    : headerNavbarBrandImg.setAttribute('src', "/Logo_Playoffs_White.png")
+                })
             })
         })
         // this.estaLogado(lng)
