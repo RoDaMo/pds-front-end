@@ -218,8 +218,6 @@ body, html {
 }
 
 .ss-championship-content {
-    width: 10rem;
-    height: 10rem;
 
     background-color: $play-cor-fundos-secundaria;
 
@@ -257,7 +255,7 @@ body, html {
 }
 
 .ss-championship-texts {
-    max-width: 100px;
+    width: 10rem;
 }
 
 // transition: all ease-in-out 0.4s;
@@ -293,6 +291,10 @@ body, html {
         right: 9.5rem;
     }
 
+    .ss-championship-texts {
+        width: 10rem;
+    }
+
     .ss-test-2 {
         top: -5.5rem;
         right: 37.5rem;
@@ -322,6 +324,10 @@ body, html {
 
     .team-desc {
         font-size: 0.7rem;
+    }
+
+    .ss-championship-texts {
+        width: 6rem;
     }
 
     .sports-section {

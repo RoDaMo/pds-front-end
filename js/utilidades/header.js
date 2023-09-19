@@ -46,7 +46,7 @@ const logoutModal = /* html */`
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p id="texto-modal-bracket" class="text-black text-center">
+                    <p id="texto-modal-bracket" class="text-center">
                         <span class="i18" key="TextoLogout">${i18next.t("TextoLogout")}</span>
                     </p>
                 </div>

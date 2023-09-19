@@ -149,7 +149,7 @@ const obterInfo = async () => {
 
                 <div class="col row justify-content-center flex-column">
                     <div class="col-auto">
-                        <span class="ss-player-name fs-5 text-nowrap text-truncate mb-1 mb-md-0 d-block">${coach.name}</span>
+                        <span class="ss-player-name text-black fs-5 text-nowrap text-truncate mb-1 mb-md-0 d-block">${coach.name}</span>
                     </div>
 
                     <div class="col-auto d-flex coach-badge align-items-center w-auto">
@@ -225,8 +225,8 @@ const obterInfo = async () => {
 
                 <span class="d-flex flex-column justify-content-center align-items-start">
 
-                    <p class="ss-player-name fs-5 text-nowrap text-truncate d-block">${e.name}</p>
-                    <p class="mb-0 ss-player-username fs-6 opacity-75 text-nowrap text-truncate d-block">${e.artisticName}</p>
+                    <p class="ss-player-name text-black fs-5 text-nowrap text-truncate d-block">${e.name}</p>
+                    <p class="mb-0 ss-player-username text-black fs-6 opacity-75 text-nowrap text-truncate d-block">${e.artisticName}</p>
 
                     <section class="ss-player-data row justify-content-center align-items-center flex-row mt-1 mx-md-auto ms-md-0">
 						<p class="col-auto w-auto ss-player-data-number px-2 py-1 mb-0 text-white text-opacity-75">${e.number}</p>
@@ -260,16 +260,18 @@ const obterInfo = async () => {
         champStuff.innerHTML += /*html*/`
             <div class="col">
                 <a href="/pages/pagina-campeonatos.html?id=${e.id}" class="text-decoration-none">
-                    <div class="rounded-5 ss-championship-content d-flex flex-column m-auto p-2">
+                    <div class="rounded-5 ss-championship-content d-flex flex-column w-auto h-auto m-auto p-2">
                         <div class="ss-championship-img-wrapper position-relative rounded-circle overflow-hidden m-auto mt-3">
                             <img class="img-fluid position-absolute mw-100 h-100" src="${e.logo}" alt="ChampLogo">
                         </div>
-                        <p class="text-center mt-2 mb-3 fs-5 text-nowrap text-truncate d-inline-block m-auto ss-championship-texts">${e.name}</p>
+                        <p class="text-center mt-2 mb-3 fs-5 text-nowrap text-truncate d-inline-block m-auto text-black ss-championship-texts">${e.name}</p>
                     </div>  
                 </a>
             </div>
         `
     })  
+
+    
 
     if(isTeamOwner(id, sessionUserInfo?.teamManagementId)) {
         botaoTimeEditar.classList.remove('d-none')
@@ -300,7 +302,7 @@ async function waitInfo() {
         ssFirstContent.removeAttribute('data-lenis-prevent')
         ssFirstContent.innerHTML = `
             <div class="p-md-5">
-                <span class="i18" key="NenhumJogador">${i18next.t("NenhumJogador")}</span>
+                <span class="i18 text-black" key="NenhumJogador">${i18next.t("NenhumJogador")}</span>
             </div>
         `
     }
@@ -310,7 +312,7 @@ async function waitInfo() {
         ssThirdContent.removeAttribute('data-lenis-prevent')
         ssThirdContent.innerHTML = `
             <div class="p-md-5">
-                <span class="i18" key="NenhumCampeonato">${i18next.t("NenhumCampeonato")}</span>
+                <span class="i18 text-black" key="NenhumCampeonato">${i18next.t("NenhumCampeonato")}</span>
             </div>
         `
     }
@@ -342,7 +344,15 @@ document.addEventListener('header-carregado', () => {
             })
         }
     }
+
+    setTimeout(() => {
+        const ssSecondContentHeight = ssSecondContent.offsetHeight
+        ssThirdContent.style.height = `${ssSecondContentHeight}px`
+    }, 2000)
+
 })
+
+
 
 
 

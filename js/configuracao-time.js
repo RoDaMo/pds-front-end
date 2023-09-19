@@ -482,7 +482,7 @@ const init = async () => {
         }
 
         if (!campeonatosVinculadosWrapper.hasChildNodes()) {
-            campeonatosVinculadosWrapper.innerHTML = `<p class="p-1 pt-3 text-center"><span class="i18" key="SemCampeonatos">${i18next.t("SemCampeonatos")}</span></p>`
+            campeonatosVinculadosWrapper.innerHTML = `<p class="p-1 pt-3 text-center text-black"><span class="i18" key="SemCampeonatos">${i18next.t("SemCampeonatos")}</span></p>`
             return;
         }
     }
@@ -855,7 +855,7 @@ const init = async () => {
                                             <label for="playerPosition" class="form-label">
                                                 <span class="i18" key="PosicaoJogadorLabel">${i18next.t("PosicaoJogadorLabel")}</span>
                                             </label>
-                                            <select class="w-100 form-select rounded-4 width-config-input" id="playerPosition" name="playerPosition"></select>
+                                            <select class="w-100 form-select rounded-4" id="playerPosition" name="playerPosition"></select>
                                         </div>
                                         <button type="submit" class="btn btn-primary i18 mx-auto d-block" key="AddJogador">${i18next.t("AddJogador")}</button>
                                     <form>

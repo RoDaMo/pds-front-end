@@ -97,7 +97,7 @@ const init = async () => {
 		doubleMatchPontosCorridos.classList.add('form-check', 'mt-2')
 		doubleMatchPontosCorridos.innerHTML = `
 			<label class="form-check-label" for="double-match-pc">
-				<span class="i18 text-black" key="DoubleMatchPC">${i18next.t("DoubleMatchPC")}</span>
+				<span class="i18" key="DoubleMatchPC">${i18next.t("DoubleMatchPC")}</span>
 			</label>
 
 			<input class="form-check-input" type="checkbox" value="" id="double-match-pc">
@@ -109,7 +109,7 @@ const init = async () => {
 		doubleMatchEliminatorias.classList.add('form-check', 'mt-2')
 		doubleMatchEliminatorias.innerHTML = `
 			<label class="form-check-label" for="double-match-eliminatorias">
-				<span class="i18 text-black" key="DoubleMatchEliminatorias">${i18next.t("DoubleMatchEliminatorias")}</span>
+				<span class="i18" key="DoubleMatchEliminatorias">${i18next.t("DoubleMatchEliminatorias")}</span>
 			</label>
 			
 			<input class="form-check-input" type="checkbox" value="" id="double-match-eliminatorias">
@@ -121,7 +121,7 @@ const init = async () => {
 		doubleMatchFinal.classList.add('form-check', 'mt-2')
 		doubleMatchFinal.innerHTML = `
 			<label class="form-check-label" for="double-match-final">
-				<span class="i18 text-black" key="DoubleMatchFinal">${i18next.t("DoubleMatchFinal")}</span>
+				<span class="i18" key="DoubleMatchFinal">${i18next.t("DoubleMatchFinal")}</span>
 			</label>
 
 			<input class="form-check-input" type="checkbox" value="" id="double-match-final">
@@ -133,7 +133,7 @@ const init = async () => {
 		doubleMatchFaseDeGrupos.classList.add('form-check', 'mt-2')
 		doubleMatchFaseDeGrupos.innerHTML = `
 			<label class="form-check-label" for="double-match-FG">
-				<span class="i18 text-black" key="DoubleMatchFG">${i18next.t("DoubleMatchFG")}</span>
+				<span class="i18" key="DoubleMatchFG">${i18next.t("DoubleMatchFG")}</span>
 			</label>
 
 			<input class="form-check-input" type="checkbox" value="" id="double-match-FG">
@@ -771,7 +771,7 @@ const init = async () => {
 		timesVinculadosWrapper.innerHTML = ''
 
 		if (timesVinculados.results.length == 0) {
-			timesVinculadosWrapper.innerHTML = `<p class="p-2 text-center"><span class="i18" key="SemTimes">${i18next.t("SemTimes")}</span></p>`
+			timesVinculadosWrapper.innerHTML = `<p class="p-2 text-center text-black"><span class="i18" key="SemTimes">${i18next.t("SemTimes")}</span></p>`
 			return;
 		}
 

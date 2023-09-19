@@ -94,11 +94,6 @@
   width: 100%;
 }
 
-// Color
-body {
-  background-color: $gray-200 !important;
-}
-
 // Media Queries
 @include media-breakpoint-up(lg) {
   #vinculo-jogador {

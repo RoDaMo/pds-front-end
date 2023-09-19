@@ -11,12 +11,20 @@ $color-mode-type: data;
     background-color: $gray-800 !important;
   }
 
-  .navbar-blur {
-    background: rgb(29 41 29 / 10%) !important;
+  *::-webkit-scrollbar-track {
+    background: $body-tertiary-bg-dark;
   }
 
-  .lvl1-color {
-    background-color: $gray-800;
+  *::-webkit-scrollbar-thumb {
+    border: 3px solid $body-tertiary-bg-dark;
+  }
+
+  componente-footer {
+    background-color: $body-tertiary-bg-dark !important;
+  }
+
+  .navbar-blur {
+    background: rgb(29 41 29 / 10%) !important;
   }
 
   .just-validate-error-label {
@@ -29,6 +37,14 @@ $color-mode-type: data;
 
   .lvl1-color {
     background-color: $gray-800;
+  }
+
+  .lvl2-color {
+    background-color: $gray-700;
+  }
+
+  .lvl3-color {
+    background-color: $gray-600;
   }
 
   .text-danger {
@@ -54,12 +70,36 @@ $color-mode-type: data;
     background-color: $gray-300 !important;
   }
 
+  *::-webkit-scrollbar-track {
+    background: $white;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    border: 3px solid $white;
+  }
+
+  componente-footer {
+    background-color: $white !important;
+  }
+
   body {
     background-color: $gray-200 !important;
   }
 
-  .lvl1-color {
+  .lvl0-color {
     background-color: $white;
+  }
+
+  .lvl1-color {
+    background-color: $gray-200;
+  }
+
+  .lvl2-color {
+    background-color: $gray-300;
+  }
+
+  .lvl3-color {
+    background-color: $gray-400;
   }
 
   .bi-eye, .bi-eye-slash {
@@ -132,6 +172,8 @@ body {
 .logo-image {
   height: 6.5rem;
   min-width: 6.5rem;
+
+  background-color: $white;
 
   img {
       min-width: 100%;
@@ -533,14 +575,9 @@ button.navbar-toggler {
   width: 12px;
 }
 
-*::-webkit-scrollbar-track {
-  background: #fff;
-}
-
 *::-webkit-scrollbar-thumb {
   background-color:$play-cor-primaria;
   border-radius: 20px;
-  border: 3px solid $white;
 }
 
 componente-footer {

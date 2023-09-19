@@ -80,7 +80,7 @@ function ssTeamContentMobile() {
         ssFirstContent.classList.add('justify-content-center', 'align-items-center')
         ssFirstContent.innerHTML = `
             <div class="p-md-5">
-                <span class="i18" key="NenhumTime">${i18next.t("NenhumTime")}</span>
+                <span class="i18 text-black" key="NenhumTime">${i18next.t("NenhumTime")}</span>
             </div>
         `
     }
@@ -230,7 +230,7 @@ const obterInfo = async () => {
 
                 <span class="d-flex flex-column justify-content-center align-items-center">
 
-                    <p class="mb-0 ss-team-name fs-5 text-nowrap text-truncate d-block">${e.name}</p>
+                    <p class="mb-0 ss-team-name text-black fs-5 text-nowrap text-truncate d-block">${e.name}</p>
 
                 </span>
                 
@@ -264,7 +264,7 @@ async function validacaoTimes() {
             ssFirstContent.classList.add('justify-content-center', 'align-items-center')
             ssFirstContent.innerHTML = `
                 <div class="p-md-5">
-                    <span class="i18" key="NenhumTime">${i18next.t("NenhumTime")}</span>
+                    <span class="i18 text-black" key="NenhumTime">${i18next.t("NenhumTime")}</span>
                 </div>
             `
         }

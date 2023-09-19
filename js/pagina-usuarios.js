@@ -114,7 +114,7 @@ const obterInfo = async () => {
 
     document.getElementById("user-pic").src = !data.results.picture ? '../default-user-image.png' : data.results.picture
     document.getElementById("user-bio").textContent = data.results.bio
-    document.getElementById("user-name").textContent = data.results.username
+    // document.getElementById("user-name").textContent = data.results.username
     document.getElementById("name").textContent = data.results.name
 
     const player = data.results
@@ -228,7 +228,7 @@ async function waitInfo() {
         ssFirstContent.removeAttribute('data-lenis-prevent')
         ssFirstContent.innerHTML = `
             <div class="p-md-5">
-                <span class="i18" key="NenhumCampeonato">${i18next.t("NenhumCampeonato")}</span>
+                <span class="i18 text-black" key="NenhumCampeonato">${i18next.t("NenhumCampeonato")}</span>
             </div>
         `
     }

@@ -1,6 +1,12 @@
 @import "pure-variables.scss";
 @import "variables.scss";
 
+@include color-mode(dark) {
+}
+
+@include color-mode(light) {
+}
+
 #drop-in {
   // height: 100px;
   background-color: $play-cor-fundos-secundaria;
@@ -16,25 +22,20 @@
 }
 
 .chaveamento-btn {
-  background-color: $gray-300;
-  color: $black;
-
   width: auto;
 
   transition: all $transition;
 
   &:disabled {
-    background-color: $gray-200 !important;
-    color: $gray-600 !important;
+    filter: brightness(0.8);
   }
 
   &:hover {
-    background-color: $gray-400;
-    box-shadow: 0px 0px 17px 3px rgba(0, 0, 0, 0.1);
+    filter: brightness(0.9);
   }
 
   &:active {
-    background-color: $gray-500 !important;
+    filter: brightness(0.8);
   }
 }
 
@@ -103,11 +104,6 @@
   background-color: $play-cor-fundos-secundaria;
 
   transition: all $transition;
-}
-
-// Color
-body {
-  background-color: $gray-200 !important;
 }
 
 // media queries

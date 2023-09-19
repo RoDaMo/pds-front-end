@@ -6,7 +6,6 @@
 
 .config-menu-list {
     button {
-        background-color: $gray-200;
         transition: all $transition;
 
         &.active {
@@ -85,11 +84,6 @@
 
 .config-user-bio {
     line-break: anywhere;
-}
-
-// Color
-body {
-    background-color: $gray-200 !important;
 }
 
 // Media Queries

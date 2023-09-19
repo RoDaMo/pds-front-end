@@ -22,15 +22,15 @@
 	<componente-header></componente-header>
 	<main class="container">
 		<div class="row flex-column flex-lg-row mx-auto mb-4 h-100">
-			<section class="col-auto config-menu mb-md mb-0 bg-white p-4 rounded-5">
+			<section class="col-auto config-menu mb-md mb-0 lvl1-color p-4 rounded-5">
 				<h5 class="i18" key="ConfigMenu">Configurações</h5>
 
 				<!-- Config Menu -->
 				<ul class="list-group list-group-flush config-menu-list" id="config-menu-list">
-					<button class="list-group-item list-group-item-action my-1 border-0 rounded-4 active" menu="0"><i class="bi bi-gear me-2"></i> <span class="i18" key="Editar">Editar informações</span> </button>
-					<button class="list-group-item list-group-item-action my-1 border-0 rounded-4" menu="1"><i class="bi bi-people me-2"></i><span class="i18" key="Times">Times</span> </button>
-					<button id="btn-suborg" class="list-group-item list-group-item-action my-1 border-0 rounded-4" menu="2"><i class="bi bi-people me-2"></i><span class="i18" key="SubOrganizadores">Sub-Organizadores</span> </button>
-					<button id="exclusao-campeonato" class="list-group-item list-group-item-action my-1 border-0 rounded-4" menu="3"><i class="bi bi-trash me-2"></i><span class="i18" key="Exclusao">Exclusão</span></button>
+					<button class="list-group-item list-group-item-action lvl2-color my-1 border-0 rounded-4 active" menu="0"><i class="bi bi-gear me-2"></i> <span class="i18" key="Editar">Editar informações</span> </button>
+					<button class="list-group-item list-group-item-action lvl2-color my-1 border-0 rounded-4" menu="1"><i class="bi bi-people me-2"></i><span class="i18" key="Times">Times</span> </button>
+					<button id="btn-suborg" class="list-group-item lvl2-color list-group-item-action my-1 border-0 rounded-4" menu="2"><i class="bi bi-people me-2"></i><span class="i18" key="SubOrganizadores">Sub-Organizadores</span> </button>
+					<button id="exclusao-campeonato" class="list-group-item lvl2-color list-group-item-action my-1 border-0 rounded-4" menu="3"><i class="bi bi-trash me-2"></i><span class="i18" key="Exclusao">Exclusão</span></button>
 					<!-- <button class="list-group-item list-group-item-action my-1 border-0 mb-2 rounded-4"><i class="bi bi-envelope me-2"></i>Emails/Sessões</button> -->
 				</ul>
 
@@ -43,7 +43,7 @@
 					<div class="col d-flex justify-content-center">
 						<!-- Link - ir para chaveamento -->
 						<a href="" id="link-bracket-btn-wrapper" class="link-bracket-btn-wrapper w-100 text-decoration-none d-flex justify-content-center">
-							<button id="link-bracket-btn" class="btn border-0 d-flex w-100 justify-content-center align-items-center mb-3 chaveamento-btn"><i class="bi bi-box-arrow-up-right me-2"></i><span class="i18 fw-semibold" key="PaginaChaveamento">Página de Chaveamento</span></button>
+							<button id="link-bracket-btn" class="btn border-0 d-flex w-100 justify-content-center align-items-center lvl2-color mb-3 chaveamento-btn"><i class="bi bi-box-arrow-up-right me-2"></i><span class="i18 fw-semibold" key="PaginaChaveamento">Página de Chaveamento</span></button>
 						</a>
 					</div>
 					<div id="bracket-btn-wrapper" class="col d-flex flex-column w-100 align-items-center"></div>
@@ -58,7 +58,7 @@
 								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 							</div>
 							<div class="modal-body">
-								<p id="texto-modal-bracket" class="text-black">
+								<p id="texto-modal-bracket">
 									<span class="i18" key="TextoCriarModalChaveamento1"></span>
 									<br><br>
 									<span class="i18" key="TextoCriarModalChaveamento2"></span>
@@ -82,7 +82,7 @@
 								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 							</div>
 							<div class="modal-body">
-								<p id="texto-modal-bracket" class="text-black">
+								<p id="texto-modal-bracket">
 									<span class="i18" key="TextoExcluirModalChaveamento1"></span>
 									<br><br>
 									<span class="i18" key="TextoExcluirModalChaveamento2"></span>
@@ -105,7 +105,7 @@
 								<h1 class="modal-title fs-5 text-success text-center w-100 i18" id="modalCriacaoChaveamentoSucessoLabel" key="ChaveamentoSucesso">Chaveamento realizado com sucesso</h1>
 							</div>
 							<div class="modal-body">
-								<p id="texto-modal-bracket-success" class="text-black">
+								<p id="texto-modal-bracket-success">
 									<span class="i18" key="TextoModalChaveamentoSucesso"></span>
 								</p>
 							</div>
@@ -137,7 +137,7 @@
 			<div class="col mt-5 mt-md-5 mt-lg-0 mx-lg-2">
 				<!-- User Info -->
 
-				<section class="row config-options-wrapper justify-mobile-pic p-4 px-2 px-md-4 rounded-5 h-auto position-relative bg-white">
+				<section class="row config-options-wrapper justify-mobile-pic p-4 px-2 px-md-4 rounded-5 h-auto position-relative lvl1-color">
 					<div class="d-none menu-config" menu="0">
 						<h5 class="i18 text-center" key="Editar">Editar informações</h5>
 						<hr class="my-2">

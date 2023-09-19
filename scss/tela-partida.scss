@@ -1,11 +1,6 @@
 // @import "bootstrap-config.scss";
 @import "variables.scss";
 
-// general/generic things
-body {
-    background-color: $gray-200 !important;
-}
-
 .m-team-name {
     font-size: larger;
 }
@@ -84,7 +79,6 @@ body {
     }
 
     #score-wrapper {
-        background-color: $white;
         box-shadow: 0px 0px 90px 20px rgba(0, 0, 0, 0.1);
     
         #penalties-score-wrapper {
@@ -123,7 +117,6 @@ body {
 
 #match-details-wrapper {
     #match-details {
-        background-color: $white;
         box-shadow: 0px 0px 90px 20px rgba(0, 0, 0, 0.1);
         border-radius: 4rem;
 
@@ -142,9 +135,7 @@ body {
         //     transform: translateX(-50%);
         // }
     
-        #match-details-options-wrapper {
-            background-color: $white;
-    
+        #match-details-options-wrapper {    
             #match-details-options {
                 button {
                     transition: all $transition;
@@ -201,8 +192,6 @@ body {
                     overflow-y: auto;
 
                     .match-details-content-event {
-                        background-color: $gray-300;
-
                         .event-player-name {
                             span {
                                 font-size: 1.1rem;
@@ -286,8 +275,6 @@ body {
                     }
 
                     .match-details-content-player {
-                        background-color: $gray-300;
-
                         @include media-breakpoint-down(sm) {
                             justify-content: center;
                         }
@@ -310,8 +297,6 @@ body {
                     }
 
                     .match-details-content-coach {
-                        background-color: $gray-400;
-
                         @include media-breakpoint-down(sm) {
                             justify-content: center;
                         }

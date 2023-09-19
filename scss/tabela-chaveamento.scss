@@ -1,19 +1,35 @@
 @import "variables.scss";
 @import "pure-variables.scss";
 
-body {
-    background-color: $gray-200 !important;
+@include color-mode(dark) {
+    .tabela-customizada {
+        border-color: $gray-700 !important;
+    
+    
+        .cabecalho-customizado {
+            border-bottom: 3px solid $gray-700;
+        }
+    }
+}
+
+@include color-mode(light) {
+    .tabela-customizada {
+        border-color: $play-cor-secundaria !important;
+    
+    
+        .cabecalho-customizado {
+            border-bottom: 3px solid $play-cor-secundaria;
+        }
+    }
 }
 
 .custom-container {
-    background: $white;
     box-shadow: 0px 0px 90px 20px rgba(0, 0, 0, 0.1);
 }
 
-  .inner-container {
+.inner-container {
     // background-color: $play-cor-fundos; 
     border-radius: 20px;
-    color: $play-cor-texto;
 }
 
 .table > :not(caption) > * > * {
@@ -61,8 +77,6 @@ body {
     justify-content: space-between;
     align-items: center;
 
-    background-color: $gray-500;
-
     transition: filter $transition;
 
     &:hover {
@@ -74,12 +88,7 @@ body {
     }
 }
 
-.match-details-wrapper {
-    background-color: $gray-400;
-}
-
 .seta-botao, .seta-botao-rodada{
-    background-color: $gray-500 !important;
     transition: box-shadow $transition, background-color $transition !important;
 
     &:hover {
@@ -123,22 +132,7 @@ body {
     background-color: $info;
 }
 
-.matches-round-data-wrapper {
-    background-color: $gray-300;
-}
-
-.tabela-customizada-wrapper {
-    background-color: $gray-300;
-}
-
 .tabela-customizada {
-    border-color: $play-cor-secundaria!important;
-
-
-    .cabecalho-customizado {
-        border-bottom: 3px solid $play-cor-secundaria;
-    }
-
     td,th {
         vertical-align: middle;
     }
@@ -164,14 +158,6 @@ body {
 
 .bg-gray-lvl-3 {
     background-color: $gray-400;
-}
-
-.legenda-wrapper {
-    background-color: $gray-300;
-}
-
-.legenda {
-    color: $play-cor-texto;
 }
 
 .partida-rodada:hover {

@@ -20,10 +20,11 @@ body, html {
 .championship-pic-wrapper {
     height: 8rem;
     width: 8rem;
+
+    background-color: $white;
 }
 
 .championship-name {
-    color: $play-cor-texto;
     margin-bottom: -0.4rem;
 }
 
