@@ -77,8 +77,8 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".theme-option-btns").forEach(btn => {
         btn.addEventListener('click', async () => {
             (document.documentElement.getAttribute('data-bs-theme') != "light") ?
-            footerNavbarBrandImg.setAttribute('src', '/Logo_Playoffs.png')
-            : footerNavbarBrandImg.setAttribute('src', "/Logo_Playoffs_White.png")
+            footerNavbarBrandImg?.setAttribute('src', '/Logo_Playoffs.png')
+            : footerNavbarBrandImg?.setAttribute('src', "/Logo_Playoffs_White.png")
         })
     })
 })

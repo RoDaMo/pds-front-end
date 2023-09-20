@@ -38,7 +38,7 @@
 
 .custom-container2 {
     background: $play-cor-secundaria;
-    color: $play-cor-fundos-secundaria;
+    color: $play-cor-fundos-2;
 }
 
 .texto-verde-limao {
@@ -161,7 +161,7 @@
 }
 
 .partida-rodada:hover {
-    background-color: mix($play-cor-fundos-secundaria, $play-cor-primaria)!important;
+    background-color: mix($play-cor-fundos-2, $play-cor-primaria)!important;
     // transition: background-color 1s;
 }
 
@@ -202,7 +202,7 @@
         background: $play-cor-secundaria;
         border-radius: 20px;
         box-shadow: 3px 3px 2px rgba(0, 0, 0, 0.4);
-        color: $play-cor-fundos-secundaria;
+        color: $play-cor-fundos-2;
         margin-top: 10px;
         padding: 10px;
         margin-left: auto;

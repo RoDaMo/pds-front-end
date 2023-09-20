@@ -23,6 +23,18 @@ $color-mode-type: data;
     background-color: $body-tertiary-bg-dark !important;
   }
 
+  .lvl1-primary-bg {
+    background-color: $play-cor-fundos-dark !important;
+  }
+
+  .lvl2-primary-bg {
+    background-color: $play-cor-fundos-2-dark !important;
+  }
+
+  .lvl3-primary-bg {
+    background-color: $play-cor-fundos-3-dark !important;
+  }
+
   .navbar-blur {
     background: rgb(29 41 29 / 10%) !important;
   }
@@ -84,6 +96,18 @@ $color-mode-type: data;
 
   body {
     background-color: $gray-200 !important;
+  }
+
+  .lvl1-primary-bg {
+    background-color: $play-cor-fundos !important;
+  }
+
+  .lvl2-primary-bg {
+    background-color: $play-cor-fundos-2 !important;
+  }
+
+  .lvl3-primary-bg {
+    background-color: $play-cor-fundos-3 !important;
   }
 
   .lvl0-color {
@@ -362,14 +386,6 @@ header {
   margin-top: 0.1rem;
 }
 
-.card-bg {
-  background: $play-cor-fundos;
-}
-
-.card-bg2 {
-  background: $play-cor-fundos-secundaria;
-}
-
 .ft-color {
   color: $play-cor-texto;
 }
@@ -436,7 +452,7 @@ header {
     }
 
     &:active, &:focus {
-      background-color: $play-cor-fundos-secundaria !important;
+      background-color: $play-cor-fundos-2 !important;
       color: $play-cor-texto !important;
       box-shadow: none;
       border: none;
@@ -454,7 +470,7 @@ header {
 // .nav-item {
 //   &:hover, &:active, &:focus {
 //     a, #lingua {
-//       background-color: $play-cor-fundos-secundaria !important;
+//       background-color: $play-cor-fundos-2 !important;
 //       color: $play-cor-texto !important;
 //     }
 //   }
@@ -478,7 +494,7 @@ button.navbar-toggler {
   }
 
   &:active, &:hover {
-    background-color: $play-cor-fundos-secundaria !important;
+    background-color: $play-cor-fundos-2 !important;
   }
   
 }

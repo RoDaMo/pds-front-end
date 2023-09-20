@@ -1,5 +1,18 @@
 @import "variables.scss";
 
+@include color-mode(dark) {
+    .config-menu-list .active {
+        background: $play-cor-fundos-3-dark;
+    }
+}
+
+@include color-mode(light) {
+    .config-menu-list .active {
+        background: $play-cor-fundos-3;
+        color: $black;
+    }
+}
+
 .config-menu {
     background: $play-cor-fundos;
 }
@@ -7,21 +20,10 @@
 .config-menu-list {
     button {
         transition: all $transition;
-
-        &.active {
-            background: $play-cor-fundos-secundaria;
-            color: $play-cor-texto;
-        }
-
+        
         &:hover:not(.active) {
-            background: $gray-300;
-            color: $play-cor-texto;
+            filter: brightness(0.8);
             box-shadow: 0px 0px 17px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        &:focus {
-            background: $play-cor-fundos-secundaria;
-            color: $play-cor-texto;
         }
     }
 }

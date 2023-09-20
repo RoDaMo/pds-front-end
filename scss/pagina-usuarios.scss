@@ -82,18 +82,18 @@ body, html {
     }
 
     &:hover {
-        background: $play-cor-fundos-secundaria;
+        background: $play-cor-fundos-2;
         color: $white;
     }
 
     &:active {
-        background: $play-cor-fundos-secundaria;
+        background: $play-cor-fundos-2;
     }
 }
 
 .ss-slider {
     div {
-        background: $play-cor-fundos-secundaria;
+        background: $play-cor-fundos-2;
 
         cursor: pointer;
     }

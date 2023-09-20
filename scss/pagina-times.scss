@@ -27,12 +27,12 @@ body, html {
     }
 
     &:hover {
-        background-color: $play-cor-fundos-secundaria;
+        background-color: $play-cor-fundos-2;
         filter: brightness(0.9) !important;
     }
 
     &:active {
-        background-color: $play-cor-fundos-secundaria;
+        background-color: $play-cor-fundos-2;
         filter: brightness(0.8) !important;
     }
 }
@@ -48,7 +48,7 @@ body, html {
 }
 
 .coach-board {
-    background-color: $play-cor-fundos-secundaria;
+    background-color: $play-cor-fundos-2;
     border-radius: 1.5rem;
 
     .coach-badge {
@@ -90,12 +90,12 @@ body, html {
 //     }
 
 //     &:hover {
-//         background: $play-cor-fundos-secundaria;
+//         background: $play-cor-fundos-2;
 //         color: $white;
 //     }
 
 //     &:active {
-//         background: $play-cor-fundos-secundaria;
+//         background: $play-cor-fundos-2;
 //     }
 // }
 
@@ -219,7 +219,7 @@ body, html {
 
 .ss-championship-content {
 
-    background-color: $play-cor-fundos-secundaria;
+    background-color: $play-cor-fundos-2;
 
     cursor: pointer;
 
@@ -238,7 +238,7 @@ body, html {
 #uniforme-home, 
 #uniforme-away {
     img {
-        background: $play-cor-fundos-secundaria;
+        background: $play-cor-fundos-2;
     }
 }
 
@@ -262,7 +262,7 @@ body, html {
 
 .ss-slider {
     div {
-        background: $play-cor-fundos-secundaria;
+        background: $play-cor-fundos-2;
 
         cursor: pointer;
     }

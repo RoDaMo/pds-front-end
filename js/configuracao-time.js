@@ -482,7 +482,7 @@ const init = async () => {
         }
 
         if (!campeonatosVinculadosWrapper.hasChildNodes()) {
-            campeonatosVinculadosWrapper.innerHTML = `<p class="p-1 pt-3 text-center text-black"><span class="i18" key="SemCampeonatos">${i18next.t("SemCampeonatos")}</span></p>`
+            campeonatosVinculadosWrapper.innerHTML = `<p class="p-1 pt-3 text-center"><span class="i18" key="SemCampeonatos">${i18next.t("SemCampeonatos")}</span></p>`
             return;
         }
     }

@@ -10,7 +10,7 @@ const mediaQueryMobile = window.matchMedia('(max-width: 575px)')
 const scrollTrigger = document.querySelectorAll(".scroll-trigger")
 const isHomer = document.querySelector("#is-homer")
 
-const minMediaQueryTablet = window.matchMedia('(min-width: 992px)')
+const minMediaQueryTablet = window.matchMedia('(min-width: 768px)')
 
 
 let mobibarLogo
@@ -142,11 +142,10 @@ lenis.on("scroll", () => {
 
     if (document.body.getAttribute('is-home') && document.documentElement.getAttribute("data-bs-theme") == "light") {
         if (
-            document.body.scrollTop > 505 ||
-            document.documentElement.scrollTop > 505 && minMediaQueryTablet.matches
+            (document.body.scrollTop > 505 || document.documentElement.scrollTop > 505) && minMediaQueryTablet.matches
         ) {
             navbarComponente.querySelector(".navbar-brand img").setAttribute('src', '/Logo_Playoffs.png')
-        } else {
+        } else if (minMediaQueryTablet.matches) {
             navbarComponente.querySelector(".navbar-brand img").setAttribute('src', '/Logo_Playoffs_White.png')
         }
     } else if (document.documentElement.getAttribute("data-bs-theme") == "dark") {

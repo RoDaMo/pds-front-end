@@ -3,7 +3,7 @@
 
 #drop-in {
   // height: 100px;
-  background-color: $play-cor-fundos-secundaria;
+  background-color: $play-cor-fundos-2;
 }
 
 .img-listagem-players {
@@ -17,7 +17,7 @@
 }
 
 .ss-list-player-content {
-  background-color: $play-cor-fundos-secundaria;
+  background-color: $play-cor-fundos-2;
 }
 
 .ss-player-data-number {
@@ -66,16 +66,12 @@
   max-height: 30rem;
   overflow-y: auto;
   overflow-x: hidden;
-
-  background-color: $play-cor-fundos;
 }
 
 #campeonatos-vinculados {
   max-height: 30rem;
   overflow-y: auto;
   overflow-x: hidden;
-
-  background-color: $play-cor-fundos;
 }
 
 #uniform-img-wrapper {
