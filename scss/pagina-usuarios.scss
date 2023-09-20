@@ -6,8 +6,6 @@ body, html {
 }
 
 .bg-grad {
-    background: rgb(216,255,219);
-    background: linear-gradient(180deg, rgba(216,255,219,1) 0%, rgba(255,255,255,0) 100%);
     height: 15rem;
 
     border-radius: $border-radius-2xl $border-radius-2xl 0 0 !important;
@@ -31,10 +29,7 @@ body, html {
     height: 4rem;
     box-shadow: none;
     background-color: rgb(179 233 148 / 20%) !important;
-
-    h2 {
-        color: $play-cor-texto
-    }
+    border: none !important;
 }
 
 .ss-championship-image {
@@ -63,7 +58,6 @@ body, html {
 
 .ss-first-content {
     border-radius: 0 0 $border-radius-2xl $border-radius-2xl !important;
-    background: $play-cor-fundos;
     max-height: 23rem;
     overflow-y: auto;
 
@@ -73,28 +67,23 @@ body, html {
 }
 
 .user-config-btn {
-    background: $play-cor-fundos;
     transition: all $transition;
 
     a {
         text-decoration: none;
-        color: $play-cor-texto;
     }
 
     &:hover {
-        background: $play-cor-fundos-2;
-        color: $white;
+        filter: brightness(0.9);
     }
 
     &:active {
-        background: $play-cor-fundos-2;
+        filter: brightness(0.8);
     }
 }
 
 .ss-slider {
     div {
-        background: $play-cor-fundos-2;
-
         cursor: pointer;
     }
 }

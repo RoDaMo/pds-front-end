@@ -139,7 +139,7 @@ const obterInfo = async () => {
     console.log(coach)
     conteudoInicial.insertAdjacentHTML("beforeend", `
         <div id="coach-board-wrapper" class="d-flex">
-            <a href="/pages/pagina-usuarios.html?id=${coach.id}" class="row coach-board flex-row align-content-center px-3 p-2 text-decoration-none">
+            <a href="/pages/pagina-usuarios.html?id=${coach.id}" class="row coach-board lvl1-primary-bg flex-row align-content-center px-3 p-2 text-decoration-none">
 
                 <div class="col-auto p-0 d-flex justify-content-center align-items-center">
                     <div class="position-relative overflow-hidden rounded-circle ss-player-image">
@@ -149,11 +149,11 @@ const obterInfo = async () => {
 
                 <div class="col row justify-content-center flex-column">
                     <div class="col-auto">
-                        <span class="ss-player-name text-black fs-5 text-nowrap text-truncate mb-1 mb-md-0 d-block">${coach.name}</span>
+                        <span class="ss-player-name fs-5 text-nowrap text-truncate mb-1 mb-md-0 d-block">${coach.name}</span>
                     </div>
 
                     <div class="col-auto d-flex coach-badge align-items-center w-auto">
-                        <span class="i18 coach-badge-text p-1 px-2 w-auto text-white text-opacity-75" key="Tecnico">${i18next.t("Tecnico")}</span>
+                        <span class="i18 coach-badge-text lvl0-color p-1 px-2 w-auto text-opacity-75" key="Tecnico">${i18next.t("Tecnico")}</span>
                     </div>
                 </div>
             </a>
@@ -216,7 +216,7 @@ const obterInfo = async () => {
         // mostrar icone de capitao se for capitao
 
         jogadores.innerHTML += `
-            <div class="d-flex w-100 rounded-5 mb-3 p-2 mt-5 mt-md-0 ss-player-content">
+            <div class="d-flex w-100 rounded-5 mb-3 p-2 mt-5 mt-md-0 lvl2-primary-bg ss-player-content">
                  <span class="d-none player-id">${e.id}</span>
 
                 <section class="position-relative border border-2 m-3 overflow-hidden rounded-circle ss-player-image">
@@ -225,13 +225,13 @@ const obterInfo = async () => {
 
                 <span class="d-flex flex-column justify-content-center align-items-start">
 
-                    <p class="ss-player-name text-black fs-5 text-nowrap text-truncate d-block">${e.name}</p>
-                    <p class="mb-0 ss-player-username text-black fs-6 opacity-75 text-nowrap text-truncate d-block">${e.artisticName}</p>
+                    <p class="ss-player-name fs-5 text-nowrap text-truncate d-block">${e.name}</p>
+                    <p class="mb-0 ss-player-username fs-6 opacity-75 text-nowrap text-truncate d-block">${e.artisticName}</p>
 
                     <section class="ss-player-data row justify-content-center align-items-center flex-row mt-1 mx-md-auto ms-md-0">
-						<p class="col-auto w-auto ss-player-data-number px-2 py-1 mb-0 text-white text-opacity-75">${e.number}</p>
+						<p class="col-auto w-auto ss-player-data-number lvl0-color px-2 py-1 mb-0 text-opacity-75">${e.number}</p>
 						<i class="col-auto col-md-auto bi bi-dot p-0 mx-auto"></i>
-						<p class="col col-md-auto w-auto ss-player-data-position px-2 py-1 mb-0 text-white text-opacity-75">${e.playerPos}</p>
+						<p class="col col-md-auto w-auto ss-player-data-position px-2 py-1 mb-0 lvl0-color text-opacity-75">${e.playerPos}</p>
 					</section>
 
                 </span>
@@ -260,11 +260,11 @@ const obterInfo = async () => {
         champStuff.innerHTML += /*html*/`
             <div class="col">
                 <a href="/pages/pagina-campeonatos.html?id=${e.id}" class="text-decoration-none">
-                    <div class="rounded-5 ss-championship-content d-flex flex-column w-auto h-auto m-auto p-2">
+                    <div class="rounded-5 ss-championship-content lvl2-primary-bg d-flex flex-column w-auto h-auto m-auto p-2">
                         <div class="ss-championship-img-wrapper position-relative rounded-circle overflow-hidden m-auto mt-3">
                             <img class="img-fluid position-absolute mw-100 h-100" src="${e.logo}" alt="ChampLogo">
                         </div>
-                        <p class="text-center mt-2 mb-3 fs-5 text-nowrap text-truncate d-inline-block m-auto text-black ss-championship-texts">${e.name}</p>
+                        <p class="text-center mt-2 mb-3 fs-5 text-nowrap text-truncate d-inline-block m-auto ss-championship-texts">${e.name}</p>
                     </div>  
                 </a>
             </div>
@@ -302,7 +302,7 @@ async function waitInfo() {
         ssFirstContent.removeAttribute('data-lenis-prevent')
         ssFirstContent.innerHTML = `
             <div class="p-md-5">
-                <span class="i18 text-black" key="NenhumJogador">${i18next.t("NenhumJogador")}</span>
+                <span class="i18" key="NenhumJogador">${i18next.t("NenhumJogador")}</span>
             </div>
         `
     }
@@ -312,7 +312,7 @@ async function waitInfo() {
         ssThirdContent.removeAttribute('data-lenis-prevent')
         ssThirdContent.innerHTML = `
             <div class="p-md-5">
-                <span class="i18 text-black" key="NenhumCampeonato">${i18next.t("NenhumCampeonato")}</span>
+                <span class="i18" key="NenhumCampeonato">${i18next.t("NenhumCampeonato")}</span>
             </div>
         `
     }

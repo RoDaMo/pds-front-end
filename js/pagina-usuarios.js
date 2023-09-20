@@ -88,12 +88,14 @@ function ssChampionshipContentMobile() {
 }
 
 const obterInfo = async () => {
-    const currentUserId = document.getElementById('usernameUserId')
     const id = parametroUrl.get('id')
 
-    if (currentUserId && id == currentUserId.textContent) {
-        botaoEditar.classList.remove('d-none')
-    }
+    document.addEventListener('header-carregado', () => {
+        const currentUserId = document.getElementById('usernameUserId')
+        if (currentUserId && id == currentUserId.textContent) {
+            botaoEditar.classList.remove('d-none')
+        }
+    })
     
     const config = configuracaoFetch("GET")
     
@@ -189,7 +191,7 @@ const obterInfo = async () => {
     campeonatosAdministrados?.results.forEach((e) => {
 
         admCampeonatos.innerHTML += `
-            <div class="d-flex w-100 rounded-5 mb-3 p-2 mt-5 mt-md-0 ss-championship-content">
+            <div class="d-flex w-100 rounded-5 mb-3 p-2 mt-5 mt-md-0 lvl2-primary-bg ss-championship-content">
                     <span class="d-none championship-id">${e.id}</span>
 
                 <section class="position-relative border border-2 m-3 overflow-hidden rounded-circle ss-championship-image">
@@ -228,7 +230,7 @@ async function waitInfo() {
         ssFirstContent.removeAttribute('data-lenis-prevent')
         ssFirstContent.innerHTML = `
             <div class="p-md-5">
-                <span class="i18 text-black" key="NenhumCampeonato">${i18next.t("NenhumCampeonato")}</span>
+                <span class="i18" key="NenhumCampeonato">${i18next.t("NenhumCampeonato")}</span>
             </div>
         `
     }

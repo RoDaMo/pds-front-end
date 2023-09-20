@@ -27,10 +27,10 @@
 
 				<!-- Config Menu -->
 				<ul class="list-group list-group-flush config-menu-list" id="config-menu-list">
-					<button class="list-group-item list-group-item-action lvl2-color my-1 border-0 rounded-4 active" menu="0"><i class="bi bi-gear me-2"></i> <span class="i18" key="Editar">Editar informações</span> </button>
-					<button class="list-group-item list-group-item-action lvl2-color my-1 border-0 rounded-4" menu="1"><i class="bi bi-people me-2"></i><span class="i18" key="Times">Times</span> </button>
-					<button id="btn-suborg" class="list-group-item lvl2-color list-group-item-action my-1 border-0 rounded-4" menu="2"><i class="bi bi-people me-2"></i><span class="i18" key="SubOrganizadores">Sub-Organizadores</span> </button>
-					<button id="exclusao-campeonato" class="list-group-item lvl2-color list-group-item-action my-1 border-0 rounded-4" menu="3"><i class="bi bi-trash me-2"></i><span class="i18" key="Exclusao">Exclusão</span></button>
+					<button class="list-group-item list-group-item-action lvl1-color my-1 border-0 rounded-4 active" menu="0"><i class="bi bi-gear me-2"></i> <span class="i18" key="Editar">Editar informações</span> </button>
+					<button class="list-group-item list-group-item-action lvl1-color my-1 border-0 rounded-4" menu="1"><i class="bi bi-people me-2"></i><span class="i18" key="Times">Times</span> </button>
+					<button id="btn-suborg" class="list-group-item lvl1-color list-group-item-action my-1 border-0 rounded-4" menu="2"><i class="bi bi-people me-2"></i><span class="i18" key="SubOrganizadores">Sub-Organizadores</span> </button>
+					<button id="exclusao-campeonato" class="list-group-item lvl1-color list-group-item-action my-1 border-0 rounded-4" menu="3"><i class="bi bi-trash me-2"></i><span class="i18" key="Exclusao">Exclusão</span></button>
 					<!-- <button class="list-group-item list-group-item-action my-1 border-0 mb-2 rounded-4"><i class="bi bi-envelope me-2"></i>Emails/Sessões</button> -->
 				</ul>
 
@@ -43,7 +43,7 @@
 					<div class="col d-flex justify-content-center">
 						<!-- Link - ir para chaveamento -->
 						<a href="" id="link-bracket-btn-wrapper" class="link-bracket-btn-wrapper w-100 text-decoration-none d-flex justify-content-center">
-							<button id="link-bracket-btn" class="btn border-0 d-flex w-100 justify-content-center align-items-center lvl2-color mb-3 chaveamento-btn"><i class="bi bi-box-arrow-up-right me-2"></i><span class="i18 fw-semibold" key="PaginaChaveamento">Página de Chaveamento</span></button>
+							<button id="link-bracket-btn" class="btn border-0 d-flex w-100 justify-content-center align-items-center lvl1-color mb-3 chaveamento-btn"><i class="bi bi-box-arrow-up-right me-2"></i><span class="i18 fw-semibold" key="PaginaChaveamento">Página de Chaveamento</span></button>
 						</a>
 					</div>
 					<div id="bracket-btn-wrapper" class="col d-flex flex-column w-100 align-items-center"></div>
@@ -67,7 +67,7 @@
 								</p>
 							</div>
 							<div class="modal-footer d-flex justify-content-center">
-								<button id="confirm-create-bracket-btn" class="btn chaveamento-btn"><span class="i18 fw-semibold" key="CriarChaveamento">Criar Chaveamento</span></button>
+								<button id="confirm-create-bracket-btn" class="btn lvl3-primary-bg chaveamento-btn"><span class="i18 fw-semibold" key="CriarChaveamento">Criar Chaveamento</span></button>
 							</div>
 						</div>
 					</div>
@@ -115,7 +115,7 @@
 								</div>
 								<div class="row w-100 d-flex flex-column flex-md-row">
 									<div class="col p-0">
-										<button id="stay-on-page" class="btn w-100 chaveamento-btn" data-bs-dismiss="modal" aria-label="Close"><span id="reload-ficar-aqui" class="i18 fw-semibold" key="ContinuarNaPagina">Continuar aqui</span></button>
+										<button id="stay-on-page" class="btn w-100 lvl3-primary-bg chaveamento-btn" data-bs-dismiss="modal" aria-label="Close"><span id="reload-ficar-aqui" class="i18 fw-semibold" key="ContinuarNaPagina">Continuar aqui</span></button>
 									</div>
 									<div class="col col-md-1 d-flex justify-content-center">
 										<span class="m-2 i18" key="Ou">ou</span>
@@ -123,7 +123,7 @@
 									<div class="col p-0" id>
 										<!-- Link - ir para chaveamento -->
 										<a href="" class="text-decoration-none link-bracket-btn-wrapper">
-											<button id="redirect-to-bracket" class="btn w-100 chaveamento-btn"><span class="i18 fw-semibold" key="IrParaChaveamento">Ir para o chaveamento</span></button>
+											<button id="redirect-to-bracket" class="btn w-100 lvl3-primary-bg chaveamento-btn"><span class="i18 fw-semibold" key="IrParaChaveamento">Ir para o chaveamento</span></button>
 										</a>
 									</div>
 								</div>
@@ -137,7 +137,7 @@
 			<div class="col mt-5 mt-md-5 mt-lg-0 mx-lg-2">
 				<!-- User Info -->
 
-				<section class="row config-options-wrapper justify-mobile-pic p-4 px-2 px-md-4 rounded-5 h-auto position-relative lvl1-color">
+				<section class="row config-options-wrapper justify-mobile-pic p-4 px-2 px-md-4 rounded-5 h-auto position-relative lvl0-color">
 					<div class="d-none menu-config" menu="0">
 						<h5 class="i18 text-center" key="Editar">Editar informações</h5>
 						<hr class="my-2">
@@ -271,7 +271,7 @@
 
 						<div id="addedTeams" class="mt-3">
 							<h6 class="i18 text-center" key="TimesVinculados">Times vinculados</h6>
-							<div data-lenis-prevent id="times-vinculados" class="p-3 rounded-5"></div>
+							<div data-lenis-prevent id="times-vinculados" class="p-3 lvl1-primary-bg rounded-5"></div>
 						</div>
 
 					</div>

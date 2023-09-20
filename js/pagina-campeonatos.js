@@ -80,7 +80,7 @@ function ssTeamContentMobile() {
         ssFirstContent.classList.add('justify-content-center', 'align-items-center')
         ssFirstContent.innerHTML = `
             <div class="p-md-5">
-                <span class="i18 text-black" key="NenhumTime">${i18next.t("NenhumTime")}</span>
+                <span class="i18" key="NenhumTime">${i18next.t("NenhumTime")}</span>
             </div>
         `
     }
@@ -213,7 +213,7 @@ const obterInfo = async () => {
 
     if(bracketExists(id)) {
         document.getElementById("conteudo").insertAdjacentHTML('beforeend', `
-            <button class="btn championship-options-btn rounded-pill fw-semibold card-bg" id="botao-link-bracket">
+            <button class="btn championship-options-btn lvl1-primary-bg rounded-pill fw-semibold card-bg" id="botao-link-bracket">
                 <a href="/pages/tabela-chaveamento.html?id=${id}" id="link-bracket" class="text-center fs-6 i18 text-decoration-none" key="Bracket">${i18next.t("Bracket")}</a>
             </button>
         `)
@@ -222,7 +222,7 @@ const obterInfo = async () => {
     const times = document.getElementById("times")
     data.results.teams.forEach((e) => {
         times.innerHTML += `
-            <div class="d-flex w-100 rounded-5 mb-3 mt-5 mt-md-0 ss-team-content">
+            <div class="d-flex w-100 rounded-5 mb-3 mt-5 mt-md-0 lvl2-primary-bg ss-team-content">
                 <span class="d-none team-id">${e.id}</span>
                 <div class="position-relative m-3 overflow-hidden rounded-circle ss-team-logo">
                     <img src=${e.emblem} alt="teamCrest" class="img-fluid position-absolute mw-100 h-100">
@@ -230,7 +230,7 @@ const obterInfo = async () => {
 
                 <span class="d-flex flex-column justify-content-center align-items-center">
 
-                    <p class="mb-0 ss-team-name text-black fs-5 text-nowrap text-truncate d-block">${e.name}</p>
+                    <p class="mb-0 ss-team-name fs-5 text-nowrap text-truncate d-block">${e.name}</p>
 
                 </span>
                 
@@ -264,7 +264,7 @@ async function validacaoTimes() {
             ssFirstContent.classList.add('justify-content-center', 'align-items-center')
             ssFirstContent.innerHTML = `
                 <div class="p-md-5">
-                    <span class="i18 text-black" key="NenhumTime">${i18next.t("NenhumTime")}</span>
+                    <span class="i18" key="NenhumTime">${i18next.t("NenhumTime")}</span>
                 </div>
             `
         }

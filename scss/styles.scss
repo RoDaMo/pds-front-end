@@ -7,10 +7,6 @@ $move-final: calc(-50% + $offset);
 $color-mode-type: data;
 
 @include color-mode(dark) {
-  .pesquisar {
-    background-color: $gray-800 !important;
-  }
-
   *::-webkit-scrollbar-track {
     background: $body-tertiary-bg-dark;
   }
@@ -21,6 +17,11 @@ $color-mode-type: data;
 
   componente-footer {
     background-color: $body-tertiary-bg-dark !important;
+  }
+
+  .bg-grad {
+    background: $body-tertiary-bg-dark;
+    background: linear-gradient(180deg, $body-tertiary-bg-dark 0%, rgba(255,255,255,0) 100%);
   }
 
   .lvl1-primary-bg {
@@ -78,8 +79,9 @@ $color-mode-type: data;
 }
 
 @include color-mode(light) {
-  .pesquisar {
-    background-color: $gray-300 !important;
+  .bg-grad {
+    background: $white;
+    background: linear-gradient(180deg, $white 0%, rgba(255,255,255,0) 100%);
   }
 
   *::-webkit-scrollbar-track {
@@ -342,6 +344,7 @@ button[key='LimparFiltros'] {
   background-color: $play-cor-efeitos;
   opacity: .8;
   transition: all $transition;
+  z-index: 1050;
 }
 
 #theme-switcher-context-menu {
@@ -493,8 +496,12 @@ button.navbar-toggler {
     box-shadow: none !important;
   }
 
-  &:active, &:hover {
-    background-color: $play-cor-fundos-2 !important;
+  &:hover {
+    filter: brightness(0.9);
+  }
+
+  &:active {
+    filter: brightness(0.8);
   }
   
 }
@@ -546,11 +553,6 @@ button.navbar-toggler {
 #lingua {
   border: 1px solid $play-cor-primaria!important;
   background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='none' stroke='%23015958' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/></svg>");
-}
-
-.bg-verde-limao {
-  background-color: $play-cor-fundos !important;
-  color: $play-cor-texto !important;
 }
 
 .foto-usuario {

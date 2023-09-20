@@ -276,7 +276,7 @@ export class header extends HTMLElement {
 
                             <div class="offcanvas-body" id="offcanvas">
                                 <form class="col col-md d-flex justify-content-center m-auto" id="pesquisa" role="search">
-                                    <input id="barra-pesquisa" class="form-control m-lg-auto p-1 m-sm-5 mb-sm-2 m-3 mb-2 border-0 rounded-pill h-5 pesquisar i18-placeholder" type="search" key="PesquisaPlaceholder" placeholder="${i18next.t("PesquisaPlaceholder")}" aria-label="Search">
+                                    <input id="barra-pesquisa" class="form-control m-lg-auto p-1 m-sm-5 mb-sm-2 m-3 mb-2 border-0 lvl1-color rounded-pill h-5 pesquisar i18-placeholder" type="search" key="PesquisaPlaceholder" placeholder="${i18next.t("PesquisaPlaceholder")}" aria-label="Search">
                                 </form>  
                                 <ul class="menu-li col col-sm-10 col-lg navbar-nav m-auto mt-lg-0 mt-3 justify-content-end align-items-center ${classDark}" id="status-usuario">
                                     <li class="nav-item mx-4">
@@ -366,7 +366,7 @@ export class header extends HTMLElement {
         const navbarToggler = document.querySelector('.navbar-toggler')
         const info = /* html */`
             <li class="nav-item d-none d-lg-inline-flex me-5 navbar-user-img-wrapper navbar-clicavel" data-bs-toggle="offcanvas" data-bs-target="#offcanvasUser" aria-controls="offcanvasUser" aria-label="Toggle navigation">
-                <i class="bi bi-caret-left-fill mt-1 text-black"></i>
+                <i class="bi bi-caret-left-fill mt-1"></i>
                 <img src="${user.picture ? user.picture : defaultImg}" width="32" height="32" class="rounded-circle border border-2 ms-2">
             </li>
             <!--

@@ -398,7 +398,7 @@ const chaveamento = {
             ${(isOrganizer() && (championshipData.status == 0 || championshipData.status == 3)) ? `
               <div class="row justify-content-center align-items-center config-match-btn-wrapper">
                 <button data-bs-toggle="modal" data-bs-target="#configMatchModal" class="btn pt-0 w-auto border-0 d-flex justify-content-center align-items-center config-match-btn">
-                  <i class="bi bi-pencil-square px-4 py-1 text-white rounded-pill"></i>
+                  <i class="bi bi-pencil-square lvl2-primary-bg px-4 py-1 rounded-pill"></i>
                 </button> 
               </div>
             ` : ''}
@@ -473,7 +473,7 @@ const chaveamento = {
         ${(isOrganizer() && (championshipData.status == 0 || championshipData.status == 3)) ? `
           <div class="row justify-content-center align-items-center config-match-btn-wrapper">
             <button data-bs-toggle="modal" data-bs-target="#configMatchModal" class="btn w-auto pt-0 border-0 d-flex justify-content-center align-items-center config-match-btn">
-              <i class="bi bi-pencil-square px-4 py-1 text-white rounded-pill"></i>
+              <i class="bi bi-pencil-square px-4 lvl2-primary-bg py-1 rounded-pill"></i>
             </button> 
           </div>
         ` : ''}
@@ -988,7 +988,7 @@ const chaveamento = {
                 ${(isOrganizer() && (championshipData.status == 0 || championshipData.status == 3)) ? `
                   <div class="row justify-content-center align-items-center config-match-btn-wrapper">
                     <button data-bs-toggle="modal" data-bs-target="#configMatchModal" class="btn w-auto border-0 d-flex justify-content-center align-items-center config-match-btn">
-                      <i class="bi bi-pencil-square px-4 py-1 text-white rounded-pill"></i>
+                      <i class="bi bi-pencil-square lvl2-primary-bg px-4 py-1 rounded-pill"></i>
                     </button> 
                   </div>
                 ` : ''}
@@ -1025,7 +1025,7 @@ const chaveamento = {
                 ${(isOrganizer() && (championshipData.status == 0 || championshipData.status == 3)) ? `
                   <div class="row justify-content-center align-items-center config-match-btn-wrapper">
                     <button data-bs-toggle="modal" data-bs-target="#configMatchModal" class="btn w-auto border-0 d-flex justify-content-center align-items-center config-match-btn">
-                      <i class="bi bi-pencil-square px-4 py-1 text-white rounded-pill"></i>
+                      <i class="bi bi-pencil-square lvl2-primary-bg px-4 py-1 rounded-pill"></i>
                     </button> 
                   </div>
                 ` : ''}
@@ -1077,7 +1077,7 @@ const chaveamento = {
           ${(isOrganizer() && (championshipData.status == 0 || championshipData.status == 3)) ? `
             <div class="row justify-content-center align-items-center config-match-btn-wrapper">
               <button data-bs-toggle="modal" data-bs-target="#configMatchModal" class="btn w-auto border-0 d-flex justify-content-center align-items-center config-match-btn">
-                <i class="bi bi-pencil-square px-4 py-1 text-white rounded-pill"></i>
+                <i class="bi bi-pencil-square lvl2-primary-bg px-4 py-1 rounded-pill"></i>
               </button> 
             </div>
           ` : ''}

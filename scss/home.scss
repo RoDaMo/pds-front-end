@@ -114,10 +114,6 @@ html, body {
   right: .5rem;
 }
 
-.home-grad {
-  background: rgb(216,255,219);
-}
-
 .feat-lift {
   top: 4.5rem !important;
 }
@@ -165,42 +161,6 @@ html, body {
 
 div.row {
   gap: 1rem;
-}
-
-// Page Indicator (Mobile Only)
-ul.dots-list {
-  list-style-type: none;
-  font-weight: bold;
-}
-
-.dots-wrapper {
-  position: fixed;
-  display: none;
-  left: 0;
-  bottom: 0;
-  opacity: .4;
-  z-index: 2;
-}
-
-.dots-list {
-  position: absolute;
-  left: 0;
-  bottom: 11px;
-  margin-right: 35px;
-}
-
-.dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  border: solid 2px $play-cor-secundaria;
-  margin: 7px 0;
-}
-
-.dots-active {
-  background-color: $play-cor-secundaria; 
-  animation: bounce .5s 1;
-  animation-direction: forwards;
 }
 
 // Keyframes (Animations)

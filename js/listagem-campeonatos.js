@@ -214,7 +214,7 @@ const exibirDados = async (data) => {
     data.results.forEach(e => {
         conteudo.innerHTML += 
         /*html*/`
-            <div class="card card-body mt-5 border border-black border-1 rounded-5 text-black">
+            <div class="card card-body mt-5 border border-black border-1 rounded-5">
                 <a href="pagina-campeonatos.html?id=${e.id}" class="text-decoration-none">
                     <div class="row gap-0">
                         <div class="col-md-2 d-flex justify-content-center">

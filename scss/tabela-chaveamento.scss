@@ -51,12 +51,6 @@
     align-items: center;
 }
 
-.config-match-btn {
-    i {
-        background-color: $black;
-    }
-}
-
 .config-match-section-label {
     width: 50%;
 
@@ -93,12 +87,12 @@
 
     &:hover {
         box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
-        background-color: $gray-600 !important;
+        filter: brightness(0.9) !important;
     }
 
     &:active {
         box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
-        background-color: $gray-700 !important;
+        filter: brightness(0.8) !important;
     }
 }
 
@@ -150,14 +144,6 @@
     left: 0;
     z-index: 2;
     background-color: $gray-300 !important;
-}
-
-.bg-gray-lvl-2 {
-    background-color: $gray-300;
-}
-
-.bg-gray-lvl-3 {
-    background-color: $gray-400;
 }
 
 .partida-rodada:hover {
