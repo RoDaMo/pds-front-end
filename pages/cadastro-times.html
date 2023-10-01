@@ -22,37 +22,38 @@
     <componente-preloader></componente-preloader>
     <componente-header></componente-header>
     <main class="mt-5">
-        <form class="container bg-white rounded-5 px-5 py-4" method="post" id="formulario">
+        <form class="container lvl0-color rounded-5 px-5 py-4" method="post" id="formulario">
             <div class="row gap-0">
                 <div class="col-md-7">
                     <div class="col-md-12 mb-5">
-                        <h1 class="mb-1 text-dark i18" key="CriarTime">Criar Time</h1>
-                        <h4 id="texto-apresentacao" class="mb-4 text-success i18 fs-5" key="CriarTimeMensagem">Crie seu time para participar ativamente em campeonatos!</h4>
+                        <h1 class="mb-1 i18" key="CriarTime">Criar Time</h1>
+                        <h4 id="texto-apresentacao" class="mb-4 i18 fs-5" key="CriarTimeMensagem">Crie seu time para participar ativamente em campeonatos!</h4>
                     </div>
                     <div class="row gap-0">
                         <div class="mb-3 col-md-7">
-                            <label for="nome" class="form-label text-success i18" key="NomeTime">Nome do time:</label>
+                            <label for="nome" class="form-label i18" key="NomeTime">Nome do time:</label>
                             <input type="text" maxlength="100" class="form-control rounded-4 i18-placeholder" key="NomeTimePlaceholder" id="nome" name="nome" placeholder="Nome do time...">
                         </div>
                         <div class="col-md-5 mb-3">
-                            <label for="esportes" class="form-label text-success i18" key="FormularioEsporte">Esporte</label>
+                            <label for="esportes" class="form-label i18" key="FormularioEsporte">Esporte</label>
                             <select name="esportes" class="form-select rounded-4" id="esportes">
                                 <option value="" class="i18" key="FormularioEsportePlaceholder" selected>Selecione um Esporte</option>
                                 <option value="1" class="i18" key="FormularioEsporteFutebol">Futebol</option>
                                 <option value="2" class="i18" key="FormularioEsporteVolei">Vôlei</option>
                             </select>
+							<p class="i18 text-muted sport-change-warning" key="TeamSportChangeWarning"></p>
                         </div>
                         <div class="col-md-12 mb-5">
-                            <label for="descricao" class="form-label text-success i18" key="DescricaoCampeonato">Descrição do time:</label>
+                            <label for="descricao" class="form-label i18" key="DescricaoCampeonato">Descrição do time:</label>
                             <textarea maxlength="1000" class="form-control px-3 py-2 i18-placeholder" key="DescricaoCampeonatoPlaceholder" id="descricao" placeholder="Descreva seu time..." name="descricao"></textarea>
                         </div>
                         
                     </div>
                 </div>
                 <div class="col-md-5 mt-3 d-flex justify-content-center align-items-center flex-column">
-                    <img src="https://playoffs-api.up.railway.app/img/fefabe2b-4038-4b8c-b719-54fbbe9095a4" class="col-4 p-1 img-fluid rounded-5 border border-success escudo" id="escudo" alt="">
+                    <img src="https://www.api.playoffs.app.br/img/b874d3ad-85e4-4878-84e3-72f7bc98028b" class="col-4 p-1 img-fluid rounded-5 border escudo" id="escudo" alt="">
                     <div class="custom-file-upload-logo">
-                        <label for="logo" class="col-md-12 mt-4 btn btn-success d-flex justify-content-center align-items-center">
+                        <label for="logo" class="col-md-12 mt-4 btn lvl2-primary-bg d-flex justify-content-center align-items-center">
                             <i class="d-flex justify-content-center align-items-center btn bi bi-upload text-light"></i>
                             <span id="custom-text" class="i18" key="Enviarlogo">Enviar logo</span>
                             <input id="logo" type="file" name="logo" name="logo" accept=".jpeg, .jpg, .png, .webp, .gif, .bmp, .tiff">
@@ -62,17 +63,17 @@
 
                     <div class="col-md-12 mt-5">
                         <div class="row d-flex justify-content-around">
-                            <p class="text-success col-4 d-flex justify-content-center i18" key="UniformeCasa">Uniforme casa</p>
-                            <p class="text-success col-4 d-flex justify-content-center i18" key="UniformeFora">Uniforme fora</p>
+                            <p class="col-4 d-flex justify-content-center i18" key="UniformeCasa">Uniforme casa</p>
+                            <p class="col-4 d-flex justify-content-center i18" key="UniformeFora">Uniforme fora</p>
                         </div>
                         <div class="row d-flex justify-content-around gap-2">
-                            <img id="home" src="https://playoffs-api.up.railway.app/img/fefabe2b-4038-4b8c-b719-54fbbe9095a4" class="col-4 p-1 img-fluid uniforme border border-success rounded-5" alt="">
-                            <img id="away" src="https://playoffs-api.up.railway.app/img/fefabe2b-4038-4b8c-b719-54fbbe9095a4" class="col-4 p-1 img-fluid uniforme border border-success rounded-5" alt="">
+                            <img id="home" src="https://www.api.playoffs.app.br/img/b874d3ad-85e4-4878-84e3-72f7bc98028b" class="col-4 p-1 img-fluid uniforme border rounded-5" alt="">
+                            <img id="away" src="https://www.api.playoffs.app.br/img/b874d3ad-85e4-4878-84e3-72f7bc98028b" class="col-4 p-1 img-fluid uniforme border rounded-5" alt="">
                         </div>
                         <div class="row mt-3 d-flex justify-content-around">
                             <div class="col-4 d-flex justify-content-center custom-file-upload">
                                 <label for="uniforme-casa">
-                                    <i class="w-100 h-100 d-flex justify-content-center align-items-center border border-primary rounded-circle btn btn-success bi bi-upload text-light"></i>
+                                    <i class="w-100 h-100 d-flex justify-content-center align-items-center border border-primary rounded-circle btn lvl2-primary-bg bi bi-upload text-light"></i>
                                     <input id="uniforme-casa" type="file" name="uniforme-casa" name="logo" accept=".jpeg, .jpg, .png, .webp, .gif, .bmp, .tiff">
                                 </label>
                                 <div class="input-wrapper d-flex align-items-center ms-2">
@@ -82,7 +83,7 @@
 
                             <div class="col-4 d-flex justify-content-center custom-file-upload">
                                 <label for="uniforme-fora">
-                                    <i class="w-100 h-100 d-flex justify-content-center align-items-center border border-primary rounded-circle btn btn-success bi bi-upload text-light"></i>
+                                    <i class="w-100 h-100 d-flex justify-content-center align-items-center border border-primary rounded-circle btn lvl2-primary-bg bi bi-upload text-light"></i>
                                     <input id="uniforme-fora" type="file" name="uniforme-fora" name="logo" accept=".jpeg, .jpg, .png, .webp, .gif, .bmp, .tiff">
                                 </label>
                                 <div class="input-wrapper d-flex align-items-center ms-2">
@@ -95,9 +96,9 @@
                 </div> 
             </div>
             
-            <div class="col-12 mt-5 mb-5 gap-2">
-                <button id="salvar" class="col-md-2 btn btn-success rounded-pill i18" key="Salvar" type="submit">Salvar</button>
-                <a href="/index.html" class="col-md-2 btn btn-outline-success rounded-pill i18" key="Cancelar">Cancelar</a>
+            <div class="col-12 mt-5 mb-2 d-flex justify-content-center gap-2">
+                <button id="salvar" class="col-md-2 order-last btn w-25 lvl2-primary-bg rounded-pill i18" key="Salvar" type="submit">Salvar</button>
+                <a href="/index.html" class="col-md-2 w-25 btn btn-outline-info rounded-pill i18" key="Cancelar">Cancelar</a>
             </div>  
             <div class="mt-4 text-danger">
                 <p class="text-danger" id="mensagem-erro"></p>

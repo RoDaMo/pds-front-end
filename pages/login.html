@@ -21,49 +21,48 @@
     <componente-preloader></componente-preloader>
     <main class="container mt-5">
         <div class="row justify-content-center">
-            <div class="col-md-6 pb-4 mt-5 bg-white rounded-5 px-5">
-                <div class="mb-5 mt-5 row">
-                    <a class="navbar-brand m-auto p-auto col-9" href="/"><img src="/Logo_Playoffs.png" class="img-fluid" width="300" alt="Logo Playoffs"></a>
-                    <select class="form-select rounded-3 ps-3 py-2 bg-transparent col" id="lingua" required>
+            <div class="lvl0-color col-md-8 col-lg-6 pb-4 mt-5 rounded-5 px-5">
+                <div id="login-card-header" class="mb-5 mt-5 flex-column align-items-center justify-content-center row">
+                    <select class="form-select mt-2 w-50 rounded-3 ps-3 py-2 bg-transparent col" id="lingua" required>
                         <option value="ptbr" id="1">Português</option>
                         <option value="en" id="2">English</option>
                     </select>
                 </div>
                 
-                <h4 class="mb-4 text-success i18" key="BemVindo">Bem vindo!</h4>
-                <p class="text-success i18" key="TextoBemVindo" id="texto-bem-vindo">Junte-se a nós em uma nova era de organização de esportes</p>
+                <h2 class="mb-1 text-center i18" key="BemVindo">Bem vindo!</h2>
+                <p class="i18 text-center" key="TextoBemVindo" id="texto-bem-vindo">Junte-se a nós em uma nova era de organização de esportes</p>
                 <form id="formulario" method="post">
                     <div class="mb-5">
-                        <label for="nome-usuario" class="form-label text-success mt-3 i18" key="NomeUsuario">Nome de usuário:</label>
+                        <label for="nome-usuario" class="form-label mt-3 i18" key="NomeUsuario">Nome de usuário:</label>
                         <input maxlength="100" type="text" class="form-control i18-placeholder" key="NomeUsuarioPlaceholder" id="nome-usuario" name="nome-usuario" placeholder="Nome de usuário...">
                     </div>
                     <div id="senha-formulario" class="d-none">
-                        <label for="nome-usuario" class="form-label text-success mt-3 i18" key="Senha"></label>
+                        <label for="nome-usuario" class="form-label mt-3 i18" key="Senha"></label>
                         <div class="d-flex position-relative">
                             <div class="input-wrapper w-100">
                                 <input type="password" class="form-control i18-placeholder" key="SenhaPlaceholder" id="senha" name="senha" placeholder="Senha..." autocomplete="on">
                             </div>
                             <div id="olhos">
-                                <i id="olho-aberto" class="btn btn-success rounded-0 rounded-end bi bi-eye text-light position-absolute end-0"></i>
-                                <i id="olho-fechado" class="btn btn-success rounded-0 rounded-end bi bi-eye-slash text-light position-absolute end-0 d-none"></i>
+                                <i id="olho-aberto" class="btn rounded-0 rounded-end bi bi-eye position-absolute end-0"></i>
+                                <i id="olho-fechado" class="btn rounded-0 rounded-end bi bi-eye-slash position-absolute end-0 d-none"></i>
                             </div>
                         </div>
                         <!-- label errorMessage -->
                         <div class="form-text text-success my-4">
-                            <a href="recuperar-senha.html" class="text-decoration-none h6 i18" key="RecuperarSenha">Recuperar senha</a>
+                            <a href="recuperar-senha.html" class="h6 i18" key="RecuperarSenha">Recuperar senha</a>
                         </div>
                         <div class="form-check mb-3">
                             <input class="form-check-input" type="checkbox" value="" id="lembrar" name="lembrar">
-                            <label class="form-check-label text-success i18" key="Lembrar" for="lembrar">
+                            <label class="form-check-label i18" key="Lembrar" for="lembrar">
                               Lembrar de mim
                             </label>
                         </div>
                     </div>
                     <div class="container m-0">
-                        <div class="row gap-2">
-                            <button class="d-none col-md-4 btn btn-success rounded-pill i18 g-recaptcha" data-sitekey="6Lc9iocnAAAAAJfGkYHTnzAfX3HJqlaYCItstRiq" data-callback="onSubmit" key="Entrar" id="entrar" type="submit">Entrar</button>
-                            <button class="col-md-4 btn btn-success rounded-pill i18" key="Continuar" id="continuar" >Continuar</button>
-                            <a href="/index.html" class="col-md-4 btn btn-outline-success rounded-pill i18" key="Cancelar">Cancelar</a>
+                        <div class="row justify-content-center gap-2">
+                            <button class="d-none order-last col-md-4 btn w-25 lvl2-primary-bg rounded-pill i18 g-recaptcha" data-sitekey="6Lc9iocnAAAAAJfGkYHTnzAfX3HJqlaYCItstRiq" data-callback="onSubmit" key="Entrar" id="entrar" type="submit">Entrar</button>
+                            <button class="col-md-4 order-last w-25 btn lvl3-primary-bg rounded-pill i18" key="Continuar" id="continuar" >Continuar</button>
+                            <a href="/index.html" class="col-md-4 w-25 btn btn-outline-info rounded-pill i18" key="Cancelar">Cancelar</a>
                         </div>
                     </div>
                     <div class="mt-4">

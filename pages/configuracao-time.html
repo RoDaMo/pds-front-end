@@ -23,20 +23,20 @@
 	<componente-header></componente-header>
 	<main class="container">
 		<div class="row flex-column flex-lg-row mx-auto mb-4 h-100">
-			<section class="col-auto config-menu mb-md bg-white p-4 rounded-5">
+			<section class="col-auto config-menu mb-md lvl0-color p-4 rounded-5">
 				<h5 class="i18" key="ConfigMenuTime">Configurações de Time</h5>
 
 				<!-- Config Menu -->
 				<ul class="list-group list-group-flush config-menu-list" id="config-menu-list">
-					<button class="list-group-item list-group-item-action my-1 border-0 rounded-4 active" menu="0"><i class="bi bi-gear me-2"></i> <span class="i18" key="EditarInfosTime">Editar informações</span> </button>
-					<button class="list-group-item list-group-item-action my-1 border-0 rounded-4" menu="1"><i class="bi bi-people me-2"></i><span class="i18" key="Jogadores">Jogadores</span> </button>
-					<button class="list-group-item list-group-item-action my-1 border-0 rounded-4" menu="2"><i class="bi bi-trophy me-2"></i><span class="i18" key="Campeonatos">Campeonatos</span> </button>
-					<button class="list-group-item list-group-item-action my-1 border-0 rounded-4" menu="3"><i class="bi bi-trash me-2"></i><span class="i18" key="Exclusao">Exclusão</span></button>
+					<button class="list-group-item lvl1-color list-group-item-action my-1 border-0 rounded-4 active" menu="0"><i class="bi bi-gear me-2"></i> <span class="i18" key="EditarInfosTime">Editar informações</span> </button>
+					<button class="list-group-item lvl1-color list-group-item-action my-1 border-0 rounded-4" menu="1"><i class="bi bi-people me-2"></i><span class="i18" key="Jogadores">Jogadores</span> </button>
+					<button class="list-group-item lvl1-color list-group-item-action my-1 border-0 rounded-4" menu="2"><i class="bi bi-trophy me-2"></i><span class="i18" key="Campeonatos">Campeonatos</span> </button>
+					<button class="list-group-item lvl1-color list-group-item-action my-1 border-0 rounded-4" menu="3"><i class="bi bi-trash me-2"></i><span class="i18" key="Exclusao">Exclusão</span></button>
 				</ul>
 			</section>
 
 			<div class="col mt-5 mt-md-5 mt-lg-0 mx-lg-2">
-				<section class="row config-options-wrapper justify-mobile-pic p-4 px-2 px-md-4 rounded-5 h-auto position-relative bg-white">
+				<section class="row config-options-wrapper justify-mobile-pic p-4 px-2 px-md-4 rounded-5 h-auto position-relative lvl0-color">
 
 					<!-- Time -->
 					<div class="d-none menu-config" menu="0">
@@ -44,7 +44,7 @@
 						<hr class="my-2">
 						<div class="row mt-5 m-auto justify-mobile-pic">
 							<div class="col-1 position-relative p-0 overflow-hidden rounded-circle border border-2 config-user-pic-mod-wrapper">
-								<img src="https://playoffs-api.up.railway.app/img/fefabe2b-4038-4b8c-b719-54fbbe9095a4" alt="Imagem do time"
+								<img src="https://www.api.playoffs.app.br/img/b874d3ad-85e4-4878-84e3-72f7bc98028b" alt="Imagem do time"
 									class="img-fluid position-absolute w-100 h-100" id="config-team-pic-mod">
 							</div>
 							<div class="col-12 col-md">
@@ -71,8 +71,8 @@
 							<div id="uniform-wrapper" class="row d-flex gap-md-4 g-2">
 								<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-1">
 									<div class="col d-flex flex-column">
-										<p class="d-flex text-primary text-center justify-content-center i18" key="UniformeCasa">Uniforme casa</p>
-										<img id="home" src="https://playoffs-api.up.railway.app/img/fefabe2b-4038-4b8c-b719-54fbbe9095a4" class="p-1 m-auto img-fluid uniforme border border-success rounded-5" alt="">
+										<p class="d-flex text-center justify-content-center i18" key="UniformeCasa">Uniforme casa</p>
+										<img id="home" src="https://www.api.playoffs.app.br/img/b874d3ad-85e4-4878-84e3-72f7bc98028b" class="p-1 m-auto img-fluid uniforme border rounded-5" alt="">
 										
 										<div class="d-flex justify-content-center custom-file-upload mt-3">
 											<label for="uniforme-casa">
@@ -86,8 +86,8 @@
 									</div>
 									
 									<div class="col d-flex flex-column">
-										<p class="d-flex text-primary text-center justify-content-center i18" key="UniformeFora">Uniforme fora</p>
-										<img id="away" src="https://playoffs-api.up.railway.app/img/fefabe2b-4038-4b8c-b719-54fbbe9095a4" class="p-1 m-auto img-fluid uniforme border border-success rounded-5" alt="">
+										<p class="d-flex text-center justify-content-center i18" key="UniformeFora">Uniforme fora</p>
+										<img id="away" src="https://www.api.playoffs.app.br/img/b874d3ad-85e4-4878-84e3-72f7bc98028b" class="p-1 m-auto img-fluid uniforme border rounded-5" alt="">
 										
 										<div class="d-flex justify-content-center custom-file-upload mt-3">
 											<label for="uniforme-fora">
@@ -121,10 +121,11 @@
 								</div> -->
 								<div class="col-12 mt-3">
 									<label for="config-team-esporte-input" class="form-label i18" key="FormularioEsporte">Esporte:</label>
-									<select class="form-select rounded-4 width-config-input" id="config-team-esporte-input">
+									<select disabled class="form-select rounded-4 width-config-input" id="config-team-esporte-input">
 										<option value="1" class="i18" key="FormularioEsporteFutebol">Futebol</option>
 										<option value="2" class="i18" key="FormularioEsporteVolei">Vôlei</option>
 									</select>
+									<p class="i18 text-muted sport-change-warning" key="TeamSportChangeWarning"></p>
 								</div>
 								<div class="mt-4">
 									<p class="text-danger" id="mensagem-erro"></p>
@@ -190,24 +191,24 @@
 										</div>
 									</div>
 									<div>
-										<label for="nome-jogador" class="form-label text-success mt-3"><span class="i18" key="NomeJogadorLabel">Nome do jogador:</span></label>
+										<label for="nome-jogador" class="form-label mt-3"><span class="i18" key="NomeJogadorLabel">Nome do jogador:</span></label>
                             			<input type="text" class="form-control i18-placeholder" id="nome-jogador" name="nome-jogador" key="NomeJogadorPlaceholder" placeholder="Nome do jogador...">
 									</div>
 									<div>
-										<label for="nome-artistico" class="form-label text-success mt-3"><span class="i18" key="NomeArtisticoLabel">Nome artístico:</span></label>
+										<label for="nome-artistico" class="form-label mt-3"><span class="i18" key="NomeArtisticoLabel">Nome artístico:</span></label>
                             			<input type="text" class="form-control i18-placeholder" id="nome-artistico" name="nome-artistico" key="NomeArtisticoPlaceholder" placeholder="Nome do artistico...">
 									</div>
 									<div>
-										<label for="numero" class="form-label text-success mt-3"><span class="i18" key="NumeroJogadorLabel">Número:</span></label>
+										<label for="numero" class="form-label mt-3"><span class="i18" key="NumeroJogadorLabel">Número:</span></label>
                             			<input max="99" type="number" class="form-control i18-placeholder" id="numero" name="numero" key="NumeroJogadorPlaceholder" placeholder="Insira o número da camisa...">
 									</div>
 									<div>
-										<label for="email-jogador" class="form-label text-success mt-3"><span class="i18" key="EmailJogadorLabel">Email:</span></label>
+										<label for="email-jogador" class="form-label mt-3"><span class="i18" key="EmailJogadorLabel">Email:</span></label>
                             			<input type="email" class="form-control i18-placeholder" id="email-jogador" name="email-jogador" key="EmailJogadorPlaceholder" placeholder="Email...">
 									</div>
 									<div>
-										<label for="posicao" class="form-label text-success mt-3"><span class="i18" key="PosicaoJogadorLabel">Posição:</span></label>
-										<select class="form-select rounded-4 width-config-input" id="posicao" name="posicao">
+										<label for="posicao" class="form-label mt-3"><span class="i18" key="PosicaoJogadorLabel">Posição:</span></label>
+										<select class="form-select rounded-4" id="posicao" name="posicao">
 							
 										</select>
 									</div>
@@ -233,7 +234,7 @@
 						<h5 class="i18 text-center" key="Campeonatos">Campeonatos</h5>
 						<hr class="my-2">
 						<div id="linkedChamps" class="mt-5">
-							<div data-lenis-prevent id="campeonatos-vinculados" class="p-3 rounded-5"></div>
+							<div data-lenis-prevent id="campeonatos-vinculados" class="p-3 lvl1-primary-bg rounded-5"></div>
 						</div>
 					</div>
 
@@ -298,12 +299,12 @@
 								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 							</div>
 							<div class="modal-body">
-								<p id="texto-modal-bracket" class="text-black text-center">
+								<p id="texto-modal-bracket" class="text-center">
 									<span class="i18" key="TextoSairCampeonato"></span>
 								</p>
 							</div>
 							<div class="modal-footer d-flex justify-content-center">
-								<button id="confirm-exit-championship-btn" class="btn btn-outline-dark"><span class="i18 fw-semibold" key="ExitChampionship">Iniciar Prorrogação</span></button>
+								<button id="confirm-exit-championship-btn" class="btn lvl2-color"><span class="i18 fw-semibold" key="ExitChampionship">Iniciar Prorrogação</span></button>
 							</div>
 						</div>
 					</div>

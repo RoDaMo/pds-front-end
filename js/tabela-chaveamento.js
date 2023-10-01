@@ -26,6 +26,8 @@ let championshipData = null
 
 const sessionUserInfo = JSON.parse(localStorage.getItem('user-info'))
 
+console.log(sessionUserInfo);
+
 const configMatchModal = document.getElementById('configMatchModal')
 
 let configMatchModalBT = new bootstrap.Modal(configMatchModal, {keyboard: false})
@@ -44,9 +46,9 @@ const isOrganizer = () => {
   let isOrganizer = false
   let isChampionshipOrganizer = false
 
-  isChampionshipOrganizer = (idCampeonato == sessionUserInfo.championshipId) ? true : false
+  isChampionshipOrganizer = (idCampeonato == sessionUserInfo?.championshipId) ? true : false
 
-  if (sessionUserInfo.isOrganizer && isChampionshipOrganizer) {
+  if (sessionUserInfo?.isOrganizer && isChampionshipOrganizer) {
     isOrganizer = true
   } else {
     isOrganizer = false
@@ -84,9 +86,9 @@ const configureMatch = async (matchId, championshipData) => {
 
   configMatchForm.insertAdjacentHTML('beforeend', `
     <div class="row mt-3 justify-content-center">
-      <h4 class="text-center rounded-4 text-bg-dark fw-normal config-match-section-label i18" key="Uniformes">${i18next.t("Uniformes")}</h4>
-      <span class="i18 mb-0 text-black text-center" key="MatchHomeUniformLabel">${i18next.t("MatchHomeUniformLabel")}</span>
-      <div class="col-12 text-center text-black"><span>${team1.name}</span></div>
+      <h4 class="text-center rounded-4 w-auto lvl1-color fw-normal config-match-section-label i18" key="Uniformes">${i18next.t("Uniformes")}</h4>
+      <span class="i18 mb-0 text-center" key="MatchHomeUniformLabel">${i18next.t("MatchHomeUniformLabel")}</span>
+      <div class="col-12 text-center"><span>${team1.name}</span></div>
       <div class="col-6 form-check d-flex flex-column justify-content-center align-items-center">
         <img class="img-fluid border border-2 mb-2 rounded-5 team-uniform-img" src="${team1.uniformHome}" alt="">
         <input value="${team1.uniformHome}" class="rounded-pill w-25 form-check-input m-auto" type="radio" id="check-team1-home-uniform" name="team1-uniform-radio" checked>
@@ -96,10 +98,10 @@ const configureMatch = async (matchId, championshipData) => {
         <input value="${team1.uniformAway}" class="rounded-pill w-25 form-check-input m-auto" type="radio" id="check-team1-away-uniform" name="team1-uniform-radio">
       </div>
     </div>
-    <hr class="rounded-pill opacity-50 text-black mx-auto w-50">
+    <hr class="rounded-pill opacity-50 mx-auto w-50">
     <div class="row mt-3">
-      <span class="i18 mb-0 text-black text-center" key="MatchAwayUniformLabel">${i18next.t("MatchAwayUniformLabel")}</span>
-      <div class="col-12 text-center text-black"><span>${team2.name}</span></div>
+      <span class="i18 mb-0 text-center" key="MatchAwayUniformLabel">${i18next.t("MatchAwayUniformLabel")}</span>
+      <div class="col-12 text-center"><span>${team2.name}</span></div>
       <div class="col-6 form-check d-flex flex-column justify-content-center align-items-center">
         <img class="img-fluid border border-2 rounded-5 mb-2 team-uniform-img" src="${team2.uniformHome}" alt="">
         <input value="${team2.uniformHome}" class="rounded-pill w-25 form-check-input m-auto" type="radio" id="check-team2-home-uniform" name="team2-uniform-radio">
@@ -110,39 +112,39 @@ const configureMatch = async (matchId, championshipData) => {
       </div>
     </div>
 
-    <div class="row justify-content-center mt-5"><h4 class="text-center config-match-section-label rounded-3 text-bg-dark fw-normal i18" key="InfosPartida">${i18next.t("InfosPartida")}</h4></div>
+    <div class="row justify-content-center mt-5"><h4 class="text-center config-match-section-label rounded-3 w-auto lvl1-color fw-normal i18" key="InfosPartida">${i18next.t("InfosPartida")}</h4></div>
     <div class="row">
       <div class="col">
-        <label for="match-arbitrator" class="i18 form-label mb-0 text-black" key="MatchArbitratorLabel">${i18next.t("MatchArbitratorLabel")}</label>
+        <label for="match-arbitrator" class="i18 form-label mb-0" key="MatchArbitratorLabel">${i18next.t("MatchArbitratorLabel")}</label>
         <input type="text" id="match-arbitrator" class="form-control" placeholder="${i18next.t("MatchArbitratorPlaceholder")}">
       </div>
     </div>
 
     <div class="row mt-3">
       <div class="col-12 col-md">
-        <label for="match-date" class="i18 form-label mb-0 text-black" key="MatchDateLabel">${i18next.t("MatchDateLabel")}</label>
+        <label for="match-date" class="i18 form-label mb-0" key="MatchDateLabel">${i18next.t("MatchDateLabel")}</label>
         <input type="text" id="match-date" class="form-control" placeholder="${i18next.t("MatchDatePlaceholder")}">
       </div>
     </div>
 
     <div class="row mt-3">
       <div class="col-12 col-md">
-        <label for="match-zipcode" class="i18 form-label mb-0 text-black" key="MatchZipcodeLabel">${i18next.t("MatchZipcodeLabel")}</label>
+        <label for="match-zipcode" class="i18 form-label mb-0" key="MatchZipcodeLabel">${i18next.t("MatchZipcodeLabel")}</label>
         <input type="text" id="match-zipcode" max="" class="form-control" placeholder="${i18next.t("MatchZipcodePlaceholder")}">
       </div>
       <div class="col-12 col-md">
-        <label for="match-city" class="i18 form-label mb-0 text-black" key="MatchCityLabel">${i18next.t("MatchCityLabel")}</label>
+        <label for="match-city" class="i18 form-label mb-0" key="MatchCityLabel">${i18next.t("MatchCityLabel")}</label>
         <input type="text" id="match-city" class="form-control" placeholder="${i18next.t("MatchCityPlaceholder")}">
       </div>
     </div>
 
     <div class="row mt-3">
       <div class="col-12 col-md">
-        <label for="match-road" class="i18 form-label mb-0 text-black" key="MatchStreetLabel">${i18next.t("MatchStreetLabel")}</label>
+        <label for="match-road" class="i18 form-label mb-0" key="MatchStreetLabel">${i18next.t("MatchStreetLabel")}</label>
         <input type="text" id="match-road" class="form-control" placeholder="${i18next.t("MatchStreetPlaceholder")}">
       </div>
       <div class="col-12 col-md">
-        <label for="match-location-number" class="i18 form-label mb-0 text-black" key="MatchLocationNumberLabel">${i18next.t("MatchLocationNumberLabel")}</label>
+        <label for="match-location-number" class="i18 form-label mb-0" key="MatchLocationNumberLabel">${i18next.t("MatchLocationNumberLabel")}</label>
         <input type="text" id="match-location-number" class="form-control" placeholder="${i18next.t("MatchLocationNumberPlaceholder")}">
     </div>
   `)
@@ -369,11 +371,11 @@ const chaveamento = {
   
       for (const partida of partidas) {
         partidasWrapper.innerHTML += /*html*/`
-          <div class="row justify-content-center align-items-center match-details-wrapper px-3 mx-0 rounded-5">
-            <div class="text-center text-black py-1">
+          <div class="row justify-content-center align-items-center match-details-wrapper lvl2-color px-3 mx-0 rounded-5">
+            <div class="text-center py-1">
               <small>${this.convertDateFormat(partida.date)}</small>
             </div>
-            <a href="/pages/tela-partida.html?id=${partida.id}" class="text-decoration-none match-link-wrapper p-2 rounded-5 my-1 mb-3 d-flex justify-content-center align-items-center ${classesCustom}">
+            <a href="/pages/tela-partida.html?id=${partida.id}" class="text-decoration-none match-link-wrapper lvl3-color p-2 rounded-5 my-1 mb-3 d-flex justify-content-center align-items-center ${classesCustom}">
               <div class="row justify-content-center align-items-center">
                 <div class="col-4 text-center">
                   <div class="d-flex align-items-center justify-content-center">
@@ -396,7 +398,7 @@ const chaveamento = {
             ${(isOrganizer() && (championshipData.status == 0 || championshipData.status == 3)) ? `
               <div class="row justify-content-center align-items-center config-match-btn-wrapper">
                 <button data-bs-toggle="modal" data-bs-target="#configMatchModal" class="btn pt-0 w-auto border-0 d-flex justify-content-center align-items-center config-match-btn">
-                  <i class="bi bi-pencil-square px-4 py-1 text-white rounded-pill"></i>
+                  <i class="bi bi-pencil-square lvl2-primary-bg px-4 py-1 rounded-pill"></i>
                 </button> 
               </div>
             ` : ''}
@@ -444,11 +446,11 @@ const chaveamento = {
   },
   gerarHtmlPartidaFaseGrupos(partida, rodada) {
     return /*html*/`
-      <div class="row justify-content-center align-items-center match-details-wrapper px-3 mx-0 rounded-5 partida-rodada-${rodada} d-none">
-        <div class="text-center py-1 text-black">
+      <div class="row justify-content-center align-items-center match-details-wrapper lvl2-color px-3 mx-0 rounded-5 partida-rodada-${rodada} d-none">
+        <div class="text-center py-1">
           <small>${this.convertDateFormat(partida.date)}</small>
         </div>
-        <a href="/pages/tela-partida.html?id=${partida.id}" class="text-decoration-none match-link-wrapper p-2 rounded-5 my-1 mb-3 d-flex justify-content-center align-items-center">
+        <a href="/pages/tela-partida.html?id=${partida.id}" class="text-decoration-none match-link-wrapper lvl3-color p-2 rounded-5 my-1 mb-3 d-flex justify-content-center align-items-center">
           <div class="row justify-content-center align-items-center">
             <div class="col-4 text-center">
               <div class="d-flex align-items-center justify-content-center">
@@ -471,7 +473,7 @@ const chaveamento = {
         ${(isOrganizer() && (championshipData.status == 0 || championshipData.status == 3)) ? `
           <div class="row justify-content-center align-items-center config-match-btn-wrapper">
             <button data-bs-toggle="modal" data-bs-target="#configMatchModal" class="btn w-auto pt-0 border-0 d-flex justify-content-center align-items-center config-match-btn">
-              <i class="bi bi-pencil-square px-4 py-1 text-white rounded-pill"></i>
+              <i class="bi bi-pencil-square px-4 lvl2-primary-bg py-1 rounded-pill"></i>
             </button> 
           </div>
         ` : ''}
@@ -786,7 +788,7 @@ const chaveamento = {
       count++;
       rowGrupos.innerHTML += /*html*/`
       <div class="col d-flex flex-column-reverse flex-lg-column gap-3 px-0">
-        <div class="p-3 rounded-5 table-responsive tabela-customizada-wrapper col">
+        <div class="p-3 rounded-5 table-responsive lvl1-color tabela-customizada-wrapper col">
           <h3>Grupo ${count}</h3>
           <table class="table table-hover table-bordered tabela-customizada">
             <thead>
@@ -809,16 +811,16 @@ const chaveamento = {
           </table>
         </div>
       </div>
-      <div class="col-lg-3 col-12 rounded-5 matches-round-data-wrapper borda-top-lg p-3 mb-lg-0 mb-3">
+      <div class="col-lg-3 col-12 rounded-5 matches-round-data-wrapper lvl1-color borda-top-lg p-3 mb-lg-0 mb-3">
         <div class="row row-cols-3 flex-row justify-content-center align-items-center">
           <div class="col-12 d-flex justify-content-center align-items-center">
-              <h4 id="rodada-text-${count}" class="text-black"><span id="rodada-atual-${count}">1</span>º Rodada</h4>
+              <h4 id="rodada-text-${count}"><span id="rodada-atual-${count}">1</span>º Rodada</h4>
           </div>
           <div class="col-6 d-flex justify-content-center align-items-center">
-              <button id="anterior-rodada-${count}" class="seta-botao-rodada btn px-3 py-2 w-100 invisible"><i class="bi bi-caret-left"></i></button>
+              <button id="anterior-rodada-${count}" class="seta-botao-rodada lvl2-color btn px-3 py-2 w-100 invisible"><i class="bi bi-caret-left"></i></button>
           </div>
           <div class="col-6 d-flex justify-content-center align-items-center">
-              <button id="proxima-rodada-${count}" class="seta-botao-rodada btn px-3 py-2 w-100"><i class="bi bi-caret-right"></i></button>
+              <button id="proxima-rodada-${count}" class="seta-botao-rodada lvl2-color btn px-3 py-2 w-100"><i class="bi bi-caret-right"></i></button>
           </div>
         </div>
         <div class="mt-3 d-flex flex-column gap-4 fase-grupos-rodadas">
@@ -890,7 +892,7 @@ const chaveamento = {
     containerGrupos.appendChild(rowGrupos)
     partidasWrapper.appendChild(containerGrupos)
     partidasWrapper.innerHTML += /*html*/`
-      <div class="container p-3 rounded-5 legenda-wrapper">
+      <div class="container p-3 rounded-5 lvl1-color legenda-wrapper">
         <div class="legenda me-2 d-inline-block">
           <div class="d-inline-block vencedor" style="width: 10px; height: 10px;"></div>
           Derrota
@@ -935,7 +937,7 @@ const chaveamento = {
     partidasWrapper.innerHTML = ''
     if (partidas.length == 0) {
       partidasWrapper.innerHTML = `
-        <div class="bg-gray-lvl-2 col-12 text-center rounded-5">
+        <div class="lvl2-color col-12 text-center rounded-5">
           <h5 class="p-5">Por enquanto, não há partidas nessa fase do campeonato.</h5>
         </div>
       `
@@ -958,12 +960,12 @@ const chaveamento = {
       for (const partidaDupla of partidasDuplas) {
         count++;
         partidasWrapper.innerHTML += /*html*/`
-          <div class="d-flex gap-3 justify-content-evenly align-items-center text-black bg-gray-lvl-2 mb-3 p-3 rounded ida-volta">
-              <div class="row justify-content-center align-items-center mx-2 bg-gray-lvl-3 px-3 pb-3 rounded-5">
+          <div class="d-flex gap-3 justify-content-evenly align-items-center lvl2-color mb-3 p-3 rounded ida-volta">
+              <div class="row justify-content-center align-items-center mx-2 px-3 pb-3 rounded-5">
                 <div class="text-center py-1">
                   <small>${this.convertDateFormat(partidaDupla.jogoAtual.date)}</small><small class="d-block d-lg-inline"><span class="d-none d-lg-inline">-</span> ${partidaDupla.jogoAtual.road ? partidaDupla.jogoAtual.road : 'Localização não definida'}</small>
                 </div>
-                <a href="/pages/tela-partida.html?id=${partidaDupla.jogoAtual.id}" class="text-decoration-none match-link-wrapper p-2 rounded-5 my-1 d-flex justify-content-center align-items-center">
+                <a href="/pages/tela-partida.html?id=${partidaDupla.jogoAtual.id}" class="text-decoration-none lvl3-color match-link-wrapper p-2 rounded-5 my-1 d-flex justify-content-center align-items-center">
                   <div class="row justify-content-center align-items-center">
                     <div class="col-4 text-center">
                       <div class="d-flex align-items-center justify-content-center">
@@ -986,21 +988,21 @@ const chaveamento = {
                 ${(isOrganizer() && (championshipData.status == 0 || championshipData.status == 3)) ? `
                   <div class="row justify-content-center align-items-center config-match-btn-wrapper">
                     <button data-bs-toggle="modal" data-bs-target="#configMatchModal" class="btn w-auto border-0 d-flex justify-content-center align-items-center config-match-btn">
-                      <i class="bi bi-pencil-square px-4 py-1 text-white rounded-pill"></i>
+                      <i class="bi bi-pencil-square lvl2-primary-bg px-4 py-1 rounded-pill"></i>
                     </button> 
                   </div>
                 ` : ''}
               </div>
 
-              <div class="d-flex align-items-center justify-content-center bg-gray-lvl-3 mb-3 px-3 py-2 rounded">
-                  <small class="text-nowrap text-black">${fases[faseAtual]} ${count}</small>
+              <div class="d-flex align-items-center justify-content-center lvl3-color mb-3 px-3 py-2 rounded">
+                  <small class="text-nowrap">${fases[faseAtual]} ${count}</small>
               </div>
 
-              <div class="row justify-content-center align-items-center mx-2 bg-gray-lvl-3 px-3 pb-3 rounded-5">
+              <div class="row justify-content-center align-items-center mx-2 px-3 pb-3 rounded-5">
                 <div class="text-center py-1">
                   <small>${this.convertDateFormat(partidaDupla.proximoJogo.date)}</small><small class="d-block d-lg-inline"><span class="d-none d-lg-inline">-</span> ${partidaDupla.jogoAtual.road ? partidaDupla.jogoAtual.road : 'Localização não definida'}</small>
                 </div>
-                <a href="/pages/tela-partida.html?id=${partidaDupla.proximoJogo.id}" class="text-decoration-none match-link-wrapper p-2 rounded-5 my-1 d-flex justify-content-center align-items-center">
+                <a href="/pages/tela-partida.html?id=${partidaDupla.proximoJogo.id}" class="text-decoration-none lvl3-color match-link-wrapper p-2 rounded-5 my-1 d-flex justify-content-center align-items-center">
                   <div class="row justify-content-center align-items-center">
                     <div class="col-4 text-center">
                       <div class="d-flex align-items-center justify-content-center">
@@ -1023,7 +1025,7 @@ const chaveamento = {
                 ${(isOrganizer() && (championshipData.status == 0 || championshipData.status == 3)) ? `
                   <div class="row justify-content-center align-items-center config-match-btn-wrapper">
                     <button data-bs-toggle="modal" data-bs-target="#configMatchModal" class="btn w-auto border-0 d-flex justify-content-center align-items-center config-match-btn">
-                      <i class="bi bi-pencil-square px-4 py-1 text-white rounded-pill"></i>
+                      <i class="bi bi-pencil-square lvl2-primary-bg px-4 py-1 rounded-pill"></i>
                     </button> 
                   </div>
                 ` : ''}
@@ -1048,11 +1050,11 @@ const chaveamento = {
     for (const partida of partidas) {
       count++;
       partidasWrapper.innerHTML += /*html*/`
-        <div class="row justify-content-center align-items-center mx-2 bg-gray-lvl-2 px-3 pb-3 mb-3 rounded-5">
+        <div class="row justify-content-center align-items-center mx-2 lvl2-color px-3 pb-3 mb-3 rounded-5">
           <div class="text-center py-1">
             <small>${this.convertDateFormat(partida.date)}</small>
           </div>
-          <a href="/pages/tela-partida.html?id=${partida.id}" class="text-decoration-none match-link-wrapper p-2 rounded-5 my-1 d-flex justify-content-center align-items-center">
+          <a href="/pages/tela-partida.html?id=${partida.id}" class="text-decoration-none match-link-wrapper lvl3-color p-2 rounded-5 my-1 d-flex justify-content-center align-items-center">
             <div class="row justify-content-center align-items-center">
               <div class="col-4 text-center">
                 <div class="d-flex align-items-center justify-content-center">
@@ -1075,7 +1077,7 @@ const chaveamento = {
           ${(isOrganizer() && (championshipData.status == 0 || championshipData.status == 3)) ? `
             <div class="row justify-content-center align-items-center config-match-btn-wrapper">
               <button data-bs-toggle="modal" data-bs-target="#configMatchModal" class="btn w-auto border-0 d-flex justify-content-center align-items-center config-match-btn">
-                <i class="bi bi-pencil-square px-4 py-1 text-white rounded-pill"></i>
+                <i class="bi bi-pencil-square lvl2-primary-bg px-4 py-1 rounded-pill"></i>
               </button> 
             </div>
           ` : ''}

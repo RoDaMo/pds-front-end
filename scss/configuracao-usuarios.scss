@@ -1,38 +1,27 @@
 @import "variables.scss";
 
-.config-menu {
-    background: $play-cor-fundos;
+@include color-mode(dark) {
+    .config-menu-list .active {
+        background: $play-cor-fundos-2-dark;
+    }
+}
+
+@include color-mode(light) {
+    .config-menu-list .active {
+        background: $play-cor-fundos-2;
+        color: $black;
+    }
 }
 
 .config-menu-list {
     button {
-        background-color: $gray-200;
         transition: all $transition;
-
-        &.active {
-            background: $play-cor-fundos-secundaria;
-            color: $play-cor-texto;
-        }
-
+        
         &:hover:not(.active) {
-            background: $gray-300;
-            color: $play-cor-texto;
+            filter: brightness(0.8);
             box-shadow: 0px 0px 17px 3px rgba(0, 0, 0, 0.1);
         }
-
-        &:focus {
-            background: $play-cor-fundos-secundaria;
-            color: $play-cor-texto;
-        }
     }
-}
-
-.config-options-wrapper {
-    background-color: $play-cor-fundos;
-}
-
-.config-user-info {
-    background-color: $play-cor-fundos;
 }
 
 .config-user-pic-wrapper {
@@ -46,7 +35,6 @@
 }
 
 .config-user-realname {
-    color: $play-cor-texto;
     margin-bottom: -0.4rem;
 }
 
@@ -85,11 +73,6 @@
 
 .config-user-bio {
     line-break: anywhere;
-}
-
-// Color
-body {
-    background-color: $gray-200 !important;
 }
 
 // Media Queries

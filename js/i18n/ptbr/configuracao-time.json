@@ -52,7 +52,7 @@
     "NomeArtisticoLabel": "Nome Artístico:",
     "NomeArtisticoObrigatorio": "O nome artístico é obrigatório",
     "NomeArtisticoMinimo": "O nome artístico deve possuir no mínimo 4 caracteres",
-    "NomeArtisticoMaximo": "O nome artístico deve possuir no máximo 40 caracteres",
+    "NomeArtisticoMaximo": "O nome artístico deve possuir no máximo 15 caracteres",
     "NomeArtisticoInvalido": "Nome artístico inválido",
     "NumeroJogadorLabel": "Número do jogador:",
     "NumeroJogadorObrigatorio": "O número do jogador é obrigatório",
@@ -106,5 +106,6 @@
     "Eliminatorias": "Eliminatórias",
     "GruposEliminatorias": "Fase de Grupos com Eliminatórias",
     "TextoSairCampeonato": "Você está prestes a sair desse campeonato, tem certeza que deseja prosseguir?",
-    "ExitChampionship": "Sair do campeonato"
+    "ExitChampionship": "Sair do campeonato",
+    "TeamSportChangeWarning": "Não é possível alterar o esporte do time após seu cadastro."
 }

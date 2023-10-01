@@ -6,33 +6,27 @@ body, html {
 }
 
 .bg-grad {
-    background: rgb(216,255,219);
-    background: linear-gradient(180deg, rgba(216,255,219,1) 0%, rgba(255,255,255,0) 100%);
     height: 15rem;
 
     border-radius: $border-radius-2xl $border-radius-2xl 0 0 !important;
 }
 
 .team-info {
-    top: 6rem;
+    top: 10rem;
 }
 
 .team-config-btn {
-    background: $play-cor-fundos;
     transition: all $transition;
 
     a {
         text-decoration: none;
-        color: $play-cor-texto;
     }
 
     &:hover {
-        background-color: $play-cor-fundos-secundaria;
         filter: brightness(0.9) !important;
     }
 
     &:active {
-        background-color: $play-cor-fundos-secundaria;
         filter: brightness(0.8) !important;
     }
 }
@@ -48,25 +42,21 @@ body, html {
 }
 
 .coach-board {
-    background-color: $play-cor-fundos-secundaria;
     border-radius: 1.5rem;
 
     .coach-badge {
         span {
             font-size: 0.7rem;
             border-radius: 0.5rem;
-            background-color: $black;
         }
     }
 }
 
 .ss-player-data-number {
-    background-color: $play-cor-primaria;
     border-radius: 0.6rem;
 }
 
 .ss-player-data-position {
-    background-color: $black;
     border-radius: 0.8rem;
 }
 
@@ -76,7 +66,6 @@ body, html {
 }
 
 .team-name {
-    color: $play-cor-texto;
     margin-bottom: -0.4rem;
 }
 
@@ -90,12 +79,12 @@ body, html {
 //     }
 
 //     &:hover {
-//         background: $play-cor-fundos-secundaria;
+//         background: $play-cor-fundos-2;
 //         color: $white;
 //     }
 
 //     &:active {
-//         background: $play-cor-fundos-secundaria;
+//         background: $play-cor-fundos-2;
 //     }
 // }
 
@@ -191,21 +180,17 @@ body, html {
     height: 4rem;
     box-shadow: none;
     background-color: rgb(179 233 148 / 20%) !important;
+    border: none !important;
 
-    h2 {
-        color: $play-cor-texto
-    }
 }
 
 .ss-first-content {
     border-radius: 0 0 $border-radius-2xl $border-radius-2xl !important;
-    background: $play-cor-fundos;
     max-height: 23rem;
     overflow-y: auto;
 }
 
 .ss-second-content {
-    background: $play-cor-fundos;
     border-radius: 0 0 $border-radius-2xl $border-radius-2xl !important;
 
 }
@@ -218,32 +203,19 @@ body, html {
 }
 
 .ss-championship-content {
-    width: 10rem;
-    height: 10rem;
-
-    background-color: $play-cor-fundos-secundaria;
-
     cursor: pointer;
 
     transition: all $transition;
 
     &:hover {
         box-shadow: 0px 0 20px 0px rgb(0 0 0 / 7%);
-        background-color: #c0e2c3;
+        filter: brightness(0.9);
     }
 
     &:active {
-        background-color: #9ebda1;
+        filter: brightness(0.8);
     }
 }
-
-#uniforme-home, 
-#uniforme-away {
-    img {
-        background: $play-cor-fundos-secundaria;
-    }
-}
-
 
 .ss-championship-img-wrapper {
     height: 5rem;
@@ -257,15 +229,13 @@ body, html {
 }
 
 .ss-championship-texts {
-    max-width: 100px;
+    width: 10rem;
 }
 
 // transition: all ease-in-out 0.4s;
 
 .ss-slider {
     div {
-        background: $play-cor-fundos-secundaria;
-
         cursor: pointer;
     }
 }
@@ -291,6 +261,10 @@ body, html {
     .ss-test-1 {
         top: 23.5rem;
         right: 9.5rem;
+    }
+
+    .ss-championship-texts {
+        width: 10rem;
     }
 
     .ss-test-2 {
@@ -322,6 +296,10 @@ body, html {
 
     .team-desc {
         font-size: 0.7rem;
+    }
+
+    .ss-championship-texts {
+        width: 6rem;
     }
 
     .sports-section {

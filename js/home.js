@@ -12,7 +12,6 @@ Aos.init({
     disable: 'phone'
 })
 
-// 
 const navbarComponente = document.querySelector("componente-header")
 const homeCards = document.querySelectorAll(".home-card.d-flex")
 const homePill = document.querySelector("#home-pill")
@@ -22,9 +21,7 @@ const homeBtn = document.querySelector(".home-btn")
 const divRows = document.querySelectorAll(".home-row")
 const feats = document.querySelectorAll(".feats")
 const scrollTrigger = document.querySelectorAll(".scroll-trigger")
-const dotsWrapper = document.querySelector(".dots-wrapper")
 const featWrapper = document.querySelector(".feat-wrapper")
-const dots = document.querySelectorAll(".dot")
 const rodamoLogo = document.querySelector("img[alt='Rodamo Logo']")
 
 const footerCta = document.querySelectorAll(".footer-cta")
@@ -44,10 +41,6 @@ const mobilePortrait = window.matchMedia("(orientation: portrait)")
 
 let navbar
 let offcanvasNavbar 
-
-if (isVisible(scrollTrigger[0])) {
-    dots[0].classList.add('dots-active')
-}
 
 document.addEventListener("DOMContentLoaded", () => {
     navbar = navbarComponente.querySelector(".navbar")
@@ -70,7 +63,7 @@ if (mediaQueryMobile.matches) {
     homeCards[2].classList.add("padding-home-4")
     homeCards[2].classList.remove("p-5")
     homeCards[0].classList.remove("rounded-4", "pt-5")
-    homeCards[0].classList.add("vh-91", "rounded-5", "rounded-bottom-0", "card-bg", "padding-home-4", "home-grad")
+    homeCards[0].classList.add("vh-91", "rounded-5", "rounded-bottom-0", "card-bg", "padding-home-4")
     homeCards[1].classList.add("card-bg")
 
     extraOptions.forEach(option => option.classList.replace("w-90", "w-100"))
@@ -110,31 +103,6 @@ if (mediaQueryMobile.matches) {
             homePill.classList.add("d-none")
         }
 
-        // Page Indicator 
-        if (isVisible(scrollTrigger[0])) {
-            dots[0].classList.add('dots-active')
-        } else {
-            dots[0].classList.remove('dots-active')
-        }
-        
-        if (isVisible(scrollTrigger[2])) {
-            dots[1].classList.add('dots-active')
-        } else {
-            dots[1].classList.remove('dots-active')
-        }
-        
-        if (isVisible(scrollTrigger[4])) {
-            dots[2].classList.add('dots-active')
-        } else {
-            dots[2].classList.remove('dots-active')
-        }
-
-        if (isVisible(scrollTrigger[6])) {
-            dots[3].classList.add('dots-active')
-        } else {
-            dots[3].classList.remove('dots-active')
-        }
-
     }, {passive: "false"})
 
 } else {
@@ -152,6 +120,9 @@ if (mediaQueryMobile.matches) {
 
     window.addEventListener("resize", noiseHandler)
     
+    homeCards.forEach(card => card.classList.remove("lvl1-primary-bg"))
+
+    homeCards[2].classList.add("lvl1-primary-bg")
 
     homeCards[3].classList.remove("card-bg")
     homeCards[3].classList.add("my-5")
@@ -169,7 +140,6 @@ if (mediaQueryMobile.matches) {
     rodamoLogo.classList.add("w-50")
 
     homePill.classList.add("d-none")
-    dotsWrapper.classList.add("d-none")
 
     featWrapper.classList.remove("mt-1")
     featWrapper.classList.add("mt-5")
