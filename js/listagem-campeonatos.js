@@ -216,7 +216,7 @@ const exibirDados = async (data) => {
     data.results.forEach(e => {
         conteudo.innerHTML += 
         /*html*/`
-            <div class="card card-body mt-5 border border-black border-1 rounded-5">
+            <div class="card card-body mt-4 border-0 lvl0-color rounded-5">
                 <a href="pagina-campeonatos.html?id=${e.id}" class="text-decoration-none">
                     <div class="row gap-0">
                         <div class="col-md-2 d-flex justify-content-center">
@@ -233,7 +233,7 @@ const exibirDados = async (data) => {
                         </div>
 
                         <div class="col-md-1 d-flex justify-content-center align-items-center">
-                            <img src="/icons/right.svg" width="60">
+                            <i class="fs-1 bi bi-chevron-right"></i>
                         </div> 
                         ${
                             (data.results[data.results.length - 1] === e) ?
