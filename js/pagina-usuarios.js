@@ -186,7 +186,7 @@ const obterInfo = async () => {
 
     // Campeonatos administrados
     const admCampeonatos = document.getElementById("adm-campeonatos")
-    const campeonatosAdministrados = await executarFetch(`organizer/championship/${id}`, configuracaoFetch("GET"))
+    const campeonatosAdministrados = await executarFetch(`organizer/${id}/championship/`, configuracaoFetch("GET"))
 
     campeonatosAdministrados?.results.forEach((e) => {
 

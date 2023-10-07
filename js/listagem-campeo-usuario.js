@@ -92,7 +92,7 @@ const exibirDados = async (data) => {
                         </div>
 
                         <div class="col-md-1 d-flex justify-content-center align-items-center">
-                            <img src="/icons/right.svg" width="60">
+                            <i class="bi bi-chevron-right"></i>
                         </div> 
                     </div>
                 </a>

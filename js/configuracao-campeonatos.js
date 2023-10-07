@@ -780,7 +780,7 @@ const init = async () => {
 			const newOption = document.createElement('div');
 			newOption.classList.add('row', 'rounded-5', 'mx-1', 'px-0', 'py-3', 'mb-2', 'lvl2-primary-bg')
 			newOption.innerHTML = `
-				<div class="col-auto my-auto position-relative mx-auto border border-2 ms-md-3 p-0 overflow-hidden rounded-circle me-md-2 ss-player-image">
+				<div class="col-auto my-auto position-relative mx-auto border border-2 ms-md-3 p-0 overflow-hidden rounded-circle bg-white me-md-2 ss-player-image">
 					<img src="${time.emblem}" alt="teamImage" class="img-fluid position-absolute mw-100 h-100">
 				</div>
 
@@ -801,7 +801,7 @@ const init = async () => {
 
 			const botaoDesvincularWrapper = document.createElement('div')
 			botaoDesvincularWrapper.classList.add('col-auto', 'd-flex', 'my-auto', 'mx-auto', 'ms-md-auto', 'me-md-2')
-			botaoDesvincularWrapper.innerHTML = `<button type="button" class="delete-listed-thing justify-content-center align-items-center rounded-4 remover-vinculo-campeonato btn btn-danger d-flex"><i class="bi bi-trash text-light fs-5"></i></button>`
+			botaoDesvincularWrapper.innerHTML = `<button type="button" class="delete-listed-thing justify-content-center align-items-center rounded-4 remover-vinculo-campeonato btn btn-danger d-flex"><i class="bi bi-trash   fs-5"></i></button>`
 
 			newOption.appendChild(botaoDesvincularWrapper)
 			timesVinculadosWrapper.appendChild(newOption)
@@ -873,7 +873,7 @@ const init = async () => {
 				const newOption = document.createElement('div');
 				newOption.classList.add('row', 'rounded-5', 'mx-1', 'px-0', 'py-3', 'mb-2', 'lvl2-primary-bg')
 				newOption.innerHTML = `
-					<div class="col-auto my-auto position-relative mx-auto ms-md-3 p-0 overflow-hidden rounded-circle me-md-2 ss-player-image">
+					<div class="col-auto my-auto position-relative mx-auto ms-md-3 p-0 overflow-hidden rounded-circle bg-white me-md-2 ss-player-image">
 						<img src="${time.emblem}" alt="teamImage" class="img-fluid position-absolute mw-100 h-100">
 					</div>
 					
@@ -884,7 +884,7 @@ const init = async () => {
 
 				const addTeamButtonWrapper = document.createElement('div')
 				addTeamButtonWrapper.classList.add('col-auto', 'd-flex', 'mt-3', 'mt-md-auto', 'my-auto', 'mx-auto', 'ms-md-auto', 'me-md-2')
-				addTeamButtonWrapper.innerHTML = `<button type="button" class="add-listed-thing justify-content-center align-items-center rounded-4 adicionar-vinculo-campeonato btn btn-primary d-flex"><i class="bi bi-plus-lg text-light fs-5"></i></button>`
+				addTeamButtonWrapper.innerHTML = `<button type="button" class="add-listed-thing justify-content-center align-items-center rounded-4 adicionar-vinculo-campeonato btn btn-primary d-flex"><i class="bi bi-plus-lg   fs-5"></i></button>`
 
 				newOption.appendChild(addTeamButtonWrapper)
 
@@ -945,7 +945,7 @@ const init = async () => {
 						<p class="ss-player-name w-auto text-center text-md-start text-nowrap text-truncate d-block">${result.name}</p>
 					</div>
 					<div class="col-auto d-flex mt-3 mt-md-auto my-auto mx-auto ms-md-auto me-md-2">
-						<button id="vincular-suborg" type="button" class="add-listed-thing justify-content-center align-items-center rounded-4 adicionar-player-step btn btn-primary d-flex"><i class="bi bi-plus text-light fs-5"></i></button>
+						<button id="vincular-suborg" type="button" class="add-listed-thing justify-content-center align-items-center rounded-4 adicionar-player-step btn btn-primary d-flex"><i class="bi bi-plus   fs-5"></i></button>
 					</div>
 					`
 				
@@ -991,7 +991,7 @@ const init = async () => {
 			`
 			const botaoDesvincularWrapper = document.createElement('div')
 			botaoDesvincularWrapper.classList.add('col-auto', 'd-flex', 'mt-3', 'mt-md-auto', 'my-auto', 'mx-auto', 'ms-md-auto', 'me-md-2')
-			botaoDesvincularWrapper.innerHTML = `<button type="button" class="delete-listed-thing justify-content-center align-items-center rounded-4 remover-vinculo-campeonato btn btn-danger d-flex"><i class="bi bi-trash text-light fs-5"></i></button>`
+			botaoDesvincularWrapper.innerHTML = `<button type="button" class="delete-listed-thing justify-content-center align-items-center rounded-4 remover-vinculo-campeonato btn btn-danger d-flex"><i class="bi bi-trash   fs-5"></i></button>`
 
 			document.getElementById('suborganizadores-ja-vinculados').appendChild(newOption)
 			if(usuarioAtual.results.id !== result.id) newOption.appendChild(botaoDesvincularWrapper)
