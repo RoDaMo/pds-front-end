@@ -64,6 +64,12 @@ $color-mode-type: data;
     color: $play-cor-danger-dark !important;
   }
 
+  .list__champs {  
+    &:hover {
+      background-color: $gray-800 !important;
+    }
+  }
+
   .bi-eye, .bi-eye-slash {
     color: $black;
     background-color: $white;
@@ -126,6 +132,12 @@ $color-mode-type: data;
 
   .lvl3-color {
     background-color: $gray-400;
+  }
+
+  .list__champs {  
+    &:hover {
+      background-color: $gray-100 !important;
+    }
   }
 
   .bi-eye, .bi-eye-slash {
@@ -276,6 +288,10 @@ button[key='LimparFiltros'] {
 .rounded-bottom-0 {
   border-bottom-left-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
+}
+
+.list__champs {
+  transition: background-color $transition;
 }
 
 .translate-6 {

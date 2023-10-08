@@ -15,12 +15,23 @@
 
 .team-uniform-img {
   width: 20rem;
-  height: 20rem;
+  max-height: 20rem;
+
+  transition: filter $transition;
+
+  &:hover {
+    filter: brightness(0.8);
+  }
 }
 
 @include media-breakpoint-down(lg) {
   #link-bracket-btn-wrapper {
     width: 60%;
+  }
+
+  .team-uniform-img {
+    width: 15rem;
+    max-height: 15rem;
   }
 }
 
@@ -30,7 +41,7 @@
   }
 
   .team-uniform-img {
-    width: 10rem;
-    height: 10rem;
+    width: 12rem;
+    max-height: 12rem;
   }
 }
