@@ -31,13 +31,13 @@ const urlParams = new URLSearchParams(window.location.search),
   championshipId = urlParams.get("idC");
 
 let championshipData = null;
-(async () => {
+const getChampionshipData = async () => {
   const response = await executarFetch(
     `championships/${championshipId}`,
     configuracaoFetch("GET")
   );
   championshipData = response.results;
-})();
+};
 
 const sessionUserInfo = JSON.parse(localStorage.getItem("user-info"));
 
@@ -46,7 +46,7 @@ const isOrganizer = () => {
   let isChampionshipOrganizer = false;
 
   isChampionshipOrganizer =
-    idCampeonato == sessionUserInfo?.championshipId ? true : false;
+    championshipId == sessionUserInfo?.championshipId ? true : false;
 
   if (sessionUserInfo?.isOrganizer && isChampionshipOrganizer) {
     isOrganizer = true;
@@ -94,20 +94,20 @@ const configureMatch = async (matchId, championshipData) => {
   configMatchForm.insertAdjacentHTML(
     "beforeend",
     `
-    <h2 class="text-center rounded-4 w-100 fw-normal i18" key="configMatch">${i18next.t(
+    <h2 class="text-center rounded-4 w-100 fw-semibold i18" key="configMatch">${i18next.t(
       "configMatch"
     )}</h2>
 
 	  <div class="row mt-3 justify-content-center">
     
-		<h4 class="text-center rounded-4 w-auto lvl1-color fw-normal config-match-section-label i18" key="Uniformes">${i18next.t(
-      "Uniformes"
+		<h4 class="text-center rounded-4 w-auto p-2 px-3 lvl1-color fw-normal config-match-section-label i18" key="UniformSelection">${i18next.t(
+      "UniformSelection"
     )}</h4>
 		<span class="i18 mb-0 text-center" key="MatchHomeUniformLabel">${i18next.t(
       "MatchHomeUniformLabel"
     )}</span>
-		<div class="col-12 text-center"><span>${team1.name}</span></div>
-		<div class="col-6 form-check d-flex flex-column justify-content-center align-items-center">
+		<div class="col-12 mb-2 text-center"><span>${team1.name}</span></div>
+		<div class="col-6 p-0 px-2 form-check d-flex flex-column justify-content-center align-items-center">
 		  <img id="team1-home-uniform-img" class="img-fluid selected-uniform mb-2 rounded-5 team-uniform-img cursor-pointer" src="${
         team1.uniformHome
       }" alt="">
@@ -115,7 +115,7 @@ const configureMatch = async (matchId, championshipData) => {
         team1.uniformHome
       }" class="rounded-pill w-25 form-check-input m-auto d-none" type="radio" id="check-team1-home-uniform" name="team1-uniform-radio" checked>
 		</div>
-		<div class="col-6 form-check d-flex flex-column justify-content-center align-items-center">
+		<div class="col-6 p-0 px-2 form-check d-flex flex-column justify-content-center align-items-center">
 		  <img id="team1-away-uniform-img" class="img-fluid rounded-5 mb-2 team-uniform-img cursor-pointer" src="${
         team1.uniformAway
       }" alt="">
@@ -129,8 +129,8 @@ const configureMatch = async (matchId, championshipData) => {
 		<span class="i18 mb-0 text-center" key="MatchAwayUniformLabel">${i18next.t(
       "MatchAwayUniformLabel"
     )}</span>
-		<div class="col-12 text-center"><span>${team2.name}</span></div>
-		<div class="col-6 form-check d-flex flex-column justify-content-center align-items-center">
+		<div class="col-12 mb-2 text-center"><span>${team2.name}</span></div>
+		<div class="col-6 p-0 px-2 form-check d-flex flex-column justify-content-center align-items-center">
 		  <img id="team2-home-uniform-img" class="img-fluid rounded-5 mb-2 team-uniform-img cursor-pointer" src="${
         team2.uniformHome
       }" alt="">
@@ -138,7 +138,7 @@ const configureMatch = async (matchId, championshipData) => {
         team2.uniformHome
       }" class="rounded-pill w-25 form-check-input m-auto d-none" type="radio" id="check-team2-home-uniform" name="team2-uniform-radio">
 		</div>
-		<div class="col-6 form-check d-flex flex-column justify-content-center align-items-center">
+		<div class="col-6 p-0 px-2 form-check d-flex flex-column justify-content-center align-items-center">
 		  <img id="team2-away-uniform-img" class="img-fluid selected-uniform rounded-5 mb-2 team-uniform-img cursor-pointer" src="${
         team2.uniformAway
       }" alt="">
@@ -148,7 +148,7 @@ const configureMatch = async (matchId, championshipData) => {
 		</div>
 	  </div>
   
-	  <div class="row justify-content-center mt-5"><h4 class="text-center config-match-section-label rounded-3 w-auto lvl1-color fw-normal i18" key="InfosPartida">${i18next.t(
+	  <div class="row justify-content-center mt-5"><h4 class="text-center config-match-section-label p-2 px-3 rounded-4 w-auto lvl1-color fw-normal i18" key="InfosPartida">${i18next.t(
       "InfosPartida"
     )}</h4></div>
 	  <div class="row">
@@ -173,8 +173,8 @@ const configureMatch = async (matchId, championshipData) => {
 		</div>
 	  </div>
   
-	  <div class="row mt-3">
-		<div class="col-12 col-md">
+	  <div class="row">
+		<div class="col-12 mt-3 col-md">
 		  <label for="match-zipcode" class="i18 form-label mb-0" key="MatchZipcodeLabel">${i18next.t(
         "MatchZipcodeLabel"
       )}</label>
@@ -182,7 +182,7 @@ const configureMatch = async (matchId, championshipData) => {
         "MatchZipcodePlaceholder"
       )}">
 		</div>
-		<div class="col-12 col-md">
+		<div class="col-12 mt-3 col-md">
 		  <label for="match-city" class="i18 form-label mb-0" key="MatchCityLabel">${i18next.t(
         "MatchCityLabel"
       )}</label>
@@ -192,8 +192,8 @@ const configureMatch = async (matchId, championshipData) => {
 		</div>
 	  </div>
   
-	  <div class="row mt-3">
-		<div class="col-12 col-md">
+	  <div class="row">
+		<div class="col-12 mt-3 col-md">
 		  <label for="match-road" class="i18 form-label mb-0" key="MatchStreetLabel">${i18next.t(
         "MatchStreetLabel"
       )}</label>
@@ -201,7 +201,7 @@ const configureMatch = async (matchId, championshipData) => {
         "MatchStreetPlaceholder"
       )}">
 		</div>
-		<div class="col-12 col-md">
+		<div class="col-12 mt-3 col-md">
 		  <label for="match-location-number" class="i18 form-label mb-0" key="MatchLocationNumberLabel">${i18next.t(
         "MatchLocationNumberLabel"
       )}</label>
@@ -211,8 +211,8 @@ const configureMatch = async (matchId, championshipData) => {
 	  </div>
 
 	  <div class="col-12 mt-5 mb-3 d-flex justify-content-center gap-2">
-			<button id="salvar" class="col-md-2 order-last btn lvl3-primary-bg rounded-pill i18" key="Salvar" type="submit">Salvar</button>
-			<a href="/pages/tabela-chaveamento.html?id=${championshipId}" class="col-md-2 btn btn-outline-info rounded-pill i18" key="Cancelar">Cancelar</a>
+			<button id="salvar" class="col-md-2 order-last btn lvl3-primary-bg rounded-pill i18" key="Salvar" type="submit">${i18next.t("Salvar")}</button>
+			<a href="/pages/tabela-chaveamento.html?id=${championshipId}" class="col-md-2 btn btn-outline-info rounded-pill i18" key="Cancelar">${i18next.t("Cancelar")}</a>
 		</div> 
 	`
   );
@@ -256,7 +256,7 @@ const configureMatch = async (matchId, championshipData) => {
 
     team1AwayUniformImg.classList.add("selected-uniform");
     team1HomeUniformImg.classList.remove("selected-uniform");
-  }); 
+  });
 
   team2HomeUniformImg.addEventListener("click", () => {
     checkTeam2HomeUniform.checked = true;
@@ -271,7 +271,6 @@ const configureMatch = async (matchId, championshipData) => {
     team2AwayUniformImg.classList.add("selected-uniform");
     team2HomeUniformImg.classList.remove("selected-uniform");
   });
-
 
   const getHomeUniform = () => {
     if (checkTeam1HomeUniform.checked) {
@@ -321,6 +320,26 @@ const configureMatch = async (matchId, championshipData) => {
       checkTeam2HomeUniform.checked = true;
     } else if (match.visitorUniform == team2.uniformAway) {
       checkTeam2AwayUniform.checked = true;
+    }
+
+    if (checkTeam1HomeUniform.checked) {
+      team1HomeUniformImg.classList.add("selected-uniform");
+      team1AwayUniformImg.classList.remove("selected-uniform");
+    }
+
+    if (checkTeam1AwayUniform.checked) {
+      team1AwayUniformImg.classList.add("selected-uniform");
+      team1HomeUniformImg.classList.remove("selected-uniform");
+    }
+
+    if (checkTeam2HomeUniform.checked) {
+      team2HomeUniformImg.classList.add("selected-uniform");
+      team2AwayUniformImg.classList.remove("selected-uniform");
+    }
+
+    if (checkTeam2AwayUniform.checked) {
+      team2AwayUniformImg.classList.add("selected-uniform");
+      team2HomeUniformImg.classList.remove("selected-uniform");
     }
   }
 
@@ -473,23 +492,24 @@ const configureMatch = async (matchId, championshipData) => {
 
 const putMatch = async (body) => {
   const callbackStatus = (data) => {
-    notificacaoErro(data.results)
-  }
+    notificacaoErro(data.results);
+  };
 
-  loader.show()
-  const configFetch = configuracaoFetch('PUT', body),
-    response = await executarFetch(`matches`, configFetch, callbackStatus)
-    
-  loader.hide()
+  loader.show();
+  const configFetch = configuracaoFetch("PUT", body),
+    response = await executarFetch(`matches`, configFetch, callbackStatus);
+
+  loader.hide();
 
   if (response.succeed) {
-    notificacaoSucesso(i18next.t("SucessoConfigurarPartida"))
+    notificacaoSucesso(i18next.t("SucessoConfigurarPartida"));
 
-    configMatchModalBT.hide()
+    window.location.replace("/pages/tabela-chaveamento.html?id=" + championshipId)
   }
-}
+};
 
-document.addEventListener("header-carregado", () => {
+document.addEventListener("header-carregado", async () => {
+  await getChampionshipData();
+  isOrganizer() ? configureMatch(matchId, championshipData) : window.location.replace("/pages/tabela-chaveamento.html?id=" + championshipId);
   window.dispatchEvent(new Event("pagina-load"));
-  configureMatch(matchId, championshipData);
 });

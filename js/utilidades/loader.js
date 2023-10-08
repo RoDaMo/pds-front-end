@@ -21,6 +21,7 @@ export class Loader extends HTMLElement {
 
   render() {
     let displayStyle = this.isLoading ? 'block' : 'none';
+    let colorScheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     this.shadowRoot.innerHTML = `
       <style>
         :host {
@@ -30,6 +31,7 @@ export class Loader extends HTMLElement {
           left: 0;
           width: 100%;
           height: 100%;
+          background-color: ${colorScheme === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.5)'};
           z-index: 9999;
         }
 
