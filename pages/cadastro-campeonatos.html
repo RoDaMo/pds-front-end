@@ -20,38 +20,39 @@
     <componente-preloader></componente-preloader>
 
     <componente-header></componente-header>
-    <main class="pt-5 mt-2">
-        <form class="container bg-white rounded-5 px-5 py-4" method="post" id="formulario">
+    <main>
+        <form class="container lvl0-color rounded-5 px-5 py-4" method="post" id="formulario">
             <div class="row gap-0">
                 <div class="col-md-8">
                     <div class="col-md-12 mb-5">
-                        <h1 class="mb-1 text-dark i18" key="CadastreCampeonato">Criar um campeonato</h1>
-                        <h4 id="texto-apresentacao" class="mb-4 text-success i18 fs-5" key="CadastreCampeonatoMensagem">Crie seu próprio campeonato para cadastrar os times competidores!</h4>
+                        <h1 class="mb-1 i18" key="CadastreCampeonato">Criar um campeonato</h1>
+                        <h4 id="texto-apresentacao" class="mb-4 i18 fs-5" key="CadastreCampeonatoMensagem">Crie seu próprio campeonato para cadastrar os times competidores!</h4>
                     </div>
                     <div class="row gap-0">
                         <div class="mb-3 col-md-6 mb-3 mt-3">
-                            <label for="nome" class="form-label text-success i18" key="FormularioNomeCampeonato">Nome do campeonato:</label>
+                            <label for="nome" class="form-label i18" key="FormularioNomeCampeonato">Nome do campeonato:</label>
                             <input type="text" maxlength="40" class="form-control rounded-4 i18-placeholder" key="FormularioNomeCampeonatoPlaceholder" id="nome" name="nome" placeholder="Nome do campeonato...">
                         </div>
                         <div class="col-md-6 mb-3 mt-3">
-                            <label for="esportes" class="form-label text-success i18" key="FormularioEsporte">Esporte:</label>
+                            <label for="esportes" class="form-label i18" key="FormularioEsporte">Esporte:</label>
                             <select name="esportes" class="form-select rounded-4" id="esportes">
                                 <option value="" class="i18" key="FormularioEsportePlaceholder" selected>Selecione um Esporte</option>
                                 <option value="1" class="i18" key="FormularioEsporteFutebol">Futebol</option>
                                 <option value="2" class="i18" key="FormularioEsporteVolei">Vôlei</option>
                             </select>
+							<p class="i18 text-muted sport-change-warning" key="TeamChampionshipChangeWarning"></p>
                         </div>
                         <div class="col-md-6 mb-3 mt-3">
-                            <label for="data-inicial" class="form-label text-success mt-3 i18" key="FormularioDataInicial">Data inicial:</label>
+                            <label for="data-inicial" class="form-label mt-3 i18" key="FormularioDataInicial">Data inicial:</label>
                             <input type="text" class="form-control rounded-4" id="data-inicial" name="data-inicial" placeholder="dd/MM/yyyy">
                         </div>
                         <div class="col-md-6 mb-3 mt-3">
-                            <label for="data-final" class="form-label text-success mt-3 i18" key="FormularioDataFinal">Data final:</label>
+                            <label for="data-final" class="form-label mt-3 i18" key="FormularioDataFinal">Data final:</label>
                             <input type="text" class="form-control rounded-4" id="data-final" name="data-final" placeholder="dd/MM/yyyy">
                         </div>
                         <div id="input-formato" class="col-md-6 mb-3 mt-3">
                             <div>
-                                <label for="formato" class="form-label text-success i18" key="Formato">Formato:</label>
+                                <label for="formato" class="form-label i18" key="Formato">Formato:</label>
                                 <select disabled name="formato" class="form-select rounded-4 text-muted" id="formato">
                                     <option value="" selected class="i18" key="FormatoPlaceholderDisabled">Selecione um Formato</option>
                                     <option value="3" class="i18" key="PontosCorridos">Pontos Corridos</option>
@@ -64,13 +65,13 @@
                             </div>
                         </div>
                         <div class="col-md-6 mb-3 mt-3">
-                            <label for="quantidade" class="form-label text-success i18" key="QuantidadeTimes">Quantidade de times:</label>
+                            <label for="quantidade" class="form-label i18" key="QuantidadeTimes">Quantidade de times:</label>
                             <select disabled name="quantidade" class="form-select rounded-4 text-muted" id="quantidade">
                                 <option value="" selected class="i18" key="QuantidadePlaceholderDisabled">Selecione o formato antes...</option>
                             </select>
                         </div>
                         <div class="col-md-12 mb-3 mt-3">
-                            <label for="descricao" class="form-label text-success i18" key="DescricaoCampeonato">Descrição do campeonato:</label>
+                            <label for="descricao" class="form-label i18" key="DescricaoCampeonato">Descrição do campeonato:</label>
                             <textarea class="form-control h-100 px-3 py-2 i18-placeholder" maxlength="2000" key="DescricaoCampeonatoPlaceholder" id="descricao" placeholder="Descreva seu campeonato..." name="descricao"></textarea>
                         </div>
                         
@@ -80,11 +81,11 @@
 
                 <div class="col-md-4 mt-5 d-flex align-items-center flex-column">
                     <div>
-                        <img src="https://playoffs-api.up.railway.app/img/fefabe2b-4038-4b8c-b719-54fbbe9095a4" class="p-2 img-fluid rounded-5 border border-success escudo" id="escudo" alt="">
+                        <img src="https://www.api.playoffs.app.br/img/b874d3ad-85e4-4878-84e3-72f7bc98028b" class="p-2 img-fluid rounded-5 border escudo" id="escudo" alt="">
                     </div>
                     <div class="custom-file-upload-logo">
-                        <label for="logo" class="col-md-12 mt-4 btn btn-success d-flex justify-content-center align-items-center">
-                            <i class="d-flex justify-content-center align-items-center btn bi bi-upload text-light"></i>
+                        <label for="logo" class="col-md-12 mt-4 btn lvl2-primary-bg d-flex justify-content-center align-items-center">
+                            <i class="d-flex justify-content-center align-items-center btn bi bi-upload"></i>
                             <span id="custom-text" class="i18" key="Enviar">Enviar</span>
                             <div class="input-wrapper w-100">
                                 <input id="logo" type="file" name="logo" accept=".jpeg, .jpg, .png, .webp, .gif, .bmp, .tiff">
@@ -95,9 +96,9 @@
                 </div> 
             </div>
    
-            <div class="col-12 mt-5 mb-5 gap-2">
-                <button id="salvar" class="col-md-2 btn btn-success rounded-pill i18" key="Salvar" type="submit">Salvar</button>
-                <a href="/index.html" class="col-md-2 btn btn-outline-success rounded-pill i18" key="Cancelar">Cancelar</a>
+            <div class="col-12 mt-5 mb-3 d-flex justify-content-center gap-2">
+                <button id="salvar" class="col-md-2 order-last btn lvl3-primary-bg rounded-pill i18" key="Salvar" type="submit">Salvar</button>
+                <a href="/index.html" class="col-md-2 btn btn-outline-info rounded-pill i18" key="Cancelar">Cancelar</a>
             </div>  
             <div class="mt-4 text-danger">
                 <p class="text-danger" id="mensagem-erro"></p>

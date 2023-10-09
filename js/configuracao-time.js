@@ -296,7 +296,7 @@ const init = async () => {
 
         for (const jogador of jogadoresVinculados.results) {
             const jogadoresVinculadosContent = document.createElement('div');
-            jogadoresVinculadosContent.classList.add('row', 'rounded-5', 'mx-1', 'px-0', 'py-3', 'mb-2', 'ss-list-player-content')
+            jogadoresVinculadosContent.classList.add('row', 'rounded-5', 'mx-1', 'px-0', 'py-3', 'mb-2', 'lvl2-primary-bg')
 
             if (jogador.picture === null || jogador.picture === '' || jogador.picture === undefined) {
                 jogador.picture = '../default-user-image.png'
@@ -362,10 +362,10 @@ const init = async () => {
                     <p class="mb-0 ss-player-username text-center text-md-start opacity-75 text-nowrap text-truncate d-block">${jogador.artisticName}</p>
 
                     <div class="ss-player-data2 row justify-content-center align-items-center flex-column flex-md-row mt-2 mx-md-auto ms-md-0">
-                        <p class="col col-md-auto w-auto ss-player-data-number px-2 py-1 fs-6 mb-0 text-white text-opacity-75">${jogador.number}</p>
+                        <p class="col col-md-auto w-auto ss-player-data-number px-2 py-1 fs-6 mb-0 lvl0-color text-opacity-75">${jogador.number}</p>
                         <i class="col col-md-auto bi bi-dot p-0 d-none d-md-block mx-auto"></i>
                         <hr class="ss-player-data-hr rounded-pill d-block m-0 my-2 d-md-none">
-                        <p class="col col-md-auto w-auto ss-player-data-position px-2 py-1 fs-6 mb-0 text-white text-opacity-75">${jogador.playerPos}</p>
+                        <p class="col col-md-auto w-auto ss-player-data-position px-2 py-1 fs-6 mb-0 lvl0-color text-opacity-75">${jogador.playerPos}</p>
                     </div>
                 </div>
 
@@ -375,7 +375,7 @@ const init = async () => {
             botaoDesvincularWrapper.classList.add('col-auto', 'd-flex', 'my-auto', 'mx-auto', 'ms-md-auto', 'me-md-2', 'gap-2');
             botaoDesvincularWrapper.innerHTML = `
                 <button title="Tornar Capitão" type="button" class="btn-capitao justify-content-center align-items-center rounded-4 btn btn-dark d-flex delete-listed-thing"><i class="bi bi-star-fill"></i></button>
-                <button title="Excluir Jogador" type="button" class="btn-desvincular justify-content-center align-items-center rounded-4 remover-vinculo-campeonato btn btn-danger d-flex delete-listed-thing" ><i class="bi bi-trash text-light fs-5"></i></button>
+                <button title="Excluir Jogador" type="button" class="btn-desvincular justify-content-center align-items-center rounded-4 remover-vinculo-campeonato btn btn-danger d-flex delete-listed-thing" ><i class="bi bi-trash   fs-5"></i></button>
             `;
 
             if(!jogador.isCaptain) botaoDesvincularWrapper.querySelector('.btn-capitao').style.opacity = 0.5
@@ -440,7 +440,7 @@ const init = async () => {
                 : ''
 
             const campeonatosVinculadosContent = document.createElement('div');
-            campeonatosVinculadosContent.classList.add('row', 'rounded-5', 'mx-1', 'px-0', 'py-3', 'mb-2', 'ss-list-player-content')
+            campeonatosVinculadosContent.classList.add('row', 'rounded-5', 'mx-1', 'px-0', 'py-3', 'mb-2', 'lvl2-primary-bg')
 
             campeonatosVinculadosContent.innerHTML = `
                 <div class="col-auto my-auto position-relative mx-auto border border-2 ms-md-3 p-0 overflow-hidden rounded-circle me-md-2 ss-player-image">
@@ -451,7 +451,7 @@ const init = async () => {
                     <p class="ss-player-name text-center text-md-start text-nowrap text-truncate d-block">${campeonato.name}</p>
                     
                     <div class="ss-player-data2 row justify-content-center align-items-center d-flex flex-column flex-md-row mt-2 mx-md-auto ms-md-0">
-                        <p class="col col-md-auto w-auto ss-player-data-position px-2 py-1 fs-6 mb-0 text-white text-opacity-75">${championshipFormat}</p>
+                        <p class="col col-md-auto w-auto ss-player-data-position px-2 py-1 fs-6 mb-0 lvl0-color text-opacity-75">${championshipFormat}</p>
                     </div>
                 </div>
 
@@ -462,7 +462,7 @@ const init = async () => {
 
             const botaoDesvincularWrapper = document.createElement('div')
             botaoDesvincularWrapper.classList.add('col-auto', 'd-flex', 'my-auto', 'mx-auto', 'ms-md-auto', 'me-md-0')
-            botaoDesvincularWrapper.innerHTML = `<button type="button" data-bs-toggle="modal" data-bs-target="#exitChampionshipModal" class="delete-listed-thing justify-content-center align-items-center rounded-4 remover-vinculo-campeonato btn btn-danger d-flex"><i class="bi bi-box-arrow-right text-light text-center ms-1 fs-4"></i></i></button>`
+            botaoDesvincularWrapper.innerHTML = `<button type="button" data-bs-toggle="modal" data-bs-target="#exitChampionshipModal" class="delete-listed-thing justify-content-center align-items-center rounded-4 remover-vinculo-campeonato btn btn-danger d-flex"><i class="bi bi-box-arrow-right   text-center ms-1 fs-4"></i></i></button>`
             
             campeonatosVinculadosContent.appendChild(botaoDesvincularWrapper)
             campeonatosVinculadosWrapper.appendChild(campeonatosVinculadosContent)
@@ -720,7 +720,7 @@ const init = async () => {
                     },
                     {
                         rule: 'maxLength',
-                        value: 40,
+                        value: 15,
                         errorMessage: `<span class="i18" key="NomeArtisticoMaximo">${i18next.t("NomeArtisticoMaximo")}</span>`,
                     },
                 ])
@@ -808,7 +808,7 @@ const init = async () => {
             datalistPesquisa.innerHTML = ''
             for (const jogador of jogadores) {
                 const newOption = document.createElement('div');
-                newOption.classList.add('row', 'rounded-5', 'mx-1', 'px-0', 'py-3', 'mb-2', 'ss-list-player-content')
+                newOption.classList.add('row', 'rounded-5', 'mx-1', 'px-0', 'py-3', 'mb-2', 'lvl2-primary-bg')
                 newOption.innerHTML = `
                     <div class="col-auto my-auto position-relative mx-auto ms-md-3 p-0 overflow-hidden rounded-circle me-md-2 ss-player-image">
                         <img src="${jogador.picture}" alt="playerImage" class="img-fluid position-absolute mw-100 h-100">
@@ -821,13 +821,13 @@ const init = async () => {
 
                 const addPlayerStepWrapper = document.createElement('div')
                 addPlayerStepWrapper.classList.add('col-auto', 'd-flex', 'mt-3', 'mt-md-auto', 'my-auto', 'mx-auto', 'ms-md-auto', 'me-md-2')
-                addPlayerStepWrapper.innerHTML = `<button type="button" class="add-listed-thing justify-content-center align-items-center rounded-4 adicionar-player-step btn btn-primary d-flex"><i class="bi bi-plus text-light fs-5"></i></button>`
+                addPlayerStepWrapper.innerHTML = `<button type="button" class="add-listed-thing justify-content-center align-items-center rounded-4 adicionar-player-step btn btn-primary d-flex"><i class="bi bi-plus   fs-5"></i></button>`
 
                 newOption.appendChild(addPlayerStepWrapper)
 
                 addPlayerStepWrapper.addEventListener('click', async e => {
                     document.getElementById('playerStep').innerHTML = `
-                        <div class="card bg-verde-limao p-2 border-0">
+                        <div class="card lvl2-primary-bg p-2 border-0">
                             <div class="card-body row">
                                 <div class="col-12">
                                     <div class="position-relative mx-auto mb-3 p-0 overflow-hidden rounded-circle img-player-step">
@@ -855,7 +855,7 @@ const init = async () => {
                                             <label for="playerPosition" class="form-label">
                                                 <span class="i18" key="PosicaoJogadorLabel">${i18next.t("PosicaoJogadorLabel")}</span>
                                             </label>
-                                            <select class="w-100 form-select rounded-4 width-config-input" id="playerPosition" name="playerPosition"></select>
+                                            <select class="w-100 form-select rounded-4" id="playerPosition" name="playerPosition"></select>
                                         </div>
                                         <button type="submit" class="btn btn-primary i18 mx-auto d-block" key="AddJogador">${i18next.t("AddJogador")}</button>
                                     <form>
@@ -868,7 +868,6 @@ const init = async () => {
 
                     selectPositionElem = document.getElementById('playerPosition')
                     resetPositionOptions()
-
                     
                     const isCaptain = document.getElementById('isCaptain')
                     const fantasyName = document.getElementById('fantasyName')
@@ -889,12 +888,12 @@ const init = async () => {
                             },
                             {
                                 rule: 'maxLength',              
-                                value: 40,
+                                value: 15,
                                 errorMessage: `<span class="i18" key="NomeArtisticoMaximo">${i18next.t("NomeArtisticoMaximo")}</span>`,
                             },
                             {
                                 rule: 'customRegexp',
-                                value: /^[A-Za-z0-9_-]*$/,
+                                value: /^[a-zA-Z0-9 ]*$/,
                                 errorMessage: `<span class="i18" key="NomeArtisticoInvalido">${i18next.t("NomeArtisticoInvalido")}</span>`,
                             },
                         ])

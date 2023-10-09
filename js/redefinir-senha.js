@@ -1,4 +1,4 @@
-import { configuracaoFetch, limparMensagem, executarFetch } from "./utilidades/configFetch"
+import { configuracaoFetch, api, limparMensagem, executarFetch } from "./utilidades/configFetch"
 import { notificacaoErro } from "./utilidades/notificacoes"
 import { visualizarSenha } from "./utilidades/visualizar-senha"
 import JustValidate from "just-validate"
@@ -12,6 +12,24 @@ const loader = document.createElement('app-loader')
 document.body.appendChild(loader)
 
 inicializarInternacionalizacao(ingles, portugues)
+
+const resetPassCardHeader = document.querySelector("#resetpass-card-header")
+
+document.addEventListener("DOMContentLoaded", () => {
+    resetPassCardHeader.insertAdjacentHTML('afterbegin', `
+        <a class="navbar-brand justify-content-center d-flex m-auto p-auto col-9" href="/"><img src=${(document.documentElement.getAttribute("data-bs-theme") == "light") ? "/Logo_Playoffs.png" : "/Logo_Playoffs_White.png"} class="img-fluid" width="300" alt="Logo Playoffs"></a>
+    `)    
+
+    const navbarBrandImg = document.querySelector(".navbar-brand img")
+
+    document.querySelectorAll(".theme-option-btns").forEach(btn => {
+        btn.addEventListener('click', async () => {
+            (document.documentElement.getAttribute('data-bs-theme') != "light") ?
+            navbarBrandImg.setAttribute('src', '/Logo_Playoffs.png')
+            : navbarBrandImg.setAttribute('src', "/Logo_Playoffs_White.png")
+        })
+    })
+})
 
 const opcao1 = document.getElementById("1")
 const opcao2 = document.getElementById("2")
@@ -102,7 +120,7 @@ async function postToken(body) {
     const config = configuracaoFetch("POST", body)
 
     loader.show()
-    const res = await fetch(`https://playoffs-api.up.railway.app/auth/reset-password`, config)
+    const res = await fetch(`${api}auth/reset-password`, config)
     loader.hide()
 
     const data = await res.json()

@@ -4,6 +4,152 @@ $offset: 20vw;
 $move-initial: calc(-25% + $offset);
 $move-final: calc(-50% + $offset);
 
+$color-mode-type: data;
+
+@include color-mode(dark) {
+  *::-webkit-scrollbar-track {
+    background: $body-tertiary-bg-dark;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    border: 3px solid $body-tertiary-bg-dark;
+  }
+
+  componente-footer {
+    background-color: $body-tertiary-bg-dark !important;
+  }
+
+  .bg-grad {
+    background: $body-tertiary-bg-dark;
+    background: linear-gradient(180deg, $body-tertiary-bg-dark 0%, rgba(255,255,255,0) 100%);
+  }
+
+  .lvl1-primary-bg {
+    background-color: $play-cor-fundos-dark !important;
+  }
+
+  .lvl2-primary-bg {
+    background-color: $play-cor-fundos-2-dark !important;
+  }
+
+  .lvl3-primary-bg {
+    background-color: $play-cor-fundos-3-dark !important;
+  }
+
+  .navbar-blur {
+    background: rgb(29 41 29 / 10%) !important;
+  }
+
+  .just-validate-error-label {
+    color: $play-cor-danger-dark !important;
+  }
+
+  .lvl0-color {
+    background-color: $body-tertiary-bg-dark;
+  }
+
+  .lvl1-color {
+    background-color: $gray-800;
+  }
+
+  .lvl2-color {
+    background-color: $gray-700;
+  }
+
+  .lvl3-color {
+    background-color: $gray-600;
+  }
+
+  .text-danger {
+    color: $play-cor-danger-dark !important;
+  }
+
+  .list__champs {  
+    &:hover {
+      background-color: $gray-800 !important;
+    }
+  }
+
+  .bi-eye, .bi-eye-slash {
+    color: $black;
+    background-color: $white;
+  }
+
+  .corner-babies {
+    background-color: $black !important;
+
+    i {
+      color: $white !important;
+    }
+  }
+}
+
+@include color-mode(light) {
+  .bg-grad {
+    background: $white;
+    background: linear-gradient(180deg, $white 0%, rgba(255,255,255,0) 100%);
+  }
+
+  *::-webkit-scrollbar-track {
+    background: $white;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    border: 3px solid $white;
+  }
+
+  componente-footer {
+    background-color: $white !important;
+  }
+
+  body {
+    background-color: $gray-200 !important;
+  }
+
+  .lvl1-primary-bg {
+    background-color: $play-cor-fundos !important;
+  }
+
+  .lvl2-primary-bg {
+    background-color: $play-cor-fundos-2 !important;
+  }
+
+  .lvl3-primary-bg {
+    background-color: $play-cor-fundos-3 !important;
+  }
+
+  .lvl0-color {
+    background-color: $white;
+  }
+
+  .lvl1-color {
+    background-color: $gray-200;
+  }
+
+  .lvl2-color {
+    background-color: $gray-300;
+  }
+
+  .lvl3-color {
+    background-color: $gray-400;
+  }
+
+  .list__champs {  
+    &:hover {
+      background-color: $gray-100 !important;
+    }
+  }
+
+  .bi-eye, .bi-eye-slash {
+    color: $white;
+    background-color: $black;
+  }
+}
+
+.form-label {
+  margin-bottom: 0 !important;
+}
+
 html {
   &.lenis {
     height: auto;
@@ -31,7 +177,6 @@ html {
 }
 
 body {
-  color: $white;
   font-family: $font-family-sans-serif;
   margin: 0;
 }
@@ -66,6 +211,8 @@ body {
   height: 6.5rem;
   min-width: 6.5rem;
 
+  background-color: $white;
+
   img {
       min-width: 100%;
   }
@@ -87,6 +234,10 @@ button[key='LimparFiltros'] {
   &:active {
     filter: brightness(0.8);
   }
+}
+
+.sport-change-warning {
+  font-size: 0.8rem;
 }
 
 // o suficiente para nao ficar estranho com o offcanvas aberto
@@ -137,6 +288,10 @@ button[key='LimparFiltros'] {
 .rounded-bottom-0 {
   border-bottom-left-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
+}
+
+.list__champs {
+  transition: background-color $transition;
 }
 
 .translate-6 {
@@ -198,17 +353,27 @@ button[key='LimparFiltros'] {
   border: 2px dashed #ccc;
   padding: 20px;
 }
+
+#bd-theme {
+  height: 55px;
+  width: 55px;
+  background-color: $play-cor-efeitos;
+  opacity: .8;
+  transition: all $transition;
+  z-index: 1050;
+}
+
+#theme-switcher-context-menu {
+  border-radius: 14px;
+}
   
 // Conteúdo Principal
 #gotop {
-  position: fixed;
-  bottom: 35px;
-  right: 25px;
   background-color: $play-cor-efeitos;
   opacity: .8;
   height: 55px;
   width: 55px;
-  transition: all 0.1s ease-in-out;
+  transition: all $transition;
 
   i {
     font-size: 1.6rem;
@@ -238,14 +403,6 @@ header {
   font-size: 0.8rem;
   font-weight: 400;
   margin-top: 0.1rem;
-}
-
-.card-bg {
-  background: $play-cor-fundos;
-}
-
-.card-bg2 {
-  background: $play-cor-fundos-secundaria;
 }
 
 .ft-color {
@@ -283,7 +440,6 @@ header {
 
 // Navbar
 .pesquisar {
-  background-color: $gray-400 !important;
   box-shadow: none !important;
   border-radius: $border-radius-pill;
 }
@@ -296,7 +452,7 @@ header {
 .navbar {
   height: 60px !important;
   transition: all $transition;
-  background: transparent;
+  background: transparent !important;
 }
 
 .nav-item {
@@ -315,7 +471,7 @@ header {
     }
 
     &:active, &:focus {
-      background-color: $play-cor-fundos-secundaria !important;
+      background-color: $play-cor-fundos-2 !important;
       color: $play-cor-texto !important;
       box-shadow: none;
       border: none;
@@ -330,14 +486,14 @@ header {
   width: 32px !important;
 }
 
-.nav-item {
-  &:hover, &:active, &:focus {
-    a, #lingua {
-      background-color: $play-cor-fundos-secundaria !important;
-      color: $play-cor-texto !important;
-    }
-  }
-}
+// .nav-item {
+//   &:hover, &:active, &:focus {
+//     a, #lingua {
+//       background-color: $play-cor-fundos-2 !important;
+//       color: $play-cor-texto !important;
+//     }
+//   }
+// }
 
 input[aria-label="Search"] {
   &:focus, & {
@@ -356,8 +512,12 @@ button.navbar-toggler {
     box-shadow: none !important;
   }
 
-  &:active, &:hover {
-    background-color: $play-cor-fundos-secundaria !important;
+  &:hover {
+    filter: brightness(0.9);
+  }
+
+  &:active {
+    filter: brightness(0.8);
   }
   
 }
@@ -368,11 +528,11 @@ button.navbar-toggler {
 
 // Media Queries
 @include media-breakpoint-down(lg) {
-  .nav-item {
-    a, #lingua {
-      color: $play-cor-texto !important;
-    }
-  }
+  // .nav-item {
+  //   a, #lingua {
+  //     color: $play-cor-texto !important;
+  //   }
+  // }
 }
 
 @include media-breakpoint-down(sm) {
@@ -411,11 +571,6 @@ button.navbar-toggler {
   background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='none' stroke='%23015958' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/></svg>");
 }
 
-.bg-verde-limao {
-  background-color: $play-cor-fundos !important;
-  color: $play-cor-texto !important;
-}
-
 .foto-usuario {
   min-width: 32px;
   height: 32px;
@@ -425,12 +580,10 @@ button.navbar-toggler {
 .foto-usuario-mobile {
   @extend .foto-usuario;
 
-  max-width: 40px !important;
+  max-width: 32px !important;
 }
 
 #offcanvasUser {
-  color: $play-cor-texto;
-
   .item-offcanvas-usuario:hover {
     /* From https://css.glass */
     background: rgba(0, 143, 140, 0.28);
@@ -456,18 +609,12 @@ button.navbar-toggler {
   width: 12px;
 }
 
-*::-webkit-scrollbar-track {
-  background: #fff;
-}
-
 *::-webkit-scrollbar-thumb {
   background-color:$play-cor-primaria;
   border-radius: 20px;
-  border: 3px solid #fff;
 }
 
 componente-footer {
-  background-color: #fff !important;
   width: 100%;
   display: block;
   margin-top: 2rem;

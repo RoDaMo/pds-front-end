@@ -52,6 +52,7 @@ export default defineConfig({
         errorLogs: resolve(__dirname, 'pages/error-log.html'),
         tabelaChaveamento: resolve(__dirname, 'pages/tabela-chaveamento.html'),
         telaPartida: resolve(__dirname, 'pages/tela-partida.html'),
+        configuracaoPartida: resolve(__dirname, 'pages/configuracao-partida.html'),
         listagemOrganizador: resolve(__dirname, 'pages/listagem-campeo-usuario.html')
       }
     }

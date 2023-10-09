@@ -75,7 +75,7 @@ const exibirDados = async (data) => {
     data.results.forEach(e => {
         conteudo.innerHTML += 
         /* html */`
-            <div class="card card-body mt-5 border border-2 rounded-custom text-black">
+            <div class="card card-body mt-5 border border-2 rounded-custom">
                 <a href="/pages/configuracao-campeonato.html?id=${e.id}" class="text-decoration-none">
                     <div class="row gap-0">
                         <div class="col-md-2  d-flex justify-content-center ">
@@ -92,7 +92,7 @@ const exibirDados = async (data) => {
                         </div>
 
                         <div class="col-md-1 d-flex justify-content-center align-items-center">
-                            <img src="/icons/right.svg" width="60">
+                            <i class="bi bi-chevron-right"></i>
                         </div> 
                     </div>
                 </a>

@@ -1,14 +1,21 @@
 $play-cor-fundos: #D8FFDB;
-$play-cor-fundos-secundaria: #CEF2D1;
+$play-cor-fundos-dark: #313738;
+
+$play-cor-fundos-2: #CEF2D1;
+$play-cor-fundos-2-dark: #44494b;
+
+$play-cor-fundos-3: #B8E6C8;
+$play-cor-fundos-3-dark: #5a5a5a;
+
 $play-cor-efeitos: #008F8C;
 $play-cor-primaria: #015958;
 $play-cor-secundaria: #023535;
 $play-cor-texto: #001700;
 $play-cor-texto-dim: rgba(0, 23, 0, 0.8);
+$play-cor-danger-dark: #ff4444;
 
 $primary: $play-cor-primaria;
 $secondary: $play-cor-secundaria;
-$black: $play-cor-texto;
 
 $transition: .3s ease-in-out;
 .form-control, .form-select {

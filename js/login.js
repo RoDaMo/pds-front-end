@@ -16,6 +16,25 @@ const formulario = document.getElementById("formulario")
 const mensagemErro = document.getElementById("mensagem-erro")
 const lembrar = document.getElementById('lembrar')
 
+const loginCardHeader = document.querySelector("#login-card-header")
+
+document.addEventListener("DOMContentLoaded", () => {
+    loginCardHeader.insertAdjacentHTML('afterbegin', `
+        <a class="navbar-brand justify-content-center d-flex m-auto p-auto col-9" href="/"><img src=${(document.documentElement.getAttribute("data-bs-theme") == "light") ? "/Logo_Playoffs.png" : "/Logo_Playoffs_White.png"} class="img-fluid" width="300" alt="Logo Playoffs"></a>
+    `)    
+
+    const navbarBrandImg = document.querySelector(".navbar-brand img")
+
+    document.querySelectorAll(".theme-option-btns").forEach(btn => {
+        btn.addEventListener('click', async () => {
+            (document.documentElement.getAttribute('data-bs-theme') != "light") ?
+            navbarBrandImg.setAttribute('src', '/Logo_Playoffs.png')
+            : navbarBrandImg.setAttribute('src', "/Logo_Playoffs_White.png")
+        })
+    })
+})
+
+
 const loader = document.createElement('app-loader');
 document.body.appendChild(loader);
 
@@ -26,10 +45,22 @@ criarValidacao()
 visualizarSenha()
 redirecionamento(nomeUsuario)
 
-document.getElementById("continuar").addEventListener("click", async(e) => {
-    e.preventDefault();
+const reqVerificacao = async(e) => {
+    e.preventDefault()
     nomeUsuario.value ? await postUsuarioExiste({"Username": nomeUsuario.value}) : mensagemErro.innerHTML = `<span class="i18" key="NomeObrigatorio">${i18next.t("NomeObrigatorio")}</span>`
+}
+
+document.getElementById("continuar").addEventListener("click", async(e) => {
+    reqVerificacao(e)
 })
+
+formulario.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        if(document.getElementById("senha-formulario").classList.contains("d-none")){
+            reqVerificacao(e)
+        }
+    }
+});
 
 async function postUsuarioExiste(body) {
     limparMensagem(mensagemErro)

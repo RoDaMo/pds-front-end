@@ -41,7 +41,7 @@ const init = async () => {
 
 			extraManagement.insertAdjacentHTML('afterbegin', `
 				<div id="start-overtime-wrapper" class="d-flex my-2 justify-content-center">
-					<button id="start-overtime-btn" data-bs-toggle="modal" data-bs-target="#startOvertimeModal" class="btn btn-secondary w-auto"><span class="i18" key="StartOvertime">${i18next.t("StartOvertime")}</span></button>
+					<button id="start-overtime-btn" data-bs-toggle="modal" data-bs-target="#startOvertimeModal" class="btn lvl1-color w-auto"><span class="i18" key="StartOvertime">${i18next.t("StartOvertime")}</span></button>
 				</div>
 			`)
 
@@ -57,7 +57,7 @@ const init = async () => {
 
 			extraManagement.insertAdjacentHTML('afterbegin', `
 				<div id="start-penalty-shootout-wrapper" class="d-flex my-2 justify-content-center">
-					<button id="start-penalty-shootout-btn" data-bs-toggle="modal" data-bs-target="#startPenaltyShootoutModal" class="btn btn-secondary w-auto"><span class="i18" key="StartPenaltyShootout">${i18next.t("StartPenaltyShootout")}</span></button>
+					<button id="start-penalty-shootout-btn" data-bs-toggle="modal" data-bs-target="#startPenaltyShootoutModal" class="btn lvl1-color w-auto"><span class="i18" key="StartPenaltyShootout">${i18next.t("StartPenaltyShootout")}</span></button>
 				</div>
 			`)
 		} else {
@@ -89,6 +89,8 @@ const init = async () => {
 
 			await updateScoreboard()
 			await loadEvents()
+
+			blankSpaceSetter()
 		}
 	}
 
@@ -166,7 +168,7 @@ const init = async () => {
 		const matchReportManagementForm = matchManagementForm.querySelector('#match-report-management-form')
 
 		matchManagementForm.insertAdjacentHTML('beforebegin', `
-			<div id="event-admin-label" class="d-flex justify-content-center bg-gray-400 rounded-4 py-1 px-3 mb-2">
+			<div id="event-admin-label" class="d-flex justify-content-center lvl2-color rounded-4 py-1 px-3 mb-2">
 				<span class="i18" key="Sumula">${i18next.t("Sumula")}</span>
 			</div>
 		`)
@@ -273,7 +275,7 @@ const init = async () => {
 	const matchManagementSystem = () => {
 
 		matchManagementForm.insertAdjacentHTML('beforebegin', `
-			<div id="event-admin-label" class="d-flex justify-content-center bg-gray-400 rounded-4 py-1 px-3 mb-2">
+			<div id="event-admin-label" class="d-flex justify-content-center lvl2-color rounded-4 py-1 px-3 mb-2">
 				<span class="i18" key="Eventos">${i18next.t("Eventos")}</span>
 			</div>
 		`)
@@ -316,7 +318,7 @@ const init = async () => {
 
 			if (thereIsAnything) {
 				extraManagement.insertAdjacentHTML('beforebegin', `
-					<div id="extra-admin-label" class="d-flex mt-4 justify-content-center bg-gray-400 rounded-4 py-1 px-3 mb-2">
+					<div id="extra-admin-label" class="d-flex mt-4 justify-content-center lvl2-color rounded-4 py-1 px-3 mb-2">
 						<span class="i18" key="OtherOptions">${i18next.t("OtherOptions")}</span>
 					</div>
 				`)
@@ -944,9 +946,9 @@ const init = async () => {
 		let isOrganizer = false
 		let isChampionshipOrganizer = false
 
-		isChampionshipOrganizer = (match.championshipId == sessionUserInfo.championshipId) ? true : false
+		isChampionshipOrganizer = (match.championshipId == sessionUserInfo?.championshipId) ? true : false
 
-		if (sessionUserInfo.isOrganizer && isChampionshipOrganizer) {
+		if (sessionUserInfo?.isOrganizer && isChampionshipOrganizer) {
 			isOrganizer = true
 		} else {
 			isOrganizer = false
@@ -979,19 +981,19 @@ const init = async () => {
 	const loadScoreboard = () => {
 		matchScoreWrapper.insertAdjacentHTML('beforeend', `
 			${match.isSoccer ? `
-				<span id="match-score" class="text-black fw-bold">${match.homeGoals} : ${match.visitorGoals}</span>
+				<span id="match-score" class="fw-bold">${match.homeGoals} : ${match.visitorGoals}</span>
 			` : `
-				<span id="match-score" class="text-black fw-bold">${match.homeWinnigSets} : ${match.visitorWinnigSets}</span>
+				<span id="match-score" class="fw-bold">${match.homeWinnigSets} : ${match.visitorWinnigSets}</span>
 			`}
 		`)
 		mTeam1NameWrapper.insertAdjacentHTML('beforeend', `
-			<span id="m-team1-name" class="m-team-name fw-semibold text-black text-wrap text-center d-block">${match.homeName}</span>
+			<span id="m-team1-name" class="m-team-name fw-semibold text-wrap text-center d-block">${match.homeName}</span>
 		`)
 		mTeam1ImgWrapper.insertAdjacentHTML('beforeend', `
 			<img class="m-team-img position-absolute img-fluid w-100 h-100" src="${match.homeEmblem}" alt="">
 		`)
 		mTeam2NameWrapper.insertAdjacentHTML('beforeend', `
-			<span id="m-team2-name" class="m-team-name fw-semibold text-black text-wrap text-center text-end d-block">${match.visitorName}</span>
+			<span id="m-team2-name" class="m-team-name fw-semibold text-wrap text-center text-end d-block">${match.visitorName}</span>
 		`)
 		mTeam2ImgWrapper.insertAdjacentHTML('beforeend', `
 			<img class="m-team-img position-absolute img-fluid w-100 h-100" src="${match.visitorEmblem}" alt="">
@@ -1071,13 +1073,13 @@ const init = async () => {
 
 		allPlayersTeam1.forEach(player => {
 			team1PlayersList.insertAdjacentHTML('beforeend', `
-				<div class="row row-cols-1 row-cols-md-2 align-items-center p-2 flex-column flex-md-row my-2 rounded-5 match-details-content-player">
+				<div class="row row-cols-1 row-cols-md-2 align-items-center p-2 flex-column flex-md-row my-2 rounded-5 match-details-content-player lvl1-color">
 					<div class="col m-player-img-wrapper me-md-2 me-0 position-relative d-flex justify-content-center overflow-hidden border border-2 rounded-circle">
 						<img class="m-player-img position-absolute img-fluid w-100 h-100" src="${player.picture}" alt="">
 					</div>
 					<div class="row col justify-content-center align-items-center flex-column w-auto m-player-info">
 						<div class="col p-0 text-center text-md-start">
-							<span class="m-player-name m-truncated-text-width fw-semibold text-black text-truncate d-block">${player.name}</span>
+							<span class="m-player-name m-truncated-text-width fw-semibold text-truncate d-block">${player.name}</span>
 						</div>
 						<div class="col p-0 text-center text-md-start">
 							<span class="m-player-position m-truncated-text-width text-muted text-truncate d-block i18">${getPlayerPosition(player.playerPosition)}</span>
@@ -1094,13 +1096,13 @@ const init = async () => {
 
 		allPlayersTeam2.forEach(player => {
 			team2PlayersList.insertAdjacentHTML('beforeend', `
-				<div class="row row-cols-1 row-cols-md-2 align-items-center p-2 flex-column flex-md-row my-2 rounded-5 match-details-content-player">
+				<div class="row row-cols-1 row-cols-md-2 align-items-center p-2 flex-column flex-md-row my-2 rounded-5 match-details-content-player lvl1-color">
 					<div class="col m-player-img-wrapper order-1 order-md-2 ms-md-2 ms-0 position-relative d-flex justify-content-center overflow-hidden border border-2 rounded-circle">
 						<img class="m-player-img position-absolute img-fluid w-100 h-100" src="${player.picture}" alt="">
 					</div>
 					<div class="row col order-2 order-md-1 justify-content-center align-items-center flex-column w-auto m-player-info">
 						<div class="col p-0 text-center text-md-end">
-							<span class="m-player-name m-truncated-text-width fw-semibold text-black text-truncate d-block">${player.name}</span>
+							<span class="m-player-name m-truncated-text-width fw-semibold text-truncate d-block">${player.name}</span>
 						</div>
 						<div class="col p-0 text-center text-md-end">
 							<span class="m-player-position m-truncated-text-width text-muted text-truncate d-block i18">${getPlayerPosition(player.playerPosition)}</span>
@@ -1114,13 +1116,13 @@ const init = async () => {
 		})
 
 		coachTeam1Content.insertAdjacentHTML('beforeend', `
-			<div class="row row-cols-1 row-cols-md-2 align-items-center p-2 flex-column flex-md-row my-2 rounded-5 match-details-content-coach">
+			<div class="row row-cols-1 row-cols-md-2 align-items-center p-2 flex-column flex-md-row my-2 rounded-5 lvl2-color match-details-content-coach">
 				<div class="col m-player-img-wrapper me-md-2 me-0 position-relative d-flex justify-content-center overflow-hidden border border-2 rounded-circle">
 					<img class="m-player-img position-absolute img-fluid w-100 h-100" src="${coachTeam1.picture}" alt="">
 				</div>
 				<div class="row col justify-content-center align-items-center flex-column w-auto m-player-info">
 					<div class="col p-0 text-center text-md-start">
-						<span class="m-player-name m-truncated-text-width fw-semibold text-black text-truncate d-block">${coachTeam1.name}</span>
+						<span class="m-player-name m-truncated-text-width fw-semibold text-truncate d-block">${coachTeam1.name}</span>
 					</div>
 					<div class="col p-0 text-center text-md-start">
 						<span class="m-player-position m-truncated-text-width text-muted text-truncate d-block i18">${i18next.t("Tecnico")}</span>
@@ -1130,13 +1132,13 @@ const init = async () => {
 		`)
 
 		coachTeam2Content.insertAdjacentHTML('beforeend', `
-			<div class="row row-cols-1 row-cols-md-2 align-items-center p-2 flex-column flex-md-row my-2 rounded-5 match-details-content-coach">
+			<div class="row row-cols-1 row-cols-md-2 align-items-center p-2 flex-column flex-md-row my-2 rounded-5 lvl2-color match-details-content-coach">
 				<div class="col m-player-img-wrapper order-1 order-md-2  me-md-2 me-0 position-relative d-flex justify-content-center overflow-hidden border border-2 rounded-circle">
 					<img class="m-player-img position-absolute img-fluid w-100 h-100" src="${coachTeam2.picture}" alt="">
 				</div>
 				<div class="row col order-2 order-md-1 justify-content-center align-items-center flex-column w-auto m-player-info">
 					<div class="col p-0 text-center text-md-end">
-						<span class="m-player-name m-truncated-text-width fw-semibold text-black text-truncate d-block">${coachTeam2.name}</span>
+						<span class="m-player-name m-truncated-text-width fw-semibold text-truncate d-block">${coachTeam2.name}</span>
 					</div>
 					<div class="col p-0 text-center text-md-end">
 						<span class="m-player-position m-truncated-text-width text-muted text-truncate d-block i18">${i18next.t("Tecnico")}</span>
@@ -1379,13 +1381,13 @@ const init = async () => {
 
 
 			let eventTemplate = `
-				<div class="row row-cols-md-2 row-cols-1 p-3 my-2 match-details-content-event align-items-center rounded-5">
+				<div class="row row-cols-md-2 row-cols-1 p-3 my-2 match-details-content-event lvl2-color align-items-center rounded-5">
 					<div class="col">
 						<div class="row flex-column">
-							<div class="col event-player-name"><span class="fw-semibold text-black text-truncate text-center text-md-start m-truncated-text-width d-block">${event.name}</span></div>
+							<div class="col event-player-name"><span class="fw-semibold text-truncate text-center text-md-start m-truncated-text-width d-block">${event.name}</span></div>
 							${(event.goal) ?
 								(event.assisterName != null) ? `
-									<div class="col event-player-name"><span class="fw-semibold text-black text-center opacity-75 text-md-start m-truncated-text-width text-truncate fs-6 d-block">${event.assisterName}</span></div>
+									<div class="col event-player-name"><span class="fw-semibold text-center opacity-75 text-md-start m-truncated-text-width text-truncate fs-6 d-block">${event.assisterName}</span></div>
 								` : ''
 							: ''}
 							<div class="col d-flex flex-row event-data">
@@ -1447,8 +1449,8 @@ const init = async () => {
 
 			// Placeholder blurwall - Team 1
 			eventsWrapperTeam1.innerHTML = `
-				<div class="row flex-column p-3 my-2 match-details-content-event rounded-5 position-relative">
-					<div class="col event-player-name"><span class="fw-semibold text-black text-truncate d-block">Goal Maker</span></div>
+				<div class="row flex-column p-3 my-2 match-details-content-event lvl2-color rounded-5 position-relative">
+					<div class="col event-player-name"><span class="fw-semibold text-truncate d-block">Goal Maker</span></div>
 					<div class="col d-flex flex-row event-data">
 						<div class="event-type"><span class="text-muted">Gol</span></div>
 						<i class="bi bi-dot"></i>
@@ -1460,8 +1462,8 @@ const init = async () => {
 				</div>
 				<div class="row blank-space"></div>
 				<div class="row blank-space"></div>
-				<div class="row flex-column p-3 my-2 match-details-content-event rounded-5 position-relative">
-					<div class="col event-player-name"><span class="fw-semibold text-black text-truncate d-block">Goal Maker</span></div>
+				<div class="row flex-column p-3 my-2 match-details-content-event lvl2-color rounded-5 position-relative">
+					<div class="col event-player-name"><span class="fw-semibold text-truncate d-block">Goal Maker</span></div>
 					<div class="col d-flex flex-row event-data">
 						<div class="event-type"><span class="text-muted">Gol</span></div>
 						<i class="bi bi-dot"></i>
@@ -1472,8 +1474,8 @@ const init = async () => {
 					</div>
 				</div>
 				<div class="row blank-space"></div>
-				<div class="row flex-column p-3 my-2 match-details-content-event rounded-5 position-relative">
-					<div class="col event-player-name"><span class="fw-semibold text-black text-truncate d-block">Goal Maker</span></div>
+				<div class="row flex-column p-3 my-2 match-details-content-event lvl2-color rounded-5 position-relative">
+					<div class="col event-player-name"><span class="fw-semibold text-truncate d-block">Goal Maker</span></div>
 					<div class="col d-flex flex-row event-data">
 						<div class="event-type"><span class="text-muted">Gol</span></div>
 						<i class="bi bi-dot"></i>
@@ -1488,8 +1490,8 @@ const init = async () => {
 			// Placeholder blurwall - Team 2
 			eventsWrapperTeam2.innerHTML = `
 				<div class="row blank-space"></div>
-				<div class="row flex-column p-3 my-2 match-details-content-event rounded-5 position-relative">
-					<div class="col event-player-name"><span class="fw-semibold text-black text-truncate d-block">Goal Maker</span></div>
+				<div class="row flex-column p-3 my-2 match-details-content-event lvl2-color rounded-5 position-relative">
+					<div class="col event-player-name"><span class="fw-semibold text-truncate d-block">Goal Maker</span></div>
 					<div class="col d-flex flex-row event-data">
 						<div class="event-type"><span class="text-muted">Gol</span></div>
 						<i class="bi bi-dot"></i>
@@ -1499,8 +1501,8 @@ const init = async () => {
 						<img src="../icons/sports_soccer.svg" alt="">
 					</div>
 				</div>
-				<div class="row flex-column p-3 my-2 match-details-content-event rounded-5 position-relative">
-					<div class="col event-player-name"><span class="fw-semibold text-black text-truncate d-block">Goal Maker</span></div>
+				<div class="row flex-column p-3 my-2 match-details-content-event lvl2-color rounded-5 position-relative">
+					<div class="col event-player-name"><span class="fw-semibold text-truncate d-block">Goal Maker</span></div>
 					<div class="col d-flex flex-row event-data">
 						<div class="event-type"><span class="text-muted">Gol</span></div>
 						<i class="bi bi-dot"></i>
@@ -1511,8 +1513,8 @@ const init = async () => {
 					</div>
 				</div>
 				<div class="row blank-space"></div>
-				<div class="row flex-column p-3 my-2 match-details-content-event rounded-5 position-relative">
-					<div class="col event-player-name"><span class="fw-semibold text-black text-truncate d-block">Goal Maker</span></div>
+				<div class="row flex-column p-3 my-2 match-details-content-event lvl2-color rounded-5 position-relative">
+					<div class="col event-player-name"><span class="fw-semibold text-truncate d-block">Goal Maker</span></div>
 					<div class="col d-flex flex-row event-data">
 						<div class="event-type"><span class="text-muted">Gol</span></div>
 						<i class="bi bi-dot"></i>
@@ -1548,7 +1550,7 @@ const init = async () => {
 							</div>
 							<br>
 							<div>
-								<button id="configure-match-btn" class="btn btn-outline-dark"><span class="i18" key="ConfigurarPartida">${i18next.t("ConfigurarPartida")}</span></button>
+								<button id="configure-match-btn" class="btn lvl3-color"><span class="i18" key="ConfigurarPartida">${i18next.t("ConfigurarPartida")}</span></button>
 							</div>
 						</div>
 					`)
@@ -1616,11 +1618,17 @@ const init = async () => {
 	}
 
 	const blankSpaceSetter = () => {
-		const blankSpaces = document.getElementsByClassName('blank-space')
-		const matchDetailsContentEvent = document.querySelector('.match-details-content-event')
+		let blankSpaces = null
+		let matchDetailsContentEvent = null
+
+		blankSpaces = document.getElementsByClassName('blank-space')
+		matchDetailsContentEvent = document.querySelector('.match-details-content-event')
 		
-		const eventHeight = matchDetailsContentEvent.offsetHeight
-		const eventWidth = matchDetailsContentEvent.offsetWidth
+		let eventHeight = 0
+		eventHeight = matchDetailsContentEvent.offsetHeight
+
+		let eventWidth = 0
+		eventWidth = matchDetailsContentEvent.offsetWidth
 
 		if (window.innerWidth < 768) {
 			for(const blankSpace of blankSpaces) {
@@ -1705,6 +1713,8 @@ const init = async () => {
 		configMenuOption.addEventListener('click', () => {
 			activateLi(configMenuOption)
 			changeConfigOptionsContext(configMenuOption.getAttribute('menu'))
+
+			blankSpaceSetter()
 		})
 	}
 
@@ -1712,12 +1722,5 @@ const init = async () => {
 	await carregarPartida()
 	window.dispatchEvent(new Event('pagina-load'))
 }
-
-// Precaução
-	// d-none:
-		// hiddenInput
-		// inputMatchReport
-		// downloadMatchReportBtn
-		// downloadMatchReportLink
 
 document.addEventListener('header-carregado', init)

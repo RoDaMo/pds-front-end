@@ -26,336 +26,21 @@ let championshipData = null
 
 const sessionUserInfo = JSON.parse(localStorage.getItem('user-info'))
 
-const configMatchModal = document.getElementById('configMatchModal')
-
-let configMatchModalBT = new bootstrap.Modal(configMatchModal, {keyboard: false})
-
-configMatchModal.addEventListener('shown.bs.modal', async () => {
-  // set data-lenis-prevent to html
-  document.documentElement.setAttribute('data-lenis-prevent', 'true')
-})
-
-configMatchModal.addEventListener('hidden.bs.modal', async () => {
-  // set data-lenis-prevent to html
-  document.documentElement.removeAttribute('data-lenis-prevent')
-})
+console.log(sessionUserInfo);
 
 const isOrganizer = () => {
   let isOrganizer = false
   let isChampionshipOrganizer = false
 
-  isChampionshipOrganizer = (idCampeonato == sessionUserInfo.championshipId) ? true : false
+  isChampionshipOrganizer = (idCampeonato == sessionUserInfo?.championshipId) ? true : false
 
-  if (sessionUserInfo.isOrganizer && isChampionshipOrganizer) {
+  if (sessionUserInfo?.isOrganizer && isChampionshipOrganizer) {
     isOrganizer = true
   } else {
     isOrganizer = false
   }
 
   return isOrganizer
-}
-
-const configureMatch = async (matchId, championshipData) => {
-  const callbackStatus = (data) => {
-    notificacaoErro(data.results)
-  }
-
-  const configMatchForm = document.querySelector('#config-match-form')
-
-  const configMatchValidator = new JustValidate(configMatchForm, {
-    validateBeforeSubmitting: true,
-  })
-
-  // get match data
-  const matchData = await executarFetch(`matches/${matchId}`, configuracaoFetch('GET')),
-    match = matchData.results
-
-  // get match team 1
-  const team1Data = await executarFetch(`teams/${match.homeId}`, configuracaoFetch('GET')),
-    team1 = team1Data.results
-    
-  // get match team 2
-  const team2Data = await executarFetch(`teams/${match.visitorId}`, configuracaoFetch('GET')),
-    team2 = team2Data.results
-
-
-
-  configMatchForm.innerHTML = ''
-
-  configMatchForm.insertAdjacentHTML('beforeend', `
-    <div class="row mt-3 justify-content-center">
-      <h4 class="text-center rounded-4 text-bg-dark fw-normal config-match-section-label i18" key="Uniformes">${i18next.t("Uniformes")}</h4>
-      <span class="i18 mb-0 text-black text-center" key="MatchHomeUniformLabel">${i18next.t("MatchHomeUniformLabel")}</span>
-      <div class="col-12 text-center text-black"><span>${team1.name}</span></div>
-      <div class="col-6 form-check d-flex flex-column justify-content-center align-items-center">
-        <img class="img-fluid border border-2 mb-2 rounded-5 team-uniform-img" src="${team1.uniformHome}" alt="">
-        <input value="${team1.uniformHome}" class="rounded-pill w-25 form-check-input m-auto" type="radio" id="check-team1-home-uniform" name="team1-uniform-radio" checked>
-      </div>
-      <div class="col-6 form-check d-flex flex-column justify-content-center align-items-center">
-        <img class="img-fluid border border-2 rounded-5 mb-2 team-uniform-img" src="${team1.uniformAway}" alt="">
-        <input value="${team1.uniformAway}" class="rounded-pill w-25 form-check-input m-auto" type="radio" id="check-team1-away-uniform" name="team1-uniform-radio">
-      </div>
-    </div>
-    <hr class="rounded-pill opacity-50 text-black mx-auto w-50">
-    <div class="row mt-3">
-      <span class="i18 mb-0 text-black text-center" key="MatchAwayUniformLabel">${i18next.t("MatchAwayUniformLabel")}</span>
-      <div class="col-12 text-center text-black"><span>${team2.name}</span></div>
-      <div class="col-6 form-check d-flex flex-column justify-content-center align-items-center">
-        <img class="img-fluid border border-2 rounded-5 mb-2 team-uniform-img" src="${team2.uniformHome}" alt="">
-        <input value="${team2.uniformHome}" class="rounded-pill w-25 form-check-input m-auto" type="radio" id="check-team2-home-uniform" name="team2-uniform-radio">
-      </div>
-      <div class="col-6 form-check d-flex flex-column justify-content-center align-items-center">
-        <img class="img-fluid border border-2 rounded-5 mb-2 team-uniform-img" src="${team2.uniformAway}" alt="">
-        <input value="${team2.uniformAway}" class="rounded-pill w-25 form-check-input m-auto" type="radio" id="check-team2-away-uniform" name="team2-uniform-radio" checked>
-      </div>
-    </div>
-
-    <div class="row justify-content-center mt-5"><h4 class="text-center config-match-section-label rounded-3 text-bg-dark fw-normal i18" key="InfosPartida">${i18next.t("InfosPartida")}</h4></div>
-    <div class="row">
-      <div class="col">
-        <label for="match-arbitrator" class="i18 form-label mb-0 text-black" key="MatchArbitratorLabel">${i18next.t("MatchArbitratorLabel")}</label>
-        <input type="text" id="match-arbitrator" class="form-control" placeholder="${i18next.t("MatchArbitratorPlaceholder")}">
-      </div>
-    </div>
-
-    <div class="row mt-3">
-      <div class="col-12 col-md">
-        <label for="match-date" class="i18 form-label mb-0 text-black" key="MatchDateLabel">${i18next.t("MatchDateLabel")}</label>
-        <input type="text" id="match-date" class="form-control" placeholder="${i18next.t("MatchDatePlaceholder")}">
-      </div>
-    </div>
-
-    <div class="row mt-3">
-      <div class="col-12 col-md">
-        <label for="match-zipcode" class="i18 form-label mb-0 text-black" key="MatchZipcodeLabel">${i18next.t("MatchZipcodeLabel")}</label>
-        <input type="text" id="match-zipcode" max="" class="form-control" placeholder="${i18next.t("MatchZipcodePlaceholder")}">
-      </div>
-      <div class="col-12 col-md">
-        <label for="match-city" class="i18 form-label mb-0 text-black" key="MatchCityLabel">${i18next.t("MatchCityLabel")}</label>
-        <input type="text" id="match-city" class="form-control" placeholder="${i18next.t("MatchCityPlaceholder")}">
-      </div>
-    </div>
-
-    <div class="row mt-3">
-      <div class="col-12 col-md">
-        <label for="match-road" class="i18 form-label mb-0 text-black" key="MatchStreetLabel">${i18next.t("MatchStreetLabel")}</label>
-        <input type="text" id="match-road" class="form-control" placeholder="${i18next.t("MatchStreetPlaceholder")}">
-      </div>
-      <div class="col-12 col-md">
-        <label for="match-location-number" class="i18 form-label mb-0 text-black" key="MatchLocationNumberLabel">${i18next.t("MatchLocationNumberLabel")}</label>
-        <input type="text" id="match-location-number" class="form-control" placeholder="${i18next.t("MatchLocationNumberPlaceholder")}">
-    </div>
-  `)
-
-  const checkTeam1HomeUniform = configMatchForm.querySelector('#check-team1-home-uniform')
-  const checkTeam1AwayUniform = configMatchForm.querySelector('#check-team1-away-uniform')
-  const checkTeam2HomeUniform = configMatchForm.querySelector('#check-team2-home-uniform')
-  const checkTeam2AwayUniform = configMatchForm.querySelector('#check-team2-away-uniform')
-
-  const getHomeUniform = () => {
-    if (checkTeam1HomeUniform.checked) {
-      return checkTeam1HomeUniform.value
-    } else if (checkTeam1AwayUniform.checked) {
-      return checkTeam1AwayUniform.value
-    } else {
-      return null
-    }
-  }
-
-  const getVisitorUniform = () => {
-    if (checkTeam2HomeUniform.checked) {
-      return checkTeam2HomeUniform.value
-    } else if (checkTeam2AwayUniform.checked) {
-      return checkTeam2AwayUniform.value
-    } else {
-      return null
-    }
-  }
-
-  const matchArbitrator = configMatchForm.querySelector('#match-arbitrator')
-  const matchDate = configMatchForm.querySelector('#match-date')
-  const matchZipcode = configMatchForm.querySelector('#match-zipcode')
-  const matchCity = configMatchForm.querySelector('#match-city')
-  const matchRoad = configMatchForm.querySelector('#match-road')
-  const matchLocationNumber = configMatchForm.querySelector('#match-location-number')
-
-  // fill inputs with match data
-  if (match.arbitrator) {
-    matchArbitrator.value = match.arbitrator
-    matchDate.value = match.date
-    matchZipcode.value = match.cep
-    matchCity.value = match.city
-    matchRoad.value = match.road
-    matchLocationNumber.value = match.number
-
-    if (match.homeUniform == team1.uniformHome) {
-      checkTeam1HomeUniform.checked = true
-    } else if (match.homeUniform == team1.uniformAway) {
-      checkTeam1AwayUniform.checked = true
-    }
-
-    if (match.visitorUniform == team2.uniformHome) {
-      checkTeam2HomeUniform.checked = true
-    } else if (match.visitorUniform == team2.uniformAway) {
-      checkTeam2AwayUniform.checked = true
-    }
-  }
-
-  matchZipcode.addEventListener('keyup', () => {        
-    if (matchZipcode.value.length > 8) {
-      matchZipcode.value = matchZipcode.value.slice(0, 8)
-    }
-  }) 
-
-  let cepURL = 'https://viacep.com.br/ws/'
-  let cepType = '/json/'
-
-  matchZipcode.addEventListener('blur', async () => {
-    let cep = matchZipcode.value
-    cep = cep.replace(/\D/g, "")
-    
-    if (cep != "") {
-      let validacep = /^[0-9]{8}$/
-      if (validacep.test(cep)) {
-        matchCity.value = "...";
-        matchRoad.value = "...";
-        matchCity.disabled = true;
-        matchRoad.disabled = true;
-        const response = await fetch(cepURL + cep + cepType)
-        const data = await response.json()
-        if (!("erro" in data)) {
-          matchCity.value = data.localidade;
-          matchRoad.value = data.logradouro;
-          matchCity.disabled = false;
-          matchRoad.disabled = false;
-        }
-        else {
-          matchCity.value = "";
-          matchRoad.value = "";
-          matchCity.disabled = false;
-          matchRoad.disabled = false;
-          notificacaoErro(i18next.t("CEPInvalido"))
-        }
-      }
-      else {
-        matchCity.value = "";
-        matchRoad.value = "";
-        matchCity.disabled = false;
-        matchRoad.disabled = false;
-        notificacaoErro(i18next.t("CEPInvalido"))
-      }
-    }
-    else {
-      matchCity.value = "";
-      matchRoad.value = "";
-      matchCity.disabled = false;
-      matchRoad.disabled = false;
-    }
-  })
-
-  let lng = localStorage.getItem('lng')
-
-  flatpickr(matchDate, {
-      dateFormat: "Z",
-      altFormat: "d/m/Y H:i",
-      time_24hr: true,
-      locale: lng === 'ptbr' ? Portuguese : ingles,
-      altInput: true,
-      minDate: championshipData.initialDate,
-      maxDate: championshipData.finalDate
-  })
-
-  document.addEventListener('nova-lingua', event => {
-      let lng = localStorage.getItem('lng')
-
-      flatpickr(matchDate, {
-        dateFormat: "Z",
-        altFormat: "d/m/Y H:i",
-        time_24hr: true,
-        locale: lng === 'ptbr' ? Portuguese : ingles,
-        altInput: true,
-        minDate: championshipData.initialDate,
-        maxDate: championshipData.finalDate
-      })
-      
-      configMatchValidator.revalidate()
-
-  })
-
-  configMatchValidator
-    .addField(matchArbitrator, [
-      {
-        rule: 'required',
-        errorMessage: `<span class="i18" key="ArbitroObrigatorio">${i18next.t("ArbitroObrigatorio")}</span>`,
-      },
-    ])
-    .addField(matchDate, [
-      {
-        rule: 'required',
-        errorMessage: `<span class="i18" key="DataObrigatoria">${i18next.t("DataObrigatoria")}</span>`,
-      },
-    ])
-    .addField(matchZipcode, [
-      {
-        rule: 'required',
-        errorMessage: `<span class="i18" key="CEPObrigatorio">${i18next.t("CEPObrigatorio")}</span>`,
-      },
-    ])
-    .addField(matchCity, [
-      {
-        rule: 'required',
-        errorMessage: `<span class="i18" key="CidadeObrigatoria">${i18next.t("CidadeObrigatoria")}</span>`,
-      },
-    ])
-    .addField(matchRoad, [
-      {
-        rule: 'required',
-        errorMessage: `<span class="i18" key="RuaObrigatoria">${i18next.t("RuaObrigatoria")}</span>`,
-      },
-    ])
-    .addField(matchLocationNumber, [
-      {
-        rule: 'required',
-        errorMessage: `<span class="i18" key="NumeroObrigatorio">${i18next.t("NumeroObrigatorio")}</span>`,
-      },
-    ])
-    .onSuccess(async e => {
-      e.preventDefault()
-
-      const body = {
-        "Id": matchId,
-        "Cep": matchZipcode.value,
-        "City": matchCity.value,
-        "Road": matchRoad.value,
-        "Number": matchLocationNumber.value,
-        "HomeUniform": getHomeUniform(),
-        "VisitorUniform": getVisitorUniform(),
-        "Date": matchDate.value,
-        "Arbitrator": matchArbitrator.value,
-      }
-
-      loader.show()
-      await putMatch(body)
-      loader.hide()
-    })
-}
-
-const putMatch = async (body) => {
-  const callbackStatus = (data) => {
-    notificacaoErro(data.results)
-  }
-
-  loader.show()
-  const configFetch = configuracaoFetch('PUT', body),
-    response = await executarFetch(`matches`, configFetch, callbackStatus)
-    
-  loader.hide()
-
-  if (response.succeed) {
-    notificacaoSucesso(i18next.t("SucessoConfigurarPartida"))
-
-    configMatchModalBT.hide()
-  }
 }
 
 const chaveamento = {
@@ -369,11 +54,11 @@ const chaveamento = {
   
       for (const partida of partidas) {
         partidasWrapper.innerHTML += /*html*/`
-          <div class="row justify-content-center align-items-center match-details-wrapper px-3 mx-0 rounded-5">
-            <div class="text-center text-black py-1">
+          <div class="row justify-content-center align-items-center match-details-wrapper lvl2-color px-3 mx-0 rounded-5">
+            <div class="text-center py-1">
               <small>${this.convertDateFormat(partida.date)}</small>
             </div>
-            <a href="/pages/tela-partida.html?id=${partida.id}" class="text-decoration-none match-link-wrapper p-2 rounded-5 my-1 mb-3 d-flex justify-content-center align-items-center ${classesCustom}">
+            <a href="/pages/tela-partida.html?id=${partida.id}" class="text-decoration-none match-link-wrapper lvl3-color p-2 rounded-5 my-1 mb-3 d-flex justify-content-center align-items-center ${classesCustom}">
               <div class="row justify-content-center align-items-center">
                 <div class="col-4 text-center">
                   <div class="d-flex align-items-center justify-content-center">
@@ -395,9 +80,11 @@ const chaveamento = {
             <span class="d-none match-id">${partida.id}</span>
             ${(isOrganizer() && (championshipData.status == 0 || championshipData.status == 3)) ? `
               <div class="row justify-content-center align-items-center config-match-btn-wrapper">
-                <button data-bs-toggle="modal" data-bs-target="#configMatchModal" class="btn pt-0 w-auto border-0 d-flex justify-content-center align-items-center config-match-btn">
-                  <i class="bi bi-pencil-square px-4 py-1 text-white rounded-pill"></i>
-                </button> 
+                <a class="w-auto p-0" href="/pages/configuracao-partida.html?idM=${partida.id}&idC=${idCampeonato}">
+                  <button class="btn pt-0 border-0 d-flex justify-content-center align-items-center config-match-btn">
+                    <i class="bi bi-pencil-square lvl2-primary-bg px-4 py-1 rounded-pill"></i>
+                  </button> 
+                </a>
               </div>
             ` : ''}
           </div>
@@ -444,11 +131,11 @@ const chaveamento = {
   },
   gerarHtmlPartidaFaseGrupos(partida, rodada) {
     return /*html*/`
-      <div class="row justify-content-center align-items-center match-details-wrapper px-3 mx-0 rounded-5 partida-rodada-${rodada} d-none">
-        <div class="text-center py-1 text-black">
+      <div class="row justify-content-center align-items-center match-details-wrapper lvl2-color px-3 mx-0 rounded-5 partida-rodada-${rodada} d-none">
+        <div class="text-center py-1">
           <small>${this.convertDateFormat(partida.date)}</small>
         </div>
-        <a href="/pages/tela-partida.html?id=${partida.id}" class="text-decoration-none match-link-wrapper p-2 rounded-5 my-1 mb-3 d-flex justify-content-center align-items-center">
+        <a href="/pages/tela-partida.html?id=${partida.id}" class="text-decoration-none match-link-wrapper lvl3-color p-2 rounded-5 my-1 mb-3 d-flex justify-content-center align-items-center">
           <div class="row justify-content-center align-items-center">
             <div class="col-4 text-center">
               <div class="d-flex align-items-center justify-content-center">
@@ -470,9 +157,11 @@ const chaveamento = {
         <span class="d-none match-id">${partida.id}</span>
         ${(isOrganizer() && (championshipData.status == 0 || championshipData.status == 3)) ? `
           <div class="row justify-content-center align-items-center config-match-btn-wrapper">
-            <button data-bs-toggle="modal" data-bs-target="#configMatchModal" class="btn w-auto pt-0 border-0 d-flex justify-content-center align-items-center config-match-btn">
-              <i class="bi bi-pencil-square px-4 py-1 text-white rounded-pill"></i>
-            </button> 
+            <a class="w-auto p-0" href="/pages/configuracao-partida.html?idM=${partida.id}&idC=${idCampeonato}">
+              <button class="btn pt-0 border-0 d-flex justify-content-center align-items-center config-match-btn">
+                <i class="bi bi-pencil-square lvl2-primary-bg px-4 py-1 rounded-pill"></i>
+              </button> 
+            </a>
           </div>
         ` : ''}
       </div>
@@ -786,7 +475,7 @@ const chaveamento = {
       count++;
       rowGrupos.innerHTML += /*html*/`
       <div class="col d-flex flex-column-reverse flex-lg-column gap-3 px-0">
-        <div class="p-3 rounded-5 table-responsive tabela-customizada-wrapper col">
+        <div class="p-3 rounded-5 table-responsive lvl1-color tabela-customizada-wrapper col">
           <h3>Grupo ${count}</h3>
           <table class="table table-hover table-bordered tabela-customizada">
             <thead>
@@ -809,16 +498,16 @@ const chaveamento = {
           </table>
         </div>
       </div>
-      <div class="col-lg-3 col-12 rounded-5 matches-round-data-wrapper borda-top-lg p-3 mb-lg-0 mb-3">
+      <div class="col-lg-3 col-12 rounded-5 matches-round-data-wrapper lvl1-color borda-top-lg p-3 mb-lg-0 mb-3">
         <div class="row row-cols-3 flex-row justify-content-center align-items-center">
           <div class="col-12 d-flex justify-content-center align-items-center">
-              <h4 id="rodada-text-${count}" class="text-black"><span id="rodada-atual-${count}">1</span>º Rodada</h4>
+              <h4 id="rodada-text-${count}"><span id="rodada-atual-${count}">1</span>º Rodada</h4>
           </div>
           <div class="col-6 d-flex justify-content-center align-items-center">
-              <button id="anterior-rodada-${count}" class="seta-botao-rodada btn px-3 py-2 w-100 invisible"><i class="bi bi-caret-left"></i></button>
+              <button id="anterior-rodada-${count}" class="seta-botao-rodada lvl2-color btn px-3 py-2 w-100 invisible"><i class="bi bi-caret-left"></i></button>
           </div>
           <div class="col-6 d-flex justify-content-center align-items-center">
-              <button id="proxima-rodada-${count}" class="seta-botao-rodada btn px-3 py-2 w-100"><i class="bi bi-caret-right"></i></button>
+              <button id="proxima-rodada-${count}" class="seta-botao-rodada lvl2-color btn px-3 py-2 w-100"><i class="bi bi-caret-right"></i></button>
           </div>
         </div>
         <div class="mt-3 d-flex flex-column gap-4 fase-grupos-rodadas">
@@ -890,7 +579,7 @@ const chaveamento = {
     containerGrupos.appendChild(rowGrupos)
     partidasWrapper.appendChild(containerGrupos)
     partidasWrapper.innerHTML += /*html*/`
-      <div class="container p-3 rounded-5 legenda-wrapper">
+      <div class="container p-3 rounded-5 lvl1-color legenda-wrapper">
         <div class="legenda me-2 d-inline-block">
           <div class="d-inline-block vencedor" style="width: 10px; height: 10px;"></div>
           Derrota
@@ -935,7 +624,7 @@ const chaveamento = {
     partidasWrapper.innerHTML = ''
     if (partidas.length == 0) {
       partidasWrapper.innerHTML = `
-        <div class="bg-gray-lvl-2 col-12 text-center rounded-5">
+        <div class="lvl2-color col-12 text-center rounded-5">
           <h5 class="p-5">Por enquanto, não há partidas nessa fase do campeonato.</h5>
         </div>
       `
@@ -958,12 +647,12 @@ const chaveamento = {
       for (const partidaDupla of partidasDuplas) {
         count++;
         partidasWrapper.innerHTML += /*html*/`
-          <div class="d-flex gap-3 justify-content-evenly align-items-center text-black bg-gray-lvl-2 mb-3 p-3 rounded ida-volta">
-              <div class="row justify-content-center align-items-center mx-2 bg-gray-lvl-3 px-3 pb-3 rounded-5">
+          <div class="d-flex gap-3 justify-content-evenly align-items-center lvl2-color mb-3 p-3 rounded ida-volta">
+              <div class="row justify-content-center align-items-center mx-2 px-3 pb-3 rounded-5">
                 <div class="text-center py-1">
                   <small>${this.convertDateFormat(partidaDupla.jogoAtual.date)}</small><small class="d-block d-lg-inline"><span class="d-none d-lg-inline">-</span> ${partidaDupla.jogoAtual.road ? partidaDupla.jogoAtual.road : 'Localização não definida'}</small>
                 </div>
-                <a href="/pages/tela-partida.html?id=${partidaDupla.jogoAtual.id}" class="text-decoration-none match-link-wrapper p-2 rounded-5 my-1 d-flex justify-content-center align-items-center">
+                <a href="/pages/tela-partida.html?id=${partidaDupla.jogoAtual.id}" class="text-decoration-none lvl3-color match-link-wrapper p-2 rounded-5 my-1 d-flex justify-content-center align-items-center">
                   <div class="row justify-content-center align-items-center">
                     <div class="col-4 text-center">
                       <div class="d-flex align-items-center justify-content-center">
@@ -985,22 +674,24 @@ const chaveamento = {
                 <span class="d-none match-id">${partidaDupla.jogoAtual.id}</span>
                 ${(isOrganizer() && (championshipData.status == 0 || championshipData.status == 3)) ? `
                   <div class="row justify-content-center align-items-center config-match-btn-wrapper">
-                    <button data-bs-toggle="modal" data-bs-target="#configMatchModal" class="btn w-auto border-0 d-flex justify-content-center align-items-center config-match-btn">
-                      <i class="bi bi-pencil-square px-4 py-1 text-white rounded-pill"></i>
-                    </button> 
+                    <a class="w-auto p-0" href="/pages/configuracao-partida.html?idM=${partida.id}&idC=${idCampeonato}">
+                      <button class="btn pt-0 border-0 d-flex justify-content-center align-items-center config-match-btn">
+                        <i class="bi bi-pencil-square lvl2-primary-bg px-4 py-1 rounded-pill"></i>
+                      </button> 
+                    </a>
                   </div>
                 ` : ''}
               </div>
 
-              <div class="d-flex align-items-center justify-content-center bg-gray-lvl-3 mb-3 px-3 py-2 rounded">
-                  <small class="text-nowrap text-black">${fases[faseAtual]} ${count}</small>
+              <div class="d-flex align-items-center justify-content-center lvl3-color mb-3 px-3 py-2 rounded">
+                  <small class="text-nowrap">${fases[faseAtual]} ${count}</small>
               </div>
 
-              <div class="row justify-content-center align-items-center mx-2 bg-gray-lvl-3 px-3 pb-3 rounded-5">
+              <div class="row justify-content-center align-items-center mx-2 px-3 pb-3 rounded-5">
                 <div class="text-center py-1">
                   <small>${this.convertDateFormat(partidaDupla.proximoJogo.date)}</small><small class="d-block d-lg-inline"><span class="d-none d-lg-inline">-</span> ${partidaDupla.jogoAtual.road ? partidaDupla.jogoAtual.road : 'Localização não definida'}</small>
                 </div>
-                <a href="/pages/tela-partida.html?id=${partidaDupla.proximoJogo.id}" class="text-decoration-none match-link-wrapper p-2 rounded-5 my-1 d-flex justify-content-center align-items-center">
+                <a href="/pages/tela-partida.html?id=${partidaDupla.proximoJogo.id}" class="text-decoration-none lvl3-color match-link-wrapper p-2 rounded-5 my-1 d-flex justify-content-center align-items-center">
                   <div class="row justify-content-center align-items-center">
                     <div class="col-4 text-center">
                       <div class="d-flex align-items-center justify-content-center">
@@ -1022,9 +713,11 @@ const chaveamento = {
                 <span class="d-none match-id">${partidaDupla.proximoJogo.id}</span>
                 ${(isOrganizer() && (championshipData.status == 0 || championshipData.status == 3)) ? `
                   <div class="row justify-content-center align-items-center config-match-btn-wrapper">
-                    <button data-bs-toggle="modal" data-bs-target="#configMatchModal" class="btn w-auto border-0 d-flex justify-content-center align-items-center config-match-btn">
-                      <i class="bi bi-pencil-square px-4 py-1 text-white rounded-pill"></i>
-                    </button> 
+                    <a class="w-auto p-0" href="/pages/configuracao-partida.html?idM=${partida.id}&idC=${idCampeonato}">
+                      <button class="btn pt-0 border-0 d-flex justify-content-center align-items-center config-match-btn">
+                        <i class="bi bi-pencil-square lvl2-primary-bg px-4 py-1 rounded-pill"></i>
+                      </button> 
+                    </a>
                   </div>
                 ` : ''}
               </div>
@@ -1048,11 +741,11 @@ const chaveamento = {
     for (const partida of partidas) {
       count++;
       partidasWrapper.innerHTML += /*html*/`
-        <div class="row justify-content-center align-items-center mx-2 bg-gray-lvl-2 px-3 pb-3 mb-3 rounded-5">
+        <div class="row justify-content-center align-items-center mx-2 lvl2-color px-3 pb-3 mb-3 rounded-5">
           <div class="text-center py-1">
             <small>${this.convertDateFormat(partida.date)}</small>
           </div>
-          <a href="/pages/tela-partida.html?id=${partida.id}" class="text-decoration-none match-link-wrapper p-2 rounded-5 my-1 d-flex justify-content-center align-items-center">
+          <a href="/pages/tela-partida.html?id=${partida.id}" class="text-decoration-none match-link-wrapper lvl3-color p-2 rounded-5 my-1 d-flex justify-content-center align-items-center">
             <div class="row justify-content-center align-items-center">
               <div class="col-4 text-center">
                 <div class="d-flex align-items-center justify-content-center">
@@ -1074,9 +767,11 @@ const chaveamento = {
           <span class="d-none match-id">${partida.id}</span>
           ${(isOrganizer() && (championshipData.status == 0 || championshipData.status == 3)) ? `
             <div class="row justify-content-center align-items-center config-match-btn-wrapper">
-              <button data-bs-toggle="modal" data-bs-target="#configMatchModal" class="btn w-auto border-0 d-flex justify-content-center align-items-center config-match-btn">
-                <i class="bi bi-pencil-square px-4 py-1 text-white rounded-pill"></i>
-              </button> 
+              <a class="w-auto p-0" href="/pages/configuracao-partida.html?idM=${partida.id}&idC=${idCampeonato}">
+                <button class="btn pt-0 border-0 d-flex justify-content-center align-items-center config-match-btn">
+                  <i class="bi bi-pencil-square lvl2-primary-bg px-4 py-1 rounded-pill"></i>
+                </button> 
+              </a>
             </div>
           ` : ''}
         </div>

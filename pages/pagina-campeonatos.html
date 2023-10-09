@@ -20,7 +20,7 @@
     <main class="container">
         <section class="position-relative bg-grad w-100 p-2 d-flex mt-3 justify-content-between rounded-5">
             <div class="row w-100 championship-info position-absolute">
-                <div id="conteudo" class="col-md-5 col-12 order-1 order-md-0 flex-column ms-3">
+                <div id="conteudo" class="col-md-5 mt-5 col-12 order-1 order-md-0 flex-column ms-3">
                     <div class="mt-5 championship-chars d-inline-flex">
                         <div class="d-inline-flex championship-char">
                             <!-- Ícone mudar de acordo com o esporte praticado do time atual (Extra / WIP) -->
@@ -65,7 +65,7 @@
                         <p id="name" class="text-end fs-4 championship-name"></p>
                     </div>
                     <div class="mx-auto mt-3 d-flex justify-content-end">
-                        <button class="btn championship-options-btn rounded-pill fw-semibold d-none" id="botao-campeonato-editar">
+                        <button class="btn championship-options-btn lvl2-primary-bg rounded-pill fw-semibold d-none" id="botao-campeonato-editar">
 
                             <a href="/pages/configuracao-campeonato.html" class="text-center fs-6 i18" key="EditarCampeonato">Configurar Campeonato</a>
                         </button>
@@ -74,21 +74,17 @@
             </div>
         </section>
 
-        <section class="ms-4 sports-section h-100">
+        <section class="sports-section h-100">
             <div class="row">
-                <div class="col-12 col-md-12 col-lg-9">
-                    <div class="position-relative w-90 ss-first-content-wrapper">
+                <div class="col-12">
+                    <div class="position-relative w-100 ss-first-content-wrapper">
                         <div class="d-flex p-4 glass-effect ss-title align-items-center">
-                            <h2 class="text-center text-lg-start w-100 m-4 i18" key="Times">Times</h2>
+                            <h2 class="text-center w-100 m-4 i18" key="Times">Times</h2>
                         </div>
-                        <div data-lenis-prevent class="d-flex px-3 pt-3 ss-first-content w-auto">
+                        <div data-lenis-prevent class="d-flex px-3 pt-3 lvl1-primary-bg ss-first-content w-auto">
                             <div id="times" class="ss-slider w-100 d-flex flex-row flex-md-column"></div>
                         </div>
                     </div>
-                </div>
-                <div class="col-12 col-md-12 col-lg position-relative">
-                    <div class="ss-test-1 d-none d-lg-block"></div>
-                    <div class="ss-test-2"></div>
                 </div>
             </div>
         </section>

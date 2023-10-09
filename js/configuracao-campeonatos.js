@@ -97,7 +97,7 @@ const init = async () => {
 		doubleMatchPontosCorridos.classList.add('form-check', 'mt-2')
 		doubleMatchPontosCorridos.innerHTML = `
 			<label class="form-check-label" for="double-match-pc">
-				<span class="i18 text-black" key="DoubleMatchPC">${i18next.t("DoubleMatchPC")}</span>
+				<span class="i18" key="DoubleMatchPC">${i18next.t("DoubleMatchPC")}</span>
 			</label>
 
 			<input class="form-check-input" type="checkbox" value="" id="double-match-pc">
@@ -109,7 +109,7 @@ const init = async () => {
 		doubleMatchEliminatorias.classList.add('form-check', 'mt-2')
 		doubleMatchEliminatorias.innerHTML = `
 			<label class="form-check-label" for="double-match-eliminatorias">
-				<span class="i18 text-black" key="DoubleMatchEliminatorias">${i18next.t("DoubleMatchEliminatorias")}</span>
+				<span class="i18" key="DoubleMatchEliminatorias">${i18next.t("DoubleMatchEliminatorias")}</span>
 			</label>
 			
 			<input class="form-check-input" type="checkbox" value="" id="double-match-eliminatorias">
@@ -121,7 +121,7 @@ const init = async () => {
 		doubleMatchFinal.classList.add('form-check', 'mt-2')
 		doubleMatchFinal.innerHTML = `
 			<label class="form-check-label" for="double-match-final">
-				<span class="i18 text-black" key="DoubleMatchFinal">${i18next.t("DoubleMatchFinal")}</span>
+				<span class="i18" key="DoubleMatchFinal">${i18next.t("DoubleMatchFinal")}</span>
 			</label>
 
 			<input class="form-check-input" type="checkbox" value="" id="double-match-final">
@@ -133,7 +133,7 @@ const init = async () => {
 		doubleMatchFaseDeGrupos.classList.add('form-check', 'mt-2')
 		doubleMatchFaseDeGrupos.innerHTML = `
 			<label class="form-check-label" for="double-match-FG">
-				<span class="i18 text-black" key="DoubleMatchFG">${i18next.t("DoubleMatchFG")}</span>
+				<span class="i18" key="DoubleMatchFG">${i18next.t("DoubleMatchFG")}</span>
 			</label>
 
 			<input class="form-check-input" type="checkbox" value="" id="double-match-FG">
@@ -628,8 +628,8 @@ const init = async () => {
 	const disableForm = () => {
 		let formElements = form.elements;
 		for (let i = 0; i < formElements.length; i++) {
-			if (formElements[i].id == 'config-championship-image-input' || formElements[i].id == 'config-championship-formato-input' || formElements[i].id == 'config-championship-numero-input' || formElements[i].id == 'config-championship-esporte-input') {
-				formElements[i].disabled = true;
+			if (formElements[i].id == 'config-championship-image-input' || formElements[i].id == 'config-championship-formato-input' || formElements[i].id == 'config-championship-numero-input') {
+				formElements[i].disabled = false;
 			}
 
 			// disable checkboxes
@@ -653,6 +653,8 @@ const init = async () => {
 		let formElements = form.elements;
 		
 		for (let i = 0; i < formElements.length; i++) {
+			if (formElements[i].id == 'config-championship-esporte-input') continue
+
 			formElements[i].disabled = false;
 		}
 	}
@@ -692,6 +694,7 @@ const init = async () => {
 					await deleteBracket(campeonato.id)
 				})
 
+				linkChaveamento.classList.remove('d-none')
 				linkChaveamento.href = '/pages/tabela-chaveamento.html?id=' + campeonato.id
 			} else {
 				// se não estiver criado, permitir a edição do campeonato
@@ -699,7 +702,7 @@ const init = async () => {
 				enableTeamsManipulation()
 				
 				bracketBtnWrapper.innerHTML = `
-					<button disabled data-bs-toggle="modal" data-bs-target="#bracketCreateModal" id="create-bracket-btn" class="btn w-100 border-0 d-flex justify-content-center align-items-center chaveamento-btn">
+					<button disabled data-bs-toggle="modal" data-bs-target="#bracketCreateModal" id="create-bracket-btn" class="btn w-100 border-0 d-flex justify-content-center align-items-center lvl1-color chaveamento-btn">
 						<i class="bi bi-diagram-2 me-2"></i>
 						<span class="i18 fw-semibold" key="CriarChaveamento">${i18next.t("CriarChaveamento")}</span>
 					</button> 
@@ -768,16 +771,16 @@ const init = async () => {
 		timesVinculadosWrapper.innerHTML = ''
 
 		if (timesVinculados.results.length == 0) {
-			timesVinculadosWrapper.innerHTML = `<p class="p-2 text-center"><span class="i18" key="SemTimes">${i18next.t("SemTimes")}</span></p>`
+			timesVinculadosWrapper.innerHTML = `<p class="p-2 text-center "><span class="i18" key="SemTimes">${i18next.t("SemTimes")}</span></p>`
 			return;
 		}
 
 
 		for (const time of timesVinculados.results) {
 			const newOption = document.createElement('div');
-			newOption.classList.add('row', 'rounded-5', 'mx-1', 'px-0', 'py-3', 'mb-2', 'ss-list-player-content')
+			newOption.classList.add('row', 'rounded-5', 'mx-1', 'px-0', 'py-3', 'mb-2', 'lvl2-primary-bg')
 			newOption.innerHTML = `
-				<div class="col-auto my-auto position-relative mx-auto border border-2 ms-md-3 p-0 overflow-hidden rounded-circle me-md-2 ss-player-image">
+				<div class="col-auto my-auto position-relative mx-auto border border-2 ms-md-3 p-0 overflow-hidden rounded-circle bg-white me-md-2 ss-player-image">
 					<img src="${time.emblem}" alt="teamImage" class="img-fluid position-absolute mw-100 h-100">
 				</div>
 
@@ -786,7 +789,7 @@ const init = async () => {
 				<div class="col-auto ss-player-info-wrapper text-center mb-0 text-md-start ms-md-1 mt-auto mt-md-0 d-flex flex-column">
 					<p class="ss-player-name text-center text-md-start text-nowrap text-truncate d-block">${time.name}</p>
 					<div class="ss-player-data2 row justify-content-center align-items-center d-flex flex-column flex-md-row mt-2 mx-md-auto ms-md-0">
-						<button class="col link-ss-list-team py-1 px-4 mb-2 mb-md-0 me-md-2 btn border-0"><i class="bi text-white bi-box-arrow-up-right"></i></button>
+						<button class="col link-ss-list-team lvl3-primary-bg py-1 px-4 mb-2 mb-md-0 me-md-2 btn border-0"><i class="bi bi-box-arrow-up-right"></i></button>
 					</div>
 				</div>
 
@@ -798,7 +801,7 @@ const init = async () => {
 
 			const botaoDesvincularWrapper = document.createElement('div')
 			botaoDesvincularWrapper.classList.add('col-auto', 'd-flex', 'my-auto', 'mx-auto', 'ms-md-auto', 'me-md-2')
-			botaoDesvincularWrapper.innerHTML = `<button type="button" class="delete-listed-thing justify-content-center align-items-center rounded-4 remover-vinculo-campeonato btn btn-danger d-flex"><i class="bi bi-trash text-light fs-5"></i></button>`
+			botaoDesvincularWrapper.innerHTML = `<button type="button" class="delete-listed-thing justify-content-center align-items-center rounded-4 remover-vinculo-campeonato btn btn-danger d-flex"><i class="bi bi-trash   fs-5"></i></button>`
 
 			newOption.appendChild(botaoDesvincularWrapper)
 			timesVinculadosWrapper.appendChild(newOption)
@@ -868,9 +871,9 @@ const init = async () => {
 			datalistPesquisa.innerHTML = ''
 			for (const time of times) {
 				const newOption = document.createElement('div');
-				newOption.classList.add('row', 'rounded-5', 'mx-1', 'px-0', 'py-3', 'mb-2', 'ss-list-player-content')
+				newOption.classList.add('row', 'rounded-5', 'mx-1', 'px-0', 'py-3', 'mb-2', 'lvl2-primary-bg')
 				newOption.innerHTML = `
-					<div class="col-auto my-auto position-relative mx-auto ms-md-3 p-0 overflow-hidden rounded-circle me-md-2 ss-player-image">
+					<div class="col-auto my-auto position-relative mx-auto ms-md-3 p-0 overflow-hidden rounded-circle bg-white me-md-2 ss-player-image">
 						<img src="${time.emblem}" alt="teamImage" class="img-fluid position-absolute mw-100 h-100">
 					</div>
 					
@@ -881,7 +884,7 @@ const init = async () => {
 
 				const addTeamButtonWrapper = document.createElement('div')
 				addTeamButtonWrapper.classList.add('col-auto', 'd-flex', 'mt-3', 'mt-md-auto', 'my-auto', 'mx-auto', 'ms-md-auto', 'me-md-2')
-				addTeamButtonWrapper.innerHTML = `<button type="button" class="add-listed-thing justify-content-center align-items-center rounded-4 adicionar-vinculo-campeonato btn btn-primary d-flex"><i class="bi bi-plus-lg text-light fs-5"></i></button>`
+				addTeamButtonWrapper.innerHTML = `<button type="button" class="add-listed-thing justify-content-center align-items-center rounded-4 adicionar-vinculo-campeonato btn btn-primary d-flex"><i class="bi bi-plus-lg   fs-5"></i></button>`
 
 				newOption.appendChild(addTeamButtonWrapper)
 
@@ -932,7 +935,7 @@ const init = async () => {
 			document.getElementById('suborg-vinculados').innerHTML = ""
 			for(const result of response.results){
 				const newOption = document.createElement('div');
-				newOption.classList.add('row', 'rounded-5', 'mx-1', 'px-0', 'py-3', 'mb-2', 'ss-list-player-content')
+				newOption.classList.add('row', 'rounded-5', 'mx-1', 'px-0', 'py-3', 'mb-2', 'lvl2-primary-bg')
 				newOption.innerHTML = `
 					<div class="col-auto my-auto position-relative mx-auto ms-md-3 p-0 overflow-hidden rounded-circle me-md-2 ss-player-image">
 						<img src="${result.picture}" alt="playerImage" class="img-fluid position-absolute mw-100 h-100">
@@ -942,7 +945,7 @@ const init = async () => {
 						<p class="ss-player-name w-auto text-center text-md-start text-nowrap text-truncate d-block">${result.name}</p>
 					</div>
 					<div class="col-auto d-flex mt-3 mt-md-auto my-auto mx-auto ms-md-auto me-md-2">
-						<button id="vincular-suborg" type="button" class="add-listed-thing justify-content-center align-items-center rounded-4 adicionar-player-step btn btn-primary d-flex"><i class="bi bi-plus text-light fs-5"></i></button>
+						<button id="vincular-suborg" type="button" class="add-listed-thing justify-content-center align-items-center rounded-4 adicionar-player-step btn btn-primary d-flex"><i class="bi bi-plus   fs-5"></i></button>
 					</div>
 					`
 				
@@ -976,7 +979,7 @@ const init = async () => {
 		for(const result of response.results){
 			console.log(result)
 			const newOption = document.createElement('div');
-			newOption.classList.add('row', 'rounded-5', 'mx-1', 'px-0', 'py-3', 'mb-2', 'ss-list-player-content')
+			newOption.classList.add('row', 'rounded-5', 'mx-1', 'px-0', 'py-3', 'mb-2', 'lvl2-primary-bg')
 			newOption.innerHTML = `
 				<div class="col-auto my-auto position-relative mx-auto ms-md-3 p-0 overflow-hidden rounded-circle me-md-2 ss-player-image">
 					<img src="${result.picture}" alt="playerImage" class="img-fluid position-absolute mw-100 h-100">
@@ -988,7 +991,7 @@ const init = async () => {
 			`
 			const botaoDesvincularWrapper = document.createElement('div')
 			botaoDesvincularWrapper.classList.add('col-auto', 'd-flex', 'mt-3', 'mt-md-auto', 'my-auto', 'mx-auto', 'ms-md-auto', 'me-md-2')
-			botaoDesvincularWrapper.innerHTML = `<button type="button" class="delete-listed-thing justify-content-center align-items-center rounded-4 remover-vinculo-campeonato btn btn-danger d-flex"><i class="bi bi-trash text-light fs-5"></i></button>`
+			botaoDesvincularWrapper.innerHTML = `<button type="button" class="delete-listed-thing justify-content-center align-items-center rounded-4 remover-vinculo-campeonato btn btn-danger d-flex"><i class="bi bi-trash   fs-5"></i></button>`
 
 			document.getElementById('suborganizadores-ja-vinculados').appendChild(newOption)
 			if(usuarioAtual.results.id !== result.id) newOption.appendChild(botaoDesvincularWrapper)

@@ -10,6 +10,9 @@ const mediaQueryMobile = window.matchMedia('(max-width: 575px)')
 const scrollTrigger = document.querySelectorAll(".scroll-trigger")
 const isHomer = document.querySelector("#is-homer")
 
+const minMediaQueryTablet = window.matchMedia('(min-width: 768px)')
+
+
 let mobibarLogo
 let navbar
 let offcanvasNavbar 
@@ -28,6 +31,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if(isHomer) {
         navbarComponente.firstElementChild.classList.remove("bg-white", "pb-1")
     }
+
+    if (document.documentElement.getAttribute("data-bs-theme") == "dark") {
+        navbarComponente.firstElementChild.classList.replace("bg-white", "lvl0-color")
+    }
 })
 
 const logoutModal = /* html */`
@@ -39,7 +46,7 @@ const logoutModal = /* html */`
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p id="texto-modal-bracket" class="text-black text-center">
+                    <p id="texto-modal-bracket" class="text-center">
                         <span class="i18" key="TextoLogout">${i18next.t("TextoLogout")}</span>
                     </p>
                 </div>
@@ -118,8 +125,8 @@ lenis.on("scroll", () => {
     }
 
     if (
-        document.body.scrollTop > 585 ||
-        document.documentElement.scrollTop > 585
+        document.body.scrollTop > 505 ||
+        document.documentElement.scrollTop > 505 && (document.documentElement.getAttribute("data-bs-theme") == "light")
     ) {
         navbarComponente.querySelectorAll(".nav-item").forEach(item => item.firstElementChild.classList.add("text-dark"))
         if(navbarComponente.querySelector(".bi-caret-left-fill")) {
@@ -131,6 +138,20 @@ lenis.on("scroll", () => {
         if(navbarComponente.querySelector(".bi-caret-left-fill")) {
             navbarComponente.querySelector(".bi-caret-left-fill").style.setProperty('--custom-white', "white")
         }
+    }
+
+    if (document.body.getAttribute('is-home') && document.documentElement.getAttribute("data-bs-theme") == "light") {
+        if (
+            (document.body.scrollTop > 505 || document.documentElement.scrollTop > 505) && minMediaQueryTablet.matches
+        ) {
+            navbarComponente.querySelector(".navbar-brand img").setAttribute('src', '/Logo_Playoffs.png')
+        } else if (minMediaQueryTablet.matches) {
+            navbarComponente.querySelector(".navbar-brand img").setAttribute('src', '/Logo_Playoffs_White.png')
+        }
+    } else if (document.documentElement.getAttribute("data-bs-theme") == "dark") {
+        navbarComponente.querySelector(".navbar-brand img").setAttribute('src', "/Logo_Playoffs_White.png")
+    } else if (document.documentElement.getAttribute("data-bs-theme") == "light") {
+        navbarComponente.querySelector(".navbar-brand img").setAttribute('src', '/Logo_Playoffs.png')
     }
 
     if (!menuOpen) {
@@ -147,9 +168,13 @@ lenis.on("scroll", () => {
         if(window.scrollY != 0) {
             // document.body.style.marginTop = "60px"
             navbarComponente.firstElementChild.classList.remove("bg-white", "pb-1")
+            navbarComponente.firstElementChild.classList.remove("lvl0-color", "pb-1")
         } else {
-            // document.body.style.marginTop = "0px"
-            navbarComponente.firstElementChild.classList.add("bg-white", "pb-1")
+            if (document.documentElement.getAttribute("data-bs-theme") == "light") {
+                navbarComponente.firstElementChild.classList.add("bg-white", "pb-1")
+            } else if (document.documentElement.getAttribute("data-bs-theme") == "dark") {
+                navbarComponente.firstElementChild.classList.add("lvl0-color", "pb-1")
+            }
         }
     }
 })
@@ -221,7 +246,7 @@ if (mediaQueryMobile.matches) {
 export class header extends HTMLElement {
     constructor() {
         super();
-        const lng = localStorage.getItem('lng');
+        let lng = localStorage.getItem('lng');
 
         let classDark = ''
         if (document.body.getAttribute('is-home')) {
@@ -231,9 +256,9 @@ export class header extends HTMLElement {
         this.innerHTML = /* html */`
             <header class="bg-white pb-1">
                 <div class="container">
-                    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                    <nav class="navbar navbar-expand-lg">
                         <div class="col col-lg-4">
-                            <a class="navbar-brand m-auto" href="/"><img src="/Logo_Playoffs.png" class="logo-play img-fluid" width="180" alt="Logo Playoffs"></a>
+                            <a class="navbar-brand header-navbar-brand m-auto" href="/"><img src="" class="logo-play img-fluid" width="180" alt="Logo Playoffs"></a>
                         </div>
                         
                         <button class="navbar-toggler navbar-tgg border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
@@ -243,7 +268,7 @@ export class header extends HTMLElement {
                         <div class="offcanvas offcanvas-end mobile" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
 
                             <div class="offcanvas-header container pt-2 pb-2">
-                                <h2 class="fw-semibold mb-0 text-black">Menu</h2>
+                                <h2 class="fw-semibold mb-0">Menu</h2>
                                 <button id="close-offcanvas" type="button" class="btn-close me-1" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                             </div>
 
@@ -251,7 +276,7 @@ export class header extends HTMLElement {
 
                             <div class="offcanvas-body" id="offcanvas">
                                 <form class="col col-md d-flex justify-content-center m-auto" id="pesquisa" role="search">
-                                    <input id="barra-pesquisa" class="form-control m-lg-auto p-1 m-sm-5 mb-sm-2 m-3 mb-2 border-0 rounded-pill h-5 pesquisar i18-placeholder" type="search" key="PesquisaPlaceholder" placeholder="Procurar" aria-label="Search">
+                                    <input id="barra-pesquisa" class="form-control m-lg-auto p-1 m-sm-5 mb-sm-2 m-3 mb-2 border-0 lvl1-color rounded-pill h-5 pesquisar i18-placeholder" type="search" key="PesquisaPlaceholder" placeholder="${i18next.t("PesquisaPlaceholder")}" aria-label="Search">
                                 </form>  
                                 <ul class="menu-li col col-sm-10 col-lg navbar-nav m-auto mt-lg-0 mt-3 justify-content-end align-items-center ${classDark}" id="status-usuario">
                                     <li class="nav-item mx-4">
@@ -272,11 +297,61 @@ export class header extends HTMLElement {
         `
 
         document.addEventListener('DOMContentLoaded', () => {
+            if (document.documentElement.getAttribute("data-bs-theme") == "dark") {
+                navbarComponente.querySelector(".navbar-brand img").setAttribute('src', "/Logo_Playoffs_White.png")
+            } else if (document.documentElement.getAttribute("data-bs-theme") == "light") {
+                navbarComponente.querySelector(".navbar-brand img").setAttribute('src', '/Logo_Playoffs.png')
+            }
+
+            document.querySelectorAll(".theme-option-btns").forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (!document.body.getAttribute('is-home')) {
+                        if(window.scrollY != 0) {
+                            // document.body.style.marginTop = "60px"
+                            navbarComponente.firstElementChild.classList.remove("bg-white", "pb-1")
+                            navbarComponente.firstElementChild.classList.remove("lvl0-color", "pb-1")
+                        } else {
+                            if (document.documentElement.getAttribute("data-bs-theme") == "light") {
+                                navbarComponente.firstElementChild.classList.remove("bg-white", "pb-1")
+                                navbarComponente.firstElementChild.classList.remove("lvl0-color", "pb-1")
+                                navbarComponente.firstElementChild.classList.add("lvl0-color", "pb-1")
+                            } else if (document.documentElement.getAttribute("data-bs-theme") == "dark") {
+                                navbarComponente.firstElementChild.classList.remove("bg-white", "pb-1")
+                                navbarComponente.firstElementChild.classList.remove("lvl0-color", "pb-1")
+                                navbarComponente.firstElementChild.classList.add("bg-white", "pb-1")
+                            }
+                        }
+                    } 
+                })
+            })
+        })
+
+        const barraPesquisa = document.getElementById('barra-pesquisa')
+        barraPesquisa.addEventListener('focus', () => {
+            barraPesquisa.removeAttribute('placeholder')
+        })
+        barraPesquisa.addEventListener('blur', () => {
+            barraPesquisa.setAttribute('placeholder', `${i18next.t("PesquisaPlaceholder")}`)
+            lng = localStorage.getItem('lng')
+            i18next.changeLanguage(lng)
+        })
+
+        document.addEventListener('DOMContentLoaded', () => {
             document.addEventListener('autenticado', () => {
                 if (localStorage.getItem('autenticado') == 'false')
                     document.dispatchEvent(new Event('header-carregado', { bubbles: true }))
                     
                 this.estaLogado(lng)
+            })
+
+            const headerNavbarBrandImg = document.querySelector(".header-navbar-brand img")
+
+            document.querySelectorAll(".theme-option-btns").forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    (document.documentElement.getAttribute('data-bs-theme') != "light") ?
+                    headerNavbarBrandImg.setAttribute('src', '/Logo_Playoffs.png')
+                    : headerNavbarBrandImg.setAttribute('src', "/Logo_Playoffs_White.png")
+                })
             })
         })
         // this.estaLogado(lng)
@@ -291,7 +366,7 @@ export class header extends HTMLElement {
         const navbarToggler = document.querySelector('.navbar-toggler')
         const info = /* html */`
             <li class="nav-item d-none d-lg-inline-flex me-5 navbar-user-img-wrapper navbar-clicavel" data-bs-toggle="offcanvas" data-bs-target="#offcanvasUser" aria-controls="offcanvasUser" aria-label="Toggle navigation">
-                <i class="bi bi-caret-left-fill mt-1 text-black"></i>
+                <i class="bi bi-caret-left-fill mt-1"></i>
                 <img src="${user.picture ? user.picture : defaultImg}" width="32" height="32" class="rounded-circle border border-2 ms-2">
             </li>
             <!--
@@ -334,7 +409,7 @@ export class header extends HTMLElement {
         status.innerHTML = info
 
         navbarToggler.innerHTML = /* html */`
-            <img src="${user.picture ? user.picture : defaultImg}" class="foto-usuario-mobile border border-2 ms-2 h-100 w-100">
+            <img src="${user.picture ? user.picture : defaultImg}" class="foto-usuario-mobile border border-2 ms-2 img-fluid">
         `
 
         const offcanvasUser = document.createElement('div')

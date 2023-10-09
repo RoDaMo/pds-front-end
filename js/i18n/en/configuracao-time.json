@@ -52,7 +52,7 @@
     "NomeArtisticoLabel": "Player's nickname:",
     "NomeArtisticoObrigatorio": "Player's nickname is required",
     "NomeArtisticoMinimo": "Minimum 4 characters",
-    "NomeArtisticoMaximo": "Maximum 40 characters",
+    "NomeArtisticoMaximo": "Maximum 15 characters",
     "NumeroJogadorLabel": "Player's number:",
     "NumeroJogadorObrigatorio": "Player's number is required",
     "NumeroJogadorMinimo": "Minimum 1 character",
@@ -106,5 +106,6 @@
     "Eliminatorias": "Knockout",
     "GruposEliminatorias": "Groups and knockout",
     "TextoSairCampeonato": "You are about to leave this championship, are you sure you want to proceed?",
-    "ExitChampionship": "Exit Championship"
+    "ExitChampionship": "Exit Championship",
+    "TeamSportChangeWarning": "It is not possible to change the team's sport after its registration."
 }

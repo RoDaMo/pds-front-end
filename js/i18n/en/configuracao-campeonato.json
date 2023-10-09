@@ -123,5 +123,6 @@
     "TextoModalChaveamentoSucesso": "Congratulations! Your bracket has been successfully created.",
     "SucessoCriacaoChaveamento": "Bracket created successfully!",
     "SucessoExclusaoChaveamento": "Bracket deleted successfully!",
-    "QuantidadeTimesInsuficiente": "The number of teams is insufficient"
+    "QuantidadeTimesInsuficiente": "The number of teams is insufficient",
+    "TeamChampionshipChangeWarning": "It is not possible to change the championship's sport after its registration."
 }

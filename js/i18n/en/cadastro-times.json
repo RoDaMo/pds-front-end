@@ -37,7 +37,6 @@
     "Uniforme2Obrigatorio": "Enter the away uniform",
     "CpfErro": "Error",
     "CpfErroMensagem": "There was a problem checking if he is eligible to use this feature. Try again later...",
-    "CpfErroBotao": "Go to home page"
-
-
+    "CpfErroBotao": "Go to home page",
+    "TeamSportChangeWarning": "It will not be possible to change the team's sport after its registration."
 }

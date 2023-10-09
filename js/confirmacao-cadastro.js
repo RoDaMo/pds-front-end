@@ -10,6 +10,23 @@ const loader = document.createElement('app-loader');
 document.body.appendChild(loader);
 inicializarInternacionalizacao(ingles, portugues);
 
+const confirmSignCardHeader = document.querySelector("#confirmsign-card-header")
+
+document.addEventListener("DOMContentLoaded", () => {
+    confirmSignCardHeader.insertAdjacentHTML('afterbegin', `
+        <a class="navbar-brand justify-content-center d-flex m-auto p-auto col-9" href="/"><img src=${(document.documentElement.getAttribute("data-bs-theme") == "light") ? "/Logo_Playoffs.png" : "/Logo_Playoffs_White.png"} class="img-fluid" width="300" alt="Logo Playoffs"></a>
+    `)    
+
+    const navbarBrandImg = document.querySelector(".navbar-brand img")
+
+    document.querySelectorAll(".theme-option-btns").forEach(btn => {
+        btn.addEventListener('click', async () => {
+            (document.documentElement.getAttribute('data-bs-theme') != "light") ?
+            navbarBrandImg.setAttribute('src', '/Logo_Playoffs.png')
+            : navbarBrandImg.setAttribute('src', "/Logo_Playoffs_White.png")
+        })
+    })
+})
 
 window.addEventListener("DOMContentLoaded", async(e) => {
     e.preventDefault()

@@ -1,11 +1,6 @@
 @import "pure-variables.scss";
 @import "variables.scss";
 
-#drop-in {
-  // height: 100px;
-  background-color: $play-cor-fundos-secundaria;
-}
-
 .img-listagem-players {
   width: 3rem;
   height: 3rem;
@@ -16,17 +11,11 @@
   height: 5rem;
 }
 
-.ss-list-player-content {
-  background-color: $play-cor-fundos-secundaria;
-}
-
 .ss-player-data-number {
-  background-color: $play-cor-primaria;
   border-radius: 0.6rem;
 }
 
 .ss-player-data-position {
-  background-color: $black;
   border-radius: 0.8rem;
 }
 
@@ -66,16 +55,12 @@
   max-height: 30rem;
   overflow-y: auto;
   overflow-x: hidden;
-
-  background-color: $play-cor-fundos;
 }
 
 #campeonatos-vinculados {
   max-height: 30rem;
   overflow-y: auto;
   overflow-x: hidden;
-
-  background-color: $play-cor-fundos;
 }
 
 #uniform-img-wrapper {
@@ -92,11 +77,6 @@
 
 #formulario-jogador-temporario {
   width: 100%;
-}
-
-// Color
-body {
-  background-color: $gray-200 !important;
 }
 
 // Media Queries
