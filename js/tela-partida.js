@@ -89,6 +89,8 @@ const init = async () => {
 
 			await updateScoreboard()
 			await loadEvents()
+
+			blankSpaceSetter()
 		}
 	}
 
@@ -1616,11 +1618,17 @@ const init = async () => {
 	}
 
 	const blankSpaceSetter = () => {
-		const blankSpaces = document.getElementsByClassName('blank-space')
-		const matchDetailsContentEvent = document.querySelector('.match-details-content-event')
+		let blankSpaces = null
+		let matchDetailsContentEvent = null
+
+		blankSpaces = document.getElementsByClassName('blank-space')
+		matchDetailsContentEvent = document.querySelector('.match-details-content-event')
 		
-		const eventHeight = matchDetailsContentEvent.offsetHeight
-		const eventWidth = matchDetailsContentEvent.offsetWidth
+		let eventHeight = 0
+		eventHeight = matchDetailsContentEvent.offsetHeight
+
+		let eventWidth = 0
+		eventWidth = matchDetailsContentEvent.offsetWidth
 
 		if (window.innerWidth < 768) {
 			for(const blankSpace of blankSpaces) {
@@ -1705,6 +1713,8 @@ const init = async () => {
 		configMenuOption.addEventListener('click', () => {
 			activateLi(configMenuOption)
 			changeConfigOptionsContext(configMenuOption.getAttribute('menu'))
+
+			blankSpaceSetter()
 		})
 	}
 
