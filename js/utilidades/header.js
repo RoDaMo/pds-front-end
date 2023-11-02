@@ -452,7 +452,12 @@ export class header extends HTMLElement {
                     ${user.role == 'admin' ? `
                     <a href="/pages/error-log.html" class="list-group-item py-4 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
                         <i class="bi bi-person-gear fs-4"></i>
-                        Logs de erro
+                        <span class="i18" key="ErrorLogs">${i18next.t("ErrorLogs")}</span>
+                    </a>` : ''}
+                    ${user.role == 'admin' ? `
+                    <a href="/pages/moderacao.html" class="list-group-item py-4 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
+                        <i class="bi bi-shield-exclamation"></i>
+                        <span class="i18" key="Moderacao">${i18next.t("Moderacao")}</span>
                     </a>` : ''}
                     <button data-bs-toggle="modal" data-bs-target="#logoutModal" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3 deslogar-usuario">
                         <i class="bi bi-box-arrow-right fs-4"></i>
