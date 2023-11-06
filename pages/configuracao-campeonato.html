@@ -22,17 +22,23 @@
 	<componente-header></componente-header>
 	<main class="container">
 		<div class="row flex-column flex-lg-row mx-auto mb-4 h-100">
+
+		
 			<section class="col-auto config-menu mb-md mb-0 lvl0-color p-4 rounded-5">
 				<h5 class="i18" key="ConfigMenu">Configurações</h5>
 
 				<!-- Config Menu -->
 				<ul class="list-group list-group-flush config-menu-list" id="config-menu-list">
 					<button class="list-group-item list-group-item-action lvl1-color my-1 border-0 rounded-4 active" menu="0"><i class="bi bi-gear me-2"></i> <span class="i18" key="Editar">Editar informações</span> </button>
+					<button class="list-group-item lvl1-color list-group-item-action my-1 border-0 rounded-4" menu="4"><i class="bi bi-people me-2"></i><span class="i18" key="Pendencias">Pendencias</span> </button>
 					<button class="list-group-item list-group-item-action lvl1-color my-1 border-0 rounded-4" menu="1"><i class="bi bi-people me-2"></i><span class="i18" key="Times">Times</span> </button>
 					<button id="btn-suborg" class="list-group-item lvl1-color list-group-item-action my-1 border-0 rounded-4" menu="2"><i class="bi bi-people me-2"></i><span class="i18" key="SubOrganizadores">Sub-Organizadores</span> </button>
+
 					<button id="exclusao-campeonato" class="list-group-item lvl1-color list-group-item-action my-1 border-0 rounded-4" menu="3"><i class="bi bi-trash me-2"></i><span class="i18" key="Exclusao">Exclusão</span></button>
 					<!-- <button class="list-group-item list-group-item-action my-1 border-0 mb-2 rounded-4"><i class="bi bi-envelope me-2"></i>Emails/Sessões</button> -->
 				</ul>
+
+				
 
 				<div class="d-flex justify-content-center">
 					<hr class="w-50">
@@ -317,6 +323,15 @@
 								</div>
 						</div>
 					</div>
+
+					<div class="d-none menu-config" menu="4" id="abaPendencias">
+						<h5 class="text-danger text-center i18" key="Pendencias">Pendências</h5>
+						<div id="alerts-container">
+						  <!-- Mensagens de pendências serão exibidas aqui -->
+						</div>
+					  </div>
+
+
 				</section>
 
 				<div class="modal fade" id="deleteChampionship" tabindex="-1" aria-labelledby="deleteChampionshipLabel" aria-hidden="true">

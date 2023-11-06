@@ -89,7 +89,7 @@ const init = async () => {
 			bairro = document.getElementById('config-championship-bairro-input'),
 			linkRegulamento = document.getElementById('regulamento-existente'),
 			esporte = document.getElementById('config-championship-esporte-input'),
-
+			
 			configChampionshipDropZone = document.getElementById('config-championship-drop-zone')
 
 		// Double Match Checkboxes
@@ -149,14 +149,14 @@ const init = async () => {
 			optionDefault.setAttribute("key", "SelecioneOpcao")
 			numero.appendChild(optionDefault)
 		}
-
+		
 		const adicionarOpcao = (value) => {
 			const option = document.createElement('option')
 			option.value = value
 			option.text = value
 			numero.appendChild(option)
 		}
-
+		
 		const resetQuantidade = () => {
 			numero.innerHTML = ""
 			optionDefault()
@@ -330,7 +330,7 @@ const init = async () => {
 			doubleMatchWrapper.innerHTML = ""
 
     		changeTeamQTDStatus()
-
+			
 			if (esporte.value) {
 
 				formato.disabled = false;
@@ -454,6 +454,7 @@ const init = async () => {
 				])
 				.onSuccess(async (e) => {
 					e.preventDefault()
+					
 					// console.log('hello world')
 					// limparMensagem(mensagemErro)
 
@@ -509,13 +510,15 @@ const init = async () => {
 						"FinalDoubleMatch": finalStatus,
 						"DoubleMatchGroupStage": FGStatus,
 					})
+					
 					loader.hide()
 					// mensagemErro.textContent = ''
 					location.reload()
-
+					
 					checkBracketCreationAvailability()
+					
 				})
-
+				
 			configChampionshipDropZone.addEventListener("drop", async e => {
 				loader.show()
 				const data = await uploadImagem(e.dataTransfer, 3, mensagemErro)
@@ -526,7 +529,7 @@ const init = async () => {
 	
 				genericExibition(imageInput, data, image)
 			})
-
+			
 			imageFile.addEventListener("change", async () => {
 				const isValid = await validator.revalidateField(imageFile)
 				if (!isValid) return;
@@ -564,9 +567,10 @@ const init = async () => {
 			})
 		}
 		document.addEventListener('nova-lingua', validator1)
+		
 		validator1()
 	}
-
+	
 	const createBracket = async championshipId => {
 		const callbackStatus = (data) => {
 			notificacaoErro(data.results)
@@ -600,14 +604,15 @@ const init = async () => {
 			// document.getElementById('reload-ficar-aqui').addEventListener('click', () => location.reload())
 
 			bracketExists(championshipId)
+			
 		}
 	}
-
+	
 	const deleteBracket = async championshipId => {
 		const callbackStatus = (data) => {
 			notificacaoErro(data.results)
 		}
-
+		
 		loader.show()
 		const configFetch = configuracaoFetch('DELETE'),
 			response = await executarFetch(`bracketing/delete/${championshipId}`, configFetch, callbackStatus)
@@ -621,6 +626,7 @@ const init = async () => {
 			
 
 			await bracketExists(championshipId)
+			
 			await checkBracketCreationAvailability()
 		}
 	}
@@ -661,11 +667,11 @@ const init = async () => {
 
 	const bracketExists = async championshipId => {
 		const configFetch = configuracaoFetch('GET')
-
+		
 		const callbackStatus = (data) => {
 			notificacaoErro(data.results)
 		}
-
+		
 		loader.show()
 			const response = await executarFetch(`bracketing/exists/${championshipId}`, configFetch, callbackStatus)
 		loader.hide()
@@ -716,8 +722,9 @@ const init = async () => {
 				linkChaveamento.classList.add('d-none')
 			}
 		}
+		
 	}
-
+	
 	const putCampeonato = async body => {
 		const callbackServidor = data => {
 			mensagemErro.classList.add("text-danger")
@@ -752,7 +759,9 @@ const init = async () => {
 		}
 
 		const configFetch = configuracaoFetch('DELETE', { 'teamId': teamId, 'championshipId': parseInt(championshipId) }),
+		
 			response = await executarFetch('teams/championship', configFetch, callbackStatus)
+			
 
 		if (response.succeed) {
 			notificacaoSucesso(i18next.t("DesvinculadoSucesso"))
@@ -760,12 +769,13 @@ const init = async () => {
 			checkBracketCreationAvailability()
 		}
 	}
+	
 
 	const listarTimesVinculados = async configFetch => {
 		loader.show()
 		const timesVinculadosWrapper = document.getElementById('times-vinculados'),
 			timesVinculados = await executarFetch(`championships/teams?championshipId=${championshipId}`, configFetch)
-
+			
 		loader.hide()
 
 		timesVinculadosWrapper.innerHTML = ''
@@ -857,6 +867,7 @@ const init = async () => {
 				botaoVincular.onclick = exibirPesquisa
 			}
 		}
+		
 
 		inputPesquisa.addEventListener('input', async () => {
 			if (!inputPesquisa.value) {
@@ -1008,11 +1019,73 @@ const init = async () => {
 				if (response.succeed) {
 					notificacaoSucesso(i18next.t("DesvinculadoSucesso"))
 					exibirSuborg()
+					
 				}
 			})
 		}
-
 	}
+
+		
+
+	async function abaPendencias() {
+		try {
+		  const pendencias = await executarFetch(`todo/${championshipId}`, configuracaoFetch("GET"));
+	  
+		  if (pendencias) {
+			console.log(pendencias);
+	  
+			if (pendencias.Rules === false) {
+			  exibirMensagem("Pendência de Regras: Você precisa verificar as regras.");
+			}
+	  
+			if (pendencias.CreatedBracketing === false) {
+			  exibirMensagem("Pendência de Chaves Criadas: Você precisa criar as chaves.");
+			}
+	  
+			if (pendencias.AddedEnoughTeams === false) {
+			  exibirMensagem("Pendência de Times Suficientes: Você precisa adicionar mais times.");
+			}
+	  
+			if (pendencias.AddedSuborganizers === false) {
+			  exibirMensagem("Pendência de Suborganizadores: Você precisa adicionar suborganizadores.");
+			}
+	  
+			if (pendencias.PendentMatches === false) {
+			  exibirMensagem("Pendência de Partidas Pendentes: Há partidas pendentes a serem resolvidas.");
+			}
+		  } else {
+			console.log('Pendências não estão definidas corretamente.');
+		  }
+		} catch (error) {
+		  console.error('Ocorreu um erro ao buscar as pendências:', error);
+		}
+	  }
+	  
+	  function exibirMensagem(mensagem) {
+		const alertsContainer = document.getElementById('alerts-container');
+		const mensagemDiv = document.createElement('div');
+		mensagemDiv.className = 'alert alert-danger'; // Estilize conforme desejado
+		mensagemDiv.textContent = mensagem;
+		alertsContainer.appendChild(mensagemDiv);
+	  }
+	  
+	  // Agora, você pode chamar a função abaPendencias para verificar as pendências:
+	  await abaPendencias()
+
+	exibirMensagem("Pendência de Regras: Você precisa verificar as regras.");
+	exibirMensagem("Pendência de Chaves Criadas: Você precisa criar as chaves.");
+	exibirMensagem("Pendência de Times Suficientes: Você precisa adicionar mais times.");
+	exibirMensagem("Pendência de Suborganizadores: Você precisa adicionar suborganizadores.");
+	exibirMensagem("Pendência de Partidas Pendentes: Há partidas pendentes a serem resolvidas.");
+	  
+    function showAlert(rule) {
+      const alertDiv = document.createElement('div');
+      alertDiv.className = 'alert alert-success';
+      alertDiv.textContent = `A regra "${rule}" é verdadeira.`;
+
+      const alertsContainer = document.getElementById('alerts-container');
+      alertsContainer.appendChild(alertDiv);
+    }
 
 	const inicializarPaginaExclusao = async () => {
 		const formDeletarCampeonato = document.getElementById('delete-championship-form'),
@@ -1053,7 +1126,7 @@ const init = async () => {
 	}
 
 	//#region coisas chatas
-
+	
 	const configMenu = document.querySelector('.config-menu'),
 		configMenuList = document.getElementById('config-menu-list'),
 		abaBotoes = configMenuList.children,
@@ -1115,6 +1188,10 @@ const init = async () => {
 		}
 	}
 
+
+		
+
+
 	// confirmCreateBracketBtn.addEventListener('click', async () => {
 	// 	await createBracket(campeonato.id)
 
@@ -1124,6 +1201,8 @@ const init = async () => {
 	for (const linkBracketBtnWrapper of linkBracketBtnWrappers) {
 		linkBracketBtnWrapper.setAttribute('href', `tabela-chaveamento.html?id=${campeonato.id}`)
 	}
+
+	
 
 	changeConfigOptionsContext(0)
 	inicializarCampos()
@@ -1136,5 +1215,6 @@ const init = async () => {
 
 	window.dispatchEvent(new Event('pagina-load'))
 }
+
 
 document.addEventListener('header-carregado', init)
