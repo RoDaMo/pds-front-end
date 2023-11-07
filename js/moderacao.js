@@ -6,6 +6,7 @@ import { notificacaoErro, notificacaoSucesso } from "./utilidades/notificacoes"
 import i18next from "i18next";
 import './utilidades/loader'
 import * as bootstrap from 'bootstrap'
+import Lenis from "@studio-freight/lenis";
 
 const loader = document.createElement('app-loader');
 document.body.appendChild(loader);
@@ -23,6 +24,22 @@ const callbackServidor = data => {
     erro.classList.add("text-danger")
     data.results.forEach(element => erro.innerHTML += `${element}<br>`);
 }
+
+let lenis = new Lenis({
+    wheelMultiplier: 0.4,
+    smoothWheel: true,
+    touchMultiplier: 0.6,
+    smoothTouch: true,
+    syncTouch: true,
+    normalizeWheel: true,
+})
+
+function raf(time) {
+    lenis.raf(time)
+    requestAnimationFrame(raf)
+}
+  
+requestAnimationFrame(raf)
 
 let filtros = {
     type: 3,
@@ -120,24 +137,24 @@ const exibirDados = async (data) => {
     const tipoDenuncia = (e) => {
         switch(e.violation){
             case 0:
-                return "Inapropriado"
+                return i18next.t("Inapropriado")
             case 1:
-                return "Spam"
+                return i18next.t("Spam")
             case 2:
-                return "Scam"
+                return i18next.t("Scam")
             case 3:
-                return "Odio"
+                return i18next.t("Odio")
             case 4:
-                return "Desinformacao"
+                return i18next.t("Desinformacao")
             case 5:
-                return "Legais"
+                return i18next.t("Legais")
             case 6:
-                return "Assedio"
+                return i18next.t("Assedio")
             case 7:
-                return "Outro"
+                return i18next.t("Outro")
             case 8:
-                return "TodosTipos"
-            default: "Denuncia"
+                return i18next.t("TodosTipos")
+            default: i18next.t("Denuncia")
         } 
     }
 
@@ -146,16 +163,21 @@ const exibirDados = async (data) => {
         contador++
         const idModal = `${contador}`
         const cardHTML = /*html*/`
-            <div id="card-${idModal}" class="card-denuncia card card-body mt-5 border border-black border-1 rounded-5">
-                <a  class="text-decoration-none">
+            <div id="card-${idModal}" class="card-denuncia card card-body mt-4 border-0 lvl0-color rounded-4 list__warnings cursor-pointer">
+                <a class="text-decoration-none">
                     <div class="row gap-0">
-                        <h4>${reportType(e, false, true)}</h4>
+                        <h4 class="normal-text-color">${reportType(e, false, true)}</h4>
 
-                        <div class="d-flex gap-2">
-                            <i class="bi bi-shield-exclamation"></i>
-                            <p><span class="i18" key="Tipo">${i18next.t("Tipo")}</span> <span class="i18" key="TipoCampeonato">${i18next.t(reportType(e, false, false))}</span></p>
-                            <i class="bi bi-shield-exclamation"></i>
-                            <p><span class="i18" key="Violacao">${i18next.t("Violacao")}</span> <span class="i18" key=${tipoDenuncia(e)}>${i18next.t(tipoDenuncia(e))}</span></p>
+                        <div class="d-flex flex-column">
+                            <div class="d-flex flex-row">
+                                <i class="bi bi-shield-exclamation me-2"></i>
+                                <p class="m-0 p-0"><span class="i18" key="Tipo">${i18next.t("Tipo")}</span> <span class="i18" key="TipoCampeonato">${i18next.t(reportType(e, false, false))}</span></p>
+                            </div>
+
+                            <div class="d-flex flex-row">
+                                <i class="bi bi-shield-exclamation me-2"></i>
+                                <p class="m-0 p-0"><span class="i18" key="Violacao">${i18next.t("Violacao")}</span> <span class="i18" key=${tipoDenuncia(e)}>${i18next.t(tipoDenuncia(e))}</span></p>
+                            </div>
                             <p class="d-none">${reportType(e, true, false)}</p>
                         </div>
                     </div>
@@ -170,53 +192,67 @@ const exibirDados = async (data) => {
                 switch(tipo) {
                     case 0:
                         return /*html*/` 
-                            <div class="modal fade p-4 "  tabindex="-1" aria-labelledby="denunciaLabel" aria-hidden="true" id="modal-${idModal}">
-                                <div class="modal-dialog modal-dialog-centered ">
-                                    <div class="modal-content p-2 ">
-                                        <h1>${infos.results.name}</h1>
-                                        <h2>${tipoDenuncia(e)}</h2>
-                                        <p>Descrição do Campeonato: ${infos.results.description}</p>
-                                        <p>Descrição da Denuncia: ${e.description}</p>
-                                        <p>Tipo de Denuncia: ${reportType(e, false, false)}</p>
-                                        <img style="height: 150px; width: 150px;" src="${infos.results.logo}"/>
-                                        <h3>Times</h3>
-                                        <div>
-                                            <div>${exibirTimes(infos.results.teams)}</div>
+                            <div class="modal navbar-blur modal-lg fade" tabindex="-1" aria-labelledby="denunciaLabel" aria-hidden="true" id="modal-${idModal}">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content p-4 py-5">
+                                        <div class="d-flex bg-white justify-content-center position-relative overflow-hidden border border-2 rounded-circle mod-img-wrapper mx-auto">
+                                            <img class="img-fluid position-absolute w-100 h-100" src="${infos.results.logo}"/>             
                                         </div>
-                                        <div>
-                                            <button type="button" id="excluir-denuncia-${idModal}" key="BotaoExcluir" class="i18 btn btn-danger">Excluir</button>
-                                            <button type="button" id="encerrar-${idModal}" key="BotaoEncerrar" class="i18 btn btn-success">${completed ? 'Abrir Denuncia' : 'Encerrar Denuncia'}</button>
+                                        <h1 class="text-center mt-3 mb-0">${infos.results.name}</h1>
+                                        <h2 class="rounded-4 bg-danger text-white text-center w-auto mx-auto px-3 py-2 my-3">${tipoDenuncia(e)}</h2>
+
+                                        <p class="fw-normal text-center mt-2">${e.description}</p>
+
+                                        <h3 class="i18 text-center mt-3">${i18next.t('Teams')}</h3>
+                                        <div class="d-flex justify-content-center flex-column align-items-center">${exibirTimes(infos.results.teams)}</div>
+
+                                        <p class="fw-semibold text-center mt-5">${i18next.t('ReportType')}: ${reportType(e, false, false)}</p>
+
+                                        <div class="d-flex justify-content-center">
+                                            <button type="button" id="excluir-denuncia-${idModal}" key="BotaoExcluir" class="i18 btn btn-danger me-2">${i18next.t('Excluir')}</button>
+                                            <button type="button" id="encerrar-${idModal}" key="BotaoEncerrar" class="i18 btn btn-success">${completed ? i18next.t('AbrirDenuncia') : i18next.t('AbrirDenuncia')}</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>`
                     case 1:
                         return /*html*/` 
-                            <div class="modal fade p-4 "  tabindex="-1" aria-labelledby="denunciaLabel" aria-hidden="true" id="modal-${idModal}">
+                            <div class="modal navbar-blur modal-lg fade" tabindex="-1" aria-labelledby="denunciaLabel" aria-hidden="true" id="modal-${idModal}">
                                 <div class="modal-dialog modal-dialog-centered ">
-                                    <div class="modal-content p-2 ">
-                                        <h1>${infos[0].results.name}</h1>
-                                        <h2>${tipoDenuncia(e)}</h2>
-                                        <p>Descrição da Denuncia: ${e.description}</p>
-                                        <p>Tipo de Denuncia: ${reportType(e, false, false)}</p>
-                                        <img style="height: 150px; width: 150px;" src="${infos[0].results.emblem}"/>
-                                        <h3>Uniformes</h3>
-                                        <div>
-                                            <img style="height: 150px; width: 150px;" src="${infos[0].results.uniformHome}"/>  
-                                            <img style="height: 150px; width: 150px;" src="${infos[0].results.uniformAway}"/>               
+                                    <div class="modal-content p-4 py-5">
+                                        <div class="d-flex bg-white justify-content-center position-relative overflow-hidden border border-2 rounded-circle mod-img-wrapper mx-auto">
+                                            <img class="img-fluid position-absolute w-100 h-100" src="${infos[0].results.emblem}"/>             
                                         </div>
-                                        <h3>Jogadores</h3>
-                                        <div>
-                                            <div>${exibirJogadores(infos[1])}</div>            
+
+                                        <h1 class="text-center mt-3 mb-0">${infos[0].results.name}</h1>
+                                        <h2 class="rounded-4 bg-danger text-white text-center w-auto mx-auto px-3 py-2 my-3">${tipoDenuncia(e)}</h2>
+                                        <p class="fw-normal text-center mt-2">${e.description}</p>
+
+                                        <h3 class="i18 text-center mt-3">${i18next.t('Uniforms')}</h3>
+                                        <div class="d-flex flex-row">
+                                            <div class="d-flex bg-white justify-content-center position-relative overflow-hidden border border-2 rounded-4 mod-img-wrapper mx-auto">
+                                                <img class="img-fluid position-absolute w-100 h-100" src="${infos[0].results.uniformHome}"/>             
+                                            </div>
+
+                                            <div class="d-flex bg-white justify-content-center position-relative overflow-hidden border border-2 rounded-4 mod-img-wrapper mx-auto">
+                                                <img class="img-fluid position-absolute w-100 h-100" src="${infos[0].results.uniformAway}"/>             
+                                            </div>                                         
                                         </div>
-                                        <h3>Técnico</h3>
-                                        <div>
-                                            <img style="height: 150px; width: 150px;" src="${infos[0].results.technician.picture}"/>   
-                                            <p>${infos[0].results.technician.name}</p>          
+
+                                        <h3 class="i18 text-center mt-3">${i18next.t('Players')}</h3>
+                                        <div>${exibirJogadores(infos[1])}</div>        
+
+                                        <h3 class="i18 text-center mt-3">${i18next.t('Coach')}</h3>
+                                        <div class="d-flex bg-white justify-content-center position-relative overflow-hidden border border-2 rounded-circle mod-img-wrapper mx-auto">
+                                            <img class="img-fluid position-absolute w-100 h-100" src="${infos[0].results.technician.picture}"/>             
                                         </div>
-                                        <div>
-                                            <button type="button" id="excluir-denuncia-${idModal}" key="BotaoExcluir" class="i18 btn btn-danger">Excluir</button>
-                                            <button type="button" id="encerrar-${idModal}" key="BotaoEncerrar" class="i18 btn btn-success">${completed ? 'Abrir Denuncia' : 'Encerrar Denuncia'}</button>
+                                        <h1 class="text-center mt-3 mb-0">${infos[0].results.technician.name}</h1>
+
+                                        <p class="fw-semibold text-center mt-5">${i18next.t('ReportType')}: ${reportType(e, false, false)}</p>
+
+                                        <div class="d-flex justify-content-center">
+                                            <button type="button" id="excluir-denuncia-${idModal}" key="BotaoExcluir" class="i18 btn btn-danger me-2">${i18next.t('Excluir')}</button>
+                                            <button type="button" id="encerrar-${idModal}" key="BotaoEncerrar" class="i18 btn btn-success">${completed ? i18next.t('AbrirDenuncia') : i18next.t('AbrirDenuncia')}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -224,19 +260,20 @@ const exibirDados = async (data) => {
                     case 2:
                         if(infos.results.cnpj !== null || infos.results.cpf !== null){
                             return  /*html*/` 
-                            <div class="modal fade p-4 "  tabindex="-1" aria-labelledby="denunciaLabel" aria-hidden="true" id="modal-${idModal}">
+                            <div class="modal navbar-blur modal-lg fade" tabindex="-1" aria-labelledby="denunciaLabel" aria-hidden="true" id="modal-${idModal}">
                                 <div class="modal-dialog modal-dialog-centered ">
-                                    <div class="modal-content p-2 ">
+                                    <div class="modal-content p-4 py-5">
                                         <h1>${infos.results.name}</h1>
                                         <div>
                                             <img style="height: 150px; width: 150px;" src="${infos.results.picture}"/>             
                                         </div>
                                         <h2>${tipoDenuncia(e)}</h2>
-                                        <p>Descrição da Denuncia: ${e.description}</p>
-                                        <p>Tipo de Denuncia: ${reportType(e, false, false)}</p>
-                                        <div>
-                                            <button type="button" id="excluir-denuncia-${idModal}" key="BotaoExcluir" class="i18 btn btn-danger">Excluir</button>
-                                            <button type="button" id="encerrar-${idModal}" key="BotaoEncerrar" class="i18 btn btn-success">${completed ? 'Abrir Denuncia' : 'Encerrar Denuncia'}</button>
+                                        <p class="fw-normal text-center mt-2">${e.description}</p>
+
+                                        <p class="fw-semibold text-center mt-3">${i18next.t('ReportType')}: ${reportType(e, false, false)}</p>
+                                        <div class="d-flex justify-content-center">
+                                            <button type="button" id="excluir-denuncia-${idModal}" key="BotaoExcluir" class="i18 btn btn-danger me-2">${i18next.t('Excluir')}</button>
+                                            <button type="button" id="encerrar-${idModal}" key="BotaoEncerrar" class="i18 btn btn-success">${completed ? i18next.t('AbrirDenuncia') : i18next.t('AbrirDenuncia')}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -244,20 +281,21 @@ const exibirDados = async (data) => {
                         }
                         else{
                             return  /*html*/` 
-                            <div class="modal fade p-4 "  tabindex="-1" aria-labelledby="denunciaLabel" aria-hidden="true" id="modal-${idModal}">
-                                <div class="modal-dialog modal-dialog-centered ">
-                                    <div class="modal-content p-2 ">
-                                        <h1>${infos.results.name}</h1>
-                                        <h1>Nome Artístico: ${infos.results.artisticName}</h1>
-                                        <div>
-                                            <img style="height: 150px; width: 150px;" src="${infos.results.picture}"/>             
+                            <div class="modal navbar-blur modal-lg fade" tabindex="-1" aria-labelledby="denunciaLabel" aria-hidden="true" id="modal-${idModal}">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content p-4 py-5">
+                                        <div class="d-flex bg-white justify-content-center position-relative overflow-hidden border border-2 rounded-circle mod-img-wrapper mx-auto">
+                                            <img class="img-fluid position-absolute w-100 h-100" src="${infos.results.picture}"/>             
                                         </div>
-                                        <h2>${tipoDenuncia(e)}</h2>
-                                        <p>Descrição da Denuncia: ${e.description}</p>
-                                        <p>Tipo de Denuncia: ${reportType(e, false, false)}</p>
-                                        <div>
-                                            <button type="button" id="excluir-denuncia-${idModal}" key="BotaoExcluir" class="i18 btn btn-danger">Excluir</button>
-                                            <button type="button" id="encerrar-${idModal}" key="BotaoEncerrar" class="i18 btn btn-success">${completed ? 'Abrir Denuncia' : 'Encerrar Denuncia'}</button>
+                                        <h1 class="text-center mt-3 mb-0">${infos.results.name}</h1>
+                                        <span class="fw-semibold text-center opacity-50">${infos.results.artisticName}</span>
+                                        
+                                        <h2 class="rounded-4 bg-danger text-white text-center w-auto mx-auto px-3 py-2 my-3">${tipoDenuncia(e)}</h2>
+                                        <p class="fw-normal text-center mt-2">${e.description}</p>
+                                        <p class="fw-semibold text-center mt-3">${i18next.t('ReportType')}: ${reportType(e, false, false)}</p>
+                                        <div class="d-flex justify-content-center">
+                                            <button type="button" id="excluir-denuncia-${idModal}" key="BotaoExcluir" class="i18 btn btn-danger me-2">${i18next.t('Excluir')}</button>
+                                            <button type="button" id="encerrar-${idModal}" key="BotaoEncerrar" class="i18 btn btn-success">${completed ? i18next.t('AbrirDenuncia') : i18next.t('AbrirDenuncia')}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -271,14 +309,13 @@ const exibirDados = async (data) => {
                 document.getElementById(`encerrar-${idModal}`).textContent = document.getElementById(`encerrar-${idModal}`).textContent === "Abrir Denuncia" ? "Encerrar Denuncia" : "Abrir Denuncia"
             }
 
-
             const exibirTimes = (teams) => {
                 let resultado = "";
                 teams.forEach((team) => {
                     resultado += `
-                        <div class="d-flex">
-                            <img style="height: 30px; width: 30px;" src="${team.emblem}" alt="" />
-                            <p>${team.name}</p>
+                        <div class="d-flex align-items-center rounded-4 py-2 px-3 lvl2-color my-1">
+                            <img class="me-2" style="height: 30px; width: 30px;" src="${team.emblem}" alt="" />
+                            <span>${team.name}</span>
                         </div>
                     `;
                 });
@@ -290,9 +327,9 @@ const exibirDados = async (data) => {
                 let resultado = "";
                 jogadores.forEach((jogador) => {
                     resultado += `
-                        <div class="d-flex">
-                            <img style="height: 30px; width: 30px;" src="${jogador.picture}" alt="" />
-                            <p>${jogador.name}</p>
+                        <div class="d-flex align-items-center">
+                            <img class="me-2" style="height: 30px; width: 30px;" src="${jogador.picture}" alt="" />
+                            <span>${jogador.name}</span>
                         </div>
                     `;
                 });
@@ -325,6 +362,11 @@ const exibirDados = async (data) => {
             let modalDenunciaBT = new bootstrap.Modal(modalDenuncia, {keyboard: false})
             console.log(modalDenuncia)
             modalDenunciaBT.show()
+
+            modalDenuncia.addEventListener('show.bs.modal', () => {
+                console.log("show");
+                lenis.destroy()
+            })
 
             const botaoExcluir = async() => {
                 if(e.reportType === 0 || e.reportType === 2){

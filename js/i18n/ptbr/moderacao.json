@@ -23,5 +23,14 @@
     "Violacao": "Violação:",
     "TipoCampeonato": "Campeonato",
     "TipoUsuario": "Usuário",
-    "TipoTime": "Time"
+    "TipoTime": "Time",
+    "ArtisticName": "Nome Artístico",
+    "Excluir": "Excluir",
+    "AbrirDenuncia": "Abrir Denúncia",
+    "EncerrarDenuncia": "Encerrar Denúncia",
+    "ReportType": "Tipo de Denúncia",
+    "Teams": "Times",
+    "Uniforms": "Uniformes",
+    "Coach": "Técnico",
+    "Players": "Jogadores"
 }

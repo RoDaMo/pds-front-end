@@ -23,5 +23,14 @@
     "Violacao": "Violation:",
     "TipoCampeonato": "Championship",
     "TipoUsuario": "User",
-    "TipoTime": "Team"
+    "TipoTime": "Team",
+    "ArtisticName": "Artistic Name",
+    "Excluir": "Delete",
+    "AbrirDenuncia": "Open Report",
+    "EncerrarDenuncia": "Close Report",
+    "ReportType": "Report Type",
+    "Teams": "Teams",
+    "Uniforms": "Uniforms",
+    "Coach": "Coach",
+    "Players": "Players"
 }
