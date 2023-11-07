@@ -27,5 +27,6 @@
     "Ponteiro": "Outside Hitter",
     "Oposto": "Opposite Hitter",
     "Tecnico": "Coach",
-    "EditarTime": "Edit Team"
+    "EditarTime": "Edit Team",
+    "ExcluirTime": "Delete Team"
 }

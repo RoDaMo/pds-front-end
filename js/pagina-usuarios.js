@@ -116,7 +116,7 @@ const obterInfo = async () => {
 
     document.getElementById("user-pic").src = !data.results.picture ? '../default-user-image.png' : data.results.picture
     document.getElementById("user-bio").textContent = data.results.bio
-    // document.getElementById("user-name").textContent = data.results.username
+    document.getElementById("artistic-name").textContent = data.results.username
     document.getElementById("name").textContent = data.results.name
 
     const player = data.results

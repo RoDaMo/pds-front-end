@@ -2,14 +2,14 @@
 
 @include color-mode(dark) {
     .config-menu-list .active {
-        background: $play-cor-fundos-2-dark;
+        background: $play-cor-fundos-2-dark !important;
     }
 }
 
 @include color-mode(light) {
     .config-menu-list .active {
-        background: $play-cor-fundos-2;
-        color: $black;
+        background: $play-cor-fundos-2 !important;
+        color: $black !important;
     }
 }
 

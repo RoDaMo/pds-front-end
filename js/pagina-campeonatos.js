@@ -213,8 +213,8 @@ const obterInfo = async () => {
 
     if(bracketExists(id)) {
         document.getElementById("conteudo").insertAdjacentHTML('beforeend', `
-            <button class="btn championship-options-btn lvl1-primary-bg rounded-pill fw-semibold card-bg" id="botao-link-bracket">
-                <a href="/pages/tabela-chaveamento.html?id=${id}" id="link-bracket" class="text-center fs-6 i18 text-decoration-none" key="Bracket">${i18next.t("Bracket")}</a>
+            <button class="btn championship-options-btn pure-primary-bg rounded-pill fw-semibold card-bg" id="botao-link-bracket">
+                <a href="/pages/tabela-chaveamento.html?id=${id}" id="link-bracket" class="text-center fs-6 i18 text-decoration-none inverted-text-color" key="Bracket">${i18next.t("Bracket")}</a>
             </button>
         `)
     }

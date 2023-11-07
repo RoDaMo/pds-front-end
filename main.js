@@ -16,7 +16,7 @@ const insertColorModeBtn = async () => {
   const themeSwitcher = document.createElement('div')
 
   themeSwitcher.innerHTML = `
-    <div class="dropdown z-3 position-fixed bottom-0 start-0 mb-3 ms-3 bd-mode-toggle">
+    <div class="dropdown z-3 position-fixed bottom-0 start-0 mb-3 ms-3 navbar-blur rounded-4 bd-mode-toggle">
       <button class="btn btn-bd-primary corner-babies py-2 justify-content-center rounded-4 d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" aria-label="Toggle theme (dark)">
         <div class="bi my-1 theme-icon-active fs-4"><i class="bi bi-moon"></i></div>
         <span class="visually-hidden" id="bd-theme-text">Toggle theme</span>

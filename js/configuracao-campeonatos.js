@@ -789,7 +789,7 @@ const init = async () => {
 				<div class="col-auto ss-player-info-wrapper text-center mb-0 text-md-start ms-md-1 mt-auto mt-md-0 d-flex flex-column">
 					<p class="ss-player-name text-center text-md-start text-nowrap text-truncate d-block">${time.name}</p>
 					<div class="ss-player-data2 row justify-content-center align-items-center d-flex flex-column flex-md-row mt-2 mx-md-auto ms-md-0">
-						<button class="col link-ss-list-team lvl3-primary-bg py-1 px-4 mb-2 mb-md-0 me-md-2 btn border-0"><i class="bi bi-box-arrow-up-right"></i></button>
+						<button class="col link-ss-list-team pure-primary-bg inverted-text-color py-1 px-4 mb-2 mb-md-0 me-md-2 btn border-0"><i class="bi bi-box-arrow-up-right"></i></button>
 					</div>
 				</div>
 

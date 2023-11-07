@@ -240,23 +240,6 @@ body, html {
     }
 }
 
-.ss-first-content-wrapper:after {
-    content: "";
-    display: block;
-    position: absolute;
-    width: 10rem;
-    height: 10rem;
-    background-image: url(../icons/sports_soccer.svg);
-    background-repeat: no-repeat;
-    background-size: cover;
-    top: -4.5rem;
-    right: -5.5rem;
-    transform: rotate(45deg);
-    opacity: 0.7;
-    z-index: -1;
-    filter: invert(50%);
-}
-
 @include media-breakpoint-only(md) {
     .ss-test-1 {
         top: 23.5rem;
