@@ -205,17 +205,21 @@ const obterInfo = async () => {
 
     if(data.results.rules){
         document.getElementById("conteudo").insertAdjacentHTML('beforeend', `
-            <button class="btn download-btn rounded-pill fw-semibold card-bg" id="botao-baixar-regulamento">
-                <a href="${data.results.rules}" id="regulamento" class="text-center fs-6 i18 text-decoration-none" key="BaixarRegulamento">${i18next.t("BaixarRegulamento")}</a>
-            </button>
+            <div class="d-flex justify-content-center">
+                <button class="btn download-btn my-1 rounded-pill w-auto pure-primary-bg fw-semibold card-bg" id="botao-baixar-regulamento">
+                    <a href="${data.results.rules}" id="regulamento" class="text-center fs-6 i18 text-decoration-none inverted-text-color" key="BaixarRegulamento">${i18next.t("BaixarRegulamento")}</a>
+                </button>
+            </div>
         `)
     }
 
     if(bracketExists(id)) {
         document.getElementById("conteudo").insertAdjacentHTML('beforeend', `
-            <button class="btn championship-options-btn pure-primary-bg rounded-pill fw-semibold card-bg" id="botao-link-bracket">
-                <a href="/pages/tabela-chaveamento.html?id=${id}" id="link-bracket" class="text-center fs-6 i18 text-decoration-none inverted-text-color" key="Bracket">${i18next.t("Bracket")}</a>
-            </button>
+            <div class="d-flex justify-content-center">
+                <button class="btn championship-options-btn my-1 pure-primary-bg rounded-pill fw-semibold card-bg" id="botao-link-bracket">
+                    <a href="/pages/tabela-chaveamento.html?id=${id}" id="link-bracket" class="text-center fs-6 i18 text-decoration-none inverted-text-color" key="Bracket">${i18next.t("Bracket")}</a>
+                </button>
+            </div>
         `)
     }
 

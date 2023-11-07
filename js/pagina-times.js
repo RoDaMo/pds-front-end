@@ -260,7 +260,7 @@ const obterInfo = async () => {
     // Campeonatos do time
     campeonatosVinculados.results.forEach(e => {
         champStuff.innerHTML += /*html*/`
-            <div class="col">
+            <div class="col w-auto">
                 <a href="/pages/pagina-campeonatos.html?id=${e.id}" class="text-decoration-none">
                     <div class="rounded-5 ss-championship-content lvl2-primary-bg d-flex flex-column w-auto h-auto m-auto p-2">
                         <div class="ss-championship-img-wrapper position-relative rounded-circle overflow-hidden m-auto mt-3">
@@ -347,10 +347,12 @@ document.addEventListener('header-carregado', () => {
         }
     }
 
-    setTimeout(() => {
-        const ssSecondContentHeight = ssSecondContent.offsetHeight
-        ssThirdContent.style.height = `${ssSecondContentHeight}px`
-    }, 2000)
+    if (!mediaQueryMobile.matches) {
+        setTimeout(() => {
+            const ssSecondContentHeight = ssSecondContent.offsetHeight
+            ssThirdContent.style.height = `${ssSecondContentHeight}px`
+        }, 2000)
+    }
 
 })
 

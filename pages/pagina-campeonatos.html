@@ -20,49 +20,53 @@
     <main class="container">
         <section class="position-relative bg-grad w-100 p-2 d-flex mt-3 justify-content-between rounded-5">
             <div class="row w-100 championship-info position-absolute">
-                <div id="conteudo" class="col-md-5 mt-5 col-12 order-1 order-md-0 flex-column ms-3">
-                    <div class="mt-5 championship-chars d-inline-flex">
-                        <div class="d-inline-flex championship-char">
+                <div id="conteudo" class="col-md-12 col-12 order-1 flex-column d-flex">
+                    <div class="mt-2 championship-chars flex-column flex-md-row justify-content-center align-items-center d-inline-flex">
+                        <div class="d-inline-flex championship-char my-1 py-1 px-2 lvl0-color">
                             <!-- Ícone mudar de acordo com o esporte praticado do time atual (Extra / WIP) -->
 
                             <!-- $ Esporte do Campeonato -->
-                            <p id="championshipSport" class="i18" key="Sport">Futebol</p>
+                            <p id="championshipSport" class="i18 m-0 p-0" key="Sport">Futebol</p>
                         </div>
-                        <i class="bi bi-dot mx-2"></i>
-                        <div class="d-inline-flex championship-char">
+                        <i class="bi bi-dot mx-2 d-none d-md-block"></i>
+                        <div class="d-inline-flex championship-char my-1 py-1 px-2 lvl0-color">
                             <i class="bi bi-calendar-week me-1"></i>
 
                             <!-- $ Datas do Campeonato -->
                             <span id="data-inicial">dataI</span>
-                            <p class="mx-1">~</p>
+                            <p class="mx-1 p-0 m-0">~</p>
                             <span id="data-final">dataF</span>
                         </div>
-                        <i class="bi bi-dot mx-2"></i>
+                        <i class="bi bi-dot mx-2 d-none d-md-block"></i>
 
                         <!-- $ Status do Campeonato -->
-                        <div class="d-inline-flex championship-char">
+                        <div class="d-inline-flex championship-char my-1 py-1 px-2 lvl0-color">
                             <i class="bi bi-trophy me-1"></i>
-                            <p id="championshipStatus" class="i18" key="Status">Em andamento</p>
+                            <p id="championshipStatus" class="i18 p-0 m-0" key="Status">Em andamento</p>
                         </div>
                     </div>
 
                     <!-- $ Descrição do Campeonato -->
-                    <p id="championship-desc" class="align-text-bottom championship-desc text-break"></p>
+                    <p id="championship-desc" class="align-text-bottom text-center championship-desc my-3 text-break"></p>
 
                      <!-- Modal de confirmação -->
-                     <button type="button" id="botaoExcluirCampeonato" class="btn btn-danger d-none">Excluir Campeonato</button>
+                    <div class="d-flex justify-content-center">
+                        <button type="button" id="botaoExcluirCampeonato" class="btn my-1 btn-danger d-none i18" key="ExcluirCampeonato">Excluir Campeonato</button>
+                    </div>
 
                 </div>
-                <div class="col me-4">
-                    <div class="position-relative overflow-hidden rounded-circle border border-2 championship-pic-wrapper mx-auto me-0">
+                <div id="conteudo2" class="col col-md-12 d-flex flex-column">
+                    <div class="w-100 justify-content-center d-flex mb-2">
+                        <div class="position-relative overflow-hidden rounded-circle border border-2 championship-pic-wrapper">
 
-                        <!-- $ Imagem do Campeonato -->
-                        <img src="" alt="championship-pic" class="img-fluid position-absolute w-100 h-100" id="championship-pic">
+                            <!-- $ Imagem do Campeonato -->
+                            <img src="" alt="championship-pic" class="img-fluid position-absolute w-100 h-100" id="championship-pic">
+                        </div>
                     </div>
-                    <div class="mt-3 mx-4 ms-md-4 me-md-0">
+                    <div>
 
                         <!-- $ Nome do Campeonato -->
-                        <p id="name" class="text-end fs-4 championship-name"></p>
+                        <p id="name" class="text-center fs-4 championship-name"></p>
                     </div>
                     <div class="mx-auto mt-3 d-flex justify-content-end">
                         <button class="btn championship-options-btn pure-primary-bg rounded-pill fw-semibold d-none" id="botao-campeonato-editar">
