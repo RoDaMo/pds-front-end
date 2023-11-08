@@ -6,7 +6,6 @@ import { notificacaoErro, notificacaoSucesso } from "./utilidades/notificacoes"
 import i18next from "i18next";
 import './utilidades/loader'
 import * as bootstrap from 'bootstrap'
-import Lenis from "@studio-freight/lenis";
 
 const loader = document.createElement('app-loader');
 document.body.appendChild(loader);
@@ -24,22 +23,6 @@ const callbackServidor = data => {
     erro.classList.add("text-danger")
     data.results.forEach(element => erro.innerHTML += `${element}<br>`);
 }
-
-let lenis = new Lenis({
-    wheelMultiplier: 0.4,
-    smoothWheel: true,
-    touchMultiplier: 0.6,
-    smoothTouch: true,
-    syncTouch: true,
-    normalizeWheel: true,
-})
-
-function raf(time) {
-    lenis.raf(time)
-    requestAnimationFrame(raf)
-}
-  
-requestAnimationFrame(raf)
 
 let filtros = {
     type: 3,
@@ -137,24 +120,24 @@ const exibirDados = async (data) => {
     const tipoDenuncia = (e) => {
         switch(e.violation){
             case 0:
-                return i18next.t("Inapropriado")
+                return "Inapropriado"
             case 1:
-                return i18next.t("Spam")
+                return "Spam"
             case 2:
-                return i18next.t("Scam")
+                return "Scam"
             case 3:
-                return i18next.t("Odio")
+                return "Odio"
             case 4:
-                return i18next.t("Desinformacao")
+                return "Desinformacao"
             case 5:
-                return i18next.t("Legais")
+                return "Legais"
             case 6:
-                return i18next.t("Assedio")
+                return "Assedio"
             case 7:
-                return i18next.t("Outro")
+                return "Outro"
             case 8:
-                return i18next.t("TodosTipos")
-            default: i18next.t("Denuncia")
+                return "TodosTipos"
+            default: "Denuncia"
         } 
     }
 
@@ -192,32 +175,37 @@ const exibirDados = async (data) => {
                 switch(tipo) {
                     case 0:
                         return /*html*/` 
-                            <div class="modal navbar-blur modal-lg fade" tabindex="-1" aria-labelledby="denunciaLabel" aria-hidden="true" id="modal-${idModal}">
+                            <div data-lenis-prevent class="modal navbar-blur modal-lg fade" tabindex="-1" aria-labelledby="denunciaLabel" aria-hidden="true" id="modal-${idModal}">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content p-4 py-5">
                                         <div class="d-flex bg-white justify-content-center position-relative overflow-hidden border border-2 rounded-circle mod-img-wrapper mx-auto">
                                             <img class="img-fluid position-absolute w-100 h-100" src="${infos.results.logo}"/>             
                                         </div>
                                         <h1 class="text-center mt-3 mb-0">${infos.results.name}</h1>
-                                        <h2 class="rounded-4 bg-danger text-white text-center w-auto mx-auto px-3 py-2 my-3">${tipoDenuncia(e)}</h2>
+                                        <h2 class="rounded-4 bg-danger text-white text-center w-auto mx-auto px-3 py-2 my-3 i18" key=${tipoDenuncia(e)}>${i18next.t(tipoDenuncia(e))}</h2>
 
                                         <p class="fw-normal text-center mt-2">${e.description}</p>
 
-                                        <h3 class="i18 text-center mt-3">${i18next.t('Teams')}</h3>
-                                        <div class="d-flex justify-content-center flex-column align-items-center">${exibirTimes(infos.results.teams)}</div>
+                                        ${
+                                            infos.results.teams.length > 0 ?
+                                            /*html*/`
+                                                <h3 class="i18 text-center mt-3">${i18next.t('Teams')}</h3>
+                                                <div class="d-flex justify-content-center flex-column align-items-center">${exibirTimes(infos.results.teams)}</div>        
+                                            ` : ""
+                                        }
 
-                                        <p class="fw-semibold text-center mt-5">${i18next.t('ReportType')}: ${reportType(e, false, false)}</p>
+                                        <p class="fw-semibold text-center mt-5"><span class="i18" key="ReportType">${i18next.t('ReportType')}</span>: ${reportType(e, false, false)}</p>
 
                                         <div class="d-flex justify-content-center">
-                                            <button type="button" id="excluir-denuncia-${idModal}" key="BotaoExcluir" class="i18 btn btn-danger me-2">${i18next.t('Excluir')}</button>
-                                            <button type="button" id="encerrar-${idModal}" key="BotaoEncerrar" class="i18 btn btn-success">${completed ? i18next.t('AbrirDenuncia') : i18next.t('AbrirDenuncia')}</button>
+                                            <button type="button" id="excluir-denuncia-${idModal}" key="Excluir" class="i18 btn btn-danger me-2">${i18next.t('Excluir')}</button>
+                                            <button type="button" id="encerrar-${idModal}"key=${completed ? "AbrirDenuncia" : "EncerrarDenuncia"} class="i18 btn btn-success">${completed ? i18next.t('AbrirDenuncia') : i18next.t('EncerrarDenuncia')}</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>`
                     case 1:
                         return /*html*/` 
-                            <div class="modal navbar-blur modal-lg fade" tabindex="-1" aria-labelledby="denunciaLabel" aria-hidden="true" id="modal-${idModal}">
+                            <div data-lenis-prevent class="modal navbar-blur modal-lg fade" tabindex="-1" aria-labelledby="denunciaLabel" aria-hidden="true" id="modal-${idModal}">
                                 <div class="modal-dialog modal-dialog-centered ">
                                     <div class="modal-content p-4 py-5">
                                         <div class="d-flex bg-white justify-content-center position-relative overflow-hidden border border-2 rounded-circle mod-img-wrapper mx-auto">
@@ -225,34 +213,49 @@ const exibirDados = async (data) => {
                                         </div>
 
                                         <h1 class="text-center mt-3 mb-0">${infos[0].results.name}</h1>
-                                        <h2 class="rounded-4 bg-danger text-white text-center w-auto mx-auto px-3 py-2 my-3">${tipoDenuncia(e)}</h2>
+                                        <h2 class="rounded-4 bg-danger text-white text-center w-auto mx-auto px-3 py-2 my-3 i18" key=${tipoDenuncia(e)}>${i18next.t(tipoDenuncia(e))}</h2>
                                         <p class="fw-normal text-center mt-2">${e.description}</p>
 
-                                        <h3 class="i18 text-center mt-3">${i18next.t('Uniforms')}</h3>
-                                        <div class="d-flex flex-row">
-                                            <div class="d-flex bg-white justify-content-center position-relative overflow-hidden border border-2 rounded-4 mod-img-wrapper mx-auto">
-                                                <img class="img-fluid position-absolute w-100 h-100" src="${infos[0].results.uniformHome}"/>             
+                                        <div class="lvl1-color p-3 rounded-4 mt-5">
+                                            <h3 class="i18 text-center">${i18next.t('Uniforms')}</h3>
+                                            <div class="d-flex flex-md-row flex-column">
+                                                <div class="d-flex bg-white justify-content-center position-relative overflow-hidden border border-2 rounded-4 mod-img-wrapper mx-auto">
+                                                    <img class="img-fluid position-absolute w-100 h-100" src="${infos[0].results.uniformHome}"/>             
+                                                </div>
+
+                                                <div class="d-flex bg-white justify-content-center position-relative overflow-hidden border border-2 rounded-4 mod-img-wrapper mx-auto">
+                                                    <img class="img-fluid position-absolute w-100 h-100" src="${infos[0].results.uniformAway}"/>             
+                                                </div>                                         
                                             </div>
-
-                                            <div class="d-flex bg-white justify-content-center position-relative overflow-hidden border border-2 rounded-4 mod-img-wrapper mx-auto">
-                                                <img class="img-fluid position-absolute w-100 h-100" src="${infos[0].results.uniformAway}"/>             
-                                            </div>                                         
                                         </div>
 
-                                        <h3 class="i18 text-center mt-3">${i18next.t('Players')}</h3>
-                                        <div>${exibirJogadores(infos[1])}</div>        
+                                        ${
+                                            infos[1].length > 0 ?
+                                            /*html*/`
+                                                <h3 class="i18 text-center mt-3">${i18next.t('Players')}</h3>
+                                                <div class="d-flex justify-content-center flex-column align-items-center">${exibirJogadores(infos[1])}</div>        
+                                            ` : ""
+                                        }     
 
-                                        <h3 class="i18 text-center mt-3">${i18next.t('Coach')}</h3>
-                                        <div class="d-flex bg-white justify-content-center position-relative overflow-hidden border border-2 rounded-circle mod-img-wrapper mx-auto">
-                                            <img class="img-fluid position-absolute w-100 h-100" src="${infos[0].results.technician.picture}"/>             
-                                        </div>
-                                        <h1 class="text-center mt-3 mb-0">${infos[0].results.technician.name}</h1>
+                                        ${
+                                            infos[0].results.technician.name !== null ?
+                                            /*html*/`
+                                                <div class="lvl1-color p-3 rounded-4 mt-5">
+                                                    <h3 class="i18 text-center">${i18next.t('Coach')}</h3>
+                                                    <div class="d-flex bg-white justify-content-center position-relative overflow-hidden border border-2 rounded-circle mod-img-wrapper mx-auto">
+                                                        <img class="img-fluid position-absolute w-100 h-100" src="${infos[0].results.technician.picture}"/>             
+                                                    </div>
+                                                    <h1 class="text-center mt-3 mb-0">${infos[0].results.technician.name}</h1>
+                                                </div>
+                                            ` : ""
+                                        }
 
-                                        <p class="fw-semibold text-center mt-5">${i18next.t('ReportType')}: ${reportType(e, false, false)}</p>
+                                        
+                                        <p class="fw-semibold text-center mt-5"><span class="i18" key="ReportType">${i18next.t('ReportType')}</span>: ${reportType(e, false, false)}</p>
 
                                         <div class="d-flex justify-content-center">
-                                            <button type="button" id="excluir-denuncia-${idModal}" key="BotaoExcluir" class="i18 btn btn-danger me-2">${i18next.t('Excluir')}</button>
-                                            <button type="button" id="encerrar-${idModal}" key="BotaoEncerrar" class="i18 btn btn-success">${completed ? i18next.t('AbrirDenuncia') : i18next.t('AbrirDenuncia')}</button>
+                                            <button type="button" id="excluir-denuncia-${idModal}" key="Excluir" class="i18 btn btn-danger me-2">${i18next.t('Excluir')}</button>
+                                            <button type="button" id="encerrar-${idModal}"key=${completed ? "AbrirDenuncia" : "EncerrarDenuncia"} class="i18 btn btn-success">${completed ? i18next.t('AbrirDenuncia') : i18next.t('EncerrarDenuncia')}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -260,20 +263,22 @@ const exibirDados = async (data) => {
                     case 2:
                         if(infos.results.cnpj !== null || infos.results.cpf !== null){
                             return  /*html*/` 
-                            <div class="modal navbar-blur modal-lg fade" tabindex="-1" aria-labelledby="denunciaLabel" aria-hidden="true" id="modal-${idModal}">
+                            <div data-lenis-prevent class="modal navbar-blur modal-lg fade" tabindex="-1" aria-labelledby="denunciaLabel" aria-hidden="true" id="modal-${idModal}">
                                 <div class="modal-dialog modal-dialog-centered ">
                                     <div class="modal-content p-4 py-5">
-                                        <h1>${infos.results.name}</h1>
-                                        <div>
-                                            <img style="height: 150px; width: 150px;" src="${infos.results.picture}"/>             
+                                        <div class="d-flex bg-white justify-content-center position-relative overflow-hidden border border-2 rounded-circle mod-img-wrapper mx-auto">
+                                            <img class="img-fluid position-absolute w-100 h-100" src="${infos.results.picture}"/>             
                                         </div>
-                                        <h2>${tipoDenuncia(e)}</h2>
+
+                                        <h1 class="text-center mt-3 mb-0">${infos.results.name}</h1>
+
+                                        <h2 class="rounded-4 bg-danger text-white text-center w-auto mx-auto px-3 py-2 my-3 i18" key=${tipoDenuncia(e)}>${i18next.t(tipoDenuncia(e))}</h2>
                                         <p class="fw-normal text-center mt-2">${e.description}</p>
 
-                                        <p class="fw-semibold text-center mt-3">${i18next.t('ReportType')}: ${reportType(e, false, false)}</p>
+                                        <p class="fw-semibold text-center mt-3"><span class="i18" key="ReportType">${i18next.t('ReportType')}</span>: ${reportType(e, false, false)}</p>
                                         <div class="d-flex justify-content-center">
-                                            <button type="button" id="excluir-denuncia-${idModal}" key="BotaoExcluir" class="i18 btn btn-danger me-2">${i18next.t('Excluir')}</button>
-                                            <button type="button" id="encerrar-${idModal}" key="BotaoEncerrar" class="i18 btn btn-success">${completed ? i18next.t('AbrirDenuncia') : i18next.t('AbrirDenuncia')}</button>
+                                            <button type="button" id="excluir-denuncia-${idModal}" key="Excluir" class="i18 btn btn-danger me-2">${i18next.t('Excluir')}</button>
+                                            <button type="button" id="encerrar-${idModal}" key=${completed ? "AbrirDenuncia" : "EncerrarDenuncia"} class="i18 btn btn-success">${completed ? i18next.t('AbrirDenuncia') : i18next.t('EncerrarDenuncia')}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -281,21 +286,23 @@ const exibirDados = async (data) => {
                         }
                         else{
                             return  /*html*/` 
-                            <div class="modal navbar-blur modal-lg fade" tabindex="-1" aria-labelledby="denunciaLabel" aria-hidden="true" id="modal-${idModal}">
+                            <div data-lenis-prevent class="modal navbar-blur modal-lg fade" tabindex="-1" aria-labelledby="denunciaLabel" aria-hidden="true" id="modal-${idModal}">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content p-4 py-5">
                                         <div class="d-flex bg-white justify-content-center position-relative overflow-hidden border border-2 rounded-circle mod-img-wrapper mx-auto">
                                             <img class="img-fluid position-absolute w-100 h-100" src="${infos.results.picture}"/>             
                                         </div>
+
                                         <h1 class="text-center mt-3 mb-0">${infos.results.name}</h1>
                                         <span class="fw-semibold text-center opacity-50">${infos.results.artisticName}</span>
                                         
-                                        <h2 class="rounded-4 bg-danger text-white text-center w-auto mx-auto px-3 py-2 my-3">${tipoDenuncia(e)}</h2>
+                                        <h2 class="rounded-4 bg-danger text-white text-center w-auto mx-auto px-3 py-2 my-3 i18" key=${tipoDenuncia(e)}>${i18next.t(tipoDenuncia(e))}</h2>
                                         <p class="fw-normal text-center mt-2">${e.description}</p>
-                                        <p class="fw-semibold text-center mt-3">${i18next.t('ReportType')}: ${reportType(e, false, false)}</p>
+
+                                        <p class="fw-semibold text-center mt-3"><span class="i18" key="ReportType">${i18next.t('ReportType')}</span>: ${reportType(e, false, false)}</p>
                                         <div class="d-flex justify-content-center">
-                                            <button type="button" id="excluir-denuncia-${idModal}" key="BotaoExcluir" class="i18 btn btn-danger me-2">${i18next.t('Excluir')}</button>
-                                            <button type="button" id="encerrar-${idModal}" key="BotaoEncerrar" class="i18 btn btn-success">${completed ? i18next.t('AbrirDenuncia') : i18next.t('AbrirDenuncia')}</button>
+                                            <button type="button" id="excluir-denuncia-${idModal}" key="Excluir" class="i18 btn btn-danger me-2">${i18next.t('Excluir')}</button>
+                                            <button type="button" id="encerrar-${idModal}" key=${completed ? "AbrirDenuncia" : "EncerrarDenuncia"} class="i18 btn btn-success">${completed ? i18next.t('AbrirDenuncia') : i18next.t('EncerrarDenuncia')}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -314,7 +321,7 @@ const exibirDados = async (data) => {
                 teams.forEach((team) => {
                     resultado += `
                         <div class="d-flex align-items-center rounded-4 py-2 px-3 lvl2-color my-1">
-                            <img class="me-2" style="height: 30px; width: 30px;" src="${team.emblem}" alt="" />
+                            <img class="me-2 rounded-circle bg-white" style="height: 30px; width: 30px;" src="${team.emblem}" alt="" />
                             <span>${team.name}</span>
                         </div>
                     `;
@@ -327,8 +334,8 @@ const exibirDados = async (data) => {
                 let resultado = "";
                 jogadores.forEach((jogador) => {
                     resultado += `
-                        <div class="d-flex align-items-center">
-                            <img class="me-2" style="height: 30px; width: 30px;" src="${jogador.picture}" alt="" />
+                        <div class="d-flex align-items-center rounded-4 py-2 px-3 lvl2-color my-1">
+                            <img class="me-2 rounded-circle bg-white" style="height: 30px; width: 30px;" src="${jogador.picture}" alt="" />
                             <span>${jogador.name}</span>
                         </div>
                     `;
@@ -361,12 +368,7 @@ const exibirDados = async (data) => {
             const modalDenuncia = document.getElementById(`modal-${idModal}`)
             let modalDenunciaBT = new bootstrap.Modal(modalDenuncia, {keyboard: false})
             console.log(modalDenuncia)
-            modalDenunciaBT.show()
-
-            modalDenuncia.addEventListener('show.bs.modal', () => {
-                console.log("show");
-                lenis.destroy()
-            })
+            modalDenunciaBT.show()          
 
             const botaoExcluir = async() => {
                 if(e.reportType === 0 || e.reportType === 2){
@@ -432,8 +434,11 @@ const exibirDados = async (data) => {
                     listagem()
                 }
             })
-        });                
+        });   
+        
     });
+
+    
 
 }
 
