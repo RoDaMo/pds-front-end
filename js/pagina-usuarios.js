@@ -259,7 +259,7 @@ document.addEventListener('header-carregado', async() => {
         loader.show();
         const configFetch = configuracaoFetch('GET')
 
-        const res = await executarFetch(`reports/verify?idUser=${sessionUserInfo.id}`, configFetch); 
+        const res = await executarFetch(`reports/verify?idUser=${id}`, configFetch); 
         loader.hide();
 
         console.log(res)

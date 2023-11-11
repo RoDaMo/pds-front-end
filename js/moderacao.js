@@ -391,34 +391,35 @@ const exibirDados = async (data) => {
             botaoExcluir()
 
             document.getElementById(`excluir-denuncia-${idModal}`).addEventListener('click', async() => {
-                switch(e.reportType){
-                    case 0:
-                        loader.show()
-                        const dataCampeonato = await executarFetch(`moderation/championships/${reportType(e, true, false)}`, configuracaoFetch("DELETE"), null, callbackServidor)
-                        loader.hide()
-                        if(dataCampeonato.succeed){
-                            desabilitarBotao()
-                            verificarStatusDenuncia()
-                            notificacaoSucesso("Excluído com sucesso")
-                        }
-                    case 1:
-                        loader.show()
-                        const dataTime = await executarFetch(`moderation/teams/${reportType(e, true, false)}`, configuracaoFetch("DELETE"), null, callbackServidor)
-                        loader.hide()
-                        if(dataTime.succeed){
-                            desabilitarBotao()
-                            verificarStatusDenuncia()
-                            notificacaoSucesso("Excluído com sucesso")
-                        }
-                    case 2:
-                        loader.show()
-                        const dataUser = await executarFetch(`moderation/users/${reportType(e, true, false)}`, configuracaoFetch("DELETE"), null, callbackServidor)
-                        loader.hide()
-                        if(dataUser.succeed){
-                            desabilitarBotao()
-                            verificarStatusDenuncia()
-                            notificacaoSucesso("Excluído com sucesso")
-                        }
+                if(e.reportType === 0){
+                    loader.show()
+                    const dataCampeonato = await executarFetch(`moderation/championships/${reportType(e, true, false)}`, configuracaoFetch("DELETE"), null, callbackServidor)
+                    loader.hide()
+                    if(dataCampeonato.succeed){
+                        desabilitarBotao()
+                        verificarStatusDenuncia()
+                        notificacaoSucesso("Excluído com sucesso")
+                    }
+                }
+                else if(e.reportType === 1){
+                    loader.show()
+                    const dataTime = await executarFetch(`moderation/teams/${reportType(e, true, false)}`, configuracaoFetch("DELETE"), null, callbackServidor)
+                    loader.hide()
+                    if(dataTime.succeed){
+                        desabilitarBotao()
+                        verificarStatusDenuncia()
+                        notificacaoSucesso("Excluído com sucesso")
+                    }
+                }
+                else{
+                    loader.show()
+                    const dataUser = await executarFetch(`moderation/users/${reportType(e, true, false)}`, configuracaoFetch("DELETE"), null, callbackServidor)
+                    loader.hide()
+                    if(dataUser.succeed){
+                        desabilitarBotao()
+                        verificarStatusDenuncia()
+                        notificacaoSucesso("Excluído com sucesso")
+                    }
                 }
             })
 
