@@ -211,8 +211,8 @@ const configureMatch = async (matchId, championshipData) => {
 	  </div>
 
 	  <div class="col-12 mt-5 mb-3 d-flex justify-content-center gap-2">
-			<button id="salvar" class="col-md-2 order-last btn lvl3-primary-bg rounded-pill i18" key="Salvar" type="submit">${i18next.t("Salvar")}</button>
-			<a href="/pages/tabela-chaveamento.html?id=${championshipId}" class="col-md-2 btn btn-outline-info rounded-pill i18" key="Cancelar">${i18next.t("Cancelar")}</a>
+			<button id="salvar" class="col-md-2 order-last btn pure-primary-bg inverted-text-color rounded-pill i18" key="Salvar" type="submit">${i18next.t("Salvar")}</button>
+			<a href="/pages/tabela-chaveamento.html?id=${championshipId}" class="col-md-2 btn lvl3-primary-bg rounded-pill i18" key="Cancelar">${i18next.t("Cancelar")}</a>
 		</div> 
 	`
   );
