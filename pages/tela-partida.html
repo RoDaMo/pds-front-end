@@ -206,11 +206,11 @@
                                 </div>
                                 <div class="text-danger d-none mb-2" id="container-erro-esquema-tatico"></div>
                                 <div class="container">
-                                    <div class="row justify-content-center gap-3">
-                                        <div class="col-9" id="campo-futebol">
+                                    <div class="row justify-content-center gap-4">
+                                        <div class="col-3" id="campo-futebol">
                                             <div class="container h-100 d-flex flex-column-reverse justify-content-evenly" id="campo-futebol-container">
                                                 <div class="row justify-content-evenly linha-goleiro">
-                                                    <div class="bola jogadores" draggable="true" data-posicao="1" data-linha="0">
+                                                    <div class="bola jogadores" is-goleiro="goleiro" draggable="true" data-posicao="1" data-linha="0">
                                                         <div class="sub-bola">
                                                             <small>0</small>
                                                         </div>
@@ -230,7 +230,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-3">
+                                        <div class="col-8">
                                             <div class="bg-verde-limao p-2 row rounded-custom gap-3" id="jogadores-time">
 
                                             </div>
@@ -239,8 +239,9 @@
                                 </div>
                             </section>
                             <section class="aba-time d-none d-flex flex-column align-items-center" id="aba-time-2">
-                                <p>aba 2</p>
+                                
                             </section>
+                            <button class="btn btn-primary i18" key="SalvarTatica" type="button" id="submeter-taticas" aba-ativa="aba-time-1">Salvar tática</button>
                         </div>
                     </div>
                 </div>

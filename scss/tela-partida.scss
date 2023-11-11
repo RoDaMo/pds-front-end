@@ -365,10 +365,10 @@
 #campo-futebol {
     width: 320px;
     height: 493px;
-    background-image: url('https://www.api.playoffs.app.br/img/742e0887-c0b5-460a-8109-7a923193af6a');
+    background-image: url('/public/campo-futebol.png');
     background-repeat: no-repeat;
     background-position: center;
-
+    background-size: cover;
     
     .linha-goleiro {
         margin-bottom: -30px;
@@ -384,6 +384,7 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    cursor: pointer;
 
     .sub-bola {
         background-color: $play-cor-secundaria;
