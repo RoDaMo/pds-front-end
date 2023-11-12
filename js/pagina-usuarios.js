@@ -122,7 +122,7 @@ const obterInfo = async () => {
 
     document.getElementById("user-pic").src = !data.results.picture ? '../default-user-image.png' : data.results.picture
     document.getElementById("user-bio").textContent = data.results.bio
-    // document.getElementById("user-name").textContent = data.results.username
+    document.getElementById("artistic-name").textContent = data.results.username
     document.getElementById("name").textContent = data.results.name
 
     const player = data.results
@@ -152,34 +152,33 @@ const obterInfo = async () => {
     }
 
     // Campeonatos administrados
-    // const admCampeonatos = document.getElementById("adm-campeonatos")
-    // const campeonatosAdministrados = await executarFetch(`organizer/championship/${id}`, configuracaoFetch("GET"))
+    const admCampeonatos = document.getElementById("adm-campeonatos")
+    const campeonatosAdministrados = await executarFetch(`organizer/${id}/championship/`, configuracaoFetch("GET"))
 
-    // campeonatosAdministrados?.results.forEach((e) => {
+    campeonatosAdministrados?.results.forEach((e) => {
 
-    //     admCampeonatos.innerHTML += `
-    //         <div class="d-flex w-100 rounded-5 mb-3 p-2 mt-5 mt-md-0 lvl2-primary-bg ss-championship-content">
-    //                 <span class="d-none championship-id">${e.id}</span>
+        admCampeonatos.innerHTML += `
+            <div class="d-flex w-100 rounded-5 mb-3 p-2 mt-5 mt-md-0 lvl2-primary-bg ss-championship-content">
+                    <span class="d-none championship-id">${e.id}</span>
 
-    //             <section class="position-relative border border-2 m-3 overflow-hidden rounded-circle ss-championship-image">
-    //                 <img src="${e.logo}" alt="championshipImage" class="img-fluid position-absolute mw-100 h-100">
-    //             </section>
+                <section class="position-relative border border-2 m-3 overflow-hidden rounded-circle ss-championship-image">
+                    <img src="${e.logo}" alt="championshipImage" class="img-fluid position-absolute mw-100 h-100">
+                </section>
 
-    //             <span class="d-flex flex-column justify-content-center align-items-start">
-    //                 <p class="ss-championship-name fs-5 text-nowrap text-truncate d-block">${e.name}</p>
-    //             </span>
-    //         </div>
-    //     `
+                <span class="d-flex flex-column justify-content-center align-items-start">
+                    <p class="ss-championship-name fs-5 text-nowrap text-truncate d-block">${e.name}</p>
+                </span>
+            </div>
+        `
 
-    //     const ssChampionshipContent = document.querySelectorAll('.ss-championship-content')
-    //     ssChampionshipContent.forEach(content => {
-    //         content.addEventListener('click', () => {
-    //             const championshipId = content.querySelector('.championship-id').textContent
-    //             window.location.href = `pagina-campeonatos.html?id=${championshipId}`
-    //         })
-    //     })
-    // })
-
+        const ssChampionshipContent = document.querySelectorAll('.ss-championship-content')
+        ssChampionshipContent.forEach(content => {
+            content.addEventListener('click', () => {
+                const championshipId = content.querySelector('.championship-id').textContent
+                window.location.href = `pagina-campeonatos.html?id=${championshipId}`
+            })
+        })
+    })
     
 }
 

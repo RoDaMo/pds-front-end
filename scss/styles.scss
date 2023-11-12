@@ -24,6 +24,22 @@ $color-mode-type: data;
     background: linear-gradient(180deg, $body-tertiary-bg-dark 0%, rgba(255,255,255,0) 100%);
   }
 
+  .normal-text-color {
+    color: $white !important;
+  }
+
+  .inverted-text-color {
+    color: $black !important;
+  }
+
+  .inverted-text-color:hover {
+    filter: brightness(0.8);
+  }
+
+  .pure-primary-bg {
+    background-color: $play-cor-pure-primary !important;
+  }
+
   .lvl1-primary-bg {
     background-color: $play-cor-fundos-dark !important;
   }
@@ -45,23 +61,29 @@ $color-mode-type: data;
   }
 
   .lvl0-color {
-    background-color: $body-tertiary-bg-dark;
+    background-color: $body-tertiary-bg-dark !important;
   }
 
   .lvl1-color {
-    background-color: $gray-800;
+    background-color: $gray-800 !important;
   }
 
   .lvl2-color {
-    background-color: $gray-700;
+    background-color: $gray-700 !important;
   }
 
   .lvl3-color {
-    background-color: $gray-600;
+    background-color: $gray-600 !important;
   }
 
   .text-danger {
     color: $play-cor-danger-dark !important;
+  }
+
+  .list__champs {  
+    &:hover {
+      background-color: $gray-800 !important;
+    }
   }
 
   .bi-eye, .bi-eye-slash {
@@ -100,6 +122,22 @@ $color-mode-type: data;
     background-color: $gray-200 !important;
   }
 
+  .normal-text-color {
+    color: $black !important;
+  }
+
+  .inverted-text-color {
+    color: $white !important;
+  }
+
+  .inverted-text-color:hover {
+    filter: brightness(1.2);
+  }
+
+  .pure-primary-bg {
+    background-color: $play-cor-pure-primary-dark !important;
+  }
+
   .lvl1-primary-bg {
     background-color: $play-cor-fundos !important;
   }
@@ -113,19 +151,25 @@ $color-mode-type: data;
   }
 
   .lvl0-color {
-    background-color: $white;
+    background-color: $white !important;
   }
 
   .lvl1-color {
-    background-color: $gray-200;
+    background-color: $gray-200 !important;
   }
 
   .lvl2-color {
-    background-color: $gray-300;
+    background-color: $gray-300 !important;
   }
 
   .lvl3-color {
-    background-color: $gray-400;
+    background-color: $gray-400 !important;
+  }
+
+  .list__champs {  
+    &:hover {
+      background-color: $gray-100 !important;
+    }
   }
 
   .bi-eye, .bi-eye-slash {
@@ -206,6 +250,16 @@ body {
   }
 }
 
+button {
+  transition: filter $transition, background-color $transition, background $transition;
+  &:hover {
+    filter: brightness(0.9);
+  }
+  &:active {
+    filter: brightness(0.8);
+  }
+}
+
 button[key='LimparFiltros'] {
   @include media-breakpoint-down(sm) {
     & {
@@ -215,7 +269,7 @@ button[key='LimparFiltros'] {
 }
 
 .list-hover-darken {
-  transition: all $transition;
+  transition: filter $transition, background-color $transition, background $transition;
   &:hover {
     filter: brightness(0.9);
   }
@@ -276,6 +330,10 @@ button[key='LimparFiltros'] {
 .rounded-bottom-0 {
   border-bottom-left-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
+}
+
+.list__champs {
+  transition: background-color $transition;
 }
 
 .translate-6 {
@@ -370,17 +428,12 @@ header {
   transition: all $transition;
 }
 
-#gotop {
-  &:hover {
-    background-color: $play-cor-fundos;
-    opacity: 1;
-    border: 1px solid $play-cor-secundaria;
-  }
+.offcanvas-backdrop {
+  background-color: transparent !important;
+}
 
-  &:active {
-    opacity: .8;
-    scale: 0.9;
-  }
+.offcanvas-backdrop.show {
+  opacity: 1 !important;
 }
 
 .just-validate-error-label {

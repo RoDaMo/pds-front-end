@@ -276,7 +276,7 @@ export class header extends HTMLElement {
 
                             <div class="offcanvas-body" id="offcanvas">
                                 <form class="col col-md d-flex justify-content-center m-auto" id="pesquisa" role="search">
-                                    <input id="barra-pesquisa" class="form-control m-lg-auto p-1 m-sm-5 mb-sm-2 m-3 mb-2 border-0 lvl1-color rounded-pill h-5 pesquisar i18-placeholder" type="search" key="PesquisaPlaceholder" placeholder="${i18next.t("PesquisaPlaceholder")}" aria-label="Search">
+                                    <input id="barra-pesquisa" class="form-control m-lg-auto p-1 m-sm-5 mb-sm-2 m-3 mb-2 border-0 lvl2-color rounded-pill h-5 pesquisar i18-placeholder" type="search" key="PesquisaPlaceholder" placeholder="${i18next.t("PesquisaPlaceholder")}" aria-label="Search">
                                 </form>  
                                 <ul class="menu-li col col-sm-10 col-lg navbar-nav m-auto mt-lg-0 mt-3 justify-content-end align-items-center ${classDark}" id="status-usuario">
                                     <li class="nav-item mx-4">
@@ -431,26 +431,26 @@ export class header extends HTMLElement {
             </div>
             <div class="offcanvas-body">
                 <div class="list-group list-group-flush">
-                    <a href="/pages/pagina-usuarios.html?id=${user.id}" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
+                    <a href="/pages/pagina-usuarios.html?id=${user.id}" class="list-group-item rounded-4 border-0 my-1 py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
                         <i class="bi bi-person fs-4"></i>
                         <span class="i18" key="Perfil">${i18next.t("Perfil")}</span>
                     </a>
-                    <a href="/pages/configuracao-usuarios.html" class="list-group-item py-4 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
+                    <a href="/pages/configuracao-usuarios.html" class="list-group-item rounded-4 border-0 my-1 py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
                         <i class="bi bi-person-gear fs-4"></i>
                         <span class="i18" key="Configuracoes">${i18next.t("Configuracoes")}</span>
                     </a>
                     ${this.possuiCampeonato(user.championshipId)}
                     ${!user.teamManagementId ? `
-                    <a href="/pages/cadastro-times.html" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
+                    <a href="/pages/cadastro-times.html" class="list-group-item rounded-4 border-0 my-1 py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
                         <i class="bi bi-people fs-4"></i>
                         <span class="i18" key="Time">${i18next.t("Time")}</span>
                     </a>` : `
-                    <a href="/pages/configuracao-time.html" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
+                    <a href="/pages/configuracao-time.html" class="list-group-item rounded-4 border-0 my-1 py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
                         <i class="bi bi-people fs-4"></i>
                         <span class="i18" key="TimeConfig">${i18next.t("TimeConfig")}</span>
                     </a>`}
                     ${user.role == 'admin' ? `
-                    <a href="/pages/error-log.html" class="list-group-item py-4 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
+                    <a href="/pages/error-log.html" class="list-group-item rounded-4 border-0 my-1 py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
                         <i class="bi bi-person-gear fs-4"></i>
                         <span class="i18" key="ErrorLogs">${i18next.t("ErrorLogs")}</span>
                     </a>` : ''}
@@ -459,7 +459,7 @@ export class header extends HTMLElement {
                         <i class="bi bi-shield-exclamation"></i>
                         <span class="i18" key="Moderacao">${i18next.t("Moderacao")}</span>
                     </a>` : ''}
-                    <button data-bs-toggle="modal" data-bs-target="#logoutModal" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3 deslogar-usuario">
+                    <button data-bs-toggle="modal" data-bs-target="#logoutModal" class="list-group-item rounded-4 border-0 my-1 py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3 deslogar-usuario">
                         <i class="bi bi-box-arrow-right fs-4"></i>
                         <span class="i18" key="Sair">${i18next.t("Sair")}</span>
                     </button>
@@ -467,8 +467,11 @@ export class header extends HTMLElement {
             </div>
         `
 
-        
         document.body.appendChild(offcanvasUser)
+
+        offcanvasUser.addEventListener('shown.bs.offcanvas', () => {
+            document.querySelector('.offcanvas-backdrop').classList.add('navbar-blur')
+        })
 
         confirmLogout.addEventListener('click', async () => {
             loader.show()
@@ -487,7 +490,7 @@ export class header extends HTMLElement {
         if (campeonatoId) {
             // TODO: remover essa limitação e adicionar pagina para listar campeonatos do usuário
             return /* html */`
-            <a href="/pages/listagem-campeo-usuario.html" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
+            <a href="/pages/listagem-campeo-usuario.html" class="list-group-item rounded-4 border-0 my-1 py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
             <i class="bi bi-list-ul fs-4"></i>
                 <span class="i18" key="Campeonatos gerenciados">${i18next.t("Campeonatos gerenciados")}</span>
             </a>
@@ -495,7 +498,7 @@ export class header extends HTMLElement {
         }
         
         return /*html */ `
-        <a href="/pages/cadastro-campeonatos.html" class="list-group-item py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
+        <a href="/pages/cadastro-campeonatos.html" class="list-group-item rounded-4 border-0 my-1 py-3 px-2 fs-5 item-offcanvas-usuario d-flex align-items-center flex-row gap-3">
             <i class="bi bi-calendar-plus fs-4"></i>
             <span class="i18" key="Campeonato">${i18next.t("Campeonato")}</span>
         </a>`

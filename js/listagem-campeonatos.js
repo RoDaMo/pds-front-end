@@ -216,24 +216,25 @@ const exibirDados = async (data) => {
     data.results.forEach(e => {
         conteudo.innerHTML += 
         /*html*/`
-            <div class="card card-body mt-5 border border-black border-1 rounded-5">
-                <a href="pagina-campeonatos.html?id=${e.id}" class="text-decoration-none">
+            <a href="pagina-campeonatos.html?id=${e.id}" class="text-decoration-none">
+                <div class="card card-body mt-4 border-0 lvl0-color rounded-5 list__champs">
+                
                     <div class="row gap-0">
-                        <div class="col-md-2 d-flex justify-content-center">
+                        <div class="col-md-auto col-12 d-flex justify-content-md-start justify-content-center">
                             <div class="position-relative border border-1 m-3 overflow-hidden rounded-circle logo-image">
                                 <img src="${e.logo}" alt="Logo de ${e.name}" id="logo" class="img-fluid position-absolute mw-100 h-100">
                             </div>
                         </div>
 
-                        <div class="col-md-9 d-flex flex-column justify-content-center  ">
+                        <div class="col-md-auto col-12 d-flex flex-column justify-content-center align-items-md-start">
                             <h3 id="nome" class="card-title text-center text-md-start">${e.name}</h3>
                             <div class="row gap-0">      
                                 <p class="col-md-12 text-center text-md-start"><i class="bi bi-calendar-event-fill m-1"></i> <span class="i18" key="De">${i18next.t("De")}</span> ${new Date(e.initialDate).toLocaleDateString('pt-BR')}  <span class="i18" key="Ate">${i18next.t("Ate")}</span> ${new Date(e.finalDate).toLocaleDateString('pt-BR')}</p>
                             </div>
                         </div>
 
-                        <div class="col-md-1 d-flex justify-content-center align-items-center">
-                            <img src="/icons/right.svg" width="60">
+                        <div class="col d-flex justify-content-end align-items-center">
+                            <i class="fs-1 bi bi-chevron-right"></i>
                         </div> 
                         ${
                             (data.results[data.results.length - 1] === e) ?
@@ -245,8 +246,8 @@ const exibirDados = async (data) => {
                             ""
                         }
                     </div>
-                </a>
-            </div>
+                </div>
+            </a>
         `;
     });
     paginasAnteriores.push(data)

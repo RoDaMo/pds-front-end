@@ -1,6 +1,8 @@
 {
     "TituloPagina": "User Page",
-    "EditarPerfil": "Edit profile",
+    "EditarPerfil": "Edit Profile",
+    "ExcluirPerfil": "Delete Profile",
+    "ExcluirPerfilTemp": "Delete Temporary Profile",
     "Times": "Teams",
     "Politica": "Policy",
     "Sobre": "About",

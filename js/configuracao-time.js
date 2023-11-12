@@ -375,7 +375,7 @@ const init = async () => {
             botaoDesvincularWrapper.classList.add('col-auto', 'd-flex', 'my-auto', 'mx-auto', 'ms-md-auto', 'me-md-2', 'gap-2');
             botaoDesvincularWrapper.innerHTML = `
                 <button title="Tornar Capitão" type="button" class="btn-capitao justify-content-center align-items-center rounded-4 btn btn-dark d-flex delete-listed-thing"><i class="bi bi-star-fill"></i></button>
-                <button title="Excluir Jogador" type="button" class="btn-desvincular justify-content-center align-items-center rounded-4 remover-vinculo-campeonato btn btn-danger d-flex delete-listed-thing" ><i class="bi bi-trash text-light fs-5"></i></button>
+                <button title="Excluir Jogador" type="button" class="btn-desvincular justify-content-center align-items-center rounded-4 remover-vinculo-campeonato btn btn-danger d-flex delete-listed-thing" ><i class="bi bi-trash   fs-5"></i></button>
             `;
 
             if(!jogador.isCaptain) botaoDesvincularWrapper.querySelector('.btn-capitao').style.opacity = 0.5
@@ -462,7 +462,7 @@ const init = async () => {
 
             const botaoDesvincularWrapper = document.createElement('div')
             botaoDesvincularWrapper.classList.add('col-auto', 'd-flex', 'my-auto', 'mx-auto', 'ms-md-auto', 'me-md-0')
-            botaoDesvincularWrapper.innerHTML = `<button type="button" data-bs-toggle="modal" data-bs-target="#exitChampionshipModal" class="delete-listed-thing justify-content-center align-items-center rounded-4 remover-vinculo-campeonato btn btn-danger d-flex"><i class="bi bi-box-arrow-right text-light text-center ms-1 fs-4"></i></i></button>`
+            botaoDesvincularWrapper.innerHTML = `<button type="button" data-bs-toggle="modal" data-bs-target="#exitChampionshipModal" class="delete-listed-thing justify-content-center align-items-center rounded-4 remover-vinculo-campeonato btn btn-danger d-flex"><i class="bi bi-box-arrow-right   text-center ms-1 fs-4"></i></i></button>`
             
             campeonatosVinculadosContent.appendChild(botaoDesvincularWrapper)
             campeonatosVinculadosWrapper.appendChild(campeonatosVinculadosContent)
@@ -821,7 +821,7 @@ const init = async () => {
 
                 const addPlayerStepWrapper = document.createElement('div')
                 addPlayerStepWrapper.classList.add('col-auto', 'd-flex', 'mt-3', 'mt-md-auto', 'my-auto', 'mx-auto', 'ms-md-auto', 'me-md-2')
-                addPlayerStepWrapper.innerHTML = `<button type="button" class="add-listed-thing justify-content-center align-items-center rounded-4 adicionar-player-step btn btn-primary d-flex"><i class="bi bi-plus text-light fs-5"></i></button>`
+                addPlayerStepWrapper.innerHTML = `<button type="button" class="add-listed-thing justify-content-center align-items-center rounded-4 adicionar-player-step btn btn-primary d-flex"><i class="bi bi-plus   fs-5"></i></button>`
 
                 newOption.appendChild(addPlayerStepWrapper)
 

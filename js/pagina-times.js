@@ -139,28 +139,30 @@ const obterInfo = async () => {
 
     // Técnico do time
     console.log(coach)
-    conteudoInicial.insertAdjacentHTML("beforeend", `
-        <div id="coach-board-wrapper" class="d-flex">
-            <a href="/pages/pagina-usuarios.html?id=${coach.id}" class="row coach-board lvl1-primary-bg flex-row align-content-center px-3 p-2 text-decoration-none">
+    if (coach.name != null || coach.name != undefined) {
+        conteudoInicial.insertAdjacentHTML("beforeend", `
+            <div id="coach-board-wrapper" class="d-flex">
+                <a href="/pages/pagina-usuarios.html?id=${coach.id}" class="row coach-board lvl1-primary-bg flex-row align-content-center px-3 p-2 text-decoration-none">
 
-                <div class="col-auto p-0 d-flex justify-content-center align-items-center">
-                    <div class="position-relative overflow-hidden rounded-circle ss-player-image">
-                        <img src="${coach.picture}" alt="coachImage" class="img-fluid position-absolute mw-100 h-100">
-                    </div>
-                </div>
-
-                <div class="col row justify-content-center flex-column">
-                    <div class="col-auto">
-                        <span class="ss-player-name fs-5 text-nowrap text-truncate mb-1 mb-md-0 d-block">${coach.name}</span>
+                    <div class="col-auto p-0 d-flex justify-content-center align-items-center">
+                        <div class="position-relative overflow-hidden rounded-circle ss-player-image">
+                            <img src="${coach.picture}" alt="coachImage" class="img-fluid position-absolute mw-100 h-100">
+                        </div>
                     </div>
 
-                    <div class="col-auto d-flex coach-badge align-items-center w-auto">
-                        <span class="i18 coach-badge-text lvl0-color p-1 px-2 w-auto text-opacity-75" key="Tecnico">${i18next.t("Tecnico")}</span>
+                    <div class="col row justify-content-center flex-column">
+                        <div class="col-auto">
+                            <span class="ss-player-name fs-5 text-nowrap text-truncate mb-1 mb-md-0 d-block">${coach.name}</span>
+                        </div>
+
+                        <div class="col-auto d-flex coach-badge align-items-center w-auto">
+                            <span class="i18 coach-badge-text lvl0-color p-1 px-2 w-auto text-opacity-75" key="Tecnico">${i18next.t("Tecnico")}</span>
+                        </div>
                     </div>
-                </div>
-            </a>
-        </div>
-    `)
+                </a>
+            </div>
+        `)
+    }
 
     // Jogadores do time
     const jogadores = document.getElementById("jogadores")
@@ -260,7 +262,7 @@ const obterInfo = async () => {
     // Campeonatos do time
     campeonatosVinculados.results.forEach(e => {
         champStuff.innerHTML += /*html*/`
-            <div class="col">
+            <div class="col w-auto">
                 <a href="/pages/pagina-campeonatos.html?id=${e.id}" class="text-decoration-none">
                     <div class="rounded-5 ss-championship-content lvl2-primary-bg d-flex flex-column w-auto h-auto m-auto p-2">
                         <div class="ss-championship-img-wrapper position-relative rounded-circle overflow-hidden m-auto mt-3">
@@ -392,6 +394,12 @@ document.addEventListener('header-carregado', async() => {
         if(sessionUserInfo.role === 'admin'){
             document.getElementById("excluir-time-admin").classList.remove('d-none')
         }
+    }
+    if (!mediaQueryMobile.matches) {
+        setTimeout(() => {
+            const ssSecondContentHeight = ssSecondContent.offsetHeight
+            ssThirdContent.style.height = `${ssSecondContentHeight}px`
+        }, 2000)
     }
 
     verificarSeJaDenunciou()

@@ -13,11 +13,11 @@ export class preLoader extends HTMLElement {
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: #fff;
         display: flex;
         align-items: center;
         justify-content: center;
         transition: opacity 0.5s ease-in-out;
+        background-color: #fff;
         opacity: 1;
         pointer-events: auto;
         z-index: 99999;
@@ -46,7 +46,7 @@ export class preLoader extends HTMLElement {
         }
       }
     </style>
-        <div class="preloader d-flex align-items-center justify-content-center">
+        <div class="preloader lvl0-color app-loader d-flex align-items-center justify-content-center">
           <div class="spinner-border text-primary" role="status">
             <span class="sr-only"></span>
           </div>

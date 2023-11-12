@@ -1,5 +1,5 @@
 {
-    "TituloPagina": "Bracket Page",
+    "TituloPagina": "Match Configuration",
     "MatchArbitratorLabel": "Match Arbitrator",
     "MatchArbitratorPlaceholder": "Match Arbitrator...",
     "MatchLocationNumberLabel": "Match Location Number",
@@ -16,8 +16,8 @@
     "MatchDatePlaceholder": "Match Date...",
     "MatchHomeUniformLabel": "Match Home Uniform",
     "MatchAwayUniformLabel": "Match Away Uniform",
-    "SaveConfig": "Save Configurations",
-    "configMatch": "Match Configurations",
+    "SaveConfig": "Save Configuration",
+    "configMatch": "Match Configuration",
     "ArbitroObrigatorio": "Arbitrator is required",
     "DataObrigatoria": "Date is required",
     "HoraObrigatoria": "Time is required",
@@ -26,7 +26,9 @@
     "RuaObrigatoria": "Street is required",
     "NumeroObrigatorio": "Number is required",
     "SucessoConfigurarPartida": "Match configured successfully",
-    "Uniformes": "Uniforms",
-    "InfosPartida": "Match Information",
-    "CEPInvalido": "Invalid Zipcode"
+    "UniformSelection": "Uniform Selection",
+    "InfosPartida": "Match Informations",
+    "CEPInvalido": "Invalid Zipcode",
+    "Salvar": "Save",
+    "Cancelar": "Cancel"
 }

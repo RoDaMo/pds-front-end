@@ -1,5 +1,5 @@
 {
-    "TituloPagina": "Tabela de Chaveamento",
+    "TituloPagina": "Configuração de Partida",
     "MatchArbitratorLabel": "Árbitro da Partida",
     "MatchArbitratorPlaceholder": "Árbitro da Partida...",
     "MatchLocationNumberLabel": "Número do Local da Partida",
@@ -16,8 +16,8 @@
     "MatchDatePlaceholder": "Data da Partida...",
     "MatchHomeUniformLabel": "Uniforme do Time da Casa",
     "MatchAwayUniformLabel": "Uniforme do Time Visitante",
-    "SaveConfig": "Salvar Configurações",
-    "configMatch": "Configurações da Partida",
+    "SaveConfig": "Salvar Configuração",
+    "configMatch": "Configuração da Partida",
     "ArbitroObrigatorio": "Árbitro é obrigatório",
     "DataObrigatoria": "Data é obrigatória",
     "HoraObrigatoria": "Hora é obrigatória",
@@ -26,7 +26,9 @@
     "RuaObrigatoria": "Rua é obrigatória",
     "NumeroObrigatorio": "Número é obrigatório",
     "SucessoConfigurarPartida": "Partida configurada com sucesso",
-    "Uniformes": "Uniformes",
+    "UniformSelection": "Escolha do Uniforme",
     "InfosPartida": "Informações da Partida",
-    "CEPInvalido": "CEP inválido"
+    "CEPInvalido": "CEP inválido",
+    "Salvar": "Salvar",
+    "Cancelar": "Cancelar"
 }
