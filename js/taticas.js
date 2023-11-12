@@ -202,7 +202,6 @@ const taticas = {
       }
     });
     
-    console.log(playersByLine, maxPositionsByLine);
     const botoesEsquemaTatico = document.getElementsByClassName('botao-esquema-tatico');
     const containerErro = document.getElementById('container-erro-esquema-tatico');
     const soma = 10;
@@ -430,7 +429,7 @@ const taticas = {
     loader.show();
     const resultado = await executarFetch('first-string', configuracaoFetch('POST', jogadoresObj))
     loader.hide();
-    console.log(resultado)
+    location.reload();
   },
   async init() {    
     const botao1 = document.getElementById('botao-aba-1'),
