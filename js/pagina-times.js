@@ -5,6 +5,8 @@ import portugues from './i18n/ptbr/pagina-times.json' assert { type: 'JSON' }
 import ingles from './i18n/en/pagina-times.json' assert { type: 'JSON' }
 import i18next from "i18next";
 import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
+import { notificacaoErro, notificacaoSucesso } from "./utilidades/notificacoes"
+import * as bootstrap from 'bootstrap'
 
 inicializarInternacionalizacao(ingles, portugues);
 const loader = document.createElement('app-loader');
@@ -324,29 +326,75 @@ async function waitInfo() {
 
 waitInfo()
 
-document.addEventListener('header-carregado', () => {
-    const userRoleElement = document.getElementById("userRole");
-    const botaoExcluir = document.getElementById("botaoExcluirTime");
+
+const confirmarDenuncia = /* html */`
+    <div class="modal fade" id="ConfirmarDenuncia" tabindex="-1" aria-labelledby="ConfirmarDenunciaLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title i18" key="Descricao" id="descricaoModalLabel">Descrição da Denúncia</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="descricao" key="DescricaoDenuncia" class="col-form-label i18">Descreva a denúncia:</label>
+                            <textarea id="DescricaoDenuncia"  class="form-control" ></textarea>
+                            <select id="tipos-denuncia" class="form-select">
+                                <option class="i18" key="TipoViolacao" value="" selected>Tipo de Violação</option>
+                                <option class="i18" key="Inapropriado" value="0">Conteúdo Inapropriado</option>
+                                <option class="i18" key="Spam" value="1">Spam</option>  
+                                <option class="i18" key="Scam" value="2">Scam</option>  
+                                <option class="i18" key="Odio" value="3">Discurso de Ódio</option>  
+                                <option class="i18" key="Desinformacao" value="4">Desinformação</option>
+                                <option class="i18" key="Legais" value="5">Problemas Legais</option>  
+                                <option class="i18" key="Assedio" value="6">Ássedio</option>  
+                                <option class="i18" key="Outro" value="7">Outro</option>  
+                                <option class="i18" key="TodosTipos" value="8">Todos</option>  
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary i18" key="Cancelar" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" id="SalvarDenuncia" key="Salvar"  class="btn btn-primary i18">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+`
+
+document.addEventListener('header-carregado', async() => {
+    document.body.insertAdjacentHTML('beforeend', confirmarDenuncia)
+
+    const modalDenuncia = document.getElementById('ConfirmarDenuncia')
+    let modalDenunciaBT = new bootstrap.Modal(modalDenuncia, {keyboard: false})
+    
+    const botaoDenunciar = document.getElementById("denunciar");
     const id = parametroUrl.get('id')
 
-    if (userRoleElement) {
-        const userRole = userRoleElement.textContent.trim()
+    const verificarSeJaDenunciou = async() => {
+        loader.show();
+        const configFetch = configuracaoFetch('GET')
 
-        if (userRole === "admin") {
-            botaoExcluir.classList.remove('d-none')
-            botaoExcluir.addEventListener('click', async () => {
-                loader.show(); // Mostrar o loader, se necessário
-                const configFetch = configuracaoFetch('DELETE')
-                const response = await executarFetch(`moderation/teams/${id}`, configFetch); 
-                loader.hide(); // Esconder o loader após a conclusão da solicitação
-            
-                if (response.succeed) {
-                    window.location.assign('/index.html')
-                }
-            })
+        const res = await executarFetch(`reports/verify?id=${id}`, configFetch); 
+        loader.hide();
+
+        console.log(res)
+
+        if(res.results){
+            botaoDenunciar.disabled = true
+            botaoDenunciar.textContent = i18next.t('JaDenunciou')
+            botaoDenunciar.setAttribute('key', 'JaDenunciou')
         }
+
     }
 
+    const aparecerBotaoExcluir = () => {
+        if(sessionUserInfo.role === 'admin'){
+            document.getElementById("excluir-time-admin").classList.remove('d-none')
+        }
+    }
     if (!mediaQueryMobile.matches) {
         setTimeout(() => {
             const ssSecondContentHeight = ssSecondContent.offsetHeight
@@ -354,9 +402,44 @@ document.addEventListener('header-carregado', () => {
         }, 2000)
     }
 
+    verificarSeJaDenunciou()
+    aparecerBotaoExcluir()
+
+    botaoDenunciar.addEventListener('click', () => {
+        modalDenunciaBT.show()
+    })
+
+    document.getElementById("excluir-time-admin").addEventListener('click', async() => {
+        loader.show()
+        const data = await executarFetch(`moderation/teams/${id}`, configuracaoFetch("DELETE"))
+        loader.hide()
+        if(data.succeed){
+            notificacaoSucesso('Time excluído')
+            setTimeout(() => {
+                window.location.href = `/`
+            }, 2000);
+        }
+    })
+
+    document.getElementById("SalvarDenuncia").addEventListener('click', async () => {
+        loader.show();
+        const configFetch = configuracaoFetch('POST', {
+            "AuthorId": sessionUserInfo.id,
+            "ReportType": 1,
+            "ReportedTeamId": parseInt(id),
+            "Description": document.getElementById("DescricaoDenuncia").value ? document.getElementById("DescricaoDenuncia").value : "Sem Descrição",
+            "Violation": document.getElementById("tipos-denuncia").value ? parseInt(document.getElementById("tipos-denuncia").value) : 7
+        })
+
+        const res = await executarFetch(`reports`, configFetch); 
+        loader.hide();
+
+        if(res.succeed){
+            modalDenunciaBT.hide()
+            document.getElementById("DescricaoDenuncia").value = ""
+            notificacaoSucesso(i18next.t("Denunciado"))
+            verificarSeJaDenunciou()
+        }
+
+    })
 })
-
-
-
-
-
