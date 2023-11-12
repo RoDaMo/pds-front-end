@@ -1028,64 +1028,26 @@ const init = async () => {
 		
 
 	async function abaPendencias() {
-		try {
-		  const pendencias = await executarFetch(`todo/${championshipId}`, configuracaoFetch("GET"));
-	  
-		  if (pendencias) {
-			console.log(pendencias);
-	  
-			if (pendencias.Rules === false) {
-			  exibirMensagem("Pendência de Regras: Você precisa verificar as regras.");
-			}
-	  
-			if (pendencias.CreatedBracketing === false) {
-			  exibirMensagem("Pendência de Chaves Criadas: Você precisa criar as chaves.");
-			}
-	  
-			if (pendencias.AddedEnoughTeams === false) {
-			  exibirMensagem("Pendência de Times Suficientes: Você precisa adicionar mais times.");
-			}
-	  
-			if (pendencias.AddedSuborganizers === false) {
-			  exibirMensagem("Pendência de Suborganizadores: Você precisa adicionar suborganizadores.");
-			}
-	  
-			if (pendencias.PendentMatches === false) {
-			  exibirMensagem("Pendência de Partidas Pendentes: Há partidas pendentes a serem resolvidas.");
-			}
-		  } else {
-			console.log('Pendências não estão definidas corretamente.');
-		  }
-		} catch (error) {
-		  console.error('Ocorreu um erro ao buscar as pendências:', error);
+		const response = await executarFetch(`todo/${championshipId}`, configuracaoFetch("GET"))
+		const pendencias = response.results
+		console.log(pendencias)
+		if (!pendencias.rules) {
+			document.getElementById('alerta-regulamento').classList.remove('d-none')
 		}
-	  }
+	
+		if (!pendencias.createdBracketing) {
+			document.getElementById('alerta-chaveamento').classList.remove('d-none')
+		}
+	
+		if (!pendencias.addedEnoughTeams) {
+			document.getElementById('alerta-times').classList.remove('d-none')
+		}
+	
+		if (!pendencias.addedSuborganizers) {
+			document.getElementById('alerta-sub').classList.remove('d-none')
+		}
+	}
 	  
-	  function exibirMensagem(mensagem) {
-		const alertsContainer = document.getElementById('alerts-container');
-		const mensagemDiv = document.createElement('div');
-		mensagemDiv.className = 'alert alert-danger'; // Estilize conforme desejado
-		mensagemDiv.textContent = mensagem;
-		alertsContainer.appendChild(mensagemDiv);
-	  }
-	  
-	  // Agora, você pode chamar a função abaPendencias para verificar as pendências:
-	  await abaPendencias()
-
-	exibirMensagem("Pendência de Regras: Você precisa verificar as regras.");
-	exibirMensagem("Pendência de Chaves Criadas: Você precisa criar as chaves.");
-	exibirMensagem("Pendência de Times Suficientes: Você precisa adicionar mais times.");
-	exibirMensagem("Pendência de Suborganizadores: Você precisa adicionar suborganizadores.");
-	exibirMensagem("Pendência de Partidas Pendentes: Há partidas pendentes a serem resolvidas.");
-	  
-    function showAlert(rule) {
-      const alertDiv = document.createElement('div');
-      alertDiv.className = 'alert alert-success';
-      alertDiv.textContent = `A regra "${rule}" é verdadeira.`;
-
-      const alertsContainer = document.getElementById('alerts-container');
-      alertsContainer.appendChild(alertDiv);
-    }
 
 	const inicializarPaginaExclusao = async () => {
 		const formDeletarCampeonato = document.getElementById('delete-championship-form'),
@@ -1149,6 +1111,8 @@ const init = async () => {
 		let modalDeleteBracketBT = new bootstrap.Modal(modalDeleteBracket, {keyboard: false})
 
 		let bracketCreateModalBT = new bootstrap.Modal(bracketCreateModal, {keyboard: false})
+
+	await abaPendencias()
 
 	loader.show()
 	const dados = await executarFetch(`championships/${championshipId}`, configuracaoFetch('GET')),
