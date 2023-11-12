@@ -88,5 +88,7 @@
     "StartPenaltyShootout": "Iniciar Disputa de Pênaltis",
     "TextoIniciarDisputaPenaltis": "Você está prestes a iniciar a disputa de pênaltis. Tem certeza que deseja prosseguir?",
     "SucessoStartPenaltyShootout": "Disputa de pênaltis iniciada com sucesso.",
-    "Tecnico": "Técnico(a)"
+    "Tecnico": "Técnico(a)",
+    "Taticas": "Táticas",
+    "SalvarTatica": "Salvar táticas"
 }

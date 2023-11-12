@@ -346,3 +346,45 @@
         }
     }
 }
+
+#campo-futebol {
+    width: 320px;
+    height: 493px;
+    background-image: url('/public/campo-futebol.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    
+    .linha-goleiro {
+        margin-bottom: -30px;
+    }
+}
+
+.bola {
+    border: 1px solid black;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: gray;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    cursor: pointer;
+
+    .sub-bola {
+        background-color: $play-cor-secundaria;
+        color: $play-cor-fundos;
+        padding: 0;
+        border-radius: 50%;
+        text-align: center;
+        vertical-align: middle;
+        position: relative;
+        bottom: -35px;
+        left: 10px;
+    }
+}
+
+
+.botao-esquema-tatico {
+    width: 3rem!important;
+}
