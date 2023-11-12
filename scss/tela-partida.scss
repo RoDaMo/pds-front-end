@@ -119,21 +119,6 @@
     #match-details {
         box-shadow: 0px 0px 90px 20px rgba(0, 0, 0, 0.1);
         border-radius: 4rem;
-
-        // &::after {
-        //     content: "";
-        //     position: absolute;
-        //     width: 75rem;
-        //     height: 15rem;
-
-        //     background: rgb(255,255,255);
-        //     background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
-
-        //     border-radius: 0 0 4rem 4rem;
-        //     top: 45rem;
-        //     left: 50%;
-        //     transform: translateX(-50%);
-        // }
     
         #match-details-options-wrapper {    
             #match-details-options {
@@ -360,4 +345,46 @@
             }
         }
     }
+}
+
+#campo-futebol {
+    width: 320px;
+    height: 493px;
+    background-image: url('/public/campo-futebol.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    
+    .linha-goleiro {
+        margin-bottom: -30px;
+    }
+}
+
+.bola {
+    border: 1px solid black;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: gray;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    cursor: pointer;
+
+    .sub-bola {
+        background-color: $play-cor-secundaria;
+        color: $play-cor-fundos;
+        padding: 0;
+        border-radius: 50%;
+        text-align: center;
+        vertical-align: middle;
+        position: relative;
+        bottom: -35px;
+        left: 10px;
+    }
+}
+
+
+.botao-esquema-tatico {
+    width: 3rem!important;
 }

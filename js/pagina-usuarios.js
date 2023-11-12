@@ -3,8 +3,10 @@ import { configuracaoFetch, executarFetch, limparMensagem } from "./utilidades/c
 import './utilidades/loader'
 import portugues from './i18n/ptbr/pagina-usuarios.json' assert { type: 'JSON' }
 import ingles from './i18n/en/pagina-usuarios.json' assert { type: 'JSON' }
+import { notificacaoErro, notificacaoSucesso } from "./utilidades/notificacoes"
 import i18next from "i18next";
 import { inicializarInternacionalizacao } from "./utilidades/internacionalizacao"
+import * as bootstrap from 'bootstrap'
 
 inicializarInternacionalizacao(ingles, portugues);
 const loader = document.createElement('app-loader');
@@ -13,6 +15,10 @@ document.body.appendChild(loader);
 // incluir lenis.js
 
 const mediaQueryMobile = window.matchMedia('(max-width: 575px)')
+
+const sessionUserInfo = JSON.parse(localStorage.getItem('user-info'))
+
+console.log(sessionUserInfo)
 
 const sportsSection = document.querySelector('.sports-section')
 const ssSlider = document.querySelector('.ss-slider')
@@ -116,10 +122,11 @@ const obterInfo = async () => {
 
     document.getElementById("user-pic").src = !data.results.picture ? '../default-user-image.png' : data.results.picture
     document.getElementById("user-bio").textContent = data.results.bio
-    // document.getElementById("user-name").textContent = data.results.username
+    document.getElementById("artistic-name").textContent = data.results.username
     document.getElementById("name").textContent = data.results.name
 
     const player = data.results
+    console.log(player)
     if (player.playerTeamId > 0) {
         const response = await executarFetch(`teams/${player.playerTeamId}`),
             time = response.results
@@ -142,46 +149,6 @@ const obterInfo = async () => {
         document.getElementById('numero-jogador').classList.add('d-none')
     } else {
         document.getElementById('user-current-team').classList.add('d-none')
-    }
-
-    const userRoleElement = document.getElementById("userRole");
-    const botaoExcluir = document.getElementById("botaoExcluirUsuario");
-    const botaoExcluir2 = document.getElementById("botaoExcluirTemp");
-
-
-    if (userRoleElement) {
-        const userRole = userRoleElement.textContent.trim()
-
-        if (userRole === "admin") {
-            if(data.results.username)
-            {
-                botaoExcluir.classList.remove('d-none')
-                botaoExcluir.addEventListener('click', async () => {
-                    loader.show();
-                    const configFetch = configuracaoFetch('DELETE')
-                    const response = await executarFetch(`moderation/users/${id}`, configFetch); 
-                    loader.hide();
-                
-                    if (response.succeed) {
-                        window.location.assign('/index.html')
-                    }
-                })
-            }
-            else
-            {
-                botaoExcluir2.classList.remove('d-none')
-                botaoExcluir2.addEventListener('click', async () => {
-                    loader.show();
-                    const configFetch = configuracaoFetch('DELETE')
-                    const response = await executarFetch(`moderation/playertempprofiles/${id}`, configFetch); 
-                    loader.hide();
-                
-                    if (response.succeed) {
-                        window.location.assign('/index.html')
-                    }
-                })
-            }
-        }
     }
 
     // Campeonatos administrados
@@ -212,7 +179,6 @@ const obterInfo = async () => {
             })
         })
     })
-
     
 }
 
@@ -239,3 +205,119 @@ async function waitInfo() {
 }
 
 waitInfo()
+
+
+const confirmarDenuncia = /* html */`
+    <div class="modal fade" id="ConfirmarDenuncia" tabindex="-1" aria-labelledby="ConfirmarDenunciaLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title i18" key="Descricao" id="descricaoModalLabel">Descrição da Denúncia</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="descricao" key="DescricaoDenuncia" class="col-form-label i18">Descreva a denúncia:</label>
+                            <textarea id="DescricaoDenuncia"  class="form-control" ></textarea>
+                            <select id="tipos-denuncia" class="form-select">
+                                <option class="i18" key="TipoViolacao" value="" selected>Tipo de Violação</option>
+                                <option class="i18" key="Inapropriado" value="0">Conteúdo Inapropriado</option>
+                                <option class="i18" key="Spam" value="1">Spam</option>  
+                                <option class="i18" key="Scam" value="2">Scam</option>  
+                                <option class="i18" key="Odio" value="3">Discurso de Ódio</option>  
+                                <option class="i18" key="Desinformacao" value="4">Desinformação</option>
+                                <option class="i18" key="Legais" value="5">Problemas Legais</option>  
+                                <option class="i18" key="Assedio" value="6">Ássedio</option>  
+                                <option class="i18" key="Outro" value="7">Outro</option>  
+                                <option class="i18" key="TodosTipos" value="8">Todos</option>  
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary i18" key="Cancelar" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" id="SalvarDenuncia" key="Salvar"  class="btn btn-primary i18">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+`
+
+document.addEventListener('header-carregado', async() => {
+    document.body.insertAdjacentHTML('beforeend', confirmarDenuncia)
+
+    const modalDenuncia = document.getElementById('ConfirmarDenuncia')
+    let modalDenunciaBT = new bootstrap.Modal(modalDenuncia, {keyboard: false})
+    
+    const botaoDenunciar = document.getElementById("denunciar");
+    const id = parametroUrl.get('id')
+
+    
+    const verificarSeJaDenunciou = async() => {
+        loader.show();
+        const configFetch = configuracaoFetch('GET')
+
+        const res = await executarFetch(`reports/verify?idUser=${id}`, configFetch); 
+        loader.hide();
+
+        console.log(res)
+
+        if(res.results){
+            botaoDenunciar.disabled = true
+            botaoDenunciar.textContent = i18next.t('JaDenunciou')
+            botaoDenunciar.setAttribute('key', 'JaDenunciou')
+        }
+
+    }
+
+    const aparecerBotaoExcluir = () => {
+        if(sessionUserInfo.role === 'admin'){
+            document.getElementById("excluir-usuario-admin").classList.remove('d-none')
+        }
+    }
+
+    verificarSeJaDenunciou()
+    aparecerBotaoExcluir()
+
+    botaoDenunciar.addEventListener('click', () => {
+        modalDenunciaBT.show()
+    })
+
+    document.getElementById("excluir-usuario-admin").addEventListener('click', async() => {
+        loader.show()
+        const data = await executarFetch(`moderation/users/${id}`, configuracaoFetch("DELETE"))
+        console.log(data)
+        loader.hide()
+        if(data.succeed){
+            notificacaoSucesso('Usuário excluído')
+            setTimeout(() => {
+                window.location.href = `/`
+            }, 2000);
+        }
+    })
+
+
+
+    document.getElementById("SalvarDenuncia").addEventListener('click', async () => {
+        loader.show();
+        const configFetch = configuracaoFetch('POST', {
+            "AuthorId": sessionUserInfo.id,
+            "ReportType": 2,
+            "ReportedUserId": id,
+            "Description": document.getElementById("DescricaoDenuncia").value ? document.getElementById("DescricaoDenuncia").value : "Sem Descrição",
+            "Violation": document.getElementById("tipos-denuncia").value ? parseInt(document.getElementById("tipos-denuncia").value) : 7
+        })
+
+        const res = await executarFetch(`reports`, configFetch); 
+        loader.hide();
+
+        if(res.succeed){
+            modalDenunciaBT.hide()
+            document.getElementById("DescricaoDenuncia").value = ""
+            notificacaoSucesso(i18next.t("Denunciado"))
+            verificarSeJaDenunciou()
+        }
+
+    })
+})

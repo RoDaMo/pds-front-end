@@ -89,5 +89,7 @@
     "DownloadMatchReport": "Download Match Report",
     "TextoIniciarDisputaPenaltis": "You are about to start the penalty shootout. Are you sure you want to proceed?",
     "SucessoStartPenaltyShootout": "Penalty shootout successfully started.",
-    "Tecnico": "Coach"
+    "Tecnico": "Coach",
+    "Taticas": "Tatics",
+    "SalvarTatica": "Save tatics"
 }

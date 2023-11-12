@@ -23,7 +23,7 @@
         <div class="row justify-content-center">
             <div class="lvl0-color col-md-8 col-lg-6 pb-4 my-5 rounded-5 px-5">
                 <div id="login-card-header" class="mb-5 mt-5 flex-column align-items-center justify-content-center row">
-                    <select class="form-select mt-2 w-50 rounded-3 ps-3 py-2 bg-transparent col" id="lingua" required>
+                    <select class="form-select mt-2 w-50 rounded-3 ps-3 py-2 cursor-pointer col" id="lingua" required>
                         <option value="ptbr" id="1">Português</option>
                         <option value="en" id="2">English</option>
                     </select>
@@ -43,8 +43,8 @@
                                 <input type="password" class="form-control i18-placeholder" key="SenhaPlaceholder" id="senha" name="senha" placeholder="Senha..." autocomplete="on">
                             </div>
                             <div id="olhos">
-                                <i id="olho-aberto" class="btn rounded-0 rounded-end bi bi-eye position-absolute end-0"></i>
-                                <i id="olho-fechado" class="btn rounded-0 rounded-end bi bi-eye-slash position-absolute end-0 d-none"></i>
+                                <i id="olho-aberto" class="btn lvl1-color normal-text-color rounded-0 rounded-end bi bi-eye position-absolute end-0"></i>
+                                <i id="olho-fechado" class="btn lvl1-color normal-text-color rounded-0 rounded-end bi bi-eye-slash position-absolute end-0 d-none"></i>
                             </div>
                         </div>
                         <!-- label errorMessage -->
@@ -60,9 +60,9 @@
                     </div>
                     <div class="container m-0">
                         <div class="row justify-content-center gap-2">
-                            <button class="d-none order-last col-md-4 btn w-25 lvl2-primary-bg rounded-pill i18 g-recaptcha" data-sitekey="6Lc9iocnAAAAAJfGkYHTnzAfX3HJqlaYCItstRiq" data-callback="onSubmit" key="Entrar" id="entrar" type="submit">Entrar</button>
-                            <button class="col-md-4 order-last w-25 btn lvl3-primary-bg rounded-pill i18" key="Continuar" id="continuar" >Continuar</button>
-                            <a href="/index.html" class="col-md-4 w-25 btn btn-outline-info rounded-pill i18" key="Cancelar">Cancelar</a>
+                            <button class="d-none order-last col-md-4 btn w-25 pure-primary-bg inverted-text-color rounded-pill i18 g-recaptcha" data-sitekey="6Lc9iocnAAAAAJfGkYHTnzAfX3HJqlaYCItstRiq" data-callback="onSubmit" key="Entrar" id="entrar" type="submit">Entrar</button>
+                            <button class="col-md-4 order-last w-25 btn pure-primary-bg inverted-text-color rounded-pill i18" key="Continuar" id="continuar" >Continuar</button>
+                            <a href="/index.html" class="col-md-4 w-25 btn lvl3-primary-bg rounded-pill i18" key="Cancelar">Cancelar</a>
                         </div>
                     </div>
                     <div class="mt-4">

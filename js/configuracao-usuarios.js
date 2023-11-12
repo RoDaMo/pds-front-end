@@ -475,8 +475,8 @@ async function changeConfigOptionsContext(t) {
                                         <input type="password" class="form-control i18-placeholder"   key="SenhaAtual" id="config-user-pass-input" name="config-user-pass-input" placeholder="${i18next.t("SenhaAtual")}" autocomplete="on">
                                     </div>
                                     <div id="olhos">
-                                        <i id="olho-aberto" class="btn rounded-0 rounded-end bi bi-eye position-absolute end-0"></i>
-                                        <i id="olho-fechado" class="btn rounded-0 rounded-end bi bi-eye-slash position-absolute end-0 d-none"></i>
+                                        <i id="olho-aberto" class="btn lvl1-color normal-text-color rounded-0 rounded-end bi bi-eye position-absolute end-0"></i>
+                                        <i id="olho-fechado" class="btn lvl1-color normal-text-color rounded-0 rounded-end bi bi-eye-slash position-absolute end-0 d-none"></i>
                                     </div>
                                 </div>
                             </div>
@@ -487,8 +487,8 @@ async function changeConfigOptionsContext(t) {
                                         <input type="password" class="form-control i18-placeholder" key="NovaSenha" id="config-user-newpass-input" name="config-user-newpass-input" placeholder="${i18next.t("NovaSenha")}" autocomplete="on">
                                     </div>
                                     <div id="olhos-nova-senha">
-                                        <i id="olho-aberto-nova-senha" class="btn rounded-0 rounded-end bi bi-eye position-absolute end-0"></i>
-                                        <i id="olho-fechado-nova-senha" class="btn rounded-0 rounded-end bi bi-eye-slash position-absolute end-0 d-none"></i>
+                                        <i id="olho-aberto-nova-senha" class="btn lvl1-color normal-text-color rounded-0 rounded-end bi bi-eye position-absolute end-0"></i>
+                                        <i id="olho-fechado-nova-senha" class="btn lvl1-color normal-text-color rounded-0 rounded-end bi bi-eye-slash position-absolute end-0 d-none"></i>
                                     </div>
                                 </div>
                             </div>

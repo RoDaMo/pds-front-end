@@ -998,6 +998,8 @@ const init = async () => {
 		mTeam2ImgWrapper.insertAdjacentHTML('beforeend', `
 			<img class="m-team-img position-absolute img-fluid w-100 h-100" src="${match.visitorEmblem}" alt="">
 		`)
+
+		document.dispatchEvent(new Event('scoreboard-carregado', { bubbles: true }))
 	}
 
 	const updateScoreboard = async () => {
@@ -1645,26 +1647,26 @@ const init = async () => {
         matchDetailsOptions = document.getElementById('match-details-options'),
         abaBotoes = matchDetailsOptions.children,
         menuConfig = document.getElementsByClassName('menu-config'),
-		sessionUserInfo = JSON.parse(localStorage.getItem('user-info')),
-		parametroUrl = new URLSearchParams(window.location.search),
-		matchId = parametroUrl.get('id'),
-		eventsTab = document.getElementById('match-details-content-events'),
-		eventsWrapperTeam1 = document.getElementById('match-details-content-events-team1'),
-		eventsWrapperTeam2 = document.getElementById('match-details-content-events-team2'),
-		matchDetails = document.getElementById('match-details'),
-		blurWallEvents = document.getElementById('blurwall-events'),
-		manageMatchBtn = document.getElementById('manage-match-btn'),
-		matchManagementForm = document.getElementById('match-management-form'),
-		matchScoreWrapper = document.getElementById('match-score-wrapper'),
-		mTeam1NameWrapper = document.getElementById('m-team1-name-wrapper'),
-		mTeam2NameWrapper = document.getElementById('m-team2-name-wrapper'),
-		mTeam1ImgWrapper = document.getElementById('m-team1-img-wrapper'),
-		mTeam2ImgWrapper = document.getElementById('m-team2-img-wrapper'),
-		matchReportAccess = document.getElementById('match-report-access'),
-		extraManagement = document.getElementById('extra-management'),
-		woTeamForm = document.getElementById('wo-team-form'),
-		mensagemErro = document.getElementById("mensagem-erro"),
-		penaltiesScoreWrapper = document.getElementById('penalties-score-wrapper')
+				sessionUserInfo = JSON.parse(localStorage.getItem('user-info')),
+				parametroUrl = new URLSearchParams(window.location.search),
+				matchId = parametroUrl.get('id'),
+				eventsTab = document.getElementById('match-details-content-events'),
+				eventsWrapperTeam1 = document.getElementById('match-details-content-events-team1'),
+				eventsWrapperTeam2 = document.getElementById('match-details-content-events-team2'),
+				matchDetails = document.getElementById('match-details'),
+				blurWallEvents = document.getElementById('blurwall-events'),
+				manageMatchBtn = document.getElementById('manage-match-btn'),
+				matchManagementForm = document.getElementById('match-management-form'),
+				matchScoreWrapper = document.getElementById('match-score-wrapper'),
+				mTeam1NameWrapper = document.getElementById('m-team1-name-wrapper'),
+				mTeam2NameWrapper = document.getElementById('m-team2-name-wrapper'),
+				mTeam1ImgWrapper = document.getElementById('m-team1-img-wrapper'),
+				mTeam2ImgWrapper = document.getElementById('m-team2-img-wrapper'),
+				matchReportAccess = document.getElementById('match-report-access'),
+				extraManagement = document.getElementById('extra-management'),
+				woTeamForm = document.getElementById('wo-team-form'),
+				mensagemErro = document.getElementById("mensagem-erro"),
+				penaltiesScoreWrapper = document.getElementById('penalties-score-wrapper')
 
 	
 	let downloadMatchReportBtn = null
@@ -1680,6 +1682,11 @@ const init = async () => {
 	
 	let validPlayersTeam1 = await getValidPlayers(match.homeId)
 	let validPlayersTeam2 = await getValidPlayers(match.visitorId)
+	
+	mTeam1NameWrapper.setAttribute('data-time-id', match.homeId)
+	mTeam1NameWrapper.setAttribute('data-championship', match.championshipId)
+	mTeam2NameWrapper.setAttribute('data-time-id', match.visitorId)
+	document.dispatchEvent(new Event('pronto-para-taticas'))
 
 	const dataTeam1 = await executarFetch(`teams/${match.homeId}`, configuracaoFetch('GET')),
 		team1 = dataTeam1.results
@@ -1706,7 +1713,6 @@ const init = async () => {
 		allEvents = await executarFetch(`matches/${matchId}/get-all-events`, configuracaoFetch('GET')),
 		allEventsResults = allEvents.results
 
-		console.log(match);
 	loader.hide()
 
     for (const configMenuOption of abaBotoes) {

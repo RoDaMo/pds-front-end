@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script type="module" src="../js/utilidades/preloader.js"></script>
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="stylesheet" href="../scss/moderacao.scss">
+  <title>Moderação</title>
+</head>
+<body>
+  <componente-preloader></componente-preloader>
+  <componente-header></componente-header>
+  <main class="container">
+
+
+    <div>
+      <p class="text-dark" id="mensagem-erro"></p>
+    </div>  
+    
+    <div class="row align-items-start gap-0">
+      
+      <div class="col-md-3 mb-2">
+        <select id="tipos" class="form-select">
+            <option class="i18" key="Tipos" value="" selected>Tipos</option>
+            <option class="i18" key="Campeonatos" value="0">Campeonatos</option>
+            <option class="i18" key="Times" value="1">Times</option>  
+            <option class="i18" key="Outros" value="2">Jogadores/Técnicos/Usuários</option>  
+            <option class="i18" key="Todos" value="3">Todos</option>  
+          </select>
+      </div>
+
+      <div class="col-md-3 mb-2">
+        <select id="tipos-denuncia" class="form-select">
+          <option class="i18" key="TipoViolacao" value="" selected>Tipo de Violação</option>
+          <option class="i18" key="Inapropriado" value="0">Conteúdo Inapropriado</option>
+          <option class="i18" key="Spam" value="1">Spam</option>  
+          <option class="i18" key="Scam" value="2">Scam</option>  
+          <option class="i18" key="Odio" value="3">Discurso de Ódio</option>  
+          <option class="i18" key="Desinformacao" value="4">Desinformação</option>
+          <option class="i18" key="Legais" value="5">Problemas Legais</option>  
+          <option class="i18" key="Assedio" value="6">Ássedio</option>  
+          <option class="i18" key="Outro" value="7">Outro</option>  
+          <option class="i18" key="TodosTipos" value="8">Todos</option>  
+        </select>
+      </div>
+
+      <div class="col-md-2 mb-2">
+        <select id="completado" class="form-select">
+            <option class="i18" key="Completado" value="" selected>Completado?</option>
+            <option class="i18" key="Sim" value="true">Sim</option>
+            <option class="i18" key="Nao" value="false">Não</option>   
+          </select>
+      </div>
+
+      <div class="col-md-3 mb-2 border-start">
+        <button id="limpar" type="button" class="btn btn-outline-primary i18" key="LimparFiltros">Limpar filtros</button>
+      </div>
+
+      
+    </div>
+
+  
+
+
+    <div id="conteudo">
+
+    </div>
+  </main>
+
+  <componente-footer></componente-footer>
+  <script type="module" src="../main.js"></script>
+  <script type="module" src="../js/utilidades/header.js"></script>
+  <script type="module" src="../js/moderacao.js"></script>
+  <script type="module" src="../js/utilidades/footer.js"></script>
+</body>
+</html>

@@ -22,17 +22,23 @@
 	<componente-header></componente-header>
 	<main class="container">
 		<div class="row flex-column flex-lg-row mx-auto mb-4 h-100">
+
+		
 			<section class="col-auto config-menu mb-md mb-0 lvl0-color p-4 rounded-5">
 				<h5 class="i18" key="ConfigMenu">Configurações</h5>
 
 				<!-- Config Menu -->
 				<ul class="list-group list-group-flush config-menu-list" id="config-menu-list">
 					<button class="list-group-item list-group-item-action lvl1-color my-1 border-0 rounded-4 active" menu="0"><i class="bi bi-gear me-2"></i> <span class="i18" key="Editar">Editar informações</span> </button>
-					<button class="list-group-item list-group-item-action lvl1-color my-1 border-0 rounded-4" menu="1"><i class="bi bi-people me-2"></i><span class="i18" key="Times">Times</span> </button>
-					<button id="btn-suborg" class="list-group-item lvl1-color list-group-item-action my-1 border-0 rounded-4" menu="2"><i class="bi bi-people me-2"></i><span class="i18" key="SubOrganizadores">Sub-Organizadores</span> </button>
-					<button id="exclusao-campeonato" class="list-group-item lvl1-color list-group-item-action my-1 border-0 rounded-4" menu="3"><i class="bi bi-trash me-2"></i><span class="i18" key="Exclusao">Exclusão</span></button>
+					<button class="list-group-item lvl1-color list-group-item-action my-1 border-0 rounded-4" menu="4"><i class="bi bi-bell me-2"></i> <span class="i18" key="Pendencias">Pendencias</span> </button>
+					<button class="list-group-item list-group-item-action lvl1-color my-1 border-0 rounded-4" menu="1"><i class="bi bi-people me-2"> </i><span class="i18" key="Times">Times</span> </button>
+					<button id="btn-suborg" class="list-group-item lvl1-color list-group-item-action my-1 border-0 rounded-4" menu="2"><i class="bi bi-people me-2"></i> <span class="i18" key="SubOrganizadores">Sub-Organizadores</span> </button>
+
+					<button id="exclusao-campeonato" class="list-group-item lvl1-color list-group-item-action my-1 border-0 rounded-4" menu="3"><i class="bi bi-trash me-2"></i> <span class="i18" key="Exclusao">Exclusão</span></button>
 					<!-- <button class="list-group-item list-group-item-action my-1 border-0 mb-2 rounded-4"><i class="bi bi-envelope me-2"></i>Emails/Sessões</button> -->
 				</ul>
+
+				
 
 				<div class="d-flex justify-content-center">
 					<hr class="w-50">
@@ -67,7 +73,7 @@
 								</p>
 							</div>
 							<div class="modal-footer d-flex justify-content-center">
-								<button id="confirm-create-bracket-btn" class="btn lvl3-primary-bg chaveamento-btn"><span class="i18 fw-semibold" key="CriarChaveamento">Criar Chaveamento</span></button>
+								<button id="confirm-create-bracket-btn" class="btn pure-primary-bg inverted-text-color chaveamento-btn"><span class="i18 fw-semibold" key="CriarChaveamento">Criar Chaveamento</span></button>
 							</div>
 						</div>
 					</div>
@@ -115,7 +121,7 @@
 								</div>
 								<div class="row w-100 d-flex flex-column flex-md-row">
 									<div class="col p-0">
-										<button id="stay-on-page" class="btn w-100 lvl3-primary-bg chaveamento-btn" data-bs-dismiss="modal" aria-label="Close"><span id="reload-ficar-aqui" class="i18 fw-semibold" key="ContinuarNaPagina">Continuar aqui</span></button>
+										<button id="stay-on-page" class="btn w-100 pure-primary-bg inverted-text-color chaveamento-btn" data-bs-dismiss="modal" aria-label="Close"><span id="reload-ficar-aqui" class="i18 fw-semibold" key="ContinuarNaPagina">Continuar aqui</span></button>
 									</div>
 									<div class="col col-md-1 d-flex justify-content-center">
 										<span class="m-2 i18" key="Ou">ou</span>
@@ -123,7 +129,7 @@
 									<div class="col p-0" id>
 										<!-- Link - ir para chaveamento -->
 										<a href="" class="text-decoration-none link-bracket-btn-wrapper">
-											<button id="redirect-to-bracket" class="btn w-100 lvl3-primary-bg chaveamento-btn"><span class="i18 fw-semibold" key="IrParaChaveamento">Ir para o chaveamento</span></button>
+											<button id="redirect-to-bracket" class="btn w-100 pure-primary-bg inverted-text-color chaveamento-btn"><span class="i18 fw-semibold" key="IrParaChaveamento">Ir para o chaveamento</span></button>
 										</a>
 									</div>
 								</div>
@@ -317,6 +323,26 @@
 								</div>
 						</div>
 					</div>
+
+					<div class="d-none menu-config" menu="4" id="abaPendencias">
+						<h5 class="text-warning text-center i18" key="Pendencias">Pendências</h5>
+						<div id="alerts-container">
+							<div id="alerta-regulamento" class="d-none alert alert-warning rounded-0" role="alert">
+								Você pode inserir um regulamento. Vá para a aba de edição para inserir um regulamento para o seu campeonato.
+							</div>
+							<div id="alerta-chaveamento" class="d-none alert alert-warning rounded-0" role="alert">
+								Você ainda não criou um chaveamento. Vincule os times participantes com o seu campeonato e o crie.
+							</div>
+							<div id="alerta-times" class="d-none alert alert-warning rounded-0" role="alert">
+								Você não possui a quantidade necessária de times para gerar o chaveamento. Vincule os times participantes.
+							</div>
+							<div id="alerta-sub" class="d-none alert alert-warning rounded-0" role="alert">
+								Você pode adicionar sub-organizadores para facilitar a organização do seu campeonato e dividir tarefas. Utilize a aba de sub-organizadores para vincular usuários como suborganizadores.
+							</div>
+						</div>
+					</div>
+
+
 				</section>
 
 				<div class="modal fade" id="deleteChampionship" tabindex="-1" aria-labelledby="deleteChampionshipLabel" aria-hidden="true">

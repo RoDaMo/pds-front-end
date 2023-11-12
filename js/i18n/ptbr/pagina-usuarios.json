@@ -1,6 +1,8 @@
 {
     "TituloPagina": "Página de Usuário",
     "EditarPerfil": "Editar Perfil",
+    "ExcluirPerfil": "Excluir Perfil",
+    "ExcluirPerfilTemp": "Excluir Perfil Temporário",
     "Times": "Times",
     "Politica": "Política",
     "Sobre": "Sobre",
@@ -8,5 +10,23 @@
     "NenhumTime": "Nenhum time por aqui...",
     "SemDescricao": "Sem descrição",
     "Campeonatos": "Campeonatos",
-    "NenhumCampeonato": "Nenhum campeonato por aqui..."
+    "NenhumCampeonato": "Nenhum campeonato por aqui...",
+    "DescricaoDenuncia": "Descreva a denúncia:",
+    "Descricao": "Descrição da Denúncia",
+    "Cancelar": "Cancelar",
+    "Salvar": "Salvar",
+    "TodosTipos": "Todos",
+    "Outro": "Outro",
+    "Assedio": "Ássedio",
+    "Legais": "Problemas Legais",
+    "Desinformacao": "Desinformação",
+    "Odio": "Discurso de Ódio",
+    "Scam": "Scam",
+    "Spam": "Spam",
+    "Inapropriado": "Conteúdo Inapropriado",
+    "TipoViolacao": "Tipo de Violação",
+    "JaDenunciou": "Já Denunciou",
+    "Denunciado": "Denunciado",
+    "BotaoDenunciar": "Denunciar Usuário",
+    "BotaoExcluirUsuario": "Excluir Usuário"
 }
