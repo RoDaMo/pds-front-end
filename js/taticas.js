@@ -180,10 +180,9 @@ const taticas = {
   },
   async esquemaTatico(jogadores, idPartida, idTime) {
     const temJogadores = jogadores.length > 0;
-    // Object to store the maximum position for each line
     const maxPositionsByLine = {};
     const playersByLine = {};
-
+    console.log(temJogadores)
     jogadores.forEach(player => {
       if (!playersByLine[player.line]) {
         playersByLine[player.line] = [];
@@ -207,11 +206,14 @@ const taticas = {
     const soma = 10;
     const arrayValores = temJogadores ? maxPositionsByLine : ['4', '3', '3']
     const linhasCampo = document.getElementsByClassName('linha-campo')
+    const submter = document.getElementById('submeter-taticas')
   
     if (!temJogadores) {
       await this.listagemReservas(idPartida, idTime)
+      submter.removeAttribute('disabled')
+      submter.classList.remove('d-none')
+      botoesEsquemaTatico[0].parentElement.classList.remove('d-none')
     } else {
-      const submter = document.getElementById('submeter-taticas')
       submter.setAttribute('disabled','disabled')
       submter.classList.add('d-none')
       botoesEsquemaTatico[0].parentElement.classList.add('d-none')
@@ -421,7 +423,8 @@ const taticas = {
 
       contador += posicao == 99 ? 0 : 1
     }
-    if (contador != 10) {
+    console.log(contador)
+    if (contador != 10 && contador != 11) {
       notificacaoErro('Não há jogadores o suficiente, preencha as 11 posições antes de salvar.')
       return;
     }
