@@ -421,7 +421,7 @@ const taticas = {
 
       contador += posicao == 99 ? 0 : 1
     }
-    if (contador != 11) {
+    if (contador != 10) {
       notificacaoErro('Não há jogadores o suficiente, preencha as 11 posições antes de salvar.')
       return;
     }
