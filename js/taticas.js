@@ -474,6 +474,7 @@ const taticas = {
     if (isOrganizer) {
       const botaoSubmit = document.getElementById('submeter-taticas')
       botaoSubmit.addEventListener('click', async () => await taticas.salvar(idPartida, botaoSubmit.getAttribute('aba-ativa')))
+      botao1.dispatchEvent(new Event('click'))
 
       return;
     } else {
