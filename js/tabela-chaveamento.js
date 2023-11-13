@@ -674,7 +674,7 @@ const chaveamento = {
                 <span class="d-none match-id">${partidaDupla.jogoAtual.id}</span>
                 ${(isOrganizer() && (championshipData.status == 0 || championshipData.status == 3)) ? `
                   <div class="row justify-content-center align-items-center config-match-btn-wrapper">
-                    <a class="w-auto p-0" href="/pages/configuracao-partida.html?idM=${partida.id}&idC=${idCampeonato}">
+                    <a class="w-auto p-0" href="/pages/configuracao-partida.html?idM=${partidaDupla.jogoAtual.id}&idC=${idCampeonato}">
                       <button class="btn pt-0 border-0 d-flex justify-content-center align-items-center config-match-btn">
                         <i class="bi bi-pencil-square lvl2-primary-bg px-4 py-1 rounded-pill"></i>
                       </button> 
