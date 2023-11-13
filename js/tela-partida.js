@@ -1686,7 +1686,10 @@ const init = async () => {
 	mTeam1NameWrapper.setAttribute('data-time-id', match.homeId)
 	mTeam1NameWrapper.setAttribute('data-championship', match.championshipId)
 	mTeam2NameWrapper.setAttribute('data-time-id', match.visitorId)
-	document.dispatchEvent(new Event('pronto-para-taticas'))
+	if (match.isSoccer)
+		document.dispatchEvent(new Event('pronto-para-taticas'))
+	else 
+		document.getElementById('aba-taticas').remove();
 
 	const dataTeam1 = await executarFetch(`teams/${match.homeId}`, configuracaoFetch('GET')),
 		team1 = dataTeam1.results
