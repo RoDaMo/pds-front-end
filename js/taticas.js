@@ -435,6 +435,9 @@ const taticas = {
     location.reload();
   },
   async init() {    
+    if (!document.getElementById('aba-taticas'))
+      return
+
     const botao1 = document.getElementById('botao-aba-1'),
           botao2 = document.getElementById('botao-aba-2'),
           aba1 = document.getElementById('aba-time-1'),
