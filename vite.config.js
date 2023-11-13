@@ -53,7 +53,8 @@ export default defineConfig({
         tabelaChaveamento: resolve(__dirname, 'pages/tabela-chaveamento.html'),
         telaPartida: resolve(__dirname, 'pages/tela-partida.html'),
         configuracaoPartida: resolve(__dirname, 'pages/configuracao-partida.html'),
-        listagemOrganizador: resolve(__dirname, 'pages/listagem-campeo-usuario.html')
+        listagemOrganizador: resolve(__dirname, 'pages/listagem-campeo-usuario.html'),
+        moderacao: resolve(__dirname, 'pages/moderacao.html')
       }
     }
   },

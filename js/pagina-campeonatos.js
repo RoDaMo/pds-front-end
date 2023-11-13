@@ -295,7 +295,7 @@ const confirmarDenuncia = /* html */`
                         <div class="mb-3">
                             <label for="descricao" key="DescricaoDenuncia" class="col-form-label i18">Descreva a denúncia:</label>
                             <textarea id="DescricaoDenuncia"  class="form-control" ></textarea>
-                            <select id="tipos-denuncia" class="form-select">
+                            <select id="tipos-denuncia" class="form-select mt-2">
                                 <option class="i18" key="TipoViolacao" value="" selected>Tipo de Violação</option>
                                 <option class="i18" key="Inapropriado" value="0">Conteúdo Inapropriado</option>
                                 <option class="i18" key="Spam" value="1">Spam</option>  
